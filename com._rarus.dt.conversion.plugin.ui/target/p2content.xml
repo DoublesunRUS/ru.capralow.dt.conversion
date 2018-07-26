@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='2'>
+  <unit id='com._rarus.dt.conversion.plugin.ui' version='1.0.1.20180722-1952'>
+    <update id='com._rarus.dt.conversion.plugin.ui' range='[0.0.0,1.0.1.20180722-1952)' severity='0'/>
+    <properties size='8'>
+      <property name='df_LT.pluginName' value='Пример плагина для &quot;1C: Enterprise Development Tools&quot;'/>
+      <property name='df_LT.providerName' value='1C LLC'/>
+      <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+      <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+      <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+      <property name='maven-groupId' value='com._rarus.dt.conversion'/>
+      <property name='maven-artifactId' value='com._rarus.dt.conversion.plugin.ui'/>
+      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+    </properties>
+    <provides size='4'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.plugin.ui' version='1.0.1.20180722-1952'/>
+      <provided namespace='osgi.bundle' name='com._rarus.dt.conversion.plugin.ui' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+    </provides>
+    <requires size='12'>
+      <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
+      <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
+      <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+      <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+      <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+      <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
+      <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+      <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+      <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+      <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='com._rarus.dt.conversion.plugin.ui' version='1.0.1.20180722-1952'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: com._rarus.dt.conversion.plugin.ui;singleton:=true&#xA;Bundle-Version: 1.0.1.20180722-1952&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+  <unit id='com._rarus.dt.conversion.plugin.ui.source' version='1.0.1.20180722-1952' singleton='false'>
+    <update id='com._rarus.dt.conversion.plugin.ui.source' range='[0.0.0,1.0.1.20180722-1952)' severity='0'/>
+    <properties size='9'>
+      <property name='df_LT.bundleVendor' value='1C LLC'/>
+      <property name='df_LT.bundleName' value='Пример плагина для &quot;1C: Enterprise Development Tools&quot; Source'/>
+      <property name='org.eclipse.equinox.p2.name' value='%bundleName'/>
+      <property name='org.eclipse.equinox.p2.provider' value='%bundleVendor'/>
+      <property name='org.eclipse.equinox.p2.bundle.localization' value='OSGI-INF/l10n/bundle-src'/>
+      <property name='maven-groupId' value='com._rarus.dt.conversion'/>
+      <property name='maven-artifactId' value='com._rarus.dt.conversion.plugin.ui'/>
+      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      <property name='maven-classifier' value='sources'/>
+    </properties>
+    <provides size='4'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.plugin.ui.source' version='1.0.1.20180722-1952'/>
+      <provided namespace='osgi.bundle' name='com._rarus.dt.conversion.plugin.ui.source' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='source' version='1.0.0'/>
+      <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+    </provides>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='com._rarus.dt.conversion.plugin.ui.source' version='1.0.1.20180722-1952'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: com._rarus.dt.conversion.plugin.ui.source&#xA;Bundle-Version: 1.0.1.20180722-1952&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>

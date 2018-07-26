@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com._rarus.dt.conversion"
+      label="%featureName"
+      version="1.0.1.20180722-1952"
+      provider-name="%providerName">
+
+   <description>
+      EDT плагин для просмотра модуля Конвертации данных 3
+   </description>
+
+   <copyright>
+      1С-Рарус
+   </copyright>
+
+   <plugin
+         id="com._rarus.dt.conversion.plugin.ui"
+         download-size="23"
+         install-size="45"
+         version="1.0.1.20180722-1952"
+         unpack="false"/>
+
+</feature>

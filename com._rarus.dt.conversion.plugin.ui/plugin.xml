@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
+            contributorClass="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditorContributor"
+            extensions="bsl"
+            icon="icons/sample.png"
+            id="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
+            name="Conversion module editor">
+      </editor>
+   </extension>
+</plugin>
