@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-  <unit id='20180722-1952.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2-1cKXTPh7735I3G7715KC7'>
+  <unit id='20180726-2310.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2--cKXTPh7735I3G7E17953'>
     <properties size='2'>
-      <property name='org.eclipse.equinox.p2.name' value='1C: Enterprise Development Tools Plugin'/>
+      <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
       <property name='org.eclipse.equinox.p2.type.category' value='true'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='20180722-1952.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2-1cKXTPh7735I3G7715KC7'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='20180726-2310.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2--cKXTPh7735I3G7E17953'/>
     </provides>
     <requires size='1'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.group' range='[1.0.1.20180722-1952,1.0.1.20180722-1952]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.group' range='[1.0.0.20180726-2310,1.0.0.20180726-2310]'/>
     </requires>
     <touchpoint id='null' version='0.0.0'/>
   </unit>
