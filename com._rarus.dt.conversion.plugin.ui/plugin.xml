@@ -4,12 +4,12 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
-            contributorClass="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditorContributor"
+            class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
             extensions="bsl"
-            icon="icons/sample.png"
+            filenames="*МенеджерОбменаЧерезУниверсальныйФормат*"
             id="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
-            name="Conversion module editor">
+            name="Редактор модуля конвертации">
       </editor>
    </extension>
+
 </plugin>
