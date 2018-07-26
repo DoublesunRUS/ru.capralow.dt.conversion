@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='2'>
-  <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion' version='1.0.1.20180722-1952'>
+  <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion' version='1.0.0.20180726-2310'>
     <properties size='6'>
-      <property name='artifact.size' value='1694'/>
-      <property name='download.size' value='1694'/>
+      <property name='artifact.size' value='1721'/>
+      <property name='download.size' value='1721'/>
       <property name='maven-groupId' value='com._rarus.dt.conversion.plugin.feature'/>
       <property name='maven-artifactId' value='com._rarus.dt.conversion'/>
-      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
       <property name='download.contentType' value='application/zip'/>
     </properties>
   </artifact>
-  <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion.source' version='1.0.1.20180722-1952'>
+  <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion.source' version='1.0.0.20180726-2310'>
     <properties size='7'>
-      <property name='artifact.size' value='1262'/>
-      <property name='download.size' value='1262'/>
+      <property name='artifact.size' value='1259'/>
+      <property name='download.size' value='1259'/>
       <property name='maven-groupId' value='com._rarus.dt.conversion.plugin.feature'/>
       <property name='maven-artifactId' value='com._rarus.dt.conversion'/>
-      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
       <property name='maven-classifier' value='sources-feature'/>
       <property name='download.contentType' value='application/zip'/>
     </properties>

@@ -2,7 +2,7 @@
 <feature
       id="com._rarus.dt.conversion"
       label="%featureName"
-      version="1.0.1.20180722-1952"
+      version="1.0.0.20180726-2310"
       provider-name="%providerName">
 
    <description>
@@ -15,9 +15,9 @@
 
    <plugin
          id="com._rarus.dt.conversion.plugin.ui"
-         download-size="23"
-         install-size="45"
-         version="1.0.1.20180722-1952"
+         download-size="6"
+         install-size="8"
+         version="1.0.0.20180726-2310"
          unpack="false"/>
 
 </feature>

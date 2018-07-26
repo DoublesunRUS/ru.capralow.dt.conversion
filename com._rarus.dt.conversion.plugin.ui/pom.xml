@@ -4,14 +4,12 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>com._rarus.dt.conversion</groupId>
 		<artifactId>build</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../build/pom.xml</relativePath>
 	</parent>
-
-	<packaging>eclipse-repository</packaging>
-	<artifactId>repository</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<artifactId>com._rarus.dt.conversion.plugin.ui</artifactId>
 </project>

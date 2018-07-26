@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com._rarus.dt.conversion_1.0.1.qualifier.jar" id="com._rarus.dt.conversion" version="1.0.1.qualifier">
+   <feature url="features/com._rarus.dt.conversion_1.0.0.qualifier.jar" id="com._rarus.dt.conversion" version="1.0.0.qualifier">
       <category name="com._rarus.dt.conversion.plugin.category.public"/>
    </feature>
-   <category-def name="com._rarus.dt.conversion.plugin.category.public" label="1C: Enterprise Development Tools Plugin"/>
+   <category-def name="com._rarus.dt.conversion.plugin.category.public" label="%pluginName"/>
 </site>

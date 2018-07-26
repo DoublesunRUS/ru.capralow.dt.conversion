@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='4'>
-  <unit id='com._rarus.dt.conversion.feature.group' version='1.0.1.20180722-1952' singleton='false'>
-    <update id='com._rarus.dt.conversion.feature.group' range='[0.0.0,1.0.1.20180722-1952)' severity='0'/>
+  <unit id='com._rarus.dt.conversion.feature.group' version='1.0.0.20180726-2310' singleton='false'>
+    <update id='com._rarus.dt.conversion.feature.group' range='[0.0.0,1.0.0.20180726-2310)' severity='0'/>
     <properties size='9'>
       <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
       <property name='org.eclipse.equinox.p2.description' value='EDT плагин для просмотра модуля Конвертации данных 3'/>
@@ -9,17 +9,17 @@
       <property name='org.eclipse.equinox.p2.type.group' value='true'/>
       <property name='maven-groupId' value='com._rarus.dt.conversion.plugin.feature'/>
       <property name='maven-artifactId' value='com._rarus.dt.conversion'/>
-      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
-      <property name='df_LT.featureName' value='Пример плагина для &quot;1C: Enterprise Development Tools&quot;'/>
-      <property name='df_LT.providerName' value='1C LLC'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      <property name='df_LT.featureName' value='EDT плагин для просмотра модуля Конвертации данных 3'/>
+      <property name='df_LT.providerName' value='1С-Рарус'/>
     </properties>
     <provides size='2'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.group' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.group' version='1.0.0.20180726-2310'/>
       <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
     </provides>
     <requires size='2'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.plugin.ui' range='[1.0.1.20180722-1952,1.0.1.20180722-1952]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.jar' range='[1.0.1.20180722-1952,1.0.1.20180722-1952]'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.plugin.ui' range='[1.0.0.20180726-2310,1.0.0.20180726-2310]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.jar' range='[1.0.0.20180726-2310,1.0.0.20180726-2310]'>
         <filter>
           (org.eclipse.update.install.features=true)
         </filter>
@@ -30,27 +30,27 @@
       1С-Рарус
     </copyright>
   </unit>
-  <unit id='com._rarus.dt.conversion.feature.jar' version='1.0.1.20180722-1952'>
+  <unit id='com._rarus.dt.conversion.feature.jar' version='1.0.0.20180726-2310'>
     <properties size='8'>
       <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
       <property name='org.eclipse.equinox.p2.description' value='EDT плагин для просмотра модуля Конвертации данных 3'/>
       <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-      <property name='df_LT.featureName' value='Пример плагина для &quot;1C: Enterprise Development Tools&quot;'/>
-      <property name='df_LT.providerName' value='1C LLC'/>
+      <property name='df_LT.featureName' value='EDT плагин для просмотра модуля Конвертации данных 3'/>
+      <property name='df_LT.providerName' value='1С-Рарус'/>
       <property name='maven-groupId' value='com._rarus.dt.conversion.plugin.feature'/>
       <property name='maven-artifactId' value='com._rarus.dt.conversion'/>
-      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='3'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.jar' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.jar' version='1.0.0.20180726-2310'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-      <provided namespace='org.eclipse.update.feature' name='com._rarus.dt.conversion' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.update.feature' name='com._rarus.dt.conversion' version='1.0.0.20180726-2310'/>
     </provides>
     <filter>
       (org.eclipse.update.install.features=true)
     </filter>
     <artifacts size='1'>
-      <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion' version='1.0.1.20180722-1952'/>
+      <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion' version='1.0.0.20180726-2310'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
@@ -64,8 +64,8 @@
       1С-Рарус
     </copyright>
   </unit>
-  <unit id='com._rarus.dt.conversion.source.feature.group' version='1.0.1.20180722-1952' singleton='false'>
-    <update id='com._rarus.dt.conversion.source.feature.group' range='[0.0.0,1.0.1.20180722-1952)' severity='0'/>
+  <unit id='com._rarus.dt.conversion.source.feature.group' version='1.0.0.20180726-2310' singleton='false'>
+    <update id='com._rarus.dt.conversion.source.feature.group' range='[0.0.0,1.0.0.20180726-2310)' severity='0'/>
     <properties size='10'>
       <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
       <property name='org.eclipse.equinox.p2.description' value='EDT плагин для просмотра модуля Конвертации данных 3'/>
@@ -73,18 +73,18 @@
       <property name='org.eclipse.equinox.p2.type.group' value='true'/>
       <property name='maven-groupId' value='com._rarus.dt.conversion.plugin.feature'/>
       <property name='maven-artifactId' value='com._rarus.dt.conversion'/>
-      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
       <property name='maven-classifier' value='sources-feature'/>
       <property name='df_LT.featureName' value='Пример плагина для &quot;1C: Enterprise Development Tools&quot;'/>
       <property name='df_LT.providerName' value='1C LLC'/>
     </properties>
     <provides size='2'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.source.feature.group' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.source.feature.group' version='1.0.0.20180726-2310'/>
       <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
     </provides>
     <requires size='2'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.plugin.ui.source' range='[1.0.1.20180722-1952,1.0.1.20180722-1952]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.source.feature.jar' range='[1.0.1.20180722-1952,1.0.1.20180722-1952]'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.plugin.ui.source' range='[1.0.0.20180726-2310,1.0.0.20180726-2310]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.source.feature.jar' range='[1.0.0.20180726-2310,1.0.0.20180726-2310]'>
         <filter>
           (org.eclipse.update.install.features=true)
         </filter>
@@ -95,7 +95,7 @@
       1С-Рарус
     </copyright>
   </unit>
-  <unit id='com._rarus.dt.conversion.source.feature.jar' version='1.0.1.20180722-1952'>
+  <unit id='com._rarus.dt.conversion.source.feature.jar' version='1.0.0.20180726-2310'>
     <properties size='9'>
       <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
       <property name='org.eclipse.equinox.p2.description' value='EDT плагин для просмотра модуля Конвертации данных 3'/>
@@ -104,19 +104,19 @@
       <property name='df_LT.providerName' value='1C LLC'/>
       <property name='maven-groupId' value='com._rarus.dt.conversion.plugin.feature'/>
       <property name='maven-artifactId' value='com._rarus.dt.conversion'/>
-      <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
       <property name='maven-classifier' value='sources-feature'/>
     </properties>
     <provides size='3'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.source.feature.jar' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.source.feature.jar' version='1.0.0.20180726-2310'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-      <provided namespace='org.eclipse.update.feature' name='com._rarus.dt.conversion.source' version='1.0.1.20180722-1952'/>
+      <provided namespace='org.eclipse.update.feature' name='com._rarus.dt.conversion.source' version='1.0.0.20180726-2310'/>
     </provides>
     <filter>
       (org.eclipse.update.install.features=true)
     </filter>
     <artifacts size='1'>
-      <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion.source' version='1.0.1.20180722-1952'/>
+      <artifact classifier='org.eclipse.update.feature' id='com._rarus.dt.conversion.source' version='1.0.0.20180726-2310'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
