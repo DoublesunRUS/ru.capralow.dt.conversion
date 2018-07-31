@@ -5,10 +5,17 @@
          point="org.eclipse.ui.editors">
       <editor
             class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
-            extensions="bsl"
+            default="true"
             filenames="*МенеджерОбменаЧерезУниверсальныйФормат*"
             id="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
             name="Редактор модуля конвертации">
+      </editor>
+      <editor
+            class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.editors.RegistrationModuleEditor"
+            default="true"
+            filenames="*ПравилаРегистрации*"
+            id="com._rarus.dt.conversion.plugin.ui.editors.RegistrationModuleEditor"
+            name="Редактор правил регистрации">
       </editor>
    </extension>
 
