@@ -3,6 +3,7 @@ package com._rarus.dt.conversion.plugin.ui.editors;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -18,9 +19,9 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.xtext.ui.editor.model.IXtextDocument;
-import org.eclipse.xtext.ui.editor.model.XtextDocument;
-
+import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.xtext.ui.editor.XtextEditor;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProvider;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._rarus.dt.conversion.plugin.ui.MovingBoxContentProvider;
@@ -50,6 +51,10 @@ public class RegistrationModuleEditor extends TextEditor {
 		
 		setSite(site);
 		setInput(input);
+		
+		ITextEditor editor = (ITextEditor) getAdapter(ITextEditor.class);
+		IDocumentProvider provider = editor.getDocumentProvider();
+		IDocument document = provider.getDocument(editor.getEditorInput());
 		
 		IProject project = ((FileEditorInput) input).getFile().getProject();
 		Configuration configuration = configurationProvider.getConfiguration(project);
