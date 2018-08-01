@@ -6,6 +6,7 @@
       <editor
             class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
             default="true"
+            extensions="bsl"
             filenames="*МенеджерОбменаЧерезУниверсальныйФормат*"
             id="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
             name="Редактор модуля конвертации">
@@ -13,10 +14,21 @@
       <editor
             class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.editors.RegistrationModuleEditor"
             default="true"
+            extensions="txt"
             filenames="*ПравилаРегистрации*"
             id="com._rarus.dt.conversion.plugin.ui.editors.RegistrationModuleEditor"
             name="Редактор правил регистрации">
       </editor>
    </extension>
-
+<extension
+      id="com._rarus.dt.conversion.plugin.ui"
+      name="Moving Box"
+      point="org.eclipse.ui.views">
+   <view
+         name="Moving Box"
+         icon="icons/movingBox.gif"
+         class="com._rarus.dt.conversion.plugin.ui.MovingBoxView"
+         id="com._rarus.dt.conversion.plugin.ui.MovingBoxView">
+   </view>
+</extension>
 </plugin>
