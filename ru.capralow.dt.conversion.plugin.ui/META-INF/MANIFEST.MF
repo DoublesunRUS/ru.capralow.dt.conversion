@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Конвертация данных для EDT
 Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: %providerName
+Bundle-Vendor: Капралов Александр Александрович (1С-Рарус)
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: ru.capralow.dt.conversion.plugin.ui
 Bundle-ActivationPolicy: lazy

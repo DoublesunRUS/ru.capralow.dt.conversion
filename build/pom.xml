@@ -163,7 +163,7 @@
 					<artifactId>tycho-p2-repository-plugin</artifactId>
 					<version>${tycho.version}</version>
 					<configuration>
-						<repositoryName>G5-V8-DT ${qualifier}</repositoryName>
+						<repositoryName>Конвертация данных ${qualifier}</repositoryName>
 					</configuration>
 				</plugin>
 				<plugin>

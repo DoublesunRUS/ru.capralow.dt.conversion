@@ -294,6 +294,50 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-1108'>
+      <update id='ru.capralow.dt.conversion.plugin.ui' range='[0.0.0,1.0.0.20180808-1108)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.ui'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-1108'/>
+        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-1108'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='16'>
+        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='osgi.bundle' name='com._1c.g5.wiring' range='2.0.100'/>
+        <required namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' range='1.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-1108'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true&#xA;Bundle-Version: 1.0.0.20180808-1108
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.equinox.common' version='3.9.0.v20170207-1454'>
       <update id='org.eclipse.equinox.common' range='[0.0.0,3.9.0.v20170207-1454)' severity='0'/>
       <properties size='8'>
@@ -3219,55 +3263,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-0827'>
-      <update id='ru.capralow.dt.conversion.plugin.core' range='[0.0.0,1.0.0.20180808-0827)' severity='0'/>
-      <properties size='5'>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.core'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='9'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-0827'/>
-        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-0827'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.util' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='15'>
-        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='1.1.100'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
-        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
-        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-0827'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.core;singleton:=true&#xA;Bundle-Version: 1.0.0.20180808-0827
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.e4.ui.workbench' version='1.5.1.v20170815-1446'>
       <update id='org.eclipse.e4.ui.workbench' range='[0.0.0,1.5.1.v20170815-1446)' severity='0'/>
       <properties size='8'>
@@ -4010,50 +4005,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.jdt.ui; singleton:=true&#xA;Bundle-Version: 3.13.100.v20180330-0726
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-0827'>
-      <update id='ru.capralow.dt.conversion.plugin.ui' range='[0.0.0,1.0.0.20180808-0827)' severity='0'/>
-      <properties size='5'>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.ui'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-0827'/>
-        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-0827'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='16'>
-        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
-        <required namespace='osgi.bundle' name='com._1c.g5.wiring' range='2.0.100'/>
-        <required namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' range='1.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
-        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
-        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180808-0827'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true&#xA;Bundle-Version: 1.0.0.20180808-0827
           </instruction>
         </instructions>
       </touchpointData>
@@ -4960,6 +4911,37 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180808-1108' singleton='false'>
+      <update id='ru.capralow.dt.conversion.feature.group' range='[0.0.0,1.0.0.20180808-1108)' severity='0'/>
+      <properties size='9'>
+        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
+        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
+        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
+      </properties>
+      <provides size='2'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180808-1108'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' range='[1.0.0.20180808-1108,1.0.0.20180808-1108]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' range='[1.0.0.20180808-1108,1.0.0.20180808-1108]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' range='[1.0.0.20180808-1108,1.0.0.20180808-1108]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+      <copyright>
+        Капралов Александр Александрович (1С-Рарус)
+      </copyright>
+    </unit>
     <unit id='org.eclipse.handly.ui' version='0.7.0.v20170624-1401'>
       <update id='org.eclipse.handly.ui' range='[0.0.0,0.7.0.v20170624-1401)' severity='0'/>
       <properties size='8'>
@@ -5472,37 +5454,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180808-0827' singleton='false'>
-      <update id='ru.capralow.dt.conversion.feature.group' range='[0.0.0,1.0.0.20180808-0827)' severity='0'/>
-      <properties size='9'>
-        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
-        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
-        <property name='df_LT.providerName' value='Капралов А.А.'/>
-      </properties>
-      <provides size='2'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180808-0827'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' range='[1.0.0.20180808-0827,1.0.0.20180808-0827]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' range='[1.0.0.20180808-0827,1.0.0.20180808-0827]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' range='[1.0.0.20180808-0827,1.0.0.20180808-0827]'>
-          <filter>
-            (org.eclipse.update.install.features=true)
-          </filter>
-        </required>
-      </requires>
-      <touchpoint id='null' version='0.0.0'/>
-      <copyright>
-        Капралов А.А.
-      </copyright>
-    </unit>
     <unit id='org.eclipse.e4.emf.xpath' version='0.2.0.v20160630-0728' singleton='false'>
       <update id='org.eclipse.e4.emf.xpath' range='[0.0.0,0.2.0.v20160630-0728)' severity='0'/>
       <properties size='7'>
@@ -5902,6 +5853,40 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180808-1108'>
+      <properties size='8'>
+        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
+        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
+        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180808-1108'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='ru.capralow.dt.conversion' version='1.0.0.20180808-1108'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='ru.capralow.dt.conversion' version='1.0.0.20180808-1108'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+      <copyright>
+        Капралов Александр Александрович (1С-Рарус)
+      </copyright>
+    </unit>
     <unit id='org.eclipse.core.net' version='1.3.100.v20170516-0820'>
       <update id='org.eclipse.core.net' range='[0.0.0,1.3.100.v20170516-0820)' severity='0'/>
       <properties size='8'>
@@ -6103,6 +6088,55 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.emf.codegen; singleton:=true&#xA;Bundle-Version: 2.12.0.v20170609-0928
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-1108'>
+      <update id='ru.capralow.dt.conversion.plugin.core' range='[0.0.0,1.0.0.20180808-1108)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.core'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='9'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-1108'/>
+        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-1108'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.util' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='15'>
+        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='1.1.100'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180808-1108'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.core;singleton:=true&#xA;Bundle-Version: 1.0.0.20180808-1108
           </instruction>
         </instructions>
       </touchpointData>
@@ -9552,40 +9586,6 @@
           </instruction>
         </instructions>
       </touchpointData>
-    </unit>
-    <unit id='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180808-0827'>
-      <properties size='8'>
-        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
-        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
-        <property name='df_LT.providerName' value='Капралов А.А.'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180808-0827'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-        <provided namespace='org.eclipse.update.feature' name='ru.capralow.dt.conversion' version='1.0.0.20180808-0827'/>
-      </provides>
-      <filter>
-        (org.eclipse.update.install.features=true)
-      </filter>
-      <artifacts size='1'>
-        <artifact classifier='org.eclipse.update.feature' id='ru.capralow.dt.conversion' version='1.0.0.20180808-0827'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='zipped'>
-            true
-          </instruction>
-        </instructions>
-      </touchpointData>
-      <copyright>
-        Капралов А.А.
-      </copyright>
     </unit>
     <unit id='org.apache.batik.util' version='1.8.0.v20170214-1941' singleton='false'>
       <update id='org.apache.batik.util' range='[0.0.0,1.8.0.v20170214-1941)' severity='0'/>
