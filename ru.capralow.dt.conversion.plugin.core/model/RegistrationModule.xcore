@@ -74,6 +74,6 @@ convert {
 }
 
 enum AutoRegistration {
-	Allow as "Разрешена" = 1
-	Deny as "Запрещена" = 0
+	Allow as "Р Р°Р·СЂРµС€РёС‚СЊ" = 1
+	Deny as "Р—Р°РїСЂРµС‚РёС‚СЊ" = 0
 }

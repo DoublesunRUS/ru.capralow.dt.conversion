@@ -3,6 +3,7 @@ package ru.capralow.dt.conversion.plugin.ui.views;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -32,8 +33,12 @@ import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
+
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanel;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelContentProvider;
+import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelLabelProvider;
+import ru.capralow.dt.conversion.plugin.core.cp.WorkspaceStatus;
 import ru.capralow.dt.conversion.plugin.core.cp.cpConfiguration;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
@@ -53,51 +58,71 @@ public class ConversionPanelView extends ViewPart {
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
 		
-		Collection<IConfigurationProject> configurations = projectManager.getProjects(IConfigurationProject.class);
-		Collection<IExtensionProject> projects = projectManager.getProjects(IExtensionProject.class);
+		Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
+		Collection<IExtensionProject> prExtensions = projectManager.getProjects(IExtensionProject.class);
 		
 		conversionPanel = new ConversionPanelImpl();
 		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
 		
-		Collection<Configuration> mdConfigurations = configurationProvider.getConfigurations();
+//		Collection<Configuration> mdConfigurations = configurationProvider.getConfigurations();
 		
-		Iterator<Configuration> itr = mdConfigurations.iterator();
+		Iterator<IConfigurationProject> itr = prConfigurations.iterator();
 		while (itr.hasNext()) {
-			Configuration mdConfiguration = (Configuration) itr.next();
+			IConfigurationProject prConfiguration = itr.next();
+			IProject project = prConfiguration.getProject();
 			
-			if (mdConfiguration.getExtension() == null) {
-				cpConfigurationImpl cpConfiguration = new cpConfigurationImpl();
-				
-				cpConfiguration.setConfigurationObject(mdConfiguration);
-				cpConfiguration.setConfigurationName(mdConfiguration.getName());
-				
-				CommonModule mdModule = getCommonModule(mdConfiguration, "ОбменДаннымиПереопределяемый");
-				Method method = getCommonMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
-				
-				EList<Statement> statements = method.getStatements();
-				
-				SimpleStatement statement = (SimpleStatement) statements.get(0);
-				
-				Invocation expression = (Invocation) statement.getLeft();
-				
-				DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) expression.getMethodAccess();
-				
-				Expression source = methodAccess.getSource();
-				
-				cpConfigurations.add(cpConfiguration);
-				
-			} else {
-//				cpConfiguration = cpConfigurations.getConfiguration();
-//				EList<cpConfiguration> extensions = cpConfiguration.getExtensions();
-//				
-//				cpConfigurationImpl cpExtension = new cpConfigurationImpl();
-//				
-//				cpExtension.setConfigurationObject(mdConfiguration);
-//				cpExtension.setConfigurationName(mdConfiguration.getName());
-//				
-//				extensions.add(cpExtension);
-				
+			cpConfigurationImpl cpConfiguration = new cpConfigurationImpl();
+			cpConfigurations.add(cpConfiguration);
+			
+			cpConfiguration.setConfigurationObject(project);
+			cpConfiguration.setConfigurationName(project.getName());
+			
+			Configuration mdConfiguration = prConfiguration.getConfiguration();
+			if (mdConfiguration == null) {
+				cpConfiguration.setStatus(WorkspaceStatus.NO_CONFIGURATION);
+				continue;
 			}
+			
+			Subsystem mdSubsystem = getSubsystem(mdConfiguration, "РЎС‚Р°РЅРґР°СЂС‚РЅС‹РµРџРѕРґСЃРёСЃС‚РµРјС‹");
+			if (mdSubsystem == null) {
+				cpConfiguration.setStatus(WorkspaceStatus.NO_SUBSYSTEM);
+				continue;
+			}
+			
+			Subsystem mdChildSubsystem = getSubsystem(mdSubsystem, "РћР±РјРµРЅР”Р°РЅРЅС‹РјРё");
+			if (mdChildSubsystem == null) {
+				cpConfiguration.setStatus(WorkspaceStatus.NO_SUBSYSTEM);
+				continue;
+			}
+			
+			CommonModule mdModule = getCommonModule(mdConfiguration, "РћР±РјРµРЅР”Р°РЅРЅС‹РјРёРџРµСЂРµРѕРїСЂРµРґРµР»СЏРµРјС‹Р№");
+			if (mdModule == null) {
+				cpConfiguration.setStatus(WorkspaceStatus.NO_COMMON_MODULE);
+				continue;
+			}
+			
+			Method mdMethod = getCommonMethod(mdModule.getModule(), "РџСЂРёРџРѕР»СѓС‡РµРЅРёРёР”РѕСЃС‚СѓРїРЅС‹С…Р’РµСЂСЃРёР№Р¤РѕСЂРјР°С‚Р°");
+			if (mdMethod == null) {
+				cpConfiguration.setStatus(WorkspaceStatus.NO_METHOD);
+				continue;
+			}
+			
+			EList<Statement> statements = mdMethod.getStatements();
+			if (statements.size() == 0) {
+				cpConfiguration.setStatus(WorkspaceStatus.EMPTY_METHOD);
+				continue;
+			}
+			
+			cpConfiguration.setStatus(WorkspaceStatus.READY);
+//				
+//				SimpleStatement statement = (SimpleStatement) statements.get(0);
+//				
+//				Invocation expression = (Invocation) statement.getLeft();
+//				
+//				DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) expression.getMethodAccess();
+//				
+//				Expression source = methodAccess.getSource();
+				
 		}
 		
 	}
@@ -139,7 +164,7 @@ public class ConversionPanelView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 
 	}
 
@@ -165,6 +190,32 @@ public class ConversionPanelView extends ViewPart {
 				
 			}
 		}));
+	}
+	
+	protected Subsystem getSubsystem(Configuration mdConfiguration, String subsystemName) {
+		Iterator<Subsystem> itr = mdConfiguration.getSubsystems().iterator();
+		while (itr.hasNext()) {
+			Subsystem mdSubsystem = (Subsystem) itr.next();
+
+			if (mdSubsystem.getName().equals(subsystemName)) {
+				return mdSubsystem;
+			}
+		}
+		
+		return null;
+	}
+	
+	protected Subsystem getSubsystem(Subsystem mdSubsystem, String subsystemName) {
+		Iterator<Subsystem> itr = mdSubsystem.getSubsystems().iterator();
+		while (itr.hasNext()) {
+			Subsystem mdChildSubsystem = (Subsystem) itr.next();
+
+			if (mdChildSubsystem.getName().equals(subsystemName)) {
+				return mdChildSubsystem;
+			}
+		}
+		
+		return null;
 	}
 	
 	protected CommonModule getCommonModule(Configuration mdConfiguration, String moduleName) {

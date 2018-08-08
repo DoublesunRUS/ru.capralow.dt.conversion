@@ -4,7 +4,7 @@
 package ru.capralow.dt.conversion.plugin.core.cp
 
 class ConversionPanel {
-	String storeVersion
+	WorkspaceStatus Status
 	contains cpConfiguration[] configurations
 }
 
@@ -12,5 +12,22 @@ class cpConfiguration {
 	Object configurationObject
 	String configurationName
 	String storeVersion
-	contains cpConfiguration[] extensions
+	
+	WorkspaceStatus Status
+	
+	contains cpExtension[] extensions
+}
+
+class cpExtension {
+	Object configurationObject
+	String configurationName
+}
+
+enum WorkspaceStatus {
+	NoConfiguration as "Ожидание активации проектного контекста" = 1
+	NoSubsystem as "Нет подсистемы ОбменДанными" = 2
+	NoCommonModule as "Нет общего модуля ОбменДаннымиПереопределяемый" = 3
+	NoMethod as "В общем модуле нет метода ПриПолученииДоступныхВерсийФормата" = 4
+	EmptyMethod as "В процедуре ПриПолученииДоступныхВерсийФормата не указаны версии формата" = 5
+	Ready as "Конфигурация готова к обмену" = 6
 }

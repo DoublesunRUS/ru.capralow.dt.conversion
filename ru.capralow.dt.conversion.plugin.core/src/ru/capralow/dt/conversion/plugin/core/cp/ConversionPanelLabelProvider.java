@@ -1,50 +1,53 @@
-package ru.capralow.dt.conversion.plugin.ui.views;
+package ru.capralow.dt.conversion.plugin.core.cp;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 
 public class ConversionPanelLabelProvider implements ILabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Image getImage(Object element) {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof String) {
-			return element.toString();
+		if (element instanceof ConversionPanelImpl) {
+			return "Р’СЃРµ РєРѕРЅС„РёРіСѓСЂР°С†РёРё";
 			
-		} else if (element instanceof Configuration) {
-			return ((Configuration) element).getName();
+		} else if (element instanceof cpConfiguration) {
+			return ((cpConfiguration) element).getConfigurationName();
+			
+		} else if (element instanceof WorkspaceStatus) {
+			return ((WorkspaceStatus) element).getLiteral();
 			
 		}
 		

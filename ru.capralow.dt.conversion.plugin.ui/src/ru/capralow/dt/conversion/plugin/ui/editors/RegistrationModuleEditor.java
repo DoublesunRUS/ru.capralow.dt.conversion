@@ -78,33 +78,33 @@ public class RegistrationModuleEditor extends TextEditor {
 //		XtextDocumentProvider provider = (XtextDocumentProvider) editor.getDocumentProvider();
 //		IXtextDocument document = (IXtextDocument) provider.getDocument(editor);
 //		
-//		// получим объект метаданных, к которому принадлежит модуль, из
-//		// которого была вызвана команда
+//		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ
+//		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //		EObject moduleOwner = getModuleOwner(document);
 
 	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isDirty() {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -137,7 +137,7 @@ public class RegistrationModuleEditor extends TextEditor {
 
 	@Override
 	public void setFocus() {
-		// TODO Автоматически созданная заглушка метода
+		// TODO Auto-generated method stub
 
 	}
 
@@ -154,7 +154,7 @@ public class RegistrationModuleEditor extends TextEditor {
 
 			Element documentElement = document.getDocumentElement();
 
-			if (documentElement.getNodeName() != "ПравилаРегистрации") {
+			if (documentElement.getNodeName() != "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 				return;
 			}
 
@@ -163,38 +163,38 @@ public class RegistrationModuleEditor extends TextEditor {
 				Node node = nodeList.item(i);
 
 				String nodeName = node.getNodeName();
-				if (nodeName == "ВерсияФормата") {
+				if (nodeName == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 					registrationModule.setModuleVersion(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "Ид") {
+				} else if (nodeName == "пїЅпїЅ") {
 					registrationModule.setModuleRef(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "Наименование") {
+				} else if (nodeName == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 					registrationModule.setModuleName(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "ДатаВремяСоздания") {
+				} else if (nodeName == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 					// TODO: registrationModule.setModuleCreationDate(node.getNodeValue());
 
-				} else if (nodeName == "ПланОбмена") {
-					registrationModule.setExchangePlanName(node.getAttributes().getNamedItem("Имя").getTextContent());
+				} else if (nodeName == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
+					registrationModule.setExchangePlanName(node.getAttributes().getNamedItem("пїЅпїЅпїЅ").getTextContent());
 					registrationModule.setExchangePlanMdObject(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "Конфигурация") {
+				} else if (nodeName == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 					NamedNodeMap attributes = node.getAttributes();
 					registrationModule.setConfigurationName(node.getFirstChild().getTextContent());
 					registrationModule
-							.setConfigurationSynonym(attributes.getNamedItem("СинонимКонфигурации").getTextContent());
+							.setConfigurationSynonym(attributes.getNamedItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ").getTextContent());
 					registrationModule
-							.setConfigurationVersion(attributes.getNamedItem("ВерсияКонфигурации").getTextContent());
-					registrationModule.setRuntimeVersion(attributes.getNamedItem("ВерсияПлатформы").getTextContent());
+							.setConfigurationVersion(attributes.getNamedItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ").getTextContent());
+					registrationModule.setRuntimeVersion(attributes.getNamedItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ").getTextContent());
 
-				} else if (nodeName == "СоставПланаОбмена") {
+				} else if (nodeName == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 					EList<ExchangePlanContent> exchangePlanContent = registrationModule.getExchangePlanContent();
 
 					NodeList childNodeList = node.getChildNodes();
 					for (int ci = 0; ci < childNodeList.getLength(); ci++) {
 						Node childNode = childNodeList.item(ci);
-						if (childNode.getNodeName() != "Элемент") {
+						if (childNode.getNodeName() != "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 							continue;
 						}
 
@@ -203,10 +203,10 @@ public class RegistrationModuleEditor extends TextEditor {
 						NodeList childChildNodeList = childNode.getChildNodes();
 						for (int cci = 0; cci < childChildNodeList.getLength(); cci++) {
 							Node childChildNode = childChildNodeList.item(cci);
-							if (childChildNode.getNodeName() == "Тип") {
+							if (childChildNode.getNodeName() == "пїЅпїЅпїЅ") {
 								exchangePlanContentElement.setMdObject(childChildNode.getFirstChild().getTextContent());
 
-							} else if (childChildNode.getNodeName() == "Авторегистрация") {
+							} else if (childChildNode.getNodeName() == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 								if (childChildNode.getFirstChild().getTextContent() == "true") {
 									exchangePlanContentElement.setAutoRecord(AutoRegistration.ALLOW);
 
@@ -220,7 +220,7 @@ public class RegistrationModuleEditor extends TextEditor {
 						exchangePlanContent.add(exchangePlanContentElement);
 					}
 
-				} else if (nodeName == "ПравилаРегистрацииОбъектов") {
+				} else if (nodeName == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
 					registrationModule.setExchangePlanName(node.getFirstChild().getTextContent());
 
 				}
@@ -228,19 +228,19 @@ public class RegistrationModuleEditor extends TextEditor {
 //			fileInput.close();
 			
 		} catch (InvalidPropertiesFormatException e) {
-			// TODO Автоматически созданный блок catch
+			// TODO Auto-generated method stub
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Автоматически созданный блок catch
+			// TODO Auto-generated method stub
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			// TODO Автоматически созданный блок catch
+			// TODO Auto-generated method stub
 			e.printStackTrace();
 		} catch (CoreException e1) {
-			// TODO Автоматически созданный блок catch
+			// TODO Auto-generated method stub
 			e1.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Автоматически созданный блок catch
+			// TODO Auto-generated method stub
 			e.printStackTrace();
 		}
 	}
@@ -263,19 +263,19 @@ public class RegistrationModuleEditor extends TextEditor {
 //	}
 //
 //	private EObject getModuleOwner(IXtextDocument doc) {
-//		// работа с семантической моделью встроенного языка через документ возможна
-//		// только через специальный метод
-//		// использование других способов приведет к ошибкам
+//		// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+//		// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+//		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //		return doc.readOnly(new IUnitOfWork<EObject, XtextResource>() {
 //			@Override
 //			public EObject exec(XtextResource res) throws Exception {
-//				// сперва проверяем, доступность семантической модели встроенного языка
+//				// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 //				if (res.getContents() != null && !res.getContents().isEmpty()) {
 //					EObject obj = res.getContents().get(0);
-//					if (obj instanceof Module) // проверили, что работаем с правильным объектом семантической модели
+//					if (obj instanceof Module) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 //					{
-//						if (((Module) obj).getModuleType() != ModuleType.OBJECT_MODULE) // интересуют только объектные
-//																						// модули
+//						if (((Module) obj).getModuleType() != ModuleType.OBJECT_MODULE) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+//																						// пїЅпїЅпїЅпїЅпїЅпїЅ
 //							return null;
 //						Module module = (Module) obj;
 //						return EcoreUtil.resolve(module.getOwner(), module);

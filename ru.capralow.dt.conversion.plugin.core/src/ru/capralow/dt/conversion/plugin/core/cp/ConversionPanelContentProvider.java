@@ -1,24 +1,21 @@
 package ru.capralow.dt.conversion.plugin.core.cp;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
+
 public class ConversionPanelContentProvider implements ITreeContentProvider {
-	
-	private Map<String, String[]> contentMap = new HashMap<>();
 	
 	@Override
 	public Object[] getElements(Object conversionPanel) {
-		EList<cpConfiguration> cpConfigurations = ((ConversionPanel) conversionPanel).getConfigurations();
+		EList<cpConfiguration> cpConfigurations = ((ConversionPanelImpl) conversionPanel).getConfigurations();
 		
 		Object[] treeContent = new Object[cpConfigurations.size() + 1];
-		treeContent[0] = "Общие Данные";
+		treeContent[0] = conversionPanel;
 		
 		int i = 0;
 		Iterator<cpConfiguration> itr = cpConfigurations.iterator();
@@ -26,7 +23,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 			cpConfiguration cpConfiguration = (cpConfiguration) itr.next();
 			i++;
 			
-			treeContent[i] = cpConfiguration.getConfigurationObject();
+			treeContent[i] = cpConfiguration;
 		}
 //
 //		
@@ -64,32 +61,27 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object arg0) {
-		return contentMap.get(arg0);
+		if (arg0 instanceof cpConfigurationImpl) {
+			Object[] treeContent = new Object[1];
+			
+			treeContent[0] = ((cpConfigurationImpl) arg0).getStatus();
+			
+			return treeContent;
+		}
+		return new Object[0];
 	}
 
 	@Override
 	public Object getParent(Object arg0) {
-		return getParentOfEle(arg0);
+		return null;
 	}
 
 	@Override
 	public boolean hasChildren(Object arg0) {
-		return contentMap.containsKey(arg0);
-	}
-
-	private String getParentOfEle(Object arg0) {
-		Set<String> keys = contentMap.keySet();
-
-		for (String key : keys) {
-			String[] values = contentMap.get(key);
-
-			for (String val : values) {
-				if (val.equals(arg0)) {
-					return key;
-				}
-			}
+		if (arg0 instanceof cpConfigurationImpl) {
+			return true;
 		}
-		return null;
+		return false;
 	}
 
 }
