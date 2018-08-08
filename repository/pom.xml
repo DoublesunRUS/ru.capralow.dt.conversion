@@ -14,4 +14,5 @@
 
 	<packaging>eclipse-repository</packaging>
 	<artifactId>repository</artifactId>
+	<groupId>com._rarus.dt.conversion</groupId>
 </project>

@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-  <unit id='20180726-2310.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2--cKXTPh7735I3G7E17953'>
+  <unit id='20180807-2319.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2--cKXTPh7735I3I3G1795K'>
     <properties size='2'>
-      <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+      <property name='org.eclipse.equinox.p2.name' value='Плагины для EDT'/>
       <property name='org.eclipse.equinox.p2.type.category' value='true'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='20180726-2310.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2--cKXTPh7735I3G7E17953'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='20180807-2319.com._rarus.dt.conversion.plugin.category.public' version='1.0.0.2--cKXTPh7735I3I3G1795K'/>
     </provides>
     <requires size='1'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.group' range='[1.0.0.20180726-2310,1.0.0.20180726-2310]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com._rarus.dt.conversion.feature.group' range='[1.0.0.20180807-2319,1.0.0.20180807-2319]'/>
     </requires>
     <touchpoint id='null' version='0.0.0'/>
   </unit>

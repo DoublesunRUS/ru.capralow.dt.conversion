@@ -6,15 +6,22 @@
       provider-name="%providerName">
 
    <description>
-      EDT плагин для просмотра модуля Конвертации данных 3
+      Конвертация данных для EDT
    </description>
 
    <copyright>
-      1С-Рарус
+      Капралов А.А.
    </copyright>
 
    <plugin
          id="com._rarus.dt.conversion.plugin.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com._rarus.dt.conversion.plugin.core"
          download-size="0"
          install-size="0"
          version="0.0.0"

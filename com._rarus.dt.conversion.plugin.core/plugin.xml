@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated RegistrationModule -->
+      <package
+            uri="com._rarus.dt.conversion.plugin.core.rm"
+            class="com._rarus.dt.conversion.plugin.core.rm.RmPackage"
+            genModel="model/RegistrationModule.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ConversionPanel -->
+      <package
+            uri="com._rarus.dt.conversion.plugin.core.cp"
+            class="com._rarus.dt.conversion.plugin.core.cp.CpPackage"
+            genModel="model/ConversionPanel.xcore"/>
+   </extension>
+</plugin>

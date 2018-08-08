@@ -1,6 +1,7 @@
 package com._rarus.dt.conversion.plugin.ui;
 
 import org.osgi.framework.Bundle;
+
 import com._1c.g5.wiring.AbstractGuiceAwareExecutableExtensionFactory;
 import com.google.inject.Injector;
 

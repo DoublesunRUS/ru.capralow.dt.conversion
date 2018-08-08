@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="com._rarus.dt.conversion.source" version="1.0.0.20180726-2310" label="%featureName" provider-name="%providerName">
+<feature id="com._rarus.dt.conversion.source" version="1.0.0.20180807-2319" label="%featureName" provider-name="%providerName">
   <description>
-      EDT плагин для просмотра модуля Конвертации данных 3
+      Конвертация данных для EDT
    </description>
   <copyright>
-      1С-Рарус
+      Капралов А.А.
    </copyright>
-  <plugin id="com._rarus.dt.conversion.plugin.ui.source" version="1.0.0.20180726-2310" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="com._rarus.dt.conversion.plugin.ui.source" version="1.0.0.20180807-2319" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="com._rarus.dt.conversion.plugin.core.source" version="1.0.0.20180807-2319" download-size="0" install-size="0" unpack="false"/>
 </feature>

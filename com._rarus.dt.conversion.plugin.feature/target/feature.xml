@@ -2,22 +2,29 @@
 <feature
       id="com._rarus.dt.conversion"
       label="%featureName"
-      version="1.0.0.20180726-2310"
+      version="1.0.0.20180807-2319"
       provider-name="%providerName">
 
    <description>
-      EDT плагин для просмотра модуля Конвертации данных 3
+      Конвертация данных для EDT
    </description>
 
    <copyright>
-      1С-Рарус
+      Капралов А.А.
    </copyright>
 
    <plugin
          id="com._rarus.dt.conversion.plugin.ui"
-         download-size="6"
-         install-size="8"
-         version="1.0.0.20180726-2310"
+         download-size="16"
+         install-size="29"
+         version="1.0.0.20180807-2319"
+         unpack="false"/>
+
+   <plugin
+         id="com._rarus.dt.conversion.plugin.core"
+         download-size="45"
+         install-size="99"
+         version="1.0.0.20180807-2319"
          unpack="false"/>
 
 </feature>

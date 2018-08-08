@@ -1,34 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
-            default="true"
-            extensions="bsl"
-            filenames="*МенеджерОбменаЧерезУниверсальныйФормат*"
-            id="com._rarus.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
-            name="Редактор модуля конвертации">
-      </editor>
-      <editor
-            class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.editors.RegistrationModuleEditor"
-            default="true"
-            extensions="txt"
-            filenames="*ПравилаРегистрации*"
-            id="com._rarus.dt.conversion.plugin.ui.editors.RegistrationModuleEditor"
-            name="Редактор правил регистрации">
-      </editor>
-   </extension>
+	<extension point="com._1c.g5.wiring.serviceProvider">
+	   <bundle
+	          symbolicName="com._rarus.dt.conversion.plugin.ui">
+	   </bundle>
+	</extension>
 <extension
-      id="com._rarus.dt.conversion.plugin.ui"
-      name="Moving Box"
       point="org.eclipse.ui.views">
    <view
-         name="Moving Box"
-         icon="icons/movingBox.gif"
-         class="com._rarus.dt.conversion.plugin.ui.MovingBoxView"
-         id="com._rarus.dt.conversion.plugin.ui.MovingBoxView">
+         category="com._1c.g5.v8.dt.ui.v8category"
+         class="com._rarus.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:com._rarus.dt.conversion.plugin.ui.views.ConversionPanelView"
+         id="com._rarus.dt.conversion.plugin.ui.views.ConversionPanelView"
+         inject="true"
+         name="Обмен данными">
    </view>
 </extension>
 </plugin>

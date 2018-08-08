@@ -1,13 +1,12 @@
 package com._rarus.dt.conversion.plugin.ui;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com._1c.g5.wiring.InjectorAwareServiceRegistrator;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -27,6 +26,7 @@ public class Activator extends AbstractUIPlugin {
 	private BundleContext bundleContext;
 
 	private Injector injector;
+	private InjectorAwareServiceRegistrator registrator;
 
 	/**
 	 * Получить экземпляр плагина. Через экземпляр плагина можно получать доступ к
@@ -114,6 +114,8 @@ public class Activator extends AbstractUIPlugin {
 
 		this.bundleContext = bundleContext;
 		plugin = this;
+		
+		registrator = new InjectorAwareServiceRegistrator(bundleContext, this::getInjector);
 	}
 
 	/**
@@ -125,6 +127,8 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
+		registrator.unregisterServices();
+		
 		plugin = null;
 		super.stop(bundleContext);
 	}
@@ -157,13 +161,6 @@ public class Activator extends AbstractUIPlugin {
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to create injector for " + getBundle().getSymbolicName(), e);
 		}
-	}
-
-	/**
-	 * Returns the workspace instance.
-	 */
-	public static IWorkspace getWorkspace() {
-		return ResourcesPlugin.getWorkspace();
 	}
 
 	/**
