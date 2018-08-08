@@ -27,6 +27,9 @@ import com._1c.g5.v8.dt.bsl.model.FeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.SimpleStatement;
 import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProvider;
+import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
+import com._1c.g5.v8.dt.core.platform.IExtensionProject;
+import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanel;
@@ -39,6 +42,8 @@ import com.google.inject.Inject;
 public class ConversionPanelView extends ViewPart {
 	@Inject
 	private IConfigurationProvider configurationProvider;
+	@Inject
+	private IV8ProjectManager projectManager;
 
 	protected TreeViewer treeViewer;
 
@@ -47,12 +52,15 @@ public class ConversionPanelView extends ViewPart {
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
-
+		
+		Collection<IConfigurationProject> configurations = projectManager.getProjects(IConfigurationProject.class);
+		Collection<IExtensionProject> projects = projectManager.getProjects(IExtensionProject.class);
+		
 		conversionPanel = new ConversionPanelImpl();
 		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
-
+		
 		Collection<Configuration> mdConfigurations = configurationProvider.getConfigurations();
-
+		
 		Iterator<Configuration> itr = mdConfigurations.iterator();
 		while (itr.hasNext()) {
 			Configuration mdConfiguration = (Configuration) itr.next();
