@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com._rarus.dt.conversion_1.0.0.qualifier.jar" id="com._rarus.dt.conversion" version="1.0.0.qualifier">
-      <category name="com._rarus.dt.conversion.plugin.category.public"/>
+   <feature url="features/ru.capralow.dt.conversion_1.0.0.qualifier.jar" id="ru.capralow.dt.conversion" version="1.0.0.qualifier">
+      <category name="ru.capralow.dt.conversion.plugin.category.public"/>
    </feature>
-   <category-def name="com._rarus.dt.conversion.plugin.category.public" label="Плагины для EDT"/>
+   <category-def name="ru.capralow.dt.conversion.plugin.category.public" label="Плагины для EDT"/>
 </site>

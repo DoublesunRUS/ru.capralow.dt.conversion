@@ -1,0 +1,16 @@
+@GenModel(publicConstructors="true", loadInitialization="false", literalsInterface="true", nonNLSMarkers="true",
+	updateClasspath="false", featureDelegation="Reflective", rootExtendsClass="com._1c.g5.v8.bm.core.BmObject",
+	rootExtendsInterface="com._1c.g5.v8.bm.core.IBmObject")
+package ru.capralow.dt.conversion.plugin.core.cp
+
+class ConversionPanel {
+	String storeVersion
+	contains cpConfiguration[] configurations
+}
+
+class cpConfiguration {
+	Object configurationObject
+	String configurationName
+	String storeVersion
+	contains cpConfiguration[] extensions
+}

@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com._rarus.dt.conversion</groupId>
+	<groupId>ru.capralow.dt.conversion</groupId>
 	<artifactId>build</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -26,9 +26,9 @@
 
 	<modules>
 		<module>../target</module>
-		<module>../com._rarus.dt.conversion.plugin.core</module>
-		<module>../com._rarus.dt.conversion.plugin.ui</module>
-		<module>../com._rarus.dt.conversion.plugin.feature</module>
+		<module>../ru.capralow.dt.conversion.plugin.core</module>
+		<module>../ru.capralow.dt.conversion.plugin.ui</module>
+		<module>../ru.capralow.dt.conversion.plugin.feature</module>
 		<module>../repository</module>
 	</modules>
 
@@ -48,7 +48,7 @@
 					<pomDependencies>consider</pomDependencies>
 					<target>
 						<artifact>
-							<groupId>com._rarus.dt.conversion.target</groupId>
+							<groupId>ru.capralow.dt.conversion.target</groupId>
 							<artifactId>default</artifactId>
 							<version>1.0.0-SNAPSHOT</version>
 						</artifact>

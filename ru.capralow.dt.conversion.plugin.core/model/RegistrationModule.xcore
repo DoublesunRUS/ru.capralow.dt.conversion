@@ -1,0 +1,79 @@
+@GenModel(publicConstructors="true", loadInitialization="false", literalsInterface="true", nonNLSMarkers="true",
+	updateClasspath="false", featureDelegation="Reflective", rootExtendsClass="com._1c.g5.v8.bm.core.BmObject",
+	rootExtendsInterface="com._1c.g5.v8.bm.core.IBmObject")
+package ru.capralow.dt.conversion.plugin.core.rm
+
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+
+class RegistrationModule {
+	String moduleRef
+	String moduleName
+ 	String moduleVersion
+	Date moduleCreationDate
+	
+	String exchangePlanName
+	String exchangePlanMdObject
+	
+	String runtimeVersion
+	
+	String configurationName
+	String configurationSynonym
+	String configurationVersion
+	
+	contains ExchangePlanContent[] exchangePlanContent
+	
+	contains RegistrationRule[] registrationRules
+}
+
+class ExchangePlanContent {
+	String mdObject
+	AutoRegistration AutoRecord
+}
+
+class RegistrationRule {
+	Boolean isFolder
+	
+	Boolean disabled
+	Boolean valid
+	
+	String code
+	String name
+	String mdObject
+	String objectName
+	String mdClass
+	
+	String attributeSendMode
+	
+	contains ObjectSelectionRule[] objectSelectionRules
+	contains ExchangePlanSelectionRule[] exchangePlanSelectionRules
+}
+
+class ObjectSelectionRule {
+	Boolean isFolder
+	
+}
+
+class ExchangePlanSelectionRule {
+	Boolean isFolder
+	
+}
+
+type Date wraps Date
+create {
+	try {
+		if (it !== null) new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss").parse(it);
+	}
+	catch (ParseException exception) {
+		throw new RuntimeException(exception);
+	}
+}
+convert {
+	if (it !== null) new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss").format(it);
+}
+
+enum AutoRegistration {
+	Allow as "Разрешена" = 1
+	Deny as "Запрещена" = 0
+}
