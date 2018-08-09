@@ -1,34 +1,51 @@
 package ru.capralow.dt.conversion.plugin.core.cp;
 
+import java.lang.annotation.Inherited;
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Queue;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.util.Pair;
 
+import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
+import com._1c.g5.v8.dt.bsl.model.Expression;
+import com._1c.g5.v8.dt.bsl.model.FormalParam;
+import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.bsl.model.Module;
+import com._1c.g5.v8.dt.bsl.model.Pragma;
+import com._1c.g5.v8.dt.bsl.model.SimpleStatement;
 import com._1c.g5.v8.dt.bsl.model.Statement;
+import com._1c.g5.v8.dt.bsl.resource.BslEventsService;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
+import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.lcore.util.CaseInsensitiveString;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
+import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
+import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
 
 public class ConversionPanelAnalyzer {
 
-	public static ConversionPanelImpl Analyze(IV8ProjectManager projectManager) {
+	public static ConversionPanelImpl Analyze(IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
+			IModuleExtensionService moduleExtensionService) {
+		
 		Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
 		Collection<IExtensionProject> prExtensions = projectManager.getProjects(IExtensionProject.class);
 
 		ConversionPanelImpl conversionPanel = new ConversionPanelImpl();
 		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
-
-//		Collection<Configuration> mdConfigurations = configurationProvider.getConfigurations();
 
 		Iterator<IConfigurationProject> itr = prConfigurations.iterator();
 		while (itr.hasNext()) {
@@ -77,20 +94,13 @@ public class ConversionPanelAnalyzer {
 				continue;
 			}
 
+			getUsedFormatVersions(mdModule, mdMethod, prExtensions, projectManager, modelObjectAdopter, moduleExtensionService);
+
 			cpConfiguration.setStatus(WorkspaceStatus.READY);
-//				
-//				SimpleStatement statement = (SimpleStatement) statements.get(0);
-//				
-//				Invocation expression = (Invocation) statement.getLeft();
-//				
-//				DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) expression.getMethodAccess();
-//				
-//				Expression source = methodAccess.getSource();
-			
 		}
-		
+
 		return conversionPanel;
-		
+
 	}
 
 	protected static Subsystem getSubsystem(Configuration mdConfiguration, String subsystemName) {
@@ -141,6 +151,48 @@ public class ConversionPanelAnalyzer {
 				return mdMethod;
 			}
 		}
+
+		return null;
+	}
+
+	protected static EList<?> getUsedFormatVersions(CommonModule mdModule, Method mdMethod, Collection<IExtensionProject> prExtensions, IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
+			IModuleExtensionService moduleExtensionService) {
+		FormalParam mdParam = mdMethod.getFormalParams().get(0);
+		
+		String variableName = mdParam.getName();
+		
+		Queue beforeStatements = null;
+		EList<Statement> insteadStatements = mdMethod.getStatements();
+		Queue afterStatements = null;
+
+		Iterator<IExtensionProject> itr = prExtensions.iterator();
+		while (itr.hasNext()) {
+			IExtensionProject prExtension = itr.next();
+	
+//			CommonModule extendedModule = getCommonModule(prExtension.getConfiguration(), "ОбменДаннымиПереопределяемый");
+			
+//			Module adopter = modelObjectAdopter.getAdopted(mdModule.getModule(), prExtension);
+			
+//			Map<Pragma, Method> methods = moduleExtensionService.getExtensionMethods(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
+//			Collection<Module> methods = moduleExtensionService.getExtensionModules(mdModule.getModule());
+		}
+		
+		Queue statements = null;
+		statements.addAll(beforeStatements);
+//		statements.addAll(insteadStatements);
+		statements.addAll(afterStatements);
+		
+//		Iterator<Statement> itr = mdStatements.iterator();
+//		while (itr.hasNext()) {
+//			Statement mdStatement = itr.next();
+//
+//			Invocation expression = (Invocation) ((SimpleStatement) mdStatement).getLeft();
+//
+//			DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) expression.getMethodAccess();
+//
+//			Expression source = methodAccess.getSource();
+//
+//		}
 
 		return null;
 	}

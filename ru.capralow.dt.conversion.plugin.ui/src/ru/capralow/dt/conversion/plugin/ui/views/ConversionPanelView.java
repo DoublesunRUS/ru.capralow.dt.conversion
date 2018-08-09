@@ -12,7 +12,9 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
+import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com.google.inject.Inject;
 
@@ -25,6 +27,12 @@ public class ConversionPanelView extends ViewPart {
 	@Inject
 	private IV8ProjectManager projectManager;
 
+	@Inject
+	private IModelObjectAdopter modelObjectAdopter;
+
+	@Inject
+	private IModuleExtensionService moduleExtensionService;
+
 	protected TreeViewer treeViewer;
 
 	protected ConversionPanelImpl conversionPanel;
@@ -33,12 +41,11 @@ public class ConversionPanelView extends ViewPart {
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
 		
-		conversionPanel	= ConversionPanelAnalyzer.Analyze(projectManager);
+		conversionPanel = ConversionPanelAnalyzer.Analyze(projectManager, modelObjectAdopter, moduleExtensionService);
 	}
 
 	@Override
 	public void dispose() {
-		
 		super.dispose();
 	}
 
@@ -73,7 +80,7 @@ public class ConversionPanelView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 
 	}
 
