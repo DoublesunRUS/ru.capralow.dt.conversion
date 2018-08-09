@@ -41,25 +41,25 @@ public class ConversionModuleEditor extends EditorPart {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 		
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 		
 	}
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
@@ -86,7 +86,7 @@ public class ConversionModuleEditor extends EditorPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 		
 	}
 }

@@ -39,7 +39,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 //		
 //		contentMap.put("root", treeContents);
 //
-////		contentMap.put("������������ 1", new String[] { "1" });
+////		contentMap.put("������������ 1", new String[] { "1" });
 //		
 ////		contentMap.put("root1", new String[] { "root1_child1", "root1_child2", "root1_child3" });
 ////		contentMap.put("root1_child1", new String[] { "root1_child1_child1", "root1_child1_child2" });
@@ -49,13 +49,13 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 
 	}
 
 	@Override
 	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 
 	}
 

@@ -86,25 +86,25 @@ public class RegistrationModuleEditor extends TextEditor {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 
 	}
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
@@ -137,7 +137,7 @@ public class RegistrationModuleEditor extends TextEditor {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		// TODO Автоматически созданная заглушка метода
 
 	}
 
@@ -228,19 +228,19 @@ public class RegistrationModuleEditor extends TextEditor {
 //			fileInput.close();
 			
 		} catch (InvalidPropertiesFormatException e) {
-			// TODO Auto-generated method stub
+			// TODO Автоматически созданная заглушка метода
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated method stub
+			// TODO Автоматически созданная заглушка метода
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated method stub
+			// TODO Автоматически созданная заглушка метода
 			e.printStackTrace();
 		} catch (CoreException e1) {
-			// TODO Auto-generated method stub
+			// TODO Автоматически созданная заглушка метода
 			e1.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated method stub
+			// TODO Автоматически созданная заглушка метода
 			e.printStackTrace();
 		}
 	}
