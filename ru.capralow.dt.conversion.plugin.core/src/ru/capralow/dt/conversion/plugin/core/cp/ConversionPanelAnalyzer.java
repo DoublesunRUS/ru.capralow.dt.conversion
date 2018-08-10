@@ -9,7 +9,10 @@ import java.util.Queue;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
@@ -31,6 +34,8 @@ import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
@@ -39,8 +44,8 @@ import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
 public class ConversionPanelAnalyzer {
 
 	public static ConversionPanelImpl Analyze(IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
-			IModuleExtensionService moduleExtensionService) {
-		
+			IBmEmfIndexManager bmEmfIndexManager, IModuleExtensionService moduleExtensionService) {
+
 		Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
 		Collection<IExtensionProject> prExtensions = projectManager.getProjects(IExtensionProject.class);
 
@@ -51,6 +56,7 @@ public class ConversionPanelAnalyzer {
 		while (itr.hasNext()) {
 			IConfigurationProject prConfiguration = itr.next();
 			IProject project = prConfiguration.getProject();
+			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
 			cpConfigurationImpl cpConfiguration = new cpConfigurationImpl();
 			cpConfigurations.add(cpConfiguration);
@@ -70,6 +76,8 @@ public class ConversionPanelAnalyzer {
 				continue;
 			}
 
+//			Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndexByType(mdSubsystem.eClass(), QualifiedName.create("Subsystem._ДемоНормативноСправочнаяИнформация.Subsystem._ДемоГрафикиРаботы"), false);
+			
 			Subsystem mdChildSubsystem = getSubsystem(mdSubsystem, "ОбменДанными");
 			if (mdChildSubsystem == null) {
 				cpConfiguration.setStatus(WorkspaceStatus.NO_SUBSYSTEM);
@@ -94,7 +102,8 @@ public class ConversionPanelAnalyzer {
 				continue;
 			}
 
-			getUsedFormatVersions(mdModule, mdMethod, prExtensions, projectManager, modelObjectAdopter, moduleExtensionService);
+			getUsedFormatVersions(mdModule, mdMethod, prExtensions, projectManager, modelObjectAdopter,
+					moduleExtensionService);
 
 			cpConfiguration.setStatus(WorkspaceStatus.READY);
 		}
@@ -155,33 +164,26 @@ public class ConversionPanelAnalyzer {
 		return null;
 	}
 
-	protected static EList<?> getUsedFormatVersions(CommonModule mdModule, Method mdMethod, Collection<IExtensionProject> prExtensions, IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
-			IModuleExtensionService moduleExtensionService) {
+	protected static EList<?> getUsedFormatVersions(CommonModule mdModule, Method mdMethod,
+			Collection<IExtensionProject> prExtensions, IV8ProjectManager projectManager,
+			IModelObjectAdopter modelObjectAdopter, IModuleExtensionService moduleExtensionService) {
 		FormalParam mdParam = mdMethod.getFormalParams().get(0);
-		
 		String variableName = mdParam.getName();
 		
-		Queue beforeStatements = null;
-		EList<Statement> insteadStatements = mdMethod.getStatements();
-		Queue afterStatements = null;
-
-		Iterator<IExtensionProject> itr = prExtensions.iterator();
-		while (itr.hasNext()) {
-			IExtensionProject prExtension = itr.next();
-	
+		parseMethod(mdModule.getModule(), mdMethod, moduleExtensionService);
+		
+//		Iterator<IExtensionProject> itr = prExtensions.iterator();
+//		while (itr.hasNext()) {
+//			IExtensionProject prExtension = itr.next();
+			
 //			CommonModule extendedModule = getCommonModule(prExtension.getConfiguration(), "ОбменДаннымиПереопределяемый");
-			
+
 //			Module adopter = modelObjectAdopter.getAdopted(mdModule.getModule(), prExtension);
-			
+
 //			Map<Pragma, Method> methods = moduleExtensionService.getExtensionMethods(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
 //			Collection<Module> methods = moduleExtensionService.getExtensionModules(mdModule.getModule());
-		}
-		
-		Queue statements = null;
-		statements.addAll(beforeStatements);
-//		statements.addAll(insteadStatements);
-		statements.addAll(afterStatements);
-		
+//		}
+
 //		Iterator<Statement> itr = mdStatements.iterator();
 //		while (itr.hasNext()) {
 //			Statement mdStatement = itr.next();
@@ -197,4 +199,16 @@ public class ConversionPanelAnalyzer {
 		return null;
 	}
 
+	protected static void parseMethod(Module mdModule, Method mdMethod, IModuleExtensionService moduleExtensionService) {
+		Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
+		Iterator<Module> itr = extensionModules.iterator();
+		while (itr.hasNext()) {
+			Module mdExtensionModule = itr.next();
+		
+			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule, mdMethod.getName());
+
+		}
+		
+	}
+	
 }

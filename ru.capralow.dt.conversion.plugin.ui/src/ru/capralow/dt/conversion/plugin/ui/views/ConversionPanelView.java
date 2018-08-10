@@ -12,7 +12,9 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
+import com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
@@ -31,7 +33,7 @@ public class ConversionPanelView extends ViewPart {
 	private IModelObjectAdopter modelObjectAdopter;
 
 	@Inject
-	private IModuleExtensionService moduleExtensionService;
+	private IBmEmfIndexManager bmEmfIndexManager;
 
 	protected TreeViewer treeViewer;
 
@@ -41,7 +43,9 @@ public class ConversionPanelView extends ViewPart {
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
 		
-		conversionPanel = ConversionPanelAnalyzer.Analyze(projectManager, modelObjectAdopter, moduleExtensionService);
+		IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE.getModuleExtensionService();
+		
+		conversionPanel = ConversionPanelAnalyzer.Analyze(projectManager, modelObjectAdopter, bmEmfIndexManager, moduleExtensionService);
 	}
 
 	@Override
