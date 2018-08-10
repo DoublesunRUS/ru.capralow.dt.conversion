@@ -32,6 +32,7 @@ import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.lcore.util.CaseInsensitiveString;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
@@ -70,27 +71,21 @@ public class ConversionPanelAnalyzer {
 				continue;
 			}
 
-			Subsystem mdSubsystem = getSubsystem(mdConfiguration, "СтандартныеПодсистемы");
+			Subsystem mdSubsystem = getSubsystem(bmEmfIndexProvider,
+					QualifiedName.create("Subsystem", "СтандартныеПодсистемы", "Subsystem", "ОбменДанными"));
 			if (mdSubsystem == null) {
 				cpConfiguration.setStatus(WorkspaceStatus.NO_SUBSYSTEM);
 				continue;
 			}
 
-//			Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndexByType(mdSubsystem.eClass(), QualifiedName.create("Subsystem._ДемоНормативноСправочнаяИнформация.Subsystem._ДемоГрафикиРаботы"), false);
-			
-			Subsystem mdChildSubsystem = getSubsystem(mdSubsystem, "ОбменДанными");
-			if (mdChildSubsystem == null) {
-				cpConfiguration.setStatus(WorkspaceStatus.NO_SUBSYSTEM);
-				continue;
-			}
-
-			CommonModule mdModule = getCommonModule(mdConfiguration, "ОбменДаннымиПереопределяемый");
+			CommonModule mdModule = getCommonModule(bmEmfIndexProvider,
+					QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
 			if (mdModule == null) {
 				cpConfiguration.setStatus(WorkspaceStatus.NO_COMMON_MODULE);
 				continue;
 			}
 
-			Method mdMethod = getCommonMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
+			Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
 			if (mdMethod == null) {
 				cpConfiguration.setStatus(WorkspaceStatus.NO_METHOD);
 				continue;
@@ -112,46 +107,29 @@ public class ConversionPanelAnalyzer {
 
 	}
 
-	protected static Subsystem getSubsystem(Configuration mdConfiguration, String subsystemName) {
-		Iterator<Subsystem> itr = mdConfiguration.getSubsystems().iterator();
-		while (itr.hasNext()) {
-			Subsystem mdSubsystem = (Subsystem) itr.next();
-
-			if (mdSubsystem.getName().equals(subsystemName)) {
-				return mdSubsystem;
-			}
+	protected static Subsystem getSubsystem(IBmEmfIndexProvider bmEmfIndexProvider, QualifiedName subsystemName) {
+		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
+				.getEObjectIndexByType(MdClassPackage.Literals.SUBSYSTEM, subsystemName, true);
+		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
+		if (objectItr.hasNext()) {
+			return (Subsystem) objectItr.next().getEObjectOrProxy();
 		}
 
 		return null;
 	}
 
-	protected static Subsystem getSubsystem(Subsystem mdSubsystem, String subsystemName) {
-		Iterator<Subsystem> itr = mdSubsystem.getSubsystems().iterator();
-		while (itr.hasNext()) {
-			Subsystem mdChildSubsystem = (Subsystem) itr.next();
-
-			if (mdChildSubsystem.getName().equals(subsystemName)) {
-				return mdChildSubsystem;
-			}
+	protected static CommonModule getCommonModule(IBmEmfIndexProvider bmEmfIndexProvider, QualifiedName moduleName) {
+		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
+				.getEObjectIndexByType(MdClassPackage.Literals.COMMON_MODULE, moduleName, true);
+		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
+		if (objectItr.hasNext()) {
+			return (CommonModule) objectItr.next().getEObjectOrProxy();
 		}
 
 		return null;
 	}
 
-	protected static CommonModule getCommonModule(Configuration mdConfiguration, String moduleName) {
-		Iterator<CommonModule> itr = mdConfiguration.getCommonModules().iterator();
-		while (itr.hasNext()) {
-			CommonModule mdModule = (CommonModule) itr.next();
-
-			if (mdModule.getName().equals(moduleName)) {
-				return mdModule;
-			}
-		}
-
-		return null;
-	}
-
-	protected static Method getCommonMethod(Module mdModule, String methodName) {
+	protected static Method getMethod(Module mdModule, String methodName) {
 		Iterator<Method> itr = mdModule.allMethods().iterator();
 		while (itr.hasNext()) {
 			Method mdMethod = (Method) itr.next();
@@ -169,13 +147,13 @@ public class ConversionPanelAnalyzer {
 			IModelObjectAdopter modelObjectAdopter, IModuleExtensionService moduleExtensionService) {
 		FormalParam mdParam = mdMethod.getFormalParams().get(0);
 		String variableName = mdParam.getName();
-		
+
 		parseMethod(mdModule.getModule(), mdMethod, moduleExtensionService);
-		
+
 //		Iterator<IExtensionProject> itr = prExtensions.iterator();
 //		while (itr.hasNext()) {
 //			IExtensionProject prExtension = itr.next();
-			
+
 //			CommonModule extendedModule = getCommonModule(prExtension.getConfiguration(), "ОбменДаннымиПереопределяемый");
 
 //			Module adopter = modelObjectAdopter.getAdopted(mdModule.getModule(), prExtension);
@@ -199,16 +177,18 @@ public class ConversionPanelAnalyzer {
 		return null;
 	}
 
-	protected static void parseMethod(Module mdModule, Method mdMethod, IModuleExtensionService moduleExtensionService) {
+	protected static void parseMethod(Module mdModule, Method mdMethod,
+			IModuleExtensionService moduleExtensionService) {
 		Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
 		Iterator<Module> itr = extensionModules.iterator();
 		while (itr.hasNext()) {
 			Module mdExtensionModule = itr.next();
-		
-			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule, mdMethod.getName());
+
+			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
+					mdMethod.getName());
 
 		}
-		
+
 	}
-	
+
 }
