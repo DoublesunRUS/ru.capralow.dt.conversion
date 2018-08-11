@@ -45,10 +45,17 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object arg0) {
 		if (arg0 instanceof cpConfigurationImpl) {
-			Object[] treeContent = new Object[2];
+			int treeSize = 1;
+			if (((cpConfigurationImpl) arg0).getAvailableFormatVersions().size() !=0) {
+				treeSize++;
+			}
+			
+			Object[] treeContent = new Object[treeSize];
 
 			treeContent[0] = ((cpConfigurationImpl) arg0).getStatus();
-			treeContent[1] = ((cpConfigurationImpl) arg0).getAvailableFormatVersions();
+			if (((cpConfigurationImpl) arg0).getAvailableFormatVersions().size() !=0) {
+				treeContent[1] = ((cpConfigurationImpl) arg0).getAvailableFormatVersions();
+			}
 
 			return treeContent;
 		} else if (arg0 instanceof EList) {

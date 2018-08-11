@@ -27,6 +27,7 @@ class cpExtension {
 }
 
 class cpFormatVersion {
+	String configurationName
 	String version
 	contains Module module
 }

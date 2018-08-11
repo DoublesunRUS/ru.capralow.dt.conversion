@@ -55,8 +55,15 @@ public class ConversionPanelLabelProvider implements ILabelProvider {
 
 		} else if (element instanceof cpFormatVersionImpl) {
 			cpFormatVersion formatVersion = (cpFormatVersion) element;
-			return formatVersion.getVersion().intern() + " ["
-					+ ((CommonModule) formatVersion.getModule().getOwner()).getName() + "]";
+
+			String version = formatVersion.getVersion().intern();
+			String module = ((CommonModule) formatVersion.getModule().getOwner()).getName();
+
+			if (formatVersion.getConfigurationName() != null) {
+				module = formatVersion.getConfigurationName() + "." + module;
+			}
+			
+			return version + " [" + module + "]";
 
 		} else if (element instanceof WorkspaceStatus) {
 			return ((WorkspaceStatus) element).getLiteral();
