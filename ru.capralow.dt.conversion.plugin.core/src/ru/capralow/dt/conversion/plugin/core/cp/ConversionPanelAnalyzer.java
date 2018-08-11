@@ -1,20 +1,21 @@
 package ru.capralow.dt.conversion.plugin.core.cp;
 
-import java.lang.annotation.Inherited;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
-import org.eclipse.xtext.util.Pair;
 
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
+import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.FormalParam;
@@ -24,23 +25,20 @@ import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.bsl.model.Pragma;
 import com._1c.g5.v8.dt.bsl.model.SimpleStatement;
 import com._1c.g5.v8.dt.bsl.model.Statement;
-import com._1c.g5.v8.dt.bsl.resource.BslEventsService;
+import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
+import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
-import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
-import com._1c.g5.v8.dt.lcore.util.CaseInsensitiveString;
+import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
-import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
-import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
-import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
-import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl;
 
 public class ConversionPanelAnalyzer {
 
@@ -48,7 +46,7 @@ public class ConversionPanelAnalyzer {
 			IBmEmfIndexManager bmEmfIndexManager, IModuleExtensionService moduleExtensionService) {
 
 		Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
-		Collection<IExtensionProject> prExtensions = projectManager.getProjects(IExtensionProject.class);
+//		Collection<IExtensionProject> prExtensions = projectManager.getProjects(IExtensionProject.class);
 
 		ConversionPanelImpl conversionPanel = new ConversionPanelImpl();
 		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
@@ -91,14 +89,27 @@ public class ConversionPanelAnalyzer {
 				continue;
 			}
 
-			EList<Statement> statements = mdMethod.getStatements();
-			if (statements.size() == 0) {
+			Map<String, Module> availableFormatVersions = getAvailableFormatVersions(mdModule, mdMethod,
+					bmEmfIndexProvider, moduleExtensionService);
+			if (availableFormatVersions.size() == 0) {
 				cpConfiguration.setStatus(WorkspaceStatus.EMPTY_METHOD);
 				continue;
 			}
 
-			getUsedFormatVersions(mdModule, mdMethod, prExtensions, projectManager, modelObjectAdopter,
-					moduleExtensionService);
+			EList<cpFormatVersion> cpAvailableFormatVersions = cpConfiguration.getAvailableFormatVersions();
+			List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
+			Collections.sort(sortedVersions);
+			Iterator<String> itrVersions = sortedVersions.iterator();
+			while (itrVersions.hasNext()) {
+				String version = itrVersions.next();
+
+				cpFormatVersionImpl cpFormatVersion = new cpFormatVersionImpl();
+
+				cpFormatVersion.setVersion(version);
+				cpFormatVersion.setModule(availableFormatVersions.get(version));
+
+				cpAvailableFormatVersions.add(cpFormatVersion);
+			}
 
 			cpConfiguration.setStatus(WorkspaceStatus.READY);
 		}
@@ -142,53 +153,85 @@ public class ConversionPanelAnalyzer {
 		return null;
 	}
 
-	protected static EList<?> getUsedFormatVersions(CommonModule mdModule, Method mdMethod,
-			Collection<IExtensionProject> prExtensions, IV8ProjectManager projectManager,
-			IModelObjectAdopter modelObjectAdopter, IModuleExtensionService moduleExtensionService) {
+	protected static Map<String, Module> getAvailableFormatVersions(CommonModule mdModule, Method mdMethod,
+			IBmEmfIndexProvider bmEmfIndexProvider, IModuleExtensionService moduleExtensionService) {
+
+		Map<String, Module> formatVersions = new HashMap<String, Module>();
+
+		parseMethod(formatVersions, mdModule.getModule(), mdMethod, bmEmfIndexProvider, moduleExtensionService);
+
+		return formatVersions;
+	}
+
+	protected static void parseMethod(Map<String, Module> formatVersions, Module mdModule, Method mdMethod,
+			IBmEmfIndexProvider bmEmfIndexProvider, IModuleExtensionService moduleExtensionService) {
+
+		Map<String, Module> insteadFormatVersions = getFormatVersions(mdMethod, bmEmfIndexProvider);
+
+		formatVersions.putAll(insteadFormatVersions);
+
+//		Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
+//		Iterator<Module> itr = extensionModules.iterator();
+//		while (itr.hasNext()) {
+//			Module mdExtensionModule = itr.next();
+
+//			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
+//					mdMethod.getName());
+
+//			Iterator itrKeys = sortedKeys.iterator();
+//			while (itrKeys.hasNext()) {
+//				String keyName = (String) itrKeys.next();
+//				
+//				formatVersions.
+//				
+//			}
+
+//		}
+
+//		List<String> sortedKeys = new ArrayList<String>(insteadFormatVersions.keySet());
+//		Collections.sort(sortedKeys);
+//
+//		return sortedKeys;
+
+	}
+
+	protected static Map<String, Module> getFormatVersions(Method mdMethod, IBmEmfIndexProvider bmEmfIndexProvider) {
+
 		FormalParam mdParam = mdMethod.getFormalParams().get(0);
 		String variableName = mdParam.getName();
 
-		parseMethod(mdModule.getModule(), mdMethod, moduleExtensionService);
+		Map<String, Module> formatVersions = new HashMap<String, Module>();
 
-//		Iterator<IExtensionProject> itr = prExtensions.iterator();
-//		while (itr.hasNext()) {
-//			IExtensionProject prExtension = itr.next();
-
-//			CommonModule extendedModule = getCommonModule(prExtension.getConfiguration(), "ОбменДаннымиПереопределяемый");
-
-//			Module adopter = modelObjectAdopter.getAdopted(mdModule.getModule(), prExtension);
-
-//			Map<Pragma, Method> methods = moduleExtensionService.getExtensionMethods(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
-//			Collection<Module> methods = moduleExtensionService.getExtensionModules(mdModule.getModule());
-//		}
-
-//		Iterator<Statement> itr = mdStatements.iterator();
-//		while (itr.hasNext()) {
-//			Statement mdStatement = itr.next();
-//
-//			Invocation expression = (Invocation) ((SimpleStatement) mdStatement).getLeft();
-//
-//			DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) expression.getMethodAccess();
-//
-//			Expression source = methodAccess.getSource();
-//
-//		}
-
-		return null;
-	}
-
-	protected static void parseMethod(Module mdModule, Method mdMethod,
-			IModuleExtensionService moduleExtensionService) {
-		Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
-		Iterator<Module> itr = extensionModules.iterator();
+		EList<Statement> mdStatements = mdMethod.getStatements();
+		Iterator<Statement> itr = mdStatements.iterator();
 		while (itr.hasNext()) {
-			Module mdExtensionModule = itr.next();
+			Statement mdStatement = itr.next();
 
-			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
-					mdMethod.getName());
+			Invocation expression = (Invocation) ((SimpleStatement) mdStatement).getLeft();
+
+			DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) expression.getMethodAccess();
+
+			StaticFeatureAccess source = (StaticFeatureAccess) methodAccess.getSource();
+
+			if (!source.getName().equalsIgnoreCase(variableName)) {
+				continue;
+			}
+
+			if (methodAccess.getName().equalsIgnoreCase("Вставить")) {
+				EList<Expression> params = expression.getParams();
+				String versionNumber = ((StringLiteral) params.get(0)).getLines().get(0);
+				versionNumber = versionNumber.substring(1, versionNumber.length() - 1);
+				String moduleName = ((StaticFeatureAccess) params.get(1)).getName();
+
+				CommonModule mdFormatModule = getCommonModule(bmEmfIndexProvider,
+						QualifiedName.create("CommonModule", moduleName));
+
+				formatVersions.put(versionNumber, mdFormatModule.getModule());
+			}
 
 		}
 
+		return formatVersions;
 	}
 
 }

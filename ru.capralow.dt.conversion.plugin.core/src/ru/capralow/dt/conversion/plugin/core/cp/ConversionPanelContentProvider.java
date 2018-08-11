@@ -1,49 +1,34 @@
 package ru.capralow.dt.conversion.plugin.core.cp;
 
 import java.util.Iterator;
+
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.impl.EStoreEObjectImpl.BasicEStoreEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl;
 
 public class ConversionPanelContentProvider implements ITreeContentProvider {
-	
+
 	@Override
 	public Object[] getElements(Object conversionPanel) {
 		EList<cpConfiguration> cpConfigurations = ((ConversionPanelImpl) conversionPanel).getConfigurations();
-		
+
 		Object[] treeContent = new Object[cpConfigurations.size() + 1];
 		treeContent[0] = conversionPanel;
-		
+
 		int i = 0;
 		Iterator<cpConfiguration> itr = cpConfigurations.iterator();
 		while (itr.hasNext()) {
-			cpConfiguration cpConfiguration = (cpConfiguration) itr.next();
+			cpConfiguration cpConfiguration = itr.next();
 			i++;
-			
+
 			treeContent[i] = cpConfiguration;
 		}
-//
-//		
-//		//		
-////		String[] treeContents = new String[exchangePlanContents.size()];
-////		for (int i = 0; i < exchangePlanContents.size(); i++) {
-////			ExchangePlanContent exchangePlanContent = exchangePlanContents.get(i);
-////			
-////			treeContents[i] = exchangePlanContent.getMdObject();
-////
-////			contentMap.put(treeContents[i], new String[] { exchangePlanContent.getAutoRecord().getLiteral() });
-////		}
-//		
-//		contentMap.put("root", treeContents);
-//
-////		contentMap.put("������������ 1", new String[] { "1" });
-//		
-////		contentMap.put("root1", new String[] { "root1_child1", "root1_child2", "root1_child3" });
-////		contentMap.put("root1_child1", new String[] { "root1_child1_child1", "root1_child1_child2" });
-//		
 		return treeContent;
 	}
 
@@ -62,11 +47,27 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object arg0) {
 		if (arg0 instanceof cpConfigurationImpl) {
-			Object[] treeContent = new Object[1];
-			
+			Object[] treeContent = new Object[2];
+
 			treeContent[0] = ((cpConfigurationImpl) arg0).getStatus();
-			
+			treeContent[1] = ((cpConfigurationImpl) arg0).getAvailableFormatVersions();
+
 			return treeContent;
+		} else if (arg0 instanceof EList) {
+			EList<cpFormatVersion> availableFormatVersions = (EList<cpFormatVersion>) arg0;
+			
+			Object[] treeContent = new Object[availableFormatVersions.size()];
+
+			int i = 0;
+			Iterator<cpFormatVersion> itr = (Iterator<cpFormatVersion>) availableFormatVersions.iterator();
+			while (itr.hasNext()) {
+				treeContent[i] = itr.next();
+				i++;
+			}
+			
+
+			return treeContent;
+
 		}
 		return new Object[0];
 	}
@@ -80,7 +81,15 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 	public boolean hasChildren(Object arg0) {
 		if (arg0 instanceof cpConfigurationImpl) {
 			return true;
+			
+		} else if (arg0 instanceof EObjectContainmentEList) {
+			return ((EList<cpFormatVersion>) arg0).size() != 0;
+			
+		} else if (arg0 instanceof cpFormatVersion) {
+			return true;
+			
 		}
+		
 		return false;
 	}
 
