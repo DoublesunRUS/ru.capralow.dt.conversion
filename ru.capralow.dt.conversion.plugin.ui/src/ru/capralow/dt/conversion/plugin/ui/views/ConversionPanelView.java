@@ -14,7 +14,6 @@ import org.eclipse.ui.part.ViewPart;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
-import com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
@@ -42,10 +41,12 @@ public class ConversionPanelView extends ViewPart {
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
-		
-		IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE.getModuleExtensionService();
-		
-		conversionPanel = ConversionPanelAnalyzer.Analyze(projectManager, modelObjectAdopter, bmEmfIndexManager, moduleExtensionService);
+
+		IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
+				.getModuleExtensionService();
+
+		conversionPanel = ConversionPanelAnalyzer.Analyze(projectManager, modelObjectAdopter, bmEmfIndexManager,
+				moduleExtensionService);
 	}
 
 	@Override
@@ -61,24 +62,24 @@ public class ConversionPanelView extends ViewPart {
 		layout.marginWidth = 0;
 		layout.marginHeight = 2;
 		parent.setLayout(layout);
-		
+
 		treeViewer = new TreeViewer(parent);
 		treeViewer.setContentProvider(new ConversionPanelContentProvider());
 		ConversionPanelLabelProvider labelProvider = new ConversionPanelLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
-		
+
 		treeViewer.setUseHashlookup(true);
-		
+
 		GridData layoutData = new GridData();
 		layoutData.grabExcessHorizontalSpace = true;
 		layoutData.grabExcessVerticalSpace = true;
 		layoutData.horizontalAlignment = GridData.FILL;
 		layoutData.verticalAlignment = GridData.FILL;
 		treeViewer.getControl().setLayoutData(layoutData);
-		
+
 		treeViewer.setInput(conversionPanel);
 		treeViewer.expandAll();
-		
+
 		hookListeners();
 	}
 
@@ -94,22 +95,21 @@ public class ConversionPanelView extends ViewPart {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				ISelection selection = event.getSelection();
-				
+
 				if (selection.isEmpty()) {
 					return;
 				}
-				
+
 				Object element = ((IStructuredSelection) selection).getFirstElement();
-				
+
 				if (element instanceof Configuration) {
 //					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					
-					
+
 //					IDE.openEditor(page, ((Configuration) element));
 				}
-				
+
 			}
 		}));
 	}
-	
+
 }

@@ -3,14 +3,12 @@ package ru.capralow.dt.conversion.plugin.core.cp;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.impl.EStoreEObjectImpl.BasicEStoreEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl;
 
 public class ConversionPanelContentProvider implements ITreeContentProvider {
 
@@ -55,7 +53,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 			return treeContent;
 		} else if (arg0 instanceof EList) {
 			EList<cpFormatVersion> availableFormatVersions = (EList<cpFormatVersion>) arg0;
-			
+
 			Object[] treeContent = new Object[availableFormatVersions.size()];
 
 			int i = 0;
@@ -64,7 +62,6 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 				treeContent[i] = itr.next();
 				i++;
 			}
-			
 
 			return treeContent;
 
@@ -81,15 +78,15 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 	public boolean hasChildren(Object arg0) {
 		if (arg0 instanceof cpConfigurationImpl) {
 			return true;
-			
+
 		} else if (arg0 instanceof EObjectContainmentEList) {
 			return ((EList<cpFormatVersion>) arg0).size() != 0;
-			
+
 		} else if (arg0 instanceof cpFormatVersion) {
 			return true;
-			
+
 		}
-		
+
 		return false;
 	}
 

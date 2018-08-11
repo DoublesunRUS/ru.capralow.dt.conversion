@@ -1,13 +1,11 @@
 package ru.capralow.dt.conversion.plugin.core.cp;
 
-import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
-import com._1c.g5.v8.dt.bsl.model.Module;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl;
@@ -57,7 +55,8 @@ public class ConversionPanelLabelProvider implements ILabelProvider {
 
 		} else if (element instanceof cpFormatVersionImpl) {
 			cpFormatVersion formatVersion = (cpFormatVersion) element;
-			return formatVersion.getVersion().intern() + " [" + ((CommonModule) formatVersion.getModule().getOwner()).getName() + "]";
+			return formatVersion.getVersion().intern() + " ["
+					+ ((CommonModule) formatVersion.getModule().getOwner()).getName() + "]";
 
 		} else if (element instanceof WorkspaceStatus) {
 			return ((WorkspaceStatus) element).getLiteral();
