@@ -45,8 +45,10 @@ public class ConversionPanelView extends ViewPart {
 		IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 				.getModuleExtensionService();
 
-		conversionPanel = ConversionPanelAnalyzer.Analyze(projectManager, modelObjectAdopter, bmEmfIndexManager,
-				moduleExtensionService);
+		ConversionPanelAnalyzer conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager,
+				modelObjectAdopter, bmEmfIndexManager, moduleExtensionService);
+
+		conversionPanel = conversionPanelAnalyzer.Analyze();
 	}
 
 	@Override
