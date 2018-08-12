@@ -17,7 +17,6 @@ import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getConfigurationName <em>Configuration Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getVersion <em>Version</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getConfigurationName <em>Configuration Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getModule <em>Module</em>}</li>
@@ -53,24 +52,6 @@ public class cpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getConfigurationName() {
-		return (String)eGet(CpPackage.Literals.CP_FORMAT_VERSION__CONFIGURATION_NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setConfigurationName(String newConfigurationName) {
-		eSet(CpPackage.Literals.CP_FORMAT_VERSION__CONFIGURATION_NAME, newConfigurationName);
 	}
 
 	/**
@@ -114,8 +95,8 @@ public class cpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getModule() {
-		return (Object)eGet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, true);
+	public com._1c.g5.v8.dt.bsl.model.Module getModule() {
+		return (com._1c.g5.v8.dt.bsl.model.Module)eGet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, true);
 	}
 
 	/**
@@ -123,7 +104,7 @@ public class cpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setModule(Object newModule) {
+	public void setModule(com._1c.g5.v8.dt.bsl.model.Module newModule) {
 		eSet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, newModule);
 	}
 

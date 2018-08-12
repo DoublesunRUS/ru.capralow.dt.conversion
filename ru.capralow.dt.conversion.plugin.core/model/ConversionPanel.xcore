@@ -40,7 +40,6 @@ class cpExtension {
 }
 
 class cpFormatVersion {
-	String configurationName
 	String version
 	String configurationName
 	contains Module module
