@@ -3,11 +3,7 @@
 <repository name='download cache' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1'>
   <properties size='2'>
     <property name='p2.system' value='true'/>
-<<<<<<< HEAD
-    <property name='p2.timestamp' value='1534084483379'/>
-=======
-    <property name='p2.timestamp' value='1534019938068'/>
->>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
+    <property name='p2.timestamp' value='1534093662782'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
