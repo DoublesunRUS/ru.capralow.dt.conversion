@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
@@ -15,7 +16,10 @@ import org.eclipse.ui.part.ViewPart;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
 import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.core.event.IEvent;
+import com._1c.g5.v8.dt.core.event.IEventListener;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.core.platform.events.IV8ProjectEvent;
 import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com.google.inject.Inject;
@@ -39,6 +43,8 @@ public class ConversionPanelView extends ViewPart {
 
 	protected ConversionPanel conversionPanel;
 
+	protected IEventListener eventListener;
+
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
@@ -47,15 +53,37 @@ public class ConversionPanelView extends ViewPart {
 				.getModuleExtensionService();
 
 		DynamicFeatureAccessComputer dynamicFeatureAccessComputer = new com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer();
-		
+
 		ConversionPanelAnalyzer conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager,
 				modelObjectAdopter, bmEmfIndexManager, moduleExtensionService, dynamicFeatureAccessComputer);
+
+		eventListener = new IEventListener() {
+
+			@Override
+			public void handleEvent(IEvent arg0) {
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						conversionPanel = conversionPanelAnalyzer.Analyze();
+						treeViewer.setInput(conversionPanel);
+						treeViewer.expandAll();
+						treeViewer.refresh();
+					}
+				});
+			}
+
+		};
+
+		projectManager.addProjectsListener(eventListener, IV8ProjectEvent.class);
 
 		conversionPanel = conversionPanelAnalyzer.Analyze();
 	}
 
 	@Override
 	public void dispose() {
+		projectManager.removeListener(eventListener);
+
+		conversionPanel = null;
+
 		super.dispose();
 	}
 
