@@ -14,15 +14,16 @@ import org.eclipse.ui.part.ViewPart;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com.google.inject.Inject;
 
+import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanel;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelContentProvider;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelLabelProvider;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 
 public class ConversionPanelView extends ViewPart {
 	@Inject
@@ -36,7 +37,7 @@ public class ConversionPanelView extends ViewPart {
 
 	protected TreeViewer treeViewer;
 
-	protected ConversionPanelImpl conversionPanel;
+	protected ConversionPanel conversionPanel;
 
 	@Override
 	public void init(IViewSite site) throws PartInitException {
@@ -45,8 +46,10 @@ public class ConversionPanelView extends ViewPart {
 		IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 				.getModuleExtensionService();
 
+		DynamicFeatureAccessComputer dynamicFeatureAccessComputer = new com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer();
+		
 		ConversionPanelAnalyzer conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager,
-				modelObjectAdopter, bmEmfIndexManager, moduleExtensionService);
+				modelObjectAdopter, bmEmfIndexManager, moduleExtensionService, dynamicFeatureAccessComputer);
 
 		conversionPanel = conversionPanelAnalyzer.Analyze();
 	}

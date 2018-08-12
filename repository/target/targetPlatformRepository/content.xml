@@ -197,6 +197,47 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.emf.ecore.xmi' version='2.12.0.v20160420-0247'>
+      <update id='org.eclipse.emf.ecore.xmi' range='[0.0.0,2.12.0.v20160420-0247)' severity='0'/>
+      <properties size='5'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF XML/XMI Persistence'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+      </properties>
+      <provides size='7'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.xmi' version='2.12.0.v20160420-0247'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.xmi' version='2.12.0.v20160420-0247'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xmi' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xmi.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xmi.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='9'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.12.0,3.0.0)'/>
+        <required namespace='java.package' name='javax.xml.namespace' range='0.0.0'/>
+        <required namespace='java.package' name='javax.xml.parsers' range='0.0.0'/>
+        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+        <required namespace='java.package' name='org.w3c.dom' range='0.0.0'/>
+        <required namespace='java.package' name='org.xml.sax' range='0.0.0'/>
+        <required namespace='java.package' name='org.xml.sax.ext' range='0.0.0'/>
+        <required namespace='java.package' name='org.xml.sax.helpers' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.xmi' version='2.12.0.v20160420-0247'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.ecore.xmi; singleton:=true&#xA;Bundle-Version: 2.12.0.v20160420-0247
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='com._1c.g5.v8.dt.right.templates.model' version='2.0.700.v201807310736'>
       <update id='com._1c.g5.v8.dt.right.templates.model' range='[0.0.0,2.0.700.v201807310736)' severity='0'/>
       <properties size='10'>
@@ -236,40 +277,6 @@
           </instruction>
         </instructions>
       </touchpointData>
-    </unit>
-    <unit id='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180811-2036'>
-      <properties size='8'>
-        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
-        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
-        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180811-2036'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-        <provided namespace='org.eclipse.update.feature' name='ru.capralow.dt.conversion' version='1.0.0.20180811-2036'/>
-      </provides>
-      <filter>
-        (org.eclipse.update.install.features=true)
-      </filter>
-      <artifacts size='1'>
-        <artifact classifier='org.eclipse.update.feature' id='ru.capralow.dt.conversion' version='1.0.0.20180811-2036'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='zipped'>
-            true
-          </instruction>
-        </instructions>
-      </touchpointData>
-      <copyright>
-        Капралов Александр Александрович (1С-Рарус)
-      </copyright>
     </unit>
     <unit id='org.eclipse.xtext.ide' version='2.12.0.v20170518-0959'>
       <update id='org.eclipse.xtext.ide' range='[0.0.0,2.12.0.v20170518-0959)' severity='0'/>
@@ -326,37 +333,6 @@
           </instruction>
         </instructions>
       </touchpointData>
-    </unit>
-    <unit id='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180811-2036' singleton='false'>
-      <update id='ru.capralow.dt.conversion.feature.group' range='[0.0.0,1.0.0.20180811-2036)' severity='0'/>
-      <properties size='9'>
-        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
-        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
-        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
-      </properties>
-      <provides size='2'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180811-2036'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' range='[1.0.0.20180811-2036,1.0.0.20180811-2036]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' range='[1.0.0.20180811-2036,1.0.0.20180811-2036]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' range='[1.0.0.20180811-2036,1.0.0.20180811-2036]'>
-          <filter>
-            (org.eclipse.update.install.features=true)
-          </filter>
-        </required>
-      </requires>
-      <touchpoint id='null' version='0.0.0'/>
-      <copyright>
-        Капралов Александр Александрович (1С-Рарус)
-      </copyright>
     </unit>
     <unit id='com._1c.g5.v8.dt.xdto.model' version='3.1.200.v201807310736'>
       <update id='com._1c.g5.v8.dt.xdto.model' range='[0.0.0,3.1.200.v201807310736)' severity='0'/>
@@ -533,6 +509,54 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.nebula.widgets.datechooser&#xA;Bundle-Version: 1.0.0.201410030017
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.codegen.ecore' version='2.12.0.v20160526-0356'>
+      <update id='org.eclipse.emf.codegen.ecore' range='[0.0.0,2.12.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Ecore Code Generator'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='14'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.codegen.ecore' version='2.12.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.codegen.ecore' version='2.12.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.edit' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.editor' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.model' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.model.tests' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='8'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jdt.launching' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.codegen' range='[2.11.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xmi' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.text' range='[3.5.0,4.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.codegen.ecore' version='2.12.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.codegen.ecore; singleton:=true&#xA;Bundle-Version: 2.12.0.v20160526-0356
           </instruction>
         </instructions>
       </touchpointData>
@@ -1132,54 +1156,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: com._1c.g5.v8.dt.validation;singleton:=true&#xA;Bundle-Version: 2.0.300.v201807310736
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.codegen.ecore' version='2.13.0.v20170609-0928'>
-      <update id='org.eclipse.emf.codegen.ecore' range='[0.0.0,2.13.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Ecore Code Generator'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
-      </properties>
-      <provides size='14'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.codegen.ecore' version='2.13.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.codegen.ecore' version='2.13.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.generator' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel.generator' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.genmodel.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.edit' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.editor' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.model' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.ecore.templates.model.tests' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='8'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jdt.launching' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.codegen' range='[2.12.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xmi' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.text' range='[3.5.0,4.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.codegen.ecore' version='2.13.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.codegen.ecore; singleton:=true&#xA;Bundle-Version: 2.13.0.v20170609-0928
           </instruction>
         </instructions>
       </touchpointData>
@@ -2582,6 +2558,64 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'>
+      <update id='ru.capralow.dt.conversion.plugin.core' range='[0.0.0,1.0.0.20180812-1432)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.core'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='9'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'/>
+        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.util' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='24'>
+        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='1.1.100'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.scoping' range='3.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.integration' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='7.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.util' range='2.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.util' range='3.5.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring' range='2.0.0'/>
+        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.core;singleton:=true&#xA;Bundle-Version: 1.0.0.20180812-1432
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.hamcrest.core' version='1.3.0.v201303031735' singleton='false'>
       <update id='org.hamcrest.core' range='[0.0.0,1.3.0.v201303031735)' severity='0'/>
       <properties size='8'>
@@ -3075,6 +3109,41 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.emf.ecore.edit' version='2.9.0.v20160526-0356'>
+      <update id='org.eclipse.emf.ecore.edit' range='[0.0.0,2.9.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Ecore Edit'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='5'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.edit' version='2.9.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.edit' version='2.9.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.provider' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.12.0,3.0.0)'/>
+        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.edit' version='2.9.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.ecore.edit;singleton:=true&#xA;Bundle-Version: 2.9.0.v20160526-0356
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='com._1c.g5.v8.dt.ql.dcs.model' version='3.0.400.v201807310736'>
       <update id='com._1c.g5.v8.dt.ql.dcs.model' range='[0.0.0,3.0.400.v201807310736)' severity='0'/>
       <properties size='10'>
@@ -3230,47 +3299,6 @@
           </instruction>
           <instruction key='zipped'>
             true
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.transaction' version='1.9.0.201706061339'>
-      <update id='org.eclipse.emf.transaction' range='[0.0.0,1.9.0.201706061339)' severity='0'/>
-      <properties size='8'>
-        <property name='df_LT.Plugin.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.Plugin.name' value='EMF Model Transaction Core'/>
-        <property name='org.eclipse.equinox.p2.name' value='%Plugin.name'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%Plugin.providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='maven-groupId' value='org.eclipse.emf.transaction.plugins'/>
-        <property name='maven-artifactId' value='org.eclipse.emf.transaction'/>
-        <property name='maven-version' value='1.9.0-SNAPSHOT'/>
-      </properties>
-      <provides size='9'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.transaction' version='1.9.0.201706061339'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.transaction' version='1.9.0.201706061339'/>
-        <provided namespace='java.package' name='org.eclipse.emf.transaction' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.transaction.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.transaction.internal' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.transaction.internal.l10n' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.transaction.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='4'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.3.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.change' range='[2.3.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.validation' range='[1.2.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.transaction' version='1.9.0.201706061339'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.transaction;singleton:=true&#xA;Bundle-Version: 1.9.0.201706061339
           </instruction>
         </instructions>
       </touchpointData>
@@ -3448,41 +3476,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.ecore.edit' version='2.9.0.v20170609-0928'>
-      <update id='org.eclipse.emf.ecore.edit' range='[0.0.0,2.9.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Ecore Edit'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
-      </properties>
-      <provides size='5'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.edit' version='2.9.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.edit' version='2.9.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.provider' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='4'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.12.0,3.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.edit' version='2.9.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.ecore.edit;singleton:=true&#xA;Bundle-Version: 2.9.0.v20170609-0928
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.swt.win32.win32.x86' version='3.106.3.v20180329-0507'>
       <update id='org.eclipse.swt.win32.win32.x86' range='[0.0.0,3.106.3.v20180329-0507)' severity='0'/>
       <properties size='8'>
@@ -3570,6 +3563,40 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.nebula.widgets.formattedtext&#xA;Bundle-Version: 1.0.0.201410030017
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20160526-0606'>
+      <update id='org.eclipse.emf.ecore.xcore.lib' range='[0.0.0,1.1.100.v20160526-0606)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='Xcore Library Runtime Library'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260606'/>
+      </properties>
+      <provides size='5'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20160526-0606'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20160526-0606'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xcore.lib' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.12.0,3.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.10.0,3.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20160526-0606'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.lib;singleton:=true&#xA;Bundle-Version: 1.1.100.v20160526-0606
           </instruction>
         </instructions>
       </touchpointData>
@@ -3733,100 +3760,39 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180811-2036'>
-      <update id='ru.capralow.dt.conversion.plugin.core' range='[0.0.0,1.0.0.20180811-2036)' severity='0'/>
-      <properties size='5'>
-        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.core'/>
+    <unit id='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180812-1432'>
+      <properties size='8'>
+        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
+        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
+        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
         <property name='maven-version' value='1.0.0-SNAPSHOT'/>
       </properties>
-      <provides size='9'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180811-2036'/>
-        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180811-2036'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.util' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180812-1432'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='ru.capralow.dt.conversion' version='1.0.0.20180812-1432'/>
       </provides>
-      <requires size='23'>
-        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='1.1.100'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.modeling.xtext.scoping' range='3.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.integration' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='7.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.util' range='2.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.wiring' range='2.0.0'/>
-        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
-        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
-      </requires>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
       <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180811-2036'/>
+        <artifact classifier='org.eclipse.update.feature' id='ru.capralow.dt.conversion' version='1.0.0.20180812-1432'/>
       </artifacts>
       <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
       <touchpointData size='1'>
         <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.core;singleton:=true&#xA;Bundle-Version: 1.0.0.20180811-2036
+          <instruction key='zipped'>
+            true
           </instruction>
         </instructions>
       </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.common' version='2.13.0.v20170609-0707'>
-      <update id='org.eclipse.emf.common' range='[0.0.0,2.13.0.v20170609-0707)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Common'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090707'/>
-      </properties>
-      <provides size='10'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.common' version='2.13.0.v20170609-0707'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.common' version='2.13.0.v20170609-0707'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.archive' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.command' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.notify' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.notify.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='2'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
-        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.common' version='2.13.0.v20170609-0707'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.common;singleton:=true&#xA;Bundle-Version: 2.13.0.v20170609-0707
-          </instruction>
-        </instructions>
-      </touchpointData>
+      <copyright>
+        Капралов Александр Александрович (1С-Рарус)
+      </copyright>
     </unit>
     <unit id='com._1c.g5.designer.ssh.client' version='0.2.0.v20180228-1018' singleton='false'>
       <update id='com._1c.g5.designer.ssh.client' range='[0.0.0,0.2.0.v20180228-1018)' severity='0'/>
@@ -4527,50 +4493,36 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.edit.ui' version='2.13.0.v20170609-0928'>
-      <update id='org.eclipse.emf.edit.ui' range='[0.0.0,2.13.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Edit UI'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+    <unit id='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180812-1432' singleton='false'>
+      <update id='ru.capralow.dt.conversion.feature.group' range='[0.0.0,1.0.0.20180812-1432)' severity='0'/>
+      <properties size='9'>
+        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
+        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
         <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
+        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
       </properties>
-      <provides size='11'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.edit.ui' version='2.13.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.edit.ui' version='2.13.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.ui' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.action' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.celleditor' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.dnd' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.provider' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.view' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      <provides size='2'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180812-1432'/>
         <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
       </provides>
-      <requires size='8'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.views' range='[3.4.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.workbench' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.12.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.common.ui' range='[2.12.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+      <requires size='3'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' range='[1.0.0.20180812-1432,1.0.0.20180812-1432]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' range='[1.0.0.20180812-1432,1.0.0.20180812-1432]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' range='[1.0.0.20180812-1432,1.0.0.20180812-1432]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
       </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.edit.ui' version='2.13.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.edit.ui;singleton:=true&#xA;Bundle-Version: 2.13.0.v20170609-0928
-          </instruction>
-        </instructions>
-      </touchpointData>
+      <touchpoint id='null' version='0.0.0'/>
+      <copyright>
+        Капралов Александр Александрович (1С-Рарус)
+      </copyright>
     </unit>
     <unit id='org.eclipse.core.databinding' version='1.6.100.v20170515-1119' singleton='false'>
       <update id='org.eclipse.core.databinding' range='[0.0.0,1.6.100.v20170515-1119)' severity='0'/>
@@ -5923,49 +5875,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.e4.ui.workbench;singleton:=true&#xA;Bundle-Version: 1.5.1.v20170815-1446
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.common.ui' version='2.12.0.v20170609-0928'>
-      <update id='org.eclipse.emf.common.ui' range='[0.0.0,2.12.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Common UI'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
-      </properties>
-      <provides size='11'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.common.ui' version='2.12.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.common.ui' version='2.12.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.ui' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.ui.action' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.ui.celleditor' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.ui.dialogs' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.ui.editor' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.ui.viewer' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.common.ui.wizard' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='6'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.common.ui' version='2.12.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.common.ui;singleton:=true&#xA;Bundle-Version: 2.12.0.v20170609-0928
           </instruction>
         </instructions>
       </touchpointData>
@@ -7367,6 +7276,41 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.emf.databinding.edit' version='1.3.0.v20160526-0356'>
+      <update id='org.eclipse.emf.databinding.edit' range='[0.0.0,1.3.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Edit Data Binding'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='5'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.databinding.edit' version='1.3.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.databinding.edit' version='1.3.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.databinding.edit' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.databinding' range='[1.3.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.property' range='[1.2.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.databinding.edit' version='1.3.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.databinding.edit;singleton:=true&#xA;Bundle-Version: 1.3.0.v20160526-0356
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='com._1c.g5.v8.dt.cai.model' version='4.1.300.v201807310736'>
       <update id='com._1c.g5.v8.dt.cai.model' range='[0.0.0,4.1.300.v201807310736)' severity='0'/>
       <properties size='10'>
@@ -7664,98 +7608,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.validation' version='1.8.0.201706061352'>
-      <update id='org.eclipse.emf.validation' range='[0.0.0,1.8.0.201706061352)' severity='0'/>
-      <properties size='8'>
-        <property name='df_LT.Plugin.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.Plugin.name' value='EMF Validation Framework Core'/>
-        <property name='org.eclipse.equinox.p2.name' value='%Plugin.name'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%Plugin.providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='maven-groupId' value='org.eclipse.emf.validation.plugins'/>
-        <property name='maven-artifactId' value='org.eclipse.emf.validation'/>
-        <property name='maven-version' value='1.8.0-SNAPSHOT'/>
-      </properties>
-      <provides size='20'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.validation' version='1.8.0.201706061352'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.validation' version='1.8.0.201706061352'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.emfadapter' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.l10n' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled.model.validation' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled.model.validation.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled.model.validation.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.service' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.marker' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.model' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.preferences' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.service' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.validation.xml' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='8'>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.3.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.3.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.expressions' range='[3.2.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.2.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.2.0,4.0.0)'/>
-        <required namespace='java.package' name='com.ibm.icu.text' range='4.0.0'/>
-        <required namespace='java.package' name='com.ibm.icu.lang' range='4.0.0'/>
-        <required namespace='java.package' name='com.ibm.icu.util' range='4.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.validation' version='1.8.0.201706061352'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.validation; singleton:=true&#xA;Bundle-Version: 1.8.0.201706061352
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.databinding' version='1.3.0.v20170609-0928'>
-      <update id='org.eclipse.emf.databinding' range='[0.0.0,1.3.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Data Binding'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
-      </properties>
-      <provides size='6'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.databinding' version='1.3.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.databinding' version='1.3.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.databinding' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.databinding.internal' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='4'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.databinding' range='[1.2.0,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.property' range='[1.2.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.databinding' version='1.3.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.databinding; singleton:=true&#xA;Bundle-Version: 1.3.0.v20170609-0928
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.xtext.ui.shared' version='2.12.0.v20170519-0809'>
       <update id='org.eclipse.xtext.ui.shared' range='[0.0.0,2.12.0.v20170519-0809)' severity='0'/>
       <properties size='6'>
@@ -7888,45 +7740,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.team.core; singleton:=true&#xA;Bundle-Version: 3.8.100.v20170516-0820
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.ecore.editor' version='2.13.0.v20170609-0928'>
-      <update id='org.eclipse.emf.ecore.editor' range='[0.0.0,2.13.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Sample Ecore Editor'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
-      </properties>
-      <provides size='6'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.editor' version='2.13.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.editor' version='2.13.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.action' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.presentation' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='7'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xmi' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.edit' range='[2.9.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.edit.ui' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='[3.5.0,4.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.editor' version='2.13.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.ecore.editor;singleton:=true&#xA;Bundle-Version: 2.13.0.v20170609-0928
           </instruction>
         </instructions>
       </touchpointData>
@@ -8081,6 +7894,60 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.apache.lucene.analyzers-common&#xA;Bundle-Version: 6.1.0.v20161115-1612
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.ecore' version='2.12.0.v20160420-0247'>
+      <update id='org.eclipse.emf.ecore' range='[0.0.0,2.12.0.v20160420-0247)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Ecore'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='S201604200247'/>
+      </properties>
+      <provides size='17'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore' version='2.12.0.v20160420-0247'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore' version='2.12.0.v20160420-0247'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.plugin' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.resource' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.resource.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.namespace' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.namespace.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.namespace.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='11'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+        <required namespace='java.package' name='javax.crypto' range='0.0.0'/>
+        <required namespace='java.package' name='javax.crypto.spec' range='0.0.0'/>
+        <required namespace='java.package' name='javax.xml.datatype' range='0.0.0'/>
+        <required namespace='java.package' name='javax.xml.namespace' range='0.0.0'/>
+        <required namespace='java.package' name='javax.xml.parsers' range='0.0.0'/>
+        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+        <required namespace='java.package' name='org.xml.sax' range='0.0.0'/>
+        <required namespace='java.package' name='org.xml.sax.helpers' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore' version='2.12.0.v20160420-0247'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.ecore;singleton:=true&#xA;Bundle-Version: 2.12.0.v20160420-0247
           </instruction>
         </instructions>
       </touchpointData>
@@ -8816,56 +8683,43 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.ecore' version='2.13.0.v20170609-0707'>
-      <update id='org.eclipse.emf.ecore' range='[0.0.0,2.13.0.v20170609-0707)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Ecore'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+    <unit id='org.eclipse.emf.transaction' version='1.9.0.201606071900'>
+      <update id='org.eclipse.emf.transaction' range='[0.0.0,1.9.0.201606071900)' severity='0'/>
+      <properties size='8'>
+        <property name='df_LT.Plugin.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.Plugin.name' value='EMF Model Transaction Core'/>
+        <property name='org.eclipse.equinox.p2.name' value='%Plugin.name'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%Plugin.providerName'/>
         <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090707'/>
+        <property name='maven-groupId' value='org.eclipse.emf.transaction.plugins'/>
+        <property name='maven-artifactId' value='org.eclipse.emf.transaction'/>
+        <property name='maven-version' value='1.9.0-SNAPSHOT'/>
       </properties>
-      <provides size='17'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore' version='2.13.0.v20170609-0707'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore' version='2.13.0.v20170609-0707'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.plugin' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.resource' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.resource.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.namespace' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.namespace.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.namespace.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type.internal' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xml.type.util' version='0.0.0'/>
+      <provides size='9'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.transaction' version='1.9.0.201606071900'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.transaction' version='1.9.0.201606071900'/>
+        <provided namespace='java.package' name='org.eclipse.emf.transaction' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.transaction.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.transaction.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.transaction.internal.l10n' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.transaction.util' version='0.0.0'/>
         <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
         <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
       </provides>
-      <requires size='11'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
-        <required namespace='java.package' name='javax.crypto' range='0.0.0'/>
-        <required namespace='java.package' name='javax.crypto.spec' range='0.0.0'/>
-        <required namespace='java.package' name='javax.xml.datatype' range='0.0.0'/>
-        <required namespace='java.package' name='javax.xml.namespace' range='0.0.0'/>
-        <required namespace='java.package' name='javax.xml.parsers' range='0.0.0'/>
-        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
-        <required namespace='java.package' name='org.xml.sax' range='0.0.0'/>
-        <required namespace='java.package' name='org.xml.sax.helpers' range='0.0.0'/>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.3.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.change' range='[2.3.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.validation' range='[1.2.0,2.0.0)'/>
       </requires>
       <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore' version='2.13.0.v20170609-0707'/>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.transaction' version='1.9.0.201606071900'/>
       </artifacts>
       <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
       <touchpointData size='1'>
         <instructions size='1'>
           <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.ecore;singleton:=true&#xA;Bundle-Version: 2.13.0.v20170609-0707
+            Bundle-SymbolicName: org.eclipse.emf.transaction;singleton:=true&#xA;Bundle-Version: 1.9.0.201606071900
           </instruction>
         </instructions>
       </touchpointData>
@@ -8911,6 +8765,41 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: com._1c.g5.v8.dt.xml;singleton:=true&#xA;Bundle-Version: 3.0.100.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.ecore.change' version='2.11.0.v20160420-0247'>
+      <update id='org.eclipse.emf.ecore.change' range='[0.0.0,2.11.0.v20160420-0247)' severity='0'/>
+      <properties size='5'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Change Model'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+      </properties>
+      <provides size='7'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.change' version='2.11.0.v20160420-0247'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.change' version='2.11.0.v20160420-0247'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.change' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.change.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.change.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.12.0,3.0.0)'/>
+        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.change' version='2.11.0.v20160420-0247'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.ecore.change;singleton:=true&#xA;Bundle-Version: 2.11.0.v20160420-0247
           </instruction>
         </instructions>
       </touchpointData>
@@ -9673,6 +9562,44 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.emf.common' version='2.12.0.v20160420-0247'>
+      <update id='org.eclipse.emf.common' range='[0.0.0,2.12.0.v20160420-0247)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Common'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='S201604200247'/>
+      </properties>
+      <provides size='10'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.common' version='2.12.0.v20160420-0247'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.common' version='2.12.0.v20160420-0247'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.archive' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.command' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.notify' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.notify.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='2'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
+        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.common' version='2.12.0.v20160420-0247'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.common;singleton:=true&#xA;Bundle-Version: 2.12.0.v20160420-0247
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.compare.core' version='3.6.100.v20170516-0820' singleton='false'>
       <update id='org.eclipse.compare.core' range='[0.0.0,3.6.100.v20170516-0820)' severity='0'/>
       <properties size='8'>
@@ -10372,52 +10299,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.codegen' version='2.12.0.v20170609-0928'>
-      <update id='org.eclipse.emf.codegen' range='[0.0.0,2.12.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Code Generation'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
-      </properties>
-      <provides size='13'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.codegen' version='2.12.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.codegen' version='2.12.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.jet' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.jmerge' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java.facade' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java.facade.ast' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java.facade.jdom' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.properties' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.codegen.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='7'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jdt.launching' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.debug.core' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.text' range='[3.5.0,4.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.codegen' version='2.12.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.codegen; singleton:=true&#xA;Bundle-Version: 2.12.0.v20170609-0928
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.xtend' version='2.0.0.v201406030414' singleton='false'>
       <update id='org.eclipse.xtend' range='[0.0.0,2.0.0.v201406030414)' severity='0'/>
       <properties size='6'>
@@ -10691,6 +10572,50 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.emf.edit' version='2.12.0.v20160526-0356'>
+      <update id='org.eclipse.emf.edit' range='[0.0.0,2.12.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Edit'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='13'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.edit' version='2.12.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.edit' version='2.12.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.command' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.domain' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.provider' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.provider.resource' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.tree' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.tree.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.tree.provider' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.tree.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='5'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.change' range='[2.11.0,3.0.0)' optional='true'/>
+        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.edit' version='2.12.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.edit; singleton:=true&#xA;Bundle-Version: 2.12.0.v20160526-0356
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='com._1c.g5.ides.core' version='5.0.0.v11'>
       <update id='com._1c.g5.ides.core' range='[0.0.0,5.0.0.v11)' severity='0'/>
       <properties size='10'>
@@ -10848,46 +10773,48 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.edit' version='2.12.0.v20170609-0928'>
-      <update id='org.eclipse.emf.edit' range='[0.0.0,2.12.0.v20170609-0928)' severity='0'/>
+    <unit id='org.eclipse.emf.codegen' version='2.11.0.v20160526-0356'>
+      <update id='org.eclipse.emf.codegen' range='[0.0.0,2.11.0.v20160526-0356)' severity='0'/>
       <properties size='6'>
         <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Edit'/>
+        <property name='df_LT.pluginName' value='EMF Code Generation'/>
         <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
         <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
         <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
       </properties>
       <provides size='13'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.edit' version='2.12.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.edit' version='2.12.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.command' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.domain' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.provider' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.provider.resource' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.tree' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.tree.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.tree.provider' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.edit.tree.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.codegen' version='2.11.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.codegen' version='2.11.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.jet' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.jmerge' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java.facade' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java.facade.ast' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.java.facade.jdom' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.merge.properties' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.codegen.util' version='0.0.0'/>
         <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
         <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
       </provides>
-      <requires size='5'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.change' range='[2.11.0,3.0.0)' optional='true'/>
-        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+      <requires size='7'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jdt.launching' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.debug.core' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.text' range='[3.5.0,4.0.0)'/>
       </requires>
       <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.edit' version='2.12.0.v20170609-0928'/>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.codegen' version='2.11.0.v20160526-0356'/>
       </artifacts>
       <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
       <touchpointData size='1'>
         <instructions size='1'>
           <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.edit; singleton:=true&#xA;Bundle-Version: 2.12.0.v20170609-0928
+            Bundle-SymbolicName: org.eclipse.emf.codegen; singleton:=true&#xA;Bundle-Version: 2.11.0.v20160526-0356
           </instruction>
         </instructions>
       </touchpointData>
@@ -11451,47 +11378,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: com._1c.g5.v8.dt.compare;singleton:=true&#xA;Bundle-Version: 4.0.0.v201807310736
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.ecore.xmi' version='2.13.0.v20170609-0707'>
-      <update id='org.eclipse.emf.ecore.xmi' range='[0.0.0,2.13.0.v20170609-0707)' severity='0'/>
-      <properties size='5'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF XML/XMI Persistence'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-      </properties>
-      <provides size='7'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.xmi' version='2.13.0.v20170609-0707'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.xmi' version='2.13.0.v20170609-0707'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xmi' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xmi.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xmi.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='9'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.13.0,3.0.0)'/>
-        <required namespace='java.package' name='javax.xml.namespace' range='0.0.0'/>
-        <required namespace='java.package' name='javax.xml.parsers' range='0.0.0'/>
-        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
-        <required namespace='java.package' name='org.w3c.dom' range='0.0.0'/>
-        <required namespace='java.package' name='org.xml.sax' range='0.0.0'/>
-        <required namespace='java.package' name='org.xml.sax.ext' range='0.0.0'/>
-        <required namespace='java.package' name='org.xml.sax.helpers' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.xmi' version='2.13.0.v20170609-0707'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.ecore.xmi; singleton:=true&#xA;Bundle-Version: 2.13.0.v20170609-0707
           </instruction>
         </instructions>
       </touchpointData>
@@ -12209,53 +12095,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180811-2036'>
-      <update id='ru.capralow.dt.conversion.plugin.ui' range='[0.0.0,1.0.0.20180811-2036)' severity='0'/>
-      <properties size='5'>
-        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.ui'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180811-2036'/>
-        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180811-2036'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='19'>
-        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
-        <required namespace='osgi.bundle' name='com._1c.g5.wiring' range='2.0.100'/>
-        <required namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' range='1.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
-        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
-        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180811-2036'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true&#xA;Bundle-Version: 1.0.0.20180811-2036
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.ui' version='3.109.0.v20170411-1742'>
       <update id='org.eclipse.ui' range='[0.0.0,3.109.0.v20170411-1742)' severity='0'/>
       <properties size='8'>
@@ -12390,6 +12229,54 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'>
+      <update id='ru.capralow.dt.conversion.plugin.ui' range='[0.0.0,1.0.0.20180812-1432)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.ui'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'/>
+        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='20'>
+        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='osgi.bundle' name='com._1c.g5.wiring' range='2.0.100'/>
+        <required namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' range='1.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='7.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true&#xA;Bundle-Version: 1.0.0.20180812-1432
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.equinox.security' version='1.2.300.v20170505-1235'>
       <update id='org.eclipse.equinox.security' range='[0.0.0,1.2.300.v20170505-1235)' severity='0'/>
       <properties size='8'>
@@ -12448,6 +12335,51 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.equinox.security;singleton:=true&#xA;Bundle-Version: 1.2.300.v20170505-1235
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.edit.ui' version='2.12.0.v20160526-0356'>
+      <update id='org.eclipse.emf.edit.ui' range='[0.0.0,2.12.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Edit UI'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='11'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.edit.ui' version='2.12.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.edit.ui' version='2.12.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.ui' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.action' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.celleditor' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.dnd' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.provider' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.edit.ui.view' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='8'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.views' range='[3.4.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.workbench' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common.ui' range='[2.11.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.edit.ui' version='2.12.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.edit.ui;singleton:=true&#xA;Bundle-Version: 2.12.0.v20160526-0356
           </instruction>
         </instructions>
       </touchpointData>
@@ -12577,6 +12509,104 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.core.runtime; singleton:=true&#xA;Bundle-Version: 3.13.0.v20170207-1030
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.workspace' version='1.5.1.201606071900'>
+      <update id='org.eclipse.emf.workspace' range='[0.0.0,1.5.1.201606071900)' severity='0'/>
+      <properties size='8'>
+        <property name='df_LT.Plugin.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.Plugin.name' value='EMF Model Transaction Workbench Integration Core'/>
+        <property name='org.eclipse.equinox.p2.name' value='%Plugin.name'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%Plugin.providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='org.eclipse.emf.transaction.plugins'/>
+        <property name='maven-artifactId' value='org.eclipse.emf.workspace'/>
+        <property name='maven-version' value='1.5.1-SNAPSHOT'/>
+      </properties>
+      <provides size='9'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.workspace' version='1.5.1.201606071900'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.workspace' version='1.5.1.201606071900'/>
+        <provided namespace='java.package' name='org.eclipse.emf.workspace' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.workspace.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.workspace.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.workspace.internal.l10n' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.workspace.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='5'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.commands' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.transaction' range='[1.2.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.filesystem' range='[1.3.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.workspace' version='1.5.1.201606071900'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.workspace;singleton:=true&#xA;Bundle-Version: 1.5.1.201606071900
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.validation' version='1.8.0.201606071713'>
+      <update id='org.eclipse.emf.validation' range='[0.0.0,1.8.0.201606071713)' severity='0'/>
+      <properties size='8'>
+        <property name='df_LT.Plugin.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.Plugin.name' value='EMF Validation Framework Core'/>
+        <property name='org.eclipse.equinox.p2.name' value='%Plugin.name'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%Plugin.providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='org.eclipse.emf.validation.plugins'/>
+        <property name='maven-artifactId' value='org.eclipse.emf.validation'/>
+        <property name='maven-version' value='1.8.0-SNAPSHOT'/>
+      </properties>
+      <provides size='20'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.validation' version='1.8.0.201606071713'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.validation' version='1.8.0.201606071713'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.emfadapter' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.l10n' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled.model.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled.model.validation.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.modeled.model.validation.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.service' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.internal.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.marker' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.model' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.preferences' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.service' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.validation.xml' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='8'>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.3.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.3.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.expressions' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='com.ibm.icu.text' range='4.0.0'/>
+        <required namespace='java.package' name='com.ibm.icu.lang' range='4.0.0'/>
+        <required namespace='java.package' name='com.ibm.icu.util' range='4.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.validation' version='1.8.0.201606071713'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.validation; singleton:=true&#xA;Bundle-Version: 1.8.0.201606071713
           </instruction>
         </instructions>
       </touchpointData>
@@ -13250,41 +13280,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.ecore.change' version='2.11.0.v20170609-0707'>
-      <update id='org.eclipse.emf.ecore.change' range='[0.0.0,2.11.0.v20170609-0707)' severity='0'/>
-      <properties size='5'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Change Model'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-      </properties>
-      <provides size='7'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.change' version='2.11.0.v20170609-0707'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.change' version='2.11.0.v20170609-0707'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.change' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.change.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.change.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)' optional='true'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.13.0,3.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.change' version='2.11.0.v20170609-0707'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.ecore.change;singleton:=true&#xA;Bundle-Version: 2.11.0.v20170609-0707
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='com._1c.g5.v8.dt.cmi.model' version='4.0.400.v201807310736'>
       <update id='com._1c.g5.v8.dt.cmi.model' range='[0.0.0,4.0.400.v201807310736)' severity='0'/>
       <properties size='10'>
@@ -13389,6 +13384,49 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: com._1c.g5.v8.dt.refactoring.core;singleton:=true&#xA;Bundle-Version: 1.0.0.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.common.ui' version='2.11.0.v20160526-0356'>
+      <update id='org.eclipse.emf.common.ui' range='[0.0.0,2.11.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Common UI'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='11'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.common.ui' version='2.11.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.common.ui' version='2.11.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.ui' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.ui.action' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.ui.celleditor' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.ui.dialogs' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.ui.editor' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.ui.viewer' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.common.ui.wizard' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='6'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='[3.5.0,4.0.0)' optional='true' greedy='false'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.common.ui' version='2.11.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.common.ui;singleton:=true&#xA;Bundle-Version: 2.11.0.v20160526-0356
           </instruction>
         </instructions>
       </touchpointData>
@@ -14504,41 +14542,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.emf.databinding.edit' version='1.3.0.v20170609-0928'>
-      <update id='org.eclipse.emf.databinding.edit' range='[0.0.0,1.3.0.v20170609-0928)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.pluginName' value='EMF Edit Data Binding'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706090928'/>
-      </properties>
-      <provides size='5'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.databinding.edit' version='1.3.0.v20170609-0928'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.databinding.edit' version='1.3.0.v20170609-0928'/>
-        <provided namespace='java.package' name='org.eclipse.emf.databinding.edit' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='4'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.databinding' range='[1.3.0,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='[2.12.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.property' range='[1.2.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.databinding.edit' version='1.3.0.v20170609-0928'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.databinding.edit;singleton:=true&#xA;Bundle-Version: 1.3.0.v20170609-0928
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.core.jobs' version='3.9.3.v20180115-1757'>
       <update id='org.eclipse.core.jobs' range='[0.0.0,3.9.3.v20180115-1757)' severity='0'/>
       <properties size='8'>
@@ -14575,40 +14578,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.core.jobs; singleton:=true&#xA;Bundle-Version: 3.9.3.v20180115-1757
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20170613-0242'>
-      <update id='org.eclipse.emf.ecore.xcore.lib' range='[0.0.0,1.1.100.v20170613-0242)' severity='0'/>
-      <properties size='6'>
-        <property name='df_LT.pluginName' value='Xcore Library Runtime Library'/>
-        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='buckminster.build.id' value='R201706130242'/>
-      </properties>
-      <provides size='5'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20170613-0242'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20170613-0242'/>
-        <provided namespace='java.package' name='org.eclipse.emf.ecore.xcore.lib' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.13.0,3.0.0)' optional='true' greedy='false'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='[2.13.0,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,3.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.xcore.lib' version='1.1.100.v20170613-0242'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.lib;singleton:=true&#xA;Bundle-Version: 1.1.100.v20170613-0242
           </instruction>
         </instructions>
       </touchpointData>
@@ -14816,6 +14785,45 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.emf.ecore.editor' version='2.12.0.v20160526-0356'>
+      <update id='org.eclipse.emf.ecore.editor' range='[0.0.0,2.12.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Sample Ecore Editor'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.editor' version='2.12.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.ecore.editor' version='2.12.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.action' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.ecore.presentation' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='7'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xmi' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.edit' range='[2.9.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.edit.ui' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='[3.5.0,4.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.editor' version='2.12.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.ecore.editor;singleton:=true&#xA;Bundle-Version: 2.12.0.v20160526-0356
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.emf.mwe2.runtime' version='2.9.0.v201605261103' singleton='false'>
       <update id='org.eclipse.emf.mwe2.runtime' range='[0.0.0,2.9.0.v201605261103)' severity='0'/>
       <properties size='5'>
@@ -14900,6 +14908,42 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.ltk.ui.refactoring; singleton:=true&#xA;Bundle-Version: 3.9.0.v20170412-0825
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.emf.databinding' version='1.3.0.v20160526-0356'>
+      <update id='org.eclipse.emf.databinding' range='[0.0.0,1.3.0.v20160526-0356)' severity='0'/>
+      <properties size='6'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='EMF Data Binding'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='buckminster.build.id' value='R201605260356'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.databinding' version='1.3.0.v20160526-0356'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.emf.databinding' version='1.3.0.v20160526-0356'/>
+        <provided namespace='java.package' name='org.eclipse.emf.databinding' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.emf.databinding.internal' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.12.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.databinding' range='[1.2.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.property' range='[1.2.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.emf.databinding' version='1.3.0.v20160526-0356'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.emf.databinding; singleton:=true&#xA;Bundle-Version: 1.3.0.v20160526-0356
           </instruction>
         </instructions>
       </touchpointData>
@@ -15038,48 +15082,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.e4.core.di.extensions;singleton:=true&#xA;Bundle-Version: 0.15.0.v20170228-1728
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.emf.workspace' version='1.5.1.201706061339'>
-      <update id='org.eclipse.emf.workspace' range='[0.0.0,1.5.1.201706061339)' severity='0'/>
-      <properties size='8'>
-        <property name='df_LT.Plugin.providerName' value='Eclipse Modeling Project'/>
-        <property name='df_LT.Plugin.name' value='EMF Model Transaction Workbench Integration Core'/>
-        <property name='org.eclipse.equinox.p2.name' value='%Plugin.name'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%Plugin.providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='maven-groupId' value='org.eclipse.emf.transaction.plugins'/>
-        <property name='maven-artifactId' value='org.eclipse.emf.workspace'/>
-        <property name='maven-version' value='1.5.1-SNAPSHOT'/>
-      </properties>
-      <provides size='9'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.workspace' version='1.5.1.201706061339'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.emf.workspace' version='1.5.1.201706061339'/>
-        <provided namespace='java.package' name='org.eclipse.emf.workspace' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.workspace.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.workspace.internal' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.workspace.internal.l10n' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.emf.workspace.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='5'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.2.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.2.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.commands' range='[3.2.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.transaction' range='[1.2.0,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.filesystem' range='[1.3.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.emf.workspace' version='1.5.1.201706061339'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.emf.workspace;singleton:=true&#xA;Bundle-Version: 1.5.1.201706061339
           </instruction>
         </instructions>
       </touchpointData>

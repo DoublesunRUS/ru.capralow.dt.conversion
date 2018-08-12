@@ -5,20 +5,33 @@ package ru.capralow.dt.conversion.plugin.core.cp
 import com._1c.g5.v8.dt.bsl.model.Module
 
 class ConversionPanel {
-	WorkspaceStatus Status
+	contains cpExchangePair[] ExchangePairs
 	contains cpConfiguration[] configurations
+	
+	op cpConfiguration getConfiguration(String configurationName) {
+		for (cpConfiguration configuration : configurations) {
+			if (configurationName == configuration.configurationName) return configuration
+		}
+		return null;
+	}
 }
 
 class cpConfiguration {
 	Object configurationObject
 	String configurationName
 	String storeVersion
-	
-	WorkspaceStatus Status
-	
 	contains cpExtension[] extensions
 	
+	ConfigurationStatus Status
 	contains cpFormatVersion[] availableFormatVersions
+
+	op String[] getVersions() {
+		val result = newBasicEList()
+		for (cpFormatVersion formatVersion : availableFormatVersions) {
+			result.add(formatVersion.version)
+		}
+		return result
+	}
 }
 
 class cpExtension {
@@ -27,14 +40,28 @@ class cpExtension {
 }
 
 class cpFormatVersion {
-	String configurationName
 	String version
+	String configurationName
 	contains Module module
 }
 
-enum WorkspaceStatus {
-	NoConfiguration as "Ожидание активации проектного контекста" = 1
-	NoSubsystem as "Нет подсистемы ОбменДанными" = 2
+class cpExchangePair {
+	String configurationName1
+	String configurationName2
+	
+	ExchangePairStatus Status
+	String[] versions
+}
+
+enum ExchangePairStatus {
+	NoSharedFormatVersions as "Нет совпадений по доступным версиям формата" = 0
+	Ready as "Конфигурации готовы к обмену" = 1
+}
+
+enum ConfigurationStatus {
+	NoConfiguration as "Ожидание активации проектного контекста" = 0
+	NoSubsystem as "Нет подсистемы ОбменДанными" = 1
+	NoSSLVersion as "Не удалось определить версию БСП" = 2
 	NoCommonModule as "Нет общего модуля ОбменДаннымиПереопределяемый" = 3
 	NoMethod as "В общем модуле нет метода ПриПолученииДоступныхВерсийФормата" = 4
 	EmptyMethod as "В процедуре ПриПолученииДоступныхВерсийФормата не указаны версии формата" = 5

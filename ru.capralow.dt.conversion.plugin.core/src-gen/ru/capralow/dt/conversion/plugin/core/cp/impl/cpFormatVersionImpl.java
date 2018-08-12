@@ -17,8 +17,8 @@ import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getConfigurationName <em>Configuration Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getVersion <em>Version</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getConfigurationName <em>Configuration Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getModule <em>Module</em>}</li>
  * </ul>
  *
@@ -59,24 +59,6 @@ public class cpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getConfigurationName() {
-		return (String)eGet(CpPackage.Literals.CP_FORMAT_VERSION__CONFIGURATION_NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setConfigurationName(String newConfigurationName) {
-		eSet(CpPackage.Literals.CP_FORMAT_VERSION__CONFIGURATION_NAME, newConfigurationName);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getVersion() {
 		return (String)eGet(CpPackage.Literals.CP_FORMAT_VERSION__VERSION, true);
 	}
@@ -88,6 +70,24 @@ public class cpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 */
 	public void setVersion(String newVersion) {
 		eSet(CpPackage.Literals.CP_FORMAT_VERSION__VERSION, newVersion);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getConfigurationName() {
+		return (String)eGet(CpPackage.Literals.CP_FORMAT_VERSION__CONFIGURATION_NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConfigurationName(String newConfigurationName) {
+		eSet(CpPackage.Literals.CP_FORMAT_VERSION__CONFIGURATION_NAME, newConfigurationName);
 	}
 
 	/**

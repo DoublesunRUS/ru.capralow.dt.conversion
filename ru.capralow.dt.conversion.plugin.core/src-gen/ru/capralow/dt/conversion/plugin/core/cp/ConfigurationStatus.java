@@ -10,14 +10,14 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Workspace Status</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Configuration Status</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getWorkspaceStatus()
+ * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getConfigurationStatus()
  * @model
  * @generated
  */
-public enum WorkspaceStatus implements Enumerator {
+public enum ConfigurationStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Configuration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -26,7 +26,7 @@ public enum WorkspaceStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NO_CONFIGURATION(1, "NoConfiguration", "\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435 \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 \u043f\u0440\u043e\u0435\u043a\u0442\u043d\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442\u0430"), //$NON-NLS-1$ //$NON-NLS-2$
+	NO_CONFIGURATION(0, "NoConfiguration", "\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435 \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 \u043f\u0440\u043e\u0435\u043a\u0442\u043d\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442\u0430"), //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * The '<em><b>No Subsystem</b></em>' literal object.
@@ -36,7 +36,17 @@ public enum WorkspaceStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NO_SUBSYSTEM(2, "NoSubsystem", "\u041d\u0435\u0442 \u043f\u043e\u0434\u0441\u0438\u0441\u0442\u0435\u043c\u044b \u041e\u0431\u043c\u0435\u043d\u0414\u0430\u043d\u043d\u044b\u043c\u0438"), //$NON-NLS-1$ //$NON-NLS-2$
+	NO_SUBSYSTEM(1, "NoSubsystem", "\u041d\u0435\u0442 \u043f\u043e\u0434\u0441\u0438\u0441\u0442\u0435\u043c\u044b \u041e\u0431\u043c\u0435\u043d\u0414\u0430\u043d\u043d\u044b\u043c\u0438"), //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
+	 * The '<em><b>No SSL Version</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NO_SSL_VERSION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NO_SSL_VERSION(2, "NoSSLVersion", "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u044c \u0432\u0435\u0440\u0441\u0438\u044e \u0411\u0421\u041f"), //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * The '<em><b>No Common Module</b></em>' literal object.
@@ -91,7 +101,7 @@ public enum WorkspaceStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NO_CONFIGURATION_VALUE = 1;
+	public static final int NO_CONFIGURATION_VALUE = 0;
 
 	/**
 	 * The '<em><b>No Subsystem</b></em>' literal value.
@@ -106,7 +116,22 @@ public enum WorkspaceStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NO_SUBSYSTEM_VALUE = 2;
+	public static final int NO_SUBSYSTEM_VALUE = 1;
+
+	/**
+	 * The '<em><b>No SSL Version</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>No SSL Version</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NO_SSL_VERSION
+	 * @model name="NoSSLVersion" literal="\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u044c \u0432\u0435\u0440\u0441\u0438\u044e \u0411\u0421\u041f"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NO_SSL_VERSION_VALUE = 2;
 
 	/**
 	 * The '<em><b>No Common Module</b></em>' literal value.
@@ -169,15 +194,16 @@ public enum WorkspaceStatus implements Enumerator {
 	public static final int READY_VALUE = 6;
 
 	/**
-	 * An array of all the '<em><b>Workspace Status</b></em>' enumerators.
+	 * An array of all the '<em><b>Configuration Status</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final WorkspaceStatus[] VALUES_ARRAY =
-		new WorkspaceStatus[] {
+	private static final ConfigurationStatus[] VALUES_ARRAY =
+		new ConfigurationStatus[] {
 			NO_CONFIGURATION,
 			NO_SUBSYSTEM,
+			NO_SSL_VERSION,
 			NO_COMMON_MODULE,
 			NO_METHOD,
 			EMPTY_METHOD,
@@ -185,24 +211,24 @@ public enum WorkspaceStatus implements Enumerator {
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Workspace Status</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Configuration Status</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<WorkspaceStatus> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ConfigurationStatus> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Workspace Status</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Configuration Status</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param literal the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static WorkspaceStatus get(String literal) {
+	public static ConfigurationStatus get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			WorkspaceStatus result = VALUES_ARRAY[i];
+			ConfigurationStatus result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -211,16 +237,16 @@ public enum WorkspaceStatus implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Workspace Status</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Configuration Status</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param name the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static WorkspaceStatus getByName(String name) {
+	public static ConfigurationStatus getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			WorkspaceStatus result = VALUES_ARRAY[i];
+			ConfigurationStatus result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -229,17 +255,18 @@ public enum WorkspaceStatus implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Workspace Status</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Configuration Status</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static WorkspaceStatus get(int value) {
+	public static ConfigurationStatus get(int value) {
 		switch (value) {
 			case NO_CONFIGURATION_VALUE: return NO_CONFIGURATION;
 			case NO_SUBSYSTEM_VALUE: return NO_SUBSYSTEM;
+			case NO_SSL_VERSION_VALUE: return NO_SSL_VERSION;
 			case NO_COMMON_MODULE_VALUE: return NO_COMMON_MODULE;
 			case NO_METHOD_VALUE: return NO_METHOD;
 			case EMPTY_METHOD_VALUE: return EMPTY_METHOD;
@@ -275,7 +302,7 @@ public enum WorkspaceStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private WorkspaceStatus(int value, String name, String literal) {
+	private ConfigurationStatus(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -319,4 +346,4 @@ public enum WorkspaceStatus implements Enumerator {
 		return literal;
 	}
 	
-} //WorkspaceStatus
+} //ConfigurationStatus

@@ -5,14 +5,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
@@ -28,6 +32,7 @@ import com._1c.g5.v8.dt.bsl.model.SimpleStatement;
 import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
@@ -39,6 +44,7 @@ import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.cpExchangePairImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl;
 
 public class ConversionPanelAnalyzer {
@@ -47,29 +53,36 @@ public class ConversionPanelAnalyzer {
 	IModelObjectAdopter modelObjectAdopter;
 	IBmEmfIndexManager bmEmfIndexManager;
 	IModuleExtensionService moduleExtensionService;
+	DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
 
 	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
-			IBmEmfIndexManager bmEmfIndexManager, IModuleExtensionService moduleExtensionService) {
+			IBmEmfIndexManager bmEmfIndexManager, IModuleExtensionService moduleExtensionService,
+			DynamicFeatureAccessComputer dynamicFeatureAccessComputer) {
 
 		this.projectManager = projectManager;
 		this.modelObjectAdopter = modelObjectAdopter;
 		this.bmEmfIndexManager = bmEmfIndexManager;
 		this.moduleExtensionService = moduleExtensionService;
+		this.dynamicFeatureAccessComputer = dynamicFeatureAccessComputer;
 	}
 
-	public ConversionPanelImpl Analyze() {
+	public ConversionPanel Analyze() {
 
 		Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
 
-		ConversionPanelImpl conversionPanel = new ConversionPanelImpl();
+		ConversionPanel conversionPanel = new ConversionPanelImpl();
 		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+
+		ArrayList<String> configurationsList = new ArrayList<String>();
 
 		Iterator<IConfigurationProject> itr = prConfigurations.iterator();
 		while (itr.hasNext()) {
 			IConfigurationProject prConfiguration = itr.next();
 			IProject project = prConfiguration.getProject();
 
-			cpConfigurationImpl cpConfiguration = new cpConfigurationImpl();
+			configurationsList.add(project.getName());
+
+			cpConfiguration cpConfiguration = new cpConfigurationImpl();
 			cpConfigurations.add(cpConfiguration);
 
 			cpConfiguration.setConfigurationObject(project);
@@ -77,33 +90,45 @@ public class ConversionPanelAnalyzer {
 
 			Configuration mdConfiguration = prConfiguration.getConfiguration();
 			if (mdConfiguration == null) {
-				cpConfiguration.setStatus(WorkspaceStatus.NO_CONFIGURATION);
+				cpConfiguration.setStatus(ConfigurationStatus.NO_CONFIGURATION);
 				continue;
 			}
 
 			Subsystem mdSubsystem = getSubsystem(project,
 					QualifiedName.create("Subsystem", "СтандартныеПодсистемы", "Subsystem", "ОбменДанными"));
 			if (mdSubsystem == null) {
-				cpConfiguration.setStatus(WorkspaceStatus.NO_SUBSYSTEM);
+				cpConfiguration.setStatus(ConfigurationStatus.NO_SUBSYSTEM);
 				continue;
+			}
+
+			String sslVersion = getSSLVersion(project);
+			if (sslVersion.isEmpty()) {
+				cpConfiguration.setStatus(ConfigurationStatus.NO_SSL_VERSION);
+				continue;
+			}
+
+			if (compareVersions(sslVersion, "2.4.1") == -1) {
+				cpConfiguration.setStoreVersion("1");
+			} else {
+				cpConfiguration.setStoreVersion("2");
 			}
 
 			CommonModule mdModule = getCommonModule(project,
 					QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
 			if (mdModule == null) {
-				cpConfiguration.setStatus(WorkspaceStatus.NO_COMMON_MODULE);
+				cpConfiguration.setStatus(ConfigurationStatus.NO_COMMON_MODULE);
 				continue;
 			}
 
 			Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
 			if (mdMethod == null) {
-				cpConfiguration.setStatus(WorkspaceStatus.NO_METHOD);
+				cpConfiguration.setStatus(ConfigurationStatus.NO_METHOD);
 				continue;
 			}
 
 			Map<String, Module> availableFormatVersions = getAvailableFormatVersions(project, mdModule, mdMethod);
 			if (availableFormatVersions.size() == 0) {
-				cpConfiguration.setStatus(WorkspaceStatus.EMPTY_METHOD);
+				cpConfiguration.setStatus(ConfigurationStatus.EMPTY_METHOD);
 				continue;
 			}
 
@@ -114,7 +139,7 @@ public class ConversionPanelAnalyzer {
 			while (itrVersions.hasNext()) {
 				String version = itrVersions.next();
 
-				cpFormatVersionImpl cpFormatVersion = new cpFormatVersionImpl();
+				cpFormatVersion cpFormatVersion = new cpFormatVersionImpl();
 
 				Module formatModule = availableFormatVersions.get(version);
 
@@ -129,7 +154,41 @@ public class ConversionPanelAnalyzer {
 				cpAvailableFormatVersions.add(cpFormatVersion);
 			}
 
-			cpConfiguration.setStatus(WorkspaceStatus.READY);
+			cpConfiguration.setStatus(ConfigurationStatus.READY);
+		}
+
+		Collections.sort(configurationsList);
+		List<Pair<String, String>> configurationPairs = getPairs(configurationsList);
+
+		if (configurationPairs.size() != 0) {
+			EList<cpExchangePair> exchangePairs = conversionPanel.getExchangePairs();
+
+			Iterator<Pair<String, String>> itrList = configurationPairs.iterator();
+			while (itrList.hasNext()) {
+				Pair<String, String> configurationPair = itrList.next();
+
+				cpExchangePair cpExchangePair = new cpExchangePairImpl();
+
+				cpExchangePair.setConfigurationName1(configurationPair.getKey());
+				cpExchangePair.setConfigurationName2(configurationPair.getValue());
+
+				cpConfiguration configuration1 = conversionPanel.getConfiguration(configurationPair.getKey());
+				cpConfiguration configuration2 = conversionPanel.getConfiguration(configurationPair.getValue());
+
+				EList<String> exchangePairVersions = cpExchangePair.getVersions();
+
+				Set<String> commonVersions = findCommons(configuration1.getVersions(), configuration2.getVersions());
+
+				exchangePairVersions.addAll(commonVersions);
+
+				if (exchangePairVersions.size() == 0) {
+					cpExchangePair.setStatus(ExchangePairStatus.NO_SHARED_FORMAT_VERSIONS);
+				} else {
+
+					cpExchangePair.setStatus(ExchangePairStatus.READY);
+				}
+				exchangePairs.add(cpExchangePair);
+			}
 		}
 
 		return conversionPanel;
@@ -197,11 +256,11 @@ public class ConversionPanelAnalyzer {
 			Module mdExtensionModule = itr.next();
 
 			IExtensionProject extensionProject = (IExtensionProject) projectManager.getProject(mdExtensionModule);
-			
+
 			if (!extensionProject.getParentProject().equals(projectManager.getProject(mdModule).getProject())) {
 				continue;
 			}
-			
+
 			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
 					mdMethod.getName());
 
@@ -273,6 +332,8 @@ public class ConversionPanelAnalyzer {
 					formatVersions.put(versionNumber, mdFormatModule.getModule());
 				}
 			} else {
+//				List<FeatureEntry> featureEntry = dynamicFeatureAccessComputer.getLastObject(methodAccess, source.getFeatureEntries().get(0).getEnvironments());
+
 				QualifiedName qnModuleName = QualifiedName.create("CommonModule", source.getName());
 
 				IProject extensionProject = projectManager.getProject(mdMethod).getProject();
@@ -310,4 +371,66 @@ public class ConversionPanelAnalyzer {
 		return formatVersions;
 	}
 
+	protected String getSSLVersion(IProject project) {
+		String version = "";
+
+		CommonModule mdCommonModule = getCommonModule(project,
+				QualifiedName.create("CommonModule", "ОбновлениеИнформационнойБазыБСП"));
+		if (mdCommonModule == null)
+			return version;
+
+		Method mdMethod = getMethod(mdCommonModule.getModule(), "ПриДобавленииПодсистемы");
+		if (mdMethod == null)
+			return version;
+		EList<Statement> mdStatements = mdMethod.getStatements();
+		Iterator<Statement> itr = mdStatements.iterator();
+		while (itr.hasNext()) {
+			Statement mdStatement = itr.next();
+
+			DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) ((SimpleStatement) mdStatement).getLeft();
+
+			if (methodAccess.getName().equalsIgnoreCase("Версия")) {
+				version = ((StringLiteral) ((SimpleStatement) mdStatement).getRight()).getLines().get(0);
+				version = version.substring(1, version.length() - 1);
+				break;
+			}
+		}
+
+		return version;
+	}
+
+	protected static <T> List<Pair<T, T>> getPairs(List<T> list) {
+		List<Pair<T, T>> pairs = new LinkedList<>();
+
+		for (int i = 0; i < list.size() - 1; i++)
+			for (int j = i + 1; j < list.size(); j++)
+				pairs.add(new Pair<>(list.get(i), list.get(j)));
+
+		return pairs;
+	}
+
+	protected static Set<String> findCommons(EList<String> a, EList<String> b) {
+		Set<String> set = new LinkedHashSet<String>(a);
+		set.retainAll(b);
+
+		return set;
+	}
+
+	public static int compareVersions(String version1, String version2) {
+
+		String[] levels1 = version1.split("\\.");
+		String[] levels2 = version2.split("\\.");
+
+		int length = Math.max(levels1.length, levels2.length);
+		for (int i = 0; i < length; i++) {
+			Integer v1 = i < levels1.length ? Integer.parseInt(levels1[i]) : 0;
+			Integer v2 = i < levels2.length ? Integer.parseInt(levels2[i]) : 0;
+			int compare = v1.compareTo(v2);
+			if (compare != 0) {
+				return compare;
+			}
+		}
+
+		return 0;
+	}
 }

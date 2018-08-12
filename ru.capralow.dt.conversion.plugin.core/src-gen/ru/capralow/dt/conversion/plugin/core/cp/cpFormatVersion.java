@@ -13,8 +13,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getConfigurationName <em>Configuration Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getVersion <em>Version</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getConfigurationName <em>Configuration Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getModule <em>Module</em>}</li>
  * </ul>
  *
@@ -23,32 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface cpFormatVersion extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Configuration Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Configuration Name</em>' attribute.
-	 * @see #setConfigurationName(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpFormatVersion_ConfigurationName()
-	 * @model unique="false"
-	 * @generated
-	 */
-	String getConfigurationName();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getConfigurationName <em>Configuration Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Configuration Name</em>' attribute.
-	 * @see #getConfigurationName()
-	 * @generated
-	 */
-	void setConfigurationName(String value);
-
 	/**
 	 * Returns the value of the '<em><b>Version</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -74,6 +48,32 @@ public interface cpFormatVersion extends EObject {
 	 * @generated
 	 */
 	void setVersion(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Configuration Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Configuration Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Configuration Name</em>' attribute.
+	 * @see #setConfigurationName(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpFormatVersion_ConfigurationName()
+	 * @model unique="false"
+	 * @generated
+	 */
+	String getConfigurationName();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getConfigurationName <em>Configuration Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Configuration Name</em>' attribute.
+	 * @see #getConfigurationName()
+	 * @generated
+	 */
+	void setConfigurationName(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Module</b></em>' containment reference.
