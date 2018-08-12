@@ -14,7 +14,10 @@ import org.eclipse.ui.part.ViewPart;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
+<<<<<<< HEAD
 import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+=======
+>>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
@@ -46,10 +49,15 @@ public class ConversionPanelView extends ViewPart {
 		IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 				.getModuleExtensionService();
 
+<<<<<<< HEAD
 		DynamicFeatureAccessComputer dynamicFeatureAccessComputer = new com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer();
 		
 		ConversionPanelAnalyzer conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager,
 				modelObjectAdopter, bmEmfIndexManager, moduleExtensionService, dynamicFeatureAccessComputer);
+=======
+		ConversionPanelAnalyzer conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager,
+				modelObjectAdopter, bmEmfIndexManager, moduleExtensionService);
+>>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
 
 		conversionPanel = conversionPanelAnalyzer.Analyze();
 	}

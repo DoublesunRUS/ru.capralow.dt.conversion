@@ -10,7 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+<<<<<<< HEAD
 import java.util.Set;
+=======
+>>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
@@ -53,6 +56,7 @@ public class ConversionPanelAnalyzer {
 	IModelObjectAdopter modelObjectAdopter;
 	IBmEmfIndexManager bmEmfIndexManager;
 	IModuleExtensionService moduleExtensionService;
+<<<<<<< HEAD
 	DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
 
 	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
@@ -67,6 +71,19 @@ public class ConversionPanelAnalyzer {
 	}
 
 	public ConversionPanel Analyze() {
+=======
+
+	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
+			IBmEmfIndexManager bmEmfIndexManager, IModuleExtensionService moduleExtensionService) {
+>>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
+
+		this.projectManager = projectManager;
+		this.modelObjectAdopter = modelObjectAdopter;
+		this.bmEmfIndexManager = bmEmfIndexManager;
+		this.moduleExtensionService = moduleExtensionService;
+	}
+
+	public ConversionPanelImpl Analyze() {
 
 		Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
 
@@ -101,6 +118,7 @@ public class ConversionPanelAnalyzer {
 				continue;
 			}
 
+<<<<<<< HEAD
 			String sslVersion = getSSLVersion(project);
 			if (sslVersion.isEmpty()) {
 				cpConfiguration.setStatus(ConfigurationStatus.NO_SSL_VERSION);
@@ -113,6 +131,8 @@ public class ConversionPanelAnalyzer {
 				cpConfiguration.setStoreVersion("2");
 			}
 
+=======
+>>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
 			CommonModule mdModule = getCommonModule(project,
 					QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
 			if (mdModule == null) {
@@ -256,11 +276,19 @@ public class ConversionPanelAnalyzer {
 			Module mdExtensionModule = itr.next();
 
 			IExtensionProject extensionProject = (IExtensionProject) projectManager.getProject(mdExtensionModule);
+<<<<<<< HEAD
 
 			if (!extensionProject.getParentProject().equals(projectManager.getProject(mdModule).getProject())) {
 				continue;
 			}
 
+=======
+			
+			if (!extensionProject.getParentProject().equals(projectManager.getProject(mdModule).getProject())) {
+				continue;
+			}
+			
+>>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
 			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
 					mdMethod.getName());
 
@@ -332,8 +360,11 @@ public class ConversionPanelAnalyzer {
 					formatVersions.put(versionNumber, mdFormatModule.getModule());
 				}
 			} else {
+<<<<<<< HEAD
 //				List<FeatureEntry> featureEntry = dynamicFeatureAccessComputer.getLastObject(methodAccess, source.getFeatureEntries().get(0).getEnvironments());
 
+=======
+>>>>>>> branch 'master' of https://gitlab.rarus.ru/kapral/ru.capralow.dt.conversion.git
 				QualifiedName qnModuleName = QualifiedName.create("CommonModule", source.getName());
 
 				IProject extensionProject = projectManager.getProject(mdMethod).getProject();
