@@ -20,11 +20,9 @@ import com._1c.g5.v8.dt.core.event.IEvent;
 import com._1c.g5.v8.dt.core.event.IEventListener;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.core.platform.events.IV8ProjectEvent;
-import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com.google.inject.Inject;
 
-import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanel;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelContentProvider;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelLabelProvider;
@@ -34,16 +32,13 @@ public class ConversionPanelView extends ViewPart {
 	private IV8ProjectManager projectManager;
 
 	@Inject
-	private IModelObjectAdopter modelObjectAdopter;
-
-	@Inject
 	private IBmEmfIndexManager bmEmfIndexManager;
 
-	protected TreeViewer treeViewer;
+	private TreeViewer treeViewer;
 
-	protected ConversionPanel conversionPanel;
+	private ConversionPanelAnalyzer conversionPanelAnalyzer;
 
-	protected IEventListener eventListener;
+	private IEventListener eventListener;
 
 	@Override
 	public void init(IViewSite site) throws PartInitException {
@@ -54,35 +49,33 @@ public class ConversionPanelView extends ViewPart {
 
 		DynamicFeatureAccessComputer dynamicFeatureAccessComputer = new com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer();
 
-		ConversionPanelAnalyzer conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager,
-				modelObjectAdopter, bmEmfIndexManager, moduleExtensionService, dynamicFeatureAccessComputer);
+		this.conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager, bmEmfIndexManager,
+				moduleExtensionService, dynamicFeatureAccessComputer);
 
-		eventListener = new IEventListener() {
+		this.eventListener = new IEventListener() {
 
 			@Override
 			public void handleEvent(IEvent arg0) {
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
-						conversionPanel = conversionPanelAnalyzer.Analyze();
-						treeViewer.setInput(conversionPanel);
+						conversionPanelAnalyzer.Analyze(arg0.getProject());
+						treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
 						treeViewer.expandAll();
 						treeViewer.refresh();
 					}
 				});
 			}
-
 		};
+
+		conversionPanelAnalyzer.Analyze(null);
 
 		projectManager.addProjectsListener(eventListener, IV8ProjectEvent.class);
 
-		conversionPanel = conversionPanelAnalyzer.Analyze();
 	}
 
 	@Override
 	public void dispose() {
 		projectManager.removeListener(eventListener);
-
-		conversionPanel = null;
 
 		super.dispose();
 	}
@@ -110,10 +103,10 @@ public class ConversionPanelView extends ViewPart {
 		layoutData.verticalAlignment = GridData.FILL;
 		treeViewer.getControl().setLayoutData(layoutData);
 
-		treeViewer.setInput(conversionPanel);
+		treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
 		treeViewer.expandAll();
 
-		hookListeners();
+//		hookListeners();
 	}
 
 	@Override
@@ -122,7 +115,7 @@ public class ConversionPanelView extends ViewPart {
 
 	}
 
-	protected void hookListeners() {
+	private void hookListeners() {
 		treeViewer.addDoubleClickListener((new IDoubleClickListener() {
 
 			@Override

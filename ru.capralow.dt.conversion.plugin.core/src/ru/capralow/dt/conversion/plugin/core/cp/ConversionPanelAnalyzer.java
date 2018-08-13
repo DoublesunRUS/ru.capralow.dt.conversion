@@ -36,7 +36,6 @@ import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
-import com._1c.g5.v8.dt.md.extension.adopt.IModelObjectAdopter;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
@@ -49,112 +48,54 @@ import ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl;
 
 public class ConversionPanelAnalyzer {
 
-	IV8ProjectManager projectManager;
-	IModelObjectAdopter modelObjectAdopter;
-	IBmEmfIndexManager bmEmfIndexManager;
-	IModuleExtensionService moduleExtensionService;
-	DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
+	private IV8ProjectManager projectManager;
+	private IBmEmfIndexManager bmEmfIndexManager;
+	private IModuleExtensionService moduleExtensionService;
+	private DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
 
-	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IModelObjectAdopter modelObjectAdopter,
-			IBmEmfIndexManager bmEmfIndexManager, IModuleExtensionService moduleExtensionService,
-			DynamicFeatureAccessComputer dynamicFeatureAccessComputer) {
+	private ConversionPanel conversionPanel;
+
+	public ConversionPanel getConversionPanel() {
+		return conversionPanel;
+	}
+
+	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
+			IModuleExtensionService moduleExtensionService, DynamicFeatureAccessComputer dynamicFeatureAccessComputer) {
 
 		this.projectManager = projectManager;
-		this.modelObjectAdopter = modelObjectAdopter;
 		this.bmEmfIndexManager = bmEmfIndexManager;
 		this.moduleExtensionService = moduleExtensionService;
 		this.dynamicFeatureAccessComputer = dynamicFeatureAccessComputer;
+
+		this.conversionPanel = new ConversionPanelImpl();
 	}
 
-	public ConversionPanel Analyze() {
+	public void Analyze(IProject updatedProject) {
 
-		Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
+		if (updatedProject == null) {
+			Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
+			
+			Iterator<IConfigurationProject> itr = prConfigurations.iterator();
+			while (itr.hasNext()) {
+				IConfigurationProject prConfiguration = itr.next();
+				IProject project = prConfiguration.getProject();
 
-		ConversionPanel conversionPanel = new ConversionPanelImpl();
-		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+				updateConfiguration(project);
 
+			}
+		} else {
+			updateConfiguration(updatedProject);
+			
+		}
+		
 		ArrayList<String> configurationsList = new ArrayList<String>();
 
-		Iterator<IConfigurationProject> itr = prConfigurations.iterator();
+		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+		Iterator<cpConfiguration> itr = cpConfigurations.iterator();
 		while (itr.hasNext()) {
-			IConfigurationProject prConfiguration = itr.next();
-			IProject project = prConfiguration.getProject();
+			cpConfiguration cpConfiguration = itr.next();
 
-			configurationsList.add(project.getName());
-
-			cpConfiguration cpConfiguration = new cpConfigurationImpl();
-			cpConfigurations.add(cpConfiguration);
-
-			cpConfiguration.setConfigurationObject(project);
-			cpConfiguration.setConfigurationName(project.getName());
-
-			Configuration mdConfiguration = prConfiguration.getConfiguration();
-			if (mdConfiguration == null) {
-				cpConfiguration.setStatus(ConfigurationStatus.NO_CONFIGURATION);
-				continue;
-			}
-
-			Subsystem mdSubsystem = getSubsystem(project,
-					QualifiedName.create("Subsystem", "СтандартныеПодсистемы", "Subsystem", "ОбменДанными"));
-			if (mdSubsystem == null) {
-				cpConfiguration.setStatus(ConfigurationStatus.NO_SUBSYSTEM);
-				continue;
-			}
-
-			String sslVersion = getSSLVersion(project);
-			if (sslVersion.isEmpty()) {
-				cpConfiguration.setStatus(ConfigurationStatus.NO_SSL_VERSION);
-				continue;
-			}
-
-			if (compareVersions(sslVersion, "2.4.1") == -1) {
-				cpConfiguration.setStoreVersion("1");
-			} else {
-				cpConfiguration.setStoreVersion("2");
-			}
-
-			CommonModule mdModule = getCommonModule(project,
-					QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
-			if (mdModule == null) {
-				cpConfiguration.setStatus(ConfigurationStatus.NO_COMMON_MODULE);
-				continue;
-			}
-
-			Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
-			if (mdMethod == null) {
-				cpConfiguration.setStatus(ConfigurationStatus.NO_METHOD);
-				continue;
-			}
-
-			Map<String, Module> availableFormatVersions = getAvailableFormatVersions(project, mdModule, mdMethod);
-			if (availableFormatVersions.size() == 0) {
-				cpConfiguration.setStatus(ConfigurationStatus.EMPTY_METHOD);
-				continue;
-			}
-
-			EList<cpFormatVersion> cpAvailableFormatVersions = cpConfiguration.getAvailableFormatVersions();
-			List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
-			Collections.sort(sortedVersions);
-			Iterator<String> itrVersions = sortedVersions.iterator();
-			while (itrVersions.hasNext()) {
-				String version = itrVersions.next();
-
-				cpFormatVersion cpFormatVersion = new cpFormatVersionImpl();
-
-				Module formatModule = availableFormatVersions.get(version);
-
-				if (projectManager.getProject(formatModule) instanceof IExtensionProject) {
-					IExtensionProject formatProject = (IExtensionProject) projectManager.getProject(formatModule);
-
-					cpFormatVersion.setConfigurationName(formatProject.getConfiguration().getName());
-				}
-				cpFormatVersion.setVersion(version);
-				cpFormatVersion.setModule(formatModule);
-
-				cpAvailableFormatVersions.add(cpFormatVersion);
-			}
-
-			cpConfiguration.setStatus(ConfigurationStatus.READY);
+			configurationsList.add(cpConfiguration.getConfigurationName());
 		}
 
 		Collections.sort(configurationsList);
@@ -162,6 +103,7 @@ public class ConversionPanelAnalyzer {
 
 		if (configurationPairs.size() != 0) {
 			EList<cpExchangePair> exchangePairs = conversionPanel.getExchangePairs();
+			exchangePairs.clear();
 
 			Iterator<Pair<String, String>> itrList = configurationPairs.iterator();
 			while (itrList.hasNext()) {
@@ -190,12 +132,98 @@ public class ConversionPanelAnalyzer {
 				exchangePairs.add(cpExchangePair);
 			}
 		}
-
-		return conversionPanel;
-
 	}
 
-	protected Subsystem getSubsystem(IProject project, QualifiedName subsystemName) {
+	private void updateConfiguration(IProject project) {
+
+		if (projectManager.getProject(project) instanceof IExtensionProject) {
+			project = ((IExtensionProject) projectManager.getProject(project)).getParentProject();
+		}
+		
+		cpConfiguration cpConfiguration = conversionPanel.getConfiguration(project.getName());
+
+		if (cpConfiguration == null) {
+			Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+	
+			cpConfiguration = new cpConfigurationImpl();
+			cpConfigurations.add(cpConfiguration);
+
+			cpConfiguration.setConfigurationObject(project);
+			cpConfiguration.setConfigurationName(project.getName());
+		}
+
+		Configuration mdConfiguration = ((IConfigurationProject) projectManager.getProject(project)).getConfiguration();
+		if (mdConfiguration == null) {
+			cpConfiguration.setStatus(ConfigurationStatus.NO_CONFIGURATION);
+			return;
+		}
+
+		Subsystem mdSubsystem = getSubsystem(project,
+				QualifiedName.create("Subsystem", "СтандартныеПодсистемы", "Subsystem", "ОбменДанными"));
+		if (mdSubsystem == null) {
+			cpConfiguration.setStatus(ConfigurationStatus.NO_SUBSYSTEM);
+			return;
+		}
+
+		String sslVersion = getSSLVersion(project);
+		if (sslVersion.isEmpty()) {
+			cpConfiguration.setStatus(ConfigurationStatus.NO_SSL_VERSION);
+			return;
+		}
+
+		if (compareVersions(sslVersion, "2.4.1") == -1) {
+			cpConfiguration.setStoreVersion("1");
+		} else {
+			cpConfiguration.setStoreVersion("2");
+		}
+
+		CommonModule mdModule = getCommonModule(project,
+				QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
+		if (mdModule == null) {
+			cpConfiguration.setStatus(ConfigurationStatus.NO_COMMON_MODULE);
+			return;
+		}
+
+		Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
+		if (mdMethod == null) {
+			cpConfiguration.setStatus(ConfigurationStatus.NO_METHOD);
+			return;
+		}
+
+		Map<String, Module> availableFormatVersions = getAvailableFormatVersions(project, mdModule, mdMethod);
+		if (availableFormatVersions.size() == 0) {
+			cpConfiguration.setStatus(ConfigurationStatus.EMPTY_METHOD);
+			return;
+		}
+
+		EList<cpFormatVersion> cpAvailableFormatVersions = cpConfiguration.getAvailableFormatVersions();
+		cpAvailableFormatVersions.clear();
+		
+		List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
+		Collections.sort(sortedVersions);
+		Iterator<String> itrVersions = sortedVersions.iterator();
+		while (itrVersions.hasNext()) {
+			String version = itrVersions.next();
+
+			cpFormatVersion cpFormatVersion = new cpFormatVersionImpl();
+
+			Module formatModule = availableFormatVersions.get(version);
+
+			if (projectManager.getProject(formatModule) instanceof IExtensionProject) {
+				IExtensionProject formatProject = (IExtensionProject) projectManager.getProject(formatModule);
+
+				cpFormatVersion.setConfigurationName(formatProject.getConfiguration().getName());
+			}
+			cpFormatVersion.setVersion(version);
+			cpFormatVersion.setModule(formatModule);
+
+			cpAvailableFormatVersions.add(cpFormatVersion);
+		}
+
+		cpConfiguration.setStatus(ConfigurationStatus.READY);
+	}
+	
+	private Subsystem getSubsystem(IProject project, QualifiedName subsystemName) {
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
 		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
@@ -208,7 +236,7 @@ public class ConversionPanelAnalyzer {
 		return null;
 	}
 
-	protected CommonModule getCommonModule(IProject project, QualifiedName moduleName) {
+	private CommonModule getCommonModule(IProject project, QualifiedName moduleName) {
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
 		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
@@ -221,7 +249,7 @@ public class ConversionPanelAnalyzer {
 		return null;
 	}
 
-	protected static Method getMethod(Module mdModule, String methodName) {
+	private static Method getMethod(Module mdModule, String methodName) {
 		Iterator<Method> itr = mdModule.allMethods().iterator();
 		while (itr.hasNext()) {
 			Method mdMethod = (Method) itr.next();
@@ -234,7 +262,7 @@ public class ConversionPanelAnalyzer {
 		return null;
 	}
 
-	protected Map<String, Module> getAvailableFormatVersions(IProject mainProject, CommonModule mdModule,
+	private Map<String, Module> getAvailableFormatVersions(IProject mainProject, CommonModule mdModule,
 			Method mdMethod) {
 
 		Map<String, Module> formatVersions = parseMethod(mainProject, mdModule.getModule(), mdMethod);
@@ -242,7 +270,7 @@ public class ConversionPanelAnalyzer {
 		return formatVersions;
 	}
 
-	protected Map<String, Module> parseMethod(IProject mainProject, Module mdModule, Method mdMethod) {
+	private Map<String, Module> parseMethod(IProject mainProject, Module mdModule, Method mdMethod) {
 
 		Map<String, Module> formatVersions = new HashMap<String, Module>();
 
@@ -292,7 +320,7 @@ public class ConversionPanelAnalyzer {
 
 	}
 
-	protected Map<String, Module> getFormatVersions(IProject mainProject, Method mdMethod) {
+	private Map<String, Module> getFormatVersions(IProject mainProject, Method mdMethod) {
 
 		if (mdMethod.getFormalParams().size() == 0) {
 			throw new RuntimeException("Список параметров у метода пустой: " + mdMethod.getName());
@@ -371,7 +399,7 @@ public class ConversionPanelAnalyzer {
 		return formatVersions;
 	}
 
-	protected String getSSLVersion(IProject project) {
+	private String getSSLVersion(IProject project) {
 		String version = "";
 
 		CommonModule mdCommonModule = getCommonModule(project,
@@ -399,7 +427,7 @@ public class ConversionPanelAnalyzer {
 		return version;
 	}
 
-	protected static <T> List<Pair<T, T>> getPairs(List<T> list) {
+	private static <T> List<Pair<T, T>> getPairs(List<T> list) {
 		List<Pair<T, T>> pairs = new LinkedList<>();
 
 		for (int i = 0; i < list.size() - 1; i++)
@@ -409,7 +437,7 @@ public class ConversionPanelAnalyzer {
 		return pairs;
 	}
 
-	protected static Set<String> findCommons(EList<String> a, EList<String> b) {
+	private static Set<String> findCommons(EList<String> a, EList<String> b) {
 		Set<String> set = new LinkedHashSet<String>(a);
 		set.retainAll(b);
 
