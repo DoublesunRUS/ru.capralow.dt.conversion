@@ -1,5 +1,8 @@
 package ru.capralow.dt.conversion.plugin.ui.views;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -12,14 +15,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
-import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
-import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
-import com._1c.g5.v8.dt.core.event.IEvent;
-import com._1c.g5.v8.dt.core.event.IEventListener;
+import com._1c.g5.v8.dt.core.lifecycle.ProjectContext;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
-import com._1c.g5.v8.dt.core.platform.events.IV8ProjectEvent;
+import com._1c.g5.v8.dt.lifecycle.IServiceContextLifecycleListener;
+import com._1c.g5.v8.dt.lifecycle.IServicesOrchestrator;
+import com._1c.g5.v8.dt.lifecycle.ServiceState;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com.google.inject.Inject;
 
@@ -38,45 +41,66 @@ public class ConversionPanelView extends ViewPart {
 
 	private ConversionPanelAnalyzer conversionPanelAnalyzer;
 
-	private IEventListener eventListener;
-
+	private IServicesOrchestrator servicesOrchestrator;
+	
+	private IServiceContextLifecycleListener projectContextListener;
+	
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
 
-		IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
-				.getModuleExtensionService();
+		this.conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager, bmEmfIndexManager);
 
-		DynamicFeatureAccessComputer dynamicFeatureAccessComputer = new com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer();
+		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
+				.getResourceServiceProvider(URI.createURI("foo.bsl"));
+		this.servicesOrchestrator = provider.get(IServicesOrchestrator.class);
 
-		this.conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager, bmEmfIndexManager,
-				moduleExtensionService, dynamicFeatureAccessComputer);
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 
-		this.eventListener = new IEventListener() {
+		for (int i = 0; i < projects.length; i++) {
+			IProject project = projects[i];
 
-			@Override
-			public void handleEvent(IEvent arg0) {
+			// проверяем инициализирован ли контекст
+			if (servicesOrchestrator.getContextState(new ProjectContext(project)) != ServiceState.STARTED) {
+			
+				// если нет - ждем, пока UI инициализировать не нужно.
+				// или опционально - инициализироватьк какой-то заглушкой, типа "загрузка
+				// содержания..."
+				servicesOrchestrator.addListener(this.projectContextListener = (context, state) -> {
+					if (context instanceof ProjectContext && ((ProjectContext) context).getProject().equals(project)
+							&& state == ServiceState.STARTED) {
+						Display.getDefault().asyncExec(new Runnable() {
+							public void run() {
+								conversionPanelAnalyzer.Analyze(project);
+								treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
+								treeViewer.expandAll();
+								treeViewer.refresh();
+							}
+						});
+
+					}
+					// где-то нужно не забыть удалить этот listener в зависимости от жизненного
+					// цикла вашего класса
+				});
+			} else {
+				// если инициализирован - сразу инициализируем UI
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
-						conversionPanelAnalyzer.Analyze(arg0.getProject());
+						conversionPanelAnalyzer.Analyze(project);
 						treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
 						treeViewer.expandAll();
 						treeViewer.refresh();
 					}
 				});
 			}
-		};
-
-		conversionPanelAnalyzer.Analyze(null);
-
-		projectManager.addProjectsListener(eventListener, IV8ProjectEvent.class);
+		}
 
 	}
 
 	@Override
 	public void dispose() {
-		projectManager.removeListener(eventListener);
-
+		servicesOrchestrator.removeListener(projectContextListener);
+		
 		super.dispose();
 	}
 

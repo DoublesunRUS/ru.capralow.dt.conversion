@@ -3,6 +3,7 @@ package ru.capralow.dt.conversion.plugin.ui;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -52,7 +53,7 @@ public class Activator extends AbstractUIPlugin {
 		this.bundleContext = bundleContext;
 		plugin = this;
 
-		registrator = new InjectorAwareServiceRegistrator(bundleContext, this::getInjector);
+//		registrator = new InjectorAwareServiceRegistrator(bundleContext, this::getInjector);
 
 //		InitializationJob.schedule(monitor -> {
 //			// register services from injector
@@ -76,7 +77,7 @@ public class Activator extends AbstractUIPlugin {
 
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
-		registrator.unregisterServices();
+//		registrator.unregisterServices();
 
 		plugin = null;
 		super.stop(bundleContext);

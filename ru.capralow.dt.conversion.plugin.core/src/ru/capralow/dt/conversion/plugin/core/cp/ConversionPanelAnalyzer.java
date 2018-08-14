@@ -14,8 +14,10 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.xbase.lib.Pair;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
@@ -59,13 +61,16 @@ public class ConversionPanelAnalyzer {
 		return conversionPanel;
 	}
 
-	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
-			IModuleExtensionService moduleExtensionService, DynamicFeatureAccessComputer dynamicFeatureAccessComputer) {
+	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
+
+		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
+				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 
 		this.projectManager = projectManager;
 		this.bmEmfIndexManager = bmEmfIndexManager;
-		this.moduleExtensionService = moduleExtensionService;
-		this.dynamicFeatureAccessComputer = dynamicFeatureAccessComputer;
+		this.moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
+				.getModuleExtensionService();
+		this.dynamicFeatureAccessComputer = provider.get(DynamicFeatureAccessComputer.class);
 
 		this.conversionPanel = new ConversionPanelImpl();
 	}
@@ -73,8 +78,9 @@ public class ConversionPanelAnalyzer {
 	public void Analyze(IProject updatedProject) {
 
 		if (updatedProject == null) {
-			Collection<IConfigurationProject> prConfigurations = projectManager.getProjects(IConfigurationProject.class);
-			
+			Collection<IConfigurationProject> prConfigurations = projectManager
+					.getProjects(IConfigurationProject.class);
+
 			Iterator<IConfigurationProject> itr = prConfigurations.iterator();
 			while (itr.hasNext()) {
 				IConfigurationProject prConfiguration = itr.next();
@@ -85,9 +91,9 @@ public class ConversionPanelAnalyzer {
 			}
 		} else {
 			updateConfiguration(updatedProject);
-			
+
 		}
-		
+
 		ArrayList<String> configurationsList = new ArrayList<String>();
 
 		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
@@ -139,12 +145,12 @@ public class ConversionPanelAnalyzer {
 		if (projectManager.getProject(project) instanceof IExtensionProject) {
 			project = ((IExtensionProject) projectManager.getProject(project)).getParentProject();
 		}
-		
+
 		cpConfiguration cpConfiguration = conversionPanel.getConfiguration(project.getName());
 
 		if (cpConfiguration == null) {
 			Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
-	
+
 			cpConfiguration = new cpConfigurationImpl();
 			cpConfigurations.add(cpConfiguration);
 
@@ -198,7 +204,7 @@ public class ConversionPanelAnalyzer {
 
 		EList<cpFormatVersion> cpAvailableFormatVersions = cpConfiguration.getAvailableFormatVersions();
 		cpAvailableFormatVersions.clear();
-		
+
 		List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
 		Collections.sort(sortedVersions);
 		Iterator<String> itrVersions = sortedVersions.iterator();
@@ -222,7 +228,7 @@ public class ConversionPanelAnalyzer {
 
 		cpConfiguration.setStatus(ConfigurationStatus.READY);
 	}
-	
+
 	private Subsystem getSubsystem(IProject project, QualifiedName subsystemName) {
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
