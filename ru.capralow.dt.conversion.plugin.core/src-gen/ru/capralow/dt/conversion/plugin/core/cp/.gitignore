@@ -5,3 +5,6 @@
 /WorkspaceStatus.java
 /cpExtension.java
 /cpFormatVersion.java
+/ConfigurationStatus.java
+/ExchangePairStatus.java
+/cpExchangePair.java
