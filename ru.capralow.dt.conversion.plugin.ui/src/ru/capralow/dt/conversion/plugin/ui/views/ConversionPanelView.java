@@ -1,5 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.views;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -13,22 +14,28 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
+import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.core.lifecycle.ProjectContext;
+import com._1c.g5.v8.dt.core.platform.IResourceLookup;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.lifecycle.IServiceContextLifecycleListener;
 import com._1c.g5.v8.dt.lifecycle.IServicesOrchestrator;
 import com._1c.g5.v8.dt.lifecycle.ServiceState;
-import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelContentProvider;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelLabelProvider;
+import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
 
 public class ConversionPanelView extends ViewPart {
 	@Inject
@@ -37,14 +44,17 @@ public class ConversionPanelView extends ViewPart {
 	@Inject
 	private IBmEmfIndexManager bmEmfIndexManager;
 
+	@Inject
+	private IResourceLookup resourceLookup;
+
 	private TreeViewer treeViewer;
 
 	private ConversionPanelAnalyzer conversionPanelAnalyzer;
 
 	private IServicesOrchestrator servicesOrchestrator;
-	
+
 	private IServiceContextLifecycleListener projectContextListener;
-	
+
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
@@ -62,7 +72,7 @@ public class ConversionPanelView extends ViewPart {
 
 			// проверяем инициализирован ли контекст
 			if (servicesOrchestrator.getContextState(new ProjectContext(project)) != ServiceState.STARTED) {
-			
+
 				// если нет - ждем, пока UI инициализировать не нужно.
 				// или опционально - инициализироватьк какой-то заглушкой, типа "загрузка
 				// содержания..."
@@ -100,7 +110,7 @@ public class ConversionPanelView extends ViewPart {
 	@Override
 	public void dispose() {
 		servicesOrchestrator.removeListener(projectContextListener);
-		
+
 		super.dispose();
 	}
 
@@ -130,7 +140,7 @@ public class ConversionPanelView extends ViewPart {
 		treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
 		treeViewer.expandAll();
 
-//		hookListeners();
+		hookListeners();
 	}
 
 	@Override
@@ -152,10 +162,20 @@ public class ConversionPanelView extends ViewPart {
 
 				Object element = ((IStructuredSelection) selection).getFirstElement();
 
-				if (element instanceof Configuration) {
-//					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				if (element instanceof cpFormatVersion) {
+					Module module = ((cpFormatVersion) element).getModule();
+					CommonModule commonModule = (CommonModule) module.getOwner();
 
-//					IDE.openEditor(page, ((Configuration) element));
+					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+					IFile file = resourceLookup.getPlatformResource(commonModule);
+
+					try {
+						IDE.openEditor(page, file, "com._1c.g5.v8.dt.md.ui.editor.commonModule");
+					} catch (PartInitException e) {
+						// TODO Автоматически созданный блок catch
+						e.printStackTrace();
+					}
 				}
 
 			}
