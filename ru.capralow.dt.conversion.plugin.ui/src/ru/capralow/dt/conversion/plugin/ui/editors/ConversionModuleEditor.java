@@ -1,6 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,18 +13,10 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
-import org.eclipse.ui.part.FileEditorInput;
-
-import com._1c.g5.v8.dt.core.platform.IConfigurationProvider;
-import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
 
 public class ConversionModuleEditor extends EditorPart {
-
-	@Inject
-	private IConfigurationProvider configurationProvider;
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -34,9 +25,6 @@ public class ConversionModuleEditor extends EditorPart {
 
 		setSite(site);
 		setInput(input);
-
-		IProject project = ((FileEditorInput) input).getFile().getProject();
-		Configuration configuration = configurationProvider.getConfiguration(project);
 	}
 
 	@Override

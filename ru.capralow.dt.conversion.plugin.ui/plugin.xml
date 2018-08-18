@@ -12,7 +12,6 @@
          category="com._1c.g5.v8.dt.ui.v8category"
          class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.views.ConversionPanelView"
          id="ru.capralow.dt.conversion.plugin.ui.views.ConversionPanelView"
-         inject="true"
          name="Конвертация данных">
    </view>
 </extension>

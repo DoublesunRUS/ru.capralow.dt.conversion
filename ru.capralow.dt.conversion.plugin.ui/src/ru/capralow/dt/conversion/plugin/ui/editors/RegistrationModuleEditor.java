@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
@@ -30,13 +29,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Preconditions;
+
 import ru.capralow.dt.conversion.plugin.core.rm.AutoRegistration;
 import ru.capralow.dt.conversion.plugin.core.rm.ExchangePlanContent;
 import ru.capralow.dt.conversion.plugin.core.rm.RegistrationModule;
 import ru.capralow.dt.conversion.plugin.core.rm.RegistrationModuleContentProvider;
 import ru.capralow.dt.conversion.plugin.core.rm.impl.ExchangePlanContentImpl;
 import ru.capralow.dt.conversion.plugin.core.rm.impl.RegistrationModuleImpl;
-import com.google.common.base.Preconditions;
 
 public class RegistrationModuleEditor extends TextEditor {
 //	@Inject
@@ -65,7 +65,7 @@ public class RegistrationModuleEditor extends TextEditor {
 		
 		readRegistrationModule(((FileEditorInput) input).getFile());
 
-		IProject project = ((FileEditorInput) input).getFile().getProject();
+//		IProject project = ((FileEditorInput) input).getFile().getProject();
 //		Configuration configuration = configurationProvider.getConfiguration(project);
 //
 //		EList<ExchangePlan> exchangePlans = configuration.getExchangePlans();
