@@ -15,6 +15,11 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
@@ -23,8 +28,11 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
+import com._1c.g5.v8.dt.bsl.model.BslContextDefMethod;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.Expression;
+import com._1c.g5.v8.dt.bsl.model.FeatureAccess;
+import com._1c.g5.v8.dt.bsl.model.FeatureEntry;
 import com._1c.g5.v8.dt.bsl.model.FormalParam;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.Method;
@@ -38,6 +46,7 @@ import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
@@ -284,38 +293,40 @@ public class ConversionPanelAnalyzer {
 		Map<String, Module> insteadFormatVersions = getFormatVersions(mainProject, mdMethod);
 		Map<String, Module> afterFormatVersions = new HashMap<String, Module>();
 
-		Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
-		Iterator<Module> itr = extensionModules.iterator();
-		while (itr.hasNext()) {
-			Module mdExtensionModule = itr.next();
-
-			IExtensionProject extensionProject = (IExtensionProject) projectManager.getProject(mdExtensionModule);
-
-			if (!extensionProject.getParentProject().equals(projectManager.getProject(mdModule).getProject())) {
-				continue;
-			}
-
-			Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
-					mdMethod.getName());
-
-			Iterator<Entry<Pragma, Method>> itrExtensions = extensionMethods.entrySet().iterator();
-			while (itrExtensions.hasNext()) {
-				Entry<Pragma, Method> extendedMethod = itrExtensions.next();
-
-				Map<String, Module> extensionFormatVersions = parseMethod(mainProject, mdExtensionModule,
-						extendedMethod.getValue());
-
-				if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("До")) {
-					beforeFormatVersions.putAll(extensionFormatVersions);
-				} else if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("Вместо")) {
-					insteadFormatVersions.clear();
-					insteadFormatVersions.putAll(extensionFormatVersions);
-				} else if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("После")) {
-					afterFormatVersions.putAll(extensionFormatVersions);
+		if (projectManager.getProject(mdModule) instanceof IConfigurationProject) {
+			Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
+			Iterator<Module> itr = extensionModules.iterator();
+			while (itr.hasNext()) {
+				Module mdExtensionModule = itr.next();
+	
+				IExtensionProject extensionProject = (IExtensionProject) projectManager.getProject(mdExtensionModule);
+	
+				if (!extensionProject.getParentProject().equals(projectManager.getProject(mdModule).getProject())) {
+					continue;
 				}
-
+	
+				Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
+						mdMethod.getName());
+	
+				Iterator<Entry<Pragma, Method>> itrExtensions = extensionMethods.entrySet().iterator();
+				while (itrExtensions.hasNext()) {
+					Entry<Pragma, Method> extendedMethod = itrExtensions.next();
+	
+					Map<String, Module> extensionFormatVersions = parseMethod(mainProject, mdExtensionModule,
+							extendedMethod.getValue());
+	
+					if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("До")) {
+						beforeFormatVersions.putAll(extensionFormatVersions);
+					} else if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("Вместо")) {
+						insteadFormatVersions.clear();
+						insteadFormatVersions.putAll(extensionFormatVersions);
+					} else if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("После")) {
+						afterFormatVersions.putAll(extensionFormatVersions);
+					}
+	
+				}
+	
 			}
-
 		}
 
 		formatVersions.putAll(beforeFormatVersions);
@@ -344,56 +355,57 @@ public class ConversionPanelAnalyzer {
 
 			Invocation expression = (Invocation) ((SimpleStatement) mdStatement).getLeft();
 
-			DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) expression.getMethodAccess();
+			FeatureAccess methodAccess = expression.getMethodAccess();
 
-			StaticFeatureAccess source = (StaticFeatureAccess) methodAccess.getSource();
-
-			if (source.getName().equalsIgnoreCase(variableName)) {
-				if (methodAccess.getName().equalsIgnoreCase("Вставить")) {
-					EList<Expression> params = expression.getParams();
-					String versionNumber = ((StringLiteral) params.get(0)).getLines().get(0);
-					versionNumber = versionNumber.substring(1, versionNumber.length() - 1);
-					String moduleName = ((StaticFeatureAccess) params.get(1)).getName();
-
-					QualifiedName qnModuleName = QualifiedName.create("CommonModule", moduleName);
-
-					CommonModule mdFormatModule = getCommonModule(projectManager.getProject(mdMethod).getProject(),
-							qnModuleName);
-					if (mdFormatModule == null) {
-						mdFormatModule = getCommonModule(mainProject, qnModuleName);
+			if (methodAccess instanceof DynamicFeatureAccess) {
+				DynamicFeatureAccess dynamicMethodAccess = (DynamicFeatureAccess) methodAccess;
+				StaticFeatureAccess source = (StaticFeatureAccess) dynamicMethodAccess.getSource();
+				
+				if (source.getName().equalsIgnoreCase(variableName)) {
+					if (dynamicMethodAccess.getName().equalsIgnoreCase("Вставить")) {
+						EList<Expression> params = expression.getParams();
+						String versionNumber = ((StringLiteral) params.get(0)).getLines().get(0);
+						versionNumber = versionNumber.substring(1, versionNumber.length() - 1);
+						String moduleName = ((StaticFeatureAccess) params.get(1)).getName();
+	
+						QualifiedName qnModuleName = QualifiedName.create("CommonModule", moduleName);
+	
+						CommonModule mdFormatModule = getCommonModule(projectManager.getProject(mdMethod).getProject(),
+								qnModuleName);
+						if (mdFormatModule == null) {
+							mdFormatModule = getCommonModule(mainProject, qnModuleName);
+						}
+	
+						formatVersions.put(versionNumber, mdFormatModule.getModule());
 					}
+				} else {
+					List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess, EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
+					FeatureEntry featureEntry = featureEntries.get(0);
+					EObject feature = featureEntry.getFeature();
+					
+					BslContextDefMethod bslMethod = (BslContextDefMethod) feature;
+					EObject newObject = EcoreFactory.eINSTANCE.createEObject();
+					((InternalEObject)newObject).eSetProxyURI((bslMethod).getSourceUri());
+					Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, methodAccess);
+					
+					Module mdSubModule = (Module) mdSubMethod.eContainer();
+					
+					Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdSubModule,
+							mdSubMethod);
 
-					formatVersions.put(versionNumber, mdFormatModule.getModule());
+					formatVersions.putAll(moduleFormatVersions);
 				}
 			} else {
-//				List<FeatureEntry> featureEntry = dynamicFeatureAccessComputer.getLastObject(methodAccess, source.getFeatureEntries().get(0).getEnvironments());
-
-				QualifiedName qnModuleName = QualifiedName.create("CommonModule", source.getName());
-
-				IProject extensionProject = projectManager.getProject(mdMethod).getProject();
-
-				Method mdSubMethod = null;
-
-				// Ищем модуль и метод в текущем расширении
-				CommonModule mdSubModule = getCommonModule(extensionProject, qnModuleName);
-				if (mdSubModule != null) {
-					mdSubMethod = getMethod(mdSubModule.getModule(), methodAccess.getName());
-				}
-				// Если не нашли модуль или метод, поищем в основной конфигурации
-				if (mdSubMethod == null) {
-					mdSubModule = getCommonModule(mainProject, qnModuleName);
-					if (mdSubModule == null) {
-						throw new RuntimeException(
-								"Не удалось найти общий модуль: " + mainProject.getName() + "." + source.getName());
-					}
-					mdSubMethod = getMethod(mdSubModule.getModule(), methodAccess.getName());
-					if (mdSubMethod == null) {
-						throw new RuntimeException("Не удалось найти метод общего модуля: " + mainProject.getName()
-								+ "." + source.getName() + "." + methodAccess.getName());
-					}
-				}
-
-				Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdSubModule.getModule(),
+				StaticFeatureAccess staticMethodAccess = (StaticFeatureAccess) methodAccess;
+				
+				List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(staticMethodAccess, EcoreUtil2.getContainerOfType(staticMethodAccess, Environmental.class).environments());
+				FeatureEntry featureEntry = featureEntries.get(0);
+				EObject feature = featureEntry.getFeature();
+				
+				Method mdSubMethod = (Method) feature;
+				Module mdSubModule = (Module) mdSubMethod.eContainer();
+				
+				Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdSubModule,
 						mdSubMethod);
 
 				formatVersions.putAll(moduleFormatVersions);

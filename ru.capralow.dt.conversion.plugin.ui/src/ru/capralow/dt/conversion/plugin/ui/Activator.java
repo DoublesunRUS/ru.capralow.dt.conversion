@@ -3,12 +3,9 @@ package ru.capralow.dt.conversion.plugin.ui;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com._1c.g5.wiring.InjectorAwareServiceRegistrator;
-//import com._1c.g5.wiring.InitializationJob;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -20,7 +17,6 @@ public class Activator extends AbstractUIPlugin {
 	private BundleContext bundleContext;
 
 	private Injector injector;
-	private InjectorAwareServiceRegistrator registrator;
 
 	public static Activator getDefault() {
 		return plugin;
@@ -52,33 +48,10 @@ public class Activator extends AbstractUIPlugin {
 
 		this.bundleContext = bundleContext;
 		plugin = this;
-
-//		registrator = new InjectorAwareServiceRegistrator(bundleContext, this::getInjector);
-
-//		InitializationJob.schedule(monitor -> {
-//			// register services from injector
-//			registrator.service(ISomeService.class).registerInjected();
-//			
-//			// register qualified service from injector
-//			registrator.service(ISomeQualifiedService.class).withProperty("qualifier", "MdImplementation")
-//					.registerInjected(ISomeQualifiedService.class, Names.named("MdImplementation"));
-//			
-//			// register instance
-//			registrator.service(ISomeInstanceService.class).registerInstance(new ISomeInstanceService() {
-//				@Override
-//				public void method() {
-//					// do nothing
-//				}
-//			});
-//			return Status.OK_STATUS;
-//		});
-		
 	}
 
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
-//		registrator.unregisterServices();
-
 		plugin = null;
 		super.stop(bundleContext);
 	}
