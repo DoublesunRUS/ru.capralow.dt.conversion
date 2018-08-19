@@ -1,6 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui.views;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -14,22 +13,19 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.core.lifecycle.ProjectContext;
-import com._1c.g5.v8.dt.core.platform.IResourceLookup;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.lifecycle.IServiceContextLifecycleListener;
 import com._1c.g5.v8.dt.lifecycle.IServicesOrchestrator;
 import com._1c.g5.v8.dt.lifecycle.ServiceState;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
+import com._1c.g5.v8.dt.ui.util.OpenHelper;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelAnalyzer;
@@ -43,9 +39,6 @@ public class ConversionPanelView extends ViewPart {
 
 	@Inject
 	private IBmEmfIndexManager bmEmfIndexManager;
-
-	@Inject
-	private IResourceLookup resourceLookup;
 
 	private TreeViewer treeViewer;
 
@@ -166,16 +159,8 @@ public class ConversionPanelView extends ViewPart {
 					Module module = ((cpFormatVersion) element).getModule();
 					CommonModule commonModule = (CommonModule) module.getOwner();
 
-					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-
-					IFile file = resourceLookup.getPlatformResource(commonModule);
-
-					try {
-						IDE.openEditor(page, file, "com._1c.g5.v8.dt.md.ui.editor.commonModule");
-					} catch (PartInitException e) {
-						// TODO Автоматически созданный блок catch
-						e.printStackTrace();
-					}
+					OpenHelper openHelper = new OpenHelper();
+					openHelper.openEditor(commonModule);
 				}
 
 			}
