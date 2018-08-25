@@ -293,11 +293,11 @@ public class ConversionPanelAnalyzer {
 			EList<Object> coreObjects) {
 
 		coreObjects.add(mdModule);
-		
+
 		Map<String, Module> formatVersions = new HashMap<String, Module>();
 
 		Map<String, Module> beforeFormatVersions = new HashMap<String, Module>();
-		Map<String, Module> insteadFormatVersions = getFormatVersions(mainProject, mdMethod, coreObjects);
+		Map<String, Module> insteadFormatVersions = getFormatVersions(mainProject, mdModule, mdMethod, coreObjects);
 		Map<String, Module> afterFormatVersions = new HashMap<String, Module>();
 
 		if (projectManager.getProject(mdModule) instanceof IConfigurationProject) {
@@ -344,7 +344,8 @@ public class ConversionPanelAnalyzer {
 
 	}
 
-	private Map<String, Module> getFormatVersions(IProject mainProject, Method mdMethod, EList<Object> coreObjects) {
+	private Map<String, Module> getFormatVersions(IProject mainProject, Module mdModule, Method mdMethod,
+			EList<Object> coreObjects) {
 
 		if (mdMethod.getFormalParams().size() == 0) {
 			throw new RuntimeException("Список параметров у метода пустой: " + mdMethod.getName());
@@ -377,10 +378,10 @@ public class ConversionPanelAnalyzer {
 
 						QualifiedName qnModuleName = QualifiedName.create("CommonModule", moduleName);
 
-						CommonModule mdFormatModule = getCommonModule(projectManager.getProject(mdMethod).getProject(),
-								qnModuleName);
+						CommonModule mdFormatModule = getCommonModule(mainProject, qnModuleName);
 						if (mdFormatModule == null) {
-							mdFormatModule = getCommonModule(mainProject, qnModuleName);
+							mdFormatModule = getCommonModule(projectManager.getProject(mdMethod).getProject(),
+									qnModuleName);
 						}
 
 						formatVersions.put(versionNumber, mdFormatModule.getModule());
@@ -388,6 +389,9 @@ public class ConversionPanelAnalyzer {
 				} else {
 					List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
 							EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
+					if (featureEntries.size() == 0) {
+						continue;
+					}
 					FeatureEntry featureEntry = featureEntries.get(0);
 					EObject feature = featureEntry.getFeature();
 
@@ -396,8 +400,13 @@ public class ConversionPanelAnalyzer {
 					((InternalEObject) newObject).eSetProxyURI((bslMethod).getSourceUri());
 					Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, methodAccess);
 
-					Module mdSubModule = (Module) mdSubMethod.eContainer();
-
+					CommonModule mdSubCommonModule = getCommonModule(mainProject,
+							QualifiedName.create("CommonModule", source.getName()));
+					if (mdSubCommonModule == null) {
+						mdSubCommonModule = getCommonModule(projectManager.getProject(mdSubMethod).getProject(),
+								QualifiedName.create("CommonModule", source.getName()));
+					}
+					Module mdSubModule = mdSubCommonModule.getModule();
 					coreObjects.add(mdSubModule);
 
 					Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdSubModule, mdSubMethod,
@@ -410,16 +419,17 @@ public class ConversionPanelAnalyzer {
 
 				List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(staticMethodAccess,
 						EcoreUtil2.getContainerOfType(staticMethodAccess, Environmental.class).environments());
+				if (featureEntries.size() == 0) {
+					continue;
+				}
 				FeatureEntry featureEntry = featureEntries.get(0);
 				EObject feature = featureEntry.getFeature();
 
 				Method mdSubMethod = (Method) feature;
-				Module mdSubModule = (Module) mdSubMethod.eContainer();
 
-				coreObjects.add(mdSubModule);
+				coreObjects.add(mdModule);
 
-				Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdSubModule, mdSubMethod,
-						coreObjects);
+				Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdModule, mdSubMethod, coreObjects);
 
 				formatVersions.putAll(moduleFormatVersions);
 
