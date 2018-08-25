@@ -7,12 +7,21 @@ import com._1c.g5.v8.dt.bsl.model.Module
 class ConversionPanel {
 	contains cpExchangePair[] ExchangePairs
 	contains cpConfiguration[] configurations
-	
 	op cpConfiguration getConfiguration(String configurationName) {
 		for (cpConfiguration configuration : configurations) {
 			if (configurationName == configuration.configurationName) return configuration
 		}
 		return null;
+	}
+	op Object[] getObjects() {
+		val result = newBasicEList()
+
+		for (cpConfiguration configuration : configurations) {
+			for (Object coreObject : configuration.coreObjects) {
+				result.add(coreObject)
+			}
+		}
+		return result
 	}
 }
 
@@ -21,10 +30,8 @@ class cpConfiguration {
 	String configurationName
 	String storeVersion
 	contains cpExtension[] extensions
-	
 	ConfigurationStatus Status
 	contains cpFormatVersion[] availableFormatVersions
-
 	op String[] getVersions() {
 		val result = newBasicEList()
 		for (cpFormatVersion formatVersion : availableFormatVersions) {
@@ -32,6 +39,7 @@ class cpConfiguration {
 		}
 		return result
 	}
+	Object[] coreObjects
 }
 
 class cpExtension {
@@ -48,7 +56,6 @@ class cpFormatVersion {
 class cpExchangePair {
 	String configurationName1
 	String configurationName2
-	
 	ExchangePairStatus Status
 	String[] versions
 }
