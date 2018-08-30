@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp.impl;
 
-import org.eclipse.emf.ecore.EClass;
+import com._1c.g5.v8.bm.core.BmObject;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.EClass;
 
 import ru.capralow.dt.conversion.plugin.core.cp.CpPackage;
 import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
@@ -24,7 +24,7 @@ import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
  *
  * @generated
  */
-public class cpFormatVersionImpl extends MinimalEObjectImpl.Container implements cpFormatVersion {
+public class cpFormatVersionImpl extends BmObject implements cpFormatVersion {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

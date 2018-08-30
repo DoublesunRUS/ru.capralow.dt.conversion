@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.capralow.dt.conversion</groupId>
 	<artifactId>build</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<prerequisites>
@@ -50,7 +50,7 @@
 						<artifact>
 							<groupId>ru.capralow.dt.conversion.target</groupId>
 							<artifactId>default</artifactId>
-							<version>1.0.0-SNAPSHOT</version>
+							<version>1.0.1-SNAPSHOT</version>
 						</artifact>
 					</target>
 					<environments>

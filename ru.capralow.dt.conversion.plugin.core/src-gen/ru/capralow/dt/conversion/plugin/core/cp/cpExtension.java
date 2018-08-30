@@ -2,7 +2,7 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp;
 
-import org.eclipse.emf.ecore.EObject;
+import com._1c.g5.v8.bm.core.IBmObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,9 +19,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpExtension()
  * @model
+ * @extends IBmObject
  * @generated
  */
-public interface cpExtension extends EObject {
+public interface cpExtension extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Configuration Object</b></em>' attribute.
 	 * <!-- begin-user-doc -->

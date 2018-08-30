@@ -84,7 +84,7 @@ public class ConversionPanelAnalyzer {
 		this.conversionPanel = new ConversionPanelImpl();
 	}
 
-	public void Analyze(IProject updatedProject) {
+	public void analyze(IProject updatedProject) {
 
 		if (updatedProject == null) {
 			Collection<IConfigurationProject> prConfigurations = projectManager

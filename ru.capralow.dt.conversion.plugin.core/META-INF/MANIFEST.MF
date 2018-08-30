@@ -1,9 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Конвертация данных для EDT
+Bundle-Name: %pluginName
 Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Капралов Александр Александрович (1С-Рарус)
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: ru.capralow.dt.conversion.plugin.core
 Require-Bundle: com.google.inject;bundle-version="[3.0.0,4.0.0)",
@@ -12,7 +14,10 @@ Require-Bundle: com.google.inject;bundle-version="[3.0.0,4.0.0)",
  org.eclipse.ui.ide;bundle-version="[3.10.2,4.0.0)",
  org.apache.log4j;bundle-version="[1.2.15,2.0.0)",
  org.eclipse.emf.ecore.xcore.lib;bundle-version="1.1.100",
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.xtext.xbase.lib
+Bundle-ActivationPolicy: lazy
 Import-Package: com._1c.g5.modeling.xtext.scoping;version="3.1.0",
  com._1c.g5.v8.bm.core;version="5.0.0",
  com._1c.g5.v8.bm.integration;version="5.0.0",
@@ -30,7 +35,8 @@ Import-Package: com._1c.g5.modeling.xtext.scoping;version="3.1.0",
  org.antlr.stringtemplate;version="[3.2.0,4.0.0)",
  org.eclipse.core.runtime;version="[3.4.0,4.0.0)",
  org.osgi.framework;version="[1.8.0,2.0.0)"
-Export-Package: ru.capralow.dt.conversion.plugin.core.cp,
+Export-Package: ru.capralow.dt.conversion.plugin.core.cm,
+ ru.capralow.dt.conversion.plugin.core.cp,
  ru.capralow.dt.conversion.plugin.core.cp.impl,
  ru.capralow.dt.conversion.plugin.core.cp.util,
  ru.capralow.dt.conversion.plugin.core.rm,

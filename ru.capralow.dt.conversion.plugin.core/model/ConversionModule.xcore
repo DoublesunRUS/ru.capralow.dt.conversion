@@ -1,0 +1,20 @@
+@GenModel(publicConstructors="true", loadInitialization="false", literalsInterface="true", nonNLSMarkers="true",
+	updateClasspath="false", featureDelegation="Reflective", rootExtendsClass="com._1c.g5.v8.bm.core.BmObject",
+	rootExtendsInterface="com._1c.g5.v8.bm.core.IBmObject")
+package ru.capralow.dt.conversion.plugin.core.cm
+
+class ConversionModule {
+	String storeVersion
+	
+	String POD
+	String PKO
+	String PKPD
+	
+	String params
+	
+	String beforeConvertation
+	String afterConvertation
+	String beforeFilling
+	
+	String algorithms
+}

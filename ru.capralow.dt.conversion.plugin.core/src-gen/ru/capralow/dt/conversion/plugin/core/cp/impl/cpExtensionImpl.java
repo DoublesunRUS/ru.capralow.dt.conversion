@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp.impl;
 
-import org.eclipse.emf.ecore.EClass;
+import com._1c.g5.v8.bm.core.BmObject;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.EClass;
 
 import ru.capralow.dt.conversion.plugin.core.cp.CpPackage;
 import ru.capralow.dt.conversion.plugin.core.cp.cpExtension;
@@ -23,7 +23,7 @@ import ru.capralow.dt.conversion.plugin.core.cp.cpExtension;
  *
  * @generated
  */
-public class cpExtensionImpl extends MinimalEObjectImpl.Container implements cpExtension {
+public class cpExtensionImpl extends BmObject implements cpExtension {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

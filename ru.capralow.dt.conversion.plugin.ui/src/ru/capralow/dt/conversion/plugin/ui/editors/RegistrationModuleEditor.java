@@ -12,16 +12,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IEditorInput;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.TextEditor;
-import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.forms.IManagedForm;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -29,18 +25,69 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.google.common.base.Preconditions;
+import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
+import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
+import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.rm.AutoRegistration;
 import ru.capralow.dt.conversion.plugin.core.rm.ExchangePlanContent;
 import ru.capralow.dt.conversion.plugin.core.rm.RegistrationModule;
-import ru.capralow.dt.conversion.plugin.core.rm.RegistrationModuleContentProvider;
 import ru.capralow.dt.conversion.plugin.core.rm.impl.ExchangePlanContentImpl;
 import ru.capralow.dt.conversion.plugin.core.rm.impl.RegistrationModuleImpl;
 
-public class RegistrationModuleEditor extends TextEditor {
-//	@Inject
+public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
+	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.RegistrationModuleEditor";
+
+	// @Inject
 //	private IConfigurationProvider configurationProvider;
+
+	@Inject
+	public RegistrationModuleEditor(String id, String title) {
+		super(id, "Правила регистрации");
+		// TODO Автоматически созданная заглушка конструктора
+	}
+
+	@Override
+	public void init(IEditorSite site, IDtEditorInput<EObject> input) throws PartInitException {
+		// TODO Автоматически созданная заглушка метода
+		super.init(site, input);
+	}
+
+	@Override
+	protected Layout createPageLayout() {
+		// TODO Автоматически созданная заглушка метода
+		return super.createPageLayout();
+	}
+
+//	@Override
+//	public void createPartControl(Composite parent) {
+//		// TODO Автоматически созданная заглушка метода
+//		super.createPartControl(parent);
+//		
+//		GridLayout layout = new GridLayout();
+//		layout.numColumns = 1;
+//		layout.verticalSpacing = 2;
+//		layout.marginWidth = 0;
+//		layout.marginHeight = 2;
+//		parent.setLayout(layout);
+
+//		treeViewer = new TreeViewer(parent);
+//		treeViewer.setContentProvider(new RegistrationModuleContentProvider());
+//		labelProvider = new MovingBoxLabelProvider();
+//		treeViewer.setLabelProvider(labelProvider);
+
+//		treeViewer.setUseHashlookup(true);
+//
+//		GridData layoutData = new GridData();
+//		layoutData.grabExcessHorizontalSpace = true;
+//		layoutData.grabExcessVerticalSpace = true;
+//		layoutData.horizontalAlignment = GridData.FILL;
+//		layoutData.verticalAlignment = GridData.FILL;
+//		treeViewer.getControl().setLayoutData(layoutData);
+//
+//		treeViewer.setInput(registrationModule);
+//		treeViewer.expandAll();
+//	}
 
 	protected TreeViewer treeViewer;
 //	protected RegistrationModuleLabelProvider labelProvider;
@@ -55,15 +102,7 @@ public class RegistrationModuleEditor extends TextEditor {
 
 	protected RegistrationModule registrationModule;
 
-	@Override
-	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-		Preconditions.checkArgument(input instanceof IFileEditorInput, "IFileEditorInput expected, but actual: %s",
-				input);
-
-		setSite(site);
-		setInput(input);
-		
-		readRegistrationModule(((FileEditorInput) input).getFile());
+//		readRegistrationModule(((FileEditorInput) input).getFile());
 
 //		IProject project = ((FileEditorInput) input).getFile().getProject();
 //		Configuration configuration = configurationProvider.getConfiguration(project);
@@ -81,8 +120,6 @@ public class RegistrationModuleEditor extends TextEditor {
 //		// ������� ������ ����������, � �������� ����������� ������, ��
 //		// �������� ���� ������� �������
 //		EObject moduleOwner = getModuleOwner(document);
-
-	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
@@ -109,33 +146,6 @@ public class RegistrationModuleEditor extends TextEditor {
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 1;
-		layout.verticalSpacing = 2;
-		layout.marginWidth = 0;
-		layout.marginHeight = 2;
-		parent.setLayout(layout);
-		
-		treeViewer = new TreeViewer(parent);
-		treeViewer.setContentProvider(new RegistrationModuleContentProvider());
-//		labelProvider = new MovingBoxLabelProvider();
-//		treeViewer.setLabelProvider(labelProvider);
-		
-		treeViewer.setUseHashlookup(true);
-		
-		GridData layoutData = new GridData();
-		layoutData.grabExcessHorizontalSpace = true;
-		layoutData.grabExcessVerticalSpace = true;
-		layoutData.horizontalAlignment = GridData.FILL;
-		layoutData.verticalAlignment = GridData.FILL;
-		treeViewer.getControl().setLayoutData(layoutData);
-
-		treeViewer.setInput(registrationModule);
-		treeViewer.expandAll();
-	}
-
-	@Override
 	public void setFocus() {
 		// TODO Автоматически созданная заглушка метода
 
@@ -143,11 +153,11 @@ public class RegistrationModuleEditor extends TextEditor {
 
 	private void readRegistrationModule(IFile file) {
 		registrationModule = new RegistrationModuleImpl();
-		
+
 		InputStream fileInput;
 		try {
 			fileInput = file.getContents();
-			
+
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(fileInput);
@@ -226,7 +236,7 @@ public class RegistrationModuleEditor extends TextEditor {
 				}
 			}
 //			fileInput.close();
-			
+
 		} catch (InvalidPropertiesFormatException e) {
 			// TODO Автоматически созданная заглушка метода
 			e.printStackTrace();
@@ -243,6 +253,13 @@ public class RegistrationModuleEditor extends TextEditor {
 			// TODO Автоматически созданная заглушка метода
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected void createPageControls(IManagedForm arg0) {
+		// TODO Автоматически созданная заглушка метода
+		return;
+
 	}
 
 //	private static class CustomLabelProvider extends LabelProvider implements IStyledLabelProvider {

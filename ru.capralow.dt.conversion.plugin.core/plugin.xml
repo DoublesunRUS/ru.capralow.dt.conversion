@@ -16,4 +16,12 @@
             class="ru.capralow.dt.conversion.plugin.core.cp.CpPackage"
             genModel="model/ConversionPanel.xcore"/>
    </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ConversionModule -->
+      <package
+            uri="ru.capralow.dt.conversion.plugin.core.cm"
+            class="ru.capralow.dt.conversion.plugin.core.cm.CmPackage"
+            genModel="model/ConversionModule.xcore"/>
+   </extension>
+
 </plugin>

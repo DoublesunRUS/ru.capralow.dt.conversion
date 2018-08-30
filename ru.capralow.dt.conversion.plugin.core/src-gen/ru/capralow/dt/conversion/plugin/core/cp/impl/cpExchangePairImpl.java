@@ -2,11 +2,11 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp.impl;
 
+import com._1c.g5.v8.bm.core.BmObject;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import ru.capralow.dt.conversion.plugin.core.cp.CpPackage;
 import ru.capralow.dt.conversion.plugin.core.cp.ExchangePairStatus;
@@ -28,7 +28,7 @@ import ru.capralow.dt.conversion.plugin.core.cp.cpExchangePair;
  *
  * @generated
  */
-public class cpExchangePairImpl extends MinimalEObjectImpl.Container implements cpExchangePair {
+public class cpExchangePairImpl extends BmObject implements cpExchangePair {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

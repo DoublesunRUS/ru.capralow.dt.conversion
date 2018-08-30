@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -151,7 +152,7 @@ public class ConversionPanelView extends ViewPart {
 	}
 
 	private void updateTreeViewer(IProject project) {
-		conversionPanelAnalyzer.Analyze(project);
+		conversionPanelAnalyzer.analyze(project);
 		treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
 		treeViewer.expandAll();
 		treeViewer.refresh();
@@ -219,7 +220,7 @@ public class ConversionPanelView extends ViewPart {
 					Module module = ((cpFormatVersion) element).getModule();
 					CommonModule commonModule = (CommonModule) module.getOwner();
 
-					URI uri = resourceLookup.getPlatformResourceUri(commonModule);
+					URI uri = EcoreUtil.getURI(commonModule);
 
 					OpenHelper openHelper = new OpenHelper();
 					openHelper.openEditor(uri, null);

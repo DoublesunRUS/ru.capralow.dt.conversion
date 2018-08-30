@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>ru.capralow.dt.conversion</groupId>
 		<artifactId>build</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../build/pom.xml</relativePath>
 	</parent>
 
