@@ -4,6 +4,8 @@ package ru.capralow.dt.conversion.plugin.core.cm;
 
 import com._1c.g5.v8.bm.core.IBmObject;
 
+import org.eclipse.emf.common.util.EList;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Conversion Module</b></em>'.
@@ -14,13 +16,13 @@ import com._1c.g5.v8.bm.core.IBmObject;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getStoreVersion <em>Store Version</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPOD <em>POD</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKO <em>PKO</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKPD <em>PKPD</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPODs <em>PO Ds</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKOs <em>PK Os</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKPDs <em>PKP Ds</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getParams <em>Params</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertation <em>Before Convertation</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertation <em>After Convertation</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFilling <em>Before Filling</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
  *
@@ -57,82 +59,62 @@ public interface ConversionModule extends IBmObject {
 	void setStoreVersion(String value);
 
 	/**
-	 * Returns the value of the '<em><b>POD</b></em>' attribute.
+	 * Returns the value of the '<em><b>PO Ds</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.cpPOD}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>POD</em>' attribute isn't clear,
+	 * If the meaning of the '<em>PO Ds</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>POD</em>' attribute.
-	 * @see #setPOD(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_POD()
-	 * @model unique="false"
+	 * @return the value of the '<em>PO Ds</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PODs()
+	 * @model containment="true"
 	 * @generated
 	 */
-	String getPOD();
+	EList<cpPOD> getPODs();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPOD <em>POD</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>POD</em>' attribute.
-	 * @see #getPOD()
-	 * @generated
-	 */
-	void setPOD(String value);
-
-	/**
-	 * Returns the value of the '<em><b>PKO</b></em>' attribute.
+	 * Returns the value of the '<em><b>PK Os</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.cpPKO}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>PKO</em>' attribute isn't clear,
+	 * If the meaning of the '<em>PK Os</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>PKO</em>' attribute.
-	 * @see #setPKO(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PKO()
-	 * @model unique="false"
+	 * @return the value of the '<em>PK Os</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PKOs()
+	 * @model containment="true"
 	 * @generated
 	 */
-	String getPKO();
+	EList<cpPKO> getPKOs();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKO <em>PKO</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>PKO</em>' attribute.
-	 * @see #getPKO()
-	 * @generated
-	 */
-	void setPKO(String value);
-
-	/**
-	 * Returns the value of the '<em><b>PKPD</b></em>' attribute.
+	 * Returns the value of the '<em><b>PKP Ds</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>PKPD</em>' attribute isn't clear,
+	 * If the meaning of the '<em>PKP Ds</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>PKPD</em>' attribute.
-	 * @see #setPKPD(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PKPD()
+	 * @return the value of the '<em>PKP Ds</em>' attribute.
+	 * @see #setPKPDs(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PKPDs()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getPKPD();
+	String getPKPDs();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKPD <em>PKPD</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKPDs <em>PKP Ds</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>PKPD</em>' attribute.
-	 * @see #getPKPD()
+	 * @param value the new value of the '<em>PKP Ds</em>' attribute.
+	 * @see #getPKPDs()
 	 * @generated
 	 */
-	void setPKPD(String value);
+	void setPKPDs(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Params</b></em>' attribute.
@@ -161,82 +143,82 @@ public interface ConversionModule extends IBmObject {
 	void setParams(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Before Convertation</b></em>' attribute.
+	 * Returns the value of the '<em><b>Before Convertation Event</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Before Convertation</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Before Convertation Event</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Convertation</em>' attribute.
-	 * @see #setBeforeConvertation(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeConvertation()
+	 * @return the value of the '<em>Before Convertation Event</em>' attribute.
+	 * @see #setBeforeConvertationEvent(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeConvertationEvent()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getBeforeConvertation();
+	String getBeforeConvertationEvent();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertation <em>Before Convertation</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEvent <em>Before Convertation Event</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Convertation</em>' attribute.
-	 * @see #getBeforeConvertation()
+	 * @param value the new value of the '<em>Before Convertation Event</em>' attribute.
+	 * @see #getBeforeConvertationEvent()
 	 * @generated
 	 */
-	void setBeforeConvertation(String value);
+	void setBeforeConvertationEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>After Convertation</b></em>' attribute.
+	 * Returns the value of the '<em><b>After Convertation Event</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>After Convertation</em>' attribute isn't clear,
+	 * If the meaning of the '<em>After Convertation Event</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>After Convertation</em>' attribute.
-	 * @see #setAfterConvertation(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_AfterConvertation()
+	 * @return the value of the '<em>After Convertation Event</em>' attribute.
+	 * @see #setAfterConvertationEvent(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_AfterConvertationEvent()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getAfterConvertation();
+	String getAfterConvertationEvent();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertation <em>After Convertation</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>After Convertation</em>' attribute.
-	 * @see #getAfterConvertation()
+	 * @param value the new value of the '<em>After Convertation Event</em>' attribute.
+	 * @see #getAfterConvertationEvent()
 	 * @generated
 	 */
-	void setAfterConvertation(String value);
+	void setAfterConvertationEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Before Filling</b></em>' attribute.
+	 * Returns the value of the '<em><b>Before Filling Event</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Before Filling</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Before Filling Event</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Filling</em>' attribute.
-	 * @see #setBeforeFilling(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeFilling()
+	 * @return the value of the '<em>Before Filling Event</em>' attribute.
+	 * @see #setBeforeFillingEvent(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeFillingEvent()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getBeforeFilling();
+	String getBeforeFillingEvent();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFilling <em>Before Filling</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Filling</em>' attribute.
-	 * @see #getBeforeFilling()
+	 * @param value the new value of the '<em>Before Filling Event</em>' attribute.
+	 * @see #getBeforeFillingEvent()
 	 * @generated
 	 */
-	void setBeforeFilling(String value);
+	void setBeforeFillingEvent(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Algorithms</b></em>' attribute.

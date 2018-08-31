@@ -179,8 +179,7 @@ public class ConversionPanelView extends ViewPart {
 
 		treeViewer = new TreeViewer(parent);
 		treeViewer.setContentProvider(new ConversionPanelContentProvider());
-		ConversionPanelLabelProvider labelProvider = new ConversionPanelLabelProvider();
-		treeViewer.setLabelProvider(labelProvider);
+		treeViewer.setLabelProvider(new ConversionPanelLabelProvider());
 
 		treeViewer.setUseHashlookup(true);
 

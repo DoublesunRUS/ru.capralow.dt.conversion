@@ -4,10 +4,14 @@ package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
 import com._1c.g5.v8.bm.core.BmObject;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.cpPKO;
+import ru.capralow.dt.conversion.plugin.core.cm.cpPOD;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,13 +22,13 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getStoreVersion <em>Store Version</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPOD <em>POD</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPKO <em>PKO</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPKPD <em>PKPD</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPODs <em>PO Ds</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPKOs <em>PK Os</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPKPDs <em>PKP Ds</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getParams <em>Params</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertation <em>Before Convertation</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertation <em>After Convertation</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFilling <em>Before Filling</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
  *
@@ -83,8 +87,9 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPOD() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__POD, true);
+	@SuppressWarnings("unchecked")
+	public EList<cpPOD> getPODs() {
+		return (EList<cpPOD>)eGet(CmPackage.Literals.CONVERSION_MODULE__PO_DS, true);
 	}
 
 	/**
@@ -92,8 +97,9 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPOD(String newPOD) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__POD, newPOD);
+	@SuppressWarnings("unchecked")
+	public EList<cpPKO> getPKOs() {
+		return (EList<cpPKO>)eGet(CmPackage.Literals.CONVERSION_MODULE__PK_OS, true);
 	}
 
 	/**
@@ -101,8 +107,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPKO() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__PKO, true);
+	public String getPKPDs() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__PKP_DS, true);
 	}
 
 	/**
@@ -110,26 +116,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPKO(String newPKO) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__PKO, newPKO);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getPKPD() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__PKPD, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPKPD(String newPKPD) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__PKPD, newPKPD);
+	public void setPKPDs(String newPKPDs) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__PKP_DS, newPKPDs);
 	}
 
 	/**
@@ -155,8 +143,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getBeforeConvertation() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION, true);
+	public String getBeforeConvertationEvent() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT, true);
 	}
 
 	/**
@@ -164,8 +152,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBeforeConvertation(String newBeforeConvertation) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION, newBeforeConvertation);
+	public void setBeforeConvertationEvent(String newBeforeConvertationEvent) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT, newBeforeConvertationEvent);
 	}
 
 	/**
@@ -173,8 +161,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getAfterConvertation() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION, true);
+	public String getAfterConvertationEvent() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT, true);
 	}
 
 	/**
@@ -182,8 +170,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAfterConvertation(String newAfterConvertation) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION, newAfterConvertation);
+	public void setAfterConvertationEvent(String newAfterConvertationEvent) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT, newAfterConvertationEvent);
 	}
 
 	/**
@@ -191,8 +179,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getBeforeFilling() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING, true);
+	public String getBeforeFillingEvent() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, true);
 	}
 
 	/**
@@ -200,8 +188,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBeforeFilling(String newBeforeFilling) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING, newBeforeFilling);
+	public void setBeforeFillingEvent(String newBeforeFillingEvent) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, newBeforeFillingEvent);
 	}
 
 	/**

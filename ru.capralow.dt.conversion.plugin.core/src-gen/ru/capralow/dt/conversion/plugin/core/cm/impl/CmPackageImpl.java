@@ -4,7 +4,9 @@ package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -12,6 +14,9 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.CmFactory;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.SelectionVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.cpPKO;
+import ru.capralow.dt.conversion.plugin.core.cm.cpPOD;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,6 +31,27 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * @generated
 	 */
 	private EClass conversionModuleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cpPODEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cpPKOEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum selectionVariantEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -114,8 +140,8 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_POD() {
-		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(1);
+	public EReference getConversionModule_PODs() {
+		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -123,8 +149,8 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_PKO() {
-		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(2);
+	public EReference getConversionModule_PKOs() {
+		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -132,7 +158,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_PKPD() {
+	public EAttribute getConversionModule_PKPDs() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -150,7 +176,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_BeforeConvertation() {
+	public EAttribute getConversionModule_BeforeConvertationEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -159,7 +185,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_AfterConvertation() {
+	public EAttribute getConversionModule_AfterConvertationEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -168,7 +194,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_BeforeFilling() {
+	public EAttribute getConversionModule_BeforeFillingEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -179,6 +205,150 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 */
 	public EAttribute getConversionModule_Algorithms() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getcpPOD() {
+		return cpPODEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_Name() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_DataSelectionEvent() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_BeforeProcessingEvent() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_OnProcessingEvent() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_ForSending() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_ForReceiving() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_ConfigurationObject() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_FormatObject() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_IsDisabled() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_IsDataCleaning() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPOD_SelectionVariant() {
+		return (EAttribute)cpPODEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getcpPOD_PKOs() {
+		return (EReference)cpPODEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getcpPKO() {
+		return cpPKOEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getcpPKO_Name() {
+		return (EAttribute)cpPKOEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getSelectionVariant() {
+		return selectionVariantEEnum;
 	}
 
 	/**
@@ -211,14 +381,34 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		// Create classes and their features
 		conversionModuleEClass = createEClass(CONVERSION_MODULE);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__STORE_VERSION);
-		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__POD);
-		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__PKO);
-		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__PKPD);
+		createEReference(conversionModuleEClass, CONVERSION_MODULE__PO_DS);
+		createEReference(conversionModuleEClass, CONVERSION_MODULE__PK_OS);
+		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__PKP_DS);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__PARAMS);
-		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__BEFORE_CONVERTATION);
-		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__AFTER_CONVERTATION);
-		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__BEFORE_FILLING);
+		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT);
+		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__AFTER_CONVERTATION_EVENT);
+		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__BEFORE_FILLING_EVENT);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__ALGORITHMS);
+
+		cpPODEClass = createEClass(CP_POD);
+		createEAttribute(cpPODEClass, CP_POD__NAME);
+		createEAttribute(cpPODEClass, CP_POD__DATA_SELECTION_EVENT);
+		createEAttribute(cpPODEClass, CP_POD__BEFORE_PROCESSING_EVENT);
+		createEAttribute(cpPODEClass, CP_POD__ON_PROCESSING_EVENT);
+		createEAttribute(cpPODEClass, CP_POD__FOR_SENDING);
+		createEAttribute(cpPODEClass, CP_POD__FOR_RECEIVING);
+		createEAttribute(cpPODEClass, CP_POD__CONFIGURATION_OBJECT);
+		createEAttribute(cpPODEClass, CP_POD__FORMAT_OBJECT);
+		createEAttribute(cpPODEClass, CP_POD__IS_DISABLED);
+		createEAttribute(cpPODEClass, CP_POD__IS_DATA_CLEANING);
+		createEAttribute(cpPODEClass, CP_POD__SELECTION_VARIANT);
+		createEReference(cpPODEClass, CP_POD__PK_OS);
+
+		cpPKOEClass = createEClass(CP_PKO);
+		createEAttribute(cpPKOEClass, CP_PKO__NAME);
+
+		// Create enums
+		selectionVariantEEnum = createEEnum(SELECTION_VARIANT);
 	}
 
 	/**
@@ -256,14 +446,36 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		// Initialize classes, features, and operations; add parameters
 		initEClass(conversionModuleEClass, ConversionModule.class, "ConversionModule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(getConversionModule_StoreVersion(), theEcorePackage.getEString(), "storeVersion", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getConversionModule_POD(), theEcorePackage.getEString(), "POD", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getConversionModule_PKO(), theEcorePackage.getEString(), "PKO", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getConversionModule_PKPD(), theEcorePackage.getEString(), "PKPD", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getConversionModule_PODs(), this.getcpPOD(), null, "PODs", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getConversionModule_PKOs(), this.getcpPKO(), null, "PKOs", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getConversionModule_PKPDs(), theEcorePackage.getEString(), "PKPDs", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getConversionModule_Params(), theEcorePackage.getEString(), "params", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getConversionModule_BeforeConvertation(), theEcorePackage.getEString(), "beforeConvertation", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getConversionModule_AfterConvertation(), theEcorePackage.getEString(), "afterConvertation", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getConversionModule_BeforeFilling(), theEcorePackage.getEString(), "beforeFilling", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getConversionModule_BeforeConvertationEvent(), theEcorePackage.getEString(), "beforeConvertationEvent", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getConversionModule_AfterConvertationEvent(), theEcorePackage.getEString(), "afterConvertationEvent", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getConversionModule_BeforeFillingEvent(), theEcorePackage.getEString(), "beforeFillingEvent", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getConversionModule_Algorithms(), theEcorePackage.getEString(), "algorithms", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(cpPODEClass, cpPOD.class, "cpPOD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(getcpPOD_Name(), theEcorePackage.getEString(), "name", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_DataSelectionEvent(), theEcorePackage.getEString(), "dataSelectionEvent", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_BeforeProcessingEvent(), theEcorePackage.getEString(), "beforeProcessingEvent", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_OnProcessingEvent(), theEcorePackage.getEString(), "onProcessingEvent", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_ForSending(), theEcorePackage.getEBooleanObject(), "forSending", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_ForReceiving(), theEcorePackage.getEBooleanObject(), "forReceiving", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_ConfigurationObject(), theEcorePackage.getEJavaObject(), "configurationObject", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_FormatObject(), theEcorePackage.getEString(), "formatObject", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_IsDisabled(), theEcorePackage.getEBooleanObject(), "isDisabled", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_IsDataCleaning(), theEcorePackage.getEBooleanObject(), "isDataCleaning", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getcpPOD_SelectionVariant(), this.getSelectionVariant(), "selectionVariant", null, 0, 1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getcpPOD_PKOs(), this.getcpPKO(), null, "PKOs", null, 0, -1, cpPOD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(cpPKOEClass, cpPKO.class, "cpPKO", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(getcpPKO_Name(), theEcorePackage.getEString(), "name", null, 0, 1, cpPKO.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		// Initialize enums and add enum literals
+		initEEnum(selectionVariantEEnum, SelectionVariant.class, "SelectionVariant"); //$NON-NLS-1$
+		addEEnumLiteral(selectionVariantEEnum, SelectionVariant.STANDART);
+		addEEnumLiteral(selectionVariantEEnum, SelectionVariant.CUSTOM);
 
 		// Create resource
 		createResource(eNS_URI);

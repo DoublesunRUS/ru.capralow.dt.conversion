@@ -72,6 +72,18 @@ public class CmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CmPackage.CP_POD: {
+				cpPOD cpPOD = (cpPOD)theEObject;
+				T result = casecpPOD(cpPOD);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CmPackage.CP_PKO: {
+				cpPKO cpPKO = (cpPKO)theEObject;
+				T result = casecpPKO(cpPKO);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -88,6 +100,36 @@ public class CmSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConversionModule(ConversionModule object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>cp POD</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>cp POD</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casecpPOD(cpPOD object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>cp PKO</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>cp PKO</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casecpPKO(cpPKO object) {
 		return null;
 	}
 

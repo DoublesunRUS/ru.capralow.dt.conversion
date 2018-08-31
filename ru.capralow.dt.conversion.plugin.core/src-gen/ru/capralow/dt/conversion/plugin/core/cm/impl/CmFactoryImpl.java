@@ -3,6 +3,7 @@
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -57,8 +58,40 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case CmPackage.CONVERSION_MODULE: return (EObject)createConversionModule();
+			case CmPackage.CP_POD: return (EObject)createcpPOD();
+			case CmPackage.CP_PKO: return (EObject)createcpPKO();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case CmPackage.SELECTION_VARIANT:
+				return createSelectionVariantFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case CmPackage.SELECTION_VARIANT:
+				return convertSelectionVariantToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -70,6 +103,46 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	public ConversionModule createConversionModule() {
 		ConversionModuleImpl conversionModule = new ConversionModuleImpl();
 		return conversionModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public cpPOD createcpPOD() {
+		cpPODImpl cpPOD = new cpPODImpl();
+		return cpPOD;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public cpPKO createcpPKO() {
+		cpPKOImpl cpPKO = new cpPKOImpl();
+		return cpPKO;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SelectionVariant createSelectionVariantFromString(EDataType eDataType, String initialValue) {
+		SelectionVariant result = SelectionVariant.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSelectionVariantToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

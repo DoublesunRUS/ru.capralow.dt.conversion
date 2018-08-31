@@ -6,15 +6,46 @@ package ru.capralow.dt.conversion.plugin.core.cm
 class ConversionModule {
 	String storeVersion
 	
-	String POD
-	String PKO
-	String PKPD
+	contains cpPOD[] PODs
+	contains cpPKO[] PKOs
+	String PKPDs
 	
 	String params
 	
-	String beforeConvertation
-	String afterConvertation
-	String beforeFilling
+	String beforeConvertationEvent
+	String afterConvertationEvent
+	String beforeFillingEvent
 	
 	String algorithms
+}
+
+class cpPOD {
+	String name
+	
+	String dataSelectionEvent
+	String beforeProcessingEvent
+	String onProcessingEvent
+	
+	Boolean forSending
+	Boolean forReceiving
+	
+	Object configurationObject
+	String formatObject
+	
+	Boolean isDisabled
+	Boolean isDataCleaning
+	
+	SelectionVariant selectionVariant
+	
+	contains cpPKO[] PKOs
+}
+
+enum SelectionVariant {
+	Standart as "Стандартная выборка" = 0
+	Custom as "Произвольный алгоритм" = 1
+}
+
+class cpPKO {
+	String name
+	
 }

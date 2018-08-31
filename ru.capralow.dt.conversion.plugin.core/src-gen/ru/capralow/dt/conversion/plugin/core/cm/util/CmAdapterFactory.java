@@ -72,6 +72,14 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 				return createConversionModuleAdapter();
 			}
 			@Override
+			public Adapter casecpPOD(cpPOD object) {
+				return createcpPODAdapter();
+			}
+			@Override
+			public Adapter casecpPKO(cpPKO object) {
+				return createcpPKOAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -102,6 +110,34 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConversionModuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.cpPOD <em>cp POD</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.cpPOD
+	 * @generated
+	 */
+	public Adapter createcpPODAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.cpPKO <em>cp PKO</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.cpPKO
+	 * @generated
+	 */
+	public Adapter createcpPKOAdapter() {
 		return null;
 	}
 

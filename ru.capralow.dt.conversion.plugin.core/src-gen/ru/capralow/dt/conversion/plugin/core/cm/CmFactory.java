@@ -31,6 +31,24 @@ public interface CmFactory extends EFactory {
 	ConversionModule createConversionModule();
 
 	/**
+	 * Returns a new object of class '<em>cp POD</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>cp POD</em>'.
+	 * @generated
+	 */
+	cpPOD createcpPOD();
+
+	/**
+	 * Returns a new object of class '<em>cp PKO</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>cp PKO</em>'.
+	 * @generated
+	 */
+	cpPKO createcpPKO();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
