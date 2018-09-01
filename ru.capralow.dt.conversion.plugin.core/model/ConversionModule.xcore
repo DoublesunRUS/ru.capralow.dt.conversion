@@ -6,9 +6,9 @@ package ru.capralow.dt.conversion.plugin.core.cm
 class ConversionModule {
 	String storeVersion
 	
-	contains cpPOD[] PODs
-	contains cpPKO[] PKOs
-	String PKPDs
+	contains CmDataRule[] dataRules
+	contains CmObjectRule[] objectRules
+	String predefineds
 	
 	String params
 	
@@ -16,10 +16,18 @@ class ConversionModule {
 	String afterConvertationEvent
 	String beforeFillingEvent
 	
+	contains CmSendingRule[] sendingRules
+	
 	String algorithms
 }
 
-class cpPOD {
+class CmSendingRule {
+	refers CmDataRule dataRule
+
+	refers CmObjectRule[] objectRules
+}
+
+class CmDataRule {
 	String name
 	
 	String dataSelectionEvent
@@ -35,17 +43,17 @@ class cpPOD {
 	Boolean isDisabled
 	Boolean isDataCleaning
 	
-	SelectionVariant selectionVariant
+	CmSelectionVariant selectionVariant
 	
-	contains cpPKO[] PKOs
+	refers CmObjectRule[] objectRules
 }
 
-enum SelectionVariant {
+enum CmSelectionVariant {
 	Standart as "Стандартная выборка" = 0
 	Custom as "Произвольный алгоритм" = 1
 }
 
-class cpPKO {
+class CmObjectRule {
 	String name
 	
 }

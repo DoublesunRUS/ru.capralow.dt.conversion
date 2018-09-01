@@ -13,11 +13,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Exchange Pair Status</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getExchangePairStatus()
+ * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpExchangePairStatus()
  * @model
  * @generated
  */
-public enum ExchangePairStatus implements Enumerator {
+public enum CpExchangePairStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Shared Format Versions</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -74,8 +74,8 @@ public enum ExchangePairStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final ExchangePairStatus[] VALUES_ARRAY =
-		new ExchangePairStatus[] {
+	private static final CpExchangePairStatus[] VALUES_ARRAY =
+		new CpExchangePairStatus[] {
 			NO_SHARED_FORMAT_VERSIONS,
 			READY,
 		};
@@ -86,7 +86,7 @@ public enum ExchangePairStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<ExchangePairStatus> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<CpExchangePairStatus> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b>Exchange Pair Status</b></em>' literal with the specified literal value.
@@ -96,9 +96,9 @@ public enum ExchangePairStatus implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static ExchangePairStatus get(String literal) {
+	public static CpExchangePairStatus get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ExchangePairStatus result = VALUES_ARRAY[i];
+			CpExchangePairStatus result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -114,9 +114,9 @@ public enum ExchangePairStatus implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static ExchangePairStatus getByName(String name) {
+	public static CpExchangePairStatus getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ExchangePairStatus result = VALUES_ARRAY[i];
+			CpExchangePairStatus result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -132,7 +132,7 @@ public enum ExchangePairStatus implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static ExchangePairStatus get(int value) {
+	public static CpExchangePairStatus get(int value) {
 		switch (value) {
 			case NO_SHARED_FORMAT_VERSIONS_VALUE: return NO_SHARED_FORMAT_VERSIONS;
 			case READY_VALUE: return READY;
@@ -167,7 +167,7 @@ public enum ExchangePairStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private ExchangePairStatus(int value, String name, String literal) {
+	private CpExchangePairStatus(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -211,4 +211,4 @@ public enum ExchangePairStatus implements Enumerator {
 		return literal;
 	}
 	
-} //ExchangePairStatus
+} //CpExchangePairStatus

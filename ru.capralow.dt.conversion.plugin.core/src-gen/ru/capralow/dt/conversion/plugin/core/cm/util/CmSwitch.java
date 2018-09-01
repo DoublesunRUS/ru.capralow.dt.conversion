@@ -72,15 +72,21 @@ public class CmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CmPackage.CP_POD: {
-				cpPOD cpPOD = (cpPOD)theEObject;
-				T result = casecpPOD(cpPOD);
+			case CmPackage.CM_SENDING_RULE: {
+				CmSendingRule cmSendingRule = (CmSendingRule)theEObject;
+				T result = caseCmSendingRule(cmSendingRule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CmPackage.CP_PKO: {
-				cpPKO cpPKO = (cpPKO)theEObject;
-				T result = casecpPKO(cpPKO);
+			case CmPackage.CM_DATA_RULE: {
+				CmDataRule cmDataRule = (CmDataRule)theEObject;
+				T result = caseCmDataRule(cmDataRule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CmPackage.CM_OBJECT_RULE: {
+				CmObjectRule cmObjectRule = (CmObjectRule)theEObject;
+				T result = caseCmObjectRule(cmObjectRule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -104,32 +110,47 @@ public class CmSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>cp POD</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sending Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>cp POD</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sending Rule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casecpPOD(cpPOD object) {
+	public T caseCmSendingRule(CmSendingRule object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>cp PKO</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Data Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>cp PKO</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Data Rule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casecpPKO(cpPKO object) {
+	public T caseCmDataRule(CmDataRule object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Object Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Object Rule</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmObjectRule(CmObjectRule object) {
 		return null;
 	}
 

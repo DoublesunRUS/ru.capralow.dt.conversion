@@ -19,7 +19,8 @@ import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 
 import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.cpPODImpl;
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl;
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSendingRuleImpl;
 
 public class ConversionModuleAnalyzer {
 
@@ -69,7 +70,7 @@ public class ConversionModuleAnalyzer {
 			} else if (methodName.equals("ВерсияФорматаМенеджераОбмена")) {
 
 			} else if (methodName.equals("ЗаполнитьПравилаОбработкиДанных")) {
-				EList<cpPOD> PODs = conversionModule.getPODs();
+				EList<CmDataRule> dataRules = conversionModule.getDataRules();
 				
 				EList<Statement> statements = method.allStatements();
 				Iterator<Statement> itrStatements = statements.iterator();
@@ -89,12 +90,13 @@ public class ConversionModuleAnalyzer {
 								Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
 								StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression.getMethodAccess();
 								
-								cpPODImpl POD = new cpPODImpl();
+								CmDataRuleImpl dataRule = new CmDataRuleImpl();
 								
-								POD.setName(partMethodAccess.getName().substring(8));
-								POD.setForReceiving(true);
+								dataRule.setName(partMethodAccess.getName().substring(8));
+								dataRule.setForSending(true);
+								dataRule.setForReceiving(false);
 								
-								PODs.add(POD);
+								dataRules.add(dataRule);
 							}
 							
 						}
@@ -114,8 +116,40 @@ public class ConversionModuleAnalyzer {
 					}
 				}
 
+			} else {
+				EList<Statement> statements = method.allStatements();
+				Iterator<Statement> itrStatements = statements.iterator();
+				while (itrStatements.hasNext()) {
+					Statement statement = itrStatements.next();
+
+					if (statement instanceof IfStatement) {
+						IfStatement ifStatement = (IfStatement) statement;
+						Conditional ifPart = ifStatement.getIfPart();
+						EList<Conditional> elseIfPart = ifStatement.getElsIfParts();
+					}
+				}
 			}
 		}
 
+		updateRules();
+		
+	}
+	
+	private void updateRules() {
+		EList<CmSendingRule> sendingRules = conversionModule.getSendingRules();
+		sendingRules.clear();
+		
+		EList<CmDataRule> dataRules = conversionModule.getDataRules();
+		Iterator<CmDataRule> itr = dataRules.iterator();
+		while (itr.hasNext()) {
+			CmDataRule dataRule = itr.next();
+			if (!dataRule.getForSending()) continue;
+			
+			CmSendingRuleImpl sendingRule = new CmSendingRuleImpl();
+			sendingRule.setDataRule(dataRule);
+			
+			sendingRules.add(sendingRule);
+		}
+		
 	}
 }

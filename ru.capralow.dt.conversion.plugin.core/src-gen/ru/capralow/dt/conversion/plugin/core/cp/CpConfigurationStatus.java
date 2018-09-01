@@ -13,11 +13,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Configuration Status</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getConfigurationStatus()
+ * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpConfigurationStatus()
  * @model
  * @generated
  */
-public enum ConfigurationStatus implements Enumerator {
+public enum CpConfigurationStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Configuration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -199,8 +199,8 @@ public enum ConfigurationStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final ConfigurationStatus[] VALUES_ARRAY =
-		new ConfigurationStatus[] {
+	private static final CpConfigurationStatus[] VALUES_ARRAY =
+		new CpConfigurationStatus[] {
 			NO_CONFIGURATION,
 			NO_SUBSYSTEM,
 			NO_SSL_VERSION,
@@ -216,7 +216,7 @@ public enum ConfigurationStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<ConfigurationStatus> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<CpConfigurationStatus> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b>Configuration Status</b></em>' literal with the specified literal value.
@@ -226,9 +226,9 @@ public enum ConfigurationStatus implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static ConfigurationStatus get(String literal) {
+	public static CpConfigurationStatus get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ConfigurationStatus result = VALUES_ARRAY[i];
+			CpConfigurationStatus result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -244,9 +244,9 @@ public enum ConfigurationStatus implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static ConfigurationStatus getByName(String name) {
+	public static CpConfigurationStatus getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ConfigurationStatus result = VALUES_ARRAY[i];
+			CpConfigurationStatus result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -262,7 +262,7 @@ public enum ConfigurationStatus implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static ConfigurationStatus get(int value) {
+	public static CpConfigurationStatus get(int value) {
 		switch (value) {
 			case NO_CONFIGURATION_VALUE: return NO_CONFIGURATION;
 			case NO_SUBSYSTEM_VALUE: return NO_SUBSYSTEM;
@@ -302,7 +302,7 @@ public enum ConfigurationStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private ConfigurationStatus(int value, String name, String literal) {
+	private CpConfigurationStatus(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -346,4 +346,4 @@ public enum ConfigurationStatus implements Enumerator {
 		return literal;
 	}
 	
-} //ConfigurationStatus
+} //CpConfigurationStatus

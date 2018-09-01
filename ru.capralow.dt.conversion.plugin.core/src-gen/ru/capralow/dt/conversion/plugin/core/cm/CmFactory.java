@@ -31,22 +31,31 @@ public interface CmFactory extends EFactory {
 	ConversionModule createConversionModule();
 
 	/**
-	 * Returns a new object of class '<em>cp POD</em>'.
+	 * Returns a new object of class '<em>Sending Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>cp POD</em>'.
+	 * @return a new object of class '<em>Sending Rule</em>'.
 	 * @generated
 	 */
-	cpPOD createcpPOD();
+	CmSendingRule createCmSendingRule();
 
 	/**
-	 * Returns a new object of class '<em>cp PKO</em>'.
+	 * Returns a new object of class '<em>Data Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>cp PKO</em>'.
+	 * @return a new object of class '<em>Data Rule</em>'.
 	 * @generated
 	 */
-	cpPKO createcpPKO();
+	CmDataRule createCmDataRule();
+
+	/**
+	 * Returns a new object of class '<em>Object Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Object Rule</em>'.
+	 * @generated
+	 */
+	CmObjectRule createCmObjectRule();
 
 	/**
 	 * Returns the package supported by this factory.

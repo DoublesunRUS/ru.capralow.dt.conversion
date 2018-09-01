@@ -53,9 +53,9 @@ import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.cpConfigurationImpl;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.cpExchangePairImpl;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.CpConfigurationImpl;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl;
+import ru.capralow.dt.conversion.plugin.core.cp.impl.CpFormatVersionImpl;
 
 public class ConversionPanelAnalyzer {
 
@@ -105,10 +105,10 @@ public class ConversionPanelAnalyzer {
 
 		ArrayList<String> configurationsList = new ArrayList<String>();
 
-		Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
-		Iterator<cpConfiguration> itr = cpConfigurations.iterator();
+		Collection<CpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+		Iterator<CpConfiguration> itr = cpConfigurations.iterator();
 		while (itr.hasNext()) {
-			cpConfiguration cpConfiguration = itr.next();
+			CpConfiguration cpConfiguration = itr.next();
 
 			configurationsList.add(cpConfiguration.getConfigurationName());
 		}
@@ -117,34 +117,34 @@ public class ConversionPanelAnalyzer {
 		List<Pair<String, String>> configurationPairs = getPairs(configurationsList);
 
 		if (configurationPairs.size() != 0) {
-			EList<cpExchangePair> exchangePairs = conversionPanel.getExchangePairs();
+			EList<CpExchangePair> exchangePairs = conversionPanel.getExchangePairs();
 			exchangePairs.clear();
 
 			Iterator<Pair<String, String>> itrList = configurationPairs.iterator();
 			while (itrList.hasNext()) {
 				Pair<String, String> configurationPair = itrList.next();
 
-				cpExchangePair cpExchangePair = new cpExchangePairImpl();
+				CpExchangePair CpExchangePair = new CpExchangePairImpl();
 
-				cpExchangePair.setConfigurationName1(configurationPair.getKey());
-				cpExchangePair.setConfigurationName2(configurationPair.getValue());
+				CpExchangePair.setConfigurationName1(configurationPair.getKey());
+				CpExchangePair.setConfigurationName2(configurationPair.getValue());
 
-				cpConfiguration configuration1 = conversionPanel.getConfiguration(configurationPair.getKey());
-				cpConfiguration configuration2 = conversionPanel.getConfiguration(configurationPair.getValue());
+				CpConfiguration configuration1 = conversionPanel.getConfiguration(configurationPair.getKey());
+				CpConfiguration configuration2 = conversionPanel.getConfiguration(configurationPair.getValue());
 
-				EList<String> exchangePairVersions = cpExchangePair.getVersions();
+				EList<String> exchangePairVersions = CpExchangePair.getVersions();
 
 				Set<String> commonVersions = findCommons(configuration1.getVersions(), configuration2.getVersions());
 
 				exchangePairVersions.addAll(commonVersions);
 
 				if (exchangePairVersions.size() == 0) {
-					cpExchangePair.setStatus(ExchangePairStatus.NO_SHARED_FORMAT_VERSIONS);
+					CpExchangePair.setStatus(CpExchangePairStatus.NO_SHARED_FORMAT_VERSIONS);
 				} else {
 
-					cpExchangePair.setStatus(ExchangePairStatus.READY);
+					CpExchangePair.setStatus(CpExchangePairStatus.READY);
 				}
-				exchangePairs.add(cpExchangePair);
+				exchangePairs.add(CpExchangePair);
 			}
 		}
 	}
@@ -155,12 +155,12 @@ public class ConversionPanelAnalyzer {
 			project = ((IExtensionProject) projectManager.getProject(project)).getParentProject();
 		}
 
-		cpConfiguration cpConfiguration = conversionPanel.getConfiguration(project.getName());
+		CpConfiguration cpConfiguration = conversionPanel.getConfiguration(project.getName());
 
 		if (cpConfiguration == null) {
-			Collection<cpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+			Collection<CpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
 
-			cpConfiguration = new cpConfigurationImpl();
+			cpConfiguration = new CpConfigurationImpl();
 			cpConfigurations.add(cpConfiguration);
 
 			cpConfiguration.setConfigurationObject(project);
@@ -169,20 +169,20 @@ public class ConversionPanelAnalyzer {
 
 		Configuration mdConfiguration = ((IConfigurationProject) projectManager.getProject(project)).getConfiguration();
 		if (mdConfiguration == null) {
-			cpConfiguration.setStatus(ConfigurationStatus.NO_CONFIGURATION);
+			cpConfiguration.setStatus(CpConfigurationStatus.NO_CONFIGURATION);
 			return;
 		}
 
 		Subsystem mdSubsystem = getSubsystem(project,
 				QualifiedName.create("Subsystem", "СтандартныеПодсистемы", "Subsystem", "ОбменДанными"));
 		if (mdSubsystem == null) {
-			cpConfiguration.setStatus(ConfigurationStatus.NO_SUBSYSTEM);
+			cpConfiguration.setStatus(CpConfigurationStatus.NO_SUBSYSTEM);
 			return;
 		}
 
 		String sslVersion = getSSLVersion(project);
 		if (sslVersion.isEmpty()) {
-			cpConfiguration.setStatus(ConfigurationStatus.NO_SSL_VERSION);
+			cpConfiguration.setStatus(CpConfigurationStatus.NO_SSL_VERSION);
 			return;
 		}
 
@@ -195,7 +195,7 @@ public class ConversionPanelAnalyzer {
 		CommonModule mdModule = getCommonModule(project,
 				QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
 		if (mdModule == null) {
-			cpConfiguration.setStatus(ConfigurationStatus.NO_COMMON_MODULE);
+			cpConfiguration.setStatus(CpConfigurationStatus.NO_COMMON_MODULE);
 			return;
 		}
 
@@ -204,18 +204,18 @@ public class ConversionPanelAnalyzer {
 
 		Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
 		if (mdMethod == null) {
-			cpConfiguration.setStatus(ConfigurationStatus.NO_METHOD);
+			cpConfiguration.setStatus(CpConfigurationStatus.NO_METHOD);
 			return;
 		}
 
 		Map<String, Module> availableFormatVersions = getAvailableFormatVersions(project, mdModule, mdMethod,
 				coreObjects);
 		if (availableFormatVersions.size() == 0) {
-			cpConfiguration.setStatus(ConfigurationStatus.EMPTY_METHOD);
+			cpConfiguration.setStatus(CpConfigurationStatus.EMPTY_METHOD);
 			return;
 		}
 
-		EList<cpFormatVersion> cpAvailableFormatVersions = cpConfiguration.getAvailableFormatVersions();
+		EList<CpFormatVersion> cpAvailableFormatVersions = cpConfiguration.getAvailableFormatVersions();
 		cpAvailableFormatVersions.clear();
 
 		List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
@@ -224,22 +224,22 @@ public class ConversionPanelAnalyzer {
 		while (itrVersions.hasNext()) {
 			String version = itrVersions.next();
 
-			cpFormatVersion cpFormatVersion = new cpFormatVersionImpl();
+			CpFormatVersion CpFormatVersion = new CpFormatVersionImpl();
 
 			Module formatModule = availableFormatVersions.get(version);
 
 			if (projectManager.getProject(formatModule) instanceof IExtensionProject) {
 				IExtensionProject formatProject = (IExtensionProject) projectManager.getProject(formatModule);
 
-				cpFormatVersion.setConfigurationName(formatProject.getConfiguration().getName());
+				CpFormatVersion.setConfigurationName(formatProject.getConfiguration().getName());
 			}
-			cpFormatVersion.setVersion(version);
-			cpFormatVersion.setModule(formatModule);
+			CpFormatVersion.setVersion(version);
+			CpFormatVersion.setModule(formatModule);
 
-			cpAvailableFormatVersions.add(cpFormatVersion);
+			cpAvailableFormatVersions.add(CpFormatVersion);
 		}
 
-		cpConfiguration.setStatus(ConfigurationStatus.READY);
+		cpConfiguration.setStatus(CpConfigurationStatus.READY);
 	}
 
 	private Subsystem getSubsystem(IProject project, QualifiedName subsystemName) {

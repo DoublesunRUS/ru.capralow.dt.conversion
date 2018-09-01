@@ -2,16 +2,23 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
@@ -19,10 +26,11 @@ import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com.google.inject.Inject;
 
+import ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleContentProvider;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleLabelProvider;
+import ru.capralow.dt.conversion.plugin.core.cm.SendingRulesContentProvider;
+import ru.capralow.dt.conversion.plugin.core.cm.SendingRulesLabelProvider;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
@@ -52,17 +60,28 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Override
 	protected void createPageControls(IManagedForm managedForm) {
-		Composite parent = managedForm.getForm().getBody();
+		FormToolkit toolkit = managedForm.getToolkit();
+		ScrolledForm form = managedForm.getForm();
 
-		GridLayoutFactory.fillDefaults().applyTo(parent);
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, true).applyTo(parent);
+		Composite body = form.getBody();
+		toolkit.decorateFormHeading(form.getForm());
+		toolkit.paintBordersFor(body);
+
+		GridLayoutFactory.fillDefaults().applyTo(body);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, true).applyTo(body);
 
 		CTabItem tabItem;
 
 		// Страницы
-		CTabFolder tabFolder = new CTabFolder(parent, SWT.FLAT);
+		CTabFolder tabFolder = new CTabFolder(body, SWT.FLAT);
 		tabFolder.setBorderVisible(true);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		toolkit.adapt(tabFolder);
+		toolkit.paintBordersFor(tabFolder);
+
+		tabFolder.setSelectionBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
 		// Информация
 		tabItem = new CTabItem(tabFolder, SWT.NONE);
@@ -86,8 +105,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		column3.setWidth(200);
 
 		treeViewerSendingEvents = new TreeViewer(tree);
-		treeViewerSendingEvents.setContentProvider(new ConversionModuleContentProvider());
-		treeViewerSendingEvents.setLabelProvider(new ConversionModuleLabelProvider());
+		treeViewerSendingEvents.setContentProvider(new SendingRulesContentProvider());
+		treeViewerSendingEvents.setLabelProvider(new SendingRulesLabelProvider());
 
 		tabItem.setControl(tree);
 
@@ -109,8 +128,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		column23.setWidth(200);
 
 		treeViewerReceivingEvents = new TreeViewer(tree);
-		treeViewerReceivingEvents.setContentProvider(new ConversionModuleContentProvider());
-		treeViewerReceivingEvents.setLabelProvider(new ConversionModuleLabelProvider());
+		treeViewerReceivingEvents.setContentProvider(new SendingRulesContentProvider());
+		treeViewerReceivingEvents.setLabelProvider(new SendingRulesLabelProvider());
 
 		tabItem.setControl(tree2);
 
@@ -132,8 +151,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		column33.setWidth(200);
 
 		treeViewerPredefined = new TreeViewer(tree3);
-		treeViewerPredefined.setContentProvider(new ConversionModuleContentProvider());
-		treeViewerPredefined.setLabelProvider(new ConversionModuleLabelProvider());
+		treeViewerPredefined.setContentProvider(new SendingRulesContentProvider());
+		treeViewerPredefined.setLabelProvider(new SendingRulesLabelProvider());
 
 		tabItem.setControl(tree3);
 
@@ -155,8 +174,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		column43.setWidth(200);
 
 		treeViewerAlgorithms = new TreeViewer(tree4);
-		treeViewerAlgorithms.setContentProvider(new ConversionModuleContentProvider());
-		treeViewerAlgorithms.setLabelProvider(new ConversionModuleLabelProvider());
+		treeViewerAlgorithms.setContentProvider(new SendingRulesContentProvider());
+		treeViewerAlgorithms.setLabelProvider(new SendingRulesLabelProvider());
 
 		tabItem.setControl(tree4);
 
@@ -188,6 +207,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem.setControl(textAfterConvertationEvent);
 
 		tabFolder.setSelection(0);
+
+		hookListeners();
 	}
 
 	@Override
@@ -203,8 +224,33 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		textAfterConvertationEvent.setText(conversionModule.getAfterConvertationEvent());
 
-		treeViewerSendingEvents.setInput(conversionModule.getPODs());
+		treeViewerSendingEvents.setInput(conversionModule);
 		treeViewerSendingEvents.expandAll();
+	}
+
+	private void hookListeners() {
+		treeViewerSendingEvents.addDoubleClickListener((new IDoubleClickListener() {
+
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				ISelection selection = event.getSelection();
+
+				if (selection.isEmpty()) {
+					return;
+				}
+
+				Object element = ((IStructuredSelection) selection).getFirstElement();
+
+				if (element instanceof CmSendingRule) {
+					CmSendingRule sendingRule = ((CmSendingRule) element);
+
+					SendingRuleDialog sendingRuleDialog = new SendingRuleDialog(
+							event.getViewer().getControl().getShell());
+					sendingRuleDialog.open();
+				}
+
+			}
+		}));
 	}
 
 }

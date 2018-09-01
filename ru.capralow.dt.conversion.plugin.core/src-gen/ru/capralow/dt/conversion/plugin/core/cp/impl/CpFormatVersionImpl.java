@@ -6,31 +6,31 @@ import com._1c.g5.v8.bm.core.BmObject;
 
 import org.eclipse.emf.ecore.EClass;
 
+import ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.cp.CpPackage;
-import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>cp Format Version</b></em>'.
+ * An implementation of the model object '<em><b>Format Version</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getVersion <em>Version</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getConfigurationName <em>Configuration Name</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpFormatVersionImpl#getModule <em>Module</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpFormatVersionImpl#getVersion <em>Version</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpFormatVersionImpl#getConfigurationName <em>Configuration Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpFormatVersionImpl#getModule <em>Module</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class cpFormatVersionImpl extends BmObject implements cpFormatVersion {
+public class CpFormatVersionImpl extends BmObject implements CpFormatVersion {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public cpFormatVersionImpl() {
+	public CpFormatVersionImpl() {
 		super();
 	}
 
@@ -108,4 +108,4 @@ public class cpFormatVersionImpl extends BmObject implements cpFormatVersion {
 		eSet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, newModule);
 	}
 
-} //cpFormatVersionImpl
+} //CpFormatVersionImpl

@@ -8,33 +8,33 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import ru.capralow.dt.conversion.plugin.core.cp.CpExchangePair;
+import ru.capralow.dt.conversion.plugin.core.cp.CpExchangePairStatus;
 import ru.capralow.dt.conversion.plugin.core.cp.CpPackage;
-import ru.capralow.dt.conversion.plugin.core.cp.ExchangePairStatus;
-import ru.capralow.dt.conversion.plugin.core.cp.cpExchangePair;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>cp Exchange Pair</b></em>'.
+ * An implementation of the model object '<em><b>Exchange Pair</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpExchangePairImpl#getConfigurationName1 <em>Configuration Name1</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpExchangePairImpl#getConfigurationName2 <em>Configuration Name2</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpExchangePairImpl#getStatus <em>Status</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpExchangePairImpl#getVersions <em>Versions</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl#getConfigurationName1 <em>Configuration Name1</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl#getConfigurationName2 <em>Configuration Name2</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl#getStatus <em>Status</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl#getVersions <em>Versions</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class cpExchangePairImpl extends BmObject implements cpExchangePair {
+public class CpExchangePairImpl extends BmObject implements CpExchangePair {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public cpExchangePairImpl() {
+	public CpExchangePairImpl() {
 		super();
 	}
 
@@ -99,8 +99,8 @@ public class cpExchangePairImpl extends BmObject implements cpExchangePair {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExchangePairStatus getStatus() {
-		return (ExchangePairStatus)eGet(CpPackage.Literals.CP_EXCHANGE_PAIR__STATUS, true);
+	public CpExchangePairStatus getStatus() {
+		return (CpExchangePairStatus)eGet(CpPackage.Literals.CP_EXCHANGE_PAIR__STATUS, true);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class cpExchangePairImpl extends BmObject implements cpExchangePair {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStatus(ExchangePairStatus newStatus) {
+	public void setStatus(CpExchangePairStatus newStatus) {
 		eSet(CpPackage.Literals.CP_EXCHANGE_PAIR__STATUS, newStatus);
 	}
 
@@ -122,4 +122,4 @@ public class cpExchangePairImpl extends BmObject implements cpExchangePair {
 		return (EList<String>)eGet(CpPackage.Literals.CP_EXCHANGE_PAIR__VERSIONS, true);
 	}
 
-} //cpExchangePairImpl
+} //CpExchangePairImpl

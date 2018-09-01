@@ -43,7 +43,7 @@ import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanel;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelContentProvider;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelLabelProvider;
-import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.SWT;
 
@@ -205,8 +205,6 @@ public class ConversionPanelView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Автоматически созданная заглушка метода
-
 	}
 
 	private void hookListeners() {
@@ -222,8 +220,8 @@ public class ConversionPanelView extends ViewPart {
 
 				Object element = ((IStructuredSelection) selection).getFirstElement();
 
-				if (element instanceof cpFormatVersion) {
-					Module module = ((cpFormatVersion) element).getModule();
+				if (element instanceof CpFormatVersion) {
+					Module module = ((CpFormatVersion) element).getModule();
 					CommonModule commonModule = (CommonModule) module.getOwner();
 
 					URI uri = EcoreUtil.getURI(commonModule);

@@ -6,24 +6,24 @@ import com._1c.g5.v8.bm.core.IBmObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>cp Format Version</b></em>'.
+ * A representation of the model object '<em><b>Format Version</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getVersion <em>Version</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getConfigurationName <em>Configuration Name</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getModule <em>Module</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion#getVersion <em>Version</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion#getConfigurationName <em>Configuration Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion#getModule <em>Module</em>}</li>
  * </ul>
  *
- * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpFormatVersion()
+ * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpFormatVersion()
  * @model
  * @extends IBmObject
  * @generated
  */
-public interface cpFormatVersion extends IBmObject {
+public interface CpFormatVersion extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Version</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -34,14 +34,14 @@ public interface cpFormatVersion extends IBmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpFormatVersion_Version()
+	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpFormatVersion_Version()
 	 * @model unique="false"
 	 * @generated
 	 */
 	String getVersion();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getVersion <em>Version</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion#getVersion <em>Version</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Version</em>' attribute.
@@ -60,14 +60,14 @@ public interface cpFormatVersion extends IBmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Name</em>' attribute.
 	 * @see #setConfigurationName(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpFormatVersion_ConfigurationName()
+	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpFormatVersion_ConfigurationName()
 	 * @model unique="false"
 	 * @generated
 	 */
 	String getConfigurationName();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getConfigurationName <em>Configuration Name</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion#getConfigurationName <em>Configuration Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Configuration Name</em>' attribute.
@@ -86,14 +86,14 @@ public interface cpFormatVersion extends IBmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module</em>' containment reference.
 	 * @see #setModule(com._1c.g5.v8.dt.bsl.model.Module)
-	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpFormatVersion_Module()
+	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpFormatVersion_Module()
 	 * @model containment="true"
 	 * @generated
 	 */
 	com._1c.g5.v8.dt.bsl.model.Module getModule();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion#getModule <em>Module</em>}' containment reference.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion#getModule <em>Module</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Module</em>' containment reference.
@@ -102,4 +102,4 @@ public interface cpFormatVersion extends IBmObject {
 	 */
 	void setModule(com._1c.g5.v8.dt.bsl.model.Module value);
 
-} // cpFormatVersion
+} // CpFormatVersion

@@ -11,20 +11,20 @@ public class ConversionPanelLabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof cpExchangePair) {
-			return ((cpExchangePair) element).getConfigurationName1() + " - " + ((cpExchangePair) element).getConfigurationName2();
+		if (element instanceof CpExchangePair) {
+			return ((CpExchangePair) element).getConfigurationName1() + " - " + ((CpExchangePair) element).getConfigurationName2();
 
-		} else if (element instanceof ExchangePairStatus) {
-			return ((ExchangePairStatus) element).getLiteral();
+		} else if (element instanceof CpExchangePairStatus) {
+			return ((CpExchangePairStatus) element).getLiteral();
 
-		} else if (element instanceof cpConfiguration) {
-			return ((cpConfiguration) element).getConfigurationName();
+		} else if (element instanceof CpConfiguration) {
+			return ((CpConfiguration) element).getConfigurationName();
 
-		} else if (element instanceof ConfigurationStatus) {
-			return ((ConfigurationStatus) element).getLiteral();
+		} else if (element instanceof CpConfigurationStatus) {
+			return ((CpConfigurationStatus) element).getLiteral();
 
-		} else if (element instanceof cpFormatVersion) {
-			cpFormatVersion formatVersion = (cpFormatVersion) element;
+		} else if (element instanceof CpFormatVersion) {
+			CpFormatVersion formatVersion = (CpFormatVersion) element;
 
 			String version = formatVersion.getVersion().intern();
 			String module = ((CommonModule) formatVersion.getModule().getOwner()).getName();

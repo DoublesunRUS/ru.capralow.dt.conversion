@@ -8,10 +8,11 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
+import ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
-import ru.capralow.dt.conversion.plugin.core.cm.cpPKO;
-import ru.capralow.dt.conversion.plugin.core.cm.cpPOD;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,13 +23,14 @@ import ru.capralow.dt.conversion.plugin.core.cm.cpPOD;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getStoreVersion <em>Store Version</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPODs <em>PO Ds</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPKOs <em>PK Os</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPKPDs <em>PKP Ds</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getDataRules <em>Data Rules</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getObjectRules <em>Object Rules</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPredefineds <em>Predefineds</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getParams <em>Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getSendingRules <em>Sending Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
  *
@@ -88,8 +90,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<cpPOD> getPODs() {
-		return (EList<cpPOD>)eGet(CmPackage.Literals.CONVERSION_MODULE__PO_DS, true);
+	public EList<CmDataRule> getDataRules() {
+		return (EList<CmDataRule>)eGet(CmPackage.Literals.CONVERSION_MODULE__DATA_RULES, true);
 	}
 
 	/**
@@ -98,8 +100,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<cpPKO> getPKOs() {
-		return (EList<cpPKO>)eGet(CmPackage.Literals.CONVERSION_MODULE__PK_OS, true);
+	public EList<CmObjectRule> getObjectRules() {
+		return (EList<CmObjectRule>)eGet(CmPackage.Literals.CONVERSION_MODULE__OBJECT_RULES, true);
 	}
 
 	/**
@@ -107,8 +109,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPKPDs() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__PKP_DS, true);
+	public String getPredefineds() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__PREDEFINEDS, true);
 	}
 
 	/**
@@ -116,8 +118,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPKPDs(String newPKPDs) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__PKP_DS, newPKPDs);
+	public void setPredefineds(String newPredefineds) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__PREDEFINEDS, newPredefineds);
 	}
 
 	/**
@@ -190,6 +192,16 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 */
 	public void setBeforeFillingEvent(String newBeforeFillingEvent) {
 		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, newBeforeFillingEvent);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<CmSendingRule> getSendingRules() {
+		return (EList<CmSendingRule>)eGet(CmPackage.Literals.CONVERSION_MODULE__SENDING_RULES, true);
 	}
 
 	/**

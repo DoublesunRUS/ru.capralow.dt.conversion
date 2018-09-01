@@ -13,11 +13,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Selection Variant</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getSelectionVariant()
+ * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmSelectionVariant()
  * @model
  * @generated
  */
-public enum SelectionVariant implements Enumerator {
+public enum CmSelectionVariant implements Enumerator {
 	/**
 	 * The '<em><b>Standart</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -74,8 +74,8 @@ public enum SelectionVariant implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final SelectionVariant[] VALUES_ARRAY =
-		new SelectionVariant[] {
+	private static final CmSelectionVariant[] VALUES_ARRAY =
+		new CmSelectionVariant[] {
 			STANDART,
 			CUSTOM,
 		};
@@ -86,7 +86,7 @@ public enum SelectionVariant implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<SelectionVariant> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<CmSelectionVariant> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b>Selection Variant</b></em>' literal with the specified literal value.
@@ -96,9 +96,9 @@ public enum SelectionVariant implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static SelectionVariant get(String literal) {
+	public static CmSelectionVariant get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			SelectionVariant result = VALUES_ARRAY[i];
+			CmSelectionVariant result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -114,9 +114,9 @@ public enum SelectionVariant implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static SelectionVariant getByName(String name) {
+	public static CmSelectionVariant getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			SelectionVariant result = VALUES_ARRAY[i];
+			CmSelectionVariant result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -132,7 +132,7 @@ public enum SelectionVariant implements Enumerator {
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static SelectionVariant get(int value) {
+	public static CmSelectionVariant get(int value) {
 		switch (value) {
 			case STANDART_VALUE: return STANDART;
 			case CUSTOM_VALUE: return CUSTOM;
@@ -167,7 +167,7 @@ public enum SelectionVariant implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private SelectionVariant(int value, String name, String literal) {
+	private CmSelectionVariant(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -211,4 +211,4 @@ public enum SelectionVariant implements Enumerator {
 		return literal;
 	}
 	
-} //SelectionVariant
+} //CmSelectionVariant

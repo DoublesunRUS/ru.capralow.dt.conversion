@@ -58,8 +58,9 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case CmPackage.CONVERSION_MODULE: return (EObject)createConversionModule();
-			case CmPackage.CP_POD: return (EObject)createcpPOD();
-			case CmPackage.CP_PKO: return (EObject)createcpPKO();
+			case CmPackage.CM_SENDING_RULE: return (EObject)createCmSendingRule();
+			case CmPackage.CM_DATA_RULE: return (EObject)createCmDataRule();
+			case CmPackage.CM_OBJECT_RULE: return (EObject)createCmObjectRule();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -73,8 +74,8 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case CmPackage.SELECTION_VARIANT:
-				return createSelectionVariantFromString(eDataType, initialValue);
+			case CmPackage.CM_SELECTION_VARIANT:
+				return createCmSelectionVariantFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -88,8 +89,8 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case CmPackage.SELECTION_VARIANT:
-				return convertSelectionVariantToString(eDataType, instanceValue);
+			case CmPackage.CM_SELECTION_VARIANT:
+				return convertCmSelectionVariantToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -110,9 +111,9 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public cpPOD createcpPOD() {
-		cpPODImpl cpPOD = new cpPODImpl();
-		return cpPOD;
+	public CmSendingRule createCmSendingRule() {
+		CmSendingRuleImpl cmSendingRule = new CmSendingRuleImpl();
+		return cmSendingRule;
 	}
 
 	/**
@@ -120,9 +121,9 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public cpPKO createcpPKO() {
-		cpPKOImpl cpPKO = new cpPKOImpl();
-		return cpPKO;
+	public CmDataRule createCmDataRule() {
+		CmDataRuleImpl cmDataRule = new CmDataRuleImpl();
+		return cmDataRule;
 	}
 
 	/**
@@ -130,8 +131,18 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SelectionVariant createSelectionVariantFromString(EDataType eDataType, String initialValue) {
-		SelectionVariant result = SelectionVariant.get(initialValue);
+	public CmObjectRule createCmObjectRule() {
+		CmObjectRuleImpl cmObjectRule = new CmObjectRuleImpl();
+		return cmObjectRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmSelectionVariant createCmSelectionVariantFromString(EDataType eDataType, String initialValue) {
+		CmSelectionVariant result = CmSelectionVariant.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		return result;
 	}
@@ -141,7 +152,7 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertSelectionVariantToString(EDataType eDataType, Object instanceValue) {
+	public String convertCmSelectionVariantToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

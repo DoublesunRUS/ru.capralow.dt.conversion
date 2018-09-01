@@ -6,22 +6,22 @@ import com._1c.g5.v8.bm.core.IBmObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>cp PKO</b></em>'.
+ * A representation of the model object '<em><b>Object Rule</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.cpPKO#getName <em>Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getName <em>Name</em>}</li>
  * </ul>
  *
- * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getcpPKO()
+ * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule()
  * @model
  * @extends IBmObject
  * @generated
  */
-public interface cpPKO extends IBmObject {
+public interface CmObjectRule extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -32,14 +32,14 @@ public interface cpPKO extends IBmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getcpPKO_Name()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_Name()
 	 * @model unique="false"
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.cpPKO#getName <em>Name</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
@@ -48,4 +48,4 @@ public interface cpPKO extends IBmObject {
 	 */
 	void setName(String value);
 
-} // cpPKO
+} // CmObjectRule

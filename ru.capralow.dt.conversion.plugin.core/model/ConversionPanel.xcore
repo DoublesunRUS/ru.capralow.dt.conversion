@@ -6,13 +6,13 @@ package ru.capralow.dt.conversion.plugin.core.cp
 import com._1c.g5.v8.dt.bsl.model.Module
 
 class ConversionPanel {
-	contains cpExchangePair[] ExchangePairs
+	contains CpExchangePair[] ExchangePairs
 	
-	contains cpConfiguration[] configurations
+	contains CpConfiguration[] configurations
 	
-	op cpConfiguration getConfiguration(String configurationName) {
-		for (cpConfiguration configuration : configurations) {
-			if (configurationName == configuration.configurationName) return configuration
+	op CpConfiguration getConfiguration(String configurationName) {
+		for (CpConfiguration configuration : configurations) {
+			if (configurationName == configuration.getConfigurationName) return configuration
 		}
 		return null;
 	}
@@ -20,7 +20,7 @@ class ConversionPanel {
 	op Object[] getObjects() {
 		val result = newBasicEList()
 
-		for (cpConfiguration configuration : configurations) {
+		for (CpConfiguration configuration : configurations) {
 			for (Object coreObject : configuration.coreObjects) {
 				result.add(coreObject)
 			}
@@ -29,22 +29,22 @@ class ConversionPanel {
 	}
 }
 
-class cpConfiguration {
+class CpConfiguration {
 	Object configurationObject
 	String configurationName
 	
 	String storeVersion
 	
-	contains cpExtension[] extensions
+	contains CpExtension[] extensions
 	
-	ConfigurationStatus Status
+	CpConfigurationStatus Status
 	
-	contains cpFormatVersion[] availableFormatVersions
+	contains CpFormatVersion[] availableFormatVersions
 	
 	op String[] getVersions() {
 		val result = newBasicEList()
-		for (cpFormatVersion formatVersion : availableFormatVersions) {
-			result.add(formatVersion.version)
+		for (CpFormatVersion formatVersion : availableFormatVersions) {
+			result.add(formatVersion.getVersion)
 		}
 		return result
 	}
@@ -52,31 +52,31 @@ class cpConfiguration {
 	Object[] coreObjects
 }
 
-class cpExtension {
+class CpExtension {
 	Object configurationObject
 	String configurationName
 }
 
-class cpFormatVersion {
+class CpFormatVersion {
 	String version
 	String configurationName
 	
 	contains Module module
 }
 
-class cpExchangePair {
+class CpExchangePair {
 	String configurationName1
 	String configurationName2
-	ExchangePairStatus Status
+	CpExchangePairStatus Status
 	String[] versions
 }
 
-enum ExchangePairStatus {
+enum CpExchangePairStatus {
 	NoSharedFormatVersions as "Нет совпадений по доступным версиям формата" = 0
 	Ready as "Конфигурации готовы к обмену" = 1
 }
 
-enum ConfigurationStatus {
+enum CpConfigurationStatus {
 	NoConfiguration as "Ожидание активации проектного контекста" = 0
 	NoSubsystem as "Нет подсистемы ОбменДанными" = 1
 	NoSSLVersion as "Не удалось определить версию БСП" = 2

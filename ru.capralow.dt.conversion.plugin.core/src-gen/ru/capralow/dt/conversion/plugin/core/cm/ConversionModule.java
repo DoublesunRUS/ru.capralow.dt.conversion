@@ -16,13 +16,14 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getStoreVersion <em>Store Version</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPODs <em>PO Ds</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKOs <em>PK Os</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKPDs <em>PKP Ds</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRules <em>Data Rules</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getObjectRules <em>Object Rules</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPredefineds <em>Predefineds</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getParams <em>Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getSendingRules <em>Sending Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
  *
@@ -59,62 +60,62 @@ public interface ConversionModule extends IBmObject {
 	void setStoreVersion(String value);
 
 	/**
-	 * Returns the value of the '<em><b>PO Ds</b></em>' containment reference list.
-	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.cpPOD}.
+	 * Returns the value of the '<em><b>Data Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>PO Ds</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Data Rules</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>PO Ds</em>' containment reference list.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PODs()
+	 * @return the value of the '<em>Data Rules</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_DataRules()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<cpPOD> getPODs();
+	EList<CmDataRule> getDataRules();
 
 	/**
-	 * Returns the value of the '<em><b>PK Os</b></em>' containment reference list.
-	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.cpPKO}.
+	 * Returns the value of the '<em><b>Object Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>PK Os</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Object Rules</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>PK Os</em>' containment reference list.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PKOs()
+	 * @return the value of the '<em>Object Rules</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_ObjectRules()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<cpPKO> getPKOs();
+	EList<CmObjectRule> getObjectRules();
 
 	/**
-	 * Returns the value of the '<em><b>PKP Ds</b></em>' attribute.
+	 * Returns the value of the '<em><b>Predefineds</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>PKP Ds</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Predefineds</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>PKP Ds</em>' attribute.
-	 * @see #setPKPDs(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_PKPDs()
+	 * @return the value of the '<em>Predefineds</em>' attribute.
+	 * @see #setPredefineds(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_Predefineds()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getPKPDs();
+	String getPredefineds();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPKPDs <em>PKP Ds</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPredefineds <em>Predefineds</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>PKP Ds</em>' attribute.
-	 * @see #getPKPDs()
+	 * @param value the new value of the '<em>Predefineds</em>' attribute.
+	 * @see #getPredefineds()
 	 * @generated
 	 */
-	void setPKPDs(String value);
+	void setPredefineds(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Params</b></em>' attribute.
@@ -219,6 +220,22 @@ public interface ConversionModule extends IBmObject {
 	 * @generated
 	 */
 	void setBeforeFillingEvent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Sending Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sending Rules</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sending Rules</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_SendingRules()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<CmSendingRule> getSendingRules();
 
 	/**
 	 * Returns the value of the '<em><b>Algorithms</b></em>' attribute.

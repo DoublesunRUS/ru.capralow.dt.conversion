@@ -6,29 +6,29 @@ import com._1c.g5.v8.bm.core.BmObject;
 
 import org.eclipse.emf.ecore.EClass;
 
+import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
-import ru.capralow.dt.conversion.plugin.core.cm.cpPKO;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>cp PKO</b></em>'.
+ * An implementation of the model object '<em><b>Object Rule</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.cpPKOImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class cpPKOImpl extends BmObject implements cpPKO {
+public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public cpPKOImpl() {
+	public CmObjectRuleImpl() {
 		super();
 	}
 
@@ -39,7 +39,7 @@ public class cpPKOImpl extends BmObject implements cpPKO {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return CmPackage.Literals.CP_PKO;
+		return CmPackage.Literals.CM_OBJECT_RULE;
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class cpPKOImpl extends BmObject implements cpPKO {
 	 * @generated
 	 */
 	public String getName() {
-		return (String)eGet(CmPackage.Literals.CP_PKO__NAME, true);
+		return (String)eGet(CmPackage.Literals.CM_OBJECT_RULE__NAME, true);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class cpPKOImpl extends BmObject implements cpPKO {
 	 * @generated
 	 */
 	public void setName(String newName) {
-		eSet(CmPackage.Literals.CP_PKO__NAME, newName);
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__NAME, newName);
 	}
 
-} //cpPKOImpl
+} //CmObjectRuleImpl

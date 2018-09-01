@@ -6,23 +6,23 @@ import com._1c.g5.v8.bm.core.IBmObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>cp Extension</b></em>'.
+ * A representation of the model object '<em><b>Extension</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpExtension#getConfigurationObject <em>Configuration Object</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.cpExtension#getConfigurationName <em>Configuration Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.CpExtension#getConfigurationObject <em>Configuration Object</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.CpExtension#getConfigurationName <em>Configuration Name</em>}</li>
  * </ul>
  *
- * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpExtension()
+ * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpExtension()
  * @model
  * @extends IBmObject
  * @generated
  */
-public interface cpExtension extends IBmObject {
+public interface CpExtension extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Configuration Object</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -33,14 +33,14 @@ public interface cpExtension extends IBmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Object</em>' attribute.
 	 * @see #setConfigurationObject(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpExtension_ConfigurationObject()
+	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpExtension_ConfigurationObject()
 	 * @model unique="false"
 	 * @generated
 	 */
 	Object getConfigurationObject();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.cpExtension#getConfigurationObject <em>Configuration Object</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.CpExtension#getConfigurationObject <em>Configuration Object</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Configuration Object</em>' attribute.
@@ -59,14 +59,14 @@ public interface cpExtension extends IBmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Name</em>' attribute.
 	 * @see #setConfigurationName(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getcpExtension_ConfigurationName()
+	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpExtension_ConfigurationName()
 	 * @model unique="false"
 	 * @generated
 	 */
 	String getConfigurationName();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.cpExtension#getConfigurationName <em>Configuration Name</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.CpExtension#getConfigurationName <em>Configuration Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Configuration Name</em>' attribute.
@@ -75,4 +75,4 @@ public interface cpExtension extends IBmObject {
 	 */
 	void setConfigurationName(String value);
 
-} // cpExtension
+} // CpExtension

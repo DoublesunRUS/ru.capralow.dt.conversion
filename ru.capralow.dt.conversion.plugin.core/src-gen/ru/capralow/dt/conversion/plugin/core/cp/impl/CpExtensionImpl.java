@@ -6,30 +6,30 @@ import com._1c.g5.v8.bm.core.BmObject;
 
 import org.eclipse.emf.ecore.EClass;
 
+import ru.capralow.dt.conversion.plugin.core.cp.CpExtension;
 import ru.capralow.dt.conversion.plugin.core.cp.CpPackage;
-import ru.capralow.dt.conversion.plugin.core.cp.cpExtension;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>cp Extension</b></em>'.
+ * An implementation of the model object '<em><b>Extension</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpExtensionImpl#getConfigurationObject <em>Configuration Object</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.cpExtensionImpl#getConfigurationName <em>Configuration Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpExtensionImpl#getConfigurationObject <em>Configuration Object</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cp.impl.CpExtensionImpl#getConfigurationName <em>Configuration Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class cpExtensionImpl extends BmObject implements cpExtension {
+public class CpExtensionImpl extends BmObject implements CpExtension {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public cpExtensionImpl() {
+	public CpExtensionImpl() {
 		super();
 	}
 
@@ -89,4 +89,4 @@ public class cpExtensionImpl extends BmObject implements cpExtension {
 		eSet(CpPackage.Literals.CP_EXTENSION__CONFIGURATION_NAME, newConfigurationName);
 	}
 
-} //cpExtensionImpl
+} //CpExtensionImpl

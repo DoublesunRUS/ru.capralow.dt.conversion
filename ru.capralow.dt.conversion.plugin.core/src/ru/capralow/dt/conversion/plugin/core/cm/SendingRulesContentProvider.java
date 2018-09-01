@@ -1,16 +1,26 @@
 package ru.capralow.dt.conversion.plugin.core.cm;
 
+import java.util.Iterator;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class ConversionModuleContentProvider implements ITreeContentProvider {
+public class SendingRulesContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object conversionModule) {
-		Object[] treeContent = new Object[1];
+		EList<CmSendingRule> sendingRules = ((ConversionModule) conversionModule).getSendingRules();
 
-		treeContent[0] = "Test";
-		
+		Object[] treeContent = new Object[sendingRules.size()];
+
+		int i = 0;
+		Iterator<CmSendingRule> itr = sendingRules.iterator();
+		while (itr.hasNext()) {
+			treeContent[i] = itr.next();
+			i++;
+		}
+
 		return treeContent;
 	}
 

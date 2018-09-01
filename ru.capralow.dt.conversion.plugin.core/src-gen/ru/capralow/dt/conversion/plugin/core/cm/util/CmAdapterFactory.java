@@ -72,12 +72,16 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 				return createConversionModuleAdapter();
 			}
 			@Override
-			public Adapter casecpPOD(cpPOD object) {
-				return createcpPODAdapter();
+			public Adapter caseCmSendingRule(CmSendingRule object) {
+				return createCmSendingRuleAdapter();
 			}
 			@Override
-			public Adapter casecpPKO(cpPKO object) {
-				return createcpPKOAdapter();
+			public Adapter caseCmDataRule(CmDataRule object) {
+				return createCmDataRuleAdapter();
+			}
+			@Override
+			public Adapter caseCmObjectRule(CmObjectRule object) {
+				return createCmObjectRuleAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -114,30 +118,44 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.cpPOD <em>cp POD</em>}'.
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule <em>Sending Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.cpPOD
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule
 	 * @generated
 	 */
-	public Adapter createcpPODAdapter() {
+	public Adapter createCmSendingRuleAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.cpPKO <em>cp PKO</em>}'.
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule <em>Data Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.cpPKO
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule
 	 * @generated
 	 */
-	public Adapter createcpPKOAdapter() {
+	public Adapter createCmDataRuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule <em>Object Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule
+	 * @generated
+	 */
+	public Adapter createCmObjectRuleAdapter() {
 		return null;
 	}
 

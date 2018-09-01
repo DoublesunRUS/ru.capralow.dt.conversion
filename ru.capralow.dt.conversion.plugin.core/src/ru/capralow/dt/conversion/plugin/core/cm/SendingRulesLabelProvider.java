@@ -5,20 +5,20 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class ConversionModuleLabelProvider implements ITableLabelProvider {
+public class SendingRulesLabelProvider implements ITableLabelProvider {
 
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
-		if (element instanceof cpPOD) {
-			if (columnIndex == 0) return ((cpPOD) element).getName();
-			else if (columnIndex == 1) return "222";
-			else if (columnIndex == 2) return "333";
+		if (element instanceof CmSendingRule) {
+			if (columnIndex == 0) return ((CmSendingRule) element).getDataRule().getName();
+			else if (columnIndex == 1) return "2222";
+			else if (columnIndex == 2) return "3333";
 
 		} else if (element instanceof EList) {
 			return "Какой-то список";
 
 		} else if (element instanceof String) {
-			if (columnIndex == 0) return element.toString();
+			if (columnIndex == 0) return "111";
 			else if (columnIndex == 1) return "222";
 			else if (columnIndex == 2) return "333";
 
