@@ -44,8 +44,13 @@ import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelContentProvider;
 import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelLabelProvider;
 import ru.capralow.dt.conversion.plugin.core.cp.cpFormatVersion;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.SWT;
 
 public class ConversionPanelView extends ViewPart {
+	public ConversionPanelView() {
+	}
+
 	@Inject
 	private IV8ProjectManager projectManager;
 
@@ -178,6 +183,8 @@ public class ConversionPanelView extends ViewPart {
 		parent.setLayout(layout);
 
 		treeViewer = new TreeViewer(parent);
+		Tree tree = treeViewer.getTree();
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		treeViewer.setContentProvider(new ConversionPanelContentProvider());
 		treeViewer.setLabelProvider(new ConversionPanelLabelProvider());
 
