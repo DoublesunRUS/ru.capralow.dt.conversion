@@ -1,22 +1,26 @@
 package ru.capralow.dt.conversion.plugin.core.cm;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class ConversionModuleLabelProvider implements ILabelProvider {
+public class ConversionModuleLabelProvider implements ITableLabelProvider {
 
 	@Override
-	public String getText(Object element) {
+	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof cpPOD) {
-			return ((cpPOD) element).getName();
+			if (columnIndex == 0) return ((cpPOD) element).getName();
+			else if (columnIndex == 1) return "222";
+			else if (columnIndex == 2) return "333";
 
 		} else if (element instanceof EList) {
 			return "Какой-то список";
 
 		} else if (element instanceof String) {
-			return element.toString();
+			if (columnIndex == 0) return element.toString();
+			else if (columnIndex == 1) return "222";
+			else if (columnIndex == 2) return "333";
 
 		}
 
@@ -24,33 +28,24 @@ public class ConversionModuleLabelProvider implements ILabelProvider {
 	}
 
 	@Override
-	public void addListener(ILabelProviderListener listener) {
-		// TODO Автоматически созданная заглушка метода
+	public Image getColumnImage(Object element, int columnIndex) {
+		return null;
+	}
 
+	@Override
+	public void addListener(ILabelProviderListener listener) {
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Автоматически созданная заглушка метода
-
 	}
 
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Автоматически созданная заглушка метода
-
 	}
-
-	@Override
-	public Image getImage(Object element) {
-		// TODO Автоматически созданная заглушка метода
-		return null;
-	}
-
 }
