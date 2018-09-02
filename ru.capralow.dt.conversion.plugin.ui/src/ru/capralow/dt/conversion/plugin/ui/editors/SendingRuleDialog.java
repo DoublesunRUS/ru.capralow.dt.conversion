@@ -21,6 +21,7 @@ public class SendingRuleDialog extends Dialog {
 	 */
 	public SendingRuleDialog(Shell parentShell) {
 		super(parentShell);
+		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 	}
 
 	/**
@@ -35,8 +36,7 @@ public class SendingRuleDialog extends Dialog {
 		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		CTabFolder tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
-		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true);
-		tabFolder.setLayoutData(gd_tabFolder);
+		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		tabFolder.setSelectionBackground(
 				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
