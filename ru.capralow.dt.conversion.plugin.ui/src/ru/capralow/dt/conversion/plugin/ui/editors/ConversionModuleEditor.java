@@ -1,5 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -19,9 +20,17 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.ui.editor.XtextSourceViewer;
+import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
+import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
+import org.eclipse.xtext.validation.IResourceValidator;
 
+import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com.google.inject.Inject;
@@ -43,13 +52,16 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	private ConversionModuleAnalyzer conversionModuleAnalyzer;
 
-	private Text textBeforeConvertationEvent;
+//	private Text textBeforeConvertationEvent;
 	private Text textBeforeFillingEvent;
 	private Text textAfterConvertationEvent;
 	private TreeViewer treeViewerSendingEvents;
 	private TreeViewer treeViewerReceivingEvents;
 	private TreeViewer treeViewerPredefined;
 	private TreeViewer treeViewerAlgorithms;
+
+	private CustomEmbeddedEditor innerEditor;
+	private XtextSourceViewer viewer;
 
 	@Inject
 	public ConversionModuleEditor(String id, String title) {
@@ -183,10 +195,33 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem = new CTabItem(tabFolder, SWT.NONE);
 		tabItem.setText("Перед конвертацией");
 
-		textBeforeConvertationEvent = new Text(tabFolder, SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
-		textBeforeConvertationEvent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		textBeforeConvertationEvent = new Text(tabFolder, SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
+//		textBeforeConvertationEvent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		tabItem.setControl(textBeforeConvertationEvent);
+		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
+				.getResourceServiceProvider(URI.createURI("foo.bsl"));
+
+		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
+				.get(IEditedResourceProvider.class);
+
+		IResourceValidator resourceValidator = resourceServiceProvider.get(IResourceValidator.class);
+
+		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
+
+		Composite editorComposite = new Composite(tabFolder, SWT.BORDER);
+		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridLayoutFactory.fillDefaults().applyTo(editorComposite);
+
+		innerEditor = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
+				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator).withParent(editorComposite);
+
+		viewer = innerEditor.getViewer();
+
+		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+
+		tabItem.setControl(editorComposite);
+
+//		tabItem.setControl(textBeforeConvertationEvent);
 
 		// Перед отложенным заполнением
 		tabItem = new CTabItem(tabFolder, SWT.NONE);
@@ -218,7 +253,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		conversionModuleAnalyzer.analyze(getModel());
 		ConversionModule conversionModule = conversionModuleAnalyzer.getConversionModule();
 
-		textBeforeConvertationEvent.setText(conversionModule.getBeforeConvertationEvent());
+		viewer.getTextWidget().setText(conversionModule.getBeforeConvertationEvent());
+
+//		textBeforeConvertationEvent.setText(conversionModule.getBeforeConvertationEvent());
 
 		textBeforeFillingEvent.setText(conversionModule.getBeforeFillingEvent());
 

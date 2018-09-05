@@ -12,6 +12,7 @@ import com.google.inject.Injector;
 public class Activator extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
+
 	private static Activator plugin;
 
 	private BundleContext bundleContext;
@@ -47,6 +48,7 @@ public class Activator extends AbstractUIPlugin {
 		super.start(bundleContext);
 
 		this.bundleContext = bundleContext;
+		
 		plugin = this;
 	}
 
