@@ -1,6 +1,8 @@
+
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -20,9 +22,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
-import org.eclipse.xtext.ui.editor.XtextSourceViewer;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -30,6 +30,7 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
@@ -61,7 +62,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private TreeViewer treeViewerAlgorithms;
 
 	private CustomEmbeddedEditor innerEditor;
-	private XtextSourceViewer viewer;
+	private CustomEmbeddedEditorModelAccess modelAccess;
 
 	@Inject
 	public ConversionModuleEditor(String id, String title) {
@@ -195,14 +196,12 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem = new CTabItem(tabFolder, SWT.NONE);
 		tabItem.setText("Перед конвертацией");
 
-//		textBeforeConvertationEvent = new Text(tabFolder, SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
-//		textBeforeConvertationEvent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
 		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
+		resourceProvider.setPlatformUri(EcoreUtil.getURI(getModel().getModule()));
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(IResourceValidator.class);
 
@@ -215,13 +214,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		innerEditor = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator).withParent(editorComposite);
 
-		viewer = innerEditor.getViewer();
-
-		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		innerEditor.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		tabItem.setControl(editorComposite);
-
-//		tabItem.setControl(textBeforeConvertationEvent);
 
 		// Перед отложенным заполнением
 		tabItem = new CTabItem(tabFolder, SWT.NONE);
@@ -243,6 +238,15 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		tabFolder.setSelection(0);
 
+		conversionModuleAnalyzer.analyze(getModel());
+		ConversionModule conversionModule = conversionModuleAnalyzer.getConversionModule();
+
+		String beforeConvertationEvent = conversionModule.getBeforeConvertationEvent();
+		getModelAccess().updateEditablePart(beforeConvertationEvent != null ? beforeConvertationEvent : "");
+
+		treeViewerSendingEvents.setInput(conversionModule);
+		treeViewerSendingEvents.expandAll();
+
 		hookListeners();
 	}
 
@@ -250,19 +254,13 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public void activate() {
 		super.activate();
 
-		conversionModuleAnalyzer.analyze(getModel());
-		ConversionModule conversionModule = conversionModuleAnalyzer.getConversionModule();
-
-		viewer.getTextWidget().setText(conversionModule.getBeforeConvertationEvent());
-
 //		textBeforeConvertationEvent.setText(conversionModule.getBeforeConvertationEvent());
 
-		textBeforeFillingEvent.setText(conversionModule.getBeforeFillingEvent());
-
-		textAfterConvertationEvent.setText(conversionModule.getAfterConvertationEvent());
-
-		treeViewerSendingEvents.setInput(conversionModule);
-		treeViewerSendingEvents.expandAll();
+//		String beforeFillingEvent = conversionModule.getBeforeFillingEvent();
+//		textBeforeFillingEvent.setText(beforeFillingEvent != null ? beforeFillingEvent : "");
+//
+//		String afterConvertationEvent = conversionModule.getAfterConvertationEvent();
+//		textAfterConvertationEvent.setText(afterConvertationEvent != null ? afterConvertationEvent : "");
 	}
 
 	private void hookListeners() {
@@ -288,6 +286,13 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 			}
 		}));
+	}
+
+	private synchronized CustomEmbeddedEditorModelAccess getModelAccess() {
+		if (modelAccess == null) {
+			modelAccess = (CustomEmbeddedEditorModelAccess) innerEditor.createPartialEditor("", "", "", true);
+		}
+		return modelAccess;
 	}
 
 }
