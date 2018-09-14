@@ -148,8 +148,8 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getConversionModule_DataRules() {
-		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(1);
+	public EAttribute getConversionModule_ModuleURI() {
+		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getConversionModule_ObjectRules() {
+	public EReference getConversionModule_DataRules() {
 		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -166,8 +166,8 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_Predefineds() {
-		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(3);
+	public EReference getConversionModule_ObjectRules() {
+		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_Params() {
+	public EAttribute getConversionModule_Predefineds() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -184,7 +184,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_BeforeConvertationEvent() {
+	public EAttribute getConversionModule_Params() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -193,7 +193,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_AfterConvertationEvent() {
+	public EAttribute getConversionModule_BeforeConvertationEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -202,7 +202,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConversionModule_BeforeFillingEvent() {
+	public EAttribute getConversionModule_AfterConvertationEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -211,8 +211,26 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getConversionModule_BeforeFillingEvent() {
+		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConversionModule_BeforeConvertationEventNode() {
+		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getConversionModule_SendingRules() {
-		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(8);
+		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -221,7 +239,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * @generated
 	 */
 	public EAttribute getConversionModule_Algorithms() {
-		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -425,6 +443,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		// Create classes and their features
 		conversionModuleEClass = createEClass(CONVERSION_MODULE);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__STORE_VERSION);
+		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__MODULE_URI);
 		createEReference(conversionModuleEClass, CONVERSION_MODULE__DATA_RULES);
 		createEReference(conversionModuleEClass, CONVERSION_MODULE__OBJECT_RULES);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__PREDEFINEDS);
@@ -432,6 +451,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__AFTER_CONVERTATION_EVENT);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__BEFORE_FILLING_EVENT);
+		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE);
 		createEReference(conversionModuleEClass, CONVERSION_MODULE__SENDING_RULES);
 		createEAttribute(conversionModuleEClass, CONVERSION_MODULE__ALGORITHMS);
 
@@ -495,6 +515,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		// Initialize classes, features, and operations; add parameters
 		initEClass(conversionModuleEClass, ConversionModule.class, "ConversionModule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(getConversionModule_StoreVersion(), theEcorePackage.getEString(), "storeVersion", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getConversionModule_ModuleURI(), theEcorePackage.getEJavaObject(), "moduleURI", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getConversionModule_DataRules(), this.getCmDataRule(), null, "dataRules", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getConversionModule_ObjectRules(), this.getCmObjectRule(), null, "objectRules", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getConversionModule_Predefineds(), theEcorePackage.getEString(), "predefineds", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -502,6 +523,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		initEAttribute(getConversionModule_BeforeConvertationEvent(), theEcorePackage.getEString(), "beforeConvertationEvent", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getConversionModule_AfterConvertationEvent(), theEcorePackage.getEString(), "afterConvertationEvent", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getConversionModule_BeforeFillingEvent(), theEcorePackage.getEString(), "beforeFillingEvent", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getConversionModule_BeforeConvertationEventNode(), theEcorePackage.getEJavaObject(), "beforeConvertationEventNode", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getConversionModule_SendingRules(), this.getCmSendingRule(), null, "sendingRules", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getConversionModule_Algorithms(), theEcorePackage.getEString(), "algorithms", null, 0, 1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 

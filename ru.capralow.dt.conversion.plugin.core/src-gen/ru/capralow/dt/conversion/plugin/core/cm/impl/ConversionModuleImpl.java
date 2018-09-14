@@ -23,6 +23,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getStoreVersion <em>Store Version</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getModuleURI <em>Module URI</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getDataRules <em>Data Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getObjectRules <em>Object Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPredefineds <em>Predefineds</em>}</li>
@@ -30,6 +31,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getSendingRules <em>Sending Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
@@ -82,6 +84,24 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 */
 	public void setStoreVersion(String newStoreVersion) {
 		eSet(CmPackage.Literals.CONVERSION_MODULE__STORE_VERSION, newStoreVersion);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getModuleURI() {
+		return (Object)eGet(CmPackage.Literals.CONVERSION_MODULE__MODULE_URI, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModuleURI(Object newModuleURI) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__MODULE_URI, newModuleURI);
 	}
 
 	/**
@@ -192,6 +212,24 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 */
 	public void setBeforeFillingEvent(String newBeforeFillingEvent) {
 		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, newBeforeFillingEvent);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getBeforeConvertationEventNode() {
+		return (Object)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBeforeConvertationEventNode(Object newBeforeConvertationEventNode) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE, newBeforeConvertationEventNode);
 	}
 
 	/**

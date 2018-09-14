@@ -6,6 +6,8 @@ package ru.capralow.dt.conversion.plugin.core.cm
 class ConversionModule {
 	String storeVersion
 	
+	Object moduleURI
+	
 	contains CmDataRule[] dataRules
 	contains CmObjectRule[] objectRules
 	String predefineds
@@ -15,6 +17,7 @@ class ConversionModule {
 	String beforeConvertationEvent
 	String afterConvertationEvent
 	String beforeFillingEvent
+	Object beforeConvertationEventNode
 	
 	contains CmSendingRule[] sendingRules
 	

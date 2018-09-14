@@ -3,6 +3,7 @@ package ru.capralow.dt.conversion.plugin.core.cm;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 
@@ -45,6 +46,8 @@ public class ConversionModuleAnalyzer {
 
 		EList<Method> methods = module.allMethods();
 
+		conversionModule.setModuleURI(EcoreUtil.getURI(module));
+		
 		conversionModule.setStoreVersion("1");
 
 		Iterator<Method> itr = methods.iterator();
@@ -56,6 +59,7 @@ public class ConversionModuleAnalyzer {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
 				conversionModule.setBeforeConvertationEvent(node.getText());
+				conversionModule.setBeforeConvertationEventNode(node);
 
 			} else if (methodName.equals("ПослеКонвертации")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);

@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getStoreVersion <em>Store Version</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleURI <em>Module URI</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRules <em>Data Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getObjectRules <em>Object Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPredefineds <em>Predefineds</em>}</li>
@@ -23,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getSendingRules <em>Sending Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
@@ -58,6 +60,32 @@ public interface ConversionModule extends IBmObject {
 	 * @generated
 	 */
 	void setStoreVersion(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Module URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Module URI</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Module URI</em>' attribute.
+	 * @see #setModuleURI(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_ModuleURI()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getModuleURI();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleURI <em>Module URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Module URI</em>' attribute.
+	 * @see #getModuleURI()
+	 * @generated
+	 */
+	void setModuleURI(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>Data Rules</b></em>' containment reference list.
@@ -220,6 +248,32 @@ public interface ConversionModule extends IBmObject {
 	 * @generated
 	 */
 	void setBeforeFillingEvent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Before Convertation Event Node</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Before Convertation Event Node</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Before Convertation Event Node</em>' attribute.
+	 * @see #setBeforeConvertationEventNode(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeConvertationEventNode()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getBeforeConvertationEventNode();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Before Convertation Event Node</em>' attribute.
+	 * @see #getBeforeConvertationEventNode()
+	 * @generated
+	 */
+	void setBeforeConvertationEventNode(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>Sending Rules</b></em>' containment reference list.

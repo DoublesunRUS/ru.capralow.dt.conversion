@@ -78,13 +78,22 @@ public interface CmPackage extends EPackage {
 	int CONVERSION_MODULE__STORE_VERSION = 0;
 
 	/**
+	 * The feature id for the '<em><b>Module URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE__MODULE_URI = 1;
+
+	/**
 	 * The feature id for the '<em><b>Data Rules</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__DATA_RULES = 1;
+	int CONVERSION_MODULE__DATA_RULES = 2;
 
 	/**
 	 * The feature id for the '<em><b>Object Rules</b></em>' containment reference list.
@@ -93,7 +102,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__OBJECT_RULES = 2;
+	int CONVERSION_MODULE__OBJECT_RULES = 3;
 
 	/**
 	 * The feature id for the '<em><b>Predefineds</b></em>' attribute.
@@ -102,7 +111,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__PREDEFINEDS = 3;
+	int CONVERSION_MODULE__PREDEFINEDS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Params</b></em>' attribute.
@@ -111,7 +120,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__PARAMS = 4;
+	int CONVERSION_MODULE__PARAMS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Before Convertation Event</b></em>' attribute.
@@ -120,7 +129,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT = 5;
+	int CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT = 6;
 
 	/**
 	 * The feature id for the '<em><b>After Convertation Event</b></em>' attribute.
@@ -129,7 +138,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__AFTER_CONVERTATION_EVENT = 6;
+	int CONVERSION_MODULE__AFTER_CONVERTATION_EVENT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Before Filling Event</b></em>' attribute.
@@ -138,7 +147,16 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__BEFORE_FILLING_EVENT = 7;
+	int CONVERSION_MODULE__BEFORE_FILLING_EVENT = 8;
+
+	/**
+	 * The feature id for the '<em><b>Before Convertation Event Node</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Sending Rules</b></em>' containment reference list.
@@ -147,7 +165,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__SENDING_RULES = 8;
+	int CONVERSION_MODULE__SENDING_RULES = 10;
 
 	/**
 	 * The feature id for the '<em><b>Algorithms</b></em>' attribute.
@@ -156,7 +174,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__ALGORITHMS = 9;
+	int CONVERSION_MODULE__ALGORITHMS = 11;
 
 	/**
 	 * The number of structural features of the '<em>Conversion Module</em>' class.
@@ -165,7 +183,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE_FEATURE_COUNT = 10;
+	int CONVERSION_MODULE_FEATURE_COUNT = 12;
 
 	/**
 	 * The number of operations of the '<em>Conversion Module</em>' class.
@@ -428,6 +446,17 @@ public interface CmPackage extends EPackage {
 	EAttribute getConversionModule_StoreVersion();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleURI <em>Module URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Module URI</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleURI()
+	 * @see #getConversionModule()
+	 * @generated
+	 */
+	EAttribute getConversionModule_ModuleURI();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRules <em>Data Rules</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -503,6 +532,17 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getConversionModule_BeforeFillingEvent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Before Convertation Event Node</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode()
+	 * @see #getConversionModule()
+	 * @generated
+	 */
+	EAttribute getConversionModule_BeforeConvertationEventNode();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getSendingRules <em>Sending Rules</em>}'.
@@ -773,6 +813,14 @@ public interface CmPackage extends EPackage {
 		EAttribute CONVERSION_MODULE__STORE_VERSION = eINSTANCE.getConversionModule_StoreVersion();
 
 		/**
+		 * The meta object literal for the '<em><b>Module URI</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONVERSION_MODULE__MODULE_URI = eINSTANCE.getConversionModule_ModuleURI();
+
+		/**
 		 * The meta object literal for the '<em><b>Data Rules</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -827,6 +875,14 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONVERSION_MODULE__BEFORE_FILLING_EVENT = eINSTANCE.getConversionModule_BeforeFillingEvent();
+
+		/**
+		 * The meta object literal for the '<em><b>Before Convertation Event Node</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE = eINSTANCE.getConversionModule_BeforeConvertationEventNode();
 
 		/**
 		 * The meta object literal for the '<em><b>Sending Rules</b></em>' containment reference list feature.

@@ -1,6 +1,7 @@
 
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -13,16 +14,25 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -216,6 +226,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		innerEditor.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
+		Button button = new Button(editorComposite, SWT.PUSH);
+		button.setText("Click Me");
+
 		tabItem.setControl(editorComposite);
 
 		// Перед отложенным заполнением
@@ -248,6 +261,57 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		treeViewerSendingEvents.expandAll();
 
 		hookListeners();
+
+		button.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+				ConversionModule conversionModule = conversionModuleAnalyzer.getConversionModule();
+				ICompositeNode node = (ICompositeNode) conversionModule.getBeforeConvertationEventNode();
+
+				URI moduleURI = (URI) conversionModule.getModuleURI();
+				IFile moduleFile = resourceLookup.getPlatformResource(moduleURI);
+
+				IEditorPart embeddedEditor = null;
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				for (IEditorReference editorReference : page.getEditorReferences()) {
+					final IEditorPart[] editor = new IEditorPart[1];
+					editor[0] = editorReference.getEditor(false);
+					if (editor != null) {
+						if (editor[0] instanceof XtextEditor) {
+							embeddedEditor = editor[0];
+							break;
+						} else {
+							if (editor[0] != null) {
+								embeddedEditor = editor[0].getAdapter(XtextEditor.class);
+							}
+							if (embeddedEditor instanceof XtextEditor) {
+								break;
+							}
+						}
+					}
+				}
+
+				if (embeddedEditor == null) return;
+				
+//				IDocumentProvider provider = new TextFileDocumentProvider();
+//				try {
+//					provider.connect(moduleFile);
+//					IDocument doc = provider.getDocument(moduleFile);
+//					doc.replace(node.getOffset(), node.getLength(), getModelAccess().getEditablePart());
+//					provider.saveDocument(null, null, doc, false);
+//
+//				} catch (CoreException e) {
+//					e.printStackTrace();
+//
+//				} catch (BadLocationException e) {
+//					e.printStackTrace();
+//
+//				}
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
 	}
 
 	@Override
@@ -286,6 +350,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 			}
 		}));
+
 	}
 
 	private synchronized CustomEmbeddedEditorModelAccess getModelAccess() {
