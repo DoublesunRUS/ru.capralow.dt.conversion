@@ -22,16 +22,16 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDisabled <em>Is Disabled</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getConfigurationObject <em>Configuration Object</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getFormatObject <em>Format Object</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getForSending <em>For Sending</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getForReceiving <em>For Receiving</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getSelectionVariant <em>Selection Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEvent <em>Data Selection Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getBeforeProcessingEvent <em>Before Processing Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEvent <em>On Processing Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getForSending <em>For Sending</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getForReceiving <em>For Receiving</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getConfigurationObject <em>Configuration Object</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getFormatObject <em>Format Object</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDisabled <em>Is Disabled</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getSelectionVariant <em>Selection Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
  *
@@ -90,6 +90,132 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getIsDisabled() {
+		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__IS_DISABLED, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsDisabled(Boolean newIsDisabled) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__IS_DISABLED, newIsDisabled);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getConfigurationObject() {
+		return (Object)eGet(CmPackage.Literals.CM_DATA_RULE__CONFIGURATION_OBJECT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConfigurationObject(Object newConfigurationObject) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__CONFIGURATION_OBJECT, newConfigurationObject);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFormatObject() {
+		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__FORMAT_OBJECT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFormatObject(String newFormatObject) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__FORMAT_OBJECT, newFormatObject);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getForSending() {
+		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__FOR_SENDING, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setForSending(Boolean newForSending) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__FOR_SENDING, newForSending);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getForReceiving() {
+		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__FOR_RECEIVING, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setForReceiving(Boolean newForReceiving) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__FOR_RECEIVING, newForReceiving);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getIsDataCleaning() {
+		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsDataCleaning(Boolean newIsDataCleaning) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, newIsDataCleaning);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmSelectionVariant getSelectionVariant() {
+		return (CmSelectionVariant)eGet(CmPackage.Literals.CM_DATA_RULE__SELECTION_VARIANT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSelectionVariant(CmSelectionVariant newSelectionVariant) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__SELECTION_VARIANT, newSelectionVariant);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getDataSelectionEvent() {
 		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT, true);
 	}
@@ -137,132 +263,6 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	 */
 	public void setOnProcessingEvent(String newOnProcessingEvent) {
 		eSet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT, newOnProcessingEvent);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Boolean getForSending() {
-		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__FOR_SENDING, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setForSending(Boolean newForSending) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__FOR_SENDING, newForSending);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Boolean getForReceiving() {
-		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__FOR_RECEIVING, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setForReceiving(Boolean newForReceiving) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__FOR_RECEIVING, newForReceiving);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object getConfigurationObject() {
-		return (Object)eGet(CmPackage.Literals.CM_DATA_RULE__CONFIGURATION_OBJECT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setConfigurationObject(Object newConfigurationObject) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__CONFIGURATION_OBJECT, newConfigurationObject);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getFormatObject() {
-		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__FORMAT_OBJECT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setFormatObject(String newFormatObject) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__FORMAT_OBJECT, newFormatObject);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Boolean getIsDisabled() {
-		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__IS_DISABLED, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIsDisabled(Boolean newIsDisabled) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__IS_DISABLED, newIsDisabled);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Boolean getIsDataCleaning() {
-		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIsDataCleaning(Boolean newIsDataCleaning) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, newIsDataCleaning);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CmSelectionVariant getSelectionVariant() {
-		return (CmSelectionVariant)eGet(CmPackage.Literals.CM_DATA_RULE__SELECTION_VARIANT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSelectionVariant(CmSelectionVariant newSelectionVariant) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__SELECTION_VARIANT, newSelectionVariant);
 	}
 
 	/**

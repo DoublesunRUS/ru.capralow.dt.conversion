@@ -9,7 +9,21 @@ class ConversionModule {
 	Object moduleURI
 	
 	contains CmDataRule[] dataRules
+	op CmDataRule getDataRule(String ruleName) {
+		for (CmDataRule dataRule : dataRules) {
+			if (ruleName == dataRule.getName) return dataRule
+		}
+		return null;
+	}
+	
 	contains CmObjectRule[] objectRules
+	op CmObjectRule getObjectRule(String ruleName) {
+		for (CmObjectRule objectRule : objectRules) {
+			if (ruleName == objectRule.getName) return objectRule
+		}
+		return null;
+	}
+	
 	String predefineds
 	
 	String params
@@ -17,7 +31,7 @@ class ConversionModule {
 	String beforeConvertationEvent
 	String afterConvertationEvent
 	String beforeFillingEvent
-	Object beforeConvertationEventNode
+	Object beforeConvertationEventMethod
 	
 	contains CmSendingRule[] sendingRules
 	
@@ -33,20 +47,19 @@ class CmSendingRule {
 class CmDataRule {
 	String name
 	
-	String dataSelectionEvent
-	String beforeProcessingEvent
-	String onProcessingEvent
-	
-	Boolean forSending
-	Boolean forReceiving
-	
+	Boolean isDisabled
+
 	Object configurationObject
 	String formatObject
 	
-	Boolean isDisabled
+	Boolean forSending
+	Boolean forReceiving
 	Boolean isDataCleaning
-	
 	CmSelectionVariant selectionVariant
+	
+	String dataSelectionEvent
+	String beforeProcessingEvent
+	String onProcessingEvent
 	
 	refers CmObjectRule[] objectRules
 }
@@ -58,5 +71,40 @@ enum CmSelectionVariant {
 
 class CmObjectRule {
 	String name
+
+	Boolean isDisabled
+
+	Object configurationObject
+	String formatObject
 	
+	Boolean forSending
+	Boolean forReceiving
+	Boolean isForGroup
+	CmIdentificationVariant identificationVariant
+	
+	String beforeSendingEvent
+	String onSendingEvent
+	String beforeReceivingEvent
+	String onReceivingEvent
+	String afterReceivingAlgorithm
+
+	contains CmAttributeRule[] attributeRules
+}
+
+enum CmIdentificationVariant {
+	UUID as "По уникальному идентификатору" = 0
+	SearchFields as "По полям поиска" = 1
+	UUIDThenSerachFields as "Сначала по уникальному идентификатору потом по полям поиска" = 2
+}
+
+class CmAttributeRule {
+	String configurationTabularSectionName
+	String configurationAttributeName
+	
+	String formatTabularSectionName
+	String formatAttributeName
+	
+	refers CmObjectRule objectRule
+	
+	Boolean isCustomRule
 }

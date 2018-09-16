@@ -90,6 +90,12 @@ public class CmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CmPackage.CM_ATTRIBUTE_RULE: {
+				CmAttributeRule cmAttributeRule = (CmAttributeRule)theEObject;
+				T result = caseCmAttributeRule(cmAttributeRule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -151,6 +157,21 @@ public class CmSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCmObjectRule(CmObjectRule object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute Rule</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmAttributeRule(CmAttributeRule object) {
 		return null;
 	}
 

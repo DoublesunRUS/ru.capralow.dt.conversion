@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventMethod <em>Before Convertation Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getSendingRules <em>Sending Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
@@ -250,30 +250,30 @@ public interface ConversionModule extends IBmObject {
 	void setBeforeFillingEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Before Convertation Event Node</b></em>' attribute.
+	 * Returns the value of the '<em><b>Before Convertation Event Method</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Before Convertation Event Node</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Before Convertation Event Method</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Convertation Event Node</em>' attribute.
-	 * @see #setBeforeConvertationEventNode(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeConvertationEventNode()
+	 * @return the value of the '<em>Before Convertation Event Method</em>' attribute.
+	 * @see #setBeforeConvertationEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeConvertationEventMethod()
 	 * @model unique="false"
 	 * @generated
 	 */
-	Object getBeforeConvertationEventNode();
+	Object getBeforeConvertationEventMethod();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventMethod <em>Before Convertation Event Method</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Convertation Event Node</em>' attribute.
-	 * @see #getBeforeConvertationEventNode()
+	 * @param value the new value of the '<em>Before Convertation Event Method</em>' attribute.
+	 * @see #getBeforeConvertationEventMethod()
 	 * @generated
 	 */
-	void setBeforeConvertationEventNode(Object value);
+	void setBeforeConvertationEventMethod(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>Sending Rules</b></em>' containment reference list.
@@ -316,5 +316,23 @@ public interface ConversionModule extends IBmObject {
 	 * @generated
 	 */
 	void setAlgorithms(String value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false" ruleNameUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmDataRule%&gt; dataRule : _dataRules)\n{\n\t&lt;%java.lang.String%&gt; _name = dataRule.getName();\n\tboolean _equals = &lt;%com.google.common.base.Objects%&gt;.equal(ruleName, _name);\n\tif (_equals)\n\t{\n\t\treturn dataRule;\n\t}\n}\nreturn null;'"
+	 * @generated
+	 */
+	CmDataRule getDataRule(String ruleName);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false" ruleNameUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\t&lt;%java.lang.String%&gt; _name = objectRule.getName();\n\tboolean _equals = &lt;%com.google.common.base.Objects%&gt;.equal(ruleName, _name);\n\tif (_equals)\n\t{\n\t\treturn objectRule;\n\t}\n}\nreturn null;'"
+	 * @generated
+	 */
+	CmObjectRule getObjectRule(String ruleName);
 
 } // ConversionModule

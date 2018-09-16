@@ -5,6 +5,7 @@ package ru.capralow.dt.conversion.plugin.core.cm;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -150,13 +151,13 @@ public interface CmPackage extends EPackage {
 	int CONVERSION_MODULE__BEFORE_FILLING_EVENT = 8;
 
 	/**
-	 * The feature id for the '<em><b>Before Convertation Event Node</b></em>' attribute.
+	 * The feature id for the '<em><b>Before Convertation Event Method</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE = 9;
+	int CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_METHOD = 9;
 
 	/**
 	 * The feature id for the '<em><b>Sending Rules</b></em>' containment reference list.
@@ -186,13 +187,31 @@ public interface CmPackage extends EPackage {
 	int CONVERSION_MODULE_FEATURE_COUNT = 12;
 
 	/**
+	 * The operation id for the '<em>Get Data Rule</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE___GET_DATA_RULE__STRING = 0;
+
+	/**
+	 * The operation id for the '<em>Get Object Rule</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE___GET_OBJECT_RULE__STRING = 1;
+
+	/**
 	 * The number of operations of the '<em>Conversion Module</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE_OPERATION_COUNT = 0;
+	int CONVERSION_MODULE_OPERATION_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmSendingRuleImpl <em>Sending Rule</em>}' class.
@@ -260,31 +279,31 @@ public interface CmPackage extends EPackage {
 	int CM_DATA_RULE__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Data Selection Event</b></em>' attribute.
+	 * The feature id for the '<em><b>Is Disabled</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__DATA_SELECTION_EVENT = 1;
+	int CM_DATA_RULE__IS_DISABLED = 1;
 
 	/**
-	 * The feature id for the '<em><b>Before Processing Event</b></em>' attribute.
+	 * The feature id for the '<em><b>Configuration Object</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__BEFORE_PROCESSING_EVENT = 2;
+	int CM_DATA_RULE__CONFIGURATION_OBJECT = 2;
 
 	/**
-	 * The feature id for the '<em><b>On Processing Event</b></em>' attribute.
+	 * The feature id for the '<em><b>Format Object</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__ON_PROCESSING_EVENT = 3;
+	int CM_DATA_RULE__FORMAT_OBJECT = 3;
 
 	/**
 	 * The feature id for the '<em><b>For Sending</b></em>' attribute.
@@ -305,40 +324,13 @@ public interface CmPackage extends EPackage {
 	int CM_DATA_RULE__FOR_RECEIVING = 5;
 
 	/**
-	 * The feature id for the '<em><b>Configuration Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_DATA_RULE__CONFIGURATION_OBJECT = 6;
-
-	/**
-	 * The feature id for the '<em><b>Format Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_DATA_RULE__FORMAT_OBJECT = 7;
-
-	/**
-	 * The feature id for the '<em><b>Is Disabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_DATA_RULE__IS_DISABLED = 8;
-
-	/**
 	 * The feature id for the '<em><b>Is Data Cleaning</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__IS_DATA_CLEANING = 9;
+	int CM_DATA_RULE__IS_DATA_CLEANING = 6;
 
 	/**
 	 * The feature id for the '<em><b>Selection Variant</b></em>' attribute.
@@ -347,7 +339,34 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__SELECTION_VARIANT = 10;
+	int CM_DATA_RULE__SELECTION_VARIANT = 7;
+
+	/**
+	 * The feature id for the '<em><b>Data Selection Event</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__DATA_SELECTION_EVENT = 8;
+
+	/**
+	 * The feature id for the '<em><b>Before Processing Event</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__BEFORE_PROCESSING_EVENT = 9;
+
+	/**
+	 * The feature id for the '<em><b>On Processing Event</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__ON_PROCESSING_EVENT = 10;
 
 	/**
 	 * The feature id for the '<em><b>Object Rules</b></em>' reference list.
@@ -396,13 +415,130 @@ public interface CmPackage extends EPackage {
 	int CM_OBJECT_RULE__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Is Disabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__IS_DISABLED = 1;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__CONFIGURATION_OBJECT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Format Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__FORMAT_OBJECT = 3;
+
+	/**
+	 * The feature id for the '<em><b>For Sending</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__FOR_SENDING = 4;
+
+	/**
+	 * The feature id for the '<em><b>For Receiving</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__FOR_RECEIVING = 5;
+
+	/**
+	 * The feature id for the '<em><b>Is For Group</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__IS_FOR_GROUP = 6;
+
+	/**
+	 * The feature id for the '<em><b>Identification Variant</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__IDENTIFICATION_VARIANT = 7;
+
+	/**
+	 * The feature id for the '<em><b>Before Sending Event</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__BEFORE_SENDING_EVENT = 8;
+
+	/**
+	 * The feature id for the '<em><b>On Sending Event</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__ON_SENDING_EVENT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Before Receiving Event</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT = 10;
+
+	/**
+	 * The feature id for the '<em><b>On Receiving Event</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__ON_RECEIVING_EVENT = 11;
+
+	/**
+	 * The feature id for the '<em><b>After Receiving Algorithm</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = 12;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__ATTRIBUTE_RULES = 13;
+
+	/**
 	 * The number of structural features of the '<em>Object Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE_FEATURE_COUNT = 1;
+	int CM_OBJECT_RULE_FEATURE_COUNT = 14;
 
 	/**
 	 * The number of operations of the '<em>Object Rule</em>' class.
@@ -414,6 +550,88 @@ public interface CmPackage extends EPackage {
 	int CM_OBJECT_RULE_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl <em>Attribute Rule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmAttributeRule()
+	 * @generated
+	 */
+	int CM_ATTRIBUTE_RULE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Tabular Section Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION_NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Attribute Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE__CONFIGURATION_ATTRIBUTE_NAME = 1;
+
+	/**
+	 * The feature id for the '<em><b>Format Tabular Section Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE__FORMAT_TABULAR_SECTION_NAME = 2;
+
+	/**
+	 * The feature id for the '<em><b>Format Attribute Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE__FORMAT_ATTRIBUTE_NAME = 3;
+
+	/**
+	 * The feature id for the '<em><b>Object Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE__OBJECT_RULE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Is Custom Rule</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE = 5;
+
+	/**
+	 * The number of structural features of the '<em>Attribute Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE_FEATURE_COUNT = 6;
+
+	/**
+	 * The number of operations of the '<em>Attribute Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant <em>Selection Variant</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -421,7 +639,17 @@ public interface CmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmSelectionVariant()
 	 * @generated
 	 */
-	int CM_SELECTION_VARIANT = 4;
+	int CM_SELECTION_VARIANT = 5;
+
+	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant <em>Identification Variant</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmIdentificationVariant()
+	 * @generated
+	 */
+	int CM_IDENTIFICATION_VARIANT = 6;
 
 
 	/**
@@ -534,15 +762,15 @@ public interface CmPackage extends EPackage {
 	EAttribute getConversionModule_BeforeFillingEvent();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}'.
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventMethod <em>Before Convertation Event Method</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Before Convertation Event Node</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventNode()
+	 * @return the meta object for the attribute '<em>Before Convertation Event Method</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventMethod()
 	 * @see #getConversionModule()
 	 * @generated
 	 */
-	EAttribute getConversionModule_BeforeConvertationEventNode();
+	EAttribute getConversionModule_BeforeConvertationEventMethod();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getSendingRules <em>Sending Rules</em>}'.
@@ -565,6 +793,26 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getConversionModule_Algorithms();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRule(java.lang.String) <em>Get Data Rule</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Data Rule</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRule(java.lang.String)
+	 * @generated
+	 */
+	EOperation getConversionModule__GetDataRule__String();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getObjectRule(java.lang.String) <em>Get Object Rule</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Object Rule</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getObjectRule(java.lang.String)
+	 * @generated
+	 */
+	EOperation getConversionModule__GetObjectRule__String();
 
 	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule <em>Sending Rule</em>}'.
@@ -620,6 +868,83 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmDataRule_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDisabled <em>Is Disabled</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Disabled</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDisabled()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_IsDisabled();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConfigurationObject <em>Configuration Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Configuration Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConfigurationObject()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_ConfigurationObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObject <em>Format Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObject()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_FormatObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForSending <em>For Sending</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>For Sending</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForSending()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_ForSending();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForReceiving <em>For Receiving</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>For Receiving</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForReceiving()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_ForReceiving();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Data Cleaning</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_IsDataCleaning();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant <em>Selection Variant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Selection Variant</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_SelectionVariant();
+
+	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEvent <em>Data Selection Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -651,83 +976,6 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCmDataRule_OnProcessingEvent();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForSending <em>For Sending</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Sending</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForSending()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_ForSending();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForReceiving <em>For Receiving</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Receiving</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForReceiving()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_ForReceiving();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConfigurationObject <em>Configuration Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConfigurationObject()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_ConfigurationObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObject <em>Format Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Format Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObject()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_FormatObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDisabled <em>Is Disabled</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Disabled</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDisabled()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_IsDisabled();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Data Cleaning</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_IsDataCleaning();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant <em>Selection Variant</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Selection Variant</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_SelectionVariant();
 
 	/**
 	 * Returns the meta object for the reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getObjectRules <em>Object Rules</em>}'.
@@ -762,6 +1010,225 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmObjectRule_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsDisabled <em>Is Disabled</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Disabled</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsDisabled()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_IsDisabled();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConfigurationObject <em>Configuration Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Configuration Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConfigurationObject()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_ConfigurationObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getFormatObject <em>Format Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getFormatObject()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_FormatObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForSending <em>For Sending</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>For Sending</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForSending()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_ForSending();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForReceiving <em>For Receiving</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>For Receiving</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForReceiving()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_ForReceiving();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsForGroup <em>Is For Group</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is For Group</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsForGroup()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_IsForGroup();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Identification Variant</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_IdentificationVariant();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEvent <em>Before Sending Event</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Before Sending Event</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEvent()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_BeforeSendingEvent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEvent <em>On Sending Event</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>On Sending Event</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEvent()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_OnSendingEvent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEvent <em>Before Receiving Event</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Before Receiving Event</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEvent()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_BeforeReceivingEvent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEvent <em>On Receiving Event</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>On Receiving Event</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEvent()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_OnReceivingEvent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>After Receiving Algorithm</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_AfterReceivingAlgorithm();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attribute Rules</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EReference getCmObjectRule_AttributeRules();
+
+	/**
+	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule <em>Attribute Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Attribute Rule</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule
+	 * @generated
+	 */
+	EClass getCmAttributeRule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getConfigurationTabularSectionName <em>Configuration Tabular Section Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Configuration Tabular Section Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getConfigurationTabularSectionName()
+	 * @see #getCmAttributeRule()
+	 * @generated
+	 */
+	EAttribute getCmAttributeRule_ConfigurationTabularSectionName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getConfigurationAttributeName <em>Configuration Attribute Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Configuration Attribute Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getConfigurationAttributeName()
+	 * @see #getCmAttributeRule()
+	 * @generated
+	 */
+	EAttribute getCmAttributeRule_ConfigurationAttributeName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getFormatTabularSectionName <em>Format Tabular Section Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format Tabular Section Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getFormatTabularSectionName()
+	 * @see #getCmAttributeRule()
+	 * @generated
+	 */
+	EAttribute getCmAttributeRule_FormatTabularSectionName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getFormatAttributeName <em>Format Attribute Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format Attribute Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getFormatAttributeName()
+	 * @see #getCmAttributeRule()
+	 * @generated
+	 */
+	EAttribute getCmAttributeRule_FormatAttributeName();
+
+	/**
+	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getObjectRule <em>Object Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Object Rule</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getObjectRule()
+	 * @see #getCmAttributeRule()
+	 * @generated
+	 */
+	EReference getCmAttributeRule_ObjectRule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getIsCustomRule <em>Is Custom Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Custom Rule</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule#getIsCustomRule()
+	 * @see #getCmAttributeRule()
+	 * @generated
+	 */
+	EAttribute getCmAttributeRule_IsCustomRule();
+
+	/**
 	 * Returns the meta object for enum '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant <em>Selection Variant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -770,6 +1237,16 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getCmSelectionVariant();
+
+	/**
+	 * Returns the meta object for enum '{@link ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant <em>Identification Variant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Identification Variant</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant
+	 * @generated
+	 */
+	EEnum getCmIdentificationVariant();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -877,12 +1354,12 @@ public interface CmPackage extends EPackage {
 		EAttribute CONVERSION_MODULE__BEFORE_FILLING_EVENT = eINSTANCE.getConversionModule_BeforeFillingEvent();
 
 		/**
-		 * The meta object literal for the '<em><b>Before Convertation Event Node</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Before Convertation Event Method</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE = eINSTANCE.getConversionModule_BeforeConvertationEventNode();
+		EAttribute CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_METHOD = eINSTANCE.getConversionModule_BeforeConvertationEventMethod();
 
 		/**
 		 * The meta object literal for the '<em><b>Sending Rules</b></em>' containment reference list feature.
@@ -899,6 +1376,22 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONVERSION_MODULE__ALGORITHMS = eINSTANCE.getConversionModule_Algorithms();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Data Rule</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONVERSION_MODULE___GET_DATA_RULE__STRING = eINSTANCE.getConversionModule__GetDataRule__String();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Object Rule</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONVERSION_MODULE___GET_OBJECT_RULE__STRING = eINSTANCE.getConversionModule__GetObjectRule__String();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmSendingRuleImpl <em>Sending Rule</em>}' class.
@@ -945,6 +1438,62 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_DATA_RULE__NAME = eINSTANCE.getCmDataRule_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Disabled</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__IS_DISABLED = eINSTANCE.getCmDataRule_IsDisabled();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Object</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__CONFIGURATION_OBJECT = eINSTANCE.getCmDataRule_ConfigurationObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Format Object</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__FORMAT_OBJECT = eINSTANCE.getCmDataRule_FormatObject();
+
+		/**
+		 * The meta object literal for the '<em><b>For Sending</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__FOR_SENDING = eINSTANCE.getCmDataRule_ForSending();
+
+		/**
+		 * The meta object literal for the '<em><b>For Receiving</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__FOR_RECEIVING = eINSTANCE.getCmDataRule_ForReceiving();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Data Cleaning</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__IS_DATA_CLEANING = eINSTANCE.getCmDataRule_IsDataCleaning();
+
+		/**
+		 * The meta object literal for the '<em><b>Selection Variant</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__SELECTION_VARIANT = eINSTANCE.getCmDataRule_SelectionVariant();
+
+		/**
 		 * The meta object literal for the '<em><b>Data Selection Event</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -967,62 +1516,6 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CM_DATA_RULE__ON_PROCESSING_EVENT = eINSTANCE.getCmDataRule_OnProcessingEvent();
-
-		/**
-		 * The meta object literal for the '<em><b>For Sending</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__FOR_SENDING = eINSTANCE.getCmDataRule_ForSending();
-
-		/**
-		 * The meta object literal for the '<em><b>For Receiving</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__FOR_RECEIVING = eINSTANCE.getCmDataRule_ForReceiving();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__CONFIGURATION_OBJECT = eINSTANCE.getCmDataRule_ConfigurationObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Format Object</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__FORMAT_OBJECT = eINSTANCE.getCmDataRule_FormatObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Disabled</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__IS_DISABLED = eINSTANCE.getCmDataRule_IsDisabled();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Data Cleaning</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__IS_DATA_CLEANING = eINSTANCE.getCmDataRule_IsDataCleaning();
-
-		/**
-		 * The meta object literal for the '<em><b>Selection Variant</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__SELECTION_VARIANT = eINSTANCE.getCmDataRule_SelectionVariant();
 
 		/**
 		 * The meta object literal for the '<em><b>Object Rules</b></em>' reference list feature.
@@ -1051,6 +1544,168 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_OBJECT_RULE__NAME = eINSTANCE.getCmObjectRule_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Disabled</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__IS_DISABLED = eINSTANCE.getCmObjectRule_IsDisabled();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Object</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__CONFIGURATION_OBJECT = eINSTANCE.getCmObjectRule_ConfigurationObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Format Object</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__FORMAT_OBJECT = eINSTANCE.getCmObjectRule_FormatObject();
+
+		/**
+		 * The meta object literal for the '<em><b>For Sending</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__FOR_SENDING = eINSTANCE.getCmObjectRule_ForSending();
+
+		/**
+		 * The meta object literal for the '<em><b>For Receiving</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__FOR_RECEIVING = eINSTANCE.getCmObjectRule_ForReceiving();
+
+		/**
+		 * The meta object literal for the '<em><b>Is For Group</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__IS_FOR_GROUP = eINSTANCE.getCmObjectRule_IsForGroup();
+
+		/**
+		 * The meta object literal for the '<em><b>Identification Variant</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__IDENTIFICATION_VARIANT = eINSTANCE.getCmObjectRule_IdentificationVariant();
+
+		/**
+		 * The meta object literal for the '<em><b>Before Sending Event</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__BEFORE_SENDING_EVENT = eINSTANCE.getCmObjectRule_BeforeSendingEvent();
+
+		/**
+		 * The meta object literal for the '<em><b>On Sending Event</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__ON_SENDING_EVENT = eINSTANCE.getCmObjectRule_OnSendingEvent();
+
+		/**
+		 * The meta object literal for the '<em><b>Before Receiving Event</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT = eINSTANCE.getCmObjectRule_BeforeReceivingEvent();
+
+		/**
+		 * The meta object literal for the '<em><b>On Receiving Event</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__ON_RECEIVING_EVENT = eINSTANCE.getCmObjectRule_OnReceivingEvent();
+
+		/**
+		 * The meta object literal for the '<em><b>After Receiving Algorithm</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = eINSTANCE.getCmObjectRule_AfterReceivingAlgorithm();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Rules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CM_OBJECT_RULE__ATTRIBUTE_RULES = eINSTANCE.getCmObjectRule_AttributeRules();
+
+		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl <em>Attribute Rule</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmAttributeRule()
+		 * @generated
+		 */
+		EClass CM_ATTRIBUTE_RULE = eINSTANCE.getCmAttributeRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Tabular Section Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION_NAME = eINSTANCE.getCmAttributeRule_ConfigurationTabularSectionName();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Attribute Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ATTRIBUTE_RULE__CONFIGURATION_ATTRIBUTE_NAME = eINSTANCE.getCmAttributeRule_ConfigurationAttributeName();
+
+		/**
+		 * The meta object literal for the '<em><b>Format Tabular Section Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ATTRIBUTE_RULE__FORMAT_TABULAR_SECTION_NAME = eINSTANCE.getCmAttributeRule_FormatTabularSectionName();
+
+		/**
+		 * The meta object literal for the '<em><b>Format Attribute Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ATTRIBUTE_RULE__FORMAT_ATTRIBUTE_NAME = eINSTANCE.getCmAttributeRule_FormatAttributeName();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Rule</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CM_ATTRIBUTE_RULE__OBJECT_RULE = eINSTANCE.getCmAttributeRule_ObjectRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Custom Rule</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE = eINSTANCE.getCmAttributeRule_IsCustomRule();
+
+		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant <em>Selection Variant</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1059,6 +1714,16 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum CM_SELECTION_VARIANT = eINSTANCE.getCmSelectionVariant();
+
+		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant <em>Identification Variant</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmIdentificationVariant()
+		 * @generated
+		 */
+		EEnum CM_IDENTIFICATION_VARIANT = eINSTANCE.getCmIdentificationVariant();
 
 	}
 

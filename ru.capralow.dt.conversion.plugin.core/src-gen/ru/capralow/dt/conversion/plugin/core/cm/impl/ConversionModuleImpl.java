@@ -4,6 +4,10 @@ package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
 import com._1c.g5.v8.bm.core.BmObject;
 
+import com.google.common.base.Objects;
+
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -31,7 +35,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEventNode <em>Before Convertation Event Node</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEventMethod <em>Before Convertation Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getSendingRules <em>Sending Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
@@ -219,8 +223,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getBeforeConvertationEventNode() {
-		return (Object)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE, true);
+	public Object getBeforeConvertationEventMethod() {
+		return (Object)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_METHOD, true);
 	}
 
 	/**
@@ -228,8 +232,8 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBeforeConvertationEventNode(Object newBeforeConvertationEventNode) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_NODE, newBeforeConvertationEventNode);
+	public void setBeforeConvertationEventMethod(Object newBeforeConvertationEventMethod) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_METHOD, newBeforeConvertationEventMethod);
 	}
 
 	/**
@@ -258,6 +262,56 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 */
 	public void setAlgorithms(String newAlgorithms) {
 		eSet(CmPackage.Literals.CONVERSION_MODULE__ALGORITHMS, newAlgorithms);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmDataRule getDataRule(final String ruleName) {
+		EList<CmDataRule> _dataRules = this.getDataRules();
+		for (final CmDataRule dataRule : _dataRules) {
+			String _name = dataRule.getName();
+			boolean _equals = Objects.equal(ruleName, _name);
+			if (_equals) {
+				return dataRule;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmObjectRule getObjectRule(final String ruleName) {
+		EList<CmObjectRule> _objectRules = this.getObjectRules();
+		for (final CmObjectRule objectRule : _objectRules) {
+			String _name = objectRule.getName();
+			boolean _equals = Objects.equal(ruleName, _name);
+			if (_equals) {
+				return objectRule;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case CmPackage.CONVERSION_MODULE___GET_DATA_RULE__STRING:
+				return getDataRule((String)arguments.get(0));
+			case CmPackage.CONVERSION_MODULE___GET_OBJECT_RULE__STRING:
+				return getObjectRule((String)arguments.get(0));
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //ConversionModuleImpl

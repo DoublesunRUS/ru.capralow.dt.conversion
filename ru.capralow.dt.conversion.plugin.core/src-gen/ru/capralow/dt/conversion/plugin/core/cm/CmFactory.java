@@ -58,6 +58,15 @@ public interface CmFactory extends EFactory {
 	CmObjectRule createCmObjectRule();
 
 	/**
+	 * Returns a new object of class '<em>Attribute Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Attribute Rule</em>'.
+	 * @generated
+	 */
+	CmAttributeRule createCmAttributeRule();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

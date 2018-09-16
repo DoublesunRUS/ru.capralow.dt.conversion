@@ -84,6 +84,10 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 				return createCmObjectRuleAdapter();
 			}
 			@Override
+			public Adapter caseCmAttributeRule(CmAttributeRule object) {
+				return createCmAttributeRuleAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -156,6 +160,20 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCmObjectRuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule <em>Attribute Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule
+	 * @generated
+	 */
+	public Adapter createCmAttributeRuleAdapter() {
 		return null;
 	}
 

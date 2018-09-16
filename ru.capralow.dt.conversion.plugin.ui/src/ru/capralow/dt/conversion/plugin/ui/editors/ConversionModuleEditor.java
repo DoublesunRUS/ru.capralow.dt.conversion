@@ -31,6 +31,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
@@ -39,6 +40,7 @@ import org.eclipse.xtext.validation.IResourceValidator;
 
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
+import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
@@ -138,8 +140,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem.setText("Получение");
 
 		Tree tree2 = new Tree(tabFolder, SWT.NONE);
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		tree.setHeaderVisible(true);
+		tree2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		tree2.setHeaderVisible(true);
 		TreeColumn column21 = new TreeColumn(tree2, SWT.LEFT);
 		column21.setText("Column 1");
 		column21.setWidth(200);
@@ -161,8 +163,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem.setText("Предопределенные");
 
 		Tree tree3 = new Tree(tabFolder, SWT.NONE);
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		tree.setHeaderVisible(true);
+		tree3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		tree3.setHeaderVisible(true);
 		TreeColumn column31 = new TreeColumn(tree3, SWT.LEFT);
 		column31.setText("Column 1");
 		column31.setWidth(200);
@@ -184,8 +186,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem.setText("Алгоритмы");
 
 		Tree tree4 = new Tree(tabFolder, SWT.NONE);
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		tree.setHeaderVisible(true);
+		tree4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		tree4.setHeaderVisible(true);
 		TreeColumn column41 = new TreeColumn(tree4, SWT.LEFT);
 		column41.setText("Column 1");
 		column41.setWidth(200);
@@ -266,19 +268,20 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 			public void widgetSelected(SelectionEvent event) {
 				ConversionModule conversionModule = conversionModuleAnalyzer.getConversionModule();
-				ICompositeNode node = (ICompositeNode) conversionModule.getBeforeConvertationEventNode();
+				Method method = (Method) conversionModule.getBeforeConvertationEventMethod();
+				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
 				URI moduleURI = (URI) conversionModule.getModuleURI();
 				IFile moduleFile = resourceLookup.getPlatformResource(moduleURI);
 
-				IEditorPart embeddedEditor = null;
+				XtextEditor embeddedEditor = null;
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				for (IEditorReference editorReference : page.getEditorReferences()) {
 					final IEditorPart[] editor = new IEditorPart[1];
 					editor[0] = editorReference.getEditor(false);
 					if (editor != null) {
 						if (editor[0] instanceof XtextEditor) {
-							embeddedEditor = editor[0];
+							embeddedEditor = (XtextEditor) editor[0];
 							break;
 						} else {
 							if (editor[0] != null) {
@@ -298,7 +301,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 //					provider.connect(moduleFile);
 //					IDocument doc = provider.getDocument(moduleFile);
 //					doc.replace(node.getOffset(), node.getLength(), getModelAccess().getEditablePart());
-//					provider.saveDocument(null, null, doc, false);
+//					provider.saveDocument(null, doc, doc, true);
 //
 //				} catch (CoreException e) {
 //					e.printStackTrace();
@@ -344,7 +347,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmSendingRule sendingRule = ((CmSendingRule) element);
 
 					SendingRuleDialog sendingRuleDialog = new SendingRuleDialog(
-							event.getViewer().getControl().getShell());
+							event.getViewer().getControl().getShell(), sendingRule);
 					sendingRuleDialog.open();
 				}
 
