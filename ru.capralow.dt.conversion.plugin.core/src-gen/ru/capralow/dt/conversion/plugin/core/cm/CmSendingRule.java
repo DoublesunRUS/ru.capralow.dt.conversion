@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule#getConfigurationObject <em>Configuration Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule#getDataRule <em>Data Rule</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
@@ -25,6 +26,32 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface CmSendingRule extends IBmObject {
+	/**
+	 * Returns the value of the '<em><b>Configuration Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Configuration Object</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Configuration Object</em>' attribute.
+	 * @see #setConfigurationObject(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmSendingRule_ConfigurationObject()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getConfigurationObject();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule#getConfigurationObject <em>Configuration Object</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Configuration Object</em>' attribute.
+	 * @see #getConfigurationObject()
+	 * @generated
+	 */
+	void setConfigurationObject(Object value);
+
 	/**
 	 * Returns the value of the '<em><b>Data Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->

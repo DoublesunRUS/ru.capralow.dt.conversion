@@ -224,13 +224,22 @@ public interface CmPackage extends EPackage {
 	int CM_SENDING_RULE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Configuration Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_SENDING_RULE__CONFIGURATION_OBJECT = 0;
+
+	/**
 	 * The feature id for the '<em><b>Data Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_SENDING_RULE__DATA_RULE = 0;
+	int CM_SENDING_RULE__DATA_RULE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Object Rules</b></em>' reference list.
@@ -239,7 +248,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_SENDING_RULE__OBJECT_RULES = 1;
+	int CM_SENDING_RULE__OBJECT_RULES = 2;
 
 	/**
 	 * The number of structural features of the '<em>Sending Rule</em>' class.
@@ -248,7 +257,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_SENDING_RULE_FEATURE_COUNT = 2;
+	int CM_SENDING_RULE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Sending Rule</em>' class.
@@ -823,6 +832,17 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getCmSendingRule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule#getConfigurationObject <em>Configuration Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Configuration Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule#getConfigurationObject()
+	 * @see #getCmSendingRule()
+	 * @generated
+	 */
+	EAttribute getCmSendingRule_ConfigurationObject();
 
 	/**
 	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule#getDataRule <em>Data Rule</em>}'.
@@ -1402,6 +1422,14 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CM_SENDING_RULE = eINSTANCE.getCmSendingRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Object</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_SENDING_RULE__CONFIGURATION_OBJECT = eINSTANCE.getCmSendingRule_ConfigurationObject();
 
 		/**
 		 * The meta object literal for the '<em><b>Data Rule</b></em>' reference feature.

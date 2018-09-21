@@ -4,6 +4,8 @@ package ru.capralow.dt.conversion.plugin.core.cp.impl;
 
 import com._1c.g5.v8.bm.core.BmObject;
 
+import com._1c.g5.v8.dt.bsl.model.Module;
+
 import org.eclipse.emf.ecore.EClass;
 
 import ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion;
@@ -95,8 +97,8 @@ public class CpFormatVersionImpl extends BmObject implements CpFormatVersion {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public com._1c.g5.v8.dt.bsl.model.Module getModule() {
-		return (com._1c.g5.v8.dt.bsl.model.Module)eGet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, true);
+	public Module getModule() {
+		return (Module)eGet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, true);
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class CpFormatVersionImpl extends BmObject implements CpFormatVersion {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setModule(com._1c.g5.v8.dt.bsl.model.Module newModule) {
+	public void setModule(Module newModule) {
 		eSet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, newModule);
 	}
 

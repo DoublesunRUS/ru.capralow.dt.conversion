@@ -10,7 +10,7 @@ public class SendingRulesLabelProvider implements ITableLabelProvider {
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof CmSendingRule) {
-			if (columnIndex == 0) return ((CmSendingRule) element).getDataRule().getName();
+			if (columnIndex == 0) return ((CmSendingRule) element).getConfigurationObject().toString();
 			else if (columnIndex == 1) return "2222";
 			else if (columnIndex == 2) return "3333";
 

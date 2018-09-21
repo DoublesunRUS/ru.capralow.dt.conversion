@@ -491,6 +491,9 @@ public class ConversionModuleAnalyzer {
 				continue;
 
 			CmSendingRuleImpl sendingRule = new CmSendingRuleImpl();
+			
+			sendingRule.setConfigurationObject(dataRule.getConfigurationObject());
+			
 			sendingRule.setDataRule(dataRule);
 
 			sendingRules.add(sendingRule);

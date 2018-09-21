@@ -106,7 +106,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>This method is used to initialize {@link CmPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -120,8 +120,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		if (isInited) return (CmPackage)EPackage.Registry.INSTANCE.getEPackage(CmPackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredCmPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		CmPackageImpl theCmPackage = registeredCmPackage instanceof CmPackageImpl ? (CmPackageImpl)registeredCmPackage : new CmPackageImpl();
+		CmPackageImpl theCmPackage = (CmPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CmPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CmPackageImpl());
 
 		isInited = true;
 
@@ -137,6 +136,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		// Mark meta-data to indicate it can't be changed
 		theCmPackage.freeze();
 
+  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(CmPackage.eNS_URI, theCmPackage);
 		return theCmPackage;
@@ -291,8 +291,17 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getCmSendingRule_ConfigurationObject() {
+		return (EAttribute)cmSendingRuleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getCmSendingRule_DataRule() {
-		return (EReference)cmSendingRuleEClass.getEStructuralFeatures().get(0);
+		return (EReference)cmSendingRuleEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -301,7 +310,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * @generated
 	 */
 	public EReference getCmSendingRule_ObjectRules() {
-		return (EReference)cmSendingRuleEClass.getEStructuralFeatures().get(1);
+		return (EReference)cmSendingRuleEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -682,6 +691,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_OBJECT_RULE__STRING);
 
 		cmSendingRuleEClass = createEClass(CM_SENDING_RULE);
+		createEAttribute(cmSendingRuleEClass, CM_SENDING_RULE__CONFIGURATION_OBJECT);
 		createEReference(cmSendingRuleEClass, CM_SENDING_RULE__DATA_RULE);
 		createEReference(cmSendingRuleEClass, CM_SENDING_RULE__OBJECT_RULES);
 
@@ -782,6 +792,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		addEParameter(op, theEcorePackage.getEString(), "ruleName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmSendingRuleEClass, CmSendingRule.class, "CmSendingRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(getCmSendingRule_ConfigurationObject(), theEcorePackage.getEJavaObject(), "configurationObject", null, 0, 1, CmSendingRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getCmSendingRule_DataRule(), this.getCmDataRule(), null, "dataRule", null, 0, 1, CmSendingRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getCmSendingRule_ObjectRules(), this.getCmObjectRule(), null, "objectRules", null, 0, -1, CmSendingRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 

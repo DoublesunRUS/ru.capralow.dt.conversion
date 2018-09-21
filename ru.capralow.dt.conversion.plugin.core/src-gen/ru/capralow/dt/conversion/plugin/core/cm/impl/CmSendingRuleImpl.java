@@ -21,6 +21,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmSendingRuleImpl#getConfigurationObject <em>Configuration Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmSendingRuleImpl#getDataRule <em>Data Rule</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmSendingRuleImpl#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
@@ -55,6 +56,24 @@ public class CmSendingRuleImpl extends BmObject implements CmSendingRule {
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getConfigurationObject() {
+		return (Object)eGet(CmPackage.Literals.CM_SENDING_RULE__CONFIGURATION_OBJECT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConfigurationObject(Object newConfigurationObject) {
+		eSet(CmPackage.Literals.CM_SENDING_RULE__CONFIGURATION_OBJECT, newConfigurationObject);
 	}
 
 	/**

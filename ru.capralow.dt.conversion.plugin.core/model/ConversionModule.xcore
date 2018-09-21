@@ -39,6 +39,8 @@ class ConversionModule {
 }
 
 class CmSendingRule {
+	Object configurationObject
+
 	refers CmDataRule dataRule
 
 	refers CmObjectRule[] objectRules

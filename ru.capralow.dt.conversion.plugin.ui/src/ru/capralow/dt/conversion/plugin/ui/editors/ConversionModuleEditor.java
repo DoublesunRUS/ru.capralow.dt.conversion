@@ -25,9 +25,12 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
@@ -46,6 +49,8 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
+import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
+import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule;
@@ -65,7 +70,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	private ConversionModuleAnalyzer conversionModuleAnalyzer;
 
-//	private Text textBeforeConvertationEvent;
+	// private Text textBeforeConvertationEvent;
 	private Text textBeforeFillingEvent;
 	private Text textAfterConvertationEvent;
 	private TreeViewer treeViewerSendingEvents;
@@ -85,6 +90,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Override
 	protected void createPageControls(IManagedForm managedForm) {
+		setActiveFeature(MdClassPackage.Literals.COMMON_MODULE__MODULE);
+
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
 
@@ -294,22 +301,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					}
 				}
 
-				if (embeddedEditor == null) return;
-				
-//				IDocumentProvider provider = new TextFileDocumentProvider();
-//				try {
-//					provider.connect(moduleFile);
-//					IDocument doc = provider.getDocument(moduleFile);
-//					doc.replace(node.getOffset(), node.getLength(), getModelAccess().getEditablePart());
-//					provider.saveDocument(null, doc, doc, true);
-//
-//				} catch (CoreException e) {
-//					e.printStackTrace();
-//
-//				} catch (BadLocationException e) {
-//					e.printStackTrace();
-//
-//				}
+				if (embeddedEditor == null)
+					return;
+
 			}
 
 			public void widgetDefaultSelected(SelectionEvent event) {
@@ -321,13 +315,15 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public void activate() {
 		super.activate();
 
-//		textBeforeConvertationEvent.setText(conversionModule.getBeforeConvertationEvent());
+		// textBeforeConvertationEvent.setText(conversionModule.getBeforeConvertationEvent());
 
-//		String beforeFillingEvent = conversionModule.getBeforeFillingEvent();
-//		textBeforeFillingEvent.setText(beforeFillingEvent != null ? beforeFillingEvent : "");
-//
-//		String afterConvertationEvent = conversionModule.getAfterConvertationEvent();
-//		textAfterConvertationEvent.setText(afterConvertationEvent != null ? afterConvertationEvent : "");
+		// String beforeFillingEvent = conversionModule.getBeforeFillingEvent();
+		// textBeforeFillingEvent.setText(beforeFillingEvent != null ?
+		// beforeFillingEvent : "");
+		//
+		// String afterConvertationEvent = conversionModule.getAfterConvertationEvent();
+		// textAfterConvertationEvent.setText(afterConvertationEvent != null ?
+		// afterConvertationEvent : "");
 	}
 
 	private void hookListeners() {
