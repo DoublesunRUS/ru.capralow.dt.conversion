@@ -24,10 +24,15 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsForGroup <em>Is For Group</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEvent <em>Before Sending Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEventMethod <em>Before Sending Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEvent <em>On Sending Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventMethod <em>On Sending Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEvent <em>Before Receiving Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventMethod <em>Before Receiving Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEvent <em>On Receiving Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventMethod <em>On Receiving Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmName <em>After Receiving Algorithm Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmMethod <em>After Receiving Algorithm Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}</li>
  * </ul>
  *
@@ -39,6 +44,7 @@ import org.eclipse.emf.common.util.EList;
 public interface CmObjectRule extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
@@ -48,7 +54,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_Name()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getName();
@@ -65,6 +71,7 @@ public interface CmObjectRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Is Disabled</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Is Disabled</em>' attribute isn't clear,
@@ -74,7 +81,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>Is Disabled</em>' attribute.
 	 * @see #setIsDisabled(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_IsDisabled()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getIsDisabled();
@@ -124,12 +131,12 @@ public interface CmObjectRule extends IBmObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Format Object</em>' attribute.
-	 * @see #setFormatObject(String)
+	 * @see #setFormatObject(Object)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_FormatObject()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getFormatObject();
+	Object getFormatObject();
 
 	/**
 	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getFormatObject <em>Format Object</em>}' attribute.
@@ -139,10 +146,11 @@ public interface CmObjectRule extends IBmObject {
 	 * @see #getFormatObject()
 	 * @generated
 	 */
-	void setFormatObject(String value);
+	void setFormatObject(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>For Sending</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>For Sending</em>' attribute isn't clear,
@@ -152,7 +160,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>For Sending</em>' attribute.
 	 * @see #setForSending(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_ForSending()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getForSending();
@@ -169,6 +177,7 @@ public interface CmObjectRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>For Receiving</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>For Receiving</em>' attribute isn't clear,
@@ -178,7 +187,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>For Receiving</em>' attribute.
 	 * @see #setForReceiving(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_ForReceiving()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getForReceiving();
@@ -195,6 +204,7 @@ public interface CmObjectRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Is For Group</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Is For Group</em>' attribute isn't clear,
@@ -204,7 +214,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>Is For Group</em>' attribute.
 	 * @see #setIsForGroup(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_IsForGroup()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getIsForGroup();
@@ -250,6 +260,7 @@ public interface CmObjectRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Before Sending Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Before Sending Event</em>' attribute isn't clear,
@@ -259,7 +270,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>Before Sending Event</em>' attribute.
 	 * @see #setBeforeSendingEvent(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeSendingEvent()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getBeforeSendingEvent();
@@ -275,7 +286,34 @@ public interface CmObjectRule extends IBmObject {
 	void setBeforeSendingEvent(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Before Sending Event Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Before Sending Event Method</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Before Sending Event Method</em>' attribute.
+	 * @see #setBeforeSendingEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeSendingEventMethod()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getBeforeSendingEventMethod();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEventMethod <em>Before Sending Event Method</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Before Sending Event Method</em>' attribute.
+	 * @see #getBeforeSendingEventMethod()
+	 * @generated
+	 */
+	void setBeforeSendingEventMethod(Object value);
+
+	/**
 	 * Returns the value of the '<em><b>On Sending Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>On Sending Event</em>' attribute isn't clear,
@@ -285,7 +323,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>On Sending Event</em>' attribute.
 	 * @see #setOnSendingEvent(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnSendingEvent()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getOnSendingEvent();
@@ -301,7 +339,34 @@ public interface CmObjectRule extends IBmObject {
 	void setOnSendingEvent(String value);
 
 	/**
+	 * Returns the value of the '<em><b>On Sending Event Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>On Sending Event Method</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>On Sending Event Method</em>' attribute.
+	 * @see #setOnSendingEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnSendingEventMethod()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getOnSendingEventMethod();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventMethod <em>On Sending Event Method</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>On Sending Event Method</em>' attribute.
+	 * @see #getOnSendingEventMethod()
+	 * @generated
+	 */
+	void setOnSendingEventMethod(Object value);
+
+	/**
 	 * Returns the value of the '<em><b>Before Receiving Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Before Receiving Event</em>' attribute isn't clear,
@@ -311,7 +376,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>Before Receiving Event</em>' attribute.
 	 * @see #setBeforeReceivingEvent(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeReceivingEvent()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getBeforeReceivingEvent();
@@ -327,7 +392,34 @@ public interface CmObjectRule extends IBmObject {
 	void setBeforeReceivingEvent(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Before Receiving Event Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Before Receiving Event Method</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Before Receiving Event Method</em>' attribute.
+	 * @see #setBeforeReceivingEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeReceivingEventMethod()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getBeforeReceivingEventMethod();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventMethod <em>Before Receiving Event Method</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Before Receiving Event Method</em>' attribute.
+	 * @see #getBeforeReceivingEventMethod()
+	 * @generated
+	 */
+	void setBeforeReceivingEventMethod(Object value);
+
+	/**
 	 * Returns the value of the '<em><b>On Receiving Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>On Receiving Event</em>' attribute isn't clear,
@@ -337,7 +429,7 @@ public interface CmObjectRule extends IBmObject {
 	 * @return the value of the '<em>On Receiving Event</em>' attribute.
 	 * @see #setOnReceivingEvent(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnReceivingEvent()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getOnReceivingEvent();
@@ -353,30 +445,83 @@ public interface CmObjectRule extends IBmObject {
 	void setOnReceivingEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>After Receiving Algorithm</b></em>' attribute.
+	 * Returns the value of the '<em><b>On Receiving Event Method</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>After Receiving Algorithm</em>' attribute isn't clear,
+	 * If the meaning of the '<em>On Receiving Event Method</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>After Receiving Algorithm</em>' attribute.
-	 * @see #setAfterReceivingAlgorithm(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AfterReceivingAlgorithm()
+	 * @return the value of the '<em>On Receiving Event Method</em>' attribute.
+	 * @see #setOnReceivingEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnReceivingEventMethod()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getAfterReceivingAlgorithm();
+	Object getOnReceivingEventMethod();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventMethod <em>On Receiving Event Method</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>After Receiving Algorithm</em>' attribute.
-	 * @see #getAfterReceivingAlgorithm()
+	 * @param value the new value of the '<em>On Receiving Event Method</em>' attribute.
+	 * @see #getOnReceivingEventMethod()
 	 * @generated
 	 */
-	void setAfterReceivingAlgorithm(String value);
+	void setOnReceivingEventMethod(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>After Receiving Algorithm Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>After Receiving Algorithm Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>After Receiving Algorithm Name</em>' attribute.
+	 * @see #setAfterReceivingAlgorithmName(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AfterReceivingAlgorithmName()
+	 * @model default="" unique="false"
+	 * @generated
+	 */
+	String getAfterReceivingAlgorithmName();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmName <em>After Receiving Algorithm Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>After Receiving Algorithm Name</em>' attribute.
+	 * @see #getAfterReceivingAlgorithmName()
+	 * @generated
+	 */
+	void setAfterReceivingAlgorithmName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>After Receiving Algorithm Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>After Receiving Algorithm Method</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>After Receiving Algorithm Method</em>' attribute.
+	 * @see #setAfterReceivingAlgorithmMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AfterReceivingAlgorithmMethod()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getAfterReceivingAlgorithmMethod();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmMethod <em>After Receiving Algorithm Method</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>After Receiving Algorithm Method</em>' attribute.
+	 * @see #getAfterReceivingAlgorithmMethod()
+	 * @generated
+	 */
+	void setAfterReceivingAlgorithmMethod(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>Attribute Rules</b></em>' containment reference list.

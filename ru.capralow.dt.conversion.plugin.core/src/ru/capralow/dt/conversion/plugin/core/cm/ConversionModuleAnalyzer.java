@@ -11,7 +11,6 @@ import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.model.BooleanLiteral;
 import com._1c.g5.v8.dt.bsl.model.Conditional;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
-import com._1c.g5.v8.dt.bsl.model.EmptyExpression;
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.IfStatement;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
@@ -29,7 +28,6 @@ import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSendingRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
 
 public class ConversionModuleAnalyzer {
@@ -61,6 +59,9 @@ public class ConversionModuleAnalyzer {
 
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+		
+		dataRules.clear();
+		objectRules.clear();
 
 		Iterator<Method> itr = methods.iterator();
 		while (itr.hasNext()) {
@@ -73,15 +74,15 @@ public class ConversionModuleAnalyzer {
 				conversionModule.setBeforeConvertationEvent(node.getText());
 				conversionModule.setBeforeConvertationEventMethod(method);
 
-			} else if (methodName.equals("ПослеКонвертации")) {
-				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
-
-				conversionModule.setAfterConvertationEvent(node.getText());
-
 			} else if (methodName.equals("ПередОтложеннымЗаполнением")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
 				conversionModule.setBeforeFillingEvent(node.getText());
+
+			} else if (methodName.equals("ПослеКонвертации")) {
+				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
+
+				conversionModule.setAfterConvertationEvent(node.getText());
 
 			} else if (methodName.equals("ВерсияФорматаМенеджераОбмена")) {
 				conversionModule.setStoreVersion("2");
@@ -171,6 +172,7 @@ public class ConversionModuleAnalyzer {
 							String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
 
 							dataRule = conversionModule.getDataRule(ruleName);
+							
 						} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиМетаданные")) {
 							DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
 							DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
@@ -197,7 +199,21 @@ public class ConversionModuleAnalyzer {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
 							String eventName = stringLiteral.getLines().get(0).replace("\"", "");
 
-							dataRule.setOnProcessingEvent(eventName);
+							Method eventMethod = getMethod(module, eventName);
+							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+							dataRule.setOnProcessingEvent(node.getText());
+							dataRule.setOnProcessingEventMethod(eventMethod);
+
+						} else if (leftFeatureAccess.getName().equals("ВыборкаДанных")) {
+							StringLiteral stringLiteral = (StringLiteral) rightExpression;
+							String eventName = stringLiteral.getLines().get(0).replace("\"", "");
+
+							Method eventMethod = getMethod(module, eventName);
+							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+							dataRule.setDataSelectionEvent(node.getText());
+							dataRule.setDataSelectionEventMethod(eventMethod);
 
 						} else {
 							throw new NullPointerException(
@@ -214,7 +230,9 @@ public class ConversionModuleAnalyzer {
 						CmObjectRule objectRule = conversionModule.getObjectRule(ruleName);
 						if (objectRule == null) {
 							objectRule = new CmObjectRuleImpl();
+							
 							objectRule.setName(ruleName);
+							
 							objectRules.add(objectRule);
 						}
 
@@ -253,7 +271,9 @@ public class ConversionModuleAnalyzer {
 								CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 								if (objectRule == null) {
 									objectRule = new CmObjectRuleImpl();
+									
 									objectRule.setName(objectRuleName);
+									
 									objectRules.add(objectRule);
 								}
 
@@ -278,7 +298,9 @@ public class ConversionModuleAnalyzer {
 								CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 								if (objectRule == null) {
 									objectRule = new CmObjectRuleImpl();
+									
 									objectRule.setName(objectRuleName);
+									
 									objectRules.add(objectRule);
 								}
 
@@ -297,7 +319,9 @@ public class ConversionModuleAnalyzer {
 						CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 						if (objectRule == null) {
 							objectRule = new CmObjectRuleImpl();
+							
 							objectRule.setName(objectRuleName);
+							
 							objectRules.add(objectRule);
 						}
 
@@ -409,7 +433,7 @@ public class ConversionModuleAnalyzer {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
 							String algorithmName = stringLiteral.getLines().get(0).replace("\"", "");
 
-							objectRule.setAfterReceivingAlgorithm(algorithmName);
+							objectRule.setAfterReceivingAlgorithmName(algorithmName);
 
 						} else {
 							throw new NullPointerException(
@@ -444,7 +468,9 @@ public class ConversionModuleAnalyzer {
 
 							if (attributeObjectRule == null) {
 								attributeObjectRule = new CmObjectRuleImpl();
+								
 								attributeObjectRule.setName(attributeRuleName);
+								
 								objectRules.add(attributeObjectRule);
 							}
 						}
@@ -452,6 +478,7 @@ public class ConversionModuleAnalyzer {
 						EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
 
 						CmAttributeRuleImpl attributeRule = new CmAttributeRuleImpl();
+						
 						attributeRule.setConfigurationTabularSectionName(configurationTabularSectionName);
 						attributeRule.setConfigurationAttributeName(configurationAttribute);
 
@@ -475,29 +502,18 @@ public class ConversionModuleAnalyzer {
 			}
 		}
 
-		updateRules();
-
 	}
-
-	private void updateRules() {
-		EList<CmSendingRule> sendingRules = conversionModule.getSendingRules();
-		sendingRules.clear();
-
-		EList<CmDataRule> dataRules = conversionModule.getDataRules();
-		Iterator<CmDataRule> itr = dataRules.iterator();
+	
+	private static Method getMethod(Module mdModule, String methodName) {
+		Iterator<Method> itr = mdModule.allMethods().iterator();
 		while (itr.hasNext()) {
-			CmDataRule dataRule = itr.next();
-			if (!dataRule.getForSending())
-				continue;
+			Method mdMethod = (Method) itr.next();
 
-			CmSendingRuleImpl sendingRule = new CmSendingRuleImpl();
-			
-			sendingRule.setConfigurationObject(dataRule.getConfigurationObject());
-			
-			sendingRule.setDataRule(dataRule);
-
-			sendingRules.add(sendingRule);
+			if (mdMethod.getName().equals(methodName)) {
+				return mdMethod;
+			}
 		}
 
+		return null;
 	}
 }

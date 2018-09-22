@@ -58,10 +58,11 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case CmPackage.CONVERSION_MODULE: return (EObject)createConversionModule();
-			case CmPackage.CM_SENDING_RULE: return (EObject)createCmSendingRule();
 			case CmPackage.CM_DATA_RULE: return (EObject)createCmDataRule();
 			case CmPackage.CM_OBJECT_RULE: return (EObject)createCmObjectRule();
 			case CmPackage.CM_ATTRIBUTE_RULE: return (EObject)createCmAttributeRule();
+			case CmPackage.CM_ALGORITHM: return (EObject)createCmAlgorithm();
+			case CmPackage.CM_PREDEFINED: return (EObject)createCmPredefined();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -116,16 +117,6 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CmSendingRule createCmSendingRule() {
-		CmSendingRuleImpl cmSendingRule = new CmSendingRuleImpl();
-		return cmSendingRule;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public CmDataRule createCmDataRule() {
 		CmDataRuleImpl cmDataRule = new CmDataRuleImpl();
 		return cmDataRule;
@@ -149,6 +140,26 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	public CmAttributeRule createCmAttributeRule() {
 		CmAttributeRuleImpl cmAttributeRule = new CmAttributeRuleImpl();
 		return cmAttributeRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmAlgorithm createCmAlgorithm() {
+		CmAlgorithmImpl cmAlgorithm = new CmAlgorithmImpl();
+		return cmAlgorithm;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmPredefined createCmPredefined() {
+		CmPredefinedImpl cmPredefined = new CmPredefinedImpl();
+		return cmPredefined;
 	}
 
 	/**

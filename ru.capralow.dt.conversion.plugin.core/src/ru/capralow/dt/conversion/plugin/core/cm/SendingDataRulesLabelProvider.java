@@ -5,14 +5,17 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class SendingRulesLabelProvider implements ITableLabelProvider {
+public class SendingDataRulesLabelProvider implements ITableLabelProvider {
 
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
-		if (element instanceof CmSendingRule) {
-			if (columnIndex == 0) return ((CmSendingRule) element).getConfigurationObject().toString();
-			else if (columnIndex == 1) return "2222";
-			else if (columnIndex == 2) return "3333";
+		if (element instanceof CmDataRule) {
+			CmDataRule dataRule = (CmDataRule) element;
+			
+			if (columnIndex == 0) return dataRule.getName();
+			else if (columnIndex == 1) return dataRule.getConfigurationObject().toString();
+			else if (columnIndex == 2) return dataRule.getOnProcessingEvent().length() != 0 ? "Да" : "Нет";
+			else if (columnIndex == 3) return dataRule.getDataSelectionEvent().length() != 0 ? "Да" : "Нет";
 
 		} else if (element instanceof EList) {
 			return "Какой-то список";

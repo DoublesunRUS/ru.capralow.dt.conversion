@@ -30,10 +30,15 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIsForGroup <em>Is For Group</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIdentificationVariant <em>Identification Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getBeforeSendingEvent <em>Before Sending Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getBeforeSendingEventMethod <em>Before Sending Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnSendingEvent <em>On Sending Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnSendingEventMethod <em>On Sending Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getBeforeReceivingEvent <em>Before Receiving Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getBeforeReceivingEventMethod <em>Before Receiving Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnReceivingEvent <em>On Receiving Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnReceivingEventMethod <em>On Receiving Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAfterReceivingAlgorithmName <em>After Receiving Algorithm Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAfterReceivingAlgorithmMethod <em>After Receiving Algorithm Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAttributeRules <em>Attribute Rules</em>}</li>
  * </ul>
  *
@@ -128,8 +133,8 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getFormatObject() {
-		return (String)eGet(CmPackage.Literals.CM_OBJECT_RULE__FORMAT_OBJECT, true);
+	public Object getFormatObject() {
+		return (Object)eGet(CmPackage.Literals.CM_OBJECT_RULE__FORMAT_OBJECT, true);
 	}
 
 	/**
@@ -137,7 +142,7 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFormatObject(String newFormatObject) {
+	public void setFormatObject(Object newFormatObject) {
 		eSet(CmPackage.Literals.CM_OBJECT_RULE__FORMAT_OBJECT, newFormatObject);
 	}
 
@@ -236,6 +241,24 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Object getBeforeSendingEventMethod() {
+		return (Object)eGet(CmPackage.Literals.CM_OBJECT_RULE__BEFORE_SENDING_EVENT_METHOD, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBeforeSendingEventMethod(Object newBeforeSendingEventMethod) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__BEFORE_SENDING_EVENT_METHOD, newBeforeSendingEventMethod);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getOnSendingEvent() {
 		return (String)eGet(CmPackage.Literals.CM_OBJECT_RULE__ON_SENDING_EVENT, true);
 	}
@@ -247,6 +270,24 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 */
 	public void setOnSendingEvent(String newOnSendingEvent) {
 		eSet(CmPackage.Literals.CM_OBJECT_RULE__ON_SENDING_EVENT, newOnSendingEvent);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getOnSendingEventMethod() {
+		return (Object)eGet(CmPackage.Literals.CM_OBJECT_RULE__ON_SENDING_EVENT_METHOD, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOnSendingEventMethod(Object newOnSendingEventMethod) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__ON_SENDING_EVENT_METHOD, newOnSendingEventMethod);
 	}
 
 	/**
@@ -272,6 +313,24 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Object getBeforeReceivingEventMethod() {
+		return (Object)eGet(CmPackage.Literals.CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT_METHOD, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBeforeReceivingEventMethod(Object newBeforeReceivingEventMethod) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT_METHOD, newBeforeReceivingEventMethod);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getOnReceivingEvent() {
 		return (String)eGet(CmPackage.Literals.CM_OBJECT_RULE__ON_RECEIVING_EVENT, true);
 	}
@@ -290,8 +349,8 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getAfterReceivingAlgorithm() {
-		return (String)eGet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM, true);
+	public Object getOnReceivingEventMethod() {
+		return (Object)eGet(CmPackage.Literals.CM_OBJECT_RULE__ON_RECEIVING_EVENT_METHOD, true);
 	}
 
 	/**
@@ -299,8 +358,44 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAfterReceivingAlgorithm(String newAfterReceivingAlgorithm) {
-		eSet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM, newAfterReceivingAlgorithm);
+	public void setOnReceivingEventMethod(Object newOnReceivingEventMethod) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__ON_RECEIVING_EVENT_METHOD, newOnReceivingEventMethod);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAfterReceivingAlgorithmName() {
+		return (String)eGet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAfterReceivingAlgorithmName(String newAfterReceivingAlgorithmName) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_NAME, newAfterReceivingAlgorithmName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getAfterReceivingAlgorithmMethod() {
+		return (Object)eGet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_METHOD, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAfterReceivingAlgorithmMethod(Object newAfterReceivingAlgorithmMethod) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_METHOD, newAfterReceivingAlgorithmMethod);
 	}
 
 	/**

@@ -72,12 +72,6 @@ public class CmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CmPackage.CM_SENDING_RULE: {
-				CmSendingRule cmSendingRule = (CmSendingRule)theEObject;
-				T result = caseCmSendingRule(cmSendingRule);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case CmPackage.CM_DATA_RULE: {
 				CmDataRule cmDataRule = (CmDataRule)theEObject;
 				T result = caseCmDataRule(cmDataRule);
@@ -93,6 +87,18 @@ public class CmSwitch<T> extends Switch<T> {
 			case CmPackage.CM_ATTRIBUTE_RULE: {
 				CmAttributeRule cmAttributeRule = (CmAttributeRule)theEObject;
 				T result = caseCmAttributeRule(cmAttributeRule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CmPackage.CM_ALGORITHM: {
+				CmAlgorithm cmAlgorithm = (CmAlgorithm)theEObject;
+				T result = caseCmAlgorithm(cmAlgorithm);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CmPackage.CM_PREDEFINED: {
+				CmPredefined cmPredefined = (CmPredefined)theEObject;
+				T result = caseCmPredefined(cmPredefined);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -112,21 +118,6 @@ public class CmSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConversionModule(ConversionModule object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Sending Rule</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Sending Rule</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCmSendingRule(CmSendingRule object) {
 		return null;
 	}
 
@@ -172,6 +163,36 @@ public class CmSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCmAttributeRule(CmAttributeRule object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Algorithm</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Algorithm</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmAlgorithm(CmAlgorithm object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Predefined</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Predefined</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmPredefined(CmPredefined object) {
 		return null;
 	}
 

@@ -12,6 +12,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +22,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getConversionModule <em>Conversion Module</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getName <em>Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDisabled <em>Is Disabled</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getConfigurationObject <em>Configuration Object</em>}</li>
@@ -29,9 +31,10 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getForReceiving <em>For Receiving</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getSelectionVariant <em>Selection Variant</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEvent <em>Data Selection Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getBeforeProcessingEvent <em>Before Processing Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEvent <em>On Processing Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEventMethod <em>On Processing Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEvent <em>Data Selection Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEventMethod <em>Data Selection Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
  *
@@ -65,6 +68,24 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ConversionModule getConversionModule() {
+		return (ConversionModule)eGet(CmPackage.Literals.CM_DATA_RULE__CONVERSION_MODULE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConversionModule(ConversionModule newConversionModule) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__CONVERSION_MODULE, newConversionModule);
 	}
 
 	/**
@@ -126,8 +147,8 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getFormatObject() {
-		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__FORMAT_OBJECT, true);
+	public Object getFormatObject() {
+		return (Object)eGet(CmPackage.Literals.CM_DATA_RULE__FORMAT_OBJECT, true);
 	}
 
 	/**
@@ -135,7 +156,7 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFormatObject(String newFormatObject) {
+	public void setFormatObject(Object newFormatObject) {
 		eSet(CmPackage.Literals.CM_DATA_RULE__FORMAT_OBJECT, newFormatObject);
 	}
 
@@ -216,6 +237,42 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getOnProcessingEvent() {
+		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOnProcessingEvent(String newOnProcessingEvent) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT, newOnProcessingEvent);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getOnProcessingEventMethod() {
+		return (Object)eGet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT_METHOD, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOnProcessingEventMethod(Object newOnProcessingEventMethod) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT_METHOD, newOnProcessingEventMethod);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getDataSelectionEvent() {
 		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT, true);
 	}
@@ -234,8 +291,8 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getBeforeProcessingEvent() {
-		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__BEFORE_PROCESSING_EVENT, true);
+	public Object getDataSelectionEventMethod() {
+		return (Object)eGet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT_METHOD, true);
 	}
 
 	/**
@@ -243,26 +300,8 @@ public class CmDataRuleImpl extends BmObject implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBeforeProcessingEvent(String newBeforeProcessingEvent) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__BEFORE_PROCESSING_EVENT, newBeforeProcessingEvent);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getOnProcessingEvent() {
-		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOnProcessingEvent(String newOnProcessingEvent) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT, newOnProcessingEvent);
+	public void setDataSelectionEventMethod(Object newDataSelectionEventMethod) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT_METHOD, newDataSelectionEventMethod);
 	}
 
 	/**

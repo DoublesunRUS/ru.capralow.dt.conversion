@@ -72,10 +72,6 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 				return createConversionModuleAdapter();
 			}
 			@Override
-			public Adapter caseCmSendingRule(CmSendingRule object) {
-				return createCmSendingRuleAdapter();
-			}
-			@Override
 			public Adapter caseCmDataRule(CmDataRule object) {
 				return createCmDataRuleAdapter();
 			}
@@ -86,6 +82,14 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseCmAttributeRule(CmAttributeRule object) {
 				return createCmAttributeRuleAdapter();
+			}
+			@Override
+			public Adapter caseCmAlgorithm(CmAlgorithm object) {
+				return createCmAlgorithmAdapter();
+			}
+			@Override
+			public Adapter caseCmPredefined(CmPredefined object) {
+				return createCmPredefinedAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -118,20 +122,6 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConversionModuleAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule <em>Sending Rule</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule
-	 * @generated
-	 */
-	public Adapter createCmSendingRuleAdapter() {
 		return null;
 	}
 
@@ -174,6 +164,34 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCmAttributeRuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm <em>Algorithm</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm
+	 * @generated
+	 */
+	public Adapter createCmAlgorithmAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmPredefined <em>Predefined</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPredefined
+	 * @generated
+	 */
+	public Adapter createCmPredefinedAdapter() {
 		return null;
 	}
 

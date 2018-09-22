@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConversionModule <em>Conversion Module</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getName <em>Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDisabled <em>Is Disabled</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConfigurationObject <em>Configuration Object</em>}</li>
@@ -23,9 +24,10 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForReceiving <em>For Receiving</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant <em>Selection Variant</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEvent <em>Data Selection Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getBeforeProcessingEvent <em>Before Processing Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEvent <em>On Processing Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventMethod <em>On Processing Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEvent <em>Data Selection Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventMethod <em>Data Selection Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
  *
@@ -36,7 +38,36 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface CmDataRule extends IBmObject {
 	/**
+	 * Returns the value of the '<em><b>Conversion Module</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRules <em>Data Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Conversion Module</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Conversion Module</em>' container reference.
+	 * @see #setConversionModule(ConversionModule)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_ConversionModule()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRules
+	 * @model opposite="dataRules" transient="false"
+	 * @generated
+	 */
+	ConversionModule getConversionModule();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConversionModule <em>Conversion Module</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Conversion Module</em>' container reference.
+	 * @see #getConversionModule()
+	 * @generated
+	 */
+	void setConversionModule(ConversionModule value);
+
+	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
@@ -46,7 +77,7 @@ public interface CmDataRule extends IBmObject {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_Name()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getName();
@@ -63,6 +94,7 @@ public interface CmDataRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Is Disabled</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Is Disabled</em>' attribute isn't clear,
@@ -72,7 +104,7 @@ public interface CmDataRule extends IBmObject {
 	 * @return the value of the '<em>Is Disabled</em>' attribute.
 	 * @see #setIsDisabled(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_IsDisabled()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getIsDisabled();
@@ -122,12 +154,12 @@ public interface CmDataRule extends IBmObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Format Object</em>' attribute.
-	 * @see #setFormatObject(String)
+	 * @see #setFormatObject(Object)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_FormatObject()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getFormatObject();
+	Object getFormatObject();
 
 	/**
 	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObject <em>Format Object</em>}' attribute.
@@ -137,10 +169,11 @@ public interface CmDataRule extends IBmObject {
 	 * @see #getFormatObject()
 	 * @generated
 	 */
-	void setFormatObject(String value);
+	void setFormatObject(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>For Sending</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>For Sending</em>' attribute isn't clear,
@@ -150,7 +183,7 @@ public interface CmDataRule extends IBmObject {
 	 * @return the value of the '<em>For Sending</em>' attribute.
 	 * @see #setForSending(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_ForSending()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getForSending();
@@ -167,6 +200,7 @@ public interface CmDataRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>For Receiving</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>For Receiving</em>' attribute isn't clear,
@@ -176,7 +210,7 @@ public interface CmDataRule extends IBmObject {
 	 * @return the value of the '<em>For Receiving</em>' attribute.
 	 * @see #setForReceiving(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_ForReceiving()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getForReceiving();
@@ -193,6 +227,7 @@ public interface CmDataRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Is Data Cleaning</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Is Data Cleaning</em>' attribute isn't clear,
@@ -202,7 +237,7 @@ public interface CmDataRule extends IBmObject {
 	 * @return the value of the '<em>Is Data Cleaning</em>' attribute.
 	 * @see #setIsDataCleaning(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_IsDataCleaning()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getIsDataCleaning();
@@ -247,7 +282,61 @@ public interface CmDataRule extends IBmObject {
 	void setSelectionVariant(CmSelectionVariant value);
 
 	/**
+	 * Returns the value of the '<em><b>On Processing Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>On Processing Event</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>On Processing Event</em>' attribute.
+	 * @see #setOnProcessingEvent(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_OnProcessingEvent()
+	 * @model default="" unique="false"
+	 * @generated
+	 */
+	String getOnProcessingEvent();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEvent <em>On Processing Event</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>On Processing Event</em>' attribute.
+	 * @see #getOnProcessingEvent()
+	 * @generated
+	 */
+	void setOnProcessingEvent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>On Processing Event Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>On Processing Event Method</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>On Processing Event Method</em>' attribute.
+	 * @see #setOnProcessingEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_OnProcessingEventMethod()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getOnProcessingEventMethod();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventMethod <em>On Processing Event Method</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>On Processing Event Method</em>' attribute.
+	 * @see #getOnProcessingEventMethod()
+	 * @generated
+	 */
+	void setOnProcessingEventMethod(Object value);
+
+	/**
 	 * Returns the value of the '<em><b>Data Selection Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Data Selection Event</em>' attribute isn't clear,
@@ -257,7 +346,7 @@ public interface CmDataRule extends IBmObject {
 	 * @return the value of the '<em>Data Selection Event</em>' attribute.
 	 * @see #setDataSelectionEvent(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_DataSelectionEvent()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getDataSelectionEvent();
@@ -273,56 +362,30 @@ public interface CmDataRule extends IBmObject {
 	void setDataSelectionEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Before Processing Event</b></em>' attribute.
+	 * Returns the value of the '<em><b>Data Selection Event Method</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Before Processing Event</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Data Selection Event Method</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Processing Event</em>' attribute.
-	 * @see #setBeforeProcessingEvent(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_BeforeProcessingEvent()
+	 * @return the value of the '<em>Data Selection Event Method</em>' attribute.
+	 * @see #setDataSelectionEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_DataSelectionEventMethod()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getBeforeProcessingEvent();
+	Object getDataSelectionEventMethod();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getBeforeProcessingEvent <em>Before Processing Event</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventMethod <em>Data Selection Event Method</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Processing Event</em>' attribute.
-	 * @see #getBeforeProcessingEvent()
+	 * @param value the new value of the '<em>Data Selection Event Method</em>' attribute.
+	 * @see #getDataSelectionEventMethod()
 	 * @generated
 	 */
-	void setBeforeProcessingEvent(String value);
-
-	/**
-	 * Returns the value of the '<em><b>On Processing Event</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>On Processing Event</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>On Processing Event</em>' attribute.
-	 * @see #setOnProcessingEvent(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_OnProcessingEvent()
-	 * @model unique="false"
-	 * @generated
-	 */
-	String getOnProcessingEvent();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEvent <em>On Processing Event</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>On Processing Event</em>' attribute.
-	 * @see #getOnProcessingEvent()
-	 * @generated
-	 */
-	void setOnProcessingEvent(String value);
+	void setDataSelectionEventMethod(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>Object Rules</b></em>' reference list.

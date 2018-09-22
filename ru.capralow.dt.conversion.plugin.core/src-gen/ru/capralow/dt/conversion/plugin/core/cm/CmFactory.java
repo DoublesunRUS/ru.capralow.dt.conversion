@@ -31,15 +31,6 @@ public interface CmFactory extends EFactory {
 	ConversionModule createConversionModule();
 
 	/**
-	 * Returns a new object of class '<em>Sending Rule</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Sending Rule</em>'.
-	 * @generated
-	 */
-	CmSendingRule createCmSendingRule();
-
-	/**
 	 * Returns a new object of class '<em>Data Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -65,6 +56,24 @@ public interface CmFactory extends EFactory {
 	 * @generated
 	 */
 	CmAttributeRule createCmAttributeRule();
+
+	/**
+	 * Returns a new object of class '<em>Algorithm</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Algorithm</em>'.
+	 * @generated
+	 */
+	CmAlgorithm createCmAlgorithm();
+
+	/**
+	 * Returns a new object of class '<em>Predefined</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Predefined</em>'.
+	 * @generated
+	 */
+	CmPredefined createCmPredefined();
 
 	/**
 	 * Returns the package supported by this factory.

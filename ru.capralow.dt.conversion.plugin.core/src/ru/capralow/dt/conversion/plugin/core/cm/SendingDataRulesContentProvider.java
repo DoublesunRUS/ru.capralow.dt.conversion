@@ -6,16 +6,16 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class SendingRulesContentProvider implements ITreeContentProvider {
+public class SendingDataRulesContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object conversionModule) {
-		EList<CmSendingRule> sendingRules = ((ConversionModule) conversionModule).getSendingRules();
+		EList<Object> dataRules = ((ConversionModule) conversionModule).getSendingDataRules();
 
-		Object[] treeContent = new Object[sendingRules.size()];
+		Object[] treeContent = new Object[dataRules.size()];
 
 		int i = 0;
-		Iterator<CmSendingRule> itr = sendingRules.iterator();
+		Iterator<Object> itr = dataRules.iterator();
 		while (itr.hasNext()) {
 			treeContent[i] = itr.next();
 			i++;

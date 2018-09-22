@@ -17,15 +17,16 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getStoreVersion <em>Store Version</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleURI <em>Module URI</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getParams <em>Params</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventMethod <em>Before Convertation Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEventMethod <em>Before Filling Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEventMethod <em>After Convertation Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRules <em>Data Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getObjectRules <em>Object Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPredefineds <em>Predefineds</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getParams <em>Params</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeConvertationEventMethod <em>Before Convertation Event Method</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getSendingRules <em>Sending Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithms <em>Algorithms</em>}</li>
  * </ul>
  *
@@ -37,6 +38,7 @@ import org.eclipse.emf.common.util.EList;
 public interface ConversionModule extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Store Version</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Store Version</em>' attribute isn't clear,
@@ -46,7 +48,7 @@ public interface ConversionModule extends IBmObject {
 	 * @return the value of the '<em>Store Version</em>' attribute.
 	 * @see #setStoreVersion(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_StoreVersion()
-	 * @model unique="false"
+	 * @model default="1" unique="false"
 	 * @generated
 	 */
 	String getStoreVersion();
@@ -88,64 +90,6 @@ public interface ConversionModule extends IBmObject {
 	void setModuleURI(Object value);
 
 	/**
-	 * Returns the value of the '<em><b>Data Rules</b></em>' containment reference list.
-	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Data Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Data Rules</em>' containment reference list.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_DataRules()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<CmDataRule> getDataRules();
-
-	/**
-	 * Returns the value of the '<em><b>Object Rules</b></em>' containment reference list.
-	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Object Rules</em>' containment reference list.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_ObjectRules()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<CmObjectRule> getObjectRules();
-
-	/**
-	 * Returns the value of the '<em><b>Predefineds</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Predefineds</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Predefineds</em>' attribute.
-	 * @see #setPredefineds(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_Predefineds()
-	 * @model unique="false"
-	 * @generated
-	 */
-	String getPredefineds();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getPredefineds <em>Predefineds</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Predefineds</em>' attribute.
-	 * @see #getPredefineds()
-	 * @generated
-	 */
-	void setPredefineds(String value);
-
-	/**
 	 * Returns the value of the '<em><b>Params</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -173,6 +117,7 @@ public interface ConversionModule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Before Convertation Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Before Convertation Event</em>' attribute isn't clear,
@@ -182,7 +127,7 @@ public interface ConversionModule extends IBmObject {
 	 * @return the value of the '<em>Before Convertation Event</em>' attribute.
 	 * @see #setBeforeConvertationEvent(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeConvertationEvent()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getBeforeConvertationEvent();
@@ -196,58 +141,6 @@ public interface ConversionModule extends IBmObject {
 	 * @generated
 	 */
 	void setBeforeConvertationEvent(String value);
-
-	/**
-	 * Returns the value of the '<em><b>After Convertation Event</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>After Convertation Event</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>After Convertation Event</em>' attribute.
-	 * @see #setAfterConvertationEvent(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_AfterConvertationEvent()
-	 * @model unique="false"
-	 * @generated
-	 */
-	String getAfterConvertationEvent();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>After Convertation Event</em>' attribute.
-	 * @see #getAfterConvertationEvent()
-	 * @generated
-	 */
-	void setAfterConvertationEvent(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Before Filling Event</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Filling Event</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Filling Event</em>' attribute.
-	 * @see #setBeforeFillingEvent(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeFillingEvent()
-	 * @model unique="false"
-	 * @generated
-	 */
-	String getBeforeFillingEvent();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Filling Event</em>' attribute.
-	 * @see #getBeforeFillingEvent()
-	 * @generated
-	 */
-	void setBeforeFillingEvent(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Before Convertation Event Method</b></em>' attribute.
@@ -276,46 +169,176 @@ public interface ConversionModule extends IBmObject {
 	void setBeforeConvertationEventMethod(Object value);
 
 	/**
-	 * Returns the value of the '<em><b>Sending Rules</b></em>' containment reference list.
-	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule}.
+	 * Returns the value of the '<em><b>Before Filling Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Sending Rules</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Before Filling Event</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Sending Rules</em>' containment reference list.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_SendingRules()
-	 * @model containment="true"
+	 * @return the value of the '<em>Before Filling Event</em>' attribute.
+	 * @see #setBeforeFillingEvent(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeFillingEvent()
+	 * @model default="" unique="false"
 	 * @generated
 	 */
-	EList<CmSendingRule> getSendingRules();
+	String getBeforeFillingEvent();
 
 	/**
-	 * Returns the value of the '<em><b>Algorithms</b></em>' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEvent <em>Before Filling Event</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Before Filling Event</em>' attribute.
+	 * @see #getBeforeFillingEvent()
+	 * @generated
+	 */
+	void setBeforeFillingEvent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Before Filling Event Method</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Algorithms</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Before Filling Event Method</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Algorithms</em>' attribute.
-	 * @see #setAlgorithms(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_Algorithms()
+	 * @return the value of the '<em>Before Filling Event Method</em>' attribute.
+	 * @see #setBeforeFillingEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_BeforeFillingEventMethod()
 	 * @model unique="false"
 	 * @generated
 	 */
-	String getAlgorithms();
+	Object getBeforeFillingEventMethod();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithms <em>Algorithms</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getBeforeFillingEventMethod <em>Before Filling Event Method</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Algorithms</em>' attribute.
-	 * @see #getAlgorithms()
+	 * @param value the new value of the '<em>Before Filling Event Method</em>' attribute.
+	 * @see #getBeforeFillingEventMethod()
 	 * @generated
 	 */
-	void setAlgorithms(String value);
+	void setBeforeFillingEventMethod(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>After Convertation Event</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>After Convertation Event</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>After Convertation Event</em>' attribute.
+	 * @see #setAfterConvertationEvent(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_AfterConvertationEvent()
+	 * @model default="" unique="false"
+	 * @generated
+	 */
+	String getAfterConvertationEvent();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEvent <em>After Convertation Event</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>After Convertation Event</em>' attribute.
+	 * @see #getAfterConvertationEvent()
+	 * @generated
+	 */
+	void setAfterConvertationEvent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>After Convertation Event Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>After Convertation Event Method</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>After Convertation Event Method</em>' attribute.
+	 * @see #setAfterConvertationEventMethod(Object)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_AfterConvertationEventMethod()
+	 * @model unique="false"
+	 * @generated
+	 */
+	Object getAfterConvertationEventMethod();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAfterConvertationEventMethod <em>After Convertation Event Method</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>After Convertation Event Method</em>' attribute.
+	 * @see #getAfterConvertationEventMethod()
+	 * @generated
+	 */
+	void setAfterConvertationEventMethod(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>Data Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule}.
+	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConversionModule <em>Conversion Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Data Rules</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Data Rules</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_DataRules()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConversionModule
+	 * @model opposite="conversionModule" containment="true"
+	 * @generated
+	 */
+	EList<CmDataRule> getDataRules();
+
+	/**
+	 * Returns the value of the '<em><b>Object Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Object Rules</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Object Rules</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_ObjectRules()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<CmObjectRule> getObjectRules();
+
+	/**
+	 * Returns the value of the '<em><b>Predefineds</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmPredefined}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Predefineds</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Predefineds</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_Predefineds()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<CmPredefined> getPredefineds();
+
+	/**
+	 * Returns the value of the '<em><b>Algorithms</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Algorithms</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Algorithms</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_Algorithms()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<CmAlgorithm> getAlgorithms();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -325,6 +348,24 @@ public interface ConversionModule extends IBmObject {
 	 * @generated
 	 */
 	CmDataRule getDataRule(String ruleName);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%java.lang.Object%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%java.lang.Object%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmDataRule%&gt; dataRule : _dataRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forSending = dataRule.getForSending();\n\tif ((_forSending).booleanValue())\n\t{\n\t\tresult.add(dataRule);\n\t}\n}\nreturn result;'"
+	 * @generated
+	 */
+	EList<Object> getSendingDataRules();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%java.lang.Object%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%java.lang.Object%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmDataRule%&gt; dataRule : _dataRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forReceiving = dataRule.getForReceiving();\n\tif ((_forReceiving).booleanValue())\n\t{\n\t\tresult.add(dataRule);\n\t}\n}\nreturn result;'"
+	 * @generated
+	 */
+	EList<Object> getReceivingDataRules();
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -1,63 +1,60 @@
 
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
-import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
-import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
-import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
-import org.eclipse.xtext.validation.IResourceValidator;
 
-import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
-import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess;
-import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
-import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmSendingRule;
+import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.cm.SendingRulesContentProvider;
-import ru.capralow.dt.conversion.plugin.core.cm.SendingRulesLabelProvider;
+import ru.capralow.dt.conversion.plugin.core.cm.SendingDataRulesContentProvider;
+import ru.capralow.dt.conversion.plugin.core.cm.SendingDataRulesLabelProvider;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
@@ -69,17 +66,17 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private IBmEmfIndexManager bmEmfIndexManager;
 
 	private ConversionModuleAnalyzer conversionModuleAnalyzer;
+	private ConversionModule conversionModule;
 
 	// private Text textBeforeConvertationEvent;
-	private Text textBeforeFillingEvent;
-	private Text textAfterConvertationEvent;
 	private TreeViewer treeViewerSendingEvents;
-	private TreeViewer treeViewerReceivingEvents;
-	private TreeViewer treeViewerPredefined;
-	private TreeViewer treeViewerAlgorithms;
+	// private TreeViewer treeViewerReceivingEvents;
+	// private TreeViewer treeViewerPredefined;
+	// private TreeViewer treeViewerAlgorithms;
 
-	private CustomEmbeddedEditor innerEditor;
-	private CustomEmbeddedEditorModelAccess modelAccess;
+	private Button buttonInformation;
+
+	private ToolItem tltmStoreVersion1, tltmStoreVersion2;
 
 	@Inject
 	public ConversionModuleEditor(String id, String title) {
@@ -106,8 +103,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		// Страницы
 		CTabFolder tabFolder = new CTabFolder(body, SWT.FLAT);
-		tabFolder.setBorderVisible(true);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		tabFolder.setBorderVisible(true);
 
 		toolkit.adapt(tabFolder);
 		toolkit.paintBordersFor(tabFolder);
@@ -119,211 +116,171 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem = new CTabItem(tabFolder, SWT.NONE);
 		tabItem.setText("Информация");
 
-		// Отправка
-		tabItem = new CTabItem(tabFolder, SWT.NONE);
-		tabItem.setText("Отправка");
+		Composite compositeInformation = new Composite(tabFolder, SWT.BORDER);
+		compositeInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridLayoutFactory.fillDefaults().applyTo(compositeInformation);
+		compositeInformation.setLayout(new GridLayout(2, false));
 
-		Tree tree = new Tree(tabFolder, SWT.NONE);
+		// 1.1
+		Label lblStoreVersion = new Label(compositeInformation, SWT.NONE);
+		lblStoreVersion.setText("Версия формата менеджера обмена");
+
+		// 1.2
+		ToolBar toolBarObjectRulesSize = new ToolBar(compositeInformation, SWT.FLAT);
+
+		tltmStoreVersion1 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
+		tltmStoreVersion1.setText("1");
+
+		new ToolItem(toolBarObjectRulesSize, SWT.SEPARATOR);
+
+		tltmStoreVersion2 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
+		tltmStoreVersion2.setText("2");
+
+		// 2.1
+		new Label(compositeInformation, SWT.NONE).setText("Доступные версии формата:");
+
+		// 2.2
+		new Label(compositeInformation, SWT.NONE);
+
+		// 3.1-2
+		TableViewer viewerInformation = new TableViewer(compositeInformation, SWT.FULL_SELECTION | SWT.BORDER);
+
+		TableViewerColumn tblclmnColumn1 = new TableViewerColumn(viewerInformation, SWT.NONE);
+		tblclmnColumn1.getColumn().setWidth(150);
+		tblclmnColumn1.getColumn().setText("Версия формата");
+
+		Table tableInformation = viewerInformation.getTable();
+		tableInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+
+		tableInformation.setHeaderVisible(true);
+		tableInformation.setLinesVisible(true);
+
+		// 4.1
+		buttonInformation = new Button(compositeInformation, SWT.PUSH);
+		buttonInformation.setText("Общие события конвертации");
+
+		// 4.2
+		new Label(compositeInformation, SWT.NONE);
+
+		tabItem.setControl(compositeInformation);
+
+		// ПОД: Отправка
+		tabItem = new CTabItem(tabFolder, SWT.NONE);
+		tabItem.setText("ПОД: Отправка");
+
+		Tree tree = new Tree(tabFolder, SWT.FULL_SELECTION | SWT.BORDER);
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		tree.setHeaderVisible(true);
 		TreeColumn column1 = new TreeColumn(tree, SWT.LEFT);
-		column1.setText("Объект конфигурации");
-		column1.setWidth(200);
-		TreeColumn column2 = new TreeColumn(tree, SWT.CENTER);
-		column2.setText("Объект формата");
-		column2.setWidth(200);
-		TreeColumn column3 = new TreeColumn(tree, SWT.RIGHT);
-		column3.setText("Есть правило обработки данных");
-		column3.setWidth(200);
+		column1.setText("Наименование");
+		column1.setWidth(350);
+		TreeColumn column2 = new TreeColumn(tree, SWT.LEFT);
+		column2.setText("Объект конфигурации");
+		column2.setWidth(450);
+		TreeColumn column3 = new TreeColumn(tree, SWT.LEFT);
+		column3.setText("При обработке");
+		column3.setWidth(100);
+		TreeColumn column4 = new TreeColumn(tree, SWT.LEFT);
+		column4.setText("Выборка данных");
+		column4.setWidth(105);
 
 		treeViewerSendingEvents = new TreeViewer(tree);
-		treeViewerSendingEvents.setContentProvider(new SendingRulesContentProvider());
-		treeViewerSendingEvents.setLabelProvider(new SendingRulesLabelProvider());
+		treeViewerSendingEvents.setContentProvider(new SendingDataRulesContentProvider());
+		treeViewerSendingEvents.setLabelProvider(new SendingDataRulesLabelProvider());
 
 		tabItem.setControl(tree);
 
-		// Получение
-		tabItem = new CTabItem(tabFolder, SWT.NONE);
-		tabItem.setText("Получение");
+		// // Получение
+		// tabItem = new CTabItem(tabFolder, SWT.NONE);
+		// tabItem.setText("Получение");
+		//
+		// Tree tree2 = new Tree(tabFolder, SWT.NONE);
+		// tree2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		// tree2.setHeaderVisible(true);
+		// TreeColumn column21 = new TreeColumn(tree2, SWT.LEFT);
+		// column21.setText("Column 1");
+		// column21.setWidth(200);
+		// TreeColumn column22 = new TreeColumn(tree2, SWT.CENTER);
+		// column22.setText("Column 2");
+		// column22.setWidth(200);
+		// TreeColumn column23 = new TreeColumn(tree2, SWT.RIGHT);
+		// column23.setText("Column 3");
+		// column23.setWidth(200);
+		//
+		// treeViewerReceivingEvents = new TreeViewer(tree);
+		// treeViewerReceivingEvents.setContentProvider(new
+		// SendingDataRulesContentProvider());
+		// treeViewerReceivingEvents.setLabelProvider(new
+		// SendingDataRulesLabelProvider());
+		//
+		// tabItem.setControl(tree2);
+		//
+		// // Предопределенные
+		// tabItem = new CTabItem(tabFolder, SWT.NONE);
+		// tabItem.setText("Предопределенные");
+		//
+		// Tree tree3 = new Tree(tabFolder, SWT.NONE);
+		// tree3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		// tree3.setHeaderVisible(true);
+		// TreeColumn column31 = new TreeColumn(tree3, SWT.LEFT);
+		// column31.setText("Column 1");
+		// column31.setWidth(200);
+		// TreeColumn column32 = new TreeColumn(tree3, SWT.CENTER);
+		// column32.setText("Column 2");
+		// column32.setWidth(200);
+		// TreeColumn column33 = new TreeColumn(tree3, SWT.RIGHT);
+		// column33.setText("Column 3");
+		// column33.setWidth(200);
+		//
+		// treeViewerPredefined = new TreeViewer(tree3);
+		// treeViewerPredefined.setContentProvider(new
+		// SendingDataRulesContentProvider());
+		// treeViewerPredefined.setLabelProvider(new SendingDataRulesLabelProvider());
+		//
+		// tabItem.setControl(tree3);
 
-		Tree tree2 = new Tree(tabFolder, SWT.NONE);
-		tree2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		tree2.setHeaderVisible(true);
-		TreeColumn column21 = new TreeColumn(tree2, SWT.LEFT);
-		column21.setText("Column 1");
-		column21.setWidth(200);
-		TreeColumn column22 = new TreeColumn(tree2, SWT.CENTER);
-		column22.setText("Column 2");
-		column22.setWidth(200);
-		TreeColumn column23 = new TreeColumn(tree2, SWT.RIGHT);
-		column23.setText("Column 3");
-		column23.setWidth(200);
-
-		treeViewerReceivingEvents = new TreeViewer(tree);
-		treeViewerReceivingEvents.setContentProvider(new SendingRulesContentProvider());
-		treeViewerReceivingEvents.setLabelProvider(new SendingRulesLabelProvider());
-
-		tabItem.setControl(tree2);
-
-		// Предопределенные
-		tabItem = new CTabItem(tabFolder, SWT.NONE);
-		tabItem.setText("Предопределенные");
-
-		Tree tree3 = new Tree(tabFolder, SWT.NONE);
-		tree3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		tree3.setHeaderVisible(true);
-		TreeColumn column31 = new TreeColumn(tree3, SWT.LEFT);
-		column31.setText("Column 1");
-		column31.setWidth(200);
-		TreeColumn column32 = new TreeColumn(tree3, SWT.CENTER);
-		column32.setText("Column 2");
-		column32.setWidth(200);
-		TreeColumn column33 = new TreeColumn(tree3, SWT.RIGHT);
-		column33.setText("Column 3");
-		column33.setWidth(200);
-
-		treeViewerPredefined = new TreeViewer(tree3);
-		treeViewerPredefined.setContentProvider(new SendingRulesContentProvider());
-		treeViewerPredefined.setLabelProvider(new SendingRulesLabelProvider());
-
-		tabItem.setControl(tree3);
-
-		// Алгоритмы
-		tabItem = new CTabItem(tabFolder, SWT.NONE);
-		tabItem.setText("Алгоритмы");
-
-		Tree tree4 = new Tree(tabFolder, SWT.NONE);
-		tree4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		tree4.setHeaderVisible(true);
-		TreeColumn column41 = new TreeColumn(tree4, SWT.LEFT);
-		column41.setText("Column 1");
-		column41.setWidth(200);
-		TreeColumn column42 = new TreeColumn(tree4, SWT.CENTER);
-		column42.setText("Column 2");
-		column42.setWidth(200);
-		TreeColumn column43 = new TreeColumn(tree4, SWT.RIGHT);
-		column43.setText("Column 3");
-		column43.setWidth(200);
-
-		treeViewerAlgorithms = new TreeViewer(tree4);
-		treeViewerAlgorithms.setContentProvider(new SendingRulesContentProvider());
-		treeViewerAlgorithms.setLabelProvider(new SendingRulesLabelProvider());
-
-		tabItem.setControl(tree4);
-
-		// Перед конвертацией
-		tabItem = new CTabItem(tabFolder, SWT.NONE);
-		tabItem.setText("Перед конвертацией");
-
-		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
-				.getResourceServiceProvider(URI.createURI("foo.bsl"));
-
-		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
-				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri(EcoreUtil.getURI(getModel().getModule()));
-
-		IResourceValidator resourceValidator = resourceServiceProvider.get(IResourceValidator.class);
-
-		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
-
-		Composite editorComposite = new Composite(tabFolder, SWT.BORDER);
-		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		GridLayoutFactory.fillDefaults().applyTo(editorComposite);
-
-		innerEditor = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator).withParent(editorComposite);
-
-		innerEditor.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		Button button = new Button(editorComposite, SWT.PUSH);
-		button.setText("Click Me");
-
-		tabItem.setControl(editorComposite);
-
-		// Перед отложенным заполнением
-		tabItem = new CTabItem(tabFolder, SWT.NONE);
-		tabItem.setText("Перед отложенным заполнением");
-
-		textBeforeFillingEvent = new Text(tabFolder, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		textBeforeFillingEvent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		tabItem.setControl(textBeforeFillingEvent);
-
-		// После конвертации
-		tabItem = new CTabItem(tabFolder, SWT.NONE);
-		tabItem.setText("После конвертации");
-
-		textAfterConvertationEvent = new Text(tabFolder, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		textAfterConvertationEvent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		tabItem.setControl(textAfterConvertationEvent);
+		// // Алгоритмы
+		// tabItem = new CTabItem(tabFolder, SWT.NONE);
+		// tabItem.setText("Алгоритмы");
+		//
+		// Tree tree4 = new Tree(tabFolder, SWT.NONE);
+		// tree4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		// tree4.setHeaderVisible(true);
+		// TreeColumn column41 = new TreeColumn(tree4, SWT.LEFT);
+		// column41.setText("Column 1");
+		// column41.setWidth(200);
+		// TreeColumn column42 = new TreeColumn(tree4, SWT.CENTER);
+		// column42.setText("Column 2");
+		// column42.setWidth(200);
+		// TreeColumn column43 = new TreeColumn(tree4, SWT.RIGHT);
+		// column43.setText("Column 3");
+		// column43.setWidth(200);
+		//
+		// treeViewerAlgorithms = new TreeViewer(tree4);
+		// treeViewerAlgorithms.setContentProvider(new
+		// SendingDataRulesContentProvider());
+		// treeViewerAlgorithms.setLabelProvider(new SendingDataRulesLabelProvider());
+		//
+		// tabItem.setControl(tree4);
 
 		tabFolder.setSelection(0);
 
-		conversionModuleAnalyzer.analyze(getModel());
-		ConversionModule conversionModule = conversionModuleAnalyzer.getConversionModule();
-
-		String beforeConvertationEvent = conversionModule.getBeforeConvertationEvent();
-		getModelAccess().updateEditablePart(beforeConvertationEvent != null ? beforeConvertationEvent : "");
-
-		treeViewerSendingEvents.setInput(conversionModule);
-		treeViewerSendingEvents.expandAll();
-
 		hookListeners();
 
-		button.addSelectionListener(new SelectionListener() {
-
-			public void widgetSelected(SelectionEvent event) {
-				ConversionModule conversionModule = conversionModuleAnalyzer.getConversionModule();
-				Method method = (Method) conversionModule.getBeforeConvertationEventMethod();
-				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
-
-				URI moduleURI = (URI) conversionModule.getModuleURI();
-				IFile moduleFile = resourceLookup.getPlatformResource(moduleURI);
-
-				XtextEditor embeddedEditor = null;
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				for (IEditorReference editorReference : page.getEditorReferences()) {
-					final IEditorPart[] editor = new IEditorPart[1];
-					editor[0] = editorReference.getEditor(false);
-					if (editor != null) {
-						if (editor[0] instanceof XtextEditor) {
-							embeddedEditor = (XtextEditor) editor[0];
-							break;
-						} else {
-							if (editor[0] != null) {
-								embeddedEditor = editor[0].getAdapter(XtextEditor.class);
-							}
-							if (embeddedEditor instanceof XtextEditor) {
-								break;
-							}
-						}
-					}
-				}
-
-				if (embeddedEditor == null)
-					return;
-
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-			}
-		});
 	}
 
 	@Override
 	public void activate() {
 		super.activate();
 
-		// textBeforeConvertationEvent.setText(conversionModule.getBeforeConvertationEvent());
+		conversionModuleAnalyzer.analyze(getModel());
+		conversionModule = conversionModuleAnalyzer.getConversionModule();
 
-		// String beforeFillingEvent = conversionModule.getBeforeFillingEvent();
-		// textBeforeFillingEvent.setText(beforeFillingEvent != null ?
-		// beforeFillingEvent : "");
-		//
-		// String afterConvertationEvent = conversionModule.getAfterConvertationEvent();
-		// textAfterConvertationEvent.setText(afterConvertationEvent != null ?
-		// afterConvertationEvent : "");
+		tltmStoreVersion1.setSelection(conversionModule.getStoreVersion() == "1");
+		tltmStoreVersion2.setSelection(conversionModule.getStoreVersion() == "2");
+
+		treeViewerSendingEvents.setInput(conversionModule);
+		treeViewerSendingEvents.expandAll();
 	}
 
 	private void hookListeners() {
@@ -339,24 +296,70 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object element = ((IStructuredSelection) selection).getFirstElement();
 
-				if (element instanceof CmSendingRule) {
-					CmSendingRule sendingRule = ((CmSendingRule) element);
+				if (element instanceof CmDataRule) {
+					CmDataRule dataRule = ((CmDataRule) element);
 
-					SendingRuleDialog sendingRuleDialog = new SendingRuleDialog(
-							event.getViewer().getControl().getShell(), sendingRule);
-					sendingRuleDialog.open();
+					DataRuleDialog dataRuleDialog = new DataRuleDialog(event.getViewer().getControl().getShell(),
+							dataRule);
+					if (dataRuleDialog.open() == Window.OK) {
+						Map<Object, String> methods = dataRuleDialog.getUpdatedMethods();
+						updateModule(methods);
+					}
+					;
 				}
 
 			}
 		}));
 
+		buttonInformation.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
+						((Button) event.getSource()).getShell(), conversionModule);
+				if (conversionModuleDialog.open() == Window.OK) {
+					Map<Object, String> methods = conversionModuleDialog.getUpdatedMethods();
+					updateModule(methods);
+				}
+				;
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
 	}
 
-	private synchronized CustomEmbeddedEditorModelAccess getModelAccess() {
-		if (modelAccess == null) {
-			modelAccess = (CustomEmbeddedEditorModelAccess) innerEditor.createPartialEditor("", "", "", true);
+	private void updateModule(Map<Object, String> methods) {
+		for (Map.Entry<Object, String> entry : methods.entrySet()) {
+			XtextEditor embeddedEditor = null;
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			for (IEditorReference editorReference : page.getEditorReferences()) {
+				final IEditorPart[] editor = new IEditorPart[1];
+				editor[0] = editorReference.getEditor(false);
+				if (editor != null) {
+					if (editor[0] instanceof XtextEditor) {
+						embeddedEditor = (XtextEditor) editor[0];
+						break;
+					} else {
+						if (editor[0] != null) {
+							embeddedEditor = editor[0].getAdapter(XtextEditor.class);
+						}
+						if (embeddedEditor instanceof XtextEditor) {
+							break;
+						}
+					}
+				}
+			}
+
+			if (embeddedEditor == null)
+				continue;
+
+			Method method = (Method) entry.getKey();
+			String newText = entry.getValue();
+
+			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
+
 		}
-		return modelAccess;
+
 	}
 
 }

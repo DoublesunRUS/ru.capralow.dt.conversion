@@ -29,6 +29,7 @@ import com._1c.g5.v8.bm.core.IBmObject;
 public interface CmAttributeRule extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Configuration Tabular Section Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Configuration Tabular Section Name</em>' attribute isn't clear,
@@ -38,7 +39,7 @@ public interface CmAttributeRule extends IBmObject {
 	 * @return the value of the '<em>Configuration Tabular Section Name</em>' attribute.
 	 * @see #setConfigurationTabularSectionName(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAttributeRule_ConfigurationTabularSectionName()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getConfigurationTabularSectionName();
@@ -55,6 +56,7 @@ public interface CmAttributeRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Configuration Attribute Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Configuration Attribute Name</em>' attribute isn't clear,
@@ -64,7 +66,7 @@ public interface CmAttributeRule extends IBmObject {
 	 * @return the value of the '<em>Configuration Attribute Name</em>' attribute.
 	 * @see #setConfigurationAttributeName(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAttributeRule_ConfigurationAttributeName()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getConfigurationAttributeName();
@@ -81,6 +83,7 @@ public interface CmAttributeRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Format Tabular Section Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Format Tabular Section Name</em>' attribute isn't clear,
@@ -90,7 +93,7 @@ public interface CmAttributeRule extends IBmObject {
 	 * @return the value of the '<em>Format Tabular Section Name</em>' attribute.
 	 * @see #setFormatTabularSectionName(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAttributeRule_FormatTabularSectionName()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getFormatTabularSectionName();
@@ -107,6 +110,7 @@ public interface CmAttributeRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Format Attribute Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Format Attribute Name</em>' attribute isn't clear,
@@ -116,7 +120,7 @@ public interface CmAttributeRule extends IBmObject {
 	 * @return the value of the '<em>Format Attribute Name</em>' attribute.
 	 * @see #setFormatAttributeName(String)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAttributeRule_FormatAttributeName()
-	 * @model unique="false"
+	 * @model default="" unique="false"
 	 * @generated
 	 */
 	String getFormatAttributeName();
@@ -159,6 +163,7 @@ public interface CmAttributeRule extends IBmObject {
 
 	/**
 	 * Returns the value of the '<em><b>Is Custom Rule</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Is Custom Rule</em>' attribute isn't clear,
@@ -168,7 +173,7 @@ public interface CmAttributeRule extends IBmObject {
 	 * @return the value of the '<em>Is Custom Rule</em>' attribute.
 	 * @see #setIsCustomRule(Boolean)
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAttributeRule_IsCustomRule()
-	 * @model unique="false"
+	 * @model default="false" unique="false"
 	 * @generated
 	 */
 	Boolean getIsCustomRule();

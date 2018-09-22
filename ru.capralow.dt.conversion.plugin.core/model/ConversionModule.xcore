@@ -4,16 +4,43 @@
 package ru.capralow.dt.conversion.plugin.core.cm
 
 class ConversionModule {
-	String storeVersion
+	String storeVersion = "1"
 	
 	Object moduleURI
 	
-	contains CmDataRule[] dataRules
+	String params
+	
+	String beforeConvertationEvent = ""
+	Object beforeConvertationEventMethod
+	String beforeFillingEvent = ""
+	Object beforeFillingEventMethod
+	String afterConvertationEvent = ""
+	Object afterConvertationEventMethod
+	
+	contains CmDataRule[] dataRules opposite conversionModule
 	op CmDataRule getDataRule(String ruleName) {
 		for (CmDataRule dataRule : dataRules) {
 			if (ruleName == dataRule.getName) return dataRule
 		}
 		return null;
+	}
+	op Object[] getSendingDataRules() {
+		val result = newBasicEList()
+
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.getForSending())
+				result.add(dataRule)
+		}
+		return result
+	}
+	op Object[] getReceivingDataRules() {
+		val result = newBasicEList()
+
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.getForReceiving())
+				result.add(dataRule)
+		}
+		return result
 	}
 	
 	contains CmObjectRule[] objectRules
@@ -24,44 +51,30 @@ class ConversionModule {
 		return null;
 	}
 	
-	String predefineds
+	contains CmPredefined[] predefineds
 	
-	String params
-	
-	String beforeConvertationEvent
-	String afterConvertationEvent
-	String beforeFillingEvent
-	Object beforeConvertationEventMethod
-	
-	contains CmSendingRule[] sendingRules
-	
-	String algorithms
-}
-
-class CmSendingRule {
-	Object configurationObject
-
-	refers CmDataRule dataRule
-
-	refers CmObjectRule[] objectRules
+	contains CmAlgorithm[] algorithms
 }
 
 class CmDataRule {
-	String name
+	container ConversionModule conversionModule opposite dataRules
 	
-	Boolean isDisabled
+	String name = ""
+	
+	Boolean isDisabled = "false"
 
 	Object configurationObject
-	String formatObject
+	Object formatObject
 	
-	Boolean forSending
-	Boolean forReceiving
-	Boolean isDataCleaning
+	Boolean forSending = "false"
+	Boolean forReceiving = "false"
+	Boolean isDataCleaning = "false"
 	CmSelectionVariant selectionVariant
 	
-	String dataSelectionEvent
-	String beforeProcessingEvent
-	String onProcessingEvent
+	String onProcessingEvent = ""
+	Object onProcessingEventMethod
+	String dataSelectionEvent = ""
+	Object dataSelectionEventMethod
 	
 	refers CmObjectRule[] objectRules
 }
@@ -72,23 +85,28 @@ enum CmSelectionVariant {
 }
 
 class CmObjectRule {
-	String name
+	String name = ""
 
-	Boolean isDisabled
+	Boolean isDisabled = "false"
 
 	Object configurationObject
-	String formatObject
+	Object formatObject
 	
-	Boolean forSending
-	Boolean forReceiving
-	Boolean isForGroup
+	Boolean forSending = "false"
+	Boolean forReceiving = "false"
+	Boolean isForGroup = "false"
 	CmIdentificationVariant identificationVariant
 	
-	String beforeSendingEvent
-	String onSendingEvent
-	String beforeReceivingEvent
-	String onReceivingEvent
-	String afterReceivingAlgorithm
+	String beforeSendingEvent = ""
+	Object beforeSendingEventMethod
+	String onSendingEvent = ""
+	Object onSendingEventMethod
+	String beforeReceivingEvent = ""
+	Object beforeReceivingEventMethod
+	String onReceivingEvent = ""
+	Object onReceivingEventMethod
+	String afterReceivingAlgorithmName = ""
+	Object afterReceivingAlgorithmMethod
 
 	contains CmAttributeRule[] attributeRules
 }
@@ -100,13 +118,28 @@ enum CmIdentificationVariant {
 }
 
 class CmAttributeRule {
-	String configurationTabularSectionName
-	String configurationAttributeName
+	String configurationTabularSectionName = ""
+	String configurationAttributeName = ""
 	
-	String formatTabularSectionName
-	String formatAttributeName
+	String formatTabularSectionName = ""
+	String formatAttributeName = ""
 	
 	refers CmObjectRule objectRule
 	
-	Boolean isCustomRule
+	Boolean isCustomRule = "false"
+}
+
+class CmAlgorithm {
+	String name = ""
+	Object method
+}
+
+class CmPredefined {
+	String name = ""
+
+	Object configurationObject
+	Object formatObject
+
+	Boolean forSending = "false"
+	Boolean forReceiving = "false"
 }
