@@ -223,6 +223,10 @@ public class DataRuleDialog extends Dialog {
 
 		tabItem2.setControl(compositeOnProcessingEditor);
 
+		Text txtOnProcessing = new Text(compositeOnProcessingEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtOnProcessing.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtOnProcessing.setText("<Описание процедуры>");
+
 		editorOnProcessing = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeOnProcessingEditor);
@@ -237,6 +241,10 @@ public class DataRuleDialog extends Dialog {
 		GridLayoutFactory.fillDefaults().applyTo(compositeDataSelectionEditor);
 
 		tabItem3.setControl(compositeDataSelectionEditor);
+
+		Text txtDataSelection = new Text(compositeDataSelectionEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtDataSelection.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtDataSelection.setText("<Описание процедуры>");
 
 		editorDataSelection = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
@@ -266,9 +274,15 @@ public class DataRuleDialog extends Dialog {
 		txtObjectRuleName.setText(objectRules.get(0).getName());
 		viewer.setInput(objectRules);
 
+		String[] onProcessingEvent = parseMethod(dataRule.getOnProcessingEvent().trim());
+		txtOnProcessing.setText(onProcessingEvent[0]);
 		getModelAccessOnProcessing().updateEditablePart(dataRule.getOnProcessingEvent());
+		getModelAccessOnProcessing().updateModel(onProcessingEvent[0], onProcessingEvent[1], onProcessingEvent[2]);
 
+		String[] dataSelectionEvent = parseMethod(dataRule.getDataSelectionEvent().trim());
+		txtDataSelection.setText(dataSelectionEvent[0]);
 		getModelAccessDataSelection().updateEditablePart(dataRule.getDataSelectionEvent());
+		getModelAccessDataSelection().updateModel(dataSelectionEvent[0], dataSelectionEvent[1], dataSelectionEvent[2]);
 
 		return container;
 	}
@@ -306,6 +320,27 @@ public class DataRuleDialog extends Dialog {
 					"", true);
 		}
 		return modelAccessDataSelection;
+	}
+
+	private String[] parseMethod(String method) {
+		String[] result = new String[3];
+
+		result[0] = "";
+		result[1] = "";
+		result[2] = "";
+
+		String[] methodArray = method.split(System.lineSeparator());
+
+		if (methodArray.length < 3)
+			return result;
+
+		result[0] = methodArray[0];
+		result[2] = methodArray[methodArray.length - 1];
+		result[1] = method.substring(result[0].length() + System.lineSeparator().length(),
+				method.length() - result[2].length() - System.lineSeparator().length());
+
+		return result;
+
 	}
 
 	public Map<Object, String> getUpdatedMethods() {

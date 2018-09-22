@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
@@ -84,6 +85,10 @@ public class ConversionModuleDialog extends Dialog {
 
 		tabItem1.setControl(compositeBeforeConvertationEditor);
 
+		Text txtBeforeConvertation = new Text(compositeBeforeConvertationEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtBeforeConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtBeforeConvertation.setText("<Описание процедуры>");
+
 		editorBeforeConvertation = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeBeforeConvertationEditor);
@@ -100,6 +105,10 @@ public class ConversionModuleDialog extends Dialog {
 
 		tabItem2.setControl(compositeBeforeFillingEditor);
 
+		Text txtBeforeFilling = new Text(compositeBeforeFillingEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtBeforeFilling.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtBeforeFilling.setText("<Описание процедуры>");
+
 		editorBeforeFilling = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeBeforeFillingEditor);
@@ -115,6 +124,10 @@ public class ConversionModuleDialog extends Dialog {
 
 		tabItem3.setControl(compositeAfterConvertationEditor);
 
+		Text txtAfterConvertation = new Text(compositeAfterConvertationEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtAfterConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtAfterConvertation.setText("<Описание процедуры>");
+
 		editorAfterConvertation = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeAfterConvertationEditor);
@@ -122,13 +135,24 @@ public class ConversionModuleDialog extends Dialog {
 		editorAfterConvertation.getViewer().getControl()
 				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		// Заполнение диалога
+		// Заполнение данными
 
+		String[] beforeConvertationEvent = parseMethod(conversionModule.getBeforeConvertationEvent().trim());
+		txtBeforeConvertation.setText(beforeConvertationEvent[0]);
 		getModelAccessBeforeConvertation().updateEditablePart(conversionModule.getBeforeConvertationEvent());
+		getModelAccessBeforeConvertation().updateModel(beforeConvertationEvent[0], beforeConvertationEvent[1],
+				beforeConvertationEvent[2]);
 
+		String[] beforeFillingEvent = parseMethod(conversionModule.getBeforeFillingEvent().trim());
+		txtBeforeFilling.setText(beforeFillingEvent[0]);
 		getModelAccessBeforeFilling().updateEditablePart(conversionModule.getBeforeFillingEvent());
+		getModelAccessBeforeFilling().updateModel(beforeFillingEvent[0], beforeFillingEvent[1], beforeFillingEvent[2]);
 
+		String[] afterConvertationEvent = parseMethod(conversionModule.getAfterConvertationEvent().trim());
+		txtAfterConvertation.setText(afterConvertationEvent[0]);
 		getModelAccessAfterConvertation().updateEditablePart(conversionModule.getAfterConvertationEvent());
+		getModelAccessAfterConvertation().updateModel(afterConvertationEvent[0], afterConvertationEvent[1],
+				afterConvertationEvent[2]);
 
 		return container;
 	}
@@ -174,6 +198,27 @@ public class ConversionModuleDialog extends Dialog {
 					.createPartialEditor("", "", "", true);
 		}
 		return modelAccessAfterConvertation;
+	}
+
+	private String[] parseMethod(String method) {
+		String[] result = new String[3];
+
+		result[0] = "";
+		result[1] = "";
+		result[2] = "";
+
+		String[] methodArray = method.split(System.lineSeparator());
+
+		if (methodArray.length < 3)
+			return result;
+
+		result[0] = methodArray[0];
+		result[2] = methodArray[methodArray.length - 1];
+		result[1] = method.substring(result[0].length() + System.lineSeparator().length(),
+				method.length() - result[2].length() - System.lineSeparator().length());
+
+		return result;
+
 	}
 
 	public Map<Object, String> getUpdatedMethods() {

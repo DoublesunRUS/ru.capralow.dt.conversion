@@ -74,7 +74,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	// private TreeViewer treeViewerPredefined;
 	// private TreeViewer treeViewerAlgorithms;
 
-	private Button buttonInformation;
+	private Button btnInformation;
 
 	private ToolItem tltmStoreVersion1, tltmStoreVersion2;
 
@@ -156,8 +156,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tableInformation.setLinesVisible(true);
 
 		// 4.1
-		buttonInformation = new Button(compositeInformation, SWT.PUSH);
-		buttonInformation.setText("Общие события конвертации");
+		btnInformation = new Button(compositeInformation, SWT.PUSH);
+		btnInformation.setText("Общие события конвертации");
 
 		// 4.2
 		new Label(compositeInformation, SWT.NONE);
@@ -311,7 +311,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		}));
 
-		buttonInformation.addSelectionListener(new SelectionListener() {
+		btnInformation.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent event) {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
