@@ -184,6 +184,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tblclmnSendingDataRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
+				if (((CmDataRule) element).getConfigurationObject() == null)
+					return "";
 				return ((CmDataRule) element).getConfigurationObject().toString();
 			}
 		});

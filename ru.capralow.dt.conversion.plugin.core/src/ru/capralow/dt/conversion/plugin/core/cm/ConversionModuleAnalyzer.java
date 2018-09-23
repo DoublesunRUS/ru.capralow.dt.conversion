@@ -185,6 +185,9 @@ public class ConversionModuleAnalyzer {
 							dataRule = conversionModule.getDataRule(ruleName);
 
 						} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиМетаданные")) {
+							if (rightExpression instanceof UndefinedLiteral)
+								continue;
+
 							DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
 							DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
 									.getSource();

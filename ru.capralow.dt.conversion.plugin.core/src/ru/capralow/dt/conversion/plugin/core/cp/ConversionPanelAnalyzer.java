@@ -3,6 +3,7 @@ package ru.capralow.dt.conversion.plugin.core.cp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -13,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -52,6 +54,7 @@ import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 
+import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.CpConfigurationImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl;
@@ -105,7 +108,7 @@ public class ConversionPanelAnalyzer {
 
 		ArrayList<String> configurationsList = new ArrayList<String>();
 
-		Collection<CpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+		EList<CpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
 		Iterator<CpConfiguration> itr = cpConfigurations.iterator();
 		while (itr.hasNext()) {
 			CpConfiguration cpConfiguration = itr.next();
@@ -113,8 +116,21 @@ public class ConversionPanelAnalyzer {
 			configurationsList.add(cpConfiguration.getConfigurationName());
 		}
 
-		Collections.sort(configurationsList);
 		List<Pair<String, String>> configurationPairs = getPairs(configurationsList);
+
+		ECollections.sort(cpConfigurations, new Comparator<CpConfiguration>() {
+			@Override
+			public int compare(CpConfiguration arg1, CpConfiguration arg2) {
+				String algorithm1 = arg1.getConfigurationName().replaceAll("_", "");
+				String algorithm2 = arg2.getConfigurationName().replaceAll("_", "");
+
+				if (algorithm1.equalsIgnoreCase(algorithm2))
+					return 0;
+
+				return algorithm1.compareToIgnoreCase(algorithm2);
+			}
+
+		});
 
 		if (configurationPairs.size() != 0) {
 			EList<CpExchangePair> exchangePairs = conversionPanel.getExchangePairs();
@@ -146,6 +162,20 @@ public class ConversionPanelAnalyzer {
 				}
 				exchangePairs.add(CpExchangePair);
 			}
+
+			ECollections.sort(exchangePairs, new Comparator<CpExchangePair>() {
+				@Override
+				public int compare(CpExchangePair arg1, CpExchangePair arg2) {
+					String algorithm1 = arg1.getConfigurationName1().replaceAll("_", "");
+					String algorithm2 = arg2.getConfigurationName1().replaceAll("_", "");
+
+					if (algorithm1.equalsIgnoreCase(algorithm2))
+						return 0;
+
+					return algorithm1.compareToIgnoreCase(algorithm2);
+				}
+
+			});
 		}
 	}
 
