@@ -51,6 +51,8 @@ public class DataRuleDialog extends Dialog {
 	private CustomEmbeddedEditor editorOnProcessing, editorDataSelection;
 	private CustomEmbeddedEditorModelAccess modelAccessOnProcessing, modelAccessDataSelection;
 
+	private String algorithmsText;
+
 	/**
 	 * Create the dialog.
 	 * 
@@ -169,7 +171,7 @@ public class DataRuleDialog extends Dialog {
 		TableViewer viewer = new TableViewer(tabComposite1, SWT.FULL_SELECTION | SWT.BORDER);
 
 		TableViewerColumn tblclmnColumn1 = new TableViewerColumn(viewer, SWT.NONE);
-		tblclmnColumn1.getColumn().setWidth(1280);
+		tblclmnColumn1.getColumn().setWidth(500);
 		tblclmnColumn1.getColumn().setText("Правило конвертации объекта");
 		tblclmnColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -198,7 +200,7 @@ public class DataRuleDialog extends Dialog {
 		});
 
 		Table table = viewer.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 3, 1));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -274,15 +276,19 @@ public class DataRuleDialog extends Dialog {
 		txtObjectRuleName.setText(objectRules.get(0).getName());
 		viewer.setInput(objectRules);
 
-		String[] onProcessingEvent = parseMethod(dataRule.getOnProcessingEvent().trim());
+		algorithmsText = dataRule.getConversionModule().getAlgorithmsText("");
+
+		String[] onProcessingEvent = parseMethod(dataRule.getOnProcessingEvent());
 		txtOnProcessing.setText(onProcessingEvent[0]);
 		getModelAccessOnProcessing().updateEditablePart(dataRule.getOnProcessingEvent());
-		getModelAccessOnProcessing().updateModel(onProcessingEvent[0], onProcessingEvent[1], onProcessingEvent[2]);
+		getModelAccessOnProcessing().updateModel(onProcessingEvent[0], onProcessingEvent[1],
+				onProcessingEvent[2] + System.lineSeparator() + algorithmsText);
 
-		String[] dataSelectionEvent = parseMethod(dataRule.getDataSelectionEvent().trim());
+		String[] dataSelectionEvent = parseMethod(dataRule.getDataSelectionEvent());
 		txtDataSelection.setText(dataSelectionEvent[0]);
 		getModelAccessDataSelection().updateEditablePart(dataRule.getDataSelectionEvent());
-		getModelAccessDataSelection().updateModel(dataSelectionEvent[0], dataSelectionEvent[1], dataSelectionEvent[2]);
+		getModelAccessDataSelection().updateModel(dataSelectionEvent[0], dataSelectionEvent[1],
+				dataSelectionEvent[2] + System.lineSeparator() + algorithmsText);
 
 		return container;
 	}
@@ -344,10 +350,12 @@ public class DataRuleDialog extends Dialog {
 	}
 
 	public Map<Object, String> getUpdatedMethods() {
-		Map result = new HashMap<Object, String>();
+		Map<Object, String> result = new HashMap<Object, String>();
 
-		result.put(dataRule.getOnProcessingEventMethod(), editorOnProcessing.getDocument().get());
-		result.put(dataRule.getDataSelectionEventMethod(), editorDataSelection.getDocument().get());
+		result.put(dataRule.getOnProcessingEventMethod(), editorOnProcessing.getDocument().get().substring(0,
+				editorOnProcessing.getDocument().get().indexOf(algorithmsText)));
+		result.put(dataRule.getDataSelectionEventMethod(), editorDataSelection.getDocument().get().substring(0,
+				editorDataSelection.getDocument().get().indexOf(algorithmsText)));
 
 		return result;
 	}

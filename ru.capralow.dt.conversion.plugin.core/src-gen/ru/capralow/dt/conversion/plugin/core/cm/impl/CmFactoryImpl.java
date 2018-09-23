@@ -57,12 +57,12 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case CmPackage.CONVERSION_MODULE: return (EObject)createConversionModule();
-			case CmPackage.CM_DATA_RULE: return (EObject)createCmDataRule();
-			case CmPackage.CM_OBJECT_RULE: return (EObject)createCmObjectRule();
-			case CmPackage.CM_ATTRIBUTE_RULE: return (EObject)createCmAttributeRule();
-			case CmPackage.CM_ALGORITHM: return (EObject)createCmAlgorithm();
-			case CmPackage.CM_PREDEFINED: return (EObject)createCmPredefined();
+			case CmPackage.CONVERSION_MODULE: return createConversionModule();
+			case CmPackage.CM_DATA_RULE: return createCmDataRule();
+			case CmPackage.CM_OBJECT_RULE: return createCmObjectRule();
+			case CmPackage.CM_ATTRIBUTE_RULE: return createCmAttributeRule();
+			case CmPackage.CM_PREDEFINED: return createCmPredefined();
+			case CmPackage.CM_ALGORITHM: return createCmAlgorithm();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -80,6 +80,8 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 				return createCmSelectionVariantFromString(eDataType, initialValue);
 			case CmPackage.CM_IDENTIFICATION_VARIANT:
 				return createCmIdentificationVariantFromString(eDataType, initialValue);
+			case CmPackage.CM_METHOD_TYPE:
+				return createCmMethodTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -97,6 +99,8 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 				return convertCmSelectionVariantToString(eDataType, instanceValue);
 			case CmPackage.CM_IDENTIFICATION_VARIANT:
 				return convertCmIdentificationVariantToString(eDataType, instanceValue);
+			case CmPackage.CM_METHOD_TYPE:
+				return convertCmMethodTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -147,9 +151,9 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CmAlgorithm createCmAlgorithm() {
-		CmAlgorithmImpl cmAlgorithm = new CmAlgorithmImpl();
-		return cmAlgorithm;
+	public CmPredefined createCmPredefined() {
+		CmPredefinedImpl cmPredefined = new CmPredefinedImpl();
+		return cmPredefined;
 	}
 
 	/**
@@ -157,9 +161,9 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CmPredefined createCmPredefined() {
-		CmPredefinedImpl cmPredefined = new CmPredefinedImpl();
-		return cmPredefined;
+	public CmAlgorithm createCmAlgorithm() {
+		CmAlgorithmImpl cmAlgorithm = new CmAlgorithmImpl();
+		return cmAlgorithm;
 	}
 
 	/**
@@ -199,6 +203,26 @@ public class CmFactoryImpl extends EFactoryImpl implements CmFactory {
 	 * @generated
 	 */
 	public String convertCmIdentificationVariantToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmMethodType createCmMethodTypeFromString(EDataType eDataType, String initialValue) {
+		CmMethodType result = CmMethodType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCmMethodTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

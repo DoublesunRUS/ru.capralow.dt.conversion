@@ -2,7 +2,7 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm;
 
-import com._1c.g5.v8.bm.core.IBmObject;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,10 +22,9 @@ import com._1c.g5.v8.bm.core.IBmObject;
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmPredefined()
  * @model
- * @extends IBmObject
  * @generated
  */
-public interface CmPredefined extends IBmObject {
+public interface CmPredefined extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * The default value is <code>""</code>.

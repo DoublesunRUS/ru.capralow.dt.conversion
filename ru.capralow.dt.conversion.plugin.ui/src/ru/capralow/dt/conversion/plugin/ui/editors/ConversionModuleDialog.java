@@ -36,6 +36,8 @@ public class ConversionModuleDialog extends Dialog {
 	private CustomEmbeddedEditorModelAccess modelAccessBeforeConvertation, modelAccessBeforeFilling,
 			modelAccessAfterConvertation;
 
+	private String algorithmsText;
+
 	/**
 	 * Create the dialog.
 	 * 
@@ -137,22 +139,25 @@ public class ConversionModuleDialog extends Dialog {
 
 		// Заполнение данными
 
-		String[] beforeConvertationEvent = parseMethod(conversionModule.getBeforeConvertationEvent().trim());
+		algorithmsText = conversionModule.getAlgorithmsText("");
+
+		String[] beforeConvertationEvent = parseMethod(conversionModule.getBeforeConvertationEvent());
 		txtBeforeConvertation.setText(beforeConvertationEvent[0]);
 		getModelAccessBeforeConvertation().updateEditablePart(conversionModule.getBeforeConvertationEvent());
 		getModelAccessBeforeConvertation().updateModel(beforeConvertationEvent[0], beforeConvertationEvent[1],
-				beforeConvertationEvent[2]);
+				beforeConvertationEvent[2] + System.lineSeparator() + algorithmsText);
 
-		String[] beforeFillingEvent = parseMethod(conversionModule.getBeforeFillingEvent().trim());
+		String[] beforeFillingEvent = parseMethod(conversionModule.getBeforeFillingEvent());
 		txtBeforeFilling.setText(beforeFillingEvent[0]);
 		getModelAccessBeforeFilling().updateEditablePart(conversionModule.getBeforeFillingEvent());
-		getModelAccessBeforeFilling().updateModel(beforeFillingEvent[0], beforeFillingEvent[1], beforeFillingEvent[2]);
+		getModelAccessBeforeFilling().updateModel(beforeFillingEvent[0], beforeFillingEvent[1],
+				beforeFillingEvent[2] + System.lineSeparator() + algorithmsText);
 
-		String[] afterConvertationEvent = parseMethod(conversionModule.getAfterConvertationEvent().trim());
+		String[] afterConvertationEvent = parseMethod(conversionModule.getAfterConvertationEvent());
 		txtAfterConvertation.setText(afterConvertationEvent[0]);
 		getModelAccessAfterConvertation().updateEditablePart(conversionModule.getAfterConvertationEvent());
 		getModelAccessAfterConvertation().updateModel(afterConvertationEvent[0], afterConvertationEvent[1],
-				afterConvertationEvent[2]);
+				afterConvertationEvent[2] + System.lineSeparator() + algorithmsText);
 
 		return container;
 	}
@@ -222,11 +227,14 @@ public class ConversionModuleDialog extends Dialog {
 	}
 
 	public Map<Object, String> getUpdatedMethods() {
-		Map result = new HashMap<Object, String>();
+		Map<Object, String> result = new HashMap<Object, String>();
 
-		result.put(conversionModule.getBeforeConvertationEventMethod(), editorBeforeConvertation.getDocument().get());
-		result.put(conversionModule.getBeforeFillingEventMethod(), editorBeforeFilling.getDocument().get());
-		result.put(conversionModule.getAfterConvertationEventMethod(), editorAfterConvertation.getDocument().get());
+		result.put(conversionModule.getBeforeConvertationEventMethod(), editorBeforeConvertation.getDocument().get()
+				.substring(0, editorBeforeConvertation.getDocument().get().indexOf(algorithmsText)));
+		result.put(conversionModule.getBeforeFillingEventMethod(), editorBeforeFilling.getDocument().get().substring(0,
+				editorBeforeFilling.getDocument().get().indexOf(algorithmsText)));
+		result.put(conversionModule.getAfterConvertationEventMethod(), editorAfterConvertation.getDocument().get()
+				.substring(0, editorAfterConvertation.getDocument().get().indexOf(algorithmsText)));
 
 		return result;
 	}

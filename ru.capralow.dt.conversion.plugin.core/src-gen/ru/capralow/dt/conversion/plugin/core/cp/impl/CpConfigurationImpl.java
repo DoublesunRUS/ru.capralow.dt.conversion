@@ -2,14 +2,14 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp.impl;
 
-import com._1c.g5.v8.bm.core.BmObject;
-
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals;
 
@@ -38,7 +38,7 @@ import ru.capralow.dt.conversion.plugin.core.cp.CpPackage;
  *
  * @generated
  */
-public class CpConfigurationImpl extends BmObject implements CpConfiguration {
+public class CpConfigurationImpl extends MinimalEObjectImpl.Container implements CpConfiguration {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

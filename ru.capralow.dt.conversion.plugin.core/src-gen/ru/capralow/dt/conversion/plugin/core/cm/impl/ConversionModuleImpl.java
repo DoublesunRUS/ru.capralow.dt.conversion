@@ -2,8 +2,6 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
-import com._1c.g5.v8.bm.core.BmObject;
-
 import com.google.common.base.Objects;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +10,8 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals;
 
@@ -47,7 +47,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *
  * @generated
  */
-public class ConversionModuleImpl extends BmObject implements ConversionModule {
+public class ConversionModuleImpl extends MinimalEObjectImpl.Container implements ConversionModule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -352,6 +352,45 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CmAlgorithm getAlgorithm(final String algorithmName) {
+		EList<CmAlgorithm> _algorithms = this.getAlgorithms();
+		for (final CmAlgorithm algorithm : _algorithms) {
+			String _name = algorithm.getName();
+			boolean _equals = Objects.equal(algorithmName, _name);
+			if (_equals) {
+				return algorithm;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAlgorithmsText(final String algorithmName) {
+		String result = "";
+		EList<CmAlgorithm> _algorithms = this.getAlgorithms();
+		for (final CmAlgorithm algorithm : _algorithms) {
+			String _name = algorithm.getName();
+			boolean _notEquals = (!Objects.equal(algorithmName, _name));
+			if (_notEquals) {
+				String _result = result;
+				String _text = algorithm.getText();
+				String _lineSeparator = System.lineSeparator();
+				String _plus = (_text + _lineSeparator);
+				result = (_result + _plus);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
@@ -363,6 +402,10 @@ public class ConversionModuleImpl extends BmObject implements ConversionModule {
 				return getReceivingDataRules();
 			case CmPackage.CONVERSION_MODULE___GET_OBJECT_RULE__STRING:
 				return getObjectRule((String)arguments.get(0));
+			case CmPackage.CONVERSION_MODULE___GET_ALGORITHM__STRING:
+				return getAlgorithm((String)arguments.get(0));
+			case CmPackage.CONVERSION_MODULE___GET_ALGORITHMS_TEXT__STRING:
+				return getAlgorithmsText((String)arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
 	}

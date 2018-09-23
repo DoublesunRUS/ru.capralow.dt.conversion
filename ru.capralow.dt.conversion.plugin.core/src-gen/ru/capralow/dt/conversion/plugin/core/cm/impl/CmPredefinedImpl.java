@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
-import com._1c.g5.v8.bm.core.BmObject;
-
 import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
@@ -26,7 +26,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
  *
  * @generated
  */
-public class CmPredefinedImpl extends BmObject implements CmPredefined {
+public class CmPredefinedImpl extends MinimalEObjectImpl.Container implements CmPredefined {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

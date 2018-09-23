@@ -58,15 +58,6 @@ public interface CmFactory extends EFactory {
 	CmAttributeRule createCmAttributeRule();
 
 	/**
-	 * Returns a new object of class '<em>Algorithm</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Algorithm</em>'.
-	 * @generated
-	 */
-	CmAlgorithm createCmAlgorithm();
-
-	/**
 	 * Returns a new object of class '<em>Predefined</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -74,6 +65,15 @@ public interface CmFactory extends EFactory {
 	 * @generated
 	 */
 	CmPredefined createCmPredefined();
+
+	/**
+	 * Returns a new object of class '<em>Algorithm</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Algorithm</em>'.
+	 * @generated
+	 */
+	CmAlgorithm createCmAlgorithm();
 
 	/**
 	 * Returns the package supported by this factory.

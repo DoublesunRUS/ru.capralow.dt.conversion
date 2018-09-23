@@ -1,6 +1,5 @@
 @GenModel(publicConstructors="true", loadInitialization="false", literalsInterface="true", nonNLSMarkers="true",
-	updateClasspath="false", featureDelegation="Reflective", rootExtendsClass="com._1c.g5.v8.bm.core.BmObject",
-	rootExtendsInterface="com._1c.g5.v8.bm.core.IBmObject")
+	updateClasspath="false", featureDelegation="Reflective")
 package ru.capralow.dt.conversion.plugin.core.cp
 
 import com._1c.g5.v8.dt.bsl.model.Module

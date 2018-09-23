@@ -2,12 +2,13 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
-import com._1c.g5.v8.bm.core.BmObject;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
@@ -37,14 +38,13 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getBeforeReceivingEventMethod <em>Before Receiving Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnReceivingEvent <em>On Receiving Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnReceivingEventMethod <em>On Receiving Event Method</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAfterReceivingAlgorithmName <em>After Receiving Algorithm Name</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAfterReceivingAlgorithmMethod <em>After Receiving Algorithm Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAttributeRules <em>Attribute Rules</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
+public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements CmObjectRule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -367,8 +367,8 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getAfterReceivingAlgorithmName() {
-		return (String)eGet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_NAME, true);
+	public CmAlgorithm getAfterReceivingAlgorithm() {
+		return (CmAlgorithm)eGet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM, true);
 	}
 
 	/**
@@ -376,26 +376,8 @@ public class CmObjectRuleImpl extends BmObject implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAfterReceivingAlgorithmName(String newAfterReceivingAlgorithmName) {
-		eSet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_NAME, newAfterReceivingAlgorithmName);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object getAfterReceivingAlgorithmMethod() {
-		return (Object)eGet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_METHOD, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAfterReceivingAlgorithmMethod(Object newAfterReceivingAlgorithmMethod) {
-		eSet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_METHOD, newAfterReceivingAlgorithmMethod);
+	public void setAfterReceivingAlgorithm(CmAlgorithm newAfterReceivingAlgorithm) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM, newAfterReceivingAlgorithm);
 	}
 
 	/**

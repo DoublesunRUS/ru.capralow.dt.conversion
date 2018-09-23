@@ -84,12 +84,12 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 				return createCmAttributeRuleAdapter();
 			}
 			@Override
-			public Adapter caseCmAlgorithm(CmAlgorithm object) {
-				return createCmAlgorithmAdapter();
-			}
-			@Override
 			public Adapter caseCmPredefined(CmPredefined object) {
 				return createCmPredefinedAdapter();
+			}
+			@Override
+			public Adapter caseCmAlgorithm(CmAlgorithm object) {
+				return createCmAlgorithmAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -168,20 +168,6 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm <em>Algorithm</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm
-	 * @generated
-	 */
-	public Adapter createCmAlgorithmAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmPredefined <em>Predefined</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -192,6 +178,20 @@ public class CmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCmPredefinedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm <em>Algorithm</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm
+	 * @generated
+	 */
+	public Adapter createCmAlgorithmAdapter() {
 		return null;
 	}
 

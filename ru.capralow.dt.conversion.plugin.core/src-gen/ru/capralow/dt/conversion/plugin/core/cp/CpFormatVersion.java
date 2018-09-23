@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp;
 
-import com._1c.g5.v8.bm.core.IBmObject;
-
 import com._1c.g5.v8.dt.bsl.model.Module;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,10 +22,9 @@ import com._1c.g5.v8.dt.bsl.model.Module;
  *
  * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpFormatVersion()
  * @model
- * @extends IBmObject
  * @generated
  */
-public interface CpFormatVersion extends IBmObject {
+public interface CpFormatVersion extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Version</b></em>' attribute.
 	 * <!-- begin-user-doc -->

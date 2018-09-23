@@ -1,8 +1,11 @@
 package ru.capralow.dt.conversion.plugin.core.cm;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -12,11 +15,14 @@ import com._1c.g5.v8.dt.bsl.model.BooleanLiteral;
 import com._1c.g5.v8.dt.bsl.model.Conditional;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.Expression;
+import com._1c.g5.v8.dt.bsl.model.FormalParam;
+import com._1c.g5.v8.dt.bsl.model.Function;
 import com._1c.g5.v8.dt.bsl.model.IfStatement;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.bsl.model.NumberLiteral;
+import com._1c.g5.v8.dt.bsl.model.RegionPreprocessorDeclareStatement;
 import com._1c.g5.v8.dt.bsl.model.SimpleStatement;
 import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
@@ -25,6 +31,7 @@ import com._1c.g5.v8.dt.bsl.model.UndefinedLiteral;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl;
@@ -59,9 +66,11 @@ public class ConversionModuleAnalyzer {
 
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
-		
+		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
+
 		dataRules.clear();
 		objectRules.clear();
+		algorithms.clear();
 
 		Iterator<Method> itr = methods.iterator();
 		while (itr.hasNext()) {
@@ -71,18 +80,20 @@ public class ConversionModuleAnalyzer {
 			if (methodName.equals("ПередКонвертацией")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
-				conversionModule.setBeforeConvertationEvent(node.getText());
+				conversionModule.setBeforeConvertationEvent(node.getText().trim());
 				conversionModule.setBeforeConvertationEventMethod(method);
 
 			} else if (methodName.equals("ПередОтложеннымЗаполнением")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
-				conversionModule.setBeforeFillingEvent(node.getText());
+				conversionModule.setBeforeFillingEvent(node.getText().trim());
+				conversionModule.setBeforeFillingEventMethod(method);
 
 			} else if (methodName.equals("ПослеКонвертации")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
-				conversionModule.setAfterConvertationEvent(node.getText());
+				conversionModule.setAfterConvertationEvent(node.getText().trim());
+				conversionModule.setAfterConvertationEventMethod(method);
 
 			} else if (methodName.equals("ВерсияФорматаМенеджераОбмена")) {
 				conversionModule.setStoreVersion("2");
@@ -172,7 +183,7 @@ public class ConversionModuleAnalyzer {
 							String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
 
 							dataRule = conversionModule.getDataRule(ruleName);
-							
+
 						} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиМетаданные")) {
 							DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
 							DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
@@ -202,7 +213,7 @@ public class ConversionModuleAnalyzer {
 							Method eventMethod = getMethod(module, eventName);
 							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
 
-							dataRule.setOnProcessingEvent(node.getText());
+							dataRule.setOnProcessingEvent(node.getText().trim());
 							dataRule.setOnProcessingEventMethod(eventMethod);
 
 						} else if (leftFeatureAccess.getName().equals("ВыборкаДанных")) {
@@ -212,7 +223,7 @@ public class ConversionModuleAnalyzer {
 							Method eventMethod = getMethod(module, eventName);
 							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
 
-							dataRule.setDataSelectionEvent(node.getText());
+							dataRule.setDataSelectionEvent(node.getText().trim());
 							dataRule.setDataSelectionEventMethod(eventMethod);
 
 						} else {
@@ -230,9 +241,9 @@ public class ConversionModuleAnalyzer {
 						CmObjectRule objectRule = conversionModule.getObjectRule(ruleName);
 						if (objectRule == null) {
 							objectRule = new CmObjectRuleImpl();
-							
+
 							objectRule.setName(ruleName);
-							
+
 							objectRules.add(objectRule);
 						}
 
@@ -271,9 +282,9 @@ public class ConversionModuleAnalyzer {
 								CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 								if (objectRule == null) {
 									objectRule = new CmObjectRuleImpl();
-									
+
 									objectRule.setName(objectRuleName);
-									
+
 									objectRules.add(objectRule);
 								}
 
@@ -298,9 +309,9 @@ public class ConversionModuleAnalyzer {
 								CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 								if (objectRule == null) {
 									objectRule = new CmObjectRuleImpl();
-									
+
 									objectRule.setName(objectRuleName);
-									
+
 									objectRules.add(objectRule);
 								}
 
@@ -319,9 +330,9 @@ public class ConversionModuleAnalyzer {
 						CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 						if (objectRule == null) {
 							objectRule = new CmObjectRuleImpl();
-							
+
 							objectRule.setName(objectRuleName);
-							
+
 							objectRules.add(objectRule);
 						}
 
@@ -415,25 +426,46 @@ public class ConversionModuleAnalyzer {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
 							String eventName = stringLiteral.getLines().get(0).replace("\"", "");
 
-							objectRule.setOnSendingEvent(eventName);
+							Method eventMethod = getMethod(module, eventName);
+							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+							objectRule.setOnSendingEvent(node.getText().trim());
+							objectRule.setOnSendingEventMethod(eventMethod);
 
 						} else if (leftFeatureAccess.getName().equals("ПриКонвертацииДанныхXDTO")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
 							String eventName = stringLiteral.getLines().get(0).replace("\"", "");
 
-							objectRule.setBeforeReceivingEvent(eventName);
+							Method eventMethod = getMethod(module, eventName);
+							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+							objectRule.setBeforeReceivingEvent(node.getText().trim());
+							objectRule.setBeforeReceivingEventMethod(eventMethod);
 
 						} else if (leftFeatureAccess.getName().equals("ПередЗаписьюПолученныхДанных")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
 							String eventName = stringLiteral.getLines().get(0).replace("\"", "");
 
-							objectRule.setOnReceivingEvent(eventName);
+							Method eventMethod = getMethod(module, eventName);
+							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+							objectRule.setOnReceivingEvent(node.getText().trim());
+							objectRule.setOnReceivingEventMethod(eventMethod);
 
 						} else if (leftFeatureAccess.getName().equals("ПослеЗагрузкиВсехДанных")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
 							String algorithmName = stringLiteral.getLines().get(0).replace("\"", "");
 
-							objectRule.setAfterReceivingAlgorithmName(algorithmName);
+							CmAlgorithm algorithm = conversionModule.getAlgorithm(algorithmName);
+							if (algorithm == null) {
+								algorithm = new CmAlgorithmImpl();
+
+								algorithm.setName(algorithmName);
+
+								algorithms.add(algorithm);
+							}
+
+							objectRule.setAfterReceivingAlgorithm(algorithm);
 
 						} else {
 							throw new NullPointerException(
@@ -468,9 +500,9 @@ public class ConversionModuleAnalyzer {
 
 							if (attributeObjectRule == null) {
 								attributeObjectRule = new CmObjectRuleImpl();
-								
+
 								attributeObjectRule.setName(attributeRuleName);
-								
+
 								objectRules.add(attributeObjectRule);
 							}
 						}
@@ -478,7 +510,7 @@ public class ConversionModuleAnalyzer {
 						EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
 
 						CmAttributeRuleImpl attributeRule = new CmAttributeRuleImpl();
-						
+
 						attributeRule.setConfigurationTabularSectionName(configurationTabularSectionName);
 						attributeRule.setConfigurationAttributeName(configurationAttribute);
 
@@ -498,12 +530,56 @@ public class ConversionModuleAnalyzer {
 				}
 
 			} else {
-				continue;
+				EObject region = method.eContainer().eContainer();
+				if (!(region instanceof RegionPreprocessorDeclareStatement))
+					continue;
+				String regionName = ((RegionPreprocessorDeclareStatement) method.eContainer().eContainer()).getName();
+				if (!regionName.equals("Алгоритмы"))
+					continue;
+
+				CmAlgorithm algorithm = conversionModule.getAlgorithm(methodName);
+				if (algorithm == null) {
+					algorithm = new CmAlgorithmImpl();
+
+					algorithm.setName(methodName);
+
+					algorithms.add(algorithm);
+				}
+				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
+
+				String params = "";
+
+				for (FormalParam param : method.getFormalParams()) {
+					if (params.length() != 0)
+						params += ", ";
+					params += param.getName();
+				}
+
+				algorithm.setMethod(method);
+				algorithm.setMethodType(method instanceof Function ? CmMethodType.FUNCTION : CmMethodType.PROCEDURE);
+				algorithm.setParams(params);
+				algorithm.setIsExport(method.isExport());
+				algorithm.setText(node.getText().trim());
+
 			}
 		}
 
+		ECollections.sort(algorithms, new Comparator<CmAlgorithm>() {
+			@Override
+			public int compare(CmAlgorithm arg1, CmAlgorithm arg2) {
+				String algorithm1 = arg1.getName().replaceAll("_", "");
+				String algorithm2 = arg2.getName().replaceAll("_", "");
+
+				if (algorithm1.equalsIgnoreCase(algorithm2))
+					return 0;
+
+				return algorithm1.compareToIgnoreCase(algorithm2);
+			}
+
+		});
+
 	}
-	
+
 	private static Method getMethod(Module mdModule, String methodName) {
 		Iterator<Method> itr = mdModule.allMethods().iterator();
 		while (itr.hasNext()) {

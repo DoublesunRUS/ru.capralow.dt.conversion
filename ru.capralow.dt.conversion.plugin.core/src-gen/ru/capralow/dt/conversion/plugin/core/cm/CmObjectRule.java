@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm;
 
-import com._1c.g5.v8.bm.core.IBmObject;
-
 import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,17 +31,15 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventMethod <em>Before Receiving Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEvent <em>On Receiving Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventMethod <em>On Receiving Event Method</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmName <em>After Receiving Algorithm Name</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmMethod <em>After Receiving Algorithm Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}</li>
  * </ul>
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule()
  * @model
- * @extends IBmObject
  * @generated
  */
-public interface CmObjectRule extends IBmObject {
+public interface CmObjectRule extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
@@ -471,57 +469,30 @@ public interface CmObjectRule extends IBmObject {
 	void setOnReceivingEventMethod(Object value);
 
 	/**
-	 * Returns the value of the '<em><b>After Receiving Algorithm Name</b></em>' attribute.
-	 * The default value is <code>""</code>.
+	 * Returns the value of the '<em><b>After Receiving Algorithm</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>After Receiving Algorithm Name</em>' attribute isn't clear,
+	 * If the meaning of the '<em>After Receiving Algorithm</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>After Receiving Algorithm Name</em>' attribute.
-	 * @see #setAfterReceivingAlgorithmName(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AfterReceivingAlgorithmName()
-	 * @model default="" unique="false"
+	 * @return the value of the '<em>After Receiving Algorithm</em>' reference.
+	 * @see #setAfterReceivingAlgorithm(CmAlgorithm)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AfterReceivingAlgorithm()
+	 * @model
 	 * @generated
 	 */
-	String getAfterReceivingAlgorithmName();
+	CmAlgorithm getAfterReceivingAlgorithm();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmName <em>After Receiving Algorithm Name</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>After Receiving Algorithm Name</em>' attribute.
-	 * @see #getAfterReceivingAlgorithmName()
+	 * @param value the new value of the '<em>After Receiving Algorithm</em>' reference.
+	 * @see #getAfterReceivingAlgorithm()
 	 * @generated
 	 */
-	void setAfterReceivingAlgorithmName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>After Receiving Algorithm Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>After Receiving Algorithm Method</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>After Receiving Algorithm Method</em>' attribute.
-	 * @see #setAfterReceivingAlgorithmMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AfterReceivingAlgorithmMethod()
-	 * @model unique="false"
-	 * @generated
-	 */
-	Object getAfterReceivingAlgorithmMethod();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmMethod <em>After Receiving Algorithm Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>After Receiving Algorithm Method</em>' attribute.
-	 * @see #getAfterReceivingAlgorithmMethod()
-	 * @generated
-	 */
-	void setAfterReceivingAlgorithmMethod(Object value);
+	void setAfterReceivingAlgorithm(CmAlgorithm value);
 
 	/**
 	 * Returns the value of the '<em><b>Attribute Rules</b></em>' containment reference list.

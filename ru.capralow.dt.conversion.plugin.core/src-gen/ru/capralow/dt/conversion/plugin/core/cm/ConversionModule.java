@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm;
 
-import com._1c.g5.v8.bm.core.IBmObject;
-
 import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,10 +32,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule()
  * @model
- * @extends IBmObject
  * @generated
  */
-public interface ConversionModule extends IBmObject {
+public interface ConversionModule extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Store Version</b></em>' attribute.
 	 * The default value is <code>"1"</code>.
@@ -327,6 +326,7 @@ public interface ConversionModule extends IBmObject {
 	/**
 	 * Returns the value of the '<em><b>Algorithms</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm}.
+	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getConversionModule <em>Conversion Module</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Algorithms</em>' containment reference list isn't clear,
@@ -335,7 +335,8 @@ public interface ConversionModule extends IBmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Algorithms</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_Algorithms()
-	 * @model containment="true"
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getConversionModule
+	 * @model opposite="conversionModule" containment="true"
 	 * @generated
 	 */
 	EList<CmAlgorithm> getAlgorithms();
@@ -375,5 +376,23 @@ public interface ConversionModule extends IBmObject {
 	 * @generated
 	 */
 	CmObjectRule getObjectRule(String ruleName);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false" algorithmNameUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm%&gt;&gt; _algorithms = this.getAlgorithms();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm%&gt; algorithm : _algorithms)\n{\n\t&lt;%java.lang.String%&gt; _name = algorithm.getName();\n\tboolean _equals = &lt;%com.google.common.base.Objects%&gt;.equal(algorithmName, _name);\n\tif (_equals)\n\t{\n\t\treturn algorithm;\n\t}\n}\nreturn null;'"
+	 * @generated
+	 */
+	CmAlgorithm getAlgorithm(String algorithmName);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false" algorithmNameUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; result = \"\";\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm%&gt;&gt; _algorithms = this.getAlgorithms();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm%&gt; algorithm : _algorithms)\n{\n\t&lt;%java.lang.String%&gt; _name = algorithm.getName();\n\tboolean _notEquals = (!&lt;%com.google.common.base.Objects%&gt;.equal(algorithmName, _name));\n\tif (_notEquals)\n\t{\n\t\t&lt;%java.lang.String%&gt; _result = result;\n\t\t&lt;%java.lang.String%&gt; _text = algorithm.getText();\n\t\t&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n\t\t&lt;%java.lang.String%&gt; _plus = (_text + _lineSeparator);\n\t\tresult = (_result + _plus);\n\t}\n}\nreturn result;'"
+	 * @generated
+	 */
+	String getAlgorithmsText(String algorithmName);
 
 } // ConversionModule

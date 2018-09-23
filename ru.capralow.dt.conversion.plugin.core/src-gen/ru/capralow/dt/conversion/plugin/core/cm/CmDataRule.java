@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm;
 
-import com._1c.g5.v8.bm.core.IBmObject;
-
 import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,10 +33,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule()
  * @model
- * @extends IBmObject
  * @generated
  */
-public interface CmDataRule extends IBmObject {
+public interface CmDataRule extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Conversion Module</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getDataRules <em>Data Rules</em>}'.

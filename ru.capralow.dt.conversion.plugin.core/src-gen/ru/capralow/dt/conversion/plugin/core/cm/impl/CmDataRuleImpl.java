@@ -2,11 +2,11 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
-import com._1c.g5.v8.bm.core.BmObject;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
@@ -40,7 +40,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *
  * @generated
  */
-public class CmDataRuleImpl extends BmObject implements CmDataRule {
+public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDataRule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

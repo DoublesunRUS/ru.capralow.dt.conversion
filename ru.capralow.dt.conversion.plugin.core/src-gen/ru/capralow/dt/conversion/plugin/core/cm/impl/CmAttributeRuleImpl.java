@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
-import com._1c.g5.v8.bm.core.BmObject;
-
 import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
@@ -28,7 +28,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
  *
  * @generated
  */
-public class CmAttributeRuleImpl extends BmObject implements CmAttributeRule {
+public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements CmAttributeRule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

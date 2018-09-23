@@ -1,6 +1,5 @@
 @GenModel(publicConstructors="true", loadInitialization="false", literalsInterface="true", nonNLSMarkers="true",
-	updateClasspath="false", featureDelegation="Reflective", rootExtendsClass="com._1c.g5.v8.bm.core.BmObject",
-	rootExtendsInterface="com._1c.g5.v8.bm.core.IBmObject")
+	updateClasspath="false", featureDelegation="Reflective")
 package ru.capralow.dt.conversion.plugin.core.cm
 
 class ConversionModule {
@@ -53,7 +52,24 @@ class ConversionModule {
 	
 	contains CmPredefined[] predefineds
 	
-	contains CmAlgorithm[] algorithms
+	contains CmAlgorithm[] algorithms opposite conversionModule
+	op CmAlgorithm getAlgorithm(String algorithmName) {
+		for (CmAlgorithm algorithm : algorithms) {
+			if (algorithmName == algorithm.getName) return algorithm
+		}
+		return null;
+	}
+	op String getAlgorithmsText(String algorithmName) {
+		var result = ""
+		
+		for (CmAlgorithm algorithm : algorithms) {
+			if (algorithmName != algorithm.getName)
+				result += algorithm.getText() + System.lineSeparator();
+			
+		}
+		
+		return result;
+	}
 }
 
 class CmDataRule {
@@ -105,8 +121,7 @@ class CmObjectRule {
 	Object beforeReceivingEventMethod
 	String onReceivingEvent = ""
 	Object onReceivingEventMethod
-	String afterReceivingAlgorithmName = ""
-	Object afterReceivingAlgorithmMethod
+	refers CmAlgorithm afterReceivingAlgorithm
 
 	contains CmAttributeRule[] attributeRules
 }
@@ -129,11 +144,6 @@ class CmAttributeRule {
 	Boolean isCustomRule = "false"
 }
 
-class CmAlgorithm {
-	String name = ""
-	Object method
-}
-
 class CmPredefined {
 	String name = ""
 
@@ -142,4 +152,21 @@ class CmPredefined {
 
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
+}
+
+class CmAlgorithm {
+	container ConversionModule conversionModule opposite algorithms
+	
+	String name = ""
+	Object method
+
+	CmMethodType methodType
+	String params = ""
+	String text = ""
+	Boolean isExport = "false"
+}
+
+enum CmMethodType {
+	Procedure as "Процедура" = 0
+	Function as "Функция" = 1
 }

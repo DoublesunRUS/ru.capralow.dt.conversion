@@ -17,6 +17,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmFactory;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.CmMethodType;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
@@ -63,14 +64,14 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass cmAlgorithmEClass = null;
+	private EClass cmPredefinedEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass cmPredefinedEClass = null;
+	private EClass cmAlgorithmEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -85,6 +86,13 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * @generated
 	 */
 	private EEnum cmIdentificationVariantEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum cmMethodTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -310,6 +318,24 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 */
 	public EOperation getConversionModule__GetObjectRule__String() {
 		return conversionModuleEClass.getEOperations().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getConversionModule__GetAlgorithm__String() {
+		return conversionModuleEClass.getEOperations().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getConversionModule__GetAlgorithmsText__String() {
+		return conversionModuleEClass.getEOperations().get(5);
 	}
 
 	/**
@@ -605,17 +631,8 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_AfterReceivingAlgorithmName() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(16);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmObjectRule_AfterReceivingAlgorithmMethod() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(17);
+	public EReference getCmObjectRule_AfterReceivingAlgorithm() {
+		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(16);
 	}
 
 	/**
@@ -624,7 +641,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * @generated
 	 */
 	public EReference getCmObjectRule_AttributeRules() {
-		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(18);
+		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(17);
 	}
 
 	/**
@@ -695,33 +712,6 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCmAlgorithm() {
-		return cmAlgorithmEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmAlgorithm_Name() {
-		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmAlgorithm_Method() {
-		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getCmPredefined() {
 		return cmPredefinedEClass;
 	}
@@ -776,6 +766,78 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCmAlgorithm() {
+		return cmAlgorithmEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCmAlgorithm_ConversionModule() {
+		return (EReference)cmAlgorithmEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmAlgorithm_Name() {
+		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmAlgorithm_Method() {
+		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmAlgorithm_MethodType() {
+		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmAlgorithm_Params() {
+		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmAlgorithm_Text() {
+		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmAlgorithm_IsExport() {
+		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCmSelectionVariant() {
 		return cmSelectionVariantEEnum;
 	}
@@ -787,6 +849,15 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 	 */
 	public EEnum getCmIdentificationVariant() {
 		return cmIdentificationVariantEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getCmMethodType() {
+		return cmMethodTypeEEnum;
 	}
 
 	/**
@@ -835,6 +906,8 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_SENDING_DATA_RULES);
 		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_RECEIVING_DATA_RULES);
 		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_OBJECT_RULE__STRING);
+		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_ALGORITHM__STRING);
+		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_ALGORITHMS_TEXT__STRING);
 
 		cmDataRuleEClass = createEClass(CM_DATA_RULE);
 		createEReference(cmDataRuleEClass, CM_DATA_RULE__CONVERSION_MODULE);
@@ -869,8 +942,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT_METHOD);
 		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__ON_RECEIVING_EVENT);
 		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__ON_RECEIVING_EVENT_METHOD);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_NAME);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_METHOD);
+		createEReference(cmObjectRuleEClass, CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM);
 		createEReference(cmObjectRuleEClass, CM_OBJECT_RULE__ATTRIBUTE_RULES);
 
 		cmAttributeRuleEClass = createEClass(CM_ATTRIBUTE_RULE);
@@ -881,10 +953,6 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		createEReference(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE__OBJECT_RULE);
 		createEAttribute(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE);
 
-		cmAlgorithmEClass = createEClass(CM_ALGORITHM);
-		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__NAME);
-		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__METHOD);
-
 		cmPredefinedEClass = createEClass(CM_PREDEFINED);
 		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__NAME);
 		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__CONFIGURATION_OBJECT);
@@ -892,9 +960,19 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__FOR_SENDING);
 		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__FOR_RECEIVING);
 
+		cmAlgorithmEClass = createEClass(CM_ALGORITHM);
+		createEReference(cmAlgorithmEClass, CM_ALGORITHM__CONVERSION_MODULE);
+		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__NAME);
+		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__METHOD);
+		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__METHOD_TYPE);
+		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__PARAMS);
+		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__TEXT);
+		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__IS_EXPORT);
+
 		// Create enums
 		cmSelectionVariantEEnum = createEEnum(CM_SELECTION_VARIANT);
 		cmIdentificationVariantEEnum = createEEnum(CM_IDENTIFICATION_VARIANT);
+		cmMethodTypeEEnum = createEEnum(CM_METHOD_TYPE);
 	}
 
 	/**
@@ -943,7 +1021,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		initEReference(getConversionModule_DataRules(), this.getCmDataRule(), this.getCmDataRule_ConversionModule(), "dataRules", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getConversionModule_ObjectRules(), this.getCmObjectRule(), null, "objectRules", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getConversionModule_Predefineds(), this.getCmPredefined(), null, "predefineds", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEReference(getConversionModule_Algorithms(), this.getCmAlgorithm(), null, "algorithms", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getConversionModule_Algorithms(), this.getCmAlgorithm(), this.getCmAlgorithm_ConversionModule(), "algorithms", null, 0, -1, ConversionModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		EOperation op = initEOperation(getConversionModule__GetDataRule__String(), this.getCmDataRule(), "getDataRule", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 		addEParameter(op, theEcorePackage.getEString(), "ruleName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
@@ -954,6 +1032,12 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 
 		op = initEOperation(getConversionModule__GetObjectRule__String(), this.getCmObjectRule(), "getObjectRule", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 		addEParameter(op, theEcorePackage.getEString(), "ruleName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+		op = initEOperation(getConversionModule__GetAlgorithm__String(), this.getCmAlgorithm(), "getAlgorithm", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+		addEParameter(op, theEcorePackage.getEString(), "algorithmName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+		op = initEOperation(getConversionModule__GetAlgorithmsText__String(), theEcorePackage.getEString(), "getAlgorithmsText", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+		addEParameter(op, theEcorePackage.getEString(), "algorithmName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmDataRuleEClass, CmDataRule.class, "CmDataRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEReference(getCmDataRule_ConversionModule(), this.getConversionModule(), this.getConversionModule_DataRules(), "conversionModule", null, 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -988,8 +1072,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		initEAttribute(getCmObjectRule_BeforeReceivingEventMethod(), theEcorePackage.getEJavaObject(), "beforeReceivingEventMethod", null, 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getCmObjectRule_OnReceivingEvent(), theEcorePackage.getEString(), "onReceivingEvent", "", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmObjectRule_OnReceivingEventMethod(), theEcorePackage.getEJavaObject(), "onReceivingEventMethod", null, 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmObjectRule_AfterReceivingAlgorithmName(), theEcorePackage.getEString(), "afterReceivingAlgorithmName", "", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmObjectRule_AfterReceivingAlgorithmMethod(), theEcorePackage.getEJavaObject(), "afterReceivingAlgorithmMethod", null, 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getCmObjectRule_AfterReceivingAlgorithm(), this.getCmAlgorithm(), null, "afterReceivingAlgorithm", null, 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getCmObjectRule_AttributeRules(), this.getCmAttributeRule(), null, "attributeRules", null, 0, -1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmAttributeRuleEClass, CmAttributeRule.class, "CmAttributeRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
@@ -1000,16 +1083,21 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		initEReference(getCmAttributeRule_ObjectRule(), this.getCmObjectRule(), null, "objectRule", null, 0, 1, CmAttributeRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getCmAttributeRule_IsCustomRule(), theEcorePackage.getEBooleanObject(), "isCustomRule", "false", 0, 1, CmAttributeRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
-		initEClass(cmAlgorithmEClass, CmAlgorithm.class, "CmAlgorithm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getCmAlgorithm_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmAlgorithm_Method(), theEcorePackage.getEJavaObject(), "method", null, 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-
 		initEClass(cmPredefinedEClass, CmPredefined.class, "CmPredefined", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(getCmPredefined_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmPredefined_ConfigurationObject(), theEcorePackage.getEJavaObject(), "configurationObject", null, 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getCmPredefined_FormatObject(), theEcorePackage.getEJavaObject(), "formatObject", null, 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getCmPredefined_ForSending(), theEcorePackage.getEBooleanObject(), "forSending", "false", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmPredefined_ForReceiving(), theEcorePackage.getEBooleanObject(), "forReceiving", "false", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass(cmAlgorithmEClass, CmAlgorithm.class, "CmAlgorithm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(getCmAlgorithm_ConversionModule(), this.getConversionModule(), this.getConversionModule_Algorithms(), "conversionModule", null, 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getCmAlgorithm_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmAlgorithm_Method(), theEcorePackage.getEJavaObject(), "method", null, 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getCmAlgorithm_MethodType(), this.getCmMethodType(), "methodType", null, 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getCmAlgorithm_Params(), theEcorePackage.getEString(), "params", "", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmAlgorithm_Text(), theEcorePackage.getEString(), "text", "", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmAlgorithm_IsExport(), theEcorePackage.getEBooleanObject(), "isExport", "false", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Initialize enums and add enum literals
 		initEEnum(cmSelectionVariantEEnum, CmSelectionVariant.class, "CmSelectionVariant"); //$NON-NLS-1$
@@ -1020,6 +1108,10 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		addEEnumLiteral(cmIdentificationVariantEEnum, CmIdentificationVariant.UUID);
 		addEEnumLiteral(cmIdentificationVariantEEnum, CmIdentificationVariant.SEARCH_FIELDS);
 		addEEnumLiteral(cmIdentificationVariantEEnum, CmIdentificationVariant.UUID_THEN_SERACH_FIELDS);
+
+		initEEnum(cmMethodTypeEEnum, CmMethodType.class, "CmMethodType"); //$NON-NLS-1$
+		addEEnumLiteral(cmMethodTypeEEnum, CmMethodType.PROCEDURE);
+		addEEnumLiteral(cmMethodTypeEEnum, CmMethodType.FUNCTION);
 
 		// Create resource
 		createResource(eNS_URI);

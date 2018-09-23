@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/GenModel publicConstructors='true' loadInitialization='false' literalsInterface='true' nonNLSMarkers='true' updateClasspath='false' featureDelegation='Reflective' rootExtendsClass='com._1c.g5.v8.bm.core.BmObject' rootExtendsInterface='com._1c.g5.v8.bm.core.IBmObject' basePackage='ru.capralow.dt.conversion.plugin.core'"
+ *        annotation="http://www.eclipse.org/emf/2002/GenModel publicConstructors='true' loadInitialization='false' literalsInterface='true' nonNLSMarkers='true' updateClasspath='false' featureDelegation='Reflective' basePackage='ru.capralow.dt.conversion.plugin.core'"
  * @generated
  */
 public interface CmPackage extends EPackage {
@@ -232,13 +232,31 @@ public interface CmPackage extends EPackage {
 	int CONVERSION_MODULE___GET_OBJECT_RULE__STRING = 3;
 
 	/**
+	 * The operation id for the '<em>Get Algorithm</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE___GET_ALGORITHM__STRING = 4;
+
+	/**
+	 * The operation id for the '<em>Get Algorithms Text</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE___GET_ALGORITHMS_TEXT__STRING = 5;
+
+	/**
 	 * The number of operations of the '<em>Conversion Module</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE_OPERATION_COUNT = 4;
+	int CONVERSION_MODULE_OPERATION_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl <em>Data Rule</em>}' class.
@@ -549,22 +567,13 @@ public interface CmPackage extends EPackage {
 	int CM_OBJECT_RULE__ON_RECEIVING_EVENT_METHOD = 15;
 
 	/**
-	 * The feature id for the '<em><b>After Receiving Algorithm Name</b></em>' attribute.
+	 * The feature id for the '<em><b>After Receiving Algorithm</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_NAME = 16;
-
-	/**
-	 * The feature id for the '<em><b>After Receiving Algorithm Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_METHOD = 17;
+	int CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = 16;
 
 	/**
 	 * The feature id for the '<em><b>Attribute Rules</b></em>' containment reference list.
@@ -573,7 +582,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ATTRIBUTE_RULES = 18;
+	int CM_OBJECT_RULE__ATTRIBUTE_RULES = 17;
 
 	/**
 	 * The number of structural features of the '<em>Object Rule</em>' class.
@@ -582,7 +591,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE_FEATURE_COUNT = 19;
+	int CM_OBJECT_RULE_FEATURE_COUNT = 18;
 
 	/**
 	 * The number of operations of the '<em>Object Rule</em>' class.
@@ -676,52 +685,6 @@ public interface CmPackage extends EPackage {
 	int CM_ATTRIBUTE_RULE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl <em>Algorithm</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmAlgorithm()
-	 * @generated
-	 */
-	int CM_ALGORITHM = 4;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_ALGORITHM__NAME = 0;
-
-	/**
-	 * The feature id for the '<em><b>Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_ALGORITHM__METHOD = 1;
-
-	/**
-	 * The number of structural features of the '<em>Algorithm</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_ALGORITHM_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Algorithm</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_ALGORITHM_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedImpl <em>Predefined</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -729,7 +692,7 @@ public interface CmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmPredefined()
 	 * @generated
 	 */
-	int CM_PREDEFINED = 5;
+	int CM_PREDEFINED = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -795,6 +758,97 @@ public interface CmPackage extends EPackage {
 	int CM_PREDEFINED_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl <em>Algorithm</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmAlgorithm()
+	 * @generated
+	 */
+	int CM_ALGORITHM = 5;
+
+	/**
+	 * The feature id for the '<em><b>Conversion Module</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__CONVERSION_MODULE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__NAME = 1;
+
+	/**
+	 * The feature id for the '<em><b>Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__METHOD = 2;
+
+	/**
+	 * The feature id for the '<em><b>Method Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__METHOD_TYPE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Params</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__PARAMS = 4;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__TEXT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Is Export</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__IS_EXPORT = 6;
+
+	/**
+	 * The number of structural features of the '<em>Algorithm</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM_FEATURE_COUNT = 7;
+
+	/**
+	 * The number of operations of the '<em>Algorithm</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant <em>Selection Variant</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -813,6 +867,16 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	int CM_IDENTIFICATION_VARIANT = 7;
+
+	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmMethodType <em>Method Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmMethodType
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmMethodType()
+	 * @generated
+	 */
+	int CM_METHOD_TYPE = 8;
 
 
 	/**
@@ -1007,6 +1071,26 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getConversionModule__GetObjectRule__String();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithm(java.lang.String) <em>Get Algorithm</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Algorithm</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithm(java.lang.String)
+	 * @generated
+	 */
+	EOperation getConversionModule__GetAlgorithm__String();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithmsText(java.lang.String) <em>Get Algorithms Text</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Algorithms Text</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getAlgorithmsText(java.lang.String)
+	 * @generated
+	 */
+	EOperation getConversionModule__GetAlgorithmsText__String();
 
 	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule <em>Data Rule</em>}'.
@@ -1359,26 +1443,15 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmObjectRule_OnReceivingEventMethod();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmName <em>After Receiving Algorithm Name</em>}'.
+	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>After Receiving Algorithm Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmName()
+	 * @return the meta object for the reference '<em>After Receiving Algorithm</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm()
 	 * @see #getCmObjectRule()
 	 * @generated
 	 */
-	EAttribute getCmObjectRule_AfterReceivingAlgorithmName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmMethod <em>After Receiving Algorithm Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>After Receiving Algorithm Method</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithmMethod()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EAttribute getCmObjectRule_AfterReceivingAlgorithmMethod();
+	EReference getCmObjectRule_AfterReceivingAlgorithm();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}'.
@@ -1468,38 +1541,6 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmAttributeRule_IsCustomRule();
 
 	/**
-	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm <em>Algorithm</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Algorithm</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm
-	 * @generated
-	 */
-	EClass getCmAlgorithm();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getName()
-	 * @see #getCmAlgorithm()
-	 * @generated
-	 */
-	EAttribute getCmAlgorithm_Name();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethod <em>Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Method</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethod()
-	 * @see #getCmAlgorithm()
-	 * @generated
-	 */
-	EAttribute getCmAlgorithm_Method();
-
-	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmPredefined <em>Predefined</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1565,6 +1606,93 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmPredefined_ForReceiving();
 
 	/**
+	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm <em>Algorithm</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Algorithm</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm
+	 * @generated
+	 */
+	EClass getCmAlgorithm();
+
+	/**
+	 * Returns the meta object for the container reference '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getConversionModule <em>Conversion Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Conversion Module</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getConversionModule()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EReference getCmAlgorithm_ConversionModule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getName()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethod <em>Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Method</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethod()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_Method();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethodType <em>Method Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Method Type</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethodType()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_MethodType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getParams <em>Params</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Params</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getParams()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_Params();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getText <em>Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getText()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_Text();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getIsExport <em>Is Export</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Export</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getIsExport()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_IsExport();
+
+	/**
 	 * Returns the meta object for enum '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant <em>Selection Variant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1583,6 +1711,16 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getCmIdentificationVariant();
+
+	/**
+	 * Returns the meta object for enum '{@link ru.capralow.dt.conversion.plugin.core.cm.CmMethodType <em>Method Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Method Type</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmMethodType
+	 * @generated
+	 */
+	EEnum getCmMethodType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1752,6 +1890,22 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation CONVERSION_MODULE___GET_OBJECT_RULE__STRING = eINSTANCE.getConversionModule__GetObjectRule__String();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Algorithm</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONVERSION_MODULE___GET_ALGORITHM__STRING = eINSTANCE.getConversionModule__GetAlgorithm__String();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Algorithms Text</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONVERSION_MODULE___GET_ALGORITHMS_TEXT__STRING = eINSTANCE.getConversionModule__GetAlgorithmsText__String();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl <em>Data Rule</em>}' class.
@@ -2014,20 +2168,12 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_OBJECT_RULE__ON_RECEIVING_EVENT_METHOD = eINSTANCE.getCmObjectRule_OnReceivingEventMethod();
 
 		/**
-		 * The meta object literal for the '<em><b>After Receiving Algorithm Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>After Receiving Algorithm</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_NAME = eINSTANCE.getCmObjectRule_AfterReceivingAlgorithmName();
-
-		/**
-		 * The meta object literal for the '<em><b>After Receiving Algorithm Method</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM_METHOD = eINSTANCE.getCmObjectRule_AfterReceivingAlgorithmMethod();
+		EReference CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = eINSTANCE.getCmObjectRule_AfterReceivingAlgorithm();
 
 		/**
 		 * The meta object literal for the '<em><b>Attribute Rules</b></em>' containment reference list feature.
@@ -2096,32 +2242,6 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE = eINSTANCE.getCmAttributeRule_IsCustomRule();
 
 		/**
-		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl <em>Algorithm</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl
-		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmAlgorithm()
-		 * @generated
-		 */
-		EClass CM_ALGORITHM = eINSTANCE.getCmAlgorithm();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_ALGORITHM__NAME = eINSTANCE.getCmAlgorithm_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Method</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_ALGORITHM__METHOD = eINSTANCE.getCmAlgorithm_Method();
-
-		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedImpl <em>Predefined</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2172,6 +2292,72 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_PREDEFINED__FOR_RECEIVING = eINSTANCE.getCmPredefined_ForReceiving();
 
 		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl <em>Algorithm</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmAlgorithm()
+		 * @generated
+		 */
+		EClass CM_ALGORITHM = eINSTANCE.getCmAlgorithm();
+
+		/**
+		 * The meta object literal for the '<em><b>Conversion Module</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CM_ALGORITHM__CONVERSION_MODULE = eINSTANCE.getCmAlgorithm_ConversionModule();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__NAME = eINSTANCE.getCmAlgorithm_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Method</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__METHOD = eINSTANCE.getCmAlgorithm_Method();
+
+		/**
+		 * The meta object literal for the '<em><b>Method Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__METHOD_TYPE = eINSTANCE.getCmAlgorithm_MethodType();
+
+		/**
+		 * The meta object literal for the '<em><b>Params</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__PARAMS = eINSTANCE.getCmAlgorithm_Params();
+
+		/**
+		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__TEXT = eINSTANCE.getCmAlgorithm_Text();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Export</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__IS_EXPORT = eINSTANCE.getCmAlgorithm_IsExport();
+
+		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant <em>Selection Variant</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2190,6 +2376,16 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum CM_IDENTIFICATION_VARIANT = eINSTANCE.getCmIdentificationVariant();
+
+		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmMethodType <em>Method Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.CmMethodType
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.impl.CmPackageImpl#getCmMethodType()
+		 * @generated
+		 */
+		EEnum CM_METHOD_TYPE = eINSTANCE.getCmMethodType();
 
 	}
 

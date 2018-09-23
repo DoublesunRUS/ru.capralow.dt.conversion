@@ -2,9 +2,9 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp;
 
-import com._1c.g5.v8.bm.core.IBmObject;
-
 import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,10 +23,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpExchangePair()
  * @model
- * @extends IBmObject
  * @generated
  */
-public interface CpExchangePair extends IBmObject {
+public interface CpExchangePair extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Configuration Name1</b></em>' attribute.
 	 * <!-- begin-user-doc -->

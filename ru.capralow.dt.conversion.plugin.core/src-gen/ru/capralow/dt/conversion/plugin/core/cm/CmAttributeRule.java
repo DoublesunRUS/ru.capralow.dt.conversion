@@ -2,7 +2,7 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm;
 
-import com._1c.g5.v8.bm.core.IBmObject;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,10 +23,9 @@ import com._1c.g5.v8.bm.core.IBmObject;
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAttributeRule()
  * @model
- * @extends IBmObject
  * @generated
  */
-public interface CmAttributeRule extends IBmObject {
+public interface CmAttributeRule extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Configuration Tabular Section Name</b></em>' attribute.
 	 * The default value is <code>""</code>.

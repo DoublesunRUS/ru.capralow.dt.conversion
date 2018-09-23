@@ -90,15 +90,15 @@ public class CmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CmPackage.CM_ALGORITHM: {
-				CmAlgorithm cmAlgorithm = (CmAlgorithm)theEObject;
-				T result = caseCmAlgorithm(cmAlgorithm);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case CmPackage.CM_PREDEFINED: {
 				CmPredefined cmPredefined = (CmPredefined)theEObject;
 				T result = caseCmPredefined(cmPredefined);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CmPackage.CM_ALGORITHM: {
+				CmAlgorithm cmAlgorithm = (CmAlgorithm)theEObject;
+				T result = caseCmAlgorithm(cmAlgorithm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -167,21 +167,6 @@ public class CmSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Algorithm</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Algorithm</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCmAlgorithm(CmAlgorithm object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Predefined</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -193,6 +178,21 @@ public class CmSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCmPredefined(CmPredefined object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Algorithm</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Algorithm</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmAlgorithm(CmAlgorithm object) {
 		return null;
 	}
 
