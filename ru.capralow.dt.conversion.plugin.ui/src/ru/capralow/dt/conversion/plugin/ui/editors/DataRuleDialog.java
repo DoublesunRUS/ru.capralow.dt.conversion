@@ -42,6 +42,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
 
+@SuppressWarnings("restriction")
 public class DataRuleDialog extends Dialog {
 
 	private CmDataRule dataRule;
@@ -181,6 +182,7 @@ public class DataRuleDialog extends Dialog {
 		});
 
 		viewer.setContentProvider(new IStructuredContentProvider() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public Object[] getElements(Object inputElement) {
 				EList<CmObjectRule> objectRules = (EList<CmObjectRule>) inputElement;

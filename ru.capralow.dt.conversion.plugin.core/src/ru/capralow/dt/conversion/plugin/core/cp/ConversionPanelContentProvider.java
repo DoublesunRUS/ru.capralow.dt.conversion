@@ -35,6 +35,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 		return treeContent;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getChildren(Object arg0) {
 		if (arg0 instanceof CpExchangePair) {

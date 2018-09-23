@@ -26,6 +26,7 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourcePro
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 
+@SuppressWarnings("restriction")
 public class AlgorithmDialog extends Dialog {
 	private CmAlgorithm algorithm;
 

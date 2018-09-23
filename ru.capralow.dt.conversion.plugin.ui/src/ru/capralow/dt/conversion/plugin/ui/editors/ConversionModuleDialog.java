@@ -29,6 +29,7 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourcePro
 
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
+@SuppressWarnings("restriction")
 public class ConversionModuleDialog extends Dialog {
 	private ConversionModule conversionModule;
 

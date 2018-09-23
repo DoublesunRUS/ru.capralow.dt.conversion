@@ -207,6 +207,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		});
 
 		viewerSendingDataRules.setContentProvider(new IStructuredContentProvider() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public Object[] getElements(Object inputElement) {
 				EList<Object> dataRules = (EList<Object>) inputElement;
@@ -331,6 +332,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		});
 
 		viewerAlgorithms.setContentProvider(new IStructuredContentProvider() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public Object[] getElements(Object inputElement) {
 				EList<Object> dataRules = (EList<Object>) inputElement;
