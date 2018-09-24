@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-  <unit id='20180812-1432.ru.capralow.dt.conversion.plugin.category.public' version='1.0.0.2--cFqjPh7735I3I5715A97'>
+  <unit id='20180924-0750.ru.capralow.dt.conversion.plugin.category.public' version='1.0.0.2-1cFqjPh7735I3K7A13GC3'>
     <properties size='2'>
       <property name='org.eclipse.equinox.p2.name' value='Плагины для EDT'/>
       <property name='org.eclipse.equinox.p2.type.category' value='true'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='20180812-1432.ru.capralow.dt.conversion.plugin.category.public' version='1.0.0.2--cFqjPh7735I3I5715A97'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='20180924-0750.ru.capralow.dt.conversion.plugin.category.public' version='1.0.0.2-1cFqjPh7735I3K7A13GC3'/>
     </provides>
     <requires size='1'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' range='[1.0.0.20180812-1432,1.0.0.20180812-1432]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' range='[1.0.1.20180924-0750,1.0.1.20180924-0750]'/>
     </requires>
     <touchpoint id='null' version='0.0.0'/>
   </unit>

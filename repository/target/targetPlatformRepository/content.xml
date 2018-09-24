@@ -1,7 +1,50 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?metadataRepository version='1.1.0'?>
 <repository name='TychoTargetPlatform' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='0.0.1'>
-  <units size='287'>
+  <units size='305'>
+    <unit id='com._1c.g5.v8.dt.md.ui.shared' version='2.1.0.v201807310736'>
+      <update id='com._1c.g5.v8.dt.md.ui.shared' range='[0.0.0,2.1.0.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='df_LT.pluginName' value='Metadata shared UI'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='ru.pluginName' value='Общий UI объектов метаданных'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.md.ui.shared'/>
+        <property name='maven-version' value='2.1.0-SNAPSHOT'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.md.ui.shared' version='2.1.0.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.md.ui.shared' version='2.1.0.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.shared' version='2.1.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+      </provides>
+      <requires size='7'>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.107.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.11.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='com.google.guava' range='[15.0.0,22.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.11.1,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.theming.ui.util' range='[1.0.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.md.ui.shared' version='2.1.0.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.md.ui.shared;singleton:=true&#xA;Bundle-Version: 2.1.0.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='com._1c.g5.v8.dt.aggregates.model' version='4.0.400.v201807310736'>
       <update id='com._1c.g5.v8.dt.aggregates.model' range='[0.0.0,4.0.400.v201807310736)' severity='0'/>
       <properties size='10'>
@@ -1883,6 +1926,38 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.xtext.ecore' version='2.12.0.v20170519-0752'>
+      <update id='org.eclipse.xtext.ecore' range='[0.0.0,2.12.0.v20170519-0752)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Xtext Ecore Support'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse Xtext'/>
+        <property name='maven-groupId' value='org.eclipse.xtext'/>
+        <property name='maven-artifactId' value='org.eclipse.xtext.ecore'/>
+        <property name='maven-version' value='2.12.0'/>
+      </properties>
+      <provides size='4'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.ecore' version='2.12.0.v20170519-0752'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.xtext.ecore' version='2.12.0.v20170519-0752'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ecore' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='3.6.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='0.0.0'/>
+        <required namespace='java.package' name='org.apache.log4j' range='1.2.15'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.xtext.ecore' version='2.12.0.v20170519-0752'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.xtext.ecore;singleton:=true&#xA;Bundle-Version: 2.12.0.v20170519-0752
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='com._1c.g5.v8.dt.rights' version='8.0.0.v201807310736'>
       <update id='com._1c.g5.v8.dt.rights' range='[0.0.0,8.0.0.v201807310736)' severity='0'/>
       <properties size='10'>
@@ -2554,64 +2629,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.e4.ui.bindings;singleton:=true&#xA;Bundle-Version: 0.12.1.v20170823-1632
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'>
-      <update id='ru.capralow.dt.conversion.plugin.core' range='[0.0.0,1.0.0.20180812-1432)' severity='0'/>
-      <properties size='5'>
-        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.core'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='9'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'/>
-        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.util' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='24'>
-        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='1.1.100'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.modeling.xtext.scoping' range='3.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.integration' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='7.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.util' range='2.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.util' range='3.5.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.wiring' range='2.0.0'/>
-        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
-        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.core' version='1.0.0.20180812-1432'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.core;singleton:=true&#xA;Bundle-Version: 1.0.0.20180812-1432
           </instruction>
         </instructions>
       </touchpointData>
@@ -3760,39 +3777,66 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180812-1432'>
-      <properties size='8'>
-        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
-        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
+    <unit id='com._1c.g5.v8.dt.md.distribution.support' version='1.0.300.v201807310736'>
+      <update id='com._1c.g5.v8.dt.md.distribution.support' range='[0.0.0,1.0.300.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='Функционал по поддержке механизмов дистрибуции конфигураций 1С'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='Distribution Support of 1C:Enterprise configuration'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
         <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
-        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.md.distribution.support'/>
+        <property name='maven-version' value='1.0.300-SNAPSHOT'/>
       </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' version='1.0.0.20180812-1432'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-        <provided namespace='org.eclipse.update.feature' name='ru.capralow.dt.conversion' version='1.0.0.20180812-1432'/>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.md.distribution.support' version='1.0.300.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.md.distribution.support' version='1.0.300.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.distribution.support' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
       </provides>
-      <filter>
-        (org.eclipse.update.install.features=true)
-      </filter>
+      <requires size='25'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.11.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='com.google.guava' range='[15.0.0,22.0.0)'/>
+        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.11.2,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='[2.9.2,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.10.1,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.integration' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.1.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.event' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.filesystem' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.lifecycle' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.model' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.streams' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.streams.impl' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.form.model' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lifecycle' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md' range='[8.0.0,9.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.version' range='[2.3.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring.binder' range='[1.1.0,2.0.0)'/>
+      </requires>
       <artifacts size='1'>
-        <artifact classifier='org.eclipse.update.feature' id='ru.capralow.dt.conversion' version='1.0.0.20180812-1432'/>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.md.distribution.support' version='1.0.300.v201807310736'/>
       </artifacts>
       <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
       <touchpointData size='1'>
         <instructions size='1'>
-          <instruction key='zipped'>
-            true
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.md.distribution.support;singleton:=true&#xA;Bundle-Version: 1.0.300.v201807310736
           </instruction>
         </instructions>
       </touchpointData>
-      <copyright>
-        Капралов Александр Александрович (1С-Рарус)
-      </copyright>
     </unit>
     <unit id='com._1c.g5.designer.ssh.client' version='0.2.0.v20180228-1018' singleton='false'>
       <update id='com._1c.g5.designer.ssh.client' range='[0.0.0,0.2.0.v20180228-1018)' severity='0'/>
@@ -4493,37 +4537,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180812-1432' singleton='false'>
-      <update id='ru.capralow.dt.conversion.feature.group' range='[0.0.0,1.0.0.20180812-1432)' severity='0'/>
-      <properties size='9'>
-        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
-        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
-        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
-      </properties>
-      <provides size='2'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' version='1.0.0.20180812-1432'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' range='[1.0.0.20180812-1432,1.0.0.20180812-1432]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' range='[1.0.0.20180812-1432,1.0.0.20180812-1432]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' range='[1.0.0.20180812-1432,1.0.0.20180812-1432]'>
-          <filter>
-            (org.eclipse.update.install.features=true)
-          </filter>
-        </required>
-      </requires>
-      <touchpoint id='null' version='0.0.0'/>
-      <copyright>
-        Капралов Александр Александрович (1С-Рарус)
-      </copyright>
-    </unit>
     <unit id='org.eclipse.core.databinding' version='1.6.100.v20170515-1119' singleton='false'>
       <update id='org.eclipse.core.databinding' range='[0.0.0,1.6.100.v20170515-1119)' severity='0'/>
       <properties size='8'>
@@ -4566,53 +4579,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.core.databinding&#xA;Bundle-Version: 1.6.100.v20170515-1119
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'>
-      <update id='com._1c.g5.v8.dt.hpwa.model' range='[0.0.0,2.0.400.v201807310736)' severity='0'/>
-      <properties size='10'>
-        <property name='ru.pluginName' value='Модель Рабочей области начальной страницы'/>
-        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
-        <property name='df_LT.pluginName' value='Home page work area model'/>
-        <property name='df_LT.providerName' value='1C-Soft LLC'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
-        <property name='maven-artifactId' value='com._1c.g5.v8.dt.hpwa.model'/>
-        <property name='maven-version' value='2.0.400-SNAPSHOT'/>
-      </properties>
-      <provides size='8'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'/>
-        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'/>
-        <provided namespace='java.package' name='com._1c.g5.v8.dt.hpwa.model.impl' version='2.0.0'/>
-        <provided namespace='java.package' name='com._1c.g5.v8.dt.hpwa.model' version='2.0.0'/>
-        <provided namespace='java.package' name='com._1c.g5.v8.dt.hpwa.model.util' version='2.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='9'>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.8.1,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='[1.0.0,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.9.0,4.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.i18n' range='[1.0.0,2.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='[5.0.0,6.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.impl' range='[7.0.0,8.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.util' range='[5.0.0,6.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: com._1c.g5.v8.dt.hpwa.model;singleton:=true&#xA;Bundle-Version: 2.0.400.v201807310736
           </instruction>
         </instructions>
       </touchpointData>
@@ -4665,6 +4631,53 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.help; singleton:=true&#xA;Bundle-Version: 3.8.1.v20170815-1448
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'>
+      <update id='com._1c.g5.v8.dt.hpwa.model' range='[0.0.0,2.0.400.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='Модель Рабочей области начальной страницы'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='Home page work area model'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.hpwa.model'/>
+        <property name='maven-version' value='2.0.400-SNAPSHOT'/>
+      </properties>
+      <provides size='8'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.hpwa.model.impl' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.hpwa.model' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.hpwa.model.util' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='9'>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.8.1,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='[1.0.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.9.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.i18n' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.impl' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.util' range='[5.0.0,6.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.hpwa.model' version='2.0.400.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.hpwa.model;singleton:=true&#xA;Bundle-Version: 2.0.400.v201807310736
           </instruction>
         </instructions>
       </touchpointData>
@@ -6636,46 +6649,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='com._1c.v8.platform.services' version='1.0.0.v201803131413'>
-      <update id='com._1c.v8.platform.services' range='[0.0.0,1.0.0.v201803131413)' severity='0'/>
-      <properties size='10'>
-        <property name='ru.pluginName' value='V8 Services'/>
-        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
-        <property name='df_LT.pluginName' value='V8 Services'/>
-        <property name='df_LT.providerName' value='1C-Soft LLC'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='maven-groupId' value='com._1c.v8.platform.services'/>
-        <property name='maven-artifactId' value='com._1c.v8.platform.services'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='6'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.v8.platform.services' version='1.0.0.v201803131413'/>
-        <provided namespace='osgi.bundle' name='com._1c.v8.platform.services' version='1.0.0.v201803131413'/>
-        <provided namespace='java.package' name='com._1c.v8.platform.util' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='4'>
-        <required namespace='osgi.bundle' name='com.google.guava' range='[15.0.0,19.0.0)'/>
-        <required namespace='osgi.bundle' name='org.apache.commons.codec' range='[1.6.0,2.0.0)'/>
-        <required namespace='osgi.bundle' name='com._1c.g5.i18n' range='[1.0.1,2.0.0)'/>
-        <required namespace='osgi.bundle' name='com._1c.v8.core.streams' range='[0.1.1,0.2.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='com._1c.v8.platform.services' version='1.0.0.v201803131413'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: com._1c.v8.platform.services;singleton:=true&#xA;Bundle-Version: 1.0.0.v201803131413
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.wst.sse.ui' version='1.3.600.v201707042340'>
       <update id='org.eclipse.wst.sse.ui' range='[0.0.0,1.3.600.v201707042340)' severity='0'/>
       <properties size='8'>
@@ -6765,6 +6738,46 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.wst.sse.ui; singleton:=true&#xA;Bundle-Version: 1.3.600.v201707042340
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='com._1c.v8.platform.services' version='1.0.0.v201803131413'>
+      <update id='com._1c.v8.platform.services' range='[0.0.0,1.0.0.v201803131413)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='V8 Services'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='V8 Services'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.v8.platform.services'/>
+        <property name='maven-artifactId' value='com._1c.v8.platform.services'/>
+        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.v8.platform.services' version='1.0.0.v201803131413'/>
+        <provided namespace='osgi.bundle' name='com._1c.v8.platform.services' version='1.0.0.v201803131413'/>
+        <provided namespace='java.package' name='com._1c.v8.platform.util' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='com.google.guava' range='[15.0.0,19.0.0)'/>
+        <required namespace='osgi.bundle' name='org.apache.commons.codec' range='[1.6.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='com._1c.g5.i18n' range='[1.0.1,2.0.0)'/>
+        <required namespace='osgi.bundle' name='com._1c.v8.core.streams' range='[0.1.1,0.2.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.v8.platform.services' version='1.0.0.v201803131413'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.v8.platform.services;singleton:=true&#xA;Bundle-Version: 1.0.0.v201803131413
           </instruction>
         </instructions>
       </touchpointData>
@@ -7005,6 +7018,52 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.compare; singleton:=true&#xA;Bundle-Version: 3.7.101.v20170724-1603
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.xpand' version='2.0.0.v201406030414' singleton='false'>
+      <update id='org.eclipse.xpand' range='[0.0.0,2.0.0.v201406030414)' severity='0'/>
+      <properties size='5'>
+        <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+        <property name='df_LT.pluginName' value='Xpand Core'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+      </properties>
+      <provides size='15'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xpand' version='2.0.0.v201406030414'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.xpand' version='2.0.0.v201406030414'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.ast' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.codeassist' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.debug' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.model' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.parser' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.pr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.pr.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.internal.xpand2.type' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xpand2' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xpand2.output' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='6'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtend' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe.core' range='0.0.0' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='0.0.0' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.text' range='0.0.0' optional='true'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='[3.2.0,3.2.1)'/>
+        <required namespace='java.package' name='org.apache.commons.logging' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.xpand' version='2.0.0.v201406030414'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.xpand&#xA;Bundle-Version: 2.0.0.v201406030414
           </instruction>
         </instructions>
       </touchpointData>
@@ -7608,6 +7667,85 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.xtext.xtext.generator' version='2.12.0.v20170518-0959'>
+      <update id='org.eclipse.xtext.xtext.generator' range='[0.0.0,2.12.0.v20170518-0959)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Xtext Generator 2'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse Xtext'/>
+        <property name='maven-groupId' value='org.eclipse.xtext'/>
+        <property name='maven-artifactId' value='org.eclipse.xtext.xtext.generator'/>
+        <property name='maven-version' value='2.12.0'/>
+      </properties>
+      <provides size='39'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.xtext.generator' version='2.12.0.v20170518-0959'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.xtext.xtext.generator' version='2.12.0.v20170518-0959'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.builder' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ecore' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ecore2xtext' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.exporting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.formatting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.grammarAccess' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.idea' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.idea.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.model' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.model.project' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting.parser.antlr.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting.services' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting.simpleExpressions' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting.simpleExpressions.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.parser.antlr.splitting.simpleExpressions.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.resourceFactory' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.scoping' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.serializer' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.types' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ui.compare' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ui.contentAssist' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ui.labeling' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ui.outline' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ui.quickfix' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ui.refactoring' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.ui.templates' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.web' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.xtext.generator.xbase' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='15'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtend.lib' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.codegen.ecore' range='2.10.2'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='2.10.2'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='2.10.1'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe2.lib' range='2.7.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.equinox.common' range='3.6.0'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='[3.2.0,3.2.1)'/>
+        <required namespace='osgi.bundle' name='de.itemis.xtext.antlr' range='2.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='3.6.0' optional='true' greedy='false'/>
+        <required namespace='java.package' name='com.ibm.icu.text' range='4.0.0'/>
+        <required namespace='java.package' name='org.apache.log4j' range='1.2.15'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.xtext.xtext.generator' version='2.12.0.v20170518-0959'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.xtext.xtext.generator;singleton:=true&#xA;Bundle-Version: 2.12.0.v20170518-0959
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.xtext.ui.shared' version='2.12.0.v20170519-0809'>
       <update id='org.eclipse.xtext.ui.shared' range='[0.0.0,2.12.0.v20170519-0809)' severity='0'/>
       <properties size='6'>
@@ -7788,6 +7926,44 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: com._1c.g5.aef2.swt;singleton:=true&#xA;Bundle-Version: 2.3.300.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='com._1c.g5.v8.dt.bm.xtext.ui' version='3.0.500.v201807310736'>
+      <update id='com._1c.g5.v8.dt.bm.xtext.ui' range='[0.0.0,3.0.500.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='df_LT.pluginName' value='BM and Xtext integration UI'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='ru.pluginName' value='UI интеграции БМ и Xtext'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.bm.xtext.ui'/>
+        <property name='maven-version' value='3.0.500-SNAPSHOT'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.bm.xtext.ui' version='3.0.500.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.bm.xtext.ui' version='3.0.500.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bm.xtext.ui.containers' version='1.0.100'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+      </provides>
+      <requires size='2'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.9.2,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='[5.0.0,6.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.bm.xtext.ui' version='3.0.500.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.bm.xtext.ui;singleton:=true&#xA;Bundle-Version: 3.0.500.v201807310736
           </instruction>
         </instructions>
       </touchpointData>
@@ -9086,6 +9262,162 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='com._1c.g5.v8.dt.bsl.ui' version='9.0.0.v201807310736'>
+      <update id='com._1c.g5.v8.dt.bsl.ui' range='[0.0.0,9.0.0.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='UI для встроенного языка'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='Built-In Script Language UI'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.bsl.ui'/>
+        <property name='maven-version' value='9.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='18'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.bsl.ui' version='9.0.0.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.bsl.ui' version='9.0.0.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui' version='7.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.contentassist' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.contentassist.antlr' version='2.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.contentassist.stringliteral' version='4.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.editor' version='4.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.editor.findref' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.event' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.event.handler' version='4.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.internal' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.menu' version='4.4.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.quickfix' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.refactoring' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.wizard' version='4.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='108'>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='[3.8.200,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.forms' range='[3.6.100,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.navigator' range='[3.5.400,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='com._1c.g5.v8.dt.common' range='[5.0.0,6.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help' range='[3.6.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='[3.9.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.compare' range='[3.5.500,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.handly' range='[0.7.0,0.8.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.handly.xtext.ui' range='[0.7.0,0.8.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ltk.ui.refactoring' range='[3.7.100,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.handly.ui' range='[0.7.0,0.8.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.search' range='[3.9.100,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.workbench.texteditor' range='[3.9.100,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.core.handle.impl.xtext' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.core.handle.xtext' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.ui.refactoring.xtext' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.ui.texteditor.xtext' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.ui.texteditor.xtext.embedded' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.scoping' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.xtext' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.xtext.ui.containers' range='[1.0.100,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.comment' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.contextdef' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.core' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.documentation.comment' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.linking' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.3.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model.impl' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model.resource.owner' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model.typesytem' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model.util' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.parser.antlr' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.parser.antlr.internal' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.parser.antlr.lexer' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.scoping' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.services' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.typesystem' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.util' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.validation' range='[9.0.0,10.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.validation.stringliterals' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.jface.viewers' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.filesystem' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.handle' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.model' range='[5.1.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.naming' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.form.generator' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.form.model' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ide.ui' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.internal.platform.type' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.hover' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.matcher' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.preference' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.embedded' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.findrefs' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.formatting' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.hover' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.util' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.folding' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.handle' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.outline' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.refactoring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.text.edits' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.texteditor' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.util' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.util' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md' range='[8.0.0,9.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.ui.shared' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.common' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.impl' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.util' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdtype' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.scoping' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.version' range='[2.3.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.ui.syntaxcoloring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.ui.token.highlighting' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.ui.token.highlighting.impl' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.ui' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.rights.model.util' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.search.core.findref' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.theming.ui.util' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.dialog' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.input' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.util' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.wizards' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ws.wsdefinitions.model' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.xdto.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring.binder' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.bsl.ui' version='9.0.0.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.bsl.ui;singleton:=true&#xA;Bundle-Version: 9.0.0.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.debug.ui' version='3.12.50.v20170920-1329'>
       <update id='org.eclipse.debug.ui' range='[0.0.0,3.12.50.v20170920-1329)' severity='0'/>
       <properties size='8'>
@@ -9244,6 +9576,72 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.jface;singleton:=true&#xA;Bundle-Version: 3.13.2.v20171022-1656
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='ru.capralow.dt.conversion.plugin.core' version='1.0.1.20180924-0750'>
+      <update id='ru.capralow.dt.conversion.plugin.core' range='[0.0.0,1.0.1.20180924-0750)' severity='0'/>
+      <properties size='8'>
+        <property name='df_LT.pluginName' value='Конвертация данных для EDT'/>
+        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.core'/>
+        <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      </properties>
+      <provides size='12'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' version='1.0.1.20180924-0750'/>
+        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' version='1.0.1.20180924-0750'/>
+        <provided namespace='java.package' name='.' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cm' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.cp.util' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='ru.capralow.dt.conversion.plugin.core.rm.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='26'>
+        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='1.1.100'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.scoping' range='3.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.integration' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='7.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.util' range='2.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.util' range='3.5.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring' range='2.0.0'/>
+        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.core' version='1.0.1.20180924-0750'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.core;singleton:=true&#xA;Bundle-Version: 1.0.1.20180924-0750
           </instruction>
         </instructions>
       </touchpointData>
@@ -9525,6 +9923,40 @@
           </instruction>
         </instructions>
       </touchpointData>
+    </unit>
+    <unit id='ru.capralow.dt.conversion.feature.jar' version='1.0.1.20180924-0750'>
+      <properties size='8'>
+        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
+        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
+        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' version='1.0.1.20180924-0750'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='ru.capralow.dt.conversion' version='1.0.1.20180924-0750'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='ru.capralow.dt.conversion' version='1.0.1.20180924-0750'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+      <copyright>
+        Капралов Александр Александрович (1С-Рарус)
+      </copyright>
     </unit>
     <unit id='org.eclipse.e4.emf.xpath' version='0.2.0.v20160630-0728' singleton='false'>
       <update id='org.eclipse.e4.emf.xpath' range='[0.0.0,0.2.0.v20160630-0728)' severity='0'/>
@@ -9896,6 +10328,48 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='com._1c.g5.v8.dt.v8help' version='2.0.700.v201807310736'>
+      <update id='com._1c.g5.v8.dt.v8help' range='[0.0.0,2.0.700.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='Справка для 1С:Предприятие 8'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='1C:Enterprise 8 reference'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.v8help'/>
+        <property name='maven-version' value='2.0.700-SNAPSHOT'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.v8help' version='2.0.700.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.v8help' version='2.0.700.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.v8help' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='6'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.9.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.9.1,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.version' range='[2.3.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.v8help.model' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com.google.common.collect' range='[13.0.0,22.0.0)'/>
+        <required namespace='java.package' name='com.google.common.io' range='[13.0.0,22.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.v8help' version='2.0.700.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.v8help;singleton:=true&#xA;Bundle-Version: 2.0.700.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.wst.common.core' version='1.2.0.v200908251833'>
       <update id='org.eclipse.wst.common.core' range='[0.0.0,1.2.0.v200908251833)' severity='0'/>
       <properties size='8'>
@@ -10066,6 +10540,59 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.e4.ui.workbench.addons.swt;singleton:=true&#xA;Bundle-Version: 1.3.1.v20170319-1442
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='com._1c.g5.v8.dt.ql.bsl' version='2.0.600.v201807310736'>
+      <update id='com._1c.g5.v8.dt.ql.bsl' range='[0.0.0,2.0.600.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='Грамматика языка запросов во встроенном языке'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='Ql Grammar in Bsl'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.ql.bsl'/>
+        <property name='maven-version' value='2.0.600-SNAPSHOT'/>
+      </properties>
+      <provides size='11'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.ql.bsl' version='2.0.600.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.ql.bsl' version='2.0.600.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.parseTreeConstruction' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.parser.antlr' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.parser.antlr.internal' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.parser.antlr.lexer' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.services' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='12'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.generator' range='[2.12.0,2.13.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.apache.commons.logging' range='[1.1.1,2.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.codegen.ecore' range='[2.10.0,3.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe.utils' range='[1.3.3,2.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe2.launch' range='[2.7.0,3.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='com._1c.g5.v8.dt.ql.ui' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.resource' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='java.package' name='org.slf4j' range='[1.6.1,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.ql.bsl' version='2.0.600.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.ql.bsl;singleton:=true&#xA;Bundle-Version: 2.0.600.v201807310736
           </instruction>
         </instructions>
       </touchpointData>
@@ -10299,6 +10826,58 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='com._1c.g5.modeling.xtext.ui' version='2.0.700.v201807310736'>
+      <update id='com._1c.g5.modeling.xtext.ui' range='[0.0.0,2.0.700.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='Набор утилит UI для моделирования в Xtext'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='Modeling Xtext UI'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.modeling.xtext.ui'/>
+        <property name='maven-version' value='2.0.700-SNAPSHOT'/>
+      </properties>
+      <provides size='10'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.modeling.xtext.ui' version='2.0.700.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.modeling.xtext.ui' version='2.0.700.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.modeling.xtext.ui' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.modeling.xtext.ui.editor' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.modeling.xtext.ui.editor.model' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.modeling.xtext.ui.resource' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.modeling.xtext.ui.viewers' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='12'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.8.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.4.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.8.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.forms' range='[3.5.200,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.transaction' range='[1.4.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xml' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.resource' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.service' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='1.2.15'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.modeling.xtext.ui' version='2.0.700.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.modeling.xtext.ui;singleton:=true&#xA;Bundle-Version: 2.0.700.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.xtend' version='2.0.0.v201406030414' singleton='false'>
       <update id='org.eclipse.xtend' range='[0.0.0,2.0.0.v201406030414)' severity='0'/>
       <properties size='6'>
@@ -10352,6 +10931,108 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.xtend&#xA;Bundle-Version: 2.0.0.v201406030414
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='com._1c.g5.v8.dt.ql.ui' version='4.3.0.v201807310736'>
+      <update id='com._1c.g5.v8.dt.ql.ui' range='[0.0.0,4.3.0.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='df_LT.pluginName' value='Ql UI'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='ru.pluginName' value='UI редактора языка запросов'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.ql.ui'/>
+        <property name='maven-version' value='4.3.0-SNAPSHOT'/>
+      </properties>
+      <provides size='17'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.ql.ui' version='4.3.0.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.ql.ui' version='4.3.0.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.internal.ql.ui' version='2.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui' version='2.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.contentassist' version='2.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.contentassist.antlr' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.editor' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.folding' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.hover' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.internal' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.outline' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.quickfix' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.refactoring' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.syntaxcoloring' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+      </provides>
+      <requires size='55'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.5.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.105.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.codetemplates.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.compare' range='[3.5.401,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.handly' range='[0.7.0,0.8.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.handly.xtext.ui' range='[0.7.0,0.8.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.handly.ui' range='[0.7.0,0.8.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.ui.refactoring.xtext' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.ui.texteditor.xtext' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.ui.texteditor.xtext.embedded' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.scoping' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.handle' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.preference' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.document' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.embedded' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.findrefs' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.formatting' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.handler' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.util' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.formatting' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.handle' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.outline' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.refactoring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.util' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.util' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.dbview' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.version' range='[2.3.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.core' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.model.util' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.parser.antlr.internal' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.parser.antlr.lexer' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.resource' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.scoping' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.services' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.typesystem' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.validation' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring.binder' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.ql.ui' version='4.3.0.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.ql.ui; singleton:=true&#xA;Bundle-Version: 4.3.0.v201807310736
           </instruction>
         </instructions>
       </touchpointData>
@@ -11478,49 +12159,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'>
-      <update id='com._1c.g5.v8.dt.lcore.model' range='[0.0.0,2.0.700.v201807310736)' severity='0'/>
-      <properties size='10'>
-        <property name='df_LT.pluginName' value='Language Core Model'/>
-        <property name='df_LT.providerName' value='1C-Soft LLC'/>
-        <property name='ru.pluginName' value='Модель языковых элементов'/>
-        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
-        <property name='maven-artifactId' value='com._1c.g5.v8.dt.lcore.model'/>
-        <property name='maven-version' value='2.0.700-SNAPSHOT'/>
-      </properties>
-      <provides size='8'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'/>
-        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'/>
-        <provided namespace='java.package' name='com._1c.g5.v8.dt.lcore.model' version='2.0.0'/>
-        <provided namespace='java.package' name='com._1c.g5.v8.dt.lcore.model.impl' version='2.0.0'/>
-        <provided namespace='java.package' name='com._1c.g5.v8.dt.lcore.model.util' version='2.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
-      </provides>
-      <requires size='5'>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.8.1,3.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='[1.0.0,2.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: com._1c.g5.v8.dt.lcore.model;singleton:=true&#xA;Bundle-Version: 2.0.700.v201807310736
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.search' version='3.11.100.v20170515-1603'>
       <update id='org.eclipse.search' range='[0.0.0,3.11.100.v20170515-1603)' severity='0'/>
       <properties size='8'>
@@ -11577,6 +12215,49 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'>
+      <update id='com._1c.g5.v8.dt.lcore.model' range='[0.0.0,2.0.700.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='df_LT.pluginName' value='Language Core Model'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='ru.pluginName' value='Модель языковых элементов'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.lcore.model'/>
+        <property name='maven-version' value='2.0.700-SNAPSHOT'/>
+      </properties>
+      <provides size='8'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.lcore.model' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.lcore.model.impl' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.lcore.model.util' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+      </provides>
+      <requires size='5'>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.8.1,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.lcore.model' version='2.0.700.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.lcore.model;singleton:=true&#xA;Bundle-Version: 2.0.700.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.draw2d' version='3.10.100.201606061308' singleton='false'>
       <update id='org.eclipse.draw2d' range='[0.0.0,3.10.100.201606061308)' severity='0'/>
       <properties size='8'>
@@ -11615,6 +12296,43 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.draw2d&#xA;Bundle-Version: 3.10.100.201606061308
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856' singleton='false'>
+      <update id='org.eclipse.core.databinding.beans' range='[0.0.0,1.4.0.v20170210-0856)' severity='0'/>
+      <properties size='8'>
+        <property name='df_LT.pluginName' value='JFace Data Binding for JavaBeans'/>
+        <property name='df_LT.providerName' value='Eclipse.org'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='org.eclipse.core'/>
+        <property name='maven-artifactId' value='org.eclipse.core.databinding.beans'/>
+        <property name='maven-version' value='1.4.0-SNAPSHOT'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856'/>
+        <provided namespace='java.package' name='org.eclipse.core.databinding.beans' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.core.internal.databinding.beans' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='osgi.bundle' name='org.eclipse.equinox.common' range='[3.2.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.observable' range='[1.2.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.property' range='[1.3.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.core.databinding.beans&#xA;Bundle-Version: 1.4.0.v20170210-0856
           </instruction>
         </instructions>
       </touchpointData>
@@ -11658,43 +12376,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.apache.lucene.analyzers-smartcn&#xA;Bundle-Version: 6.1.0.v20161115-1612
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856' singleton='false'>
-      <update id='org.eclipse.core.databinding.beans' range='[0.0.0,1.4.0.v20170210-0856)' severity='0'/>
-      <properties size='8'>
-        <property name='df_LT.pluginName' value='JFace Data Binding for JavaBeans'/>
-        <property name='df_LT.providerName' value='Eclipse.org'/>
-        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
-        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
-        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
-        <property name='maven-groupId' value='org.eclipse.core'/>
-        <property name='maven-artifactId' value='org.eclipse.core.databinding.beans'/>
-        <property name='maven-version' value='1.4.0-SNAPSHOT'/>
-      </properties>
-      <provides size='6'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856'/>
-        <provided namespace='java.package' name='org.eclipse.core.databinding.beans' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.core.internal.databinding.beans' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='osgi.bundle' name='org.eclipse.equinox.common' range='[3.2.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.observable' range='[1.2.0,2.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.property' range='[1.3.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.core.databinding.beans' version='1.4.0.v20170210-0856'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: org.eclipse.core.databinding.beans&#xA;Bundle-Version: 1.4.0.v20170210-0856
           </instruction>
         </instructions>
       </touchpointData>
@@ -11918,6 +12599,370 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='com._1c.g5.v8.dt.md.ui' version='9.0.0.v201807310736'>
+      <update id='com._1c.g5.v8.dt.md.ui' range='[0.0.0,9.0.0.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='df_LT.pluginName' value='Metadata UI'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='ru.pluginName' value='UI для компонентов ядра'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.md.ui'/>
+        <property name='maven-version' value='9.0.0-SNAPSHOT'/>
+      </properties>
+      <provides size='97'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.md.ui' version='9.0.0.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.md.ui' version='9.0.0.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui' version='6.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef' version='8.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.components' version='8.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.components.type' version='3.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.components.value' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.fields' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.lwt' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.models' version='9.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.models.value' version='3.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.parameterization' version='4.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.providers' version='6.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.rules' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.swt' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.type' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.value' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.viewModels' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.viewModels.impl' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef.wizards.viewModels' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef2.events' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.aef2.rules' version='7.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.commands' version='5.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.commands.list' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.control' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.controls.value' version='2.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.dialogs' version='9.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.dialogs.color' version='4.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.dialogs.font' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.dialogs.picture' version='4.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.dialogs.types' version='5.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef' version='6.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor' version='2.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.accountingregister' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.accumulationregister' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.businessprocess' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.calculationregister' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.catalog' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.chartofaccounts' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.chartofcalculationtypes' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.chartofcharacteristictypes' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.commandgroup' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.commonattribute' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.commoncommand' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.commonform' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.commonmodule' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.commonpicture' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.configuration' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.constant' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.dataexchange' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.dataprocessor' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.definedtype' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.document' version='2.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.documentjournal' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.documentnumerator' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.enums' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.eventsubscription' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.exchangeplan' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.filtercriterion' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.functionaloption' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.functionaloptionsparameter' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.httpservice' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.informationregister' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.report' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.role' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.scheduledjob' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.sequence' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.sessionparameter' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.styleitem' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.subsystem' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.task' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.template' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.webservice' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.aef.descriptor.wsreference' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.base' version='8.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.html' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.filters' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.mdaef' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.mdaef.impl' version='2.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.mdaef.util' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.navigator' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.navigator.adapters' version='9.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.navigator.filters' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.navigator.tree' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.providers' version='1.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.pw.utils' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.sattribute' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.sattribute.impl' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.sattribute.util' version='1.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.wizards' version='6.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.wizards.aef.models' version='5.2.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.wizards.base' version='5.1.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.md.ui.wizards.base.aef' version='5.3.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+      </provides>
+      <requires size='237'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.gef' range='[3.8.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.8.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.navigator' range='[3.5.200,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.databinding' range='[1.2.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jface.databinding' range='[1.6.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.expressions' range='[3.4.400,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.nebula.widgets.grid' range='[1.0.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.nebula.widgets.formattedtext' range='[1.0.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.forms' range='[3.6.100,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.beans' range='[1.2.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.workspace' range='[1.5.1,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.11.2,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='[1.0.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.databinding.property' range='[1.4.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.nebula.widgets.datechooser' range='[1.0.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='com.ibm.icu' range='[58.0.0,59.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.wst.sse.ui' range='[1.3.401,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.wst.sse.core' range='[1.1.901,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.changes' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.components' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.emf.changes' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.emf.models' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.engines' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.events' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.events.view' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.lwt' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.mappers' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.models' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.models.list' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.models.map' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.models.pojo' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.models.value' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.renderers' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.scenes' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.components' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions.builders' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions.components' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions.events' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions.models' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions.parameterization' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions.refresher' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.definitions.rules' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.events' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.layout' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.lwt.renderers' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.lwt.views' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.models' range='[2.2.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.parameterization' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.providers' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.swt.layouts' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.swt.renderers' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.swt.views' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.viewModels' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.standard.viewModels.impl' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.swt.renderers' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.swt.views' range='[2.2.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.utils' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.validators' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.viewModels' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.aef2.views' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.lwt' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.lwt.controls' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.lwt.databinding' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.lwt.interop' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.lwt.layouts' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.lwt.viewers' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.scoping' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.service' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.ui' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.modeling.xtext.ui.resource' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.activitytracking.core' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.common.collections' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core.event' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.integration' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.integration.event' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.derived' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.aef' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.aef.impl' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.impl' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.messages' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.rule' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.swt.renderer' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef.ui.validation' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef2.bm.changes' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef2.bm.events' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.aef2.bm.models' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='[6.1.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.xtext' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.xtext.resource' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.bm.resource' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model.resource.owner' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.editor.findref' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.ui.event' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.util' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.cmi.model' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.cmi.model.util' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.databinding' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.databinding.conversion' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.databinding.validation' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.actions' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.colors' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.controls' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.controls.search' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.databinding' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.editors' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.jface.viewers' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.menu' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.outline' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.part' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.utils' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.widgets' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.common.ui.widgets.color' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.event' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.expressions' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.filesystem' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.format' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.lifecycle' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.model' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.naming' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform.events' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.provider' range='[4.1.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.resource' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.streams' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.virtualfile' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.form' range='[8.0.0,9.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.form.model' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.htmldocument.model' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ide.ui' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.document' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lifecycle' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.util' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md' range='[8.0.0,9.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.api' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.availability' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.bm.derived' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.copy' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.databinding.validation' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.distribution.support' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.pictures' range='[2.2.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.refactoring' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.resource' range='[8.0.0,9.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.scoping' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.typeinfo.category' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.ui.shared' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.ui.wizards' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.common' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.dbview' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.impl' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass.util' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdtype' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.navigator' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.navigator.adapters' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.navigator.filters' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.navigator.providers' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.navigator.util' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.core.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.core.typeinfo' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.core.typeinfo.category' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.model' range='[3.0.1,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.pictures' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.pictures.zip' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.registries' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.platform.version' range='[2.3.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.refactoring.core' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.refactoring.ui' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.schedule.model' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.search.core' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.actions' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.component' range='[7.0.0,8.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.definitions.builder' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.definitions.rules' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.descriptor' range='[4.1.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.events' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.events.grid' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.handlers' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.lwt' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.lwt.views' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.mappers' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.model' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.models' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.parameterization' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.providers' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.renderer.swt' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.swt' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.swt.views' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.utils' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.viewModels' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.aef.viewModels.impl' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.commands' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.commands.list' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.dialog' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.dtcoreaef' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.aef' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.aef.components' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.aef.definition' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.aef.definition.builder' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.aef.events' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.aef.model' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.aef.parameterization' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.html' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.html.command' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.input' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.forms' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.providers' range='[2.1.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.util' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.wizards' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.v8help' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.v8help.model' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.validation.marker' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ws.wsdefinitions.model' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.xdto.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.wiring.binder' range='[1.0.0,2.0.0)'/>
+        <required namespace='java.package' name='org.apache.commons.lang' range='[2.6.0,3.0.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.md.ui' version='9.0.0.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.md.ui;singleton:=true&#xA;Bundle-Version: 9.0.0.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.apache.commons.cli' version='1.2.0.v201404270220' singleton='false'>
       <update id='org.apache.commons.cli' range='[0.0.0,1.2.0.v201404270220)' severity='0'/>
       <properties size='5'>
@@ -11999,6 +13044,37 @@
           </instruction>
         </instructions>
       </touchpointData>
+    </unit>
+    <unit id='ru.capralow.dt.conversion.feature.group' version='1.0.1.20180924-0750' singleton='false'>
+      <update id='ru.capralow.dt.conversion.feature.group' range='[0.0.0,1.0.1.20180924-0750)' severity='0'/>
+      <properties size='9'>
+        <property name='org.eclipse.equinox.p2.name' value='%featureName'/>
+        <property name='org.eclipse.equinox.p2.description' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion.plugin.feature'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+        <property name='df_LT.featureName' value='Конвертация данных для EDT'/>
+        <property name='df_LT.providerName' value='Капралов Александр Александрович (1С-Рарус)'/>
+      </properties>
+      <provides size='2'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.group' version='1.0.1.20180924-0750'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' range='[1.0.1.20180924-0750,1.0.1.20180924-0750]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.core' range='[1.0.1.20180924-0750,1.0.1.20180924-0750]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.feature.jar' range='[1.0.1.20180924-0750,1.0.1.20180924-0750]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+      <copyright>
+        Капралов Александр Александрович (1С-Рарус)
+      </copyright>
     </unit>
     <unit id='com._1c.g5.v8.dt.theming.ui' version='1.0.0.v201807310736'>
       <update id='com._1c.g5.v8.dt.theming.ui' range='[0.0.0,1.0.0.v201807310736)' severity='0'/>
@@ -12091,6 +13167,68 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.e4.core.commands;singleton:=true&#xA;Bundle-Version: 0.12.100.v20170513-0428
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.xtext.ui.codetemplates' version='2.12.0.v20170519-0809'>
+      <update id='org.eclipse.xtext.ui.codetemplates' range='[0.0.0,2.12.0.v20170519-0809)' severity='0'/>
+      <properties size='8'>
+        <property name='df_LT.pluginName' value='Xtext Codetemplates Language Runtime'/>
+        <property name='df_LT.providerName' value='Eclipse Xtext'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='org.eclipse.xtext'/>
+        <property name='maven-artifactId' value='org.eclipse.xtext.ui.codetemplates'/>
+        <property name='maven-version' value='2.12.0-SNAPSHOT'/>
+      </properties>
+      <provides size='21'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.ui.codetemplates' version='2.12.0.v20170519-0809'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.xtext.ui.codetemplates' version='2.12.0.v20170519-0809'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.conversion' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.formatting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.lexer' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.parseTreeConstruction' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.parser' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.parser.antlr.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.parser.antlr.lexer' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.scoping' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.services' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.templates' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.templates.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.templates.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.serializer' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='13'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.generator' range='0.0.0' optional='true'/>
+        <required namespace='osgi.bundle' name='de.itemis.xtext.antlr' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.codegen.ecore' range='2.10.2' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe.utils' range='1.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe2.launch' range='2.2.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='2.10.2'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='2.10.1'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='java.package' name='com.ibm.icu.text' range='4.0.0' optional='true' greedy='false'/>
+        <required namespace='java.package' name='org.apache.commons.logging' range='0.0.0'/>
+        <required namespace='java.package' name='org.apache.log4j' range='1.2.15'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.xtext.ui.codetemplates' version='2.12.0.v20170519-0809'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.xtext.ui.codetemplates;singleton:=true&#xA;Bundle-Version: 2.12.0.v20170519-0809
           </instruction>
         </instructions>
       </touchpointData>
@@ -12225,54 +13363,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.core.databinding.observable&#xA;Bundle-Version: 1.6.100.v20170515-1119
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'>
-      <update id='ru.capralow.dt.conversion.plugin.ui' range='[0.0.0,1.0.0.20180812-1432)' severity='0'/>
-      <properties size='5'>
-        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
-        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
-        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.ui'/>
-        <property name='maven-version' value='1.0.0-SNAPSHOT'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'/>
-        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='20'>
-        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
-        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
-        <required namespace='osgi.bundle' name='com._1c.g5.wiring' range='2.0.100'/>
-        <required namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' range='1.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='7.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
-        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
-        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
-        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
-        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.ui' version='1.0.0.20180812-1432'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true&#xA;Bundle-Version: 1.0.0.20180812-1432
           </instruction>
         </instructions>
       </touchpointData>
@@ -12973,6 +14063,56 @@
       </provides>
       <touchpoint id='org.eclipse.equinox.p2.native' version='1.0.0'/>
     </unit>
+    <unit id='com._1c.g5.v8.dt.ql.core' version='3.0.400.v201807310736'>
+      <update id='com._1c.g5.v8.dt.ql.core' range='[0.0.0,3.0.400.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='Базовая функциональность языка запросов'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='Ql Core'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.ql.core'/>
+        <property name='maven-version' value='3.0.400-SNAPSHOT'/>
+      </properties>
+      <provides size='7'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.ql.core' version='3.0.400.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.ql.core' version='3.0.400.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.internal.ql.core' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.core' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='13'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.9.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='[3.8.101,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.handly' range='[0.7.0,0.8.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.core.handle.impl.xtext' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.core.handle.xtext' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.handle' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.handle.impl' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.util' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.resource' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.emf.common.util' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.ql.core' version='3.0.400.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.ql.core;singleton:=true&#xA;Bundle-Version: 3.0.400.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.debug.core' version='3.11.0.v20170605-1534'>
       <update id='org.eclipse.debug.core' range='[0.0.0,3.11.0.v20170605-1534)' severity='0'/>
       <properties size='8'>
@@ -13642,6 +14782,99 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.xtext.generator' version='2.12.0.v20170519-0752'>
+      <update id='org.eclipse.xtext.generator' range='[0.0.0,2.12.0.v20170519-0752)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Xtext Generator'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse Xtext'/>
+        <property name='maven-groupId' value='org.eclipse.xtext'/>
+        <property name='maven-artifactId' value='org.eclipse.xtext.generator'/>
+        <property name='maven-version' value='2.12.0'/>
+      </properties>
+      <provides size='48'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.generator' version='2.12.0.v20170519-0752'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.xtext.generator' version='2.12.0.v20170519-0752'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.adapter' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.builder' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.ecore' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.ecore2xtext' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.exporting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.formatting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.formatting2' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.grammarAccess' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.junit' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parseTreeConstructor' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.formatting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.parseTreeConstruction' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.parser.antlr.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.services' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.simpleAntlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.simpleAntlr.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.simpleAntlr.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.debug.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.ex' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.ex.ca' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.ex.common' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.ex.rt' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.ex.wsAware' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.antlr.postProcessing' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.parser.packrat' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.resourceFactory' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.scoping' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.serializer' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.types' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.generator.xbase' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.compare' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.contentAssist' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.labeling' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.outline' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.projectWizard' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.quickfix' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.refactoring' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.generator.templates' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='20'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xtext.generator' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='0.0.0' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtend' range='1.1.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xpand' range='1.1.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtend.typesystem.emf' range='1.0.1'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.codegen.ecore' range='2.10.2' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='0.0.0' optional='true'/>
+        <required namespace='osgi.bundle' name='de.itemis.xtext.antlr' range='2.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='2.10.2'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='2.10.1'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='[3.2.0,3.2.1)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe2.lib' range='2.7.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0' optional='true'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtend.lib' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='3.6.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='3.6.0' optional='true' greedy='false'/>
+        <required namespace='java.package' name='com.ibm.icu.text' range='4.0.0'/>
+        <required namespace='java.package' name='org.apache.commons.logging' range='1.0.4' optional='true'/>
+        <required namespace='java.package' name='org.apache.log4j' range='1.2.15'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.xtext.generator' version='2.12.0.v20170519-0752'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.xtext.generator; singleton:=true&#xA;Bundle-Version: 2.12.0.v20170519-0752
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.handly.xtext.ui' version='0.7.0.v20170624-1401'>
       <update id='org.eclipse.handly.xtext.ui' range='[0.0.0,0.7.0.v20170624-1401)' severity='0'/>
       <properties size='8'>
@@ -13767,6 +15000,55 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.apache.commons.lang&#xA;Bundle-Version: 2.6.0.v201404270220
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='com._1c.g5.v8.dt.ql.bsl.ui' version='3.0.200.v201807310736'>
+      <update id='com._1c.g5.v8.dt.ql.bsl.ui' range='[0.0.0,3.0.200.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='df_LT.pluginName' value='Ql in Bsl UI'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='ru.pluginName' value='UI для языка запросов во встроенном языке'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.ql.bsl.ui'/>
+        <property name='maven-version' value='3.0.200-SNAPSHOT'/>
+      </properties>
+      <provides size='8'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.ql.bsl.ui' version='3.0.200.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.ql.bsl.ui' version='3.0.200.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.ui.syntaxcoloring' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.ui.token.highlighting' version='3.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.ql.bsl.ui.token.highlighting.impl' version='3.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+      </provides>
+      <requires size='11'>
+        <required namespace='osgi.bundle' name='com._1c.g5.v8.dt.ql.bsl' range='[2.0.0,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='[3.8.200,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='[2.12.0,2.13.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='[2.12.0,2.13.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.ui' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ql.ui.syntaxcoloring' range='[2.0.0,3.0.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='java.package' name='org.slf4j' range='[1.6.1,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.ql.bsl.ui' version='3.0.200.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.ql.bsl.ui;singleton:=true&#xA;Bundle-Version: 3.0.200.v201807310736
           </instruction>
         </instructions>
       </touchpointData>
@@ -14392,6 +15674,48 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='com._1c.g5.v8.dt.v8help.model' version='2.0.700.v201807310736'>
+      <update id='com._1c.g5.v8.dt.v8help.model' range='[0.0.0,2.0.700.v201807310736)' severity='0'/>
+      <properties size='10'>
+        <property name='ru.pluginName' value='Модель справки для 1С:Предприятие 8'/>
+        <property name='ru.providerName' value='ООО &quot;1С-Софт&quot;'/>
+        <property name='df_LT.pluginName' value='1C:Enterprise 8 Help model'/>
+        <property name='df_LT.providerName' value='1C-Soft LLC'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='com._1c.g5.v8.dt'/>
+        <property name='maven-artifactId' value='com._1c.g5.v8.dt.v8help.model'/>
+        <property name='maven-version' value='2.0.700-SNAPSHOT'/>
+      </properties>
+      <provides size='8'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='com._1c.g5.v8.dt.v8help.model' version='2.0.700.v201807310736'/>
+        <provided namespace='osgi.bundle' name='com._1c.g5.v8.dt.v8help.model' version='2.0.700.v201807310736'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.v8help.model' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.v8help.model.impl' version='2.0.0'/>
+        <provided namespace='java.package' name='com._1c.g5.v8.dt.v8help.model.util' version='2.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='ru' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='[3.9.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='[2.9.1,3.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xcore.lib' range='[1.0.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.12.0,2.13.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='com._1c.g5.v8.dt.v8help.model' version='2.0.700.v201807310736'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: com._1c.g5.v8.dt.v8help.model;singleton:=true&#xA;Bundle-Version: 2.0.700.v201807310736
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.jsch.core' version='1.3.0.v20160422-1917'>
       <update id='org.eclipse.jsch.core' range='[0.0.0,1.3.0.v20160422-1917)' severity='0'/>
       <properties size='8'>
@@ -14688,6 +16012,69 @@
         </instructions>
       </touchpointData>
     </unit>
+    <unit id='org.eclipse.xtext.ui.codetemplates.ui' version='2.12.0.v20170519-0809'>
+      <update id='org.eclipse.xtext.ui.codetemplates.ui' range='[0.0.0,2.12.0.v20170519-0809)' severity='0'/>
+      <properties size='8'>
+        <property name='df_LT.pluginName' value='Xtext Codetemplates Language UI'/>
+        <property name='df_LT.providerName' value='Eclipse Xtext'/>
+        <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+        <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+        <property name='maven-groupId' value='org.eclipse.xtext'/>
+        <property name='maven-artifactId' value='org.eclipse.xtext.ui.codetemplates.ui'/>
+        <property name='maven-version' value='2.12.0-SNAPSHOT'/>
+      </properties>
+      <provides size='22'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.ui.codetemplates.ui' version='2.12.0.v20170519-0809'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.xtext.ui.codetemplates.ui' version='2.12.0.v20170519-0809'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.contentassist' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.contentassist.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.contentassist.antlr.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.contentassist.antlr.lexer' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.evaluator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.highlighting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.labeling' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.outline' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.partialEditing' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.preferences' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.projectedEditing' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.quickfix' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.registry' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.resolvers' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.scoping' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.xtext.ui.codetemplates.ui.validation' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+      </provides>
+      <requires size='13'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.codetemplates' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='3.6.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='3.6.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='3.6.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.workbench.texteditor' range='3.6.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.expressions' range='3.4.100'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.navigator' range='3.4.1'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ide' range='0.0.0'/>
+        <required namespace='java.package' name='org.apache.log4j' range='1.2.15'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.xtext.ui.codetemplates.ui' version='2.12.0.v20170519-0809'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: org.eclipse.xtext.ui.codetemplates.ui;singleton:=true&#xA;Bundle-Version: 2.12.0.v20170519-0809
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.wst.common.frameworks' version='1.2.201.v201707201954'>
       <update id='org.eclipse.wst.common.frameworks' range='[0.0.0,1.2.201.v201707201954)' severity='0'/>
       <properties size='8'>
@@ -14944,6 +16331,88 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-SymbolicName: org.eclipse.emf.databinding; singleton:=true&#xA;Bundle-Version: 1.3.0.v20160526-0356
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='ru.capralow.dt.conversion.plugin.ui' version='1.0.1.20180924-0750'>
+      <update id='ru.capralow.dt.conversion.plugin.ui' range='[0.0.0,1.0.1.20180924-0750)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Конвертация данных для EDT'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Капралов Александр Александрович (1С-Рарус)'/>
+        <property name='maven-groupId' value='ru.capralow.dt.conversion'/>
+        <property name='maven-artifactId' value='ru.capralow.dt.conversion.plugin.ui'/>
+        <property name='maven-version' value='1.0.1-SNAPSHOT'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.1.20180924-0750'/>
+        <provided namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.ui' version='1.0.1.20180924-0750'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='54'>
+        <required namespace='osgi.bundle' name='ru.capralow.dt.conversion.plugin.core' range='[1.0.0,2.0.0)'/>
+        <required namespace='osgi.bundle' name='com.google.inject' range='[3.0.0,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='[3.106.1,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='[3.10.2,4.0.0)'/>
+        <required namespace='osgi.bundle' name='org.apache.log4j' range='[1.2.15,2.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.ides.ui.texteditor.xtext.embedded' range='4.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.core' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.bm.integration' range='5.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bm.index.emf' range='6.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.common' range='4.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.model' range='[3.0.0,4.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.bsl.resource' range='7.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.event' range='2.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.expressions' range='1.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.lifecycle' range='3.2.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform' range='7.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.core.platform.events' range='1.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lcore.ui.editor.embedded' range='3.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.lifecycle' range='2.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore' range='[4.0.0,5.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.mcore.impl' range='[5.0.0,6.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.extension.adopt' range='1.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.ui' range='6.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.md.ui.editor.base' range='8.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.metadata.mdclass' range='[6.0.0,7.0.0)'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.editor.input' range='4.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.v8.dt.ui.util' range='5.1.0'/>
+        <required namespace='java.package' name='com._1c.g5.wiring' range='2.0.0'/>
+        <required namespace='java.package' name='com._1c.g5.wiring.binder' range='1.1.0'/>
+        <required namespace='java.package' name='org.antlr.stringtemplate' range='[3.2.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.core.databinding' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.core.expressions' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.core.resources' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.core.runtime' range='[3.4.0,4.0.0)'/>
+        <required namespace='java.package' name='org.eclipse.jface.text' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.jface.text.source' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.jface.text.source.projection' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.ui.editors.text' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.ui.forms' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.ui.forms.editor' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.ui.forms.widgets' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.ui.texteditor' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.nodemodel' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.nodemodel.util' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.resource' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.ui' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.ui.editor' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.ui.editor.embedded' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.ui.editor.model' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.ui.editor.utils' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.ui.resource' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.util.concurrent' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.validation' range='0.0.0'/>
+        <required namespace='java.package' name='org.osgi.framework' range='[1.8.0,2.0.0)'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='ru.capralow.dt.conversion.plugin.ui' version='1.0.1.20180924-0750'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true&#xA;Bundle-Version: 1.0.1.20180924-0750
           </instruction>
         </instructions>
       </touchpointData>
