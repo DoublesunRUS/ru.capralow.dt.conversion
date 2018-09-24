@@ -2,6 +2,8 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -32,9 +34,11 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getSelectionVariant <em>Selection Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEvent <em>On Processing Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEventMethod <em>On Processing Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEventPrefix <em>On Processing Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEventSuffix <em>On Processing Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEvent <em>Data Selection Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEventMethod <em>Data Selection Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEventPrefix <em>Data Selection Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEventSuffix <em>Data Selection Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
  *
@@ -255,8 +259,8 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getOnProcessingEventMethod() {
-		return (Object)eGet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT_METHOD, true);
+	public String getOnProcessingEventPrefix() {
+		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041E\u0414_|||\u0418\u041C\u042F|||_\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435(\u0414\u0430\u043D\u043D\u044B\u0435\u0418\u0411, \u0418\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0435\u041F\u041A\u041E, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("|||\u0418\u041C\u042F|||", this.getName());
 	}
 
 	/**
@@ -264,8 +268,17 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOnProcessingEventMethod(Object newOnProcessingEventMethod) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT_METHOD, newOnProcessingEventMethod);
+	public String getOnProcessingEventSuffix() {
+		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT_SUFFIX, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOnProcessingEventSuffix(String newOnProcessingEventSuffix) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__ON_PROCESSING_EVENT_SUFFIX, newOnProcessingEventSuffix);
 	}
 
 	/**
@@ -291,8 +304,8 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getDataSelectionEventMethod() {
-		return (Object)eGet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT_METHOD, true);
+	public String getDataSelectionEventPrefix() {
+		return "\u0424\u0443\u043D\u043A\u0446\u0438\u044F \u041F\u041E\u0414_|||\u0418\u041C\u042F|||_\u0412\u044B\u0431\u043E\u0440\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445(\u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("|||\u0418\u041C\u042F|||", this.getName());
 	}
 
 	/**
@@ -300,8 +313,17 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDataSelectionEventMethod(Object newDataSelectionEventMethod) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT_METHOD, newDataSelectionEventMethod);
+	public String getDataSelectionEventSuffix() {
+		return (String)eGet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT_SUFFIX, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDataSelectionEventSuffix(String newDataSelectionEventSuffix) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__DATA_SELECTION_EVENT_SUFFIX, newDataSelectionEventSuffix);
 	}
 
 	/**
@@ -312,6 +334,58 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	@SuppressWarnings("unchecked")
 	public EList<CmObjectRule> getObjectRules() {
 		return (EList<CmObjectRule>)eGet(CmPackage.Literals.CM_DATA_RULE__OBJECT_RULES, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getOnProcessingEventText() {
+		String _onProcessingEventPrefix = this.getOnProcessingEventPrefix();
+		String _lineSeparator = System.lineSeparator();
+		String _plus = (_onProcessingEventPrefix + _lineSeparator);
+		String _onProcessingEvent = this.getOnProcessingEvent();
+		String _plus_1 = (_plus + _onProcessingEvent);
+		String _lineSeparator_1 = System.lineSeparator();
+		String _plus_2 = (_plus_1 + _lineSeparator_1);
+		String _onProcessingEventSuffix = this.getOnProcessingEventSuffix();
+		String result = (_plus_2 + _onProcessingEventSuffix);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDataSelectionEventText() {
+		String _dataSelectionEventPrefix = this.getDataSelectionEventPrefix();
+		String _lineSeparator = System.lineSeparator();
+		String _plus = (_dataSelectionEventPrefix + _lineSeparator);
+		String _dataSelectionEvent = this.getDataSelectionEvent();
+		String _plus_1 = (_plus + _dataSelectionEvent);
+		String _lineSeparator_1 = System.lineSeparator();
+		String _plus_2 = (_plus_1 + _lineSeparator_1);
+		String _dataSelectionEventSuffix = this.getDataSelectionEventSuffix();
+		String result = (_plus_2 + _dataSelectionEventSuffix);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case CmPackage.CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT:
+				return getOnProcessingEventText();
+			case CmPackage.CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT:
+				return getDataSelectionEventText();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //CmDataRuleImpl

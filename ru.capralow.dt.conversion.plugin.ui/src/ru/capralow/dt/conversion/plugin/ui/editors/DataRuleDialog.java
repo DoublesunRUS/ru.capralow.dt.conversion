@@ -1,8 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -279,19 +277,18 @@ public class DataRuleDialog extends Dialog {
 		txtObjectRuleName.setText(objectRules.get(0).getName());
 		viewer.setInput(objectRules);
 
-		algorithmsText = dataRule.getConversionModule().getAlgorithmsText("");
+		algorithmsText = dataRule.getConversionModule().getAllAlgorithmsText("");
 
-		String[] onProcessingEvent = parseMethod(dataRule.getOnProcessingEvent());
-		txtOnProcessing.setText(onProcessingEvent[0]);
-		getModelAccessOnProcessing().updateEditablePart(dataRule.getOnProcessingEvent());
-		getModelAccessOnProcessing().updateModel(onProcessingEvent[0], onProcessingEvent[1],
-				onProcessingEvent[2] + System.lineSeparator() + algorithmsText);
+		txtOnProcessing.setText(dataRule.getOnProcessingEventPrefix());
+		getModelAccessOnProcessing().updateEditablePart(dataRule.getOnProcessingEventText());
+		getModelAccessOnProcessing().updateModel(dataRule.getOnProcessingEventPrefix(), dataRule.getOnProcessingEvent(),
+				dataRule.getOnProcessingEventSuffix() + System.lineSeparator() + algorithmsText);
 
-		String[] dataSelectionEvent = parseMethod(dataRule.getDataSelectionEvent());
-		txtDataSelection.setText(dataSelectionEvent[0]);
-		getModelAccessDataSelection().updateEditablePart(dataRule.getDataSelectionEvent());
-		getModelAccessDataSelection().updateModel(dataSelectionEvent[0], dataSelectionEvent[1],
-				dataSelectionEvent[2] + System.lineSeparator() + algorithmsText);
+		txtDataSelection.setText(dataRule.getDataSelectionEventPrefix());
+		getModelAccessDataSelection().updateEditablePart(dataRule.getDataSelectionEventText());
+		getModelAccessDataSelection().updateModel(dataRule.getDataSelectionEventPrefix(),
+				dataRule.getDataSelectionEvent(),
+				dataRule.getDataSelectionEventSuffix() + System.lineSeparator() + algorithmsText);
 
 		return container;
 	}
@@ -331,36 +328,12 @@ public class DataRuleDialog extends Dialog {
 		return modelAccessDataSelection;
 	}
 
-	private String[] parseMethod(String method) {
-		String[] result = new String[3];
+	@Override
+	protected void okPressed() {
+		dataRule.setOnProcessingEvent(getModelAccessOnProcessing().getEditablePart());
+		dataRule.setDataSelectionEvent(getModelAccessDataSelection().getEditablePart());
 
-		result[0] = "";
-		result[1] = "";
-		result[2] = "";
-
-		String[] methodArray = method.split(System.lineSeparator());
-
-		if (methodArray.length < 3)
-			return result;
-
-		result[0] = methodArray[0];
-		result[2] = methodArray[methodArray.length - 1];
-		result[1] = method.substring(result[0].length() + System.lineSeparator().length(),
-				method.length() - result[2].length() - System.lineSeparator().length());
-
-		return result;
-
-	}
-
-	public Map<Object, String> getUpdatedMethods() {
-		Map<Object, String> result = new HashMap<Object, String>();
-
-		result.put(dataRule.getOnProcessingEventMethod(), editorOnProcessing.getDocument().get().substring(0,
-				editorOnProcessing.getDocument().get().indexOf(algorithmsText)));
-		result.put(dataRule.getDataSelectionEventMethod(), editorDataSelection.getDocument().get().substring(0,
-				editorDataSelection.getDocument().get().indexOf(algorithmsText)));
-
-		return result;
+		super.okPressed();
 	}
 
 }

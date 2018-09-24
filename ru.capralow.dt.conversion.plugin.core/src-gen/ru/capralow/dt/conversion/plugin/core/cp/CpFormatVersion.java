@@ -2,8 +2,6 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp;
 
-import com._1c.g5.v8.dt.bsl.model.Module;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -86,12 +84,12 @@ public interface CpFormatVersion extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module</em>' containment reference.
-	 * @see #setModule(Module)
+	 * @see #setModule(com._1c.g5.v8.dt.bsl.model.Module)
 	 * @see ru.capralow.dt.conversion.plugin.core.cp.CpPackage#getCpFormatVersion_Module()
 	 * @model containment="true"
 	 * @generated
 	 */
-	Module getModule();
+	com._1c.g5.v8.dt.bsl.model.Module getModule();
 
 	/**
 	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion#getModule <em>Module</em>}' containment reference.
@@ -101,6 +99,6 @@ public interface CpFormatVersion extends EObject {
 	 * @see #getModule()
 	 * @generated
 	 */
-	void setModule(Module value);
+	void setModule(com._1c.g5.v8.dt.bsl.model.Module value);
 
 } // CpFormatVersion

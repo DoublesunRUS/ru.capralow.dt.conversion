@@ -1,8 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -140,25 +137,25 @@ public class ConversionModuleDialog extends Dialog {
 
 		// Заполнение данными
 
-		algorithmsText = conversionModule.getAlgorithmsText("");
+		algorithmsText = conversionModule.getAllAlgorithmsText("");
 
-		String[] beforeConvertationEvent = parseMethod(conversionModule.getBeforeConvertationEvent());
-		txtBeforeConvertation.setText(beforeConvertationEvent[0]);
-		getModelAccessBeforeConvertation().updateEditablePart(conversionModule.getBeforeConvertationEvent());
-		getModelAccessBeforeConvertation().updateModel(beforeConvertationEvent[0], beforeConvertationEvent[1],
-				beforeConvertationEvent[2] + System.lineSeparator() + algorithmsText);
+		txtBeforeConvertation.setText(conversionModule.getBeforeConvertationEventPrefix());
+		getModelAccessBeforeConvertation().updateEditablePart(conversionModule.getBeforeConvertationEventText());
+		getModelAccessBeforeConvertation().updateModel(conversionModule.getBeforeConvertationEventPrefix(),
+				conversionModule.getBeforeConvertationEvent(),
+				conversionModule.getBeforeConvertationEventSuffix() + System.lineSeparator() + algorithmsText);
 
-		String[] beforeFillingEvent = parseMethod(conversionModule.getBeforeFillingEvent());
-		txtBeforeFilling.setText(beforeFillingEvent[0]);
-		getModelAccessBeforeFilling().updateEditablePart(conversionModule.getBeforeFillingEvent());
-		getModelAccessBeforeFilling().updateModel(beforeFillingEvent[0], beforeFillingEvent[1],
-				beforeFillingEvent[2] + System.lineSeparator() + algorithmsText);
+		txtBeforeFilling.setText(conversionModule.getBeforeFillingEventPrefix());
+		getModelAccessBeforeFilling().updateEditablePart(conversionModule.getBeforeFillingEventText());
+		getModelAccessBeforeFilling().updateModel(conversionModule.getBeforeFillingEventPrefix(),
+				conversionModule.getBeforeFillingEvent(),
+				conversionModule.getBeforeFillingEventSuffix() + System.lineSeparator() + algorithmsText);
 
-		String[] afterConvertationEvent = parseMethod(conversionModule.getAfterConvertationEvent());
-		txtAfterConvertation.setText(afterConvertationEvent[0]);
-		getModelAccessAfterConvertation().updateEditablePart(conversionModule.getAfterConvertationEvent());
-		getModelAccessAfterConvertation().updateModel(afterConvertationEvent[0], afterConvertationEvent[1],
-				afterConvertationEvent[2] + System.lineSeparator() + algorithmsText);
+		txtAfterConvertation.setText(conversionModule.getAfterConvertationEventPrefix());
+		getModelAccessAfterConvertation().updateEditablePart(conversionModule.getAfterConvertationEventText());
+		getModelAccessAfterConvertation().updateModel(conversionModule.getAfterConvertationEventPrefix(),
+				conversionModule.getAfterConvertationEvent(),
+				conversionModule.getAfterConvertationEventSuffix() + System.lineSeparator() + algorithmsText);
 
 		return container;
 	}
@@ -206,38 +203,13 @@ public class ConversionModuleDialog extends Dialog {
 		return modelAccessAfterConvertation;
 	}
 
-	private String[] parseMethod(String method) {
-		String[] result = new String[3];
+	@Override
+	protected void okPressed() {
+		conversionModule.setBeforeConvertationEvent(getModelAccessBeforeConvertation().getEditablePart());
+		conversionModule.setBeforeFillingEvent(getModelAccessBeforeFilling().getEditablePart());
+		conversionModule.setAfterConvertationEvent(getModelAccessAfterConvertation().getEditablePart());
 
-		result[0] = "";
-		result[1] = "";
-		result[2] = "";
-
-		String[] methodArray = method.split(System.lineSeparator());
-
-		if (methodArray.length < 3)
-			return result;
-
-		result[0] = methodArray[0];
-		result[2] = methodArray[methodArray.length - 1];
-		result[1] = method.substring(result[0].length() + System.lineSeparator().length(),
-				method.length() - result[2].length() - System.lineSeparator().length());
-
-		return result;
-
-	}
-
-	public Map<Object, String> getUpdatedMethods() {
-		Map<Object, String> result = new HashMap<Object, String>();
-
-		result.put(conversionModule.getBeforeConvertationEventMethod(), editorBeforeConvertation.getDocument().get()
-				.substring(0, editorBeforeConvertation.getDocument().get().indexOf(algorithmsText)));
-		result.put(conversionModule.getBeforeFillingEventMethod(), editorBeforeFilling.getDocument().get().substring(0,
-				editorBeforeFilling.getDocument().get().indexOf(algorithmsText)));
-		result.put(conversionModule.getAfterConvertationEventMethod(), editorAfterConvertation.getDocument().get()
-				.substring(0, editorAfterConvertation.getDocument().get().indexOf(algorithmsText)));
-
-		return result;
+		super.okPressed();
 	}
 
 }

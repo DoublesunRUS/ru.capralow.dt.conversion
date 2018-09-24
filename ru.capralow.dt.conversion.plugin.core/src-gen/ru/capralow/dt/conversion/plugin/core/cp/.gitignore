@@ -8,3 +8,9 @@
 /ConfigurationStatus.java
 /ExchangePairStatus.java
 /cpExchangePair.java
+/CpConfiguration.java
+/CpConfigurationStatus.java
+/CpExchangePair.java
+/CpExchangePairStatus.java
+/CpExtension.java
+/CpFormatVersion.java

@@ -80,20 +80,17 @@ public class ConversionModuleAnalyzer {
 			if (methodName.equals("ПередКонвертацией")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
-				conversionModule.setBeforeConvertationEvent(node.getText().trim());
-				conversionModule.setBeforeConvertationEventMethod(method);
+				conversionModule.setBeforeConvertationEvent(getMethodText(node.getText().trim()));
 
 			} else if (methodName.equals("ПередОтложеннымЗаполнением")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
-				conversionModule.setBeforeFillingEvent(node.getText().trim());
-				conversionModule.setBeforeFillingEventMethod(method);
+				conversionModule.setBeforeFillingEvent(getMethodText(node.getText().trim()));
 
 			} else if (methodName.equals("ПослеКонвертации")) {
 				ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
-				conversionModule.setAfterConvertationEvent(node.getText().trim());
-				conversionModule.setAfterConvertationEventMethod(method);
+				conversionModule.setAfterConvertationEvent(getMethodText(node.getText().trim()));
 
 			} else if (methodName.equals("ВерсияФорматаМенеджераОбмена")) {
 				conversionModule.setStoreVersion("2");
@@ -216,8 +213,7 @@ public class ConversionModuleAnalyzer {
 							Method eventMethod = getMethod(module, eventName);
 							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
 
-							dataRule.setOnProcessingEvent(node.getText().trim());
-							dataRule.setOnProcessingEventMethod(eventMethod);
+							dataRule.setOnProcessingEvent(getMethodText(node.getText().trim()));
 
 						} else if (leftFeatureAccess.getName().equals("ВыборкаДанных")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -226,8 +222,7 @@ public class ConversionModuleAnalyzer {
 							Method eventMethod = getMethod(module, eventName);
 							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
 
-							dataRule.setDataSelectionEvent(node.getText().trim());
-							dataRule.setDataSelectionEventMethod(eventMethod);
+							dataRule.setDataSelectionEvent(getMethodText(node.getText().trim()));
 
 						} else {
 							throw new NullPointerException(
@@ -432,8 +427,7 @@ public class ConversionModuleAnalyzer {
 							Method eventMethod = getMethod(module, eventName);
 							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
 
-							objectRule.setOnSendingEvent(node.getText().trim());
-							objectRule.setOnSendingEventMethod(eventMethod);
+							objectRule.setOnSendingEvent(getMethodText(node.getText().trim()));
 
 						} else if (leftFeatureAccess.getName().equals("ПриКонвертацииДанныхXDTO")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -442,8 +436,7 @@ public class ConversionModuleAnalyzer {
 							Method eventMethod = getMethod(module, eventName);
 							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
 
-							objectRule.setBeforeReceivingEvent(node.getText().trim());
-							objectRule.setBeforeReceivingEventMethod(eventMethod);
+							objectRule.setBeforeReceivingEvent(getMethodText(node.getText().trim()));
 
 						} else if (leftFeatureAccess.getName().equals("ПередЗаписьюПолученныхДанных")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -452,8 +445,7 @@ public class ConversionModuleAnalyzer {
 							Method eventMethod = getMethod(module, eventName);
 							ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
 
-							objectRule.setOnReceivingEvent(node.getText().trim());
-							objectRule.setOnReceivingEventMethod(eventMethod);
+							objectRule.setOnReceivingEvent(getMethodText(node.getText().trim()));
 
 						} else if (leftFeatureAccess.getName().equals("ПослеЗагрузкиВсехДанных")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -558,11 +550,10 @@ public class ConversionModuleAnalyzer {
 					params += param.getName();
 				}
 
-				algorithm.setMethod(method);
 				algorithm.setMethodType(method instanceof Function ? CmMethodType.FUNCTION : CmMethodType.PROCEDURE);
 				algorithm.setParams(params);
 				algorithm.setIsExport(method.isExport());
-				algorithm.setText(node.getText().trim());
+				algorithm.setBody(getMethodText(node.getText().trim()));
 
 			}
 		}
@@ -595,4 +586,22 @@ public class ConversionModuleAnalyzer {
 
 		return null;
 	}
+
+	private String getMethodText(String method) {
+		String result = "";
+
+		String[] methodArray = method.split(System.lineSeparator());
+
+		if (methodArray.length < 3)
+			return result;
+
+		String prefix = methodArray[0];
+		String suffix = methodArray[methodArray.length - 1];
+		result = method.substring(prefix.length() + System.lineSeparator().length(),
+				method.length() - suffix.length() - System.lineSeparator().length());
+
+		return result;
+
+	}
+
 }

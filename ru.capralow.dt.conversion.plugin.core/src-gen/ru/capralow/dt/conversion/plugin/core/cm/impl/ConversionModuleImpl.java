@@ -34,11 +34,14 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getModuleURI <em>Module URI</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getParams <em>Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEvent <em>Before Convertation Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEventMethod <em>Before Convertation Event Method</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEventMethod <em>Before Filling Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEventPrefix <em>Before Convertation Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeConvertationEventSuffix <em>Before Convertation Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEvent <em>After Convertation Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEventMethod <em>After Convertation Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEventPrefix <em>After Convertation Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getAfterConvertationEventSuffix <em>After Convertation Event Suffix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEvent <em>Before Filling Event</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEventPrefix <em>Before Filling Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getBeforeFillingEventSuffix <em>Before Filling Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getDataRules <em>Data Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getObjectRules <em>Object Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl#getPredefineds <em>Predefineds</em>}</li>
@@ -154,8 +157,8 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getBeforeConvertationEventMethod() {
-		return (Object)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_METHOD, true);
+	public String getBeforeConvertationEventPrefix() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_PREFIX, true);
 	}
 
 	/**
@@ -163,8 +166,8 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBeforeConvertationEventMethod(Object newBeforeConvertationEventMethod) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_METHOD, newBeforeConvertationEventMethod);
+	public void setBeforeConvertationEventPrefix(String newBeforeConvertationEventPrefix) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_PREFIX, newBeforeConvertationEventPrefix);
 	}
 
 	/**
@@ -172,8 +175,8 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getBeforeFillingEvent() {
-		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, true);
+	public String getBeforeConvertationEventSuffix() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_SUFFIX, true);
 	}
 
 	/**
@@ -181,26 +184,8 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBeforeFillingEvent(String newBeforeFillingEvent) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, newBeforeFillingEvent);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object getBeforeFillingEventMethod() {
-		return (Object)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT_METHOD, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBeforeFillingEventMethod(Object newBeforeFillingEventMethod) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT_METHOD, newBeforeFillingEventMethod);
+	public void setBeforeConvertationEventSuffix(String newBeforeConvertationEventSuffix) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_SUFFIX, newBeforeConvertationEventSuffix);
 	}
 
 	/**
@@ -226,8 +211,8 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getAfterConvertationEventMethod() {
-		return (Object)eGet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT_METHOD, true);
+	public String getAfterConvertationEventPrefix() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT_PREFIX, true);
 	}
 
 	/**
@@ -235,8 +220,80 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAfterConvertationEventMethod(Object newAfterConvertationEventMethod) {
-		eSet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT_METHOD, newAfterConvertationEventMethod);
+	public void setAfterConvertationEventPrefix(String newAfterConvertationEventPrefix) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT_PREFIX, newAfterConvertationEventPrefix);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAfterConvertationEventSuffix() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT_SUFFIX, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAfterConvertationEventSuffix(String newAfterConvertationEventSuffix) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__AFTER_CONVERTATION_EVENT_SUFFIX, newAfterConvertationEventSuffix);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBeforeFillingEvent() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBeforeFillingEvent(String newBeforeFillingEvent) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT, newBeforeFillingEvent);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBeforeFillingEventPrefix() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT_PREFIX, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBeforeFillingEventPrefix(String newBeforeFillingEventPrefix) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT_PREFIX, newBeforeFillingEventPrefix);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBeforeFillingEventSuffix() {
+		return (String)eGet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT_SUFFIX, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBeforeFillingEventSuffix(String newBeforeFillingEventSuffix) {
+		eSet(CmPackage.Literals.CONVERSION_MODULE__BEFORE_FILLING_EVENT_SUFFIX, newBeforeFillingEventSuffix);
 	}
 
 	/**
@@ -277,6 +334,60 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	@SuppressWarnings("unchecked")
 	public EList<CmAlgorithm> getAlgorithms() {
 		return (EList<CmAlgorithm>)eGet(CmPackage.Literals.CONVERSION_MODULE__ALGORITHMS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBeforeConvertationEventText() {
+		String _beforeConvertationEventPrefix = this.getBeforeConvertationEventPrefix();
+		String _lineSeparator = System.lineSeparator();
+		String _plus = (_beforeConvertationEventPrefix + _lineSeparator);
+		String _beforeConvertationEvent = this.getBeforeConvertationEvent();
+		String _plus_1 = (_plus + _beforeConvertationEvent);
+		String _lineSeparator_1 = System.lineSeparator();
+		String _plus_2 = (_plus_1 + _lineSeparator_1);
+		String _beforeConvertationEventSuffix = this.getBeforeConvertationEventSuffix();
+		String result = (_plus_2 + _beforeConvertationEventSuffix);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAfterConvertationEventText() {
+		String _afterConvertationEventPrefix = this.getAfterConvertationEventPrefix();
+		String _lineSeparator = System.lineSeparator();
+		String _plus = (_afterConvertationEventPrefix + _lineSeparator);
+		String _afterConvertationEvent = this.getAfterConvertationEvent();
+		String _plus_1 = (_plus + _afterConvertationEvent);
+		String _lineSeparator_1 = System.lineSeparator();
+		String _plus_2 = (_plus_1 + _lineSeparator_1);
+		String _afterConvertationEventSuffix = this.getAfterConvertationEventSuffix();
+		String result = (_plus_2 + _afterConvertationEventSuffix);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBeforeFillingEventText() {
+		String _beforeFillingEventPrefix = this.getBeforeFillingEventPrefix();
+		String _lineSeparator = System.lineSeparator();
+		String _plus = (_beforeFillingEventPrefix + _lineSeparator);
+		String _beforeFillingEvent = this.getBeforeFillingEvent();
+		String _plus_1 = (_plus + _beforeFillingEvent);
+		String _lineSeparator_1 = System.lineSeparator();
+		String _plus_2 = (_plus_1 + _lineSeparator_1);
+		String _beforeFillingEventSuffix = this.getBeforeFillingEventSuffix();
+		String result = (_plus_2 + _beforeFillingEventSuffix);
+		return result;
 	}
 
 	/**
@@ -369,7 +480,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getAlgorithmsText(final String algorithmName) {
+	public String getAllAlgorithmsText(final String algorithmName) {
 		String result = "";
 		EList<CmAlgorithm> _algorithms = this.getAlgorithms();
 		for (final CmAlgorithm algorithm : _algorithms) {
@@ -377,9 +488,9 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 			boolean _notEquals = (!Objects.equal(algorithmName, _name));
 			if (_notEquals) {
 				String _result = result;
-				String _text = algorithm.getText();
+				String _algorithmText = algorithm.getAlgorithmText();
 				String _lineSeparator = System.lineSeparator();
-				String _plus = (_text + _lineSeparator);
+				String _plus = (_algorithmText + _lineSeparator);
 				result = (_result + _plus);
 			}
 		}
@@ -394,6 +505,12 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
+			case CmPackage.CONVERSION_MODULE___GET_BEFORE_CONVERTATION_EVENT_TEXT:
+				return getBeforeConvertationEventText();
+			case CmPackage.CONVERSION_MODULE___GET_AFTER_CONVERTATION_EVENT_TEXT:
+				return getAfterConvertationEventText();
+			case CmPackage.CONVERSION_MODULE___GET_BEFORE_FILLING_EVENT_TEXT:
+				return getBeforeFillingEventText();
 			case CmPackage.CONVERSION_MODULE___GET_DATA_RULE__STRING:
 				return getDataRule((String)arguments.get(0));
 			case CmPackage.CONVERSION_MODULE___GET_SENDING_DATA_RULES:
@@ -404,8 +521,8 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 				return getObjectRule((String)arguments.get(0));
 			case CmPackage.CONVERSION_MODULE___GET_ALGORITHM__STRING:
 				return getAlgorithm((String)arguments.get(0));
-			case CmPackage.CONVERSION_MODULE___GET_ALGORITHMS_TEXT__STRING:
-				return getAlgorithmsText((String)arguments.get(0));
+			case CmPackage.CONVERSION_MODULE___GET_ALL_ALGORITHMS_TEXT__STRING:
+				return getAllAlgorithmsText((String)arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
 	}

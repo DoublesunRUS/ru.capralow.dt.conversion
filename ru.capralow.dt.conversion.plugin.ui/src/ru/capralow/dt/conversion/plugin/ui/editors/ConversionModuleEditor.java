@@ -137,7 +137,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		new Label(compositeInformation, SWT.NONE);
 
 		// 3.1-2
-		TableViewer viewerInformation = new TableViewer(compositeInformation, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		TableViewer viewerInformation = new TableViewer(compositeInformation,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		TableViewerColumn tblclmnINformationColumn1 = new TableViewerColumn(viewerInformation, SWT.NONE);
 		tblclmnINformationColumn1.getColumn().setWidth(150);
@@ -167,7 +168,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		GridLayoutFactory.fillDefaults().applyTo(compositeSendingDataRules);
 		compositeSendingDataRules.setLayout(new GridLayout(1, false));
 
-		viewerSendingDataRules = new TableViewer(compositeSendingDataRules, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		viewerSendingDataRules = new TableViewer(compositeSendingDataRules,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		TableViewerColumn tblclmnSendingDataRulesColumn1 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
 		tblclmnSendingDataRulesColumn1.getColumn().setWidth(300);
@@ -369,8 +371,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Override
 	public void activate() {
-		super.activate();
-
 		conversionModuleAnalyzer.analyze(getModel());
 		conversionModule = conversionModuleAnalyzer.getConversionModule();
 
@@ -380,6 +380,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
 
 		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
+
+		super.activate();
 	}
 
 	private void hookListeners() {
@@ -389,8 +391,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
 						((Button) event.getSource()).getShell(), conversionModule);
 				if (conversionModuleDialog.open() == Window.OK) {
-					Map<Object, String> methods = conversionModuleDialog.getUpdatedMethods();
-					updateModule(methods);
 				}
 				;
 			}
@@ -417,8 +417,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					DataRuleDialog dataRuleDialog = new DataRuleDialog(event.getViewer().getControl().getShell(),
 							dataRule);
 					if (dataRuleDialog.open() == Window.OK) {
-						Map<Object, String> methods = dataRuleDialog.getUpdatedMethods();
-						updateModule(methods);
 					}
 					;
 				}
@@ -444,8 +442,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
 							algorithm);
 					if (algorithmDialog.open() == Window.OK) {
-						Map<Object, String> methods = algorithmDialog.getUpdatedMethods();
-						updateModule(methods);
 					}
 					;
 				}

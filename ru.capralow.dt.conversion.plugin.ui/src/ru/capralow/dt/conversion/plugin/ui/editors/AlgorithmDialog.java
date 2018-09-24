@@ -1,8 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -85,13 +82,12 @@ public class AlgorithmDialog extends Dialog {
 
 		// Заполнение данными
 
-		algorithmsText = algorithm.getConversionModule().getAlgorithmsText(algorithm.getName());
+		algorithmsText = algorithm.getConversionModule().getAllAlgorithmsText(algorithm.getName());
 
-		String[] algorithmText = parseMethod(algorithm.getText());
-		txtAlgorithm.setText(algorithmText[0]);
-		getModelAccess().updateEditablePart(algorithm.getText());
-		getModelAccess().updateModel(algorithmText[0], algorithmText[1],
-				algorithmText[2] + System.lineSeparator() + algorithmsText);
+		txtAlgorithm.setText(algorithm.getPrefix());
+		getModelAccess().updateEditablePart(algorithm.getAlgorithmText());
+		getModelAccess().updateModel(algorithm.getPrefix(), algorithm.getBody(),
+				algorithm.getSuffix() + System.lineSeparator() + algorithmsText);
 
 		return container;
 	}
@@ -122,34 +118,11 @@ public class AlgorithmDialog extends Dialog {
 		return modelAccess;
 	}
 
-	private String[] parseMethod(String method) {
-		String[] result = new String[3];
+	@Override
+	protected void okPressed() {
+		algorithm.setBody(getModelAccess().getEditablePart());
 
-		result[0] = "";
-		result[1] = "";
-		result[2] = "";
-
-		String[] methodArray = method.split(System.lineSeparator());
-
-		if (methodArray.length < 3)
-			return result;
-
-		result[0] = methodArray[0];
-		result[2] = methodArray[methodArray.length - 1];
-		result[1] = method.substring(result[0].length() + System.lineSeparator().length(),
-				method.length() - result[2].length() - System.lineSeparator().length());
-
-		return result;
-
-	}
-
-	public Map<Object, String> getUpdatedMethods() {
-		Map<Object, String> result = new HashMap<Object, String>();
-
-		result.put(algorithm.getMethod(),
-				editor.getDocument().get().substring(0, editor.getDocument().get().indexOf(algorithmsText)));
-
-		return result;
+		super.okPressed();
 	}
 
 }

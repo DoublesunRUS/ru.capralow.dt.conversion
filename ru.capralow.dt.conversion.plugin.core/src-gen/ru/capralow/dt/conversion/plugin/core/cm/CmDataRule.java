@@ -25,9 +25,11 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant <em>Selection Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEvent <em>On Processing Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventMethod <em>On Processing Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventPrefix <em>On Processing Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventSuffix <em>On Processing Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEvent <em>Data Selection Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventMethod <em>Data Selection Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventPrefix <em>Data Selection Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventSuffix <em>Data Selection Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
  *
@@ -308,30 +310,47 @@ public interface CmDataRule extends EObject {
 	void setOnProcessingEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>On Processing Event Method</b></em>' attribute.
+	 * Returns the value of the '<em><b>On Processing Event Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>On Processing Event Method</em>' attribute isn't clear,
+	 * If the meaning of the '<em>On Processing Event Prefix</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>On Processing Event Method</em>' attribute.
-	 * @see #setOnProcessingEventMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_OnProcessingEventMethod()
-	 * @model unique="false"
+	 * @return the value of the '<em>On Processing Event Prefix</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_OnProcessingEventPrefix()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041E\\u0431\\u0440\\u0430\\u0431\\u043E\\u0442\\u043A\\u0435(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u0418\\u0441\\u043F\\u043E\\u043B\\u044C\\u0437\\u043E\\u0432\\u0430\\u043D\\u0438\\u0435\\u041F\\u041A\\u041E, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
 	 * @generated
 	 */
-	Object getOnProcessingEventMethod();
+	String getOnProcessingEventPrefix();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventMethod <em>On Processing Event Method</em>}' attribute.
+	 * Returns the value of the '<em><b>On Processing Event Suffix</b></em>' attribute.
+	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b"</code>.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>On Processing Event Suffix</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>On Processing Event Method</em>' attribute.
-	 * @see #getOnProcessingEventMethod()
+	 * @return the value of the '<em>On Processing Event Suffix</em>' attribute.
+	 * @see #setOnProcessingEventSuffix(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_OnProcessingEventSuffix()
+	 * @model default="\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b" unique="false"
 	 * @generated
 	 */
-	void setOnProcessingEventMethod(Object value);
+	String getOnProcessingEventSuffix();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventSuffix <em>On Processing Event Suffix</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>On Processing Event Suffix</em>' attribute.
+	 * @see #getOnProcessingEventSuffix()
+	 * @generated
+	 */
+	void setOnProcessingEventSuffix(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Data Selection Event</b></em>' attribute.
@@ -361,30 +380,47 @@ public interface CmDataRule extends EObject {
 	void setDataSelectionEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Data Selection Event Method</b></em>' attribute.
+	 * Returns the value of the '<em><b>Data Selection Event Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Data Selection Event Method</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Data Selection Event Prefix</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Data Selection Event Method</em>' attribute.
-	 * @see #setDataSelectionEventMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_DataSelectionEventMethod()
-	 * @model unique="false"
+	 * @return the value of the '<em>Data Selection Event Prefix</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_DataSelectionEventPrefix()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u0424\\u0443\\u043D\\u043A\\u0446\\u0438\\u044F \\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u0412\\u044B\\u0431\\u043E\\u0440\\u043A\\u0430\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
 	 * @generated
 	 */
-	Object getDataSelectionEventMethod();
+	String getDataSelectionEventPrefix();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventMethod <em>Data Selection Event Method</em>}' attribute.
+	 * Returns the value of the '<em><b>Data Selection Event Suffix</b></em>' attribute.
+	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u0424\u0443\u043d\u043a\u0446\u0438\u0438"</code>.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Data Selection Event Suffix</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Data Selection Event Method</em>' attribute.
-	 * @see #getDataSelectionEventMethod()
+	 * @return the value of the '<em>Data Selection Event Suffix</em>' attribute.
+	 * @see #setDataSelectionEventSuffix(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_DataSelectionEventSuffix()
+	 * @model default="\u041a\u043e\u043d\u0435\u0446\u0424\u0443\u043d\u043a\u0446\u0438\u0438" unique="false"
 	 * @generated
 	 */
-	void setDataSelectionEventMethod(Object value);
+	String getDataSelectionEventSuffix();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventSuffix <em>Data Selection Event Suffix</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Data Selection Event Suffix</em>' attribute.
+	 * @see #getDataSelectionEventSuffix()
+	 * @generated
+	 */
+	void setDataSelectionEventSuffix(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Object Rules</b></em>' reference list.
@@ -401,5 +437,23 @@ public interface CmDataRule extends EObject {
 	 * @generated
 	 */
 	EList<CmObjectRule> getObjectRules();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _onProcessingEventPrefix = this.getOnProcessingEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_onProcessingEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _onProcessingEvent = this.getOnProcessingEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _onProcessingEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _onProcessingEventSuffix = this.getOnProcessingEventSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _onProcessingEventSuffix);\nreturn result;'"
+	 * @generated
+	 */
+	String getOnProcessingEventText();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _dataSelectionEventPrefix = this.getDataSelectionEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_dataSelectionEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _dataSelectionEvent = this.getDataSelectionEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _dataSelectionEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _dataSelectionEventSuffix = this.getDataSelectionEventSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _dataSelectionEventSuffix);\nreturn result;'"
+	 * @generated
+	 */
+	String getDataSelectionEventText();
 
 } // CmDataRule

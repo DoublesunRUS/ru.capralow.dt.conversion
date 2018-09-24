@@ -2,8 +2,6 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cp.impl;
 
-import com._1c.g5.v8.dt.bsl.model.Module;
-
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -97,8 +95,8 @@ public class CpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Module getModule() {
-		return (Module)eGet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, true);
+	public com._1c.g5.v8.dt.bsl.model.Module getModule() {
+		return (com._1c.g5.v8.dt.bsl.model.Module)eGet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, true);
 	}
 
 	/**
@@ -106,7 +104,7 @@ public class CpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setModule(Module newModule) {
+	public void setModule(com._1c.g5.v8.dt.bsl.model.Module newModule) {
 		eSet(CpPackage.Literals.CP_FORMAT_VERSION__MODULE, newModule);
 	}
 

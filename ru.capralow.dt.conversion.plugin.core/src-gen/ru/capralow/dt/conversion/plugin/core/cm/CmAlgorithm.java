@@ -15,11 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getConversionModule <em>Conversion Module</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getName <em>Name</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethod <em>Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethodType <em>Method Type</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getParams <em>Params</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getText <em>Text</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getIsExport <em>Is Export</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getBody <em>Body</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getSuffix <em>Suffix</em>}</li>
  * </ul>
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAlgorithm()
@@ -83,32 +84,6 @@ public interface CmAlgorithm extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Method</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Method</em>' attribute.
-	 * @see #setMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAlgorithm_Method()
-	 * @model unique="false"
-	 * @generated
-	 */
-	Object getMethod();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getMethod <em>Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Method</em>' attribute.
-	 * @see #getMethod()
-	 * @generated
-	 */
-	void setMethod(Object value);
-
-	/**
 	 * Returns the value of the '<em><b>Method Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link ru.capralow.dt.conversion.plugin.core.cm.CmMethodType}.
 	 * <!-- begin-user-doc -->
@@ -165,33 +140,6 @@ public interface CmAlgorithm extends EObject {
 	void setParams(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Text</b></em>' attribute.
-	 * The default value is <code>""</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Text</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Text</em>' attribute.
-	 * @see #setText(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAlgorithm_Text()
-	 * @model default="" unique="false"
-	 * @generated
-	 */
-	String getText();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getText <em>Text</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Text</em>' attribute.
-	 * @see #getText()
-	 * @generated
-	 */
-	void setText(String value);
-
-	/**
 	 * Returns the value of the '<em><b>Is Export</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
@@ -217,5 +165,73 @@ public interface CmAlgorithm extends EObject {
 	 * @generated
 	 */
 	void setIsExport(Boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Body</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Body</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Body</em>' attribute.
+	 * @see #setBody(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAlgorithm_Body()
+	 * @model default="" unique="false"
+	 * @generated
+	 */
+	String getBody();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm#getBody <em>Body</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Body</em>' attribute.
+	 * @see #getBody()
+	 * @generated
+	 */
+	void setBody(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Prefix</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Prefix</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Prefix</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAlgorithm_Prefix()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='&lt;%java.lang.String%&gt; prefix = \"\";\n&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmMethodType%&gt; _methodType = this.getMethodType();\nboolean _equals = &lt;%com.google.common.base.Objects%&gt;.equal(_methodType, &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmMethodType%&gt;.PROCEDURE);\nif (_equals)\n{\n\tprefix = \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430\";\n}\nelse\n{\n\tprefix = \"\\u0424\\u0443\\u043D\\u043A\\u0446\\u0438\\u044F\";\n}\n&lt;%java.lang.String%&gt; export = \"\";\n&lt;%java.lang.Boolean%&gt; _isExport = this.getIsExport();\nif ((_isExport).booleanValue())\n{\n\texport = \" \\u042D\\u043A\\u0441\\u043F\\u043E\\u0440\\u0442\";\n}\n&lt;%java.lang.String%&gt; _name = this.getName();\n&lt;%java.lang.String%&gt; _plus = ((prefix + \" \") + _name);\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + \"(\");\n&lt;%java.lang.String%&gt; _params = this.getParams();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _params);\n&lt;%java.lang.String%&gt; _plus_3 = (_plus_2 + \")\");\nreturn (_plus_3 + export);'"
+	 * @generated
+	 */
+	String getPrefix();
+
+	/**
+	 * Returns the value of the '<em><b>Suffix</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Suffix</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Suffix</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmAlgorithm_Suffix()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='&lt;%java.lang.String%&gt; result = \"\";\n&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmMethodType%&gt; _methodType = this.getMethodType();\nboolean _equals = &lt;%com.google.common.base.Objects%&gt;.equal(_methodType, &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmMethodType%&gt;.PROCEDURE);\nif (_equals)\n{\n\tresult = \"\\u041A\\u043E\\u043D\\u0435\\u0446\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u044B\";\n}\nelse\n{\n\tresult = \"\\u041A\\u043E\\u043D\\u0435\\u0446\\u0424\\u0443\\u043D\\u043A\\u0446\\u0438\\u0438\";\n}\nreturn result;'"
+	 * @generated
+	 */
+	String getSuffix();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _prefix = this.getPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_prefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _body = this.getBody();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _body);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _suffix = this.getSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _suffix);\nreturn result;'"
+	 * @generated
+	 */
+	String getAlgorithmText();
 
 } // CmAlgorithm

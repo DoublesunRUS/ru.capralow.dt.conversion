@@ -2,6 +2,12 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
+import com.google.common.base.Objects;
+
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -21,11 +27,12 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getConversionModule <em>Conversion Module</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getName <em>Name</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getMethod <em>Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getMethodType <em>Method Type</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getParams <em>Params</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getText <em>Text</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getIsExport <em>Is Export</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getBody <em>Body</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl#getSuffix <em>Suffix</em>}</li>
  * </ul>
  *
  * @generated
@@ -101,24 +108,6 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getMethod() {
-		return (Object)eGet(CmPackage.Literals.CM_ALGORITHM__METHOD, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMethod(Object newMethod) {
-		eSet(CmPackage.Literals.CM_ALGORITHM__METHOD, newMethod);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public CmMethodType getMethodType() {
 		return (CmMethodType)eGet(CmPackage.Literals.CM_ALGORITHM__METHOD_TYPE, true);
 	}
@@ -155,24 +144,6 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getText() {
-		return (String)eGet(CmPackage.Literals.CM_ALGORITHM__TEXT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setText(String newText) {
-		eSet(CmPackage.Literals.CM_ALGORITHM__TEXT, newText);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Boolean getIsExport() {
 		return (Boolean)eGet(CmPackage.Literals.CM_ALGORITHM__IS_EXPORT, true);
 	}
@@ -184,6 +155,103 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 */
 	public void setIsExport(Boolean newIsExport) {
 		eSet(CmPackage.Literals.CM_ALGORITHM__IS_EXPORT, newIsExport);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBody() {
+		return (String)eGet(CmPackage.Literals.CM_ALGORITHM__BODY, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBody(String newBody) {
+		eSet(CmPackage.Literals.CM_ALGORITHM__BODY, newBody);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getPrefix() {
+		String prefix = "";
+		CmMethodType _methodType = this.getMethodType();
+		boolean _equals = Objects.equal(_methodType, CmMethodType.PROCEDURE);
+		if (_equals) {
+			prefix = "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430";
+		}
+		else {
+			prefix = "\u0424\u0443\u043D\u043A\u0446\u0438\u044F";
+		}
+		String export = "";
+		Boolean _isExport = this.getIsExport();
+		if ((_isExport).booleanValue()) {
+			export = " \u042D\u043A\u0441\u043F\u043E\u0440\u0442";
+		}
+		String _name = this.getName();
+		String _plus = ((prefix + " ") + _name);
+		String _plus_1 = (_plus + "(");
+		String _params = this.getParams();
+		String _plus_2 = (_plus_1 + _params);
+		String _plus_3 = (_plus_2 + ")");
+		return (_plus_3 + export);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getSuffix() {
+		String result = "";
+		CmMethodType _methodType = this.getMethodType();
+		boolean _equals = Objects.equal(_methodType, CmMethodType.PROCEDURE);
+		if (_equals) {
+			result = "\u041A\u043E\u043D\u0435\u0446\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B";
+		}
+		else {
+			result = "\u041A\u043E\u043D\u0435\u0446\u0424\u0443\u043D\u043A\u0446\u0438\u0438";
+		}
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAlgorithmText() {
+		String _prefix = this.getPrefix();
+		String _lineSeparator = System.lineSeparator();
+		String _plus = (_prefix + _lineSeparator);
+		String _body = this.getBody();
+		String _plus_1 = (_plus + _body);
+		String _lineSeparator_1 = System.lineSeparator();
+		String _plus_2 = (_plus_1 + _lineSeparator_1);
+		String _suffix = this.getSuffix();
+		String result = (_plus_2 + _suffix);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case CmPackage.CM_ALGORITHM___GET_ALGORITHM_TEXT:
+				return getAlgorithmText();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //CmAlgorithmImpl

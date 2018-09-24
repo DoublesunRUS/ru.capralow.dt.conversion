@@ -23,14 +23,15 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForReceiving <em>For Receiving</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsForGroup <em>Is For Group</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEvent <em>Before Sending Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEventMethod <em>Before Sending Event Method</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEvent <em>On Sending Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventMethod <em>On Sending Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventPrefix <em>On Sending Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventSuffix <em>On Sending Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEvent <em>Before Receiving Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventMethod <em>Before Receiving Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventPrefix <em>Before Receiving Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventSuffix <em>Before Receiving Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEvent <em>On Receiving Event</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventMethod <em>On Receiving Event Method</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventPrefix <em>On Receiving Event Prefix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventSuffix <em>On Receiving Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}</li>
  * </ul>
@@ -257,59 +258,6 @@ public interface CmObjectRule extends EObject {
 	void setIdentificationVariant(CmIdentificationVariant value);
 
 	/**
-	 * Returns the value of the '<em><b>Before Sending Event</b></em>' attribute.
-	 * The default value is <code>""</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Sending Event</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Sending Event</em>' attribute.
-	 * @see #setBeforeSendingEvent(String)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeSendingEvent()
-	 * @model default="" unique="false"
-	 * @generated
-	 */
-	String getBeforeSendingEvent();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEvent <em>Before Sending Event</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Sending Event</em>' attribute.
-	 * @see #getBeforeSendingEvent()
-	 * @generated
-	 */
-	void setBeforeSendingEvent(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Before Sending Event Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Sending Event Method</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Sending Event Method</em>' attribute.
-	 * @see #setBeforeSendingEventMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeSendingEventMethod()
-	 * @model unique="false"
-	 * @generated
-	 */
-	Object getBeforeSendingEventMethod();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeSendingEventMethod <em>Before Sending Event Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Sending Event Method</em>' attribute.
-	 * @see #getBeforeSendingEventMethod()
-	 * @generated
-	 */
-	void setBeforeSendingEventMethod(Object value);
-
-	/**
 	 * Returns the value of the '<em><b>On Sending Event</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
@@ -337,30 +285,47 @@ public interface CmObjectRule extends EObject {
 	void setOnSendingEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>On Sending Event Method</b></em>' attribute.
+	 * Returns the value of the '<em><b>On Sending Event Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>On Sending Event Method</em>' attribute isn't clear,
+	 * If the meaning of the '<em>On Sending Event Prefix</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>On Sending Event Method</em>' attribute.
-	 * @see #setOnSendingEventMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnSendingEventMethod()
-	 * @model unique="false"
+	 * @return the value of the '<em>On Sending Event Prefix</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnSendingEventPrefix()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041E\\u0442\\u043F\\u0440\\u0430\\u0432\\u043A\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u0414\\u0430\\u043D\\u043D\\u044B\\u0435XDTO, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430, \\u0421\\u0442\\u0435\\u043A\\u0412\\u044B\\u0433\\u0440\\u0443\\u0437\\u043A\\u0438)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
 	 * @generated
 	 */
-	Object getOnSendingEventMethod();
+	String getOnSendingEventPrefix();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventMethod <em>On Sending Event Method</em>}' attribute.
+	 * Returns the value of the '<em><b>On Sending Event Suffix</b></em>' attribute.
+	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b"</code>.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>On Sending Event Suffix</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>On Sending Event Method</em>' attribute.
-	 * @see #getOnSendingEventMethod()
+	 * @return the value of the '<em>On Sending Event Suffix</em>' attribute.
+	 * @see #setOnSendingEventSuffix(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnSendingEventSuffix()
+	 * @model default="\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b" unique="false"
 	 * @generated
 	 */
-	void setOnSendingEventMethod(Object value);
+	String getOnSendingEventSuffix();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventSuffix <em>On Sending Event Suffix</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>On Sending Event Suffix</em>' attribute.
+	 * @see #getOnSendingEventSuffix()
+	 * @generated
+	 */
+	void setOnSendingEventSuffix(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Before Receiving Event</b></em>' attribute.
@@ -390,30 +355,47 @@ public interface CmObjectRule extends EObject {
 	void setBeforeReceivingEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Before Receiving Event Method</b></em>' attribute.
+	 * Returns the value of the '<em><b>Before Receiving Event Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Before Receiving Event Method</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Before Receiving Event Prefix</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Before Receiving Event Method</em>' attribute.
-	 * @see #setBeforeReceivingEventMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeReceivingEventMethod()
-	 * @model unique="false"
+	 * @return the value of the '<em>Before Receiving Event Prefix</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeReceivingEventPrefix()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041A\\u043E\\u043D\\u0432\\u0435\\u0440\\u0442\\u0430\\u0446\\u0438\\u0438\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445XDTO(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435XDTO, \\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
 	 * @generated
 	 */
-	Object getBeforeReceivingEventMethod();
+	String getBeforeReceivingEventPrefix();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventMethod <em>Before Receiving Event Method</em>}' attribute.
+	 * Returns the value of the '<em><b>Before Receiving Event Suffix</b></em>' attribute.
+	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b"</code>.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Before Receiving Event Suffix</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Before Receiving Event Method</em>' attribute.
-	 * @see #getBeforeReceivingEventMethod()
+	 * @return the value of the '<em>Before Receiving Event Suffix</em>' attribute.
+	 * @see #setBeforeReceivingEventSuffix(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeReceivingEventSuffix()
+	 * @model default="\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b" unique="false"
 	 * @generated
 	 */
-	void setBeforeReceivingEventMethod(Object value);
+	String getBeforeReceivingEventSuffix();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getBeforeReceivingEventSuffix <em>Before Receiving Event Suffix</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Before Receiving Event Suffix</em>' attribute.
+	 * @see #getBeforeReceivingEventSuffix()
+	 * @generated
+	 */
+	void setBeforeReceivingEventSuffix(String value);
 
 	/**
 	 * Returns the value of the '<em><b>On Receiving Event</b></em>' attribute.
@@ -443,30 +425,47 @@ public interface CmObjectRule extends EObject {
 	void setOnReceivingEvent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>On Receiving Event Method</b></em>' attribute.
+	 * Returns the value of the '<em><b>On Receiving Event Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>On Receiving Event Method</em>' attribute isn't clear,
+	 * If the meaning of the '<em>On Receiving Event Prefix</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>On Receiving Event Method</em>' attribute.
-	 * @see #setOnReceivingEventMethod(Object)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnReceivingEventMethod()
-	 * @model unique="false"
+	 * @return the value of the '<em>On Receiving Event Prefix</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnReceivingEventPrefix()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0435\\u0440\\u0435\\u0434\\u0417\\u0430\\u043F\\u0438\\u0441\\u044C\\u044E\\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0445\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435, \\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u041A\\u043E\\u043D\\u0432\\u0435\\u0440\\u0442\\u0430\\u0446\\u0438\\u044F\\u0421\\u0432\\u043E\\u0439\\u0441\\u0442\\u0432, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
 	 * @generated
 	 */
-	Object getOnReceivingEventMethod();
+	String getOnReceivingEventPrefix();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventMethod <em>On Receiving Event Method</em>}' attribute.
+	 * Returns the value of the '<em><b>On Receiving Event Suffix</b></em>' attribute.
+	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b"</code>.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>On Receiving Event Suffix</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>On Receiving Event Method</em>' attribute.
-	 * @see #getOnReceivingEventMethod()
+	 * @return the value of the '<em>On Receiving Event Suffix</em>' attribute.
+	 * @see #setOnReceivingEventSuffix(String)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnReceivingEventSuffix()
+	 * @model default="\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b" unique="false"
 	 * @generated
 	 */
-	void setOnReceivingEventMethod(Object value);
+	String getOnReceivingEventSuffix();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventSuffix <em>On Receiving Event Suffix</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>On Receiving Event Suffix</em>' attribute.
+	 * @see #getOnReceivingEventSuffix()
+	 * @generated
+	 */
+	void setOnReceivingEventSuffix(String value);
 
 	/**
 	 * Returns the value of the '<em><b>After Receiving Algorithm</b></em>' reference.
@@ -509,5 +508,32 @@ public interface CmObjectRule extends EObject {
 	 * @generated
 	 */
 	EList<CmAttributeRule> getAttributeRules();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _onSendingEventPrefix = this.getOnSendingEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_onSendingEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _onSendingEvent = this.getOnSendingEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _onSendingEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _onSendingEventSuffix = this.getOnSendingEventSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _onSendingEventSuffix);\nreturn result;'"
+	 * @generated
+	 */
+	String getOnSendingEventText();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _beforeReceivingEventPrefix = this.getBeforeReceivingEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_beforeReceivingEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _beforeReceivingEvent = this.getBeforeReceivingEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _beforeReceivingEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _beforeReceivingEventSuffix = this.getBeforeReceivingEventSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _beforeReceivingEventSuffix);\nreturn result;'"
+	 * @generated
+	 */
+	String getBeforeReceivingEventText();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _onReceivingEventPrefix = this.getOnReceivingEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_onReceivingEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _onReceivingEvent = this.getOnReceivingEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _onReceivingEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _onReceivingEventSuffix = this.getOnReceivingEventSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _onReceivingEventSuffix);\nreturn result;'"
+	 * @generated
+	 */
+	String getOnReceivingEventText();
 
 } // CmObjectRule

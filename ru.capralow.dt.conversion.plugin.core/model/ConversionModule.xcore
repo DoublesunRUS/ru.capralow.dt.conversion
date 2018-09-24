@@ -10,19 +10,41 @@ class ConversionModule {
 	String params
 	
 	String beforeConvertationEvent = ""
-	Object beforeConvertationEventMethod
-	String beforeFillingEvent = ""
-	Object beforeFillingEventMethod
+	String beforeConvertationEventPrefix = "Процедура ПередКонвертацией(КомпонентыОбмена) Экспорт"
+	String beforeConvertationEventSuffix = "КонецПроцедуры"
+	op String getBeforeConvertationEventText() {
+		var result = beforeConvertationEventPrefix + System.lineSeparator() + beforeConvertationEvent +
+			System.lineSeparator() + beforeConvertationEventSuffix;
+		return result;
+	}
+	
 	String afterConvertationEvent = ""
-	Object afterConvertationEventMethod
+	String afterConvertationEventPrefix = "Процедура ПередОтложеннымЗаполнением(КомпонентыОбмена) Экспорт"
+	String afterConvertationEventSuffix = "КонецПроцедуры"
+	op String getAfterConvertationEventText() {
+		var result = afterConvertationEventPrefix + System.lineSeparator() + afterConvertationEvent +
+			System.lineSeparator() + afterConvertationEventSuffix;
+		return result;
+	}
+	
+	String beforeFillingEvent = ""
+	String beforeFillingEventPrefix = "Процедура ПослеКонвертации(КомпонентыОбмена) Экспорт"
+	String beforeFillingEventSuffix = "КонецПроцедуры"
+	op String getBeforeFillingEventText() {
+		var result = beforeFillingEventPrefix + System.lineSeparator() + beforeFillingEvent + System.lineSeparator() +
+			beforeFillingEventSuffix;
+		return result;
+	}
 	
 	contains CmDataRule[] dataRules opposite conversionModule
+	
 	op CmDataRule getDataRule(String ruleName) {
 		for (CmDataRule dataRule : dataRules) {
 			if (ruleName == dataRule.getName) return dataRule
 		}
 		return null;
 	}
+	
 	op Object[] getSendingDataRules() {
 		val result = newBasicEList()
 
@@ -32,6 +54,7 @@ class ConversionModule {
 		}
 		return result
 	}
+
 	op Object[] getReceivingDataRules() {
 		val result = newBasicEList()
 
@@ -41,7 +64,7 @@ class ConversionModule {
 		}
 		return result
 	}
-	
+
 	contains CmObjectRule[] objectRules
 	op CmObjectRule getObjectRule(String ruleName) {
 		for (CmObjectRule objectRule : objectRules) {
@@ -49,9 +72,9 @@ class ConversionModule {
 		}
 		return null;
 	}
-	
+
 	contains CmPredefined[] predefineds
-	
+
 	contains CmAlgorithm[] algorithms opposite conversionModule
 	op CmAlgorithm getAlgorithm(String algorithmName) {
 		for (CmAlgorithm algorithm : algorithms) {
@@ -59,15 +82,16 @@ class ConversionModule {
 		}
 		return null;
 	}
-	op String getAlgorithmsText(String algorithmName) {
+
+	op String getAllAlgorithmsText(String algorithmName) {
 		var result = ""
-		
+
 		for (CmAlgorithm algorithm : algorithms) {
 			if (algorithmName != algorithm.getName)
-				result += algorithm.getText() + System.lineSeparator();
-			
+				result += algorithm.getAlgorithmText() + System.lineSeparator();
+
 		}
-		
+
 		return result;
 	}
 }
@@ -78,19 +102,42 @@ class CmDataRule {
 	String name = ""
 	
 	Boolean isDisabled = "false"
-
+	
 	Object configurationObject
 	Object formatObject
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
+	
 	Boolean isDataCleaning = "false"
+	
 	CmSelectionVariant selectionVariant
 	
 	String onProcessingEvent = ""
-	Object onProcessingEventMethod
+	derived String onProcessingEventPrefix get {
+		return "Процедура ПОД_|||ИМЯ|||_ПриОбработке(ДанныеИБ, ИспользованиеПКО, КомпонентыОбмена)"
+			.replace("|||ИМЯ|||", name);
+	}
+	String onProcessingEventSuffix = "КонецПроцедуры"
+	op String getOnProcessingEventText() {
+		var result = onProcessingEventPrefix + System.lineSeparator() +
+			onProcessingEvent +
+			System.lineSeparator() + onProcessingEventSuffix;
+		return result;
+	}
+	
 	String dataSelectionEvent = ""
-	Object dataSelectionEventMethod
+	derived String dataSelectionEventPrefix get {
+		return "Функция ПОД_|||ИМЯ|||_ВыборкаДанных(КомпонентыОбмена)"
+			.replace("|||ИМЯ|||", name);
+	}
+	String dataSelectionEventSuffix = "КонецФункции"
+	op String getDataSelectionEventText() {
+		var result = dataSelectionEventPrefix + System.lineSeparator() +
+			dataSelectionEvent +
+			System.lineSeparator() + dataSelectionEventSuffix;
+		return result;
+	}
 	
 	refers CmObjectRule[] objectRules
 }
@@ -102,25 +149,55 @@ enum CmSelectionVariant {
 
 class CmObjectRule {
 	String name = ""
-
+	
 	Boolean isDisabled = "false"
-
+	
 	Object configurationObject
 	Object formatObject
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
+	
 	Boolean isForGroup = "false"
+	
 	CmIdentificationVariant identificationVariant
 	
-	String beforeSendingEvent = ""
-	Object beforeSendingEventMethod
 	String onSendingEvent = ""
-	Object onSendingEventMethod
+	derived String onSendingEventPrefix get {
+		return "Процедура ПКО_|||ИМЯ|||_ПриОтправкеДанных(ДанныеИБ, ДанныеXDTO, КомпонентыОбмена, СтекВыгрузки)"
+			.replace("|||ИМЯ|||", name);
+	}
+	String onSendingEventSuffix = "КонецПроцедуры"
+	op String getOnSendingEventText() {
+		var result = onSendingEventPrefix + System.lineSeparator() + onSendingEvent +
+			System.lineSeparator() + onSendingEventSuffix;
+		return result;
+	}
+	
 	String beforeReceivingEvent = ""
-	Object beforeReceivingEventMethod
+	derived String beforeReceivingEventPrefix get {
+		return "Процедура ПКО_|||ИМЯ|||_ПриКонвертацииДанныхXDTO(ДанныеXDTO, ПолученныеДанные, КомпонентыОбмена)"
+			.replace("|||ИМЯ|||", name);
+	}
+	String beforeReceivingEventSuffix = "КонецПроцедуры"
+	op String getBeforeReceivingEventText() {
+		var result = beforeReceivingEventPrefix + System.lineSeparator() + beforeReceivingEvent +
+			System.lineSeparator() + beforeReceivingEventSuffix;
+		return result;
+	}
+	
 	String onReceivingEvent = ""
-	Object onReceivingEventMethod
+	derived String onReceivingEventPrefix get {
+		return "Процедура ПКО_|||ИМЯ|||_ПередЗаписьюПолученныхДанных(ПолученныеДанные, ДанныеИБ, КонвертацияСвойств, КомпонентыОбмена)"
+			.replace("|||ИМЯ|||", name);
+	}
+	String onReceivingEventSuffix = "КонецПроцедуры"
+	op String getOnReceivingEventText() {
+		var result = onReceivingEventPrefix + System.lineSeparator() + onReceivingEvent +
+			System.lineSeparator() + onReceivingEventSuffix;
+		return result;
+	}
+
 	refers CmAlgorithm afterReceivingAlgorithm
 
 	contains CmAttributeRule[] attributeRules
@@ -146,10 +223,10 @@ class CmAttributeRule {
 
 class CmPredefined {
 	String name = ""
-
+	
 	Object configurationObject
 	Object formatObject
-
+	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
 }
@@ -158,12 +235,44 @@ class CmAlgorithm {
 	container ConversionModule conversionModule opposite algorithms
 	
 	String name = ""
-	Object method
-
+	
 	CmMethodType methodType
 	String params = ""
-	String text = ""
 	Boolean isExport = "false"
+	String body = ""
+	derived String prefix get {
+		var prefix = "";
+		
+		if (methodType == CmMethodType.PROCEDURE) {
+			prefix = "Процедура";
+		}
+		else {
+			prefix = "Функция";
+		}
+		
+		var export = "";
+		if (isExport)
+			export = " Экспорт";
+		
+		return prefix + " " + name + "(" + params + ")" + export;
+	}
+	derived String suffix get {
+		var result = "";
+		
+		if (methodType == CmMethodType.PROCEDURE) {
+			result = "КонецПроцедуры";
+		}
+		else {
+			result = "КонецФункции";
+		}
+		
+		return result;
+	}
+	op String getAlgorithmText() {
+		var result = prefix + System.lineSeparator() + body + System.lineSeparator() + suffix;
+		
+		return result;
+	}
 }
 
 enum CmMethodType {
