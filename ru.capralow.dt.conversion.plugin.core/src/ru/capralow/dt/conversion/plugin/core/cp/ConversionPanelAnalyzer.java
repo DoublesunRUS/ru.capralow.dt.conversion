@@ -47,6 +47,7 @@ import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
+import com._1c.g5.v8.dt.core.platform.IExternalObjectProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
@@ -54,7 +55,6 @@ import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.CpConfigurationImpl;
 import ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl;
@@ -180,6 +180,9 @@ public class ConversionPanelAnalyzer {
 	}
 
 	private void updateConfiguration(IProject project) {
+
+		if (projectManager.getProject(project) instanceof IExternalObjectProject)
+			return;
 
 		if (projectManager.getProject(project) instanceof IExtensionProject) {
 			project = ((IExtensionProject) projectManager.getProject(project)).getParentProject();

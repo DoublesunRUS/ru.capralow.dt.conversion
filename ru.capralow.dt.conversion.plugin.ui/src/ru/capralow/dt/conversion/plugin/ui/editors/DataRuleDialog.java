@@ -264,7 +264,8 @@ public class DataRuleDialog extends Dialog {
 		tltmSelectionVariant1.setSelection(selectionVariant == CmSelectionVariant.STANDART);
 		tltmSelectionVariant2.setSelection(selectionVariant == CmSelectionVariant.CUSTOM);
 
-		txtConfigurationObjectName.setText(dataRule.getConfigurationObject().toString());
+		if (dataRule.getConfigurationObject() != null)
+			txtConfigurationObjectName.setText(dataRule.getConfigurationObject().toString());
 
 		EList<CmObjectRule> objectRules = dataRule.getObjectRules();
 
