@@ -137,7 +137,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		new Label(compositeInformation, SWT.NONE);
 
 		// 3.1-2
-		TableViewer viewerInformation = new TableViewer(compositeInformation, SWT.FULL_SELECTION | SWT.BORDER);
+		TableViewer viewerInformation = new TableViewer(compositeInformation, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		TableViewerColumn tblclmnINformationColumn1 = new TableViewerColumn(viewerInformation, SWT.NONE);
 		tblclmnINformationColumn1.getColumn().setWidth(150);
@@ -167,10 +167,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		GridLayoutFactory.fillDefaults().applyTo(compositeSendingDataRules);
 		compositeSendingDataRules.setLayout(new GridLayout(1, false));
 
-		viewerSendingDataRules = new TableViewer(compositeSendingDataRules, SWT.FULL_SELECTION | SWT.BORDER);
+		viewerSendingDataRules = new TableViewer(compositeSendingDataRules, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		TableViewerColumn tblclmnSendingDataRulesColumn1 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
-		tblclmnSendingDataRulesColumn1.getColumn().setWidth(350);
+		tblclmnSendingDataRulesColumn1.getColumn().setWidth(300);
 		tblclmnSendingDataRulesColumn1.getColumn().setText("Наименование");
 		tblclmnSendingDataRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -179,7 +179,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnSendingDataRulesColumn2 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
-		tblclmnSendingDataRulesColumn2.getColumn().setWidth(450);
+		tblclmnSendingDataRulesColumn2.getColumn().setWidth(300);
 		tblclmnSendingDataRulesColumn2.getColumn().setText("Объект конфигурации");
 		tblclmnSendingDataRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -294,7 +294,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		GridLayoutFactory.fillDefaults().applyTo(compositeAlgorithms);
 		compositeAlgorithms.setLayout(new GridLayout(1, false));
 
-		viewerAlgorithms = new TableViewer(compositeAlgorithms, SWT.FULL_SELECTION | SWT.BORDER);
+		viewerAlgorithms = new TableViewer(compositeAlgorithms, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		TableViewerColumn tblclmnAlgorithmsColumn1 = new TableViewerColumn(viewerAlgorithms, SWT.NONE);
 		tblclmnAlgorithmsColumn1.getColumn().setWidth(80);
@@ -315,7 +315,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnAlgorithmsColumn3 = new TableViewerColumn(viewerAlgorithms, SWT.NONE);
-		tblclmnAlgorithmsColumn3.getColumn().setWidth(500);
+		tblclmnAlgorithmsColumn3.getColumn().setWidth(300);
 		tblclmnAlgorithmsColumn3.getColumn().setText("Параметры");
 		tblclmnAlgorithmsColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
