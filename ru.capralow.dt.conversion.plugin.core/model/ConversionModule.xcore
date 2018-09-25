@@ -19,7 +19,7 @@ class ConversionModule {
 	}
 	
 	String afterConvertationEvent = ""
-	String afterConvertationEventPrefix = "Процедура ПередОтложеннымЗаполнением(КомпонентыОбмена) Экспорт"
+	String afterConvertationEventPrefix = "Процедура ПослеКонвертации(КомпонентыОбмена) Экспорт"
 	String afterConvertationEventSuffix = "КонецПроцедуры"
 	op String getAfterConvertationEventText() {
 		var result = afterConvertationEventPrefix + System.lineSeparator() + afterConvertationEvent +
@@ -28,7 +28,7 @@ class ConversionModule {
 	}
 	
 	String beforeFillingEvent = ""
-	String beforeFillingEventPrefix = "Процедура ПослеКонвертации(КомпонентыОбмена) Экспорт"
+	String beforeFillingEventPrefix = "Процедура ПередОтложеннымЗаполнением(КомпонентыОбмена) Экспорт"
 	String beforeFillingEventSuffix = "КонецПроцедуры"
 	op String getBeforeFillingEventText() {
 		var result = beforeFillingEventPrefix + System.lineSeparator() + beforeFillingEvent + System.lineSeparator() +
@@ -94,6 +94,93 @@ class ConversionModule {
 
 		return result;
 	}
+	
+	op String getModuleTextV2() {
+		var result = "";
+
+		result += "#Область ПроцедурыКонвертации";
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += getBeforeConvertationEventText();
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += getAfterConvertationEventText();
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += getBeforeFillingEventText();
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result +=
+"// Возвращает версию формата менеджера обмена.
+// Возвращаемое значение:
+//  Число - номер версии.
+Функция ВерсияФорматаМенеджераОбмена() Экспорт
+	Возврат &ВерсияФорматаМенеджераОбмена;
+КонецФункции".replace("&ВерсияФорматаМенеджераОбмена", storeVersion);
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += "#Область КонецОбласти";
+		result += System.lineSeparator() + System.lineSeparator();
+
+
+		result += "#Область ПОД";
+		result += System.lineSeparator() + System.lineSeparator();
+
+		var dataRulesDeclarationText = "";
+		dataRulesDeclarationText += "	Если НаправлениеОбмена = \"Отправка\" Тогда" + System.lineSeparator();
+		dataRulesDeclarationText += "		Если ПравилаОбработкиДанных.Колонки.Найти(\"ОчисткаДанных\") = Неопределено Тогда" + System.lineSeparator();
+		dataRulesDeclarationText += "			ПравилаОбработкиДанных.Колонки.Добавить(\"ОчисткаДанных\");" + System.lineSeparator();
+		dataRulesDeclarationText += "		КонецЕсли;" + System.lineSeparator();
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.forSending)
+		dataRulesDeclarationText += "		ДобавитьПОД_" + dataRule.name + "(ПравилаОбработкиДанных);" + System.lineSeparator();
+		}
+		dataRulesDeclarationText += "	ИначеЕсли НаправлениеОбмена = \"Получение\" Тогда" + System.lineSeparator();
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.forReceiving)
+		dataRulesDeclarationText += "		ДобавитьПОД_" + dataRule.name + "(ПравилаОбработкиДанных);" + System.lineSeparator();
+		}
+		dataRulesDeclarationText += "	КонецЕсли;" + System.lineSeparator();
+
+		result +=
+"// Заполняет таблицу правил обработки данных.
+//
+// Параметры:
+//  НаправлениеОбмена - строка (\"Отправка\" либо \"Получение\").
+//  ПравилаОбработкиДанных - таблица значений, в которую добавляются правила. 
+Процедура ЗаполнитьПравилаОбработкиДанных(НаправлениеОбмена, ПравилаОбработкиДанных) Экспорт
+&ТелоПроцедуры
+КонецПроцедуры".replace("&ТелоПроцедуры", dataRulesDeclarationText);
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += "#Область Отправка";
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += "#Область КонецОбласти";
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += "#Область Получение";
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += "#Область КонецОбласти";
+		result += System.lineSeparator() + System.lineSeparator();
+
+		result += "#Область КонецОбласти";
+		result += System.lineSeparator() + System.lineSeparator();
+
+		return result;
+		
+	}
+
+	op String getModuleText() {
+		if (storeVersion == "1") {
+			return getModuleTextV2();
+		}
+		else
+			return getModuleTextV2();
+		
+	}
+
 }
 
 class CmDataRule {

@@ -502,6 +502,179 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getModuleTextV2() {
+		String result = "";
+		String _result = result;
+		result = (_result + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u0438");
+		String _result_1 = result;
+		String _lineSeparator = System.lineSeparator();
+		String _lineSeparator_1 = System.lineSeparator();
+		String _plus = (_lineSeparator + _lineSeparator_1);
+		result = (_result_1 + _plus);
+		String _result_2 = result;
+		String _beforeConvertationEventText = this.getBeforeConvertationEventText();
+		result = (_result_2 + _beforeConvertationEventText);
+		String _result_3 = result;
+		String _lineSeparator_2 = System.lineSeparator();
+		String _lineSeparator_3 = System.lineSeparator();
+		String _plus_1 = (_lineSeparator_2 + _lineSeparator_3);
+		result = (_result_3 + _plus_1);
+		String _result_4 = result;
+		String _afterConvertationEventText = this.getAfterConvertationEventText();
+		result = (_result_4 + _afterConvertationEventText);
+		String _result_5 = result;
+		String _lineSeparator_4 = System.lineSeparator();
+		String _lineSeparator_5 = System.lineSeparator();
+		String _plus_2 = (_lineSeparator_4 + _lineSeparator_5);
+		result = (_result_5 + _plus_2);
+		String _result_6 = result;
+		String _beforeFillingEventText = this.getBeforeFillingEventText();
+		result = (_result_6 + _beforeFillingEventText);
+		String _result_7 = result;
+		String _lineSeparator_6 = System.lineSeparator();
+		String _lineSeparator_7 = System.lineSeparator();
+		String _plus_3 = (_lineSeparator_6 + _lineSeparator_7);
+		result = (_result_7 + _plus_3);
+		String _result_8 = result;
+		String _replace = "// \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0432\u0435\u0440\u0441\u0438\u044E \u0444\u043E\u0440\u043C\u0430\u0442\u0430 \u043C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430 \u043E\u0431\u043C\u0435\u043D\u0430.\r\n// \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u043C\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435:\r\n//  \u0427\u0438\u0441\u043B\u043E - \u043D\u043E\u043C\u0435\u0440 \u0432\u0435\u0440\u0441\u0438\u0438.\r\n\u0424\u0443\u043D\u043A\u0446\u0438\u044F \u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430() \u042D\u043A\u0441\u043F\u043E\u0440\u0442\r\n\t\u0412\u043E\u0437\u0432\u0440\u0430\u0442 &\u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430;\r\n\u041A\u043E\u043D\u0435\u0446\u0424\u0443\u043D\u043A\u0446\u0438\u0438".replace("&\u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430", this.getStoreVersion());
+		result = (_result_8 + _replace);
+		String _result_9 = result;
+		String _lineSeparator_8 = System.lineSeparator();
+		String _lineSeparator_9 = System.lineSeparator();
+		String _plus_4 = (_lineSeparator_8 + _lineSeparator_9);
+		result = (_result_9 + _plus_4);
+		String _result_10 = result;
+		result = (_result_10 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _result_11 = result;
+		String _lineSeparator_10 = System.lineSeparator();
+		String _lineSeparator_11 = System.lineSeparator();
+		String _plus_5 = (_lineSeparator_10 + _lineSeparator_11);
+		result = (_result_11 + _plus_5);
+		String _result_12 = result;
+		result = (_result_12 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041F\u041E\u0414");
+		String _result_13 = result;
+		String _lineSeparator_12 = System.lineSeparator();
+		String _lineSeparator_13 = System.lineSeparator();
+		String _plus_6 = (_lineSeparator_12 + _lineSeparator_13);
+		result = (_result_13 + _plus_6);
+		String dataRulesDeclarationText = "";
+		String _dataRulesDeclarationText = dataRulesDeclarationText;
+		String _lineSeparator_14 = System.lineSeparator();
+		String _plus_7 = ("\t\u0415\u0441\u043B\u0438 \u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430 = \"\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0430\" \u0422\u043E\u0433\u0434\u0430" + _lineSeparator_14);
+		dataRulesDeclarationText = (_dataRulesDeclarationText + _plus_7);
+		String _dataRulesDeclarationText_1 = dataRulesDeclarationText;
+		String _lineSeparator_15 = System.lineSeparator();
+		String _plus_8 = ("\t\t\u0415\u0441\u043B\u0438 \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445.\u041A\u043E\u043B\u043E\u043D\u043A\u0438.\u041D\u0430\u0439\u0442\u0438(\"\u041E\u0447\u0438\u0441\u0442\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445\") = \u041D\u0435\u043E\u043F\u0440\u0435\u0434\u0435\u043B\u0435\u043D\u043E \u0422\u043E\u0433\u0434\u0430" + _lineSeparator_15);
+		dataRulesDeclarationText = (_dataRulesDeclarationText_1 + _plus_8);
+		String _dataRulesDeclarationText_2 = dataRulesDeclarationText;
+		String _lineSeparator_16 = System.lineSeparator();
+		String _plus_9 = ("\t\t\t\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445.\u041A\u043E\u043B\u043E\u043D\u043A\u0438.\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C(\"\u041E\u0447\u0438\u0441\u0442\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445\");" + _lineSeparator_16);
+		dataRulesDeclarationText = (_dataRulesDeclarationText_2 + _plus_9);
+		String _dataRulesDeclarationText_3 = dataRulesDeclarationText;
+		String _lineSeparator_17 = System.lineSeparator();
+		String _plus_10 = ("\t\t\u041A\u043E\u043D\u0435\u0446\u0415\u0441\u043B\u0438;" + _lineSeparator_17);
+		dataRulesDeclarationText = (_dataRulesDeclarationText_3 + _plus_10);
+		EList<CmDataRule> _dataRules = this.getDataRules();
+		for (final CmDataRule dataRule : _dataRules) {
+			Boolean _forSending = dataRule.getForSending();
+			if ((_forSending).booleanValue()) {
+				String _dataRulesDeclarationText_4 = dataRulesDeclarationText;
+				String _name = dataRule.getName();
+				String _plus_11 = ("\t\t\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C\u041F\u041E\u0414_" + _name);
+				String _plus_12 = (_plus_11 + "(\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445);");
+				String _lineSeparator_18 = System.lineSeparator();
+				String _plus_13 = (_plus_12 + _lineSeparator_18);
+				dataRulesDeclarationText = (_dataRulesDeclarationText_4 + _plus_13);
+			}
+		}
+		String _dataRulesDeclarationText_5 = dataRulesDeclarationText;
+		String _lineSeparator_19 = System.lineSeparator();
+		String _plus_14 = ("\t\u0418\u043D\u0430\u0447\u0435\u0415\u0441\u043B\u0438 \u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430 = \"\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435\" \u0422\u043E\u0433\u0434\u0430" + _lineSeparator_19);
+		dataRulesDeclarationText = (_dataRulesDeclarationText_5 + _plus_14);
+		EList<CmDataRule> _dataRules_1 = this.getDataRules();
+		for (final CmDataRule dataRule_1 : _dataRules_1) {
+			Boolean _forReceiving = dataRule_1.getForReceiving();
+			if ((_forReceiving).booleanValue()) {
+				String _dataRulesDeclarationText_6 = dataRulesDeclarationText;
+				String _name_1 = dataRule_1.getName();
+				String _plus_15 = ("\t\t\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C\u041F\u041E\u0414_" + _name_1);
+				String _plus_16 = (_plus_15 + "(\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445);");
+				String _lineSeparator_20 = System.lineSeparator();
+				String _plus_17 = (_plus_16 + _lineSeparator_20);
+				dataRulesDeclarationText = (_dataRulesDeclarationText_6 + _plus_17);
+			}
+		}
+		String _dataRulesDeclarationText_7 = dataRulesDeclarationText;
+		String _lineSeparator_21 = System.lineSeparator();
+		String _plus_18 = ("\t\u041A\u043E\u043D\u0435\u0446\u0415\u0441\u043B\u0438;" + _lineSeparator_21);
+		dataRulesDeclarationText = (_dataRulesDeclarationText_7 + _plus_18);
+		String _result_14 = result;
+		String _replace_1 = "// \u0417\u0430\u043F\u043E\u043B\u043D\u044F\u0435\u0442 \u0442\u0430\u0431\u043B\u0438\u0446\u0443 \u043F\u0440\u0430\u0432\u0438\u043B \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u0434\u0430\u043D\u043D\u044B\u0445.\r\n//\r\n// \u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B:\r\n//  \u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430 - \u0441\u0442\u0440\u043E\u043A\u0430 (\"\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0430\" \u043B\u0438\u0431\u043E \"\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435\").\r\n//  \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445 - \u0442\u0430\u0431\u043B\u0438\u0446\u0430 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0439, \u0432 \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u044E\u0442\u0441\u044F \u043F\u0440\u0430\u0432\u0438\u043B\u0430. \r\n\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u0417\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u044C\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445(\u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430, \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445) \u042D\u043A\u0441\u043F\u043E\u0440\u0442\r\n&\u0422\u0435\u043B\u043E\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B\r\n\u041A\u043E\u043D\u0435\u0446\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B".replace("&\u0422\u0435\u043B\u043E\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B", dataRulesDeclarationText);
+		result = (_result_14 + _replace_1);
+		String _result_15 = result;
+		String _lineSeparator_22 = System.lineSeparator();
+		String _lineSeparator_23 = System.lineSeparator();
+		String _plus_19 = (_lineSeparator_22 + _lineSeparator_23);
+		result = (_result_15 + _plus_19);
+		String _result_16 = result;
+		result = (_result_16 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0430");
+		String _result_17 = result;
+		String _lineSeparator_24 = System.lineSeparator();
+		String _lineSeparator_25 = System.lineSeparator();
+		String _plus_20 = (_lineSeparator_24 + _lineSeparator_25);
+		result = (_result_17 + _plus_20);
+		String _result_18 = result;
+		result = (_result_18 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _result_19 = result;
+		String _lineSeparator_26 = System.lineSeparator();
+		String _lineSeparator_27 = System.lineSeparator();
+		String _plus_21 = (_lineSeparator_26 + _lineSeparator_27);
+		result = (_result_19 + _plus_21);
+		String _result_20 = result;
+		result = (_result_20 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435");
+		String _result_21 = result;
+		String _lineSeparator_28 = System.lineSeparator();
+		String _lineSeparator_29 = System.lineSeparator();
+		String _plus_22 = (_lineSeparator_28 + _lineSeparator_29);
+		result = (_result_21 + _plus_22);
+		String _result_22 = result;
+		result = (_result_22 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _result_23 = result;
+		String _lineSeparator_30 = System.lineSeparator();
+		String _lineSeparator_31 = System.lineSeparator();
+		String _plus_23 = (_lineSeparator_30 + _lineSeparator_31);
+		result = (_result_23 + _plus_23);
+		String _result_24 = result;
+		result = (_result_24 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _result_25 = result;
+		String _lineSeparator_32 = System.lineSeparator();
+		String _lineSeparator_33 = System.lineSeparator();
+		String _plus_24 = (_lineSeparator_32 + _lineSeparator_33);
+		result = (_result_25 + _plus_24);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getModuleText() {
+		String _storeVersion = this.getStoreVersion();
+		boolean _equals = Objects.equal(_storeVersion, "1");
+		if (_equals) {
+			return this.getModuleTextV2();
+		}
+		else {
+			return this.getModuleTextV2();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
@@ -523,6 +696,10 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 				return getAlgorithm((String)arguments.get(0));
 			case CmPackage.CONVERSION_MODULE___GET_ALL_ALGORITHMS_TEXT__STRING:
 				return getAllAlgorithmsText((String)arguments.get(0));
+			case CmPackage.CONVERSION_MODULE___GET_MODULE_TEXT_V2:
+				return getModuleTextV2();
+			case CmPackage.CONVERSION_MODULE___GET_MODULE_TEXT:
+				return getModuleText();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

@@ -262,6 +262,7 @@ public class DataRuleDialog extends Dialog {
 		tltmSelectionVariant1.setSelection(selectionVariant == CmSelectionVariant.STANDART);
 		tltmSelectionVariant2.setSelection(selectionVariant == CmSelectionVariant.CUSTOM);
 
+		txtConfigurationObjectName.setText("");
 		if (dataRule.getConfigurationObject() != null)
 			txtConfigurationObjectName.setText(dataRule.getConfigurationObject().toString());
 

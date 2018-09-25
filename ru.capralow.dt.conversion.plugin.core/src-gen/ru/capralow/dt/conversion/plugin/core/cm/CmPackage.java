@@ -304,13 +304,31 @@ public interface CmPackage extends EPackage {
 	int CONVERSION_MODULE___GET_ALL_ALGORITHMS_TEXT__STRING = 8;
 
 	/**
+	 * The operation id for the '<em>Get Module Text V2</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE___GET_MODULE_TEXT_V2 = 9;
+
+	/**
+	 * The operation id for the '<em>Get Module Text</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONVERSION_MODULE___GET_MODULE_TEXT = 10;
+
+	/**
 	 * The number of operations of the '<em>Conversion Module</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONVERSION_MODULE_OPERATION_COUNT = 9;
+	int CONVERSION_MODULE_OPERATION_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl <em>Data Rule</em>}' class.
@@ -1300,6 +1318,26 @@ public interface CmPackage extends EPackage {
 	EOperation getConversionModule__GetAllAlgorithmsText__String();
 
 	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleTextV2() <em>Get Module Text V2</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Module Text V2</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleTextV2()
+	 * @generated
+	 */
+	EOperation getConversionModule__GetModuleTextV2();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleText() <em>Get Module Text</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Module Text</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getModuleText()
+	 * @generated
+	 */
+	EOperation getConversionModule__GetModuleText();
+
+	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule <em>Data Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2265,6 +2303,22 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation CONVERSION_MODULE___GET_ALL_ALGORITHMS_TEXT__STRING = eINSTANCE.getConversionModule__GetAllAlgorithmsText__String();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Module Text V2</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONVERSION_MODULE___GET_MODULE_TEXT_V2 = eINSTANCE.getConversionModule__GetModuleTextV2();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Module Text</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONVERSION_MODULE___GET_MODULE_TEXT = eINSTANCE.getConversionModule__GetModuleText();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl <em>Data Rule</em>}' class.

@@ -2,7 +2,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -37,12 +36,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.xtext.nodemodel.ICompositeNode;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
-import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
@@ -391,6 +387,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
 						((Button) event.getSource()).getShell(), conversionModule);
 				if (conversionModuleDialog.open() == Window.OK) {
+					updateModule();
 				}
 				;
 			}
@@ -417,6 +414,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					DataRuleDialog dataRuleDialog = new DataRuleDialog(event.getViewer().getControl().getShell(),
 							dataRule);
 					if (dataRuleDialog.open() == Window.OK) {
+						updateModule();
 					}
 					;
 				}
@@ -442,6 +440,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
 							algorithm);
 					if (algorithmDialog.open() == Window.OK) {
+						updateModule();
 					}
 					;
 				}
@@ -450,38 +449,32 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}));
 	}
 
-	private void updateModule(Map<Object, String> methods) {
-		for (Map.Entry<Object, String> entry : methods.entrySet()) {
-			XtextEditor embeddedEditor = null;
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			for (IEditorReference editorReference : page.getEditorReferences()) {
-				final IEditorPart[] editor = new IEditorPart[1];
-				editor[0] = editorReference.getEditor(false);
-				if (editor != null) {
-					if (editor[0] instanceof XtextEditor) {
-						embeddedEditor = (XtextEditor) editor[0];
+	private void updateModule() {
+		XtextEditor embeddedEditor = null;
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		for (IEditorReference editorReference : page.getEditorReferences()) {
+			final IEditorPart[] editor = new IEditorPart[1];
+			editor[0] = editorReference.getEditor(false);
+			if (editor != null) {
+				if (editor[0] instanceof XtextEditor) {
+					embeddedEditor = (XtextEditor) editor[0];
+					break;
+				} else {
+					if (editor[0] != null) {
+						embeddedEditor = editor[0].getAdapter(XtextEditor.class);
+					}
+					if (embeddedEditor instanceof XtextEditor) {
 						break;
-					} else {
-						if (editor[0] != null) {
-							embeddedEditor = editor[0].getAdapter(XtextEditor.class);
-						}
-						if (embeddedEditor instanceof XtextEditor) {
-							break;
-						}
 					}
 				}
 			}
-
-			if (embeddedEditor == null)
-				continue;
-
-			Method method = (Method) entry.getKey();
-			String newText = entry.getValue();
-
-			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
-
 		}
 
+		if (embeddedEditor == null)
+			return;
+		
+		String newModule = conversionModule.getModuleText();
+		
 	}
 
 }
