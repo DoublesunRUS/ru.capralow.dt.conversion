@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObject <em>Format Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForSending <em>For Sending</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getForReceiving <em>For Receiving</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant <em>Selection Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEvent <em>On Processing Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventPrefix <em>On Processing Event Prefix</em>}</li>
@@ -30,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEvent <em>Data Selection Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventPrefix <em>Data Selection Event Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventSuffix <em>Data Selection Event Suffix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
  *
@@ -227,33 +227,6 @@ public interface CmDataRule extends EObject {
 	void setForReceiving(Boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Is Data Cleaning</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Is Data Cleaning</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is Data Cleaning</em>' attribute.
-	 * @see #setIsDataCleaning(Boolean)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_IsDataCleaning()
-	 * @model default="false" unique="false"
-	 * @generated
-	 */
-	Boolean getIsDataCleaning();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Data Cleaning</em>' attribute.
-	 * @see #getIsDataCleaning()
-	 * @generated
-	 */
-	void setIsDataCleaning(Boolean value);
-
-	/**
 	 * Returns the value of the '<em><b>Selection Variant</b></em>' attribute.
 	 * The literals are from the enumeration {@link ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant}.
 	 * <!-- begin-user-doc -->
@@ -423,6 +396,33 @@ public interface CmDataRule extends EObject {
 	void setDataSelectionEventSuffix(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Is Data Cleaning</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Data Cleaning</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Data Cleaning</em>' attribute.
+	 * @see #setIsDataCleaning(Boolean)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_IsDataCleaning()
+	 * @model default="false" unique="false"
+	 * @generated
+	 */
+	Boolean getIsDataCleaning();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is Data Cleaning</em>' attribute.
+	 * @see #getIsDataCleaning()
+	 * @generated
+	 */
+	void setIsDataCleaning(Boolean value);
+
+	/**
 	 * Returns the value of the '<em><b>Object Rules</b></em>' reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule}.
 	 * <!-- begin-user-doc -->
@@ -451,9 +451,36 @@ public interface CmDataRule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getOnProcessingEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041E\\u0431\\u0440\\u0430\\u0431\\u043E\\u0442\\u043A\\u0435\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());\n}'"
+	 * @generated
+	 */
+	String getOnProcessingEventDeclaration();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _dataSelectionEventPrefix = this.getDataSelectionEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_dataSelectionEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _dataSelectionEvent = this.getDataSelectionEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _dataSelectionEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _dataSelectionEventSuffix = this.getDataSelectionEventSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _dataSelectionEventSuffix);\nreturn result;'"
 	 * @generated
 	 */
 	String getDataSelectionEventText();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getDataSelectionEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u0412\\u044B\\u0431\\u043E\\u0440\\u043A\\u0430\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());\n}'"
+	 * @generated
+	 */
+	String getDataSelectionEventDeclaration();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.Boolean%&gt; _isDataCleaning = this.getIsDataCleaning();\nif ((_isDataCleaning).booleanValue())\n{\n\treturn \"\\u0418\\u0441\\u0442\\u0438\\u043D\\u0430\";\n}\nelse\n{\n\treturn \"\\u041B\\u043E\\u0436\\u044C\";\n}'"
+	 * @generated
+	 */
+	String getDataCleaningDeclaration();
 
 } // CmDataRule

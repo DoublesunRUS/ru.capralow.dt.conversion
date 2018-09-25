@@ -450,6 +450,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	}
 
 	private void updateModule() {
+		String newModule = conversionModule.getModuleText();
+		
+		System.out.print(newModule);
+		
 		XtextEditor embeddedEditor = null;
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		for (IEditorReference editorReference : page.getEditorReferences()) {
@@ -472,8 +476,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		if (embeddedEditor == null)
 			return;
-		
-		String newModule = conversionModule.getModuleText();
 		
 	}
 

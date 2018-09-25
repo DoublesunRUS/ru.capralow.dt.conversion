@@ -404,22 +404,13 @@ public interface CmPackage extends EPackage {
 	int CM_DATA_RULE__FOR_RECEIVING = 6;
 
 	/**
-	 * The feature id for the '<em><b>Is Data Cleaning</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_DATA_RULE__IS_DATA_CLEANING = 7;
-
-	/**
 	 * The feature id for the '<em><b>Selection Variant</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__SELECTION_VARIANT = 8;
+	int CM_DATA_RULE__SELECTION_VARIANT = 7;
 
 	/**
 	 * The feature id for the '<em><b>On Processing Event</b></em>' attribute.
@@ -428,7 +419,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__ON_PROCESSING_EVENT = 9;
+	int CM_DATA_RULE__ON_PROCESSING_EVENT = 8;
 
 	/**
 	 * The feature id for the '<em><b>On Processing Event Prefix</b></em>' attribute.
@@ -437,7 +428,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__ON_PROCESSING_EVENT_PREFIX = 10;
+	int CM_DATA_RULE__ON_PROCESSING_EVENT_PREFIX = 9;
 
 	/**
 	 * The feature id for the '<em><b>On Processing Event Suffix</b></em>' attribute.
@@ -446,7 +437,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__ON_PROCESSING_EVENT_SUFFIX = 11;
+	int CM_DATA_RULE__ON_PROCESSING_EVENT_SUFFIX = 10;
 
 	/**
 	 * The feature id for the '<em><b>Data Selection Event</b></em>' attribute.
@@ -455,7 +446,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__DATA_SELECTION_EVENT = 12;
+	int CM_DATA_RULE__DATA_SELECTION_EVENT = 11;
 
 	/**
 	 * The feature id for the '<em><b>Data Selection Event Prefix</b></em>' attribute.
@@ -464,7 +455,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__DATA_SELECTION_EVENT_PREFIX = 13;
+	int CM_DATA_RULE__DATA_SELECTION_EVENT_PREFIX = 12;
 
 	/**
 	 * The feature id for the '<em><b>Data Selection Event Suffix</b></em>' attribute.
@@ -473,7 +464,16 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__DATA_SELECTION_EVENT_SUFFIX = 14;
+	int CM_DATA_RULE__DATA_SELECTION_EVENT_SUFFIX = 13;
+
+	/**
+	 * The feature id for the '<em><b>Is Data Cleaning</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__IS_DATA_CLEANING = 14;
 
 	/**
 	 * The feature id for the '<em><b>Object Rules</b></em>' reference list.
@@ -503,13 +503,40 @@ public interface CmPackage extends EPackage {
 	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT = 0;
 
 	/**
+	 * The operation id for the '<em>Get On Processing Event Declaration</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION = 1;
+
+	/**
 	 * The operation id for the '<em>Get Data Selection Event Text</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT = 1;
+	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT = 2;
+
+	/**
+	 * The operation id for the '<em>Get Data Selection Event Declaration</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_DECLARATION = 3;
+
+	/**
+	 * The operation id for the '<em>Get Data Cleaning Declaration</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE___GET_DATA_CLEANING_DECLARATION = 4;
 
 	/**
 	 * The number of operations of the '<em>Data Rule</em>' class.
@@ -518,7 +545,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE_OPERATION_COUNT = 2;
+	int CM_DATA_RULE_OPERATION_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl <em>Object Rule</em>}' class.
@@ -1425,17 +1452,6 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmDataRule_ForReceiving();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Data Cleaning</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_IsDataCleaning();
-
-	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getSelectionVariant <em>Selection Variant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1513,6 +1529,17 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmDataRule_DataSelectionEventSuffix();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning <em>Is Data Cleaning</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Data Cleaning</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getIsDataCleaning()
+	 * @see #getCmDataRule()
+	 * @generated
+	 */
+	EAttribute getCmDataRule_IsDataCleaning();
+
+	/**
 	 * Returns the meta object for the reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getObjectRules <em>Object Rules</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1534,6 +1561,16 @@ public interface CmPackage extends EPackage {
 	EOperation getCmDataRule__GetOnProcessingEventText();
 
 	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventDeclaration() <em>Get On Processing Event Declaration</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get On Processing Event Declaration</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventDeclaration()
+	 * @generated
+	 */
+	EOperation getCmDataRule__GetOnProcessingEventDeclaration();
+
+	/**
 	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventText() <em>Get Data Selection Event Text</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1542,6 +1579,26 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getCmDataRule__GetDataSelectionEventText();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventDeclaration() <em>Get Data Selection Event Declaration</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Data Selection Event Declaration</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataSelectionEventDeclaration()
+	 * @generated
+	 */
+	EOperation getCmDataRule__GetDataSelectionEventDeclaration();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataCleaningDeclaration() <em>Get Data Cleaning Declaration</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Data Cleaning Declaration</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getDataCleaningDeclaration()
+	 * @generated
+	 */
+	EOperation getCmDataRule__GetDataCleaningDeclaration();
 
 	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule <em>Object Rule</em>}'.
@@ -2387,14 +2444,6 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_DATA_RULE__FOR_RECEIVING = eINSTANCE.getCmDataRule_ForReceiving();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Data Cleaning</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__IS_DATA_CLEANING = eINSTANCE.getCmDataRule_IsDataCleaning();
-
-		/**
 		 * The meta object literal for the '<em><b>Selection Variant</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2451,6 +2500,14 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_DATA_RULE__DATA_SELECTION_EVENT_SUFFIX = eINSTANCE.getCmDataRule_DataSelectionEventSuffix();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Data Cleaning</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_DATA_RULE__IS_DATA_CLEANING = eINSTANCE.getCmDataRule_IsDataCleaning();
+
+		/**
 		 * The meta object literal for the '<em><b>Object Rules</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2467,12 +2524,36 @@ public interface CmPackage extends EPackage {
 		EOperation CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT = eINSTANCE.getCmDataRule__GetOnProcessingEventText();
 
 		/**
+		 * The meta object literal for the '<em><b>Get On Processing Event Declaration</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION = eINSTANCE.getCmDataRule__GetOnProcessingEventDeclaration();
+
+		/**
 		 * The meta object literal for the '<em><b>Get Data Selection Event Text</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EOperation CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT = eINSTANCE.getCmDataRule__GetDataSelectionEventText();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Data Selection Event Declaration</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_DATA_RULE___GET_DATA_SELECTION_EVENT_DECLARATION = eINSTANCE.getCmDataRule__GetDataSelectionEventDeclaration();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Data Cleaning Declaration</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_DATA_RULE___GET_DATA_CLEANING_DECLARATION = eINSTANCE.getCmDataRule__GetDataCleaningDeclaration();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl <em>Object Rule</em>}' class.

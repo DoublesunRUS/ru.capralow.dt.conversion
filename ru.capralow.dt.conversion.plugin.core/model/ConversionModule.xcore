@@ -110,16 +110,18 @@ class ConversionModule {
 		result += getBeforeFillingEventText();
 		result += System.lineSeparator() + System.lineSeparator();
 
-		result +=
+		var text =
 "// Возвращает версию формата менеджера обмена.
 // Возвращаемое значение:
 //  Число - номер версии.
 Функция ВерсияФорматаМенеджераОбмена() Экспорт
 	Возврат &ВерсияФорматаМенеджераОбмена;
-КонецФункции".replace("&ВерсияФорматаМенеджераОбмена", storeVersion);
+КонецФункции"
+		.replace("&ВерсияФорматаМенеджераОбмена", storeVersion);
+		result += text;
 		result += System.lineSeparator() + System.lineSeparator();
 
-		result += "#Область КонецОбласти";
+		result += "#КонецОбласти";
 		result += System.lineSeparator() + System.lineSeparator();
 
 
@@ -140,9 +142,9 @@ class ConversionModule {
 			if (dataRule.forReceiving)
 		dataRulesDeclarationText += "		ДобавитьПОД_" + dataRule.name + "(ПравилаОбработкиДанных);" + System.lineSeparator();
 		}
-		dataRulesDeclarationText += "	КонецЕсли;" + System.lineSeparator();
+		dataRulesDeclarationText += "	КонецЕсли;";
 
-		result +=
+		text =
 "// Заполняет таблицу правил обработки данных.
 //
 // Параметры:
@@ -150,22 +152,106 @@ class ConversionModule {
 //  ПравилаОбработкиДанных - таблица значений, в которую добавляются правила. 
 Процедура ЗаполнитьПравилаОбработкиДанных(НаправлениеОбмена, ПравилаОбработкиДанных) Экспорт
 &ТелоПроцедуры
-КонецПроцедуры".replace("&ТелоПроцедуры", dataRulesDeclarationText);
+КонецПроцедуры"
+		.replace("&ТелоПроцедуры", dataRulesDeclarationText);
+		result += text;
 		result += System.lineSeparator() + System.lineSeparator();
 
 		result += "#Область Отправка";
 		result += System.lineSeparator() + System.lineSeparator();
 
-		result += "#Область КонецОбласти";
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.forSending) {
+				var objectRulesText = "";
+			
+				for (CmObjectRule objectRule : dataRule.objectRules) {
+					objectRulesText += System.lineSeparator() + "	ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.name + "\");";
+				}
+			
+				var dataRuleEventsText = "";
+				if (dataRule.onProcessingEvent.length != 0)
+					dataRuleEventsText += System.lineSeparator() + System.lineSeparator() + dataRule.onProcessingEventText;
+				if (dataRule.dataSelectionEvent.length != 0)
+					dataRuleEventsText += System.lineSeparator() + System.lineSeparator() + dataRule.dataSelectionEventText;
+
+				result += "#Область &ИмяПОД".replaceAll("&ИмяПОД", dataRule.name);
+				result += System.lineSeparator() + System.lineSeparator();
+
+				text =
+"Процедура ДобавитьПОД_&ИмяПОД(ПравилаОбработкиДанных)
+	ПравилоОбработки							= ПравилаОбработкиДанных.Добавить();
+	ПравилоОбработки.Имя						= \"&ИмяПОД\";
+	ПравилоОбработки.ОбъектВыборкиМетаданные	= &ОбъектВыборкиМетаданные;
+	ПравилоОбработки.ПриОбработке				= \"&ПриОбработке\";
+	ПравилоОбработки.ВыборкаДанных				= \"&ВыборкаДанных\";
+	ПравилоОбработки.ОчисткаДанных				= &ОчисткаДанных;
+&ЗаполнениеМассиваПравил
+КонецПроцедуры"
+				.replaceAll("&ИмяПОД", dataRule.name)
+				.replace("&ОбъектВыборкиМетаданные", dataRule.configurationObject.toString())
+				.replace("ПравилоОбработки.ОбъектВыборкиМетаданные	= ;", "ПравилоОбработки.ОбъектВыборкиМетаданные	= Неопределено;")
+				.replace("&ПриОбработке", dataRule.getOnProcessingEventDeclaration())
+				.replace("	ПравилоОбработки.ПриОбработке				= \"\";", "---")
+				.replace("&ВыборкаДанных", dataRule.getDataSelectionEventDeclaration())
+				.replace("	ПравилоОбработки.ВыборкаДанных				= \"\";", "---")
+				.replace("&ОчисткаДанных", dataRule.getDataCleaningDeclaration())
+				.replace("&ЗаполнениеМассиваПравил", objectRulesText)
+				.replaceAll("---\\r\\n|---\\r|---\\n", "");
+				result += text;
+				result += dataRuleEventsText;
+				result += System.lineSeparator() + System.lineSeparator();
+				result += "#КонецОбласти";
+				result += System.lineSeparator() + System.lineSeparator();
+			}
+		}
+
+		result += "#КонецОбласти";
 		result += System.lineSeparator() + System.lineSeparator();
 
 		result += "#Область Получение";
 		result += System.lineSeparator() + System.lineSeparator();
 
-		result += "#Область КонецОбласти";
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.forReceiving) {
+				var objectRulesText = "";
+			
+				for (CmObjectRule objectRule : dataRule.objectRules) {
+					objectRulesText += System.lineSeparator() + "	ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.name + "\");";
+				}
+			
+				var dataRuleEventsText = "";
+				if (dataRule.onProcessingEvent.length != 0)
+					dataRuleEventsText += System.lineSeparator() + System.lineSeparator() + dataRule.onProcessingEventText;
+			
+				result += "#Область &ИмяПОД".replaceAll("&ИмяПОД", dataRule.name);
+				result += System.lineSeparator() + System.lineSeparator();
+
+				text =
+"Процедура ДобавитьПОД_&ИмяПОД(ПравилаОбработкиДанных)
+	ПравилоОбработки						= ПравилаОбработкиДанных.Добавить();
+	ПравилоОбработки.Имя					= \"&ИмяПОД\";
+	ПравилоОбработки.ОбъектВыборкиФормат	= \"&ОбъектВыборкиФормат\";
+	ПравилоОбработки.ПриОбработке			= \"&ПриОбработке\";
+&ЗаполнениеМассиваПравил
+КонецПроцедуры"
+				.replaceAll("&ИмяПОД", dataRule.name)
+				.replace("&ОбъектВыборкиФормат", dataRule.formatObject.toString())
+				.replace("&ПриОбработке", dataRule.getOnProcessingEventDeclaration())
+				.replace("	ПравилоОбработки.ПриОбработке			= \"\";", "---")
+				.replace("&ЗаполнениеМассиваПравил", objectRulesText)
+				.replaceAll("---\\r\\n|---\\r|---\\n", "");
+				result += text;
+				result += dataRuleEventsText;
+				result += System.lineSeparator() + System.lineSeparator();
+				result += "#КонецОбласти";
+				result += System.lineSeparator() + System.lineSeparator();
+			}
+		}
+
+		result += "#КонецОбласти";
 		result += System.lineSeparator() + System.lineSeparator();
 
-		result += "#Область КонецОбласти";
+		result += "#КонецОбласти";
 		result += System.lineSeparator() + System.lineSeparator();
 
 		return result;
@@ -196,8 +282,6 @@ class CmDataRule {
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
 	
-	Boolean isDataCleaning = "false"
-	
 	CmSelectionVariant selectionVariant
 	
 	String onProcessingEvent = ""
@@ -212,6 +296,12 @@ class CmDataRule {
 			System.lineSeparator() + onProcessingEventSuffix;
 		return result;
 	}
+	op String getOnProcessingEventDeclaration() {
+		if (onProcessingEvent.length == 0)
+			return ""
+		else
+			return "ПОД_|||ИМЯ|||_ПриОбработке".replace("|||ИМЯ|||", name);
+	}
 	
 	String dataSelectionEvent = ""
 	derived String dataSelectionEventPrefix get {
@@ -224,6 +314,20 @@ class CmDataRule {
 			dataSelectionEvent +
 			System.lineSeparator() + dataSelectionEventSuffix;
 		return result;
+	}
+	op String getDataSelectionEventDeclaration() {
+		if (dataSelectionEvent.length == 0)
+			return ""
+		else
+			return "ПОД_|||ИМЯ|||_ВыборкаДанных".replace("|||ИМЯ|||", name);
+	}
+	
+	Boolean isDataCleaning = "false"
+	op String getDataCleaningDeclaration() {
+		if (isDataCleaning)
+			return "Истина"
+		else
+			return "Ложь";
 	}
 	
 	refers CmObjectRule[] objectRules

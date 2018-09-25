@@ -535,16 +535,16 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 		String _lineSeparator_7 = System.lineSeparator();
 		String _plus_3 = (_lineSeparator_6 + _lineSeparator_7);
 		result = (_result_7 + _plus_3);
+		String text = "// \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0432\u0435\u0440\u0441\u0438\u044E \u0444\u043E\u0440\u043C\u0430\u0442\u0430 \u043C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430 \u043E\u0431\u043C\u0435\u043D\u0430.\r\n// \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u043C\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435:\r\n//  \u0427\u0438\u0441\u043B\u043E - \u043D\u043E\u043C\u0435\u0440 \u0432\u0435\u0440\u0441\u0438\u0438.\r\n\u0424\u0443\u043D\u043A\u0446\u0438\u044F \u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430() \u042D\u043A\u0441\u043F\u043E\u0440\u0442\r\n\t\u0412\u043E\u0437\u0432\u0440\u0430\u0442 &\u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430;\r\n\u041A\u043E\u043D\u0435\u0446\u0424\u0443\u043D\u043A\u0446\u0438\u0438".replace("&\u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430", this.getStoreVersion());
 		String _result_8 = result;
-		String _replace = "// \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0432\u0435\u0440\u0441\u0438\u044E \u0444\u043E\u0440\u043C\u0430\u0442\u0430 \u043C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430 \u043E\u0431\u043C\u0435\u043D\u0430.\r\n// \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u043C\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435:\r\n//  \u0427\u0438\u0441\u043B\u043E - \u043D\u043E\u043C\u0435\u0440 \u0432\u0435\u0440\u0441\u0438\u0438.\r\n\u0424\u0443\u043D\u043A\u0446\u0438\u044F \u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430() \u042D\u043A\u0441\u043F\u043E\u0440\u0442\r\n\t\u0412\u043E\u0437\u0432\u0440\u0430\u0442 &\u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430;\r\n\u041A\u043E\u043D\u0435\u0446\u0424\u0443\u043D\u043A\u0446\u0438\u0438".replace("&\u0412\u0435\u0440\u0441\u0438\u044F\u0424\u043E\u0440\u043C\u0430\u0442\u0430\u041C\u0435\u043D\u0435\u0434\u0436\u0435\u0440\u0430\u041E\u0431\u043C\u0435\u043D\u0430", this.getStoreVersion());
-		result = (_result_8 + _replace);
+		result = (_result_8 + text);
 		String _result_9 = result;
 		String _lineSeparator_8 = System.lineSeparator();
 		String _lineSeparator_9 = System.lineSeparator();
 		String _plus_4 = (_lineSeparator_8 + _lineSeparator_9);
 		result = (_result_9 + _plus_4);
 		String _result_10 = result;
-		result = (_result_10 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		result = (_result_10 + "#\u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
 		String _result_11 = result;
 		String _lineSeparator_10 = System.lineSeparator();
 		String _lineSeparator_11 = System.lineSeparator();
@@ -605,52 +605,169 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 			}
 		}
 		String _dataRulesDeclarationText_7 = dataRulesDeclarationText;
-		String _lineSeparator_21 = System.lineSeparator();
-		String _plus_18 = ("\t\u041A\u043E\u043D\u0435\u0446\u0415\u0441\u043B\u0438;" + _lineSeparator_21);
-		dataRulesDeclarationText = (_dataRulesDeclarationText_7 + _plus_18);
+		dataRulesDeclarationText = (_dataRulesDeclarationText_7 + "\t\u041A\u043E\u043D\u0435\u0446\u0415\u0441\u043B\u0438;");
+		text = "// \u0417\u0430\u043F\u043E\u043B\u043D\u044F\u0435\u0442 \u0442\u0430\u0431\u043B\u0438\u0446\u0443 \u043F\u0440\u0430\u0432\u0438\u043B \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u0434\u0430\u043D\u043D\u044B\u0445.\r\n//\r\n// \u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B:\r\n//  \u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430 - \u0441\u0442\u0440\u043E\u043A\u0430 (\"\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0430\" \u043B\u0438\u0431\u043E \"\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435\").\r\n//  \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445 - \u0442\u0430\u0431\u043B\u0438\u0446\u0430 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0439, \u0432 \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u044E\u0442\u0441\u044F \u043F\u0440\u0430\u0432\u0438\u043B\u0430. \r\n\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u0417\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u044C\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445(\u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430, \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445) \u042D\u043A\u0441\u043F\u043E\u0440\u0442\r\n&\u0422\u0435\u043B\u043E\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B\r\n\u041A\u043E\u043D\u0435\u0446\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B".replace("&\u0422\u0435\u043B\u043E\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B", dataRulesDeclarationText);
 		String _result_14 = result;
-		String _replace_1 = "// \u0417\u0430\u043F\u043E\u043B\u043D\u044F\u0435\u0442 \u0442\u0430\u0431\u043B\u0438\u0446\u0443 \u043F\u0440\u0430\u0432\u0438\u043B \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u0434\u0430\u043D\u043D\u044B\u0445.\r\n//\r\n// \u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B:\r\n//  \u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430 - \u0441\u0442\u0440\u043E\u043A\u0430 (\"\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0430\" \u043B\u0438\u0431\u043E \"\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435\").\r\n//  \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445 - \u0442\u0430\u0431\u043B\u0438\u0446\u0430 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0439, \u0432 \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u044E\u0442\u0441\u044F \u043F\u0440\u0430\u0432\u0438\u043B\u0430. \r\n\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u0417\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u044C\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445(\u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u041E\u0431\u043C\u0435\u043D\u0430, \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445) \u042D\u043A\u0441\u043F\u043E\u0440\u0442\r\n&\u0422\u0435\u043B\u043E\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B\r\n\u041A\u043E\u043D\u0435\u0446\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B".replace("&\u0422\u0435\u043B\u043E\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B", dataRulesDeclarationText);
-		result = (_result_14 + _replace_1);
+		result = (_result_14 + text);
 		String _result_15 = result;
+		String _lineSeparator_21 = System.lineSeparator();
 		String _lineSeparator_22 = System.lineSeparator();
-		String _lineSeparator_23 = System.lineSeparator();
-		String _plus_19 = (_lineSeparator_22 + _lineSeparator_23);
-		result = (_result_15 + _plus_19);
+		String _plus_18 = (_lineSeparator_21 + _lineSeparator_22);
+		result = (_result_15 + _plus_18);
 		String _result_16 = result;
 		result = (_result_16 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0430");
 		String _result_17 = result;
+		String _lineSeparator_23 = System.lineSeparator();
 		String _lineSeparator_24 = System.lineSeparator();
-		String _lineSeparator_25 = System.lineSeparator();
-		String _plus_20 = (_lineSeparator_24 + _lineSeparator_25);
-		result = (_result_17 + _plus_20);
-		String _result_18 = result;
-		result = (_result_18 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
-		String _result_19 = result;
-		String _lineSeparator_26 = System.lineSeparator();
-		String _lineSeparator_27 = System.lineSeparator();
-		String _plus_21 = (_lineSeparator_26 + _lineSeparator_27);
-		result = (_result_19 + _plus_21);
-		String _result_20 = result;
-		result = (_result_20 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435");
-		String _result_21 = result;
-		String _lineSeparator_28 = System.lineSeparator();
-		String _lineSeparator_29 = System.lineSeparator();
-		String _plus_22 = (_lineSeparator_28 + _lineSeparator_29);
-		result = (_result_21 + _plus_22);
-		String _result_22 = result;
-		result = (_result_22 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
-		String _result_23 = result;
-		String _lineSeparator_30 = System.lineSeparator();
-		String _lineSeparator_31 = System.lineSeparator();
-		String _plus_23 = (_lineSeparator_30 + _lineSeparator_31);
-		result = (_result_23 + _plus_23);
-		String _result_24 = result;
-		result = (_result_24 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _plus_19 = (_lineSeparator_23 + _lineSeparator_24);
+		result = (_result_17 + _plus_19);
+		EList<CmDataRule> _dataRules_2 = this.getDataRules();
+		for (final CmDataRule dataRule_2 : _dataRules_2) {
+			Boolean _forSending_1 = dataRule_2.getForSending();
+			if ((_forSending_1).booleanValue()) {
+				String objectRulesText = "";
+				EList<CmObjectRule> _objectRules = dataRule_2.getObjectRules();
+				for (final CmObjectRule objectRule : _objectRules) {
+					String _objectRulesText = objectRulesText;
+					String _lineSeparator_25 = System.lineSeparator();
+					String _plus_20 = (_lineSeparator_25 + "\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u043C\u044B\u0435\u041F\u041A\u041E.\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C(\"");
+					String _name_2 = objectRule.getName();
+					String _plus_21 = (_plus_20 + _name_2);
+					String _plus_22 = (_plus_21 + "\");");
+					objectRulesText = (_objectRulesText + _plus_22);
+				}
+				String dataRuleEventsText = "";
+				int _length = dataRule_2.getOnProcessingEvent().length();
+				boolean _notEquals = (_length != 0);
+				if (_notEquals) {
+					String _dataRuleEventsText = dataRuleEventsText;
+					String _lineSeparator_26 = System.lineSeparator();
+					String _lineSeparator_27 = System.lineSeparator();
+					String _plus_23 = (_lineSeparator_26 + _lineSeparator_27);
+					String _onProcessingEventText = dataRule_2.getOnProcessingEventText();
+					String _plus_24 = (_plus_23 + _onProcessingEventText);
+					dataRuleEventsText = (_dataRuleEventsText + _plus_24);
+				}
+				int _length_1 = dataRule_2.getDataSelectionEvent().length();
+				boolean _notEquals_1 = (_length_1 != 0);
+				if (_notEquals_1) {
+					String _dataRuleEventsText_1 = dataRuleEventsText;
+					String _lineSeparator_28 = System.lineSeparator();
+					String _lineSeparator_29 = System.lineSeparator();
+					String _plus_25 = (_lineSeparator_28 + _lineSeparator_29);
+					String _dataSelectionEventText = dataRule_2.getDataSelectionEventText();
+					String _plus_26 = (_plus_25 + _dataSelectionEventText);
+					dataRuleEventsText = (_dataRuleEventsText_1 + _plus_26);
+				}
+				String _result_18 = result;
+				String _replaceAll = "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C &\u0418\u043C\u044F\u041F\u041E\u0414".replaceAll("&\u0418\u043C\u044F\u041F\u041E\u0414", dataRule_2.getName());
+				result = (_result_18 + _replaceAll);
+				String _result_19 = result;
+				String _lineSeparator_30 = System.lineSeparator();
+				String _lineSeparator_31 = System.lineSeparator();
+				String _plus_27 = (_lineSeparator_30 + _lineSeparator_31);
+				result = (_result_19 + _plus_27);
+				text = "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C\u041F\u041E\u0414_&\u0418\u043C\u044F\u041F\u041E\u0414(\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445)\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\t\t\t\t\t\t\t= \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445.\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C();\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u0418\u043C\u044F\t\t\t\t\t\t= \"&\u0418\u043C\u044F\u041F\u041E\u0414\";\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435\t= &\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435;\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435\t\t\t\t= \"&\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435\";\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u0412\u044B\u0431\u043E\u0440\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445\t\t\t\t= \"&\u0412\u044B\u0431\u043E\u0440\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445\";\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041E\u0447\u0438\u0441\u0442\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445\t\t\t\t= &\u041E\u0447\u0438\u0441\u0442\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445;\r\n&\u0417\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0435\u041C\u0430\u0441\u0441\u0438\u0432\u0430\u041F\u0440\u0430\u0432\u0438\u043B\r\n\u041A\u043E\u043D\u0435\u0446\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B".replaceAll("&\u0418\u043C\u044F\u041F\u041E\u0414", dataRule_2.getName()).replace("&\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435", dataRule_2.getConfigurationObject().toString()).replace("\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435\t= ;", "\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435\t= \u041D\u0435\u043E\u043F\u0440\u0435\u0434\u0435\u043B\u0435\u043D\u043E;").replace("&\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435", dataRule_2.getOnProcessingEventDeclaration()).replace("\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435\t\t\t\t= \"\";", "---").replace("&\u0412\u044B\u0431\u043E\u0440\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445", dataRule_2.getDataSelectionEventDeclaration()).replace("\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u0412\u044B\u0431\u043E\u0440\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445\t\t\t\t= \"\";", "---").replace("&\u041E\u0447\u0438\u0441\u0442\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445", dataRule_2.getDataCleaningDeclaration()).replace("&\u0417\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0435\u041C\u0430\u0441\u0441\u0438\u0432\u0430\u041F\u0440\u0430\u0432\u0438\u043B", objectRulesText).replaceAll("---\\r\\n|---\\r|---\\n", "");
+				String _result_20 = result;
+				result = (_result_20 + text);
+				String _result_21 = result;
+				result = (_result_21 + dataRuleEventsText);
+				String _result_22 = result;
+				String _lineSeparator_32 = System.lineSeparator();
+				String _lineSeparator_33 = System.lineSeparator();
+				String _plus_28 = (_lineSeparator_32 + _lineSeparator_33);
+				result = (_result_22 + _plus_28);
+				String _result_23 = result;
+				result = (_result_23 + "#\u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+				String _result_24 = result;
+				String _lineSeparator_34 = System.lineSeparator();
+				String _lineSeparator_35 = System.lineSeparator();
+				String _plus_29 = (_lineSeparator_34 + _lineSeparator_35);
+				result = (_result_24 + _plus_29);
+			}
+		}
 		String _result_25 = result;
-		String _lineSeparator_32 = System.lineSeparator();
-		String _lineSeparator_33 = System.lineSeparator();
-		String _plus_24 = (_lineSeparator_32 + _lineSeparator_33);
-		result = (_result_25 + _plus_24);
+		result = (_result_25 + "#\u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _result_26 = result;
+		String _lineSeparator_36 = System.lineSeparator();
+		String _lineSeparator_37 = System.lineSeparator();
+		String _plus_30 = (_lineSeparator_36 + _lineSeparator_37);
+		result = (_result_26 + _plus_30);
+		String _result_27 = result;
+		result = (_result_27 + "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435");
+		String _result_28 = result;
+		String _lineSeparator_38 = System.lineSeparator();
+		String _lineSeparator_39 = System.lineSeparator();
+		String _plus_31 = (_lineSeparator_38 + _lineSeparator_39);
+		result = (_result_28 + _plus_31);
+		EList<CmDataRule> _dataRules_3 = this.getDataRules();
+		for (final CmDataRule dataRule_3 : _dataRules_3) {
+			Boolean _forReceiving_1 = dataRule_3.getForReceiving();
+			if ((_forReceiving_1).booleanValue()) {
+				String objectRulesText_1 = "";
+				EList<CmObjectRule> _objectRules_1 = dataRule_3.getObjectRules();
+				for (final CmObjectRule objectRule_1 : _objectRules_1) {
+					String _objectRulesText_1 = objectRulesText_1;
+					String _lineSeparator_40 = System.lineSeparator();
+					String _plus_32 = (_lineSeparator_40 + "\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u043C\u044B\u0435\u041F\u041A\u041E.\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C(\"");
+					String _name_3 = objectRule_1.getName();
+					String _plus_33 = (_plus_32 + _name_3);
+					String _plus_34 = (_plus_33 + "\");");
+					objectRulesText_1 = (_objectRulesText_1 + _plus_34);
+				}
+				String dataRuleEventsText_1 = "";
+				int _length_2 = dataRule_3.getOnProcessingEvent().length();
+				boolean _notEquals_2 = (_length_2 != 0);
+				if (_notEquals_2) {
+					String _dataRuleEventsText_2 = dataRuleEventsText_1;
+					String _lineSeparator_41 = System.lineSeparator();
+					String _lineSeparator_42 = System.lineSeparator();
+					String _plus_35 = (_lineSeparator_41 + _lineSeparator_42);
+					String _onProcessingEventText_1 = dataRule_3.getOnProcessingEventText();
+					String _plus_36 = (_plus_35 + _onProcessingEventText_1);
+					dataRuleEventsText_1 = (_dataRuleEventsText_2 + _plus_36);
+				}
+				String _result_29 = result;
+				String _replaceAll_1 = "#\u041E\u0431\u043B\u0430\u0441\u0442\u044C &\u0418\u043C\u044F\u041F\u041E\u0414".replaceAll("&\u0418\u043C\u044F\u041F\u041E\u0414", dataRule_3.getName());
+				result = (_result_29 + _replaceAll_1);
+				String _result_30 = result;
+				String _lineSeparator_43 = System.lineSeparator();
+				String _lineSeparator_44 = System.lineSeparator();
+				String _plus_37 = (_lineSeparator_43 + _lineSeparator_44);
+				result = (_result_30 + _plus_37);
+				text = "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C\u041F\u041E\u0414_&\u0418\u043C\u044F\u041F\u041E\u0414(\u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445)\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\t\t\t\t\t\t= \u041F\u0440\u0430\u0432\u0438\u043B\u0430\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438\u0414\u0430\u043D\u043D\u044B\u0445.\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C();\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u0418\u043C\u044F\t\t\t\t\t= \"&\u0418\u043C\u044F\u041F\u041E\u0414\";\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u0424\u043E\u0440\u043C\u0430\u0442\t= \"&\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u0424\u043E\u0440\u043C\u0430\u0442\";\r\n\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435\t\t\t= \"&\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435\";\r\n&\u0417\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0435\u041C\u0430\u0441\u0441\u0438\u0432\u0430\u041F\u0440\u0430\u0432\u0438\u043B\r\n\u041A\u043E\u043D\u0435\u0446\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B".replaceAll("&\u0418\u043C\u044F\u041F\u041E\u0414", dataRule_3.getName()).replace("&\u041E\u0431\u044A\u0435\u043A\u0442\u0412\u044B\u0431\u043E\u0440\u043A\u0438\u0424\u043E\u0440\u043C\u0430\u0442", dataRule_3.getFormatObject().toString()).replace("&\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435", dataRule_3.getOnProcessingEventDeclaration()).replace("\t\u041F\u0440\u0430\u0432\u0438\u043B\u043E\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438.\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435\t\t\t= \"\";", "---").replace("&\u0417\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0435\u041C\u0430\u0441\u0441\u0438\u0432\u0430\u041F\u0440\u0430\u0432\u0438\u043B", objectRulesText_1).replaceAll("---\\r\\n|---\\r|---\\n", "");
+				String _result_31 = result;
+				result = (_result_31 + text);
+				String _result_32 = result;
+				result = (_result_32 + dataRuleEventsText_1);
+				String _result_33 = result;
+				String _lineSeparator_45 = System.lineSeparator();
+				String _lineSeparator_46 = System.lineSeparator();
+				String _plus_38 = (_lineSeparator_45 + _lineSeparator_46);
+				result = (_result_33 + _plus_38);
+				String _result_34 = result;
+				result = (_result_34 + "#\u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+				String _result_35 = result;
+				String _lineSeparator_47 = System.lineSeparator();
+				String _lineSeparator_48 = System.lineSeparator();
+				String _plus_39 = (_lineSeparator_47 + _lineSeparator_48);
+				result = (_result_35 + _plus_39);
+			}
+		}
+		String _result_36 = result;
+		result = (_result_36 + "#\u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _result_37 = result;
+		String _lineSeparator_49 = System.lineSeparator();
+		String _lineSeparator_50 = System.lineSeparator();
+		String _plus_40 = (_lineSeparator_49 + _lineSeparator_50);
+		result = (_result_37 + _plus_40);
+		String _result_38 = result;
+		result = (_result_38 + "#\u041A\u043E\u043D\u0435\u0446\u041E\u0431\u043B\u0430\u0441\u0442\u0438");
+		String _result_39 = result;
+		String _lineSeparator_51 = System.lineSeparator();
+		String _lineSeparator_52 = System.lineSeparator();
+		String _plus_41 = (_lineSeparator_51 + _lineSeparator_52);
+		result = (_result_39 + _plus_41);
 		return result;
 	}
 

@@ -31,7 +31,6 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getFormatObject <em>Format Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getForSending <em>For Sending</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getForReceiving <em>For Receiving</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getSelectionVariant <em>Selection Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEvent <em>On Processing Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getOnProcessingEventPrefix <em>On Processing Event Prefix</em>}</li>
@@ -39,6 +38,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEvent <em>Data Selection Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEventPrefix <em>Data Selection Event Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getDataSelectionEventSuffix <em>Data Selection Event Suffix</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getIsDataCleaning <em>Is Data Cleaning</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl#getObjectRules <em>Object Rules</em>}</li>
  * </ul>
  *
@@ -205,24 +205,6 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Boolean getIsDataCleaning() {
-		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIsDataCleaning(Boolean newIsDataCleaning) {
-		eSet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, newIsDataCleaning);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public CmSelectionVariant getSelectionVariant() {
 		return (CmSelectionVariant)eGet(CmPackage.Literals.CM_DATA_RULE__SELECTION_VARIANT, true);
 	}
@@ -331,6 +313,24 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getIsDataCleaning() {
+		return (Boolean)eGet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsDataCleaning(Boolean newIsDataCleaning) {
+		eSet(CmPackage.Literals.CM_DATA_RULE__IS_DATA_CLEANING, newIsDataCleaning);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	public EList<CmObjectRule> getObjectRules() {
 		return (EList<CmObjectRule>)eGet(CmPackage.Literals.CM_DATA_RULE__OBJECT_RULES, true);
@@ -359,6 +359,22 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getOnProcessingEventDeclaration() {
+		int _length = this.getOnProcessingEvent().length();
+		boolean _equals = (_length == 0);
+		if (_equals) {
+			return "";
+		}
+		else {
+			return "\u041F\u041E\u0414_|||\u0418\u041C\u042F|||_\u041F\u0440\u0438\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0435".replace("|||\u0418\u041C\u042F|||", this.getName());
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getDataSelectionEventText() {
 		String _dataSelectionEventPrefix = this.getDataSelectionEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -377,13 +393,50 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getDataSelectionEventDeclaration() {
+		int _length = this.getDataSelectionEvent().length();
+		boolean _equals = (_length == 0);
+		if (_equals) {
+			return "";
+		}
+		else {
+			return "\u041F\u041E\u0414_|||\u0418\u041C\u042F|||_\u0412\u044B\u0431\u043E\u0440\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445".replace("|||\u0418\u041C\u042F|||", this.getName());
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDataCleaningDeclaration() {
+		Boolean _isDataCleaning = this.getIsDataCleaning();
+		if ((_isDataCleaning).booleanValue()) {
+			return "\u0418\u0441\u0442\u0438\u043D\u0430";
+		}
+		else {
+			return "\u041B\u043E\u0436\u044C";
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
 			case CmPackage.CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT:
 				return getOnProcessingEventText();
+			case CmPackage.CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION:
+				return getOnProcessingEventDeclaration();
 			case CmPackage.CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT:
 				return getDataSelectionEventText();
+			case CmPackage.CM_DATA_RULE___GET_DATA_SELECTION_EVENT_DECLARATION:
+				return getDataSelectionEventDeclaration();
+			case CmPackage.CM_DATA_RULE___GET_DATA_CLEANING_DECLARATION:
+				return getDataCleaningDeclaration();
 		}
 		return super.eInvoke(operationID, arguments);
 	}
