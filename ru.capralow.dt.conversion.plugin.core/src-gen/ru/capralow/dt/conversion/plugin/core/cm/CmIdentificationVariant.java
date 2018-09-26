@@ -39,14 +39,14 @@ public enum CmIdentificationVariant implements Enumerator {
 	SEARCH_FIELDS(1, "SearchFields", "\u041f\u043e \u043f\u043e\u043b\u044f\u043c \u043f\u043e\u0438\u0441\u043a\u0430"), //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
-	 * The '<em><b>UUID Then Serach Fields</b></em>' literal object.
+	 * The '<em><b>UUID Then Search Fields</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #UUID_THEN_SERACH_FIELDS_VALUE
+	 * @see #UUID_THEN_SEARCH_FIELDS_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	UUID_THEN_SERACH_FIELDS(2, "UUIDThenSerachFields", "\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u0443 \u043f\u043e\u0442\u043e\u043c \u043f\u043e \u043f\u043e\u043b\u044f\u043c \u043f\u043e\u0438\u0441\u043a\u0430"); //$NON-NLS-1$ //$NON-NLS-2$
+	UUID_THEN_SEARCH_FIELDS(2, "UUIDThenSearchFields", "\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u0443 \u043f\u043e\u0442\u043e\u043c \u043f\u043e \u043f\u043e\u043b\u044f\u043c \u043f\u043e\u0438\u0441\u043a\u0430"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * The '<em><b>UUID</b></em>' literal value.
@@ -79,19 +79,19 @@ public enum CmIdentificationVariant implements Enumerator {
 	public static final int SEARCH_FIELDS_VALUE = 1;
 
 	/**
-	 * The '<em><b>UUID Then Serach Fields</b></em>' literal value.
+	 * The '<em><b>UUID Then Search Fields</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>UUID Then Serach Fields</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>UUID Then Search Fields</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #UUID_THEN_SERACH_FIELDS
-	 * @model name="UUIDThenSerachFields" literal="\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u0443 \u043f\u043e\u0442\u043e\u043c \u043f\u043e \u043f\u043e\u043b\u044f\u043c \u043f\u043e\u0438\u0441\u043a\u0430"
+	 * @see #UUID_THEN_SEARCH_FIELDS
+	 * @model name="UUIDThenSearchFields" literal="\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u0443 \u043f\u043e\u0442\u043e\u043c \u043f\u043e \u043f\u043e\u043b\u044f\u043c \u043f\u043e\u0438\u0441\u043a\u0430"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int UUID_THEN_SERACH_FIELDS_VALUE = 2;
+	public static final int UUID_THEN_SEARCH_FIELDS_VALUE = 2;
 
 	/**
 	 * An array of all the '<em><b>Identification Variant</b></em>' enumerators.
@@ -103,7 +103,7 @@ public enum CmIdentificationVariant implements Enumerator {
 		new CmIdentificationVariant[] {
 			UUID,
 			SEARCH_FIELDS,
-			UUID_THEN_SERACH_FIELDS,
+			UUID_THEN_SEARCH_FIELDS,
 		};
 
 	/**
@@ -162,7 +162,7 @@ public enum CmIdentificationVariant implements Enumerator {
 		switch (value) {
 			case UUID_VALUE: return UUID;
 			case SEARCH_FIELDS_VALUE: return SEARCH_FIELDS;
-			case UUID_THEN_SERACH_FIELDS_VALUE: return UUID_THEN_SERACH_FIELDS;
+			case UUID_THEN_SEARCH_FIELDS_VALUE: return UUID_THEN_SEARCH_FIELDS;
 		}
 		return null;
 	}

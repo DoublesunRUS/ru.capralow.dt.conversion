@@ -33,7 +33,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getForSending <em>For Sending</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getForReceiving <em>For Receiving</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getForGroup <em>For Group</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIdentificationVariant <em>Identification Variant</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAttributeRules <em>Attribute Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnSendingEvent <em>On Sending Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnSendingEventPrefix <em>On Sending Event Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnSendingEventSuffix <em>On Sending Event Suffix</em>}</li>
@@ -44,7 +44,8 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnReceivingEventPrefix <em>On Receiving Event Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnReceivingEventSuffix <em>On Receiving Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getAttributeRules <em>Attribute Rules</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIdentificationVariant <em>Identification Variant</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIdentificationFields <em>Identification Fields</em>}</li>
  * </ul>
  *
  * @generated
@@ -228,17 +229,9 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CmIdentificationVariant getIdentificationVariant() {
-		return (CmIdentificationVariant)eGet(CmPackage.Literals.CM_OBJECT_RULE__IDENTIFICATION_VARIANT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIdentificationVariant(CmIdentificationVariant newIdentificationVariant) {
-		eSet(CmPackage.Literals.CM_OBJECT_RULE__IDENTIFICATION_VARIANT, newIdentificationVariant);
+	@SuppressWarnings("unchecked")
+	public EList<CmAttributeRule> getAttributeRules() {
+		return (EList<CmAttributeRule>)eGet(CmPackage.Literals.CM_OBJECT_RULE__ATTRIBUTE_RULES, true);
 	}
 
 	/**
@@ -399,9 +392,27 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CmIdentificationVariant getIdentificationVariant() {
+		return (CmIdentificationVariant)eGet(CmPackage.Literals.CM_OBJECT_RULE__IDENTIFICATION_VARIANT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIdentificationVariant(CmIdentificationVariant newIdentificationVariant) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__IDENTIFICATION_VARIANT, newIdentificationVariant);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
-	public EList<CmAttributeRule> getAttributeRules() {
-		return (EList<CmAttributeRule>)eGet(CmPackage.Literals.CM_OBJECT_RULE__ATTRIBUTE_RULES, true);
+	public EList<String> getIdentificationFields() {
+		return (EList<String>)eGet(CmPackage.Literals.CM_OBJECT_RULE__IDENTIFICATION_FIELDS, true);
 	}
 
 	/**

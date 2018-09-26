@@ -15,6 +15,7 @@ import com._1c.g5.v8.dt.bsl.model.BooleanLiteral;
 import com._1c.g5.v8.dt.bsl.model.Conditional;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.Expression;
+import com._1c.g5.v8.dt.bsl.model.FeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.FormalParam;
 import com._1c.g5.v8.dt.bsl.model.Function;
 import com._1c.g5.v8.dt.bsl.model.IfStatement;
@@ -367,8 +368,10 @@ public class ConversionModuleAnalyzer {
 
 							EList<Expression> params = rightInvocation.getParams();
 
-							configurationTabularSectionName = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"", "");
-							formatTabularSectionName = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
+							configurationTabularSectionName = ((StringLiteral) params.get(1)).getLines().get(0)
+									.replace("\"", "");
+							formatTabularSectionName = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"",
+									"");
 
 						} else {
 							throw new NullPointerException(
@@ -415,10 +418,10 @@ public class ConversionModuleAnalyzer {
 							String identificationVariant = stringLiteral.getLines().get(0).replace("\"", "");
 
 							objectRule.setIdentificationVariant(CmIdentificationVariant.UUID);
-							if (identificationVariant == "ПоПолямПоиска")
+							if (identificationVariant.equals("ПоПолямПоиска"))
 								objectRule.setIdentificationVariant(CmIdentificationVariant.SEARCH_FIELDS);
-							else if (identificationVariant == "СначалаПоУникальномуИдентификаторуПотомПоПолямПоиска")
-								objectRule.setIdentificationVariant(CmIdentificationVariant.UUID_THEN_SERACH_FIELDS);
+							else if (identificationVariant.equals("СначалаПоУникальномуИдентификаторуПотомПоПолямПоиска"))
+								objectRule.setIdentificationVariant(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS);
 
 						} else if (leftFeatureAccess.getName().equals("ПриОтправкеДанных")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -473,53 +476,71 @@ public class ConversionModuleAnalyzer {
 
 						EList<Expression> params = leftInvocation.getParams();
 
-						String configurationAttribute = "";
-						String formatAttribute = "";
-						boolean isCustomRule = false;
-						CmObjectRule attributeObjectRule = null;
+						FeatureAccess leftMethodAccess = leftInvocation.getMethodAccess();
+						if (leftMethodAccess instanceof StaticFeatureAccess) {
+							String configurationAttribute = "";
+							String formatAttribute = "";
+							boolean isCustomRule = false;
+							CmObjectRule attributeObjectRule = null;
 
-						if (params.size() >= 2 && params.get(1) instanceof StringLiteral)
-							configurationAttribute = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"",
-									"");
+							if (params.size() >= 2 && params.get(1) instanceof StringLiteral)
+								configurationAttribute = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"",
+										"");
 
-						if (params.size() >= 3 && params.get(2) instanceof StringLiteral)
-							formatAttribute = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
+							if (params.size() >= 3 && params.get(2) instanceof StringLiteral)
+								formatAttribute = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
 
-						if (params.size() >= 4 && params.get(3) instanceof NumberLiteral)
-							isCustomRule = ((NumberLiteral) params.get(3)).getValue().get(0).equals("0") ? false : true;
+							if (params.size() >= 4 && params.get(3) instanceof NumberLiteral)
+								isCustomRule = ((NumberLiteral) params.get(3)).getValue().get(0).equals("0") ? false
+										: true;
 
-						if (params.size() >= 5 && params.get(4) instanceof StringLiteral) {
-							String attributeRuleName = ((StringLiteral) params.get(4)).getLines().get(0).replace("\"",
-									"");
-							attributeObjectRule = conversionModule.getObjectRule(attributeRuleName);
+							if (params.size() >= 5 && params.get(4) instanceof StringLiteral) {
+								String attributeRuleName = ((StringLiteral) params.get(4)).getLines().get(0)
+										.replace("\"", "");
+								attributeObjectRule = conversionModule.getObjectRule(attributeRuleName);
 
-							if (attributeObjectRule == null) {
-								attributeObjectRule = new CmObjectRuleImpl();
+								if (attributeObjectRule == null) {
+									attributeObjectRule = new CmObjectRuleImpl();
 
-								attributeObjectRule.setName(attributeRuleName);
+									attributeObjectRule.setName(attributeRuleName);
 
-								objectRules.add(attributeObjectRule);
+									objectRules.add(attributeObjectRule);
+								}
 							}
+
+							EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
+
+							CmAttributeRuleImpl attributeRule = new CmAttributeRuleImpl();
+
+							attributeRule.setConfigurationTabularSectionName(configurationTabularSectionName);
+							attributeRule.setConfigurationAttributeName(configurationAttribute);
+							if (configurationAttribute.length() == 0)
+								attributeRule.setConfigurationTabularSectionName("");
+
+							attributeRule.setFormatTabularSectionName(formatTabularSectionName);
+							attributeRule.setFormatAttributeName(formatAttribute);
+							if (formatAttribute.length() == 0)
+								attributeRule.setFormatTabularSectionName("");
+
+							attributeRule.setIsCustomRule(isCustomRule);
+							attributeRule.setObjectRule(attributeObjectRule);
+
+							attributeRules.add(attributeRule);
+
+						} else if (leftMethodAccess instanceof DynamicFeatureAccess) {
+							DynamicFeatureAccess leftSource = (DynamicFeatureAccess) ((DynamicFeatureAccess) leftMethodAccess)
+									.getSource();
+
+							if (leftSource.getName().equals("ПоляПоиска")) {
+								EList<String> identificationFields = objectRule.getIdentificationFields();
+								identificationFields.add(((StringLiteral) params.get(0)).getLines().get(0).replace("\"", ""));
+								
+								
+							} else
+								throw new NullPointerException(
+										"Добавить ПКО: необработанный Source: " + leftSource.getName());
+
 						}
-
-						EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
-
-						CmAttributeRuleImpl attributeRule = new CmAttributeRuleImpl();
-
-						attributeRule.setConfigurationTabularSectionName(configurationTabularSectionName);
-						attributeRule.setConfigurationAttributeName(configurationAttribute);
-						if (configurationAttribute.length() == 0)
-							attributeRule.setConfigurationTabularSectionName("");
-
-						attributeRule.setFormatTabularSectionName(formatTabularSectionName);
-						attributeRule.setFormatAttributeName(formatAttribute);
-						if (formatAttribute.length() == 0)
-							attributeRule.setFormatTabularSectionName("");
-
-						attributeRule.setIsCustomRule(isCustomRule);
-						attributeRule.setObjectRule(attributeObjectRule);
-
-						attributeRules.add(attributeRule);
 
 					} else {
 						throw new NullPointerException(

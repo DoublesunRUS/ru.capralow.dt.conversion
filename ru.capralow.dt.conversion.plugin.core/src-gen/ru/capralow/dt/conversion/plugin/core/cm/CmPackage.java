@@ -648,13 +648,13 @@ public interface CmPackage extends EPackage {
 	int CM_OBJECT_RULE__FOR_GROUP = 7;
 
 	/**
-	 * The feature id for the '<em><b>Identification Variant</b></em>' attribute.
+	 * The feature id for the '<em><b>Attribute Rules</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__IDENTIFICATION_VARIANT = 8;
+	int CM_OBJECT_RULE__ATTRIBUTE_RULES = 8;
 
 	/**
 	 * The feature id for the '<em><b>On Sending Event</b></em>' attribute.
@@ -747,13 +747,22 @@ public interface CmPackage extends EPackage {
 	int CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = 18;
 
 	/**
-	 * The feature id for the '<em><b>Attribute Rules</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Identification Variant</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ATTRIBUTE_RULES = 19;
+	int CM_OBJECT_RULE__IDENTIFICATION_VARIANT = 19;
+
+	/**
+	 * The feature id for the '<em><b>Identification Fields</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__IDENTIFICATION_FIELDS = 20;
 
 	/**
 	 * The number of structural features of the '<em>Object Rule</em>' class.
@@ -762,7 +771,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE_FEATURE_COUNT = 20;
+	int CM_OBJECT_RULE_FEATURE_COUNT = 21;
 
 	/**
 	 * The operation id for the '<em>Get On Sending Event Text</em>' operation.
@@ -1764,15 +1773,15 @@ public interface CmPackage extends EPackage {
 	EAttribute getCmObjectRule_ForGroup();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}'.
+	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Identification Variant</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant()
+	 * @return the meta object for the containment reference list '<em>Attribute Rules</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules()
 	 * @see #getCmObjectRule()
 	 * @generated
 	 */
-	EAttribute getCmObjectRule_IdentificationVariant();
+	EReference getCmObjectRule_AttributeRules();
 
 	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEvent <em>On Sending Event</em>}'.
@@ -1885,15 +1894,26 @@ public interface CmPackage extends EPackage {
 	EReference getCmObjectRule_AfterReceivingAlgorithm();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}'.
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Attribute Rules</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules()
+	 * @return the meta object for the attribute '<em>Identification Variant</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant()
 	 * @see #getCmObjectRule()
 	 * @generated
 	 */
-	EReference getCmObjectRule_AttributeRules();
+	EAttribute getCmObjectRule_IdentificationVariant();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationFields <em>Identification Fields</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Identification Fields</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationFields()
+	 * @see #getCmObjectRule()
+	 * @generated
+	 */
+	EAttribute getCmObjectRule_IdentificationFields();
 
 	/**
 	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventText() <em>Get On Sending Event Text</em>}' operation.
@@ -2742,12 +2762,12 @@ public interface CmPackage extends EPackage {
 		EAttribute CM_OBJECT_RULE__FOR_GROUP = eINSTANCE.getCmObjectRule_ForGroup();
 
 		/**
-		 * The meta object literal for the '<em><b>Identification Variant</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Attribute Rules</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CM_OBJECT_RULE__IDENTIFICATION_VARIANT = eINSTANCE.getCmObjectRule_IdentificationVariant();
+		EReference CM_OBJECT_RULE__ATTRIBUTE_RULES = eINSTANCE.getCmObjectRule_AttributeRules();
 
 		/**
 		 * The meta object literal for the '<em><b>On Sending Event</b></em>' attribute feature.
@@ -2830,12 +2850,20 @@ public interface CmPackage extends EPackage {
 		EReference CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = eINSTANCE.getCmObjectRule_AfterReceivingAlgorithm();
 
 		/**
-		 * The meta object literal for the '<em><b>Attribute Rules</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Identification Variant</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CM_OBJECT_RULE__ATTRIBUTE_RULES = eINSTANCE.getCmObjectRule_AttributeRules();
+		EAttribute CM_OBJECT_RULE__IDENTIFICATION_VARIANT = eINSTANCE.getCmObjectRule_IdentificationVariant();
+
+		/**
+		 * The meta object literal for the '<em><b>Identification Fields</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT_RULE__IDENTIFICATION_FIELDS = eINSTANCE.getCmObjectRule_IdentificationFields();
 
 		/**
 		 * The meta object literal for the '<em><b>Get On Sending Event Text</b></em>' operation.

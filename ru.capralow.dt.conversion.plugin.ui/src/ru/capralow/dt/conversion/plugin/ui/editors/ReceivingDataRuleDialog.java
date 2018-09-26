@@ -6,8 +6,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -73,19 +76,20 @@ public class ReceivingDataRuleDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 
-		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		container.setLayout(new GridLayout(1, false));
+		GridLayoutFactory.fillDefaults().applyTo(container);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
 
 		CTabFolder tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
-		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridLayoutFactory.fillDefaults().applyTo(tabFolder);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tabFolder);
+
 		tabFolder.setSelectionBackground(
 				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
 		CTabItem tabItem1 = new CTabItem(tabFolder, SWT.NONE);
 		tabItem1.setText("Основные сведения");
 
-		Composite tabComposite1 = new Composite(tabFolder, 0);
-		tabItem1.setControl(tabComposite1);
+		Composite tabComposite1 = new Composite(tabFolder, SWT.NONE);
 		tabComposite1.setLayout(new GridLayout(3, false));
 
 		// 1.1
@@ -111,12 +115,12 @@ public class ReceivingDataRuleDialog extends Dialog {
 		ToolBar toolBarSelectionVariant = new ToolBar(tabComposite1, SWT.FLAT);
 
 		ToolItem tltmSelectionVariant1 = new ToolItem(toolBarSelectionVariant, SWT.CHECK);
-		tltmSelectionVariant1.setText("Стандартная выборка");
+		tltmSelectionVariant1.setText(CmSelectionVariant.STANDART.getLiteral());
 
 		new ToolItem(toolBarSelectionVariant, SWT.SEPARATOR);
 
 		ToolItem tltmSelectionVariant2 = new ToolItem(toolBarSelectionVariant, SWT.CHECK);
-		tltmSelectionVariant2.setText("Произвольный алгоритм");
+		tltmSelectionVariant2.setText(CmSelectionVariant.CUSTOM.getLiteral());
 
 		// 2.3
 		new Label(tabComposite1, SWT.NONE);
@@ -167,10 +171,20 @@ public class ReceivingDataRuleDialog extends Dialog {
 		new Label(tabComposite1, SWT.NONE);
 
 		// 6.1-3
-		TableViewer viewer = new TableViewer(tabComposite1, SWT.FULL_SELECTION | SWT.BORDER);
+		Composite compositeTable = new Composite(tabComposite1, SWT.NONE);
+		TableColumnLayout tcl = new TableColumnLayout();
+		compositeTable.setLayout(tcl);
+		compositeTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 3, 1));
+
+		TableViewer viewer = new TableViewer(compositeTable, SWT.FULL_SELECTION | SWT.BORDER);
+
+		Table table = viewer.getTable();
+
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
 		TableViewerColumn tblclmnColumn1 = new TableViewerColumn(viewer, SWT.NONE);
-		tblclmnColumn1.getColumn().setWidth(500);
+		tcl.setColumnData(tblclmnColumn1.getColumn(), new ColumnWeightData(1, 150, true));
 		tblclmnColumn1.getColumn().setText("Правило конвертации объекта");
 		tblclmnColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -199,11 +213,7 @@ public class ReceivingDataRuleDialog extends Dialog {
 
 		});
 
-		Table table = viewer.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
-
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
+		tabItem1.setControl(tabComposite1);
 
 		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));

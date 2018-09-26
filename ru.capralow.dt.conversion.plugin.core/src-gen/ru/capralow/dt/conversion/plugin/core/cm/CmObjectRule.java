@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForSending <em>For Sending</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForReceiving <em>For Receiving</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForGroup <em>For Group</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEvent <em>On Sending Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventPrefix <em>On Sending Event Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventSuffix <em>On Sending Event Suffix</em>}</li>
@@ -34,7 +34,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventPrefix <em>On Receiving Event Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnReceivingEventSuffix <em>On Receiving Event Suffix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAfterReceivingAlgorithm <em>After Receiving Algorithm</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationFields <em>Identification Fields</em>}</li>
  * </ul>
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule()
@@ -258,33 +259,20 @@ public interface CmObjectRule extends EObject {
 	void setForGroup(Boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Identification Variant</b></em>' attribute.
-	 * The literals are from the enumeration {@link ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant}.
+	 * Returns the value of the '<em><b>Attribute Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Identification Variant</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Attribute Rules</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Identification Variant</em>' attribute.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant
-	 * @see #setIdentificationVariant(CmIdentificationVariant)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_IdentificationVariant()
-	 * @model unique="false"
+	 * @return the value of the '<em>Attribute Rules</em>' containment reference list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AttributeRules()
+	 * @model containment="true"
 	 * @generated
 	 */
-	CmIdentificationVariant getIdentificationVariant();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Identification Variant</em>' attribute.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant
-	 * @see #getIdentificationVariant()
-	 * @generated
-	 */
-	void setIdentificationVariant(CmIdentificationVariant value);
+	EList<CmAttributeRule> getAttributeRules();
 
 	/**
 	 * Returns the value of the '<em><b>On Sending Event</b></em>' attribute.
@@ -523,20 +511,49 @@ public interface CmObjectRule extends EObject {
 	void setAfterReceivingAlgorithm(CmAlgorithm value);
 
 	/**
-	 * Returns the value of the '<em><b>Attribute Rules</b></em>' containment reference list.
-	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule}.
+	 * Returns the value of the '<em><b>Identification Variant</b></em>' attribute.
+	 * The literals are from the enumeration {@link ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Attribute Rules</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Identification Variant</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Attribute Rules</em>' containment reference list.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_AttributeRules()
-	 * @model containment="true"
+	 * @return the value of the '<em>Identification Variant</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant
+	 * @see #setIdentificationVariant(CmIdentificationVariant)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_IdentificationVariant()
+	 * @model unique="false"
 	 * @generated
 	 */
-	EList<CmAttributeRule> getAttributeRules();
+	CmIdentificationVariant getIdentificationVariant();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Identification Variant</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant
+	 * @see #getIdentificationVariant()
+	 * @generated
+	 */
+	void setIdentificationVariant(CmIdentificationVariant value);
+
+	/**
+	 * Returns the value of the '<em><b>Identification Fields</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Identification Fields</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Identification Fields</em>' attribute list.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_IdentificationFields()
+	 * @model unique="false"
+	 * @generated
+	 */
+	EList<String> getIdentificationFields();
 
 	/**
 	 * <!-- begin-user-doc -->

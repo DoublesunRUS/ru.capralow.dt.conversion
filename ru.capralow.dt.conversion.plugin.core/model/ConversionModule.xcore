@@ -373,8 +373,8 @@ class CmObjectRule {
 	
 	Boolean forGroup = "false"
 	
-	CmIdentificationVariant identificationVariant
-	
+	contains CmAttributeRule[] attributeRules
+
 	String onSendingEvent = ""
 	derived String onSendingEventPrefix get {
 		return "Процедура ПКО_&ИмяПКО_ПриОтправкеДанных(ДанныеИБ, ДанныеXDTO, КомпонентыОбмена, СтекВыгрузки)"
@@ -413,13 +413,15 @@ class CmObjectRule {
 
 	refers CmAlgorithm afterReceivingAlgorithm
 
-	contains CmAttributeRule[] attributeRules
+	CmIdentificationVariant identificationVariant
+	
+	String[] identificationFields
 }
 
 enum CmIdentificationVariant {
 	UUID as "По уникальному идентификатору" = 0
 	SearchFields as "По полям поиска" = 1
-	UUIDThenSerachFields as "Сначала по уникальному идентификатору потом по полям поиска" = 2
+	UUIDThenSearchFields as "Сначала по уникальному идентификатору потом по полям поиска" = 2
 }
 
 class CmAttributeRule {

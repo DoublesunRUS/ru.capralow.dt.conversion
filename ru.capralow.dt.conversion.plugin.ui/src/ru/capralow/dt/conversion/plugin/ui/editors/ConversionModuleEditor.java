@@ -6,7 +6,10 @@ import java.util.Iterator;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,10 +23,8 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -91,13 +92,13 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		toolkit.decorateFormHeading(form.getForm());
 		toolkit.paintBordersFor(body);
 
-		body.setLayout(new FillLayout());
-//		GridLayoutFactory.fillDefaults().applyTo(body);
-//		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, true).applyTo(body);
+		GridLayoutFactory.fillDefaults().applyTo(body);
 
 		// Страницы
 		CTabFolder tabFolder = new CTabFolder(body, SWT.FLAT);
-//		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridLayoutFactory.fillDefaults().applyTo(tabFolder);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tabFolder);
+
 		tabFolder.setBorderVisible(true);
 
 		toolkit.adapt(tabFolder);
@@ -111,9 +112,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem1.setText("Информация");
 
 		Composite compositeInformation = new Composite(tabFolder, SWT.BORDER);
-//		GridLayoutFactory.fillDefaults().applyTo(compositeInformation);
 		compositeInformation.setLayout(new GridLayout(2, false));
-//		compositeInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		// 1.1
 		Label lblStoreVersion = new Label(compositeInformation, SWT.NONE);
@@ -131,31 +130,35 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tltmStoreVersion2.setText("2");
 
 		// 2.1
-		new Label(compositeInformation, SWT.NONE).setText("Доступные версии формата:");
+		btnInformation = new Button(compositeInformation, SWT.PUSH);
+		btnInformation.setText("Общие события конвертации");
 
 		// 2.2
 		new Label(compositeInformation, SWT.NONE);
 
-		// 3.1-2
-		TableViewer viewerInformation = new TableViewer(compositeInformation,
+		// 3.1
+		new Label(compositeInformation, SWT.NONE).setText("Доступные версии формата:");
+
+		// 3.2
+		new Label(compositeInformation, SWT.NONE);
+
+		// 4.1-2
+		Composite compositeTableInformation = new Composite(compositeInformation, SWT.NONE);
+		TableColumnLayout tclInformation = new TableColumnLayout();
+		compositeTableInformation.setLayout(tclInformation);
+		compositeTableInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
+
+		TableViewer viewerInformation = new TableViewer(compositeTableInformation,
 				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
-		TableViewerColumn tblclmnINformationColumn1 = new TableViewerColumn(viewerInformation, SWT.NONE);
-		tblclmnINformationColumn1.getColumn().setWidth(150);
-		tblclmnINformationColumn1.getColumn().setText("Версия формата");
-
 		Table tableInformation = viewerInformation.getTable();
-		tableInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
 		tableInformation.setHeaderVisible(true);
 		tableInformation.setLinesVisible(true);
 
-		// 4.1
-		btnInformation = new Button(compositeInformation, SWT.PUSH);
-		btnInformation.setText("Общие события конвертации");
-
-		// 4.2
-		new Label(compositeInformation, SWT.NONE);
+		TableViewerColumn tblclmnInformationColumn1 = new TableViewerColumn(viewerInformation, SWT.NONE);
+		tclInformation.setColumnData(tblclmnInformationColumn1.getColumn(), new ColumnWeightData(1, 150, true));
+		tblclmnInformationColumn1.getColumn().setText("Версия формата");
 
 		tabItem1.setControl(compositeInformation);
 
@@ -164,15 +167,20 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem2.setText("ПОД: Отправка");
 
 		Composite compositeSendingDataRules = new Composite(tabFolder, SWT.BORDER);
-//		GridLayoutFactory.fillDefaults().applyTo(compositeSendingDataRules);
-		compositeSendingDataRules.setLayout(new FillLayout());
-//		compositeSendingDataRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		TableColumnLayout tclSendingDataRules = new TableColumnLayout();
+		compositeSendingDataRules.setLayout(tclSendingDataRules);
 
 		viewerSendingDataRules = new TableViewer(compositeSendingDataRules,
 				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
+		Table tableSendingDataRules = viewerSendingDataRules.getTable();
+
+		tableSendingDataRules.setHeaderVisible(true);
+		tableSendingDataRules.setLinesVisible(true);
+
 		TableViewerColumn tblclmnSendingDataRulesColumn1 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
-		tblclmnSendingDataRulesColumn1.getColumn().setWidth(300);
+		tclSendingDataRules.setColumnData(tblclmnSendingDataRulesColumn1.getColumn(),
+				new ColumnWeightData(2, 100, true));
 		tblclmnSendingDataRulesColumn1.getColumn().setText("Наименование");
 		tblclmnSendingDataRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -181,7 +189,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnSendingDataRulesColumn2 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
-		tblclmnSendingDataRulesColumn2.getColumn().setWidth(300);
+		tclSendingDataRules.setColumnData(tblclmnSendingDataRulesColumn2.getColumn(),
+				new ColumnWeightData(1, 100, true));
 		tblclmnSendingDataRulesColumn2.getColumn().setText("Объект конфигурации");
 		tblclmnSendingDataRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -192,7 +201,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnSendingDataRulesColumn3 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
-		tblclmnSendingDataRulesColumn3.getColumn().setWidth(100);
+		tclSendingDataRules.setColumnData(tblclmnSendingDataRulesColumn3.getColumn(), new ColumnPixelData(100));
 		tblclmnSendingDataRulesColumn3.getColumn().setText("При обработке");
 		tblclmnSendingDataRulesColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -201,7 +210,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnSendingDataRulesColumn4 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
-		tblclmnSendingDataRulesColumn4.getColumn().setWidth(105);
+		tclSendingDataRules.setColumnData(tblclmnSendingDataRulesColumn4.getColumn(), new ColumnPixelData(105));
 		tblclmnSendingDataRulesColumn4.getColumn().setText("Выборка данных");
 		tblclmnSendingDataRulesColumn4.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -230,12 +239,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		});
 
-		Table tableSendingDataRules = viewerSendingDataRules.getTable();
-		tableSendingDataRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		tableSendingDataRules.setHeaderVisible(true);
-		tableSendingDataRules.setLinesVisible(true);
-
 		tabItem2.setControl(compositeSendingDataRules);
 
 		// ПКО: Отправка
@@ -243,15 +246,20 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem3.setText("ПКО: Отправка");
 
 		Composite compositeSendingObjectRules = new Composite(tabFolder, SWT.BORDER);
-//		GridLayoutFactory.fillDefaults().applyTo(compositeSendingObjectRules);
-		compositeSendingObjectRules.setLayout(new FillLayout());
-//		compositeSendingObjectRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		TableColumnLayout tclSendingObjectRules = new TableColumnLayout();
+		compositeSendingObjectRules.setLayout(tclSendingObjectRules);
 
 		viewerSendingObjectRules = new TableViewer(compositeSendingObjectRules,
 				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
+		Table tableSendingObjectRules = viewerSendingObjectRules.getTable();
+
+		tableSendingObjectRules.setHeaderVisible(true);
+		tableSendingObjectRules.setLinesVisible(true);
+
 		TableViewerColumn tblclmnSendingObjectRulesColumn1 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
-		tblclmnSendingObjectRulesColumn1.getColumn().setWidth(300);
+		tclSendingObjectRules.setColumnData(tblclmnSendingObjectRulesColumn1.getColumn(),
+				new ColumnWeightData(2, 100, true));
 		tblclmnSendingObjectRulesColumn1.getColumn().setText("Наименование");
 		tblclmnSendingObjectRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -260,7 +268,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnSendingObjectRulesColumn2 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
-		tblclmnSendingObjectRulesColumn2.getColumn().setWidth(300);
+		tclSendingObjectRules.setColumnData(tblclmnSendingObjectRulesColumn2.getColumn(),
+				new ColumnWeightData(1, 100, true));
 		tblclmnSendingObjectRulesColumn2.getColumn().setText("Объект конфигурации");
 		tblclmnSendingObjectRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -271,7 +280,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnSendingObjectRulesColumn3 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
-		tblclmnSendingObjectRulesColumn3.getColumn().setWidth(300);
+		tclSendingObjectRules.setColumnData(tblclmnSendingObjectRulesColumn3.getColumn(),
+				new ColumnWeightData(1, 100, true));
 		tblclmnSendingObjectRulesColumn3.getColumn().setText("Объект формата");
 		tblclmnSendingObjectRulesColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -282,7 +292,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnSendingObjectRulesColumn4 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
-		tblclmnSendingObjectRulesColumn4.getColumn().setWidth(100);
+		tclSendingObjectRules.setColumnData(tblclmnSendingObjectRulesColumn4.getColumn(), new ColumnPixelData(100));
 		tblclmnSendingObjectRulesColumn4.getColumn().setText("При отправке данных");
 		tblclmnSendingObjectRulesColumn4.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -311,12 +321,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		});
 
-		Table tableSendingObjectRules = viewerSendingObjectRules.getTable();
-		tableSendingObjectRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		tableSendingObjectRules.setHeaderVisible(true);
-		tableSendingObjectRules.setLinesVisible(true);
-
 		tabItem3.setControl(compositeSendingObjectRules);
 
 		// ПОД: Получение
@@ -324,15 +328,20 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem4.setText("ПОД: Получение");
 
 		Composite compositeReceivingDataRules = new Composite(tabFolder, SWT.BORDER);
-//		GridLayoutFactory.fillDefaults().applyTo(compositeReceivingDataRules);
-		compositeReceivingDataRules.setLayout(new FillLayout());
-//		compositeReceivingDataRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		TableColumnLayout tclReceivingDataRules = new TableColumnLayout();
+		compositeReceivingDataRules.setLayout(tclReceivingDataRules);
 
 		viewerReceivingDataRules = new TableViewer(compositeReceivingDataRules,
 				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
+		Table tableReceivingDataRules = viewerReceivingDataRules.getTable();
+
+		tableReceivingDataRules.setHeaderVisible(true);
+		tableReceivingDataRules.setLinesVisible(true);
+
 		TableViewerColumn tblclmnReceivingDataRulesColumn1 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
-		tblclmnReceivingDataRulesColumn1.getColumn().setWidth(300);
+		tclReceivingDataRules.setColumnData(tblclmnReceivingDataRulesColumn1.getColumn(),
+				new ColumnWeightData(2, 100, true));
 		tblclmnReceivingDataRulesColumn1.getColumn().setText("Наименование");
 		tblclmnReceivingDataRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -341,7 +350,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnReceivingDataRulesColumn2 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
-		tblclmnReceivingDataRulesColumn2.getColumn().setWidth(300);
+		tclReceivingDataRules.setColumnData(tblclmnReceivingDataRulesColumn2.getColumn(),
+				new ColumnWeightData(1, 100, true));
 		tblclmnReceivingDataRulesColumn2.getColumn().setText("Объект формата");
 		tblclmnReceivingDataRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -352,7 +362,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnReceivingDataRulesColumn3 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
-		tblclmnReceivingDataRulesColumn3.getColumn().setWidth(100);
+		tclReceivingDataRules.setColumnData(tblclmnReceivingDataRulesColumn3.getColumn(), new ColumnPixelData(100));
 		tblclmnReceivingDataRulesColumn3.getColumn().setText("При обработке");
 		tblclmnReceivingDataRulesColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -381,12 +391,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		});
 
-		Table tableReceivingDataRules = viewerReceivingDataRules.getTable();
-		tableReceivingDataRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		tableReceivingDataRules.setHeaderVisible(true);
-		tableReceivingDataRules.setLinesVisible(true);
-
 		tabItem4.setControl(compositeReceivingDataRules);
 
 		// ПКО: Получение
@@ -394,15 +398,21 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem5.setText("ПКО: Получение");
 
 		Composite compositeReceivingObjectRules = new Composite(tabFolder, SWT.BORDER);
-//		GridLayoutFactory.fillDefaults().applyTo(compositeReceivingObjectRules);
-		compositeReceivingObjectRules.setLayout(new FillLayout());
-//		compositeReceivingObjectRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-	
-		viewerReceivingObjectRules = new TableViewer(compositeReceivingObjectRules,
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		TableColumnLayout tclReceivingObjectRules = new TableColumnLayout();
+		compositeReceivingObjectRules.setLayout(tclReceivingObjectRules);
 
-		TableViewerColumn tblclmnReceivingObjectRulesColumn1 = new TableViewerColumn(viewerReceivingObjectRules, SWT.NONE);
-		tblclmnReceivingObjectRulesColumn1.getColumn().setWidth(300);
+		viewerReceivingObjectRules = new TableViewer(compositeReceivingObjectRules,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+
+		Table tableReceivingObjectRules = viewerReceivingObjectRules.getTable();
+
+		tableReceivingObjectRules.setHeaderVisible(true);
+		tableReceivingObjectRules.setLinesVisible(true);
+
+		TableViewerColumn tblclmnReceivingObjectRulesColumn1 = new TableViewerColumn(viewerReceivingObjectRules,
+				SWT.NONE);
+		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn1.getColumn(),
+				new ColumnWeightData(2, 100, true));
 		tblclmnReceivingObjectRulesColumn1.getColumn().setText("Наименование");
 		tblclmnReceivingObjectRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -410,8 +420,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmObjectRule) element).getName();
 			}
 		});
-		TableViewerColumn tblclmnReceivingObjectRulesColumn2 = new TableViewerColumn(viewerReceivingObjectRules, SWT.NONE);
-		tblclmnReceivingObjectRulesColumn2.getColumn().setWidth(300);
+		TableViewerColumn tblclmnReceivingObjectRulesColumn2 = new TableViewerColumn(viewerReceivingObjectRules,
+				SWT.NONE);
+		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn2.getColumn(),
+				new ColumnWeightData(1, 100, true));
 		tblclmnReceivingObjectRulesColumn2.getColumn().setText("Объект конфигурации");
 		tblclmnReceivingObjectRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -421,8 +433,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmObjectRule) element).getConfigurationObject().toString();
 			}
 		});
-		TableViewerColumn tblclmnReceivingObjectRulesColumn3 = new TableViewerColumn(viewerReceivingObjectRules, SWT.NONE);
-		tblclmnReceivingObjectRulesColumn3.getColumn().setWidth(300);
+		TableViewerColumn tblclmnReceivingObjectRulesColumn3 = new TableViewerColumn(viewerReceivingObjectRules,
+				SWT.NONE);
+		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn3.getColumn(),
+				new ColumnWeightData(1, 100, true));
 		tblclmnReceivingObjectRulesColumn3.getColumn().setText("Объект формата");
 		tblclmnReceivingObjectRulesColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -432,8 +446,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmObjectRule) element).getFormatObject().toString();
 			}
 		});
-		TableViewerColumn tblclmnReceivingObjectRulesColumn4 = new TableViewerColumn(viewerReceivingObjectRules, SWT.NONE);
-		tblclmnReceivingObjectRulesColumn4.getColumn().setWidth(100);
+		TableViewerColumn tblclmnReceivingObjectRulesColumn4 = new TableViewerColumn(viewerReceivingObjectRules,
+				SWT.NONE);
+		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn4.getColumn(), new ColumnPixelData(100));
 		tblclmnReceivingObjectRulesColumn4.getColumn().setText("При конвертации данных XDTO");
 		tblclmnReceivingObjectRulesColumn4.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -441,8 +456,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmObjectRule) element).getBeforeReceivingEvent().length() != 0 ? "Да" : "Нет";
 			}
 		});
-		TableViewerColumn tblclmnReceivingObjectRulesColumn5 = new TableViewerColumn(viewerReceivingObjectRules, SWT.NONE);
-		tblclmnReceivingObjectRulesColumn5.getColumn().setWidth(100);
+		TableViewerColumn tblclmnReceivingObjectRulesColumn5 = new TableViewerColumn(viewerReceivingObjectRules,
+				SWT.NONE);
+		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn5.getColumn(), new ColumnPixelData(100));
 		tblclmnReceivingObjectRulesColumn5.getColumn().setText("Перед записью полученных данных");
 		tblclmnReceivingObjectRulesColumn5.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -450,8 +466,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmObjectRule) element).getOnReceivingEvent().length() != 0 ? "Да" : "Нет";
 			}
 		});
-		TableViewerColumn tblclmnReceivingObjectRulesColumn6 = new TableViewerColumn(viewerReceivingObjectRules, SWT.NONE);
-		tblclmnReceivingObjectRulesColumn6.getColumn().setWidth(100);
+		TableViewerColumn tblclmnReceivingObjectRulesColumn6 = new TableViewerColumn(viewerReceivingObjectRules,
+				SWT.NONE);
+		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn6.getColumn(), new ColumnPixelData(100));
 		tblclmnReceivingObjectRulesColumn6.getColumn().setText("После загрузки всех данных");
 		tblclmnReceivingObjectRulesColumn6.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -480,12 +497,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		});
 
-		Table tableReceivingObjectRules = viewerReceivingObjectRules.getTable();
-		tableReceivingObjectRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		tableReceivingObjectRules.setHeaderVisible(true);
-		tableReceivingObjectRules.setLinesVisible(true);
-
 		tabItem5.setControl(compositeReceivingObjectRules);
 
 		// Алгоритмы
@@ -493,14 +504,18 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tabItem6.setText("Алгоритмы");
 
 		Composite compositeAlgorithms = new Composite(tabFolder, SWT.BORDER);
-//		GridLayoutFactory.fillDefaults().applyTo(compositeAlgorithms);
-		compositeAlgorithms.setLayout(new FillLayout());
-//		compositeAlgorithms.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		TableColumnLayout tclAlgorithms = new TableColumnLayout();
+		compositeAlgorithms.setLayout(tclAlgorithms);
 
 		viewerAlgorithms = new TableViewer(compositeAlgorithms, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
+		Table tableAlgorithms = viewerAlgorithms.getTable();
+
+		tableAlgorithms.setHeaderVisible(true);
+		tableAlgorithms.setLinesVisible(true);
+
 		TableViewerColumn tblclmnAlgorithmsColumn1 = new TableViewerColumn(viewerAlgorithms, SWT.NONE);
-		tblclmnAlgorithmsColumn1.getColumn().setWidth(80);
+		tclAlgorithms.setColumnData(tblclmnAlgorithmsColumn1.getColumn(), new ColumnPixelData(80));
 		tblclmnAlgorithmsColumn1.getColumn().setText("Тип");
 		tblclmnAlgorithmsColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -509,7 +524,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnAlgorithmsColumn2 = new TableViewerColumn(viewerAlgorithms, SWT.NONE);
-		tblclmnAlgorithmsColumn2.getColumn().setWidth(300);
+		tclAlgorithms.setColumnData(tblclmnAlgorithmsColumn2.getColumn(), new ColumnWeightData(2, 100, true));
 		tblclmnAlgorithmsColumn2.getColumn().setText("Имя");
 		tblclmnAlgorithmsColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -518,7 +533,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnAlgorithmsColumn3 = new TableViewerColumn(viewerAlgorithms, SWT.NONE);
-		tblclmnAlgorithmsColumn3.getColumn().setWidth(300);
+		tclAlgorithms.setColumnData(tblclmnAlgorithmsColumn3.getColumn(), new ColumnWeightData(1, 100, true));
 		tblclmnAlgorithmsColumn3.getColumn().setText("Параметры");
 		tblclmnAlgorithmsColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -527,7 +542,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 		TableViewerColumn tblclmnAlgorithmsColumn4 = new TableViewerColumn(viewerAlgorithms, SWT.NONE);
-		tblclmnAlgorithmsColumn4.getColumn().setWidth(60);
+		tclAlgorithms.setColumnData(tblclmnAlgorithmsColumn4.getColumn(), new ColumnPixelData(60));
 		tblclmnAlgorithmsColumn4.getColumn().setText("Экспорт");
 		tblclmnAlgorithmsColumn4.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -556,18 +571,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		});
 
-		Table tableAlgorithms = viewerAlgorithms.getTable();
-		tableAlgorithms.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		tableAlgorithms.setHeaderVisible(true);
-		tableAlgorithms.setLinesVisible(true);
-
 		tabItem6.setControl(compositeAlgorithms);
 
 		tabFolder.setSelection(0);
 
 		hookListeners();
-
 	}
 
 	@Override
@@ -620,8 +628,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				if (element instanceof CmDataRule) {
 					CmDataRule dataRule = ((CmDataRule) element);
 
-					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(event.getViewer().getControl().getShell(),
-							dataRule);
+					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
+							event.getViewer().getControl().getShell(), dataRule);
 					if (dataRuleDialog.open() == Window.OK) {
 						updateModule();
 					}
@@ -672,8 +680,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				if (element instanceof CmDataRule) {
 					CmDataRule dataRule = ((CmDataRule) element);
 
-					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(event.getViewer().getControl().getShell(),
-							dataRule);
+					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
+							event.getViewer().getControl().getShell(), dataRule);
 					if (dataRuleDialog.open() == Window.OK) {
 						updateModule();
 					}
