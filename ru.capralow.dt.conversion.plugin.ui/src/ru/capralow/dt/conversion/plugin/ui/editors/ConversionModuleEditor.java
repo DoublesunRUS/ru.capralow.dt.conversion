@@ -62,7 +62,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private ConversionModuleAnalyzer conversionModuleAnalyzer;
 	private ConversionModule conversionModule;
 
-	private TableViewer viewerSendingDataRules, viewerAlgorithms;
+	private TableViewer viewerSendingDataRules, viewerReceivingDataRules, viewerAlgorithms;
 
 	private Button btnInformation;
 
@@ -234,54 +234,75 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		tabItem.setControl(compositeSendingDataRules);
 
-		// // Получение
-		// tabItem = new CTabItem(tabFolder, SWT.NONE);
-		// tabItem.setText("Получение");
-		//
-		// Tree tree2 = new Tree(tabFolder, SWT.NONE);
-		// tree2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		// tree2.setHeaderVisible(true);
-		// TreeColumn column21 = new TreeColumn(tree2, SWT.LEFT);
-		// column21.setText("Column 1");
-		// column21.setWidth(200);
-		// TreeColumn column22 = new TreeColumn(tree2, SWT.CENTER);
-		// column22.setText("Column 2");
-		// column22.setWidth(200);
-		// TreeColumn column23 = new TreeColumn(tree2, SWT.RIGHT);
-		// column23.setText("Column 3");
-		// column23.setWidth(200);
-		//
-		// treeViewerReceivingEvents = new TreeViewer(tree);
-		// treeViewerReceivingEvents.setContentProvider(new
-		// SendingDataRulesContentProvider());
-		// treeViewerReceivingEvents.setLabelProvider(new
-		// SendingDataRulesLabelProvider());
-		//
-		// tabItem.setControl(tree2);
-		//
-		// // Предопределенные
-		// tabItem = new CTabItem(tabFolder, SWT.NONE);
-		// tabItem.setText("Предопределенные");
-		//
-		// Tree tree3 = new Tree(tabFolder, SWT.NONE);
-		// tree3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		// tree3.setHeaderVisible(true);
-		// TreeColumn column31 = new TreeColumn(tree3, SWT.LEFT);
-		// column31.setText("Column 1");
-		// column31.setWidth(200);
-		// TreeColumn column32 = new TreeColumn(tree3, SWT.CENTER);
-		// column32.setText("Column 2");
-		// column32.setWidth(200);
-		// TreeColumn column33 = new TreeColumn(tree3, SWT.RIGHT);
-		// column33.setText("Column 3");
-		// column33.setWidth(200);
-		//
-		// treeViewerPredefined = new TreeViewer(tree3);
-		// treeViewerPredefined.setContentProvider(new
-		// SendingDataRulesContentProvider());
-		// treeViewerPredefined.setLabelProvider(new SendingDataRulesLabelProvider());
-		//
-		// tabItem.setControl(tree3);
+		// ПОД: Получение
+		tabItem = new CTabItem(tabFolder, SWT.NONE);
+		tabItem.setText("ПОД: Получение");
+
+		Composite compositeReceivingDataRules = new Composite(tabFolder, SWT.BORDER);
+		compositeReceivingDataRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridLayoutFactory.fillDefaults().applyTo(compositeReceivingDataRules);
+		compositeReceivingDataRules.setLayout(new GridLayout(1, false));
+
+		viewerReceivingDataRules = new TableViewer(compositeReceivingDataRules,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+
+		TableViewerColumn tblclmnReceivingDataRulesColumn1 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
+		tblclmnReceivingDataRulesColumn1.getColumn().setWidth(300);
+		tblclmnReceivingDataRulesColumn1.getColumn().setText("Наименование");
+		tblclmnReceivingDataRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CmDataRule) element).getName();
+			}
+		});
+		TableViewerColumn tblclmnReceivingDataRulesColumn2 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
+		tblclmnReceivingDataRulesColumn2.getColumn().setWidth(300);
+		tblclmnReceivingDataRulesColumn2.getColumn().setText("Объект формата");
+		tblclmnReceivingDataRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (((CmDataRule) element).getFormatObject() == null)
+					return "";
+				return ((CmDataRule) element).getFormatObject().toString();
+			}
+		});
+		TableViewerColumn tblclmnReceivingDataRulesColumn3 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
+		tblclmnReceivingDataRulesColumn3.getColumn().setWidth(100);
+		tblclmnReceivingDataRulesColumn3.getColumn().setText("При обработке");
+		tblclmnReceivingDataRulesColumn3.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CmDataRule) element).getOnProcessingEvent().length() != 0 ? "Да" : "Нет";
+			}
+		});
+
+		viewerReceivingDataRules.setContentProvider(new IStructuredContentProvider() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public Object[] getElements(Object inputElement) {
+				EList<Object> dataRules = (EList<Object>) inputElement;
+
+				Object[] viewerContent = new Object[dataRules.size()];
+
+				int i = 0;
+				Iterator<Object> itr = dataRules.iterator();
+				while (itr.hasNext()) {
+					viewerContent[i] = itr.next();
+					i++;
+				}
+
+				return viewerContent;
+			}
+
+		});
+
+		Table tableReceivingDataRules = viewerReceivingDataRules.getTable();
+		tableReceivingDataRules.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+
+		tableReceivingDataRules.setHeaderVisible(true);
+		tableReceivingDataRules.setLinesVisible(true);
+
+		tabItem.setControl(compositeReceivingDataRules);
 
 		// Алгоритмы
 		tabItem = new CTabItem(tabFolder, SWT.NONE);
@@ -375,6 +396,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
 
+		viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules());
+
 		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
 
 		super.activate();
@@ -411,7 +434,33 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				if (element instanceof CmDataRule) {
 					CmDataRule dataRule = ((CmDataRule) element);
 
-					DataRuleDialog dataRuleDialog = new DataRuleDialog(event.getViewer().getControl().getShell(),
+					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(event.getViewer().getControl().getShell(),
+							dataRule);
+					if (dataRuleDialog.open() == Window.OK) {
+						updateModule();
+					}
+					;
+				}
+
+			}
+		}));
+
+		viewerReceivingDataRules.addDoubleClickListener((new IDoubleClickListener() {
+
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				ISelection selection = event.getSelection();
+
+				if (selection.isEmpty()) {
+					return;
+				}
+
+				Object element = ((IStructuredSelection) selection).getFirstElement();
+
+				if (element instanceof CmDataRule) {
+					CmDataRule dataRule = ((CmDataRule) element);
+
+					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(event.getViewer().getControl().getShell(),
 							dataRule);
 					if (dataRuleDialog.open() == Window.OK) {
 						updateModule();
@@ -451,9 +500,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	private void updateModule() {
 		String newModule = conversionModule.getModuleText();
-		
+
 		System.out.print(newModule);
-		
+
 		XtextEditor embeddedEditor = null;
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		for (IEditorReference editorReference : page.getEditorReferences()) {
@@ -476,7 +525,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		if (embeddedEditor == null)
 			return;
-		
+
 	}
 
 }

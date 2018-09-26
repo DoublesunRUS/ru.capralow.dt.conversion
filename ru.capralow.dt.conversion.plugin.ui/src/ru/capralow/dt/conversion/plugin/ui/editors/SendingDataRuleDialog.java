@@ -41,7 +41,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
 
 @SuppressWarnings("restriction")
-public class DataRuleDialog extends Dialog {
+public class SendingDataRuleDialog extends Dialog {
 
 	private CmDataRule dataRule;
 	private Text txtDataRuleName, txtObjectRuleName;
@@ -57,7 +57,7 @@ public class DataRuleDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public DataRuleDialog(Shell parentShell, CmDataRule dataRule) {
+	public SendingDataRuleDialog(Shell parentShell, CmDataRule dataRule) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
