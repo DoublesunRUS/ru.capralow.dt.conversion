@@ -2,6 +2,10 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.impl;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -164,6 +168,58 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 */
 	public void setIsCustomRule(Boolean newIsCustomRule) {
 		eSet(CmPackage.Literals.CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE, newIsCustomRule);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getConfigurationAttributeFullName() {
+		String result = this.getConfigurationAttributeName();
+		int _length = this.getConfigurationTabularSectionName().length();
+		boolean _notEquals = (_length != 0);
+		if (_notEquals) {
+			String _configurationTabularSectionName = this.getConfigurationTabularSectionName();
+			String _plus = (_configurationTabularSectionName + ".");
+			String _plus_1 = (_plus + result);
+			result = _plus_1;
+		}
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFormatAttributeFullName() {
+		String result = this.getFormatAttributeName();
+		int _length = this.getFormatTabularSectionName().length();
+		boolean _notEquals = (_length != 0);
+		if (_notEquals) {
+			String _formatTabularSectionName = this.getFormatTabularSectionName();
+			String _plus = (_formatTabularSectionName + ".");
+			String _plus_1 = (_plus + result);
+			result = _plus_1;
+		}
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case CmPackage.CM_ATTRIBUTE_RULE___GET_CONFIGURATION_ATTRIBUTE_FULL_NAME:
+				return getConfigurationAttributeFullName();
+			case CmPackage.CM_ATTRIBUTE_RULE___GET_FORMAT_ATTRIBUTE_FULL_NAME:
+				return getFormatAttributeFullName();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //CmAttributeRuleImpl

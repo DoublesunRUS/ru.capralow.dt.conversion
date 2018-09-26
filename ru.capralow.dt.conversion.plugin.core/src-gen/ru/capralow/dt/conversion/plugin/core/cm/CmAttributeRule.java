@@ -187,4 +187,22 @@ public interface CmAttributeRule extends EObject {
 	 */
 	void setIsCustomRule(Boolean value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; result = this.getConfigurationAttributeName();\nint _length = this.getConfigurationTabularSectionName().length();\nboolean _notEquals = (_length != 0);\nif (_notEquals)\n{\n\t&lt;%java.lang.String%&gt; _configurationTabularSectionName = this.getConfigurationTabularSectionName();\n\t&lt;%java.lang.String%&gt; _plus = (_configurationTabularSectionName + \".\");\n\t&lt;%java.lang.String%&gt; _plus_1 = (_plus + result);\n\tresult = _plus_1;\n}\nreturn result;'"
+	 * @generated
+	 */
+	String getConfigurationAttributeFullName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; result = this.getFormatAttributeName();\nint _length = this.getFormatTabularSectionName().length();\nboolean _notEquals = (_length != 0);\nif (_notEquals)\n{\n\t&lt;%java.lang.String%&gt; _formatTabularSectionName = this.getFormatTabularSectionName();\n\t&lt;%java.lang.String%&gt; _plus = (_formatTabularSectionName + \".\");\n\t&lt;%java.lang.String%&gt; _plus_1 = (_plus + result);\n\tresult = _plus_1;\n}\nreturn result;'"
+	 * @generated
+	 */
+	String getFormatAttributeFullName();
+
 } // CmAttributeRule

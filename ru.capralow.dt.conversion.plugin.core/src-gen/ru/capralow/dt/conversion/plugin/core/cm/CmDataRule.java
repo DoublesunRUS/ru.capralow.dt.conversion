@@ -293,7 +293,7 @@ public interface CmDataRule extends EObject {
 	 * @return the value of the '<em>On Processing Event Prefix</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_OnProcessingEventPrefix()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041E\\u0431\\u0440\\u0430\\u0431\\u043E\\u0442\\u043A\\u0435(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u0418\\u0441\\u043F\\u043E\\u043B\\u044C\\u0437\\u043E\\u0432\\u0430\\u043D\\u0438\\u0435\\u041F\\u041A\\u041E, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041E\\u0414_&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414_\\u041F\\u0440\\u0438\\u041E\\u0431\\u0440\\u0430\\u0431\\u043E\\u0442\\u043A\\u0435(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u0418\\u0441\\u043F\\u043E\\u043B\\u044C\\u0437\\u043E\\u0432\\u0430\\u043D\\u0438\\u0435\\u041F\\u041E\\u0414, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414\", this.getName());'"
 	 * @generated
 	 */
 	String getOnProcessingEventPrefix();
@@ -363,7 +363,7 @@ public interface CmDataRule extends EObject {
 	 * @return the value of the '<em>Data Selection Event Prefix</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmDataRule_DataSelectionEventPrefix()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u0424\\u0443\\u043D\\u043A\\u0446\\u0438\\u044F \\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u0412\\u044B\\u0431\\u043E\\u0440\\u043A\\u0430\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u0424\\u0443\\u043D\\u043A\\u0446\\u0438\\u044F \\u041F\\u041E\\u0414_&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414_\\u0412\\u044B\\u0431\\u043E\\u0440\\u043A\\u0430\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414\", this.getName());'"
 	 * @generated
 	 */
 	String getDataSelectionEventPrefix();
@@ -451,7 +451,7 @@ public interface CmDataRule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getOnProcessingEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041E\\u0431\\u0440\\u0430\\u0431\\u043E\\u0442\\u043A\\u0435\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());\n}'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getOnProcessingEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041E\\u0414_&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414_\\u041F\\u0440\\u0438\\u041E\\u0431\\u0440\\u0430\\u0431\\u043E\\u0442\\u043A\\u0435\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414\", this.getName());\n}'"
 	 * @generated
 	 */
 	String getOnProcessingEventDeclaration();
@@ -469,7 +469,7 @@ public interface CmDataRule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getDataSelectionEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041E\\u0414_|||\\u0418\\u041C\\u042F|||_\\u0412\\u044B\\u0431\\u043E\\u0440\\u043A\\u0430\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());\n}'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getDataSelectionEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041E\\u0414_&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414_\\u0412\\u044B\\u0431\\u043E\\u0440\\u043A\\u0430\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041E\\u0414\", this.getName());\n}'"
 	 * @generated
 	 */
 	String getDataSelectionEventDeclaration();

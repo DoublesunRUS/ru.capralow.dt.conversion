@@ -463,6 +463,40 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Object> getSendingObjectRules() {
+		final BasicEList<Object> result = XcoreCollectionLiterals.<Object>newBasicEList();
+		EList<CmObjectRule> _objectRules = this.getObjectRules();
+		for (final CmObjectRule objectRule : _objectRules) {
+			Boolean _forSending = objectRule.getForSending();
+			if ((_forSending).booleanValue()) {
+				result.add(objectRule);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Object> getReceivingObjectRules() {
+		final BasicEList<Object> result = XcoreCollectionLiterals.<Object>newBasicEList();
+		EList<CmObjectRule> _objectRules = this.getObjectRules();
+		for (final CmObjectRule objectRule : _objectRules) {
+			Boolean _forReceiving = objectRule.getForReceiving();
+			if ((_forReceiving).booleanValue()) {
+				result.add(objectRule);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public CmAlgorithm getAlgorithm(final String algorithmName) {
 		EList<CmAlgorithm> _algorithms = this.getAlgorithms();
 		for (final CmAlgorithm algorithm : _algorithms) {
@@ -809,6 +843,10 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 				return getReceivingDataRules();
 			case CmPackage.CONVERSION_MODULE___GET_OBJECT_RULE__STRING:
 				return getObjectRule((String)arguments.get(0));
+			case CmPackage.CONVERSION_MODULE___GET_SENDING_OBJECT_RULES:
+				return getSendingObjectRules();
+			case CmPackage.CONVERSION_MODULE___GET_RECEIVING_OBJECT_RULES:
+				return getReceivingObjectRules();
 			case CmPackage.CONVERSION_MODULE___GET_ALGORITHM__STRING:
 				return getAlgorithm((String)arguments.get(0));
 			case CmPackage.CONVERSION_MODULE___GET_ALL_ALGORITHMS_TEXT__STRING:

@@ -124,12 +124,12 @@ public class ReceivingDataRuleDialog extends Dialog {
 		// 3.1
 		Label lblFormatObjectName = new Label(tabComposite1, SWT.NONE);
 		lblFormatObjectName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblFormatObjectName.setText("Объект конфигурации");
+		lblFormatObjectName.setText("Объект формата");
 
 		// 3.2
 		txtFormatObjectName = new Text(tabComposite1, SWT.BORDER);
 		txtFormatObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		txtFormatObjectName.setText("<Объект конфигурации>");
+		txtFormatObjectName.setText("<Объект формата>");
 
 		// 3.3
 		new Label(tabComposite1, SWT.NONE);

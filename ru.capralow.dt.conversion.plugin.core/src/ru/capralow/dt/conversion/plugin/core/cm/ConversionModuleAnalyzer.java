@@ -367,8 +367,8 @@ public class ConversionModuleAnalyzer {
 
 							EList<Expression> params = rightInvocation.getParams();
 
-							configurationTabularSectionName = ((StringLiteral) params.get(1)).getLines().get(0);
-							formatTabularSectionName = ((StringLiteral) params.get(2)).getLines().get(0);
+							configurationTabularSectionName = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"", "");
+							formatTabularSectionName = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
 
 						} else {
 							throw new NullPointerException(
@@ -408,7 +408,7 @@ public class ConversionModuleAnalyzer {
 						} else if (leftFeatureAccess.getName().equals("ПравилоДляГруппыСправочника")) {
 							BooleanLiteral booleanLiteral = (BooleanLiteral) rightExpression;
 
-							objectRule.setIsForGroup(booleanLiteral.isIsTrue());
+							objectRule.setForGroup(booleanLiteral.isIsTrue());
 
 						} else if (leftFeatureAccess.getName().equals("ВариантИдентификации")) {
 							StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -508,9 +508,13 @@ public class ConversionModuleAnalyzer {
 
 						attributeRule.setConfigurationTabularSectionName(configurationTabularSectionName);
 						attributeRule.setConfigurationAttributeName(configurationAttribute);
+						if (configurationAttribute.length() == 0)
+							attributeRule.setConfigurationTabularSectionName("");
 
 						attributeRule.setFormatTabularSectionName(formatTabularSectionName);
 						attributeRule.setFormatAttributeName(formatAttribute);
+						if (formatAttribute.length() == 0)
+							attributeRule.setFormatTabularSectionName("");
 
 						attributeRule.setIsCustomRule(isCustomRule);
 						attributeRule.setObjectRule(attributeObjectRule);

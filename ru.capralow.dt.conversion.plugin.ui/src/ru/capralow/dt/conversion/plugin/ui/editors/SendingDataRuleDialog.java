@@ -262,6 +262,9 @@ public class SendingDataRuleDialog extends Dialog {
 		tltmSelectionVariant1.setSelection(selectionVariant == CmSelectionVariant.STANDART);
 		tltmSelectionVariant2.setSelection(selectionVariant == CmSelectionVariant.CUSTOM);
 
+		if (selectionVariant == CmSelectionVariant.STANDART)
+			tabItem3.dispose();
+		
 		txtConfigurationObjectName.setText("");
 		if (dataRule.getConfigurationObject() != null)
 			txtConfigurationObjectName.setText(dataRule.getConfigurationObject().toString());

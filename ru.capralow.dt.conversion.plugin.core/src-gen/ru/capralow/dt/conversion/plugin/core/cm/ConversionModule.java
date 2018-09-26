@@ -381,6 +381,7 @@ public interface ConversionModule extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Object Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule}.
+	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConversionModule <em>Conversion Module</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Object Rules</em>' containment reference list isn't clear,
@@ -389,7 +390,8 @@ public interface ConversionModule extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object Rules</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getConversionModule_ObjectRules()
-	 * @model containment="true"
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConversionModule
+	 * @model opposite="conversionModule" containment="true"
 	 * @generated
 	 */
 	EList<CmObjectRule> getObjectRules();
@@ -490,6 +492,24 @@ public interface ConversionModule extends EObject {
 	 * @generated
 	 */
 	CmObjectRule getObjectRule(String ruleName);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%java.lang.Object%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%java.lang.Object%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forSending = objectRule.getForSending();\n\tif ((_forSending).booleanValue())\n\t{\n\t\tresult.add(objectRule);\n\t}\n}\nreturn result;'"
+	 * @generated
+	 */
+	EList<Object> getSendingObjectRules();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%java.lang.Object%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%java.lang.Object%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forReceiving = objectRule.getForReceiving();\n\tif ((_forReceiving).booleanValue())\n\t{\n\t\tresult.add(objectRule);\n\t}\n}\nreturn result;'"
+	 * @generated
+	 */
+	EList<Object> getReceivingObjectRules();
 
 	/**
 	 * <!-- begin-user-doc -->

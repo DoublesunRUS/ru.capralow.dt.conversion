@@ -15,6 +15,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,13 +25,14 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmPackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getConversionModule <em>Conversion Module</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getName <em>Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIsDisabled <em>Is Disabled</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getConfigurationObject <em>Configuration Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getFormatObject <em>Format Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getForSending <em>For Sending</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getForReceiving <em>For Receiving</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIsForGroup <em>Is For Group</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getForGroup <em>For Group</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getIdentificationVariant <em>Identification Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnSendingEvent <em>On Sending Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl#getOnSendingEventPrefix <em>On Sending Event Prefix</em>}</li>
@@ -75,6 +77,24 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ConversionModule getConversionModule() {
+		return (ConversionModule)eGet(CmPackage.Literals.CM_OBJECT_RULE__CONVERSION_MODULE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConversionModule(ConversionModule newConversionModule) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__CONVERSION_MODULE, newConversionModule);
 	}
 
 	/**
@@ -190,8 +210,8 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Boolean getIsForGroup() {
-		return (Boolean)eGet(CmPackage.Literals.CM_OBJECT_RULE__IS_FOR_GROUP, true);
+	public Boolean getForGroup() {
+		return (Boolean)eGet(CmPackage.Literals.CM_OBJECT_RULE__FOR_GROUP, true);
 	}
 
 	/**
@@ -199,8 +219,8 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIsForGroup(Boolean newIsForGroup) {
-		eSet(CmPackage.Literals.CM_OBJECT_RULE__IS_FOR_GROUP, newIsForGroup);
+	public void setForGroup(Boolean newForGroup) {
+		eSet(CmPackage.Literals.CM_OBJECT_RULE__FOR_GROUP, newForGroup);
 	}
 
 	/**
@@ -245,7 +265,7 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * @generated
 	 */
 	public String getOnSendingEventPrefix() {
-		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_|||\u0418\u041C\u042F|||_\u041F\u0440\u0438\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0435\u0414\u0430\u043D\u043D\u044B\u0445(\u0414\u0430\u043D\u043D\u044B\u0435\u0418\u0411, \u0414\u0430\u043D\u043D\u044B\u0435XDTO, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430, \u0421\u0442\u0435\u043A\u0412\u044B\u0433\u0440\u0443\u0437\u043A\u0438)".replace("|||\u0418\u041C\u042F|||", this.getName());
+		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0440\u0438\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0435\u0414\u0430\u043D\u043D\u044B\u0445(\u0414\u0430\u043D\u043D\u044B\u0435\u0418\u0411, \u0414\u0430\u043D\u043D\u044B\u0435XDTO, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430, \u0421\u0442\u0435\u043A\u0412\u044B\u0433\u0440\u0443\u0437\u043A\u0438)".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
 	}
 
 	/**
@@ -290,7 +310,7 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * @generated
 	 */
 	public String getBeforeReceivingEventPrefix() {
-		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_|||\u0418\u041C\u042F|||_\u041F\u0440\u0438\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u0438\u0414\u0430\u043D\u043D\u044B\u0445XDTO(\u0414\u0430\u043D\u043D\u044B\u0435XDTO, \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0435\u0414\u0430\u043D\u043D\u044B\u0435, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("|||\u0418\u041C\u042F|||", this.getName());
+		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0440\u0438\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u0438\u0414\u0430\u043D\u043D\u044B\u0445XDTO(\u0414\u0430\u043D\u043D\u044B\u0435XDTO, \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0435\u0414\u0430\u043D\u043D\u044B\u0435, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
 	}
 
 	/**
@@ -335,7 +355,7 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * @generated
 	 */
 	public String getOnReceivingEventPrefix() {
-		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_|||\u0418\u041C\u042F|||_\u041F\u0435\u0440\u0435\u0434\u0417\u0430\u043F\u0438\u0441\u044C\u044E\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0445\u0414\u0430\u043D\u043D\u044B\u0445(\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0435\u0414\u0430\u043D\u043D\u044B\u0435, \u0414\u0430\u043D\u043D\u044B\u0435\u0418\u0411, \u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u044F\u0421\u0432\u043E\u0439\u0441\u0442\u0432, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("|||\u0418\u041C\u042F|||", this.getName());
+		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0435\u0440\u0435\u0434\u0417\u0430\u043F\u0438\u0441\u044C\u044E\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0445\u0414\u0430\u043D\u043D\u044B\u0445(\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0435\u0414\u0430\u043D\u043D\u044B\u0435, \u0414\u0430\u043D\u043D\u044B\u0435\u0418\u0411, \u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u044F\u0421\u0432\u043E\u0439\u0441\u0442\u0432, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
 	}
 
 	/**

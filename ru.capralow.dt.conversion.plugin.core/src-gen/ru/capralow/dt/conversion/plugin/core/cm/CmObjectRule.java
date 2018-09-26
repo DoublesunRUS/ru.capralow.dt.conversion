@@ -15,13 +15,14 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConversionModule <em>Conversion Module</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getName <em>Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsDisabled <em>Is Disabled</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConfigurationObject <em>Configuration Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getFormatObject <em>Format Object</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForSending <em>For Sending</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForReceiving <em>For Receiving</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsForGroup <em>Is For Group</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForGroup <em>For Group</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIdentificationVariant <em>Identification Variant</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEvent <em>On Sending Event</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventPrefix <em>On Sending Event Prefix</em>}</li>
@@ -41,6 +42,34 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface CmObjectRule extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Conversion Module</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getObjectRules <em>Object Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Conversion Module</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Conversion Module</em>' container reference.
+	 * @see #setConversionModule(ConversionModule)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_ConversionModule()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.ConversionModule#getObjectRules
+	 * @model opposite="objectRules" transient="false"
+	 * @generated
+	 */
+	ConversionModule getConversionModule();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConversionModule <em>Conversion Module</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Conversion Module</em>' container reference.
+	 * @see #getConversionModule()
+	 * @generated
+	 */
+	void setConversionModule(ConversionModule value);
+
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
@@ -202,31 +231,31 @@ public interface CmObjectRule extends EObject {
 	void setForReceiving(Boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Is For Group</b></em>' attribute.
+	 * Returns the value of the '<em><b>For Group</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Is For Group</em>' attribute isn't clear,
+	 * If the meaning of the '<em>For Group</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is For Group</em>' attribute.
-	 * @see #setIsForGroup(Boolean)
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_IsForGroup()
+	 * @return the value of the '<em>For Group</em>' attribute.
+	 * @see #setForGroup(Boolean)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_ForGroup()
 	 * @model default="false" unique="false"
 	 * @generated
 	 */
-	Boolean getIsForGroup();
+	Boolean getForGroup();
 
 	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getIsForGroup <em>Is For Group</em>}' attribute.
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getForGroup <em>For Group</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is For Group</em>' attribute.
-	 * @see #getIsForGroup()
+	 * @param value the new value of the '<em>For Group</em>' attribute.
+	 * @see #getForGroup()
 	 * @generated
 	 */
-	void setIsForGroup(Boolean value);
+	void setForGroup(Boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Identification Variant</b></em>' attribute.
@@ -295,7 +324,7 @@ public interface CmObjectRule extends EObject {
 	 * @return the value of the '<em>On Sending Event Prefix</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnSendingEventPrefix()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041E\\u0442\\u043F\\u0440\\u0430\\u0432\\u043A\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u0414\\u0430\\u043D\\u043D\\u044B\\u0435XDTO, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430, \\u0421\\u0442\\u0435\\u043A\\u0412\\u044B\\u0433\\u0440\\u0443\\u0437\\u043A\\u0438)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E_\\u041F\\u0440\\u0438\\u041E\\u0442\\u043F\\u0440\\u0430\\u0432\\u043A\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u0414\\u0430\\u043D\\u043D\\u044B\\u0435XDTO, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430, \\u0421\\u0442\\u0435\\u043A\\u0412\\u044B\\u0433\\u0440\\u0443\\u0437\\u043A\\u0438)\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E\", this.getName());'"
 	 * @generated
 	 */
 	String getOnSendingEventPrefix();
@@ -365,7 +394,7 @@ public interface CmObjectRule extends EObject {
 	 * @return the value of the '<em>Before Receiving Event Prefix</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_BeforeReceivingEventPrefix()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0440\\u0438\\u041A\\u043E\\u043D\\u0432\\u0435\\u0440\\u0442\\u0430\\u0446\\u0438\\u0438\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445XDTO(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435XDTO, \\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E_\\u041F\\u0440\\u0438\\u041A\\u043E\\u043D\\u0432\\u0435\\u0440\\u0442\\u0430\\u0446\\u0438\\u0438\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445XDTO(\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435XDTO, \\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E\", this.getName());'"
 	 * @generated
 	 */
 	String getBeforeReceivingEventPrefix();
@@ -435,7 +464,7 @@ public interface CmObjectRule extends EObject {
 	 * @return the value of the '<em>On Receiving Event Prefix</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmPackage#getCmObjectRule_OnReceivingEventPrefix()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_|||\\u0418\\u041C\\u042F|||_\\u041F\\u0435\\u0440\\u0435\\u0434\\u0417\\u0430\\u043F\\u0438\\u0441\\u044C\\u044E\\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0445\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435, \\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u041A\\u043E\\u043D\\u0432\\u0435\\u0440\\u0442\\u0430\\u0446\\u0438\\u044F\\u0421\\u0432\\u043E\\u0439\\u0441\\u0442\\u0432, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"|||\\u0418\\u041C\\u042F|||\", this.getName());'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430 \\u041F\\u041A\\u041E_&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E_\\u041F\\u0435\\u0440\\u0435\\u0434\\u0417\\u0430\\u043F\\u0438\\u0441\\u044C\\u044E\\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0445\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445(\\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0435\\u0414\\u0430\\u043D\\u043D\\u044B\\u0435, \\u0414\\u0430\\u043D\\u043D\\u044B\\u0435\\u0418\\u0411, \\u041A\\u043E\\u043D\\u0432\\u0435\\u0440\\u0442\\u0430\\u0446\\u0438\\u044F\\u0421\\u0432\\u043E\\u0439\\u0441\\u0442\\u0432, \\u041A\\u043E\\u043C\\u043F\\u043E\\u043D\\u0435\\u043D\\u0442\\u044B\\u041E\\u0431\\u043C\\u0435\\u043D\\u0430)\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E\", this.getName());'"
 	 * @generated
 	 */
 	String getOnReceivingEventPrefix();

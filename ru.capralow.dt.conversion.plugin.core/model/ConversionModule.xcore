@@ -40,7 +40,7 @@ class ConversionModule {
 	
 	op CmDataRule getDataRule(String ruleName) {
 		for (CmDataRule dataRule : dataRules) {
-			if (ruleName == dataRule.getName) return dataRule
+			if (ruleName == dataRule.name) return dataRule
 		}
 		return null;
 	}
@@ -49,7 +49,7 @@ class ConversionModule {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
-			if (dataRule.getForSending())
+			if (dataRule.forSending)
 				result.add(dataRule)
 		}
 		return result
@@ -59,18 +59,38 @@ class ConversionModule {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
-			if (dataRule.getForReceiving())
+			if (dataRule.forReceiving)
 				result.add(dataRule)
 		}
 		return result
 	}
 
-	contains CmObjectRule[] objectRules
+	contains CmObjectRule[] objectRules opposite conversionModule
 	op CmObjectRule getObjectRule(String ruleName) {
 		for (CmObjectRule objectRule : objectRules) {
-			if (ruleName == objectRule.getName) return objectRule
+			if (ruleName == objectRule.name) return objectRule
 		}
 		return null;
+	}
+
+	op Object[] getSendingObjectRules() {
+		val result = newBasicEList()
+
+		for (CmObjectRule objectRule : objectRules) {
+			if (objectRule.forSending)
+				result.add(objectRule)
+		}
+		return result
+	}
+
+	op Object[] getReceivingObjectRules() {
+		val result = newBasicEList()
+
+		for (CmObjectRule objectRule : objectRules) {
+			if (objectRule.forReceiving)
+				result.add(objectRule)
+		}
+		return result
 	}
 
 	contains CmPredefined[] predefineds
@@ -78,7 +98,7 @@ class ConversionModule {
 	contains CmAlgorithm[] algorithms opposite conversionModule
 	op CmAlgorithm getAlgorithm(String algorithmName) {
 		for (CmAlgorithm algorithm : algorithms) {
-			if (algorithmName == algorithm.getName) return algorithm
+			if (algorithmName == algorithm.name) return algorithm
 		}
 		return null;
 	}
@@ -87,7 +107,7 @@ class ConversionModule {
 		var result = ""
 
 		for (CmAlgorithm algorithm : algorithms) {
-			if (algorithmName != algorithm.getName)
+			if (algorithmName != algorithm.name)
 				result += algorithm.getAlgorithmText() + System.lineSeparator();
 
 		}
@@ -286,8 +306,8 @@ class CmDataRule {
 	
 	String onProcessingEvent = ""
 	derived String onProcessingEventPrefix get {
-		return "Процедура ПОД_|||ИМЯ|||_ПриОбработке(ДанныеИБ, ИспользованиеПКО, КомпонентыОбмена)"
-			.replace("|||ИМЯ|||", name);
+		return "Процедура ПОД_&ИмяПОД_ПриОбработке(ДанныеИБ, ИспользованиеПОД, КомпонентыОбмена)"
+			.replace("&ИмяПОД", name);
 	}
 	String onProcessingEventSuffix = "КонецПроцедуры"
 	op String getOnProcessingEventText() {
@@ -300,13 +320,13 @@ class CmDataRule {
 		if (onProcessingEvent.length == 0)
 			return ""
 		else
-			return "ПОД_|||ИМЯ|||_ПриОбработке".replace("|||ИМЯ|||", name);
+			return "ПОД_&ИмяПОД_ПриОбработке".replace("&ИмяПОД", name);
 	}
 	
 	String dataSelectionEvent = ""
 	derived String dataSelectionEventPrefix get {
-		return "Функция ПОД_|||ИМЯ|||_ВыборкаДанных(КомпонентыОбмена)"
-			.replace("|||ИМЯ|||", name);
+		return "Функция ПОД_&ИмяПОД_ВыборкаДанных(КомпонентыОбмена)"
+			.replace("&ИмяПОД", name);
 	}
 	String dataSelectionEventSuffix = "КонецФункции"
 	op String getDataSelectionEventText() {
@@ -319,7 +339,7 @@ class CmDataRule {
 		if (dataSelectionEvent.length == 0)
 			return ""
 		else
-			return "ПОД_|||ИМЯ|||_ВыборкаДанных".replace("|||ИМЯ|||", name);
+			return "ПОД_&ИмяПОД_ВыборкаДанных".replace("&ИмяПОД", name);
 	}
 	
 	Boolean isDataCleaning = "false"
@@ -339,6 +359,8 @@ enum CmSelectionVariant {
 }
 
 class CmObjectRule {
+	container ConversionModule conversionModule opposite objectRules
+	
 	String name = ""
 	
 	Boolean isDisabled = "false"
@@ -349,14 +371,14 @@ class CmObjectRule {
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
 	
-	Boolean isForGroup = "false"
+	Boolean forGroup = "false"
 	
 	CmIdentificationVariant identificationVariant
 	
 	String onSendingEvent = ""
 	derived String onSendingEventPrefix get {
-		return "Процедура ПКО_|||ИМЯ|||_ПриОтправкеДанных(ДанныеИБ, ДанныеXDTO, КомпонентыОбмена, СтекВыгрузки)"
-			.replace("|||ИМЯ|||", name);
+		return "Процедура ПКО_&ИмяПКО_ПриОтправкеДанных(ДанныеИБ, ДанныеXDTO, КомпонентыОбмена, СтекВыгрузки)"
+			.replace("&ИмяПКО", name);
 	}
 	String onSendingEventSuffix = "КонецПроцедуры"
 	op String getOnSendingEventText() {
@@ -367,8 +389,8 @@ class CmObjectRule {
 	
 	String beforeReceivingEvent = ""
 	derived String beforeReceivingEventPrefix get {
-		return "Процедура ПКО_|||ИМЯ|||_ПриКонвертацииДанныхXDTO(ДанныеXDTO, ПолученныеДанные, КомпонентыОбмена)"
-			.replace("|||ИМЯ|||", name);
+		return "Процедура ПКО_&ИмяПКО_ПриКонвертацииДанныхXDTO(ДанныеXDTO, ПолученныеДанные, КомпонентыОбмена)"
+			.replace("&ИмяПКО", name);
 	}
 	String beforeReceivingEventSuffix = "КонецПроцедуры"
 	op String getBeforeReceivingEventText() {
@@ -379,8 +401,8 @@ class CmObjectRule {
 	
 	String onReceivingEvent = ""
 	derived String onReceivingEventPrefix get {
-		return "Процедура ПКО_|||ИМЯ|||_ПередЗаписьюПолученныхДанных(ПолученныеДанные, ДанныеИБ, КонвертацияСвойств, КомпонентыОбмена)"
-			.replace("|||ИМЯ|||", name);
+		return "Процедура ПКО_&ИмяПКО_ПередЗаписьюПолученныхДанных(ПолученныеДанные, ДанныеИБ, КонвертацияСвойств, КомпонентыОбмена)"
+			.replace("&ИмяПКО", name);
 	}
 	String onReceivingEventSuffix = "КонецПроцедуры"
 	op String getOnReceivingEventText() {
@@ -403,9 +425,21 @@ enum CmIdentificationVariant {
 class CmAttributeRule {
 	String configurationTabularSectionName = ""
 	String configurationAttributeName = ""
-	
+	op String getConfigurationAttributeFullName() {
+		var result = configurationAttributeName;
+		if (configurationTabularSectionName.length != 0)
+			result = configurationTabularSectionName + "." + result;
+		return result;
+	}
+
 	String formatTabularSectionName = ""
 	String formatAttributeName = ""
+	op String getFormatAttributeFullName() {
+		var result = formatAttributeName;
+		if (formatTabularSectionName.length != 0)
+			result = formatTabularSectionName + "." + result;
+		return result;
+	}
 	
 	refers CmObjectRule objectRule
 	
