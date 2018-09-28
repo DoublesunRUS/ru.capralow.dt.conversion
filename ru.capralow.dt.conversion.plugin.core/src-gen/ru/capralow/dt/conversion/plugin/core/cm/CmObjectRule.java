@@ -559,6 +559,24 @@ public interface CmObjectRule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.Object%&gt; _configurationObject = this.getConfigurationObject();\nboolean _tripleEquals = (_configurationObject == null);\nif (_tripleEquals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn this.getConfigurationObject().toString();\n}'"
+	 * @generated
+	 */
+	String getConfigurationObjectName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.Object%&gt; _formatObject = this.getFormatObject();\nboolean _tripleEquals = (_formatObject == null);\nif (_tripleEquals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn this.getFormatObject().toString();\n}'"
+	 * @generated
+	 */
+	String getFormatObjectName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _onSendingEventPrefix = this.getOnSendingEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_onSendingEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _onSendingEvent = this.getOnSendingEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _onSendingEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _onSendingEventSuffix = this.getOnSendingEventSuffix();\n&lt;%java.lang.String%&gt; result = (_plus_2 + _onSendingEventSuffix);\nreturn result;'"
 	 * @generated
 	 */

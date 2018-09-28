@@ -275,9 +275,7 @@ public class SendingDataRuleDialog extends Dialog {
 		if (selectionVariant == CmSelectionVariant.STANDART)
 			tabItem3.dispose();
 		
-		txtConfigurationObjectName.setText("");
-		if (dataRule.getConfigurationObject() != null)
-			txtConfigurationObjectName.setText(dataRule.getConfigurationObject().toString());
+		txtConfigurationObjectName.setText(dataRule.getConfigurationObjectName());
 
 		EList<CmObjectRule> objectRules = dataRule.getObjectRules();
 

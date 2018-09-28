@@ -416,13 +416,9 @@ public class ObjectRuleDialog extends Dialog {
 
 		txtObjectRuleName.setText(objectRule.getName());
 
-		txtConfigurationObjectName.setText("");
-		if (objectRule.getConfigurationObject() != null)
-			txtConfigurationObjectName.setText(objectRule.getConfigurationObject().toString());
+		txtConfigurationObjectName.setText(objectRule.getConfigurationObjectName());
 
-		txtFormatObjectName.setText("");
-		if (objectRule.getFormatObject() != null)
-			txtFormatObjectName.setText(objectRule.getFormatObject().toString());
+		txtFormatObjectName.setText(objectRule.getFormatObjectName());
 
 		tltmObjectRulesSize1.setSelection(objectRule.getForSending() && !objectRule.getForReceiving());
 		tltmObjectRulesSize2.setSelection(!objectRule.getForSending() && objectRule.getForReceiving());

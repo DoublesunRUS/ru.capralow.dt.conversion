@@ -341,6 +341,38 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getConfigurationObjectName() {
+		Object _configurationObject = this.getConfigurationObject();
+		boolean _tripleEquals = (_configurationObject == null);
+		if (_tripleEquals) {
+			return "";
+		}
+		else {
+			return this.getConfigurationObject().toString();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFormatObjectName() {
+		Object _formatObject = this.getFormatObject();
+		boolean _tripleEquals = (_formatObject == null);
+		if (_tripleEquals) {
+			return "";
+		}
+		else {
+			return this.getFormatObject().toString();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getOnProcessingEventText() {
 		String _onProcessingEventPrefix = this.getOnProcessingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -427,6 +459,10 @@ public class CmDataRuleImpl extends MinimalEObjectImpl.Container implements CmDa
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
+			case CmPackage.CM_DATA_RULE___GET_CONFIGURATION_OBJECT_NAME:
+				return getConfigurationObjectName();
+			case CmPackage.CM_DATA_RULE___GET_FORMAT_OBJECT_NAME:
+				return getFormatObjectName();
 			case CmPackage.CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT:
 				return getOnProcessingEventText();
 			case CmPackage.CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION:

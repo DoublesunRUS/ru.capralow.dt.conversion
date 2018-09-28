@@ -512,13 +512,31 @@ public interface CmPackage extends EPackage {
 	int CM_DATA_RULE_FEATURE_COUNT = 16;
 
 	/**
+	 * The operation id for the '<em>Get Configuration Object Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE___GET_CONFIGURATION_OBJECT_NAME = 0;
+
+	/**
+	 * The operation id for the '<em>Get Format Object Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE___GET_FORMAT_OBJECT_NAME = 1;
+
+	/**
 	 * The operation id for the '<em>Get On Processing Event Text</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT = 0;
+	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT = 2;
 
 	/**
 	 * The operation id for the '<em>Get On Processing Event Declaration</em>' operation.
@@ -527,7 +545,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION = 1;
+	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION = 3;
 
 	/**
 	 * The operation id for the '<em>Get Data Selection Event Text</em>' operation.
@@ -536,7 +554,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT = 2;
+	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT = 4;
 
 	/**
 	 * The operation id for the '<em>Get Data Selection Event Declaration</em>' operation.
@@ -545,7 +563,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_DECLARATION = 3;
+	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_DECLARATION = 5;
 
 	/**
 	 * The operation id for the '<em>Get Data Cleaning Declaration</em>' operation.
@@ -554,7 +572,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_DATA_CLEANING_DECLARATION = 4;
+	int CM_DATA_RULE___GET_DATA_CLEANING_DECLARATION = 6;
 
 	/**
 	 * The number of operations of the '<em>Data Rule</em>' class.
@@ -563,7 +581,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE_OPERATION_COUNT = 5;
+	int CM_DATA_RULE_OPERATION_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl <em>Object Rule</em>}' class.
@@ -774,13 +792,31 @@ public interface CmPackage extends EPackage {
 	int CM_OBJECT_RULE_FEATURE_COUNT = 21;
 
 	/**
+	 * The operation id for the '<em>Get Configuration Object Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE___GET_CONFIGURATION_OBJECT_NAME = 0;
+
+	/**
+	 * The operation id for the '<em>Get Format Object Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE___GET_FORMAT_OBJECT_NAME = 1;
+
+	/**
 	 * The operation id for the '<em>Get On Sending Event Text</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_ON_SENDING_EVENT_TEXT = 0;
+	int CM_OBJECT_RULE___GET_ON_SENDING_EVENT_TEXT = 2;
 
 	/**
 	 * The operation id for the '<em>Get Before Receiving Event Text</em>' operation.
@@ -789,7 +825,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT = 1;
+	int CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT = 3;
 
 	/**
 	 * The operation id for the '<em>Get On Receiving Event Text</em>' operation.
@@ -798,7 +834,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT = 2;
+	int CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT = 4;
 
 	/**
 	 * The number of operations of the '<em>Object Rule</em>' class.
@@ -807,7 +843,7 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE_OPERATION_COUNT = 3;
+	int CM_OBJECT_RULE_OPERATION_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl <em>Attribute Rule</em>}' class.
@@ -1625,6 +1661,26 @@ public interface CmPackage extends EPackage {
 	EReference getCmDataRule_ObjectRules();
 
 	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConfigurationObjectName() <em>Get Configuration Object Name</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Configuration Object Name</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getConfigurationObjectName()
+	 * @generated
+	 */
+	EOperation getCmDataRule__GetConfigurationObjectName();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObjectName() <em>Get Format Object Name</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Format Object Name</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getFormatObjectName()
+	 * @generated
+	 */
+	EOperation getCmDataRule__GetFormatObjectName();
+
+	/**
 	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmDataRule#getOnProcessingEventText() <em>Get On Processing Event Text</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1914,6 +1970,26 @@ public interface CmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCmObjectRule_IdentificationFields();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConfigurationObjectName() <em>Get Configuration Object Name</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Configuration Object Name</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getConfigurationObjectName()
+	 * @generated
+	 */
+	EOperation getCmObjectRule__GetConfigurationObjectName();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getFormatObjectName() <em>Get Format Object Name</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Format Object Name</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getFormatObjectName()
+	 * @generated
+	 */
+	EOperation getCmObjectRule__GetFormatObjectName();
 
 	/**
 	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule#getOnSendingEventText() <em>Get On Sending Event Text</em>}' operation.
@@ -2648,6 +2724,22 @@ public interface CmPackage extends EPackage {
 		EReference CM_DATA_RULE__OBJECT_RULES = eINSTANCE.getCmDataRule_ObjectRules();
 
 		/**
+		 * The meta object literal for the '<em><b>Get Configuration Object Name</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_DATA_RULE___GET_CONFIGURATION_OBJECT_NAME = eINSTANCE.getCmDataRule__GetConfigurationObjectName();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Format Object Name</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_DATA_RULE___GET_FORMAT_OBJECT_NAME = eINSTANCE.getCmDataRule__GetFormatObjectName();
+
+		/**
 		 * The meta object literal for the '<em><b>Get On Processing Event Text</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2864,6 +2956,22 @@ public interface CmPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CM_OBJECT_RULE__IDENTIFICATION_FIELDS = eINSTANCE.getCmObjectRule_IdentificationFields();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Configuration Object Name</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_OBJECT_RULE___GET_CONFIGURATION_OBJECT_NAME = eINSTANCE.getCmObjectRule__GetConfigurationObjectName();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Format Object Name</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_OBJECT_RULE___GET_FORMAT_OBJECT_NAME = eINSTANCE.getCmObjectRule__GetFormatObjectName();
 
 		/**
 		 * The meta object literal for the '<em><b>Get On Sending Event Text</b></em>' operation.

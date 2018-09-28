@@ -420,6 +420,38 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getConfigurationObjectName() {
+		Object _configurationObject = this.getConfigurationObject();
+		boolean _tripleEquals = (_configurationObject == null);
+		if (_tripleEquals) {
+			return "";
+		}
+		else {
+			return this.getConfigurationObject().toString();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFormatObjectName() {
+		Object _formatObject = this.getFormatObject();
+		boolean _tripleEquals = (_formatObject == null);
+		if (_tripleEquals) {
+			return "";
+		}
+		else {
+			return this.getFormatObject().toString();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getOnSendingEventText() {
 		String _onSendingEventPrefix = this.getOnSendingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -477,6 +509,10 @@ public class CmObjectRuleImpl extends MinimalEObjectImpl.Container implements Cm
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
+			case CmPackage.CM_OBJECT_RULE___GET_CONFIGURATION_OBJECT_NAME:
+				return getConfigurationObjectName();
+			case CmPackage.CM_OBJECT_RULE___GET_FORMAT_OBJECT_NAME:
+				return getFormatObjectName();
 			case CmPackage.CM_OBJECT_RULE___GET_ON_SENDING_EVENT_TEXT:
 				return getOnSendingEventText();
 			case CmPackage.CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT:
