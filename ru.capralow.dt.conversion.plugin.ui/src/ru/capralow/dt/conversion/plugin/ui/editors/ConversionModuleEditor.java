@@ -3,7 +3,10 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.handly.buffer.BufferChange;
+import org.eclipse.handly.snapshot.NonExpiringSnapshot;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -32,15 +35,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.text.edits.InsertEdit;
+import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 
+import com._1c.g5.ides.ui.texteditor.xtext.embedded.EmbeddedEditorBuffer;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
@@ -604,7 +611,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
 						((Button) event.getSource()).getShell(), conversionModule);
 				if (conversionModuleDialog.open() == Window.OK) {
-					updateModule();
+					try {
+						updateModule();
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
 				}
 				;
 			}
@@ -631,7 +642,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
 							event.getViewer().getControl().getShell(), dataRule);
 					if (dataRuleDialog.open() == Window.OK) {
-						updateModule();
+						try {
+							updateModule();
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 					;
 				}
@@ -657,7 +672,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
 							objectRule);
 					if (objectRuleDialog.open() == Window.OK) {
-						updateModule();
+						try {
+							updateModule();
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 					;
 				}
@@ -683,7 +702,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
 							event.getViewer().getControl().getShell(), dataRule);
 					if (dataRuleDialog.open() == Window.OK) {
-						updateModule();
+						try {
+							updateModule();
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 					;
 				}
@@ -709,7 +732,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
 							objectRule);
 					if (objectRuleDialog.open() == Window.OK) {
-						updateModule();
+						try {
+							updateModule();
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 					;
 				}
@@ -735,7 +762,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
 							algorithm);
 					if (algorithmDialog.open() == Window.OK) {
-						updateModule();
+						try {
+							updateModule();
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 					;
 				}
@@ -744,34 +775,57 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}));
 	}
 
-	private void updateModule() {
+	private void updateModule() throws CoreException {
 		String newModule = conversionModule.getModuleText();
 
-		System.out.print(newModule);
+		// System.out.print(newModule);
 
 		XtextEditor embeddedEditor = null;
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		for (IEditorReference editorReference : page.getEditorReferences()) {
 			final IEditorPart[] editor = new IEditorPart[1];
 			editor[0] = editorReference.getEditor(false);
-			if (editor != null) {
-				if (editor[0] instanceof XtextEditor) {
-					embeddedEditor = (XtextEditor) editor[0];
-					break;
-				} else {
-					if (editor[0] != null) {
-						embeddedEditor = editor[0].getAdapter(XtextEditor.class);
-					}
-					if (embeddedEditor instanceof XtextEditor) {
-						break;
-					}
-				}
+			if (editor[0] == null)
+				continue;
+
+			if (editor[0] instanceof XtextEditor) {
+				embeddedEditor = (XtextEditor) editor[0];
+				break;
+
+			} else if (editor[0] instanceof FormEditor) {
+				FormEditor formEditor = (FormEditor) editor[0];
+				embeddedEditor = formEditor.findPage("editors.pages.module").getAdapter(XtextEditor.class);
+
+			} else if (editor[0] != null) {
+				embeddedEditor = editor[0].getAdapter(XtextEditor.class);
+
 			}
+
+			if (embeddedEditor instanceof XtextEditor) {
+				break;
+			}
+
 		}
 
-		if (embeddedEditor == null)
+		if (embeddedEditor == null) {
 			return;
+		}
+		
+		EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument());
+		try {
+			NonExpiringSnapshot snapshot = new NonExpiringSnapshot(buffer);
+			TextEdit change = new InsertEdit(0, newModule);
+			BufferChange bufferChange = new BufferChange(change);
+			bufferChange.setBase(snapshot);
+			try {
+				buffer.applyChange(bufferChange, null);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
 
+		} finally {
+			buffer.release();
+
+		}
 	}
-
 }
