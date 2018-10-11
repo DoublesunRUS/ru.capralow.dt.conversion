@@ -122,7 +122,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>This method is used to initialize {@link CmPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -136,8 +136,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		if (isInited) return (CmPackage)EPackage.Registry.INSTANCE.getEPackage(CmPackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredCmPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		CmPackageImpl theCmPackage = registeredCmPackage instanceof CmPackageImpl ? (CmPackageImpl)registeredCmPackage : new CmPackageImpl();
+		CmPackageImpl theCmPackage = (CmPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CmPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CmPackageImpl());
 
 		isInited = true;
 
@@ -153,6 +152,7 @@ public class CmPackageImpl extends EPackageImpl implements CmPackage {
 		// Mark meta-data to indicate it can't be changed
 		theCmPackage.freeze();
 
+  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(CmPackage.eNS_URI, theCmPackage);
 		return theCmPackage;

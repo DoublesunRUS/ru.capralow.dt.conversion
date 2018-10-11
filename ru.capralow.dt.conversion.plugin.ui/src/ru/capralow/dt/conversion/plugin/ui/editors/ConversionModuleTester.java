@@ -16,7 +16,7 @@ public class ConversionModuleTester extends AbstractDtPropertyTester {
 			
 			String regionName = "";
 			EList<Method> methods = commonModule.getModule().allMethods();
-			if (methods.size() != 0) {
+			if (methods.size() != 0 && methods.get(0).eContainer() != null && methods.get(0).eContainer().eContainer() != null) {
 				regionName = ((RegionPreprocessorDeclareStatement) methods.get(0).eContainer().eContainer()).getName();
 			}
 			
