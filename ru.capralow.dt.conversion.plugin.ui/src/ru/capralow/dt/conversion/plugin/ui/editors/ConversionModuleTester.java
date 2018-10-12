@@ -13,13 +13,16 @@ public class ConversionModuleTester extends AbstractDtPropertyTester {
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		if ("isAvailable".equals(property) && receiver instanceof CommonModule) {
 			CommonModule commonModule = (CommonModule) receiver;
-			
+			if (!isAlive(commonModule))
+				return false;
+
 			String regionName = "";
 			EList<Method> methods = commonModule.getModule().allMethods();
-			if (methods.size() != 0 && methods.get(0).eContainer() != null && methods.get(0).eContainer().eContainer() != null) {
+			if (methods.size() != 0 && methods.get(0).eContainer() != null
+					&& methods.get(0).eContainer().eContainer() != null) {
 				regionName = ((RegionPreprocessorDeclareStatement) methods.get(0).eContainer().eContainer()).getName();
 			}
-			
+
 			return isAlive(commonModule) && (methods.size() == 0 || regionName.equals("ПроцедурыКонвертации"));
 		}
 		return false;
