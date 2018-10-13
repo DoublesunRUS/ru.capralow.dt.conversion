@@ -23,7 +23,7 @@ public class ConversionModuleTester extends AbstractDtPropertyTester {
 				regionName = ((RegionPreprocessorDeclareStatement) methods.get(0).eContainer().eContainer()).getName();
 			}
 
-			return isAlive(commonModule) && (methods.size() == 0 || regionName.equals("ПроцедурыКонвертации"));
+			return methods.size() == 0 || regionName.equals("ПроцедурыКонвертации");
 		}
 		return false;
 	}
