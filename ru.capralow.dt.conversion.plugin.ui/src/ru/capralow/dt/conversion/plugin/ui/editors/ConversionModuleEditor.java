@@ -2,6 +2,7 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.util.Iterator;
+import java.util.UUID;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
@@ -35,7 +36,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IEditorPart;
@@ -591,8 +591,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		conversionModuleAnalyzer.analyze(getModel());
 		conversionModule = conversionModuleAnalyzer.getConversionModule();
 
-		tltmStoreVersion1.setSelection(conversionModule.getStoreVersion() == "1");
-		tltmStoreVersion2.setSelection(conversionModule.getStoreVersion() == "2");
+		String storeVersion = conversionModule.getStoreVersion();
+		tltmStoreVersion1.setSelection(storeVersion.equals("1"));
+		tltmStoreVersion2.setSelection(storeVersion.equals("2"));
 
 		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
 		viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules());
@@ -795,6 +796,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 			} else if (editor[0] instanceof FormEditor) {
 				FormEditor formEditor = (FormEditor) editor[0];
+
+				UUID moduleUuid = getModel().getUuid();
+
+				// FileEditorInput editorInput = (FileEditorInput) formEditor.getEditorInput();
+
 				embeddedEditor = formEditor.findPage("editors.pages.module").getAdapter(XtextEditor.class);
 
 			} else if (editor[0] != null) {
@@ -811,7 +817,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		if (embeddedEditor == null) {
 			return;
 		}
-		
+
 		EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument());
 		try {
 			NonExpiringSnapshot snapshot = new NonExpiringSnapshot(buffer);
