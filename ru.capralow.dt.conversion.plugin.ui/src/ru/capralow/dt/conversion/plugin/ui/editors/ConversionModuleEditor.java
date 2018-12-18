@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.text.edits.InsertEdit;
+import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -814,7 +815,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument());
 		try {
 			NonExpiringSnapshot snapshot = new NonExpiringSnapshot(buffer);
-			TextEdit change = new InsertEdit(0, newModule);
+			TextEdit change = new ReplaceEdit(0, embeddedEditor.getDocument().getLength(), newModule);
 			BufferChange bufferChange = new BufferChange(change);
 			bufferChange.setBase(snapshot);
 			try {

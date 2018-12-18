@@ -222,7 +222,7 @@ public class SendingDataRuleDialog extends Dialog {
 				.get(IEditedResourceProvider.class);
 		resourceProvider.setPlatformUri((URI) dataRule.getConversionModule().getModuleURI());
 
-		IResourceValidator resourceValidator = resourceServiceProvider.get(IResourceValidator.class);
+		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
 

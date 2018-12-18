@@ -13,8 +13,9 @@ class ConversionModule {
 	String beforeConvertationEventPrefix = "Процедура ПередКонвертацией(КомпонентыОбмена) Экспорт"
 	String beforeConvertationEventSuffix = "КонецПроцедуры"
 	op String getBeforeConvertationEventText() {
-		var result = beforeConvertationEventPrefix + System.lineSeparator() + beforeConvertationEvent +
-			System.lineSeparator() + beforeConvertationEventSuffix;
+		var result = beforeConvertationEventPrefix + System.lineSeparator()
+			+ beforeConvertationEvent + System.lineSeparator()
+			+ beforeConvertationEventSuffix + System.lineSeparator();
 		return result;
 	}
 	
@@ -22,8 +23,9 @@ class ConversionModule {
 	String afterConvertationEventPrefix = "Процедура ПослеКонвертации(КомпонентыОбмена) Экспорт"
 	String afterConvertationEventSuffix = "КонецПроцедуры"
 	op String getAfterConvertationEventText() {
-		var result = afterConvertationEventPrefix + System.lineSeparator() + afterConvertationEvent +
-			System.lineSeparator() + afterConvertationEventSuffix;
+		var result = afterConvertationEventPrefix + System.lineSeparator()
+			+ afterConvertationEvent + System.lineSeparator()
+			+ afterConvertationEventSuffix + System.lineSeparator();
 		return result;
 	}
 	
@@ -31,8 +33,9 @@ class ConversionModule {
 	String beforeFillingEventPrefix = "Процедура ПередОтложеннымЗаполнением(КомпонентыОбмена) Экспорт"
 	String beforeFillingEventSuffix = "КонецПроцедуры"
 	op String getBeforeFillingEventText() {
-		var result = beforeFillingEventPrefix + System.lineSeparator() + beforeFillingEvent + System.lineSeparator() +
-			beforeFillingEventSuffix;
+		var result = beforeFillingEventPrefix + System.lineSeparator()
+			+ beforeFillingEvent + System.lineSeparator()
+			+ beforeFillingEventSuffix + System.lineSeparator();
 		return result;
 	}
 	
@@ -116,51 +119,49 @@ class ConversionModule {
 	}
 	
 	op String getModuleTextV2() {
+		var ls = System.lineSeparator();
 		var result = "";
 
-		result += "#Область ПроцедурыКонвертации";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#Область ПроцедурыКонвертации" + ls;
 
-		result += getBeforeConvertationEventText();
-		result += System.lineSeparator() + System.lineSeparator();
+		result += getBeforeConvertationEventText()
+		result += ls;
 
 		result += getAfterConvertationEventText();
-		result += System.lineSeparator() + System.lineSeparator();
+		result += ls;
 
 		result += getBeforeFillingEventText();
-		result += System.lineSeparator() + System.lineSeparator();
+		result += ls;
 
 		var text =
 "// Возвращает версию формата менеджера обмена.
 // Возвращаемое значение:
 //  Число - номер версии.
 Функция ВерсияФорматаМенеджераОбмена() Экспорт
-	Возврат &ВерсияФорматаМенеджераОбмена;
+    Возврат \"&ВерсияФорматаМенеджераОбмена\";
 КонецФункции"
 		.replace("&ВерсияФорматаМенеджераОбмена", storeVersion);
-		result += text;
-		result += System.lineSeparator() + System.lineSeparator();
+		result += text + ls;
+		result += ls;
 
-		result += "#КонецОбласти";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#КонецОбласти" + ls;
 
 
-		result += "#Область ПОД";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#Область ПОД" + ls;
 
 		var dataRulesDeclarationText = "";
-		dataRulesDeclarationText += "	Если НаправлениеОбмена = \"Отправка\" Тогда" + System.lineSeparator();
-		dataRulesDeclarationText += "		Если ПравилаОбработкиДанных.Колонки.Найти(\"ОчисткаДанных\") = Неопределено Тогда" + System.lineSeparator();
-		dataRulesDeclarationText += "			ПравилаОбработкиДанных.Колонки.Добавить(\"ОчисткаДанных\");" + System.lineSeparator();
-		dataRulesDeclarationText += "		КонецЕсли;" + System.lineSeparator();
+		dataRulesDeclarationText += "	Если НаправлениеОбмена = \"Отправка\" Тогда" + ls;
+		dataRulesDeclarationText += "		Если ПравилаОбработкиДанных.Колонки.Найти(\"ОчисткаДанных\") = Неопределено Тогда" + ls;
+		dataRulesDeclarationText += "			ПравилаОбработкиДанных.Колонки.Добавить(\"ОчисткаДанных\");" + ls;
+		dataRulesDeclarationText += "		КонецЕсли;" + ls;
 		for (CmDataRule dataRule : dataRules) {
 			if (dataRule.forSending)
-		dataRulesDeclarationText += "		ДобавитьПОД_" + dataRule.name + "(ПравилаОбработкиДанных);" + System.lineSeparator();
+		dataRulesDeclarationText += "		ДобавитьПОД_" + dataRule.name + "(ПравилаОбработкиДанных);" + ls;
 		}
-		dataRulesDeclarationText += "	ИначеЕсли НаправлениеОбмена = \"Получение\" Тогда" + System.lineSeparator();
+		dataRulesDeclarationText += "	ИначеЕсли НаправлениеОбмена = \"Получение\" Тогда" + ls;
 		for (CmDataRule dataRule : dataRules) {
 			if (dataRule.forReceiving)
-		dataRulesDeclarationText += "		ДобавитьПОД_" + dataRule.name + "(ПравилаОбработкиДанных);" + System.lineSeparator();
+		dataRulesDeclarationText += "		ДобавитьПОД_" + dataRule.name + "(ПравилаОбработкиДанных);" + ls;
 		}
 		dataRulesDeclarationText += "	КонецЕсли;";
 
@@ -174,105 +175,100 @@ class ConversionModule {
 &ТелоПроцедуры
 КонецПроцедуры"
 		.replace("&ТелоПроцедуры", dataRulesDeclarationText);
-		result += text;
-		result += System.lineSeparator() + System.lineSeparator();
+		result += text + ls + ls;
 
-		result += "#Область Отправка";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#Область Отправка" + ls;
 
 		for (CmDataRule dataRule : dataRules) {
 			if (dataRule.forSending) {
 				var objectRulesText = "";
 			
 				for (CmObjectRule objectRule : dataRule.objectRules) {
-					objectRulesText += System.lineSeparator() + "	ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.name + "\");";
+					if (!objectRulesText.equals("")) {
+						objectRulesText += ls;
+					}
+					objectRulesText += "	ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.name + "\");";
 				}
 			
 				var dataRuleEventsText = "";
 				if (dataRule.onProcessingEvent.length != 0)
-					dataRuleEventsText += System.lineSeparator() + System.lineSeparator() + dataRule.onProcessingEventText;
+					dataRuleEventsText += ls + dataRule.onProcessingEventText;
 				if (dataRule.dataSelectionEvent.length != 0)
-					dataRuleEventsText += System.lineSeparator() + System.lineSeparator() + dataRule.dataSelectionEventText;
+					dataRuleEventsText += ls + dataRule.dataSelectionEventText;
 
-				result += "#Область &ИмяПОД".replaceAll("&ИмяПОД", dataRule.name);
-				result += System.lineSeparator() + System.lineSeparator();
+				result += "#Область &ИмяПОД".replaceAll("&ИмяПОД", dataRule.name) + ls;
 
 				text =
 "Процедура ДобавитьПОД_&ИмяПОД(ПравилаОбработкиДанных)
-	ПравилоОбработки							= ПравилаОбработкиДанных.Добавить();
-	ПравилоОбработки.Имя						= \"&ИмяПОД\";
-	ПравилоОбработки.ОбъектВыборкиМетаданные	= &ОбъектВыборкиМетаданные;
-	ПравилоОбработки.ПриОбработке				= \"&ПриОбработке\";
-	ПравилоОбработки.ВыборкаДанных				= \"&ВыборкаДанных\";
-	ПравилоОбработки.ОчисткаДанных				= &ОчисткаДанных;
+	ПравилоОбработки                         = ПравилаОбработкиДанных.Добавить();
+	ПравилоОбработки.Имя                     = \"&ИмяПОД\";
+	ПравилоОбработки.ОбъектВыборкиМетаданные = &ОбъектВыборкиМетаданные;
+	ПравилоОбработки.ПриОбработке            = \"&ПриОбработке\";
+	ПравилоОбработки.ВыборкаДанных           = \"&ВыборкаДанных\";
+	ПравилоОбработки.ОчисткаДанных           = &ОчисткаДанных;
 &ЗаполнениеМассиваПравил
 КонецПроцедуры"
 				.replaceAll("&ИмяПОД", dataRule.name)
 				.replace("&ОбъектВыборкиМетаданные", dataRule.getConfigurationObjectName())
-				.replace("ПравилоОбработки.ОбъектВыборкиМетаданные	= ;", "ПравилоОбработки.ОбъектВыборкиМетаданные	= Неопределено;")
+				.replace("ПравилоОбработки.ОбъектВыборкиМетаданные = ;", "ПравилоОбработки.ОбъектВыборкиМетаданные = Неопределено;")
 				.replace("&ПриОбработке", dataRule.getOnProcessingEventDeclaration())
-				.replace("	ПравилоОбработки.ПриОбработке				= \"\";", "---")
+				.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
 				.replace("&ВыборкаДанных", dataRule.getDataSelectionEventDeclaration())
-				.replace("	ПравилоОбработки.ВыборкаДанных				= \"\";", "---")
+				.replace("	ПравилоОбработки.ВыборкаДанных           = \"\";", "---")
 				.replace("&ОчисткаДанных", dataRule.getDataCleaningDeclaration())
 				.replace("&ЗаполнениеМассиваПравил", objectRulesText)
 				.replaceAll("---\\r\\n|---\\r|---\\n", "");
-				result += text;
+				result += text + ls;
 				result += dataRuleEventsText;
-				result += System.lineSeparator() + System.lineSeparator();
-				result += "#КонецОбласти";
-				result += System.lineSeparator() + System.lineSeparator();
+				result += "#КонецОбласти" + ls;
 			}
 		}
 
-		result += "#КонецОбласти";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#КонецОбласти" + ls;
 
-		result += "#Область Получение";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#Область Получение" + ls;
 
 		for (CmDataRule dataRule : dataRules) {
 			if (dataRule.forReceiving) {
 				var objectRulesText = "";
 			
 				for (CmObjectRule objectRule : dataRule.objectRules) {
-					objectRulesText += System.lineSeparator() + "	ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.name + "\");";
+					if (!objectRulesText.equals("")) {
+						objectRulesText += ls;
+					}
+					objectRulesText += "	ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.name + "\");";
 				}
 			
 				var dataRuleEventsText = "";
 				if (dataRule.onProcessingEvent.length != 0)
-					dataRuleEventsText += System.lineSeparator() + System.lineSeparator() + dataRule.onProcessingEventText;
+					dataRuleEventsText += ls + dataRule.onProcessingEventText;
 			
 				result += "#Область &ИмяПОД".replaceAll("&ИмяПОД", dataRule.name);
-				result += System.lineSeparator() + System.lineSeparator();
+				result += ls;
 
 				text =
 "Процедура ДобавитьПОД_&ИмяПОД(ПравилаОбработкиДанных)
-	ПравилоОбработки						= ПравилаОбработкиДанных.Добавить();
-	ПравилоОбработки.Имя					= \"&ИмяПОД\";
-	ПравилоОбработки.ОбъектВыборкиФормат	= \"&ОбъектВыборкиФормат\";
-	ПравилоОбработки.ПриОбработке			= \"&ПриОбработке\";
+	ПравилоОбработки                         = ПравилаОбработкиДанных.Добавить();
+	ПравилоОбработки.Имя                     = \"&ИмяПОД\";
+	ПравилоОбработки.ОбъектВыборкиФормат     = \"&ОбъектВыборкиФормат\";
+	ПравилоОбработки.ПриОбработке            = \"&ПриОбработке\";
 &ЗаполнениеМассиваПравил
 КонецПроцедуры"
 				.replaceAll("&ИмяПОД", dataRule.name)
 				.replace("&ОбъектВыборкиФормат", dataRule.getFormatObjectName())
 				.replace("&ПриОбработке", dataRule.getOnProcessingEventDeclaration())
-				.replace("	ПравилоОбработки.ПриОбработке			= \"\";", "---")
+				.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
 				.replace("&ЗаполнениеМассиваПравил", objectRulesText)
 				.replaceAll("---\\r\\n|---\\r|---\\n", "");
-				result += text;
+				result += text + ls;
 				result += dataRuleEventsText;
-				result += System.lineSeparator() + System.lineSeparator();
-				result += "#КонецОбласти";
-				result += System.lineSeparator() + System.lineSeparator();
+				result += "#КонецОбласти" + ls;
 			}
 		}
 
-		result += "#КонецОбласти";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#КонецОбласти" + ls;
 
-		result += "#КонецОбласти";
-		result += System.lineSeparator() + System.lineSeparator();
+		result += "#КонецОбласти" + ls;
 
 		return result;
 		
@@ -320,14 +316,14 @@ class CmDataRule {
 	
 	String onProcessingEvent = ""
 	derived String onProcessingEventPrefix get {
-		return "Процедура ПОД_&ИмяПОД_ПриОбработке(ДанныеИБ, ИспользованиеПОД, КомпонентыОбмена)"
+		return "Процедура ПОД_&ИмяПОД_ПриОбработке(ДанныеИБ, ИспользованиеПКО, КомпонентыОбмена)"
 			.replace("&ИмяПОД", name);
 	}
 	String onProcessingEventSuffix = "КонецПроцедуры"
 	op String getOnProcessingEventText() {
-		var result = onProcessingEventPrefix + System.lineSeparator() +
-			onProcessingEvent +
-			System.lineSeparator() + onProcessingEventSuffix;
+		var result = onProcessingEventPrefix + System.lineSeparator()
+			+ onProcessingEvent + System.lineSeparator()
+			+ onProcessingEventSuffix + System.lineSeparator();
 		return result;
 	}
 	op String getOnProcessingEventDeclaration() {
@@ -344,9 +340,9 @@ class CmDataRule {
 	}
 	String dataSelectionEventSuffix = "КонецФункции"
 	op String getDataSelectionEventText() {
-		var result = dataSelectionEventPrefix + System.lineSeparator() +
-			dataSelectionEvent +
-			System.lineSeparator() + dataSelectionEventSuffix;
+		var result = dataSelectionEventPrefix + System.lineSeparator()
+			+ dataSelectionEvent + System.lineSeparator()
+			+ dataSelectionEventSuffix + System.lineSeparator();
 		return result;
 	}
 	op String getDataSelectionEventDeclaration() {
@@ -410,8 +406,9 @@ class CmObjectRule {
 	}
 	String onSendingEventSuffix = "КонецПроцедуры"
 	op String getOnSendingEventText() {
-		var result = onSendingEventPrefix + System.lineSeparator() + onSendingEvent +
-			System.lineSeparator() + onSendingEventSuffix;
+		var result = onSendingEventPrefix + System.lineSeparator()
+			+ onSendingEvent + System.lineSeparator()
+			+ onSendingEventSuffix + System.lineSeparator();
 		return result;
 	}
 	
@@ -422,8 +419,9 @@ class CmObjectRule {
 	}
 	String beforeReceivingEventSuffix = "КонецПроцедуры"
 	op String getBeforeReceivingEventText() {
-		var result = beforeReceivingEventPrefix + System.lineSeparator() + beforeReceivingEvent +
-			System.lineSeparator() + beforeReceivingEventSuffix;
+		var result = beforeReceivingEventPrefix + System.lineSeparator()
+			+ beforeReceivingEvent + System.lineSeparator()
+			+ beforeReceivingEventSuffix + System.lineSeparator();
 		return result;
 	}
 	
@@ -434,8 +432,9 @@ class CmObjectRule {
 	}
 	String onReceivingEventSuffix = "КонецПроцедуры"
 	op String getOnReceivingEventText() {
-		var result = onReceivingEventPrefix + System.lineSeparator() + onReceivingEvent +
-			System.lineSeparator() + onReceivingEventSuffix;
+		var result = onReceivingEventPrefix + System.lineSeparator()
+			+ onReceivingEvent + System.lineSeparator()
+			+ onReceivingEventSuffix + System.lineSeparator();
 		return result;
 	}
 
@@ -524,7 +523,9 @@ class CmAlgorithm {
 		return result;
 	}
 	op String getAlgorithmText() {
-		var result = prefix + System.lineSeparator() + body + System.lineSeparator() + suffix;
+		var result = prefix + System.lineSeparator()
+			+ body + System.lineSeparator()
+			+ suffix + System.lineSeparator();
 		
 		return result;
 	}

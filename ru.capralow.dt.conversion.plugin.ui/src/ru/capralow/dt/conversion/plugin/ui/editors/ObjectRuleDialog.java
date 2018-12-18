@@ -85,7 +85,7 @@ public class ObjectRuleDialog extends Dialog {
 				.get(IEditedResourceProvider.class);
 		resourceProvider.setPlatformUri((URI) objectRule.getConversionModule().getModuleURI());
 
-		IResourceValidator resourceValidator = resourceServiceProvider.get(IResourceValidator.class);
+		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
 
