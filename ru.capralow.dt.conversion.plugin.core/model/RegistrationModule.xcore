@@ -1,5 +1,4 @@
-@GenModel(publicConstructors="true", loadInitialization="false", literalsInterface="true", nonNLSMarkers="true",
-	updateClasspath="false", featureDelegation="Reflective")
+@GenModel(publicConstructors="true")
 package ru.capralow.dt.conversion.plugin.core.rm
 
 import java.text.ParseException

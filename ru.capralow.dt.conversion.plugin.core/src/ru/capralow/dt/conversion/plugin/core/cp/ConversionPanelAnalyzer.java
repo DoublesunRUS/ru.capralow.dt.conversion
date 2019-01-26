@@ -36,6 +36,7 @@ import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.FeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.FeatureEntry;
 import com._1c.g5.v8.dt.bsl.model.FormalParam;
+import com._1c.g5.v8.dt.bsl.model.IfStatement;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.bsl.model.Module;
@@ -393,6 +394,10 @@ public class ConversionPanelAnalyzer {
 		Iterator<Statement> itr = mdStatements.iterator();
 		while (itr.hasNext()) {
 			Statement mdStatement = itr.next();
+
+			if (mdStatement instanceof IfStatement) {
+				continue;
+			}
 
 			Invocation expression = (Invocation) ((SimpleStatement) mdStatement).getLeft();
 

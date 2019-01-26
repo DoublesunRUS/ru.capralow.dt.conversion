@@ -1,5 +1,4 @@
-@GenModel(publicConstructors="true", loadInitialization="false", literalsInterface="true", nonNLSMarkers="true",
-	updateClasspath="false", featureDelegation="Reflective")
+@GenModel(publicConstructors="true")
 package ru.capralow.dt.conversion.plugin.core.cm
 
 class ConversionModule {
@@ -10,7 +9,8 @@ class ConversionModule {
 	String params
 	
 	String beforeConvertationEvent = ""
-	String beforeConvertationEventPrefix = "Процедура ПередКонвертацией(КомпонентыОбмена) Экспорт"
+	String
+	 beforeConvertationEventPrefix = "Процедура ПередКонвертацией(КомпонентыОбмена) Экспорт"
 	String beforeConvertationEventSuffix = "КонецПроцедуры"
 	op String getBeforeConvertationEventText() {
 		var result = beforeConvertationEventPrefix + System.lineSeparator()
