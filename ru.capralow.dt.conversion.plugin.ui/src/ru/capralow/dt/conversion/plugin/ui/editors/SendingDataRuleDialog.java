@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.ui.editor.XtextSourceViewer;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -163,7 +164,7 @@ public class SendingDataRuleDialog extends Dialog {
 
 		ToolItem tltmObjectRulesSize2 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
 		tltmObjectRulesSize2.setText("Одно");
-		tltmObjectRulesSize1.setEnabled(editable);
+		tltmObjectRulesSize2.setEnabled(editable);
 
 		// 4.3
 		new Label(tabComposite1, SWT.NONE);
@@ -247,13 +248,15 @@ public class SendingDataRuleDialog extends Dialog {
 
 		Text txtOnProcessing = new Text(compositeOnProcessingEditor, SWT.BORDER | SWT.READ_ONLY);
 		txtOnProcessing.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtOnProcessing.setText("<Описание процедуры>");
+		txtOnProcessing.setText("<Имя и параметры процедуры>");
 
 		editorOnProcessing = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeOnProcessingEditor);
 
-		editorOnProcessing.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerOnProcessing = editorOnProcessing.getViewer();
+		viewerOnProcessing.setEditable(editable);
+		viewerOnProcessing.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		tabItem2.setControl(compositeOnProcessingEditor);
 
@@ -266,13 +269,15 @@ public class SendingDataRuleDialog extends Dialog {
 
 		Text txtDataSelection = new Text(compositeDataSelectionEditor, SWT.BORDER | SWT.READ_ONLY);
 		txtDataSelection.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtDataSelection.setText("<Описание процедуры>");
+		txtDataSelection.setText("<Имя и параметры процедуры>");
 
 		editorDataSelection = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeDataSelectionEditor);
 
-		editorDataSelection.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerDataSelection = editorDataSelection.getViewer();
+		viewerDataSelection.setEditable(editable);
+		viewerDataSelection.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		tabItem3.setControl(compositeDataSelectionEditor);
 

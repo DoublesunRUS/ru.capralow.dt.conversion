@@ -2,7 +2,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.util.Iterator;
-import java.util.UUID;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
@@ -51,9 +50,11 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.EmbeddedEditorBuffer;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditor;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
+import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
@@ -156,8 +157,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		compositeTableInformation.setLayout(tclInformation);
 		compositeTableInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
 
-		TableViewer viewerInformation = new TableViewer(compositeTableInformation,
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		TableViewer viewerInformation = new TableViewer(compositeTableInformation, SWT.BORDER | SWT.V_SCROLL);
 
 		Table tableInformation = viewerInformation.getTable();
 
@@ -178,8 +178,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclSendingDataRules = new TableColumnLayout();
 		compositeSendingDataRules.setLayout(tclSendingDataRules);
 
-		viewerSendingDataRules = new TableViewer(compositeSendingDataRules,
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		viewerSendingDataRules = new TableViewer(compositeSendingDataRules, SWT.BORDER | SWT.V_SCROLL);
 
 		Table tableSendingDataRules = viewerSendingDataRules.getTable();
 
@@ -257,8 +256,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclSendingObjectRules = new TableColumnLayout();
 		compositeSendingObjectRules.setLayout(tclSendingObjectRules);
 
-		viewerSendingObjectRules = new TableViewer(compositeSendingObjectRules,
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		viewerSendingObjectRules = new TableViewer(compositeSendingObjectRules, SWT.BORDER | SWT.V_SCROLL);
 
 		Table tableSendingObjectRules = viewerSendingObjectRules.getTable();
 
@@ -339,8 +337,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclReceivingDataRules = new TableColumnLayout();
 		compositeReceivingDataRules.setLayout(tclReceivingDataRules);
 
-		viewerReceivingDataRules = new TableViewer(compositeReceivingDataRules,
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		viewerReceivingDataRules = new TableViewer(compositeReceivingDataRules, SWT.BORDER | SWT.V_SCROLL);
 
 		Table tableReceivingDataRules = viewerReceivingDataRules.getTable();
 
@@ -409,8 +406,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclReceivingObjectRules = new TableColumnLayout();
 		compositeReceivingObjectRules.setLayout(tclReceivingObjectRules);
 
-		viewerReceivingObjectRules = new TableViewer(compositeReceivingObjectRules,
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		viewerReceivingObjectRules = new TableViewer(compositeReceivingObjectRules, SWT.BORDER | SWT.V_SCROLL);
 
 		Table tableReceivingObjectRules = viewerReceivingObjectRules.getTable();
 
@@ -515,7 +511,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclAlgorithms = new TableColumnLayout();
 		compositeAlgorithms.setLayout(tclAlgorithms);
 
-		viewerAlgorithms = new TableViewer(compositeAlgorithms, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		viewerAlgorithms = new TableViewer(compositeAlgorithms, SWT.BORDER | SWT.V_SCROLL);
 
 		Table tableAlgorithms = viewerAlgorithms.getTable();
 
@@ -588,6 +584,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Override
 	public void activate() {
+		super.activate();
+
 		conversionModuleAnalyzer.analyze(getModel());
 		conversionModule = conversionModuleAnalyzer.getConversionModule();
 
@@ -602,8 +600,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules());
 
 		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
-
-		super.activate();
 	}
 
 	private void hookListeners() {
@@ -791,15 +787,23 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				continue;
 
 			if (editor[0] instanceof XtextEditor) {
+				// Если же мы идем по первой ветке, то есть у нас нет "formEditor", то берем
+				// EditorInput, он должен быть файловым, и по файлу уже определяем, например,
+				// при помощи сервиса
+				// com._1c.g5.v8.dt.core.filesystem.IQualifiedNameFilePathConverter
+
 				embeddedEditor = (XtextEditor) editor[0];
 				break;
 
 			} else if (editor[0] instanceof FormEditor) {
 				FormEditor formEditor = (FormEditor) editor[0];
+				if (!(formEditor instanceof DtGranularEditor))
+					continue;
 
-				UUID moduleUuid = getModel().getUuid();
-
-				// FileEditorInput editorInput = (FileEditorInput) formEditor.getEditorInput();
+				IDtEditorInput<CommonModule> editorInput = ((DtGranularEditor<CommonModule>) formEditor)
+						.getEditorInput();
+				if (editorInput.getModel().getUuid() != getModel().getUuid())
+					continue;
 
 				embeddedEditor = formEditor.findPage("editors.pages.module").getAdapter(XtextEditor.class);
 
@@ -815,7 +819,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}
 
 		if (embeddedEditor == null) {
-			return;
+			throw new NullPointerException("Не удалось найти редактор для помещения изменений.");
 		}
 
 		EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument());

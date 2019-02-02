@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.ui.editor.XtextSourceViewer;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -32,6 +33,8 @@ public class AlgorithmDialog extends Dialog {
 
 	private String algorithmsText;
 
+	private Boolean editable;
+
 	/**
 	 * Create the dialog.
 	 * 
@@ -42,6 +45,8 @@ public class AlgorithmDialog extends Dialog {
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.algorithm = algorithm;
+
+		this.editable = false;
 	}
 
 	/**
@@ -78,7 +83,9 @@ public class AlgorithmDialog extends Dialog {
 		editor = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator).withParent(composite);
 
-		editor.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewer = editor.getViewer();
+		viewer.setEditable(editable);
+		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		// Заполнение данными
 

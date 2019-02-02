@@ -240,8 +240,11 @@ public class ConversionModuleAnalyzer {
 						dataRule = conversionModule.getDataRule(ruleName);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиМетаданные")) {
-						if (rightExpression instanceof UndefinedLiteral)
+						if (rightExpression instanceof UndefinedLiteral) {
+							dataRule.setSelectionVariant(CmSelectionVariant.CUSTOM);
+
 							continue;
+						}
 
 						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
 						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
@@ -251,6 +254,7 @@ public class ConversionModuleAnalyzer {
 								+ "." + rightFeatureAccess1.getName();
 
 						dataRule.setConfigurationObject(configurationObject);
+						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -633,15 +637,16 @@ public class ConversionModuleAnalyzer {
 
 				if (defaultValue instanceof BooleanLiteral) {
 					params += " = " + (((BooleanLiteral) defaultValue).isIsTrue() ? "Истина" : "Ложь");
-				}
 
-				else if (defaultValue instanceof StringLiteral) {
-					params += " = " + ((StringLiteral) defaultValue).getLines().get(0).replace("\"", "");
+				} else if (defaultValue instanceof StringLiteral) {
+					params += " = " + ((StringLiteral) defaultValue).getLines().get(0);
+
+				} else if (defaultValue instanceof UndefinedLiteral) {
+					params += " = " + "Неопределено";
 
 				} else {
-					throw new NullPointerException(
-							"Добавить Алгоритм: необработанный тип значения переменной по умолчанию: "
-									+ defaultValue.getClass());
+					throw new NullPointerException("Добавить Алгоритм: " + methodName + System.lineSeparator()
+							+ "Необработанный тип значения переменной по умолчанию: " + defaultValue.getClass());
 
 				}
 			}

@@ -316,7 +316,12 @@ class CmDataRule {
 	
 	String onProcessingEvent = ""
 	derived String onProcessingEventPrefix get {
-		return "Процедура ПОД_&ИмяПОД_ПриОбработке(ДанныеИБ, ИспользованиеПКО, КомпонентыОбмена)"
+		if (forSending) {
+			return "Процедура ПОД_&ИмяПОД_ПриОбработке(ДанныеИБ, ИспользованиеПКО, КомпонентыОбмена)"
+			.replace("&ИмяПОД", name);
+			
+		} else
+			return "Процедура ПОД_&ИмяПОД_ПриОбработке(ДанныеXDTO, ИспользованиеПКО, КомпонентыОбмена)"
 			.replace("&ИмяПОД", name);
 	}
 	String onProcessingEventSuffix = "КонецПроцедуры"
