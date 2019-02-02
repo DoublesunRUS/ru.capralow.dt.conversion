@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.ui.editor.XtextSourceViewer;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -59,6 +60,8 @@ public class ObjectRuleDialog extends Dialog {
 
 	private String algorithmsText;
 
+	private Boolean editable;
+
 	/**
 	 * Create the dialog.
 	 * 
@@ -69,6 +72,8 @@ public class ObjectRuleDialog extends Dialog {
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.objectRule = objectRule;
+
+		this.editable = false;
 	}
 
 	/**
@@ -117,10 +122,12 @@ public class ObjectRuleDialog extends Dialog {
 		txtObjectRuleName = new Text(compositeMain, SWT.BORDER);
 		txtObjectRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtObjectRuleName.setText("<Идентификатор правила>");
+		txtObjectRuleName.setEditable(editable);
 
 		// 1.3
 		Button btnDisable = new Button(compositeMain, SWT.CHECK);
 		btnDisable.setText("Отключить");
+		btnDisable.setEnabled(editable);
 
 		// 2.1
 		Label lblConfigurationObjectName = new Label(compositeMain, SWT.NONE);
@@ -131,6 +138,7 @@ public class ObjectRuleDialog extends Dialog {
 		txtConfigurationObjectName = new Text(compositeMain, SWT.BORDER);
 		txtConfigurationObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtConfigurationObjectName.setText("<Объект конфигурации>");
+		txtConfigurationObjectName.setEditable(editable);
 
 		// 2.3
 		new Label(compositeMain, SWT.NONE);
@@ -144,6 +152,7 @@ public class ObjectRuleDialog extends Dialog {
 		txtFormatObjectName = new Text(compositeMain, SWT.BORDER);
 		txtFormatObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtFormatObjectName.setText("<Объект формата>");
+		txtFormatObjectName.setEditable(editable);
 
 		// 3.3
 		new Label(compositeMain, SWT.NONE);
@@ -158,20 +167,24 @@ public class ObjectRuleDialog extends Dialog {
 
 		ToolItem tltmObjectRulesSize1 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
 		tltmObjectRulesSize1.setText("Для отправки");
+		tltmObjectRulesSize1.setEnabled(editable);
 
 		new ToolItem(toolBarObjectRulesSize, SWT.SEPARATOR);
 
 		ToolItem tltmObjectRulesSize2 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
 		tltmObjectRulesSize2.setText("Для получения");
+		tltmObjectRulesSize2.setEnabled(editable);
 
 		new ToolItem(toolBarObjectRulesSize, SWT.SEPARATOR);
 
 		ToolItem tltmObjectRulesSize3 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
 		tltmObjectRulesSize3.setText("Для отправки и получения");
+		tltmObjectRulesSize3.setEnabled(editable);
 
 		// 4.3
 		Button btnForGroup = new Button(compositeMain, SWT.CHECK);
 		btnForGroup.setText("Правило для группы справочника");
+		btnForGroup.setEnabled(editable);
 
 		tabItem1.setControl(compositeMain);
 
@@ -259,15 +272,17 @@ public class ObjectRuleDialog extends Dialog {
 		compositeOnSendingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		GridLayoutFactory.fillDefaults().applyTo(compositeOnSendingEditor);
 
-		Text txtOnSending = new Text(compositeOnSendingEditor, SWT.BORDER | SWT.READ_ONLY);
-		txtOnSending.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtOnSending.setText("<Описание процедуры>");
+		Text txtOnSendingDeclaration = new Text(compositeOnSendingEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtOnSendingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtOnSendingDeclaration.setText("<Имя и параметры процедуры>");
 
 		editorOnSending = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeOnSendingEditor);
 
-		editorOnSending.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerOnSending = editorOnSending.getViewer();
+		viewerOnSending.setEditable(editable);
+		viewerOnSending.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		tabItem3.setControl(compositeOnSendingEditor);
 
@@ -279,16 +294,17 @@ public class ObjectRuleDialog extends Dialog {
 		compositeBeforeReceivingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		GridLayoutFactory.fillDefaults().applyTo(compositeBeforeReceivingEditor);
 
-		Text txtBeforeReceiving = new Text(compositeBeforeReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
-		txtBeforeReceiving.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtBeforeReceiving.setText("<Описание процедуры>");
+		Text txtBeforeReceivingDeclaration = new Text(compositeBeforeReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtBeforeReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtBeforeReceivingDeclaration.setText("<Имя и параметры процедуры>");
 
 		editorBeforeReceiving = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeBeforeReceivingEditor);
 
-		editorBeforeReceiving.getViewer().getControl()
-				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerBeforeReceiving = editorBeforeReceiving.getViewer();
+		viewerBeforeReceiving.setEditable(editable);
+		viewerBeforeReceiving.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		tabItem4.setControl(compositeBeforeReceivingEditor);
 
@@ -300,15 +316,17 @@ public class ObjectRuleDialog extends Dialog {
 		compositeOnReceivingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		GridLayoutFactory.fillDefaults().applyTo(compositeOnReceivingEditor);
 
-		Text txtOnReceiving = new Text(compositeOnReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
-		txtOnReceiving.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtOnReceiving.setText("<Описание процедуры>");
+		Text txtOnReceivingDeclaration = new Text(compositeOnReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtOnReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtOnReceivingDeclaration.setText("<Имя и параметры процедуры>");
 
 		editorOnReceiving = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeOnReceivingEditor);
 
-		editorOnReceiving.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerOnReceiving = editorOnReceiving.getViewer();
+		viewerOnReceiving.setEditable(editable);
+		viewerOnReceiving.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		tabItem5.setControl(compositeOnReceivingEditor);
 
@@ -320,17 +338,17 @@ public class ObjectRuleDialog extends Dialog {
 		compositeAfterReceivingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		GridLayoutFactory.fillDefaults().applyTo(compositeAfterReceivingEditor);
 
-		Text txtAfterReceiving = new Text(compositeAfterReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
-		txtAfterReceiving.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtAfterReceiving.setText("<Описание процедуры>");
+		Text txtAfterReceivingDeclaration = new Text(compositeAfterReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
+		txtAfterReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		txtAfterReceivingDeclaration.setText("<Имя и параметры процедуры>");
 
 		editorAfterReceiving = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeAfterReceivingEditor);
 
-		editorAfterReceiving.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-		editorAfterReceiving.getViewer().setEditable(false);
+		XtextSourceViewer viewerAfterReceiving = editorAfterReceiving.getViewer();
+		viewerAfterReceiving.setEditable(false); // Редактируется в алгоритмах
+		viewerAfterReceiving.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		tabItem6.setControl(compositeAfterReceivingEditor);
 
@@ -351,16 +369,19 @@ public class ObjectRuleDialog extends Dialog {
 
 		ToolItem tltmIdentificationVariant1 = new ToolItem(toolBarIdentificationVariant, SWT.CHECK);
 		tltmIdentificationVariant1.setText(CmIdentificationVariant.UUID.getLiteral());
+		tltmIdentificationVariant1.setEnabled(editable);
 
 		new ToolItem(toolBarIdentificationVariant, SWT.SEPARATOR);
 
 		ToolItem tltmIdentificationVariant2 = new ToolItem(toolBarIdentificationVariant, SWT.CHECK);
 		tltmIdentificationVariant2.setText(CmIdentificationVariant.SEARCH_FIELDS.getLiteral());
+		tltmIdentificationVariant2.setEnabled(editable);
 
 		new ToolItem(toolBarIdentificationVariant, SWT.SEPARATOR);
 
 		ToolItem tltmIdentificationVariant3 = new ToolItem(toolBarIdentificationVariant, SWT.CHECK);
 		tltmIdentificationVariant3.setText(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS.getLiteral());
+		tltmIdentificationVariant3.setEnabled(editable);
 
 		// 2.1
 		new Label(compositeIdentification, SWT.NONE).setText("Идентификация по полям поиска");
@@ -446,26 +467,26 @@ public class ObjectRuleDialog extends Dialog {
 		else
 			algorithmsText = objectRule.getConversionModule().getAllAlgorithmsText("");
 
-		txtOnSending.setText(objectRule.getOnSendingEventPrefix());
+		txtOnSendingDeclaration.setText(objectRule.getOnSendingEventPrefix());
 		getModelAccessOnSending().updateEditablePart(objectRule.getOnSendingEventText());
 		getModelAccessOnSending().updateModel(objectRule.getOnSendingEventPrefix(), objectRule.getOnSendingEvent(),
 				objectRule.getOnSendingEventSuffix() + System.lineSeparator() + algorithmsText);
 
-		txtBeforeReceiving.setText(objectRule.getBeforeReceivingEventPrefix());
+		txtBeforeReceivingDeclaration.setText(objectRule.getBeforeReceivingEventPrefix());
 		getModelAccessBeforeReceiving().updateEditablePart(objectRule.getBeforeReceivingEventText());
 		getModelAccessBeforeReceiving().updateModel(objectRule.getBeforeReceivingEventPrefix(),
 				objectRule.getBeforeReceivingEvent(),
 				objectRule.getBeforeReceivingEventSuffix() + System.lineSeparator() + algorithmsText);
 
-		txtOnReceiving.setText(objectRule.getOnReceivingEventPrefix());
+		txtOnReceivingDeclaration.setText(objectRule.getOnReceivingEventPrefix());
 		getModelAccessOnReceiving().updateEditablePart(objectRule.getOnReceivingEventText());
 		getModelAccessOnReceiving().updateModel(objectRule.getOnReceivingEventPrefix(),
 				objectRule.getOnReceivingEvent(),
 				objectRule.getOnReceivingEventSuffix() + System.lineSeparator() + algorithmsText);
 
-		txtAfterReceiving.setText("");
+		txtAfterReceivingDeclaration.setText("");
 		if (objectRule.getAfterReceivingAlgorithm() != null) {
-			txtAfterReceiving.setText(objectRule.getAfterReceivingAlgorithm().getPrefix());
+			txtAfterReceivingDeclaration.setText(objectRule.getAfterReceivingAlgorithm().getPrefix());
 			getModelAccessAfterReceiving()
 					.updateEditablePart(objectRule.getAfterReceivingAlgorithm().getAlgorithmText());
 			getModelAccessAfterReceiving().updateModel(objectRule.getAfterReceivingAlgorithm().getPrefix(),

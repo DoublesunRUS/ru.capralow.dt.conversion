@@ -55,6 +55,8 @@ public class SendingDataRuleDialog extends Dialog {
 
 	private String algorithmsText;
 
+	private Boolean editable;
+
 	/**
 	 * Create the dialog.
 	 * 
@@ -65,6 +67,8 @@ public class SendingDataRuleDialog extends Dialog {
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.dataRule = dataRule;
+
+		this.editable = false;
 	}
 
 	/**
@@ -101,10 +105,12 @@ public class SendingDataRuleDialog extends Dialog {
 		txtDataRuleName = new Text(tabComposite1, SWT.BORDER);
 		txtDataRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtDataRuleName.setText("<Идентификатор правила>");
+		txtDataRuleName.setEditable(editable);
 
 		// 1.3
 		Button btnDisable = new Button(tabComposite1, SWT.CHECK);
 		btnDisable.setText("Отключить");
+		btnDisable.setEnabled(editable);
 
 		// 2.1
 		Label lblSelectionVariant = new Label(tabComposite1, SWT.NONE);
@@ -116,11 +122,13 @@ public class SendingDataRuleDialog extends Dialog {
 
 		ToolItem tltmSelectionVariant1 = new ToolItem(toolBarSelectionVariant, SWT.CHECK);
 		tltmSelectionVariant1.setText(CmSelectionVariant.STANDART.getLiteral());
+		tltmSelectionVariant1.setEnabled(editable);
 
 		new ToolItem(toolBarSelectionVariant, SWT.SEPARATOR);
 
 		ToolItem tltmSelectionVariant2 = new ToolItem(toolBarSelectionVariant, SWT.CHECK);
 		tltmSelectionVariant2.setText(CmSelectionVariant.CUSTOM.getLiteral());
+		tltmSelectionVariant2.setEnabled(editable);
 
 		// 2.3
 		new Label(tabComposite1, SWT.NONE);
@@ -134,6 +142,7 @@ public class SendingDataRuleDialog extends Dialog {
 		txtConfigurationObjectName = new Text(tabComposite1, SWT.BORDER);
 		txtConfigurationObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtConfigurationObjectName.setText("<Объект конфигурации>");
+		txtConfigurationObjectName.setEditable(editable);
 
 		// 3.3
 		new Label(tabComposite1, SWT.NONE);
@@ -148,11 +157,13 @@ public class SendingDataRuleDialog extends Dialog {
 
 		ToolItem tltmObjectRulesSize1 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
 		tltmObjectRulesSize1.setText("Несколько");
+		tltmObjectRulesSize1.setEnabled(editable);
 
 		new ToolItem(toolBarObjectRulesSize, SWT.SEPARATOR);
 
 		ToolItem tltmObjectRulesSize2 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
 		tltmObjectRulesSize2.setText("Одно");
+		tltmObjectRulesSize1.setEnabled(editable);
 
 		// 4.3
 		new Label(tabComposite1, SWT.NONE);
@@ -166,6 +177,7 @@ public class SendingDataRuleDialog extends Dialog {
 		txtObjectRuleName = new Text(tabComposite1, SWT.BORDER);
 		txtObjectRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtObjectRuleName.setText("<Правило конвертации объекта>");
+		txtObjectRuleName.setEditable(editable);
 
 		// 5.3
 		new Label(tabComposite1, SWT.NONE);
@@ -274,7 +286,7 @@ public class SendingDataRuleDialog extends Dialog {
 
 		if (selectionVariant == CmSelectionVariant.STANDART)
 			tabItem3.dispose();
-		
+
 		txtConfigurationObjectName.setText(dataRule.getConfigurationObjectName());
 
 		EList<CmObjectRule> objectRules = dataRule.getObjectRules();

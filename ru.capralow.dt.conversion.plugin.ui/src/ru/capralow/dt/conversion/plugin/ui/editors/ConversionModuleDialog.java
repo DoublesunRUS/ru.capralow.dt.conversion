@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.ui.editor.XtextSourceViewer;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -36,6 +37,8 @@ public class ConversionModuleDialog extends Dialog {
 
 	private String algorithmsText;
 
+	private Boolean editable;
+
 	/**
 	 * Create the dialog.
 	 * 
@@ -46,6 +49,8 @@ public class ConversionModuleDialog extends Dialog {
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.conversionModule = conversionModule;
+
+		this.editable = false;
 	}
 
 	/**
@@ -85,7 +90,7 @@ public class ConversionModuleDialog extends Dialog {
 
 		tabItem1.setControl(compositeBeforeConvertationEditor);
 
-		Text txtBeforeConvertation = new Text(compositeBeforeConvertationEditor, SWT.BORDER | SWT.READ_ONLY);
+		Text txtBeforeConvertation = new Text(compositeBeforeConvertationEditor, SWT.BORDER);
 		txtBeforeConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtBeforeConvertation.setText("<Описание процедуры>");
 
@@ -93,8 +98,9 @@ public class ConversionModuleDialog extends Dialog {
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeBeforeConvertationEditor);
 
-		editorBeforeConvertation.getViewer().getControl()
-				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerBeforeConvertation = editorBeforeConvertation.getViewer();
+		viewerBeforeConvertation.setEditable(editable);
+		viewerBeforeConvertation.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		CTabItem tabItem2 = new CTabItem(tabFolder, SWT.NONE);
 		tabItem2.setText("Перед отложенным заполнением");
@@ -105,7 +111,7 @@ public class ConversionModuleDialog extends Dialog {
 
 		tabItem2.setControl(compositeBeforeFillingEditor);
 
-		Text txtBeforeFilling = new Text(compositeBeforeFillingEditor, SWT.BORDER | SWT.READ_ONLY);
+		Text txtBeforeFilling = new Text(compositeBeforeFillingEditor, SWT.BORDER);
 		txtBeforeFilling.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtBeforeFilling.setText("<Описание процедуры>");
 
@@ -113,7 +119,9 @@ public class ConversionModuleDialog extends Dialog {
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeBeforeFillingEditor);
 
-		editorBeforeFilling.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerBeforeFilling = editorBeforeFilling.getViewer();
+		viewerBeforeFilling.setEditable(editable);
+		viewerBeforeFilling.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		CTabItem tabItem3 = new CTabItem(tabFolder, SWT.NONE);
 		tabItem3.setText("Перед отложенным заполнением");
@@ -124,7 +132,7 @@ public class ConversionModuleDialog extends Dialog {
 
 		tabItem3.setControl(compositeAfterConvertationEditor);
 
-		Text txtAfterConvertation = new Text(compositeAfterConvertationEditor, SWT.BORDER | SWT.READ_ONLY);
+		Text txtAfterConvertation = new Text(compositeAfterConvertationEditor, SWT.BORDER);
 		txtAfterConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtAfterConvertation.setText("<Описание процедуры>");
 
@@ -132,8 +140,9 @@ public class ConversionModuleDialog extends Dialog {
 				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
 				.withParent(compositeAfterConvertationEditor);
 
-		editorAfterConvertation.getViewer().getControl()
-				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		XtextSourceViewer viewerAfterConvertation = editorAfterConvertation.getViewer();
+		viewerAfterConvertation.setEditable(editable);
+		viewerAfterConvertation.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		// Заполнение данными
 
