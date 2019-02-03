@@ -1,4 +1,6 @@
-@GenModel(publicConstructors="true")
+@GenModel(publicConstructors="true", featureDelegation="Reflective",
+	rootExtendsClass="com._1c.g5.v8.bm.core.BmObject", rootExtendsInterface="com._1c.g5.v8.bm.core.IBmObject"
+)
 package ru.capralow.dt.conversion.plugin.core.rm
 
 import java.text.ParseException

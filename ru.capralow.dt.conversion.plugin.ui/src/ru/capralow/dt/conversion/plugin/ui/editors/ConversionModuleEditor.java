@@ -24,16 +24,10 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -88,8 +82,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	@Inject
 	public ConversionModuleEditor(String id, String title) {
 		super(PAGE_ID, "Конвертация");
-
-		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager);
 	}
 
 	@Override
@@ -119,58 +111,64 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
 		// Информация
-		CTabItem tabItem1 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem1.setText("Информация");
-
-		Composite compositeInformation = new Composite(tabFolder, SWT.BORDER);
-		compositeInformation.setLayout(new GridLayout(2, false));
-
-		// 1.1
-		Label lblStoreVersion = new Label(compositeInformation, SWT.NONE);
-		lblStoreVersion.setText("Версия формата менеджера обмена");
-
-		// 1.2
-		ToolBar toolBarObjectRulesSize = new ToolBar(compositeInformation, SWT.FLAT);
-
-		tltmStoreVersion1 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
-		tltmStoreVersion1.setText("1");
-
-		new ToolItem(toolBarObjectRulesSize, SWT.SEPARATOR);
-
-		tltmStoreVersion2 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
-		tltmStoreVersion2.setText("2");
-
-		// 2.1
-		btnInformation = new Button(compositeInformation, SWT.PUSH);
-		btnInformation.setText("Общие события конвертации");
-
-		// 2.2
-		new Label(compositeInformation, SWT.NONE);
-
-		// 3.1
-		new Label(compositeInformation, SWT.NONE).setText("Доступные версии формата:");
-
-		// 3.2
-		new Label(compositeInformation, SWT.NONE);
-
-		// 4.1-2
-		Composite compositeTableInformation = new Composite(compositeInformation, SWT.NONE);
-		TableColumnLayout tclInformation = new TableColumnLayout();
-		compositeTableInformation.setLayout(tclInformation);
-		compositeTableInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
-
-		TableViewer viewerInformation = new TableViewer(compositeTableInformation, SWT.BORDER | SWT.V_SCROLL);
-
-		Table tableInformation = viewerInformation.getTable();
-
-		tableInformation.setHeaderVisible(true);
-		tableInformation.setLinesVisible(true);
-
-		TableViewerColumn tblclmnInformationColumn1 = new TableViewerColumn(viewerInformation, SWT.NONE);
-		tclInformation.setColumnData(tblclmnInformationColumn1.getColumn(), new ColumnWeightData(1, 150, true));
-		tblclmnInformationColumn1.getColumn().setText("Версия формата");
-
-		tabItem1.setControl(compositeInformation);
+		// CTabItem tabItem1 = new CTabItem(tabFolder, SWT.NONE);
+		// tabItem1.setText("Информация");
+		//
+		// Composite compositeInformation = new Composite(tabFolder, SWT.BORDER);
+		// compositeInformation.setLayout(new GridLayout(2, false));
+		//
+		// // 1.1
+		// Label lblStoreVersion = new Label(compositeInformation, SWT.NONE);
+		// lblStoreVersion.setText("Версия формата менеджера обмена");
+		//
+		// // 1.2
+		// ToolBar toolBarObjectRulesSize = new ToolBar(compositeInformation, SWT.FLAT);
+		//
+		// tltmStoreVersion1 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
+		// tltmStoreVersion1.setText("1");
+		//
+		// new ToolItem(toolBarObjectRulesSize, SWT.SEPARATOR);
+		//
+		// tltmStoreVersion2 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
+		// tltmStoreVersion2.setText("2");
+		//
+		// // 2.1
+		// btnInformation = new Button(compositeInformation, SWT.PUSH);
+		// btnInformation.setText("Общие события конвертации");
+		//
+		// // 2.2
+		// new Label(compositeInformation, SWT.NONE);
+		//
+		// // 3.1
+		// new Label(compositeInformation, SWT.NONE).setText("Доступные версии
+		// формата:");
+		//
+		// // 3.2
+		// new Label(compositeInformation, SWT.NONE);
+		//
+		// // 4.1-2
+		// Composite compositeTableInformation = new Composite(compositeInformation,
+		// SWT.NONE);
+		// TableColumnLayout tclInformation = new TableColumnLayout();
+		// compositeTableInformation.setLayout(tclInformation);
+		// compositeTableInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+		// false, false, 2, 1));
+		//
+		// TableViewer viewerInformation = new TableViewer(compositeTableInformation,
+		// SWT.BORDER | SWT.V_SCROLL);
+		//
+		// Table tableInformation = viewerInformation.getTable();
+		//
+		// tableInformation.setHeaderVisible(true);
+		// tableInformation.setLinesVisible(true);
+		//
+		// TableViewerColumn tblclmnInformationColumn1 = new
+		// TableViewerColumn(viewerInformation, SWT.NONE);
+		// tclInformation.setColumnData(tblclmnInformationColumn1.getColumn(), new
+		// ColumnWeightData(1, 150, true));
+		// tblclmnInformationColumn1.getColumn().setText("Версия формата");
+		//
+		// tabItem1.setControl(compositeInformation);
 
 		// ПОД: Отправка
 		CTabItem tabItem2 = new CTabItem(tabFolder, SWT.NONE);
@@ -675,12 +673,14 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public void activate() {
 		super.activate();
 
+		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager);
+
 		conversionModuleAnalyzer.analyze(getModel());
 		conversionModule = conversionModuleAnalyzer.getConversionModule();
 
-		String storeVersion = conversionModule.getStoreVersion();
-		tltmStoreVersion1.setSelection(storeVersion.equals("1"));
-		tltmStoreVersion2.setSelection(storeVersion.equals("2"));
+		// String storeVersion = conversionModule.getStoreVersion();
+		// tltmStoreVersion1.setSelection(storeVersion.equals("1"));
+		// tltmStoreVersion2.setSelection(storeVersion.equals("2"));
 
 		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
 		viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules());
@@ -691,34 +691,27 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		viewerPredefineds.setInput(conversionModule.getPredefineds());
 
 		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
-
-		viewerSendingDataRules.refresh();
-		viewerSendingObjectRules.refresh();
-		viewerReceivingDataRules.refresh();
-		viewerReceivingObjectRules.refresh();
-		viewerPredefineds.refresh();
-		viewerAlgorithms.refresh();
 	}
 
 	private void hookListeners() {
-		btnInformation.addSelectionListener(new SelectionListener() {
-
-			public void widgetSelected(SelectionEvent event) {
-				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
-						((Button) event.getSource()).getShell(), conversionModule);
-				if (conversionModuleDialog.open() == Window.OK) {
-					try {
-						updateModule();
-					} catch (CoreException e) {
-						e.printStackTrace();
-					}
-				}
-				;
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-			}
-		});
+		// btnInformation.addSelectionListener(new SelectionListener() {
+		//
+		// public void widgetSelected(SelectionEvent event) {
+		// ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
+		// ((Button) event.getSource()).getShell(), conversionModule);
+		// if (conversionModuleDialog.open() == Window.OK) {
+		// try {
+		// updateModule();
+		// } catch (CoreException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// ;
+		// }
+		//
+		// public void widgetDefaultSelected(SelectionEvent event) {
+		// }
+		// });
 
 		viewerSendingDataRules.addDoubleClickListener((new IDoubleClickListener() {
 

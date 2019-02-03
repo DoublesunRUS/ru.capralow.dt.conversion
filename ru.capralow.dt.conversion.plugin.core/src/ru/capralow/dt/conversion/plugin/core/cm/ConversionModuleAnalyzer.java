@@ -3,14 +3,23 @@ package ru.capralow.dt.conversion.plugin.core.cm;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.resource.IEObjectDescription;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.bsl.model.BooleanLiteral;
 import com._1c.g5.v8.dt.bsl.model.Conditional;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
@@ -31,8 +40,11 @@ import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.model.UndefinedLiteral;
+import com._1c.g5.v8.dt.core.platform.IExtensionProject;
+import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
+import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
@@ -43,6 +55,9 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedMapImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
 
 public class ConversionModuleAnalyzer {
+
+	public static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
+	private ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	private IV8ProjectManager projectManager;
 	private IBmEmfIndexManager bmEmfIndexManager;
@@ -61,6 +76,12 @@ public class ConversionModuleAnalyzer {
 	}
 
 	public void analyze(CommonModule commonModule) {
+		IV8Project configurationProject = projectManager.getProject(commonModule);
+		if (configurationProject instanceof IExtensionProject)
+			configurationProject = ((IExtensionProject) configurationProject).getParent();
+		IProject project = configurationProject.getProject();
+		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
+
 		Module module = commonModule.getModule();
 
 		EList<Method> methods = module.allMethods();
@@ -120,10 +141,10 @@ public class ConversionModuleAnalyzer {
 				String storeVersion = conversionModule.getStoreVersion();
 
 				if (storeVersion.equals("1")) {
-					analyzeV1(method, module);
+					analyzeV1(method, module, bmEmfIndexProvider);
 
 				} else if (storeVersion.equals("2")) {
-					analyzeV2(method, module);
+					analyzeV2(method, module, bmEmfIndexProvider);
 
 				} else {
 					throw new NullPointerException("Неизвестная версия формата: " + storeVersion);
@@ -150,7 +171,7 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	public void analyzeV2(Method method, Module module) {
+	public void analyzeV2(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
@@ -255,10 +276,11 @@ public class ConversionModuleAnalyzer {
 						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
 								.getSource();
 						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
-								+ "." + rightFeatureAccess1.getName();
+						String configurationObjectName = rightFeatureAccess3.getName() + "."
+								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						dataRule.setConfigurationObject(configurationObject);
+						dataRule.setConfigurationObject(
+								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
 						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
@@ -460,10 +482,11 @@ public class ConversionModuleAnalyzer {
 						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
 								.getSource();
 						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
-								+ "." + rightFeatureAccess1.getName();
+						String configurationObjectName = rightFeatureAccess3.getName() + "."
+								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						objectRule.setConfigurationObject(configurationObject);
+						objectRule.setConfigurationObject(
+								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -682,10 +705,11 @@ public class ConversionModuleAnalyzer {
 						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
 								.getSource();
 						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
-								+ "." + rightFeatureAccess1.getName();
+						String configurationObjectName = rightFeatureAccess3.getName() + "."
+								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						predefined.setConfigurationObject(configurationObject);
+						predefined.setConfigurationObject(
+								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
 
 					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -764,7 +788,7 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	public void analyzeV1(Method method, Module module) {
+	public void analyzeV1(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
@@ -866,10 +890,11 @@ public class ConversionModuleAnalyzer {
 						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
 								.getSource();
 						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
-								+ "." + rightFeatureAccess1.getName();
+						String configurationObjectName = rightFeatureAccess3.getName() + "."
+								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						dataRule.setConfigurationObject(configurationObject);
+						dataRule.setConfigurationObject(
+								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1065,10 +1090,11 @@ public class ConversionModuleAnalyzer {
 						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
 								.getSource();
 						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
-								+ "." + rightFeatureAccess1.getName();
+						String configurationObjectName = rightFeatureAccess3.getName() + "."
+								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						objectRule.setConfigurationObject(configurationObject);
+						objectRule.setConfigurationObject(
+								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1284,10 +1310,11 @@ public class ConversionModuleAnalyzer {
 						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
 								.getSource();
 						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
-								+ "." + rightFeatureAccess1.getName();
+						String configurationObjectName = rightFeatureAccess3.getName() + "."
+								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						predefined.setConfigurationObject(configurationObject);
+						predefined.setConfigurationObject(
+								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
 
 					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1376,4 +1403,52 @@ public class ConversionModuleAnalyzer {
 
 	}
 
+	private EObject getConfigurationObject(String mdName, IBmEmfIndexProvider bmEmfIndexProvider) {
+		String objectName = mdName.substring(mdName.indexOf(".") + 1);
+		String objectType = objectName.substring(0, objectName.indexOf("."));
+		objectName = objectName.substring(objectName.indexOf(".") + 1);
+
+		QualifiedName qnObjectName = QualifiedName.create("");
+		EClass mdLiteral = MdClassPackage.Literals.CONFIGURATION;
+
+		if (objectType.equals("Справочники")) {
+			qnObjectName = QualifiedName.create("Catalog", objectName);
+			mdLiteral = MdClassPackage.Literals.CATALOG;
+
+		} else if (objectType.equals("Документы")) {
+			qnObjectName = QualifiedName.create("Document", objectName);
+			mdLiteral = MdClassPackage.Literals.DOCUMENT;
+
+		} else if (objectType.equals("Перечисления")) {
+			qnObjectName = QualifiedName.create("Enum", objectName);
+			mdLiteral = MdClassPackage.Literals.ENUM;
+
+		} else if (objectType.equals("ПланыВидовХарактеристик")) {
+			qnObjectName = QualifiedName.create("ChartOfCharacteristicTypes", objectName);
+			mdLiteral = MdClassPackage.Literals.CHART_OF_CHARACTERISTIC_TYPES;
+
+		} else if (objectType.equals("ПланыВидовРасчета")) {
+			qnObjectName = QualifiedName.create("ChartOfCalculationTypes", objectName);
+			mdLiteral = MdClassPackage.Literals.CHART_OF_CALCULATION_TYPES;
+
+		} else if (objectType.equals("РегистрыСведений")) {
+			qnObjectName = QualifiedName.create("InformationRegister", objectName);
+			mdLiteral = MdClassPackage.Literals.INFORMATION_REGISTER;
+
+		}
+
+		EObject object = null;
+
+		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndexByType(mdLiteral, qnObjectName,
+				true);
+		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
+		if (objectItr.hasNext()) {
+			object = objectItr.next().getEObjectOrProxy();
+		}
+
+		if (object == null)
+			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + mdName));
+
+		return object;
+	}
 }
