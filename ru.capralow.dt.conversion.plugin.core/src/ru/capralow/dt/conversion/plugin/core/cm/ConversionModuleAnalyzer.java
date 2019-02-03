@@ -38,6 +38,8 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl;
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedImpl;
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedMapImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
 
 public class ConversionModuleAnalyzer {
@@ -69,10 +71,12 @@ public class ConversionModuleAnalyzer {
 
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
 		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
 
 		dataRules.clear();
 		objectRules.clear();
+		predefineds.clear();
 		algorithms.clear();
 
 		Iterator<Method> itr = methods.iterator();
@@ -149,6 +153,7 @@ public class ConversionModuleAnalyzer {
 	public void analyzeV2(Method method, Module module) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
 		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
 
 		String methodName = method.getName();
@@ -606,6 +611,105 @@ public class ConversionModuleAnalyzer {
 				}
 			}
 
+		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииПредопределенныхДанных")) {
+			CmPredefined predefined = null;
+
+			EList<Statement> statements = method.allStatements();
+			Iterator<Statement> itrStatements = statements.iterator();
+			while (itrStatements.hasNext()) {
+				SimpleStatement statement = (SimpleStatement) itrStatements.next();
+
+				Expression leftExpression = statement.getLeft();
+
+				if (leftExpression instanceof StaticFeatureAccess) {
+					continue;
+
+				} else if (leftExpression instanceof Invocation) {
+					Invocation leftInvocation = (Invocation) leftExpression;
+
+					EList<Expression> params = leftInvocation.getParams();
+
+					DynamicFeatureAccess configurationValueParam;
+					StringLiteral formatValueParam;
+					if (params.get(0) instanceof DynamicFeatureAccess) {
+						configurationValueParam = (DynamicFeatureAccess) params.get(0);
+						formatValueParam = (StringLiteral) params.get(1);
+
+					} else {
+						configurationValueParam = (DynamicFeatureAccess) params.get(1);
+						formatValueParam = (StringLiteral) params.get(0);
+
+					}
+
+					DynamicFeatureAccess configurationValueParam2 = (DynamicFeatureAccess) configurationValueParam
+							.getSource();
+					StaticFeatureAccess configurationValueParam3 = (StaticFeatureAccess) configurationValueParam2
+							.getSource();
+					String configurationValueName = configurationValueParam3.getName() + "."
+							+ configurationValueParam2.getName() + "." + configurationValueParam.getName();
+
+					String formatValueName = formatValueParam.getLines().get(0).replace("\"", "");
+
+					if (predefined.predefinedMapExists(configurationValueName, formatValueName))
+						continue;
+
+					CmPredefinedMapImpl predefinedMap = new CmPredefinedMapImpl();
+
+					predefinedMap.setConfigurationValue(configurationValueName);
+					predefinedMap.setFormatValue(formatValueName);
+
+					predefined.getPredefinedMaps().add(predefinedMap);
+
+				} else if (leftExpression instanceof DynamicFeatureAccess) {
+					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
+					Expression rightExpression = statement.getRight();
+
+					if (leftFeatureAccess.getName().equals("ИмяПКПД")) {
+						StringLiteral stringLiteral = (StringLiteral) rightExpression;
+						String predefinedName = stringLiteral.getLines().get(0).replace("\"", "");
+
+						predefined = new CmPredefinedImpl();
+
+						predefined.setName(predefinedName);
+
+						predefined.setForSending(false);
+						predefined.setForReceiving(false);
+
+						predefineds.add(predefined);
+
+					} else if (leftFeatureAccess.getName().equals("ТипДанных")) {
+						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
+						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
+								.getSource();
+						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
+						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
+								+ "." + rightFeatureAccess1.getName();
+
+						predefined.setConfigurationObject(configurationObject);
+
+					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
+						StringLiteral stringLiteral = (StringLiteral) rightExpression;
+						String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
+
+						predefined.setFormatObject(formatObject);
+
+					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриОтправке")) {
+						predefined.setForSending(true);
+
+					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриПолучении")) {
+						predefined.setForReceiving(true);
+
+					} else {
+						throw new NullPointerException(
+								"Добавить ПКПД: необработанный DynamicFeatureAccess: " + leftFeatureAccess.getName());
+					}
+
+				} else {
+					throw new NullPointerException(
+							"Добавить ПКПД: необработанный Expression: " + leftExpression.getClass());
+				}
+			}
+
 		} else {
 			EObject region = method.eContainer().eContainer();
 			if (!(region instanceof RegionPreprocessorDeclareStatement))
@@ -663,6 +767,7 @@ public class ConversionModuleAnalyzer {
 	public void analyzeV1(Method method, Module module) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
 		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
 
 		String methodName = method.getName();
@@ -1108,6 +1213,102 @@ public class ConversionModuleAnalyzer {
 					throw new NullPointerException(
 							"Добавить ПКО: необработанный Expression: " + leftExpression.getClass());
 
+				}
+			}
+
+		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииПредопределенныхДанных")) {
+			CmPredefined predefined = null;
+
+			EList<Statement> statements = method.allStatements();
+			Iterator<Statement> itrStatements = statements.iterator();
+			while (itrStatements.hasNext()) {
+				SimpleStatement statement = (SimpleStatement) itrStatements.next();
+
+				Expression leftExpression = statement.getLeft();
+
+				if (leftExpression instanceof StaticFeatureAccess) {
+					continue;
+
+				} else if (leftExpression instanceof Invocation) {
+					Invocation leftInvocation = (Invocation) leftExpression;
+
+					EList<Expression> params = leftInvocation.getParams();
+
+					DynamicFeatureAccess configurationValueParam;
+					StringLiteral formatValueParam;
+					if (params.get(0) instanceof DynamicFeatureAccess) {
+						configurationValueParam = (DynamicFeatureAccess) params.get(0);
+						formatValueParam = (StringLiteral) params.get(1);
+
+					} else {
+						configurationValueParam = (DynamicFeatureAccess) params.get(1);
+						formatValueParam = (StringLiteral) params.get(0);
+
+					}
+
+					DynamicFeatureAccess configurationValueParam2 = (DynamicFeatureAccess) configurationValueParam
+							.getSource();
+					StaticFeatureAccess configurationValueParam3 = (StaticFeatureAccess) configurationValueParam2
+							.getSource();
+					String configurationValueName = configurationValueParam3.getName() + "."
+							+ configurationValueParam2.getName() + "." + configurationValueParam.getName();
+
+					String formatValueName = formatValueParam.getLines().get(0).replace("\"", "");
+
+					if (predefined.predefinedMapExists(configurationValueName, formatValueName))
+						continue;
+
+					CmPredefinedMapImpl predefinedMap = new CmPredefinedMapImpl();
+
+					predefinedMap.setConfigurationValue(configurationValueName);
+					predefinedMap.setFormatValue(formatValueName);
+
+					predefined.getPredefinedMaps().add(predefinedMap);
+
+				} else if (leftExpression instanceof DynamicFeatureAccess) {
+					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
+					Expression rightExpression = statement.getRight();
+
+					if (leftFeatureAccess.getName().equals("ИмяПКПД")) {
+						StringLiteral stringLiteral = (StringLiteral) rightExpression;
+						String predefinedName = stringLiteral.getLines().get(0).replace("\"", "");
+
+						predefined = new CmPredefinedImpl();
+
+						predefined.setName(predefinedName);
+
+						predefineds.add(predefined);
+
+					} else if (leftFeatureAccess.getName().equals("ТипДанных")) {
+						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
+						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
+								.getSource();
+						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
+						String configurationObject = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName()
+								+ "." + rightFeatureAccess1.getName();
+
+						predefined.setConfigurationObject(configurationObject);
+
+					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
+						StringLiteral stringLiteral = (StringLiteral) rightExpression;
+						String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
+
+						predefined.setFormatObject(formatObject);
+
+					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриОтправке")) {
+						predefined.setForSending(true);
+
+					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриПолучении")) {
+						predefined.setForReceiving(true);
+
+					} else {
+						throw new NullPointerException(
+								"Добавить ПКПД: необработанный DynamicFeatureAccess: " + leftFeatureAccess.getName());
+					}
+
+				} else {
+					throw new NullPointerException(
+							"Добавить ПКПД: необработанный Expression: " + leftExpression.getClass());
 				}
 			}
 

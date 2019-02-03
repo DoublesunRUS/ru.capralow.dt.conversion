@@ -60,6 +60,7 @@ import com.google.inject.Inject;
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleAnalyzer;
 
@@ -77,6 +78,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	private TableViewer viewerSendingDataRules, viewerSendingObjectRules;
 	private TableViewer viewerReceivingDataRules, viewerReceivingObjectRules;
+	private TableViewer viewerPredefineds;
 	private TableViewer viewerAlgorithms;
 
 	private Button btnInformation;
@@ -204,7 +206,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmDataRule) element).getConfigurationObject() == null)
 					return "";
-				return ((CmDataRule) element).getConfigurationObject().toString();
+				return ((CmDataRule) element).getConfigurationObjectName();
 			}
 		});
 		TableViewerColumn tblclmnSendingDataRulesColumn3 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
@@ -282,7 +284,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmObjectRule) element).getConfigurationObject() == null)
 					return "";
-				return ((CmObjectRule) element).getConfigurationObject().toString();
+				return ((CmObjectRule) element).getConfigurationObjectName();
 			}
 		});
 		TableViewerColumn tblclmnSendingObjectRulesColumn3 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
@@ -294,7 +296,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmObjectRule) element).getFormatObject() == null)
 					return "";
-				return ((CmObjectRule) element).getFormatObject().toString();
+				return ((CmObjectRule) element).getFormatObjectName();
 			}
 		});
 		TableViewerColumn tblclmnSendingObjectRulesColumn4 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
@@ -363,7 +365,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmDataRule) element).getFormatObject() == null)
 					return "";
-				return ((CmDataRule) element).getFormatObject().toString();
+				return ((CmDataRule) element).getFormatObjectName();
 			}
 		});
 		TableViewerColumn tblclmnReceivingDataRulesColumn3 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
@@ -424,19 +426,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmObjectRule) element).getName();
 			}
 		});
-		TableViewerColumn tblclmnReceivingObjectRulesColumn2 = new TableViewerColumn(viewerReceivingObjectRules,
-				SWT.NONE);
-		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn2.getColumn(),
-				new ColumnWeightData(1, 100, true));
-		tblclmnReceivingObjectRulesColumn2.getColumn().setText("Объект конфигурации");
-		tblclmnReceivingObjectRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				if (((CmObjectRule) element).getConfigurationObject() == null)
-					return "";
-				return ((CmObjectRule) element).getConfigurationObject().toString();
-			}
-		});
 		TableViewerColumn tblclmnReceivingObjectRulesColumn3 = new TableViewerColumn(viewerReceivingObjectRules,
 				SWT.NONE);
 		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn3.getColumn(),
@@ -447,7 +436,20 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmObjectRule) element).getFormatObject() == null)
 					return "";
-				return ((CmObjectRule) element).getFormatObject().toString();
+				return ((CmObjectRule) element).getFormatObjectName();
+			}
+		});
+		TableViewerColumn tblclmnReceivingObjectRulesColumn2 = new TableViewerColumn(viewerReceivingObjectRules,
+				SWT.NONE);
+		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn2.getColumn(),
+				new ColumnWeightData(1, 100, true));
+		tblclmnReceivingObjectRulesColumn2.getColumn().setText("Объект конфигурации");
+		tblclmnReceivingObjectRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (((CmObjectRule) element).getConfigurationObject() == null)
+					return "";
+				return ((CmObjectRule) element).getConfigurationObjectName();
 			}
 		});
 		TableViewerColumn tblclmnReceivingObjectRulesColumn4 = new TableViewerColumn(viewerReceivingObjectRules,
@@ -502,6 +504,93 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		});
 
 		tabItem5.setControl(compositeReceivingObjectRules);
+
+		// ПКПД
+		CTabItem tabItem7 = new CTabItem(tabFolder, SWT.NONE);
+		tabItem7.setText("ПКПД");
+
+		Composite compositePredefineds = new Composite(tabFolder, SWT.BORDER);
+		TableColumnLayout tclPredefineds = new TableColumnLayout();
+		compositePredefineds.setLayout(tclPredefineds);
+
+		viewerPredefineds = new TableViewer(compositePredefineds, SWT.BORDER | SWT.V_SCROLL);
+
+		Table tablePredefineds = viewerPredefineds.getTable();
+
+		tablePredefineds.setHeaderVisible(true);
+		tablePredefineds.setLinesVisible(true);
+
+		TableViewerColumn tblclmnPredefinedsColumn1 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
+		tclPredefineds.setColumnData(tblclmnPredefinedsColumn1.getColumn(), new ColumnWeightData(2, 100, true));
+		tblclmnPredefinedsColumn1.getColumn().setText("Наименование");
+		tblclmnPredefinedsColumn1.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CmPredefined) element).getName();
+			}
+		});
+		TableViewerColumn tblclmnPredefinedsColumn2 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
+		tclPredefineds.setColumnData(tblclmnPredefinedsColumn2.getColumn(), new ColumnWeightData(1, 100, true));
+		tblclmnPredefinedsColumn2.getColumn().setText("Объект конфигурации");
+		tblclmnPredefinedsColumn2.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (((CmPredefined) element).getConfigurationObject() == null)
+					return "";
+				return ((CmPredefined) element).getConfigurationObjectName();
+			}
+		});
+		TableViewerColumn tblclmnPredefinedsColumn3 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
+		tclPredefineds.setColumnData(tblclmnPredefinedsColumn3.getColumn(), new ColumnWeightData(1, 100, true));
+		tblclmnPredefinedsColumn3.getColumn().setText("Объект формата");
+		tblclmnPredefinedsColumn3.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (((CmPredefined) element).getFormatObject() == null)
+					return "";
+				return ((CmPredefined) element).getFormatObjectName();
+			}
+		});
+		TableViewerColumn tblclmnPredefinedsColumn4 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
+		tclPredefineds.setColumnData(tblclmnPredefinedsColumn4.getColumn(), new ColumnPixelData(100));
+		tblclmnPredefinedsColumn4.getColumn().setText("Для отправки");
+		tblclmnPredefinedsColumn4.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CmPredefined) element).getForSending() ? "Да" : "Нет";
+			}
+		});
+		TableViewerColumn tblclmnPredefinedsColumn5 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
+		tclPredefineds.setColumnData(tblclmnPredefinedsColumn5.getColumn(), new ColumnPixelData(100));
+		tblclmnPredefinedsColumn5.getColumn().setText("Для получения");
+		tblclmnPredefinedsColumn5.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CmPredefined) element).getForReceiving() ? "Да" : "Нет";
+			}
+		});
+
+		viewerPredefineds.setContentProvider(new IStructuredContentProvider() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public Object[] getElements(Object inputElement) {
+				EList<Object> dataRules = (EList<Object>) inputElement;
+
+				Object[] viewerContent = new Object[dataRules.size()];
+
+				int i = 0;
+				Iterator<Object> itr = dataRules.iterator();
+				while (itr.hasNext()) {
+					viewerContent[i] = itr.next();
+					i++;
+				}
+
+				return viewerContent;
+			}
+
+		});
+
+		tabItem7.setControl(compositePredefineds);
 
 		// Алгоритмы
 		CTabItem tabItem6 = new CTabItem(tabFolder, SWT.NONE);
@@ -599,7 +688,16 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules());
 		viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules());
 
+		viewerPredefineds.setInput(conversionModule.getPredefineds());
+
 		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
+
+		viewerSendingDataRules.refresh();
+		viewerSendingObjectRules.refresh();
+		viewerReceivingDataRules.refresh();
+		viewerReceivingObjectRules.refresh();
+		viewerPredefineds.refresh();
+		viewerAlgorithms.refresh();
 	}
 
 	private void hookListeners() {
@@ -730,6 +828,36 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
 							objectRule);
 					if (objectRuleDialog.open() == Window.OK) {
+						try {
+							updateModule();
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
+					}
+					;
+				}
+
+			}
+		}));
+
+		viewerPredefineds.addDoubleClickListener((new IDoubleClickListener() {
+
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				ISelection selection = event.getSelection();
+
+				if (selection.isEmpty()) {
+					return;
+				}
+
+				Object element = ((IStructuredSelection) selection).getFirstElement();
+
+				if (element instanceof CmPredefined) {
+					CmPredefined predefined = ((CmPredefined) element);
+
+					PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
+							predefined);
+					if (predefinedDialog.open() == Window.OK) {
 						try {
 							updateModule();
 						} catch (CoreException e) {

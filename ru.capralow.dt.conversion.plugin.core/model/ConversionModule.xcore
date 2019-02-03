@@ -96,7 +96,7 @@ class ConversionModule {
 		return result
 	}
 
-	contains CmPredefined[] predefineds
+	contains CmPredefined[] predefineds opposite conversionModule
 
 	contains CmAlgorithm[] algorithms opposite conversionModule
 	op CmAlgorithm getAlgorithm(String algorithmName) {
@@ -297,16 +297,24 @@ class CmDataRule {
 		if (configurationObject === null) {
 			return "";
 		}
-		else
-			return configurationObject.toString();
+
+		var configurationObjectName = configurationObject.toString();
+		configurationObjectName = configurationObjectName.replace("Метаданные.", "");
+		configurationObjectName = configurationObjectName.replace("Справочники.", "СправочникСсылка.");
+		configurationObjectName = configurationObjectName.replace("Документы.", "ДокументСсылка.");
+		configurationObjectName = configurationObjectName.replace("Перечисления.", "ПеречислениеСсылка.");
+		configurationObjectName = configurationObjectName.replace("ПланыВидовХарактеристик.", "ПланВидовХарактеристикСсылка.");
+		configurationObjectName = configurationObjectName.replace("ПланыВидовРасчета.", "ПланВидовРасчетаСсылка.");
+		configurationObjectName = configurationObjectName.replace("РегистрыСведений.", "РегистрСведенийНаборЗаписей.");
+		return configurationObjectName;
 	}
 	Object formatObject
 	op String getFormatObjectName() {
 		if (formatObject === null) {
 			return "";
 		}
-		else
-			return formatObject.toString();
+
+		return formatObject.toString();
 	}
 	
 	Boolean forSending = "false"
@@ -385,16 +393,24 @@ class CmObjectRule {
 		if (configurationObject === null) {
 			return "";
 		}
-		else
-			return configurationObject.toString();
+
+		var configurationObjectName = configurationObject.toString();
+		configurationObjectName = configurationObjectName.replace("Метаданные.", "");
+		configurationObjectName = configurationObjectName.replace("Справочники.", "СправочникСсылка.");
+		configurationObjectName = configurationObjectName.replace("Документы.", "ДокументСсылка.");
+		configurationObjectName = configurationObjectName.replace("Перечисления.", "ПеречислениеСсылка.");
+		configurationObjectName = configurationObjectName.replace("ПланыВидовХарактеристик.", "ПланВидовХарактеристикСсылка.");
+		configurationObjectName = configurationObjectName.replace("ПланыВидовРасчета.", "ПланВидовРасчетаСсылка.");
+		configurationObjectName = configurationObjectName.replace("РегистрыСведений.", "РегистрСведенийНаборЗаписей.");
+		return configurationObjectName;
 	}
 	Object formatObject
 	op String getFormatObjectName() {
 		if (formatObject === null) {
 			return "";
 		}
-		else
-			return formatObject.toString();
+
+		return formatObject.toString();
 	}
 	
 	Boolean forSending = "false"
@@ -481,13 +497,73 @@ class CmAttributeRule {
 }
 
 class CmPredefined {
+	container ConversionModule conversionModule opposite predefineds
+	
 	String name = ""
 	
 	Object configurationObject
+	op String getConfigurationObjectName() {
+		if (configurationObject === null) {
+			return "";
+		}
+		
+		var configurationObjectName = configurationObject.toString();
+		configurationObjectName = configurationObjectName.replace("Метаданные.", "");
+		configurationObjectName = configurationObjectName.replace("Справочники.", "СправочникСсылка.");
+		configurationObjectName = configurationObjectName.replace("Документы.", "ДокументСсылка.");
+		configurationObjectName = configurationObjectName.replace("Перечисления.", "ПеречислениеСсылка.");
+		configurationObjectName = configurationObjectName.replace("ПланыВидовХарактеристик.", "ПланВидовХарактеристикСсылка.");
+		configurationObjectName = configurationObjectName.replace("ПланыВидовРасчета.", "ПланВидовРасчетаСсылка.");
+		configurationObjectName = configurationObjectName.replace("РегистрыСведений.", "РегистрСведенийНаборЗаписей.");
+		return configurationObjectName;
+	}
 	Object formatObject
+	op String getFormatObjectName() {
+		if (formatObject === null) {
+			return "";
+		}
+
+		return formatObject.toString();
+	}
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
+	
+	contains CmPredefinedMap[] predefinedMaps
+	
+	op Boolean predefinedMapExists(Object configurationValue, Object formatValue) {
+		for (CmPredefinedMap predefinedMap : predefinedMaps) {
+			if (configurationValue == predefinedMap.configurationValue
+				&& formatValue == predefinedMap.formatValue
+			) return true
+		}
+		return false;
+	}
+
+}
+
+class CmPredefinedMap {
+	Object configurationValue
+	op String getConfigurationValueName() {
+		if (configurationValue === null) {
+			return "";
+		}
+
+		var configurationValueName = configurationValue.toString();
+		configurationValueName = configurationValueName.substring(configurationValueName.indexOf(".") + 1);
+		configurationValueName = configurationValueName.substring(configurationValueName.indexOf(".") + 1);
+		return configurationValueName;
+	}
+	Object formatValue
+	op String getFormatValueName() {
+		if (formatValue === null) {
+			return "";
+		}
+
+		return formatValue.toString();
+	}
+	
+	refers CmPredefined predefined
 }
 
 class CmAlgorithm {
