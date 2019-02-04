@@ -62,13 +62,13 @@ public class ReceivingDataRuleDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public ReceivingDataRuleDialog(Shell parentShell, CmDataRule dataRule) {
+	public ReceivingDataRuleDialog(Shell parentShell, CmDataRule dataRule, Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.dataRule = dataRule;
 
-		this.editable = false;
+		this.editable = editable;
 	}
 
 	/**

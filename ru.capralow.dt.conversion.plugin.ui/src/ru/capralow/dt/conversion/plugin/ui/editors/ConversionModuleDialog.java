@@ -44,13 +44,13 @@ public class ConversionModuleDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public ConversionModuleDialog(Shell parentShell, ConversionModule conversionModule) {
+	public ConversionModuleDialog(Shell parentShell, ConversionModule conversionModule, Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.conversionModule = conversionModule;
 
-		this.editable = false;
+		this.editable = editable;
 	}
 
 	/**

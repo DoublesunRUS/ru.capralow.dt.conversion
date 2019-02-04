@@ -44,13 +44,13 @@ public class PredefinedDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public PredefinedDialog(Shell parentShell, CmPredefined predefined) {
+	public PredefinedDialog(Shell parentShell, CmPredefined predefined, Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.predefined = predefined;
 
-		this.editable = false;
+		this.editable = editable;
 	}
 
 	/**

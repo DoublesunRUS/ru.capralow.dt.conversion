@@ -40,13 +40,13 @@ public class AlgorithmDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public AlgorithmDialog(Shell parentShell, CmAlgorithm algorithm) {
+	public AlgorithmDialog(Shell parentShell, CmAlgorithm algorithm, Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.algorithm = algorithm;
 
-		this.editable = false;
+		this.editable = editable;
 	}
 
 	/**

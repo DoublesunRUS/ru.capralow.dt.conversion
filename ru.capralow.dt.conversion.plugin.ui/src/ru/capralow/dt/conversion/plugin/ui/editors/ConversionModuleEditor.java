@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.handly.buffer.BufferChange;
 import org.eclipse.handly.snapshot.NonExpiringSnapshot;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -39,10 +40,12 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.EmbeddedEditorBuffer;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
+import com._1c.g5.v8.dt.core.model.IModelEditingSupport;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditor;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
@@ -60,6 +63,8 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleAnalyzer;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
+
+	private Boolean editable;
 
 	@Inject
 	private IV8ProjectManager projectManager;
@@ -87,6 +92,12 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	@Override
 	protected void createPageControls(IManagedForm managedForm) {
 		setActiveFeature(MdClassPackage.Literals.COMMON_MODULE__MODULE);
+
+		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
+				.getResourceServiceProvider(URI.createURI("foo.bsl"));
+
+		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
+		this.editable = modelEditingSupport.canEdit(getModel());
 
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
@@ -729,7 +740,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmDataRule dataRule = ((CmDataRule) element);
 
 					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule);
+							event.getViewer().getControl().getShell(), dataRule, editable);
 					if (dataRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -759,7 +770,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmObjectRule objectRule = ((CmObjectRule) element);
 
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule);
+							objectRule, editable);
 					if (objectRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -789,7 +800,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmDataRule dataRule = ((CmDataRule) element);
 
 					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule);
+							event.getViewer().getControl().getShell(), dataRule, editable);
 					if (dataRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -819,7 +830,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmObjectRule objectRule = ((CmObjectRule) element);
 
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule);
+							objectRule, editable);
 					if (objectRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -849,7 +860,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmPredefined predefined = ((CmPredefined) element);
 
 					PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
-							predefined);
+							predefined, editable);
 					if (predefinedDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -879,7 +890,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmAlgorithm algorithm = ((CmAlgorithm) element);
 
 					AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
-							algorithm);
+							algorithm, editable);
 					if (algorithmDialog.open() == Window.OK) {
 						try {
 							updateModule();

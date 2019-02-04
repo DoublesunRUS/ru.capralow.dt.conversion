@@ -67,13 +67,13 @@ public class ObjectRuleDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public ObjectRuleDialog(Shell parentShell, CmObjectRule objectRule) {
+	public ObjectRuleDialog(Shell parentShell, CmObjectRule objectRule, Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.objectRule = objectRule;
 
-		this.editable = false;
+		this.editable = editable;
 	}
 
 	/**
