@@ -8,6 +8,16 @@
 		</bundle>
 	</extension>
 	
+	<extension point="org.eclipse.core.expressions.propertyTesters">
+		<propertyTester
+			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleTester"
+			id="ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleTester"
+			namespace="ru.capralow.dt.conversion.plugin.ui"
+			properties="isAvailable"
+			type="org.eclipse.emf.ecore.EObject">
+		</propertyTester>
+	</extension>
+	
 	<extension
 		point="org.eclipse.ui.views">
 		<view
@@ -24,16 +34,6 @@
 			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
 			id="ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor">
 		</page>
-	</extension>
-	
-	<extension point="org.eclipse.core.expressions.propertyTesters">
-		<propertyTester
-			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleTester"
-			id="ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleTester"
-			namespace="ru.capralow.dt.conversion.plugin.ui"
-			properties="isAvailable"
-			type="org.eclipse.emf.ecore.EObject">
-		</propertyTester>
 	</extension>
 	
 	<extension point="com._1c.g5.v8.dt.md.ui.granularEditorContentPages">
@@ -57,6 +57,22 @@
 				style="push">
 			</command>
 		</menuContribution>
+		
+		<menuContribution
+			locationURI="popup:com._1c.g5.v8.dt.navigator.ui.navigator.popup">
+			<command commandId="ru.capralow.dt.conversion.plugin.ui.command.DataFormatToEMFGenerator"
+				style="push"
+				tooltip="Сгенерировать ECore по пакету XDTO">
+			</command>
+		</menuContribution>
+	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+		<command
+			defaultHandler="ru.capralow.dt.conversion.plugin.ui.DataFormatToEMFGeneratorHandler"
+			id="ru.capralow.dt.conversion.plugin.ui.command.DataFormatToEMFGenerator"
+			name="Сгенерировать ECore">
+		</command>
 	</extension>
 
 </plugin>
