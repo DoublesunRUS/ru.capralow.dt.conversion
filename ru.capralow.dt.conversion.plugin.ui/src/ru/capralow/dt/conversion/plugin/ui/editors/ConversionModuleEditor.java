@@ -98,6 +98,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
 		this.editable = modelEditingSupport.canEdit(getModel());
+		this.editable = false;
 
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();

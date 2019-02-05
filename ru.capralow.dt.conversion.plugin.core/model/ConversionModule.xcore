@@ -3,6 +3,7 @@
 )
 package ru.capralow.dt.conversion.plugin.core.cm
 
+import com._1c.g5.v8.dt.metadata.mdclass.Subsystem
 import com._1c.g5.v8.dt.metadata.mdclass.Catalog
 import com._1c.g5.v8.dt.metadata.mdclass.Document
 import com._1c.g5.v8.dt.metadata.mdclass.Enum
@@ -12,6 +13,8 @@ import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister
 
 class ConversionModule {
 	String storeVersion = "1"
+	
+	Object[] subsystems
 	
 	Object moduleURI
 	

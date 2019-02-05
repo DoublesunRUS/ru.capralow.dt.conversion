@@ -40,11 +40,14 @@ import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.model.UndefinedLiteral;
+import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
+import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
+import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
@@ -99,6 +102,15 @@ public class ConversionModuleAnalyzer {
 		objectRules.clear();
 		predefineds.clear();
 		algorithms.clear();
+
+		EList<Subsystem> subsystems = ((Configuration) ((IConfigurationProject) configurationProject)
+				.getConfiguration()).getSubsystems();
+		Iterator<Subsystem> itrSubsystem = subsystems.iterator();
+		while (itrSubsystem.hasNext()) {
+			Subsystem subsystem = itrSubsystem.next();
+			if (!subsystem.isIncludeInCommandInterface())
+				continue;
+		}
 
 		Iterator<Method> itr = methods.iterator();
 		while (itr.hasNext()) {
