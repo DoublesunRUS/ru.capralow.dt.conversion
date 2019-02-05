@@ -40,6 +40,7 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
+import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
@@ -47,6 +48,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 
 @SuppressWarnings("restriction")
 public class ObjectRuleDialog extends Dialog {
+	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmObjectRule objectRule;
 	private Text txtObjectRuleName;
@@ -91,8 +93,12 @@ public class ObjectRuleDialog extends Dialog {
 		resourceProvider.setPlatformUri((URI) objectRule.getConversionModule().getModuleURI());
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
-
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
+
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
+				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
+
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
 
 		Composite container = (Composite) super.createDialogArea(parent);
 

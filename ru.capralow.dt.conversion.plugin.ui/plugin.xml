@@ -50,27 +50,7 @@
 	</extension>
 
 	<extension point="org.eclipse.ui.menus">
-		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor?endof=group.edit"> 
-			<command
-				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryEditorHandler"
-				label="Конструктор запроса"
-				style="push">
-			</command>
-		</menuContribution>
-	</extension>
-
-	<extension point="org.eclipse.ui.menus">
-		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleDialog?endof=group.edit"> 
-			<command
-				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryEditorHandler"
-				label="Конструктор запроса"
-				style="push">
-			</command>
-		</menuContribution>
-	</extension>
-
-	<extension point="org.eclipse.ui.menus">
-		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.DataRuleDialog?endof=group.edit"> 
+		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"> 
 			<command
 				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryEditorHandler"
 				label="Конструктор запроса"

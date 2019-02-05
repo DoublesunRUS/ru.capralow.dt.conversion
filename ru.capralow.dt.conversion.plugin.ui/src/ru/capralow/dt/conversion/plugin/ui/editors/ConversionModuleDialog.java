@@ -24,11 +24,14 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
+import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 @SuppressWarnings("restriction")
 public class ConversionModuleDialog extends Dialog {
+	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
+
 	private ConversionModule conversionModule;
 
 	private CustomEmbeddedEditor editorBeforeConvertation, editorBeforeFilling, editorAfterConvertation;
@@ -60,6 +63,20 @@ public class ConversionModuleDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
+				.getResourceServiceProvider(URI.createURI("foo.bsl"));
+
+		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
+				.get(IEditedResourceProvider.class);
+		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
+
+		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
+		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
+				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
+
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+
 		Composite container = (Composite) super.createDialogArea(parent);
 
 		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -69,17 +86,6 @@ public class ConversionModuleDialog extends Dialog {
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tabFolder.setSelectionBackground(
 				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
-
-		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
-				.getResourceServiceProvider(URI.createURI("foo.bsl"));
-
-		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
-				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
-
-		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
-
-		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
 
 		CTabItem tabItem1 = new CTabItem(tabFolder, SWT.NONE);
 		tabItem1.setText("Перед конвертацией");

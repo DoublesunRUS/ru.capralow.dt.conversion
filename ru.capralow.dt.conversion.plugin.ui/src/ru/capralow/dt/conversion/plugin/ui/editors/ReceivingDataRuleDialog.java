@@ -38,6 +38,7 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
+import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
@@ -45,6 +46,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
 
 @SuppressWarnings("restriction")
 public class ReceivingDataRuleDialog extends Dialog {
+	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmDataRule dataRule;
 	private Text txtDataRuleName, txtObjectRuleName;
@@ -78,6 +80,20 @@ public class ReceivingDataRuleDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
+				.getResourceServiceProvider(URI.createURI("foo.bsl"));
+
+		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
+				.get(IEditedResourceProvider.class);
+		resourceProvider.setPlatformUri((URI) dataRule.getConversionModule().getModuleURI());
+
+		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
+		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
+				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
+
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+
 		Composite container = (Composite) super.createDialogArea(parent);
 
 		GridLayoutFactory.fillDefaults().applyTo(container);
@@ -226,17 +242,6 @@ public class ReceivingDataRuleDialog extends Dialog {
 		});
 
 		tabItem1.setControl(tabComposite1);
-
-		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
-				.getResourceServiceProvider(URI.createURI("foo.bsl"));
-
-		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
-				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) dataRule.getConversionModule().getModuleURI());
-
-		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
-
-		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
 
 		CTabItem tabItem2 = new CTabItem(tabFolder, SWT.NONE);
 		tabItem2.setText("При обработке");

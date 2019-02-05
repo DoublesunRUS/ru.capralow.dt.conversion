@@ -21,11 +21,14 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.CustomEmbeddedEditor;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
+import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 
 @SuppressWarnings("restriction")
 public class AlgorithmDialog extends Dialog {
+	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
+
 	private CmAlgorithm algorithm;
 
 	private CustomEmbeddedEditor editor;
@@ -56,11 +59,6 @@ public class AlgorithmDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
-
-		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		container.setLayout(new GridLayout(1, false));
-
 		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 
@@ -69,8 +67,16 @@ public class AlgorithmDialog extends Dialog {
 		resourceProvider.setPlatformUri((URI) algorithm.getConversionModule().getModuleURI());
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
-
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
+				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
+
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+
+		Composite container = (Composite) super.createDialogArea(parent);
+
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		container.setLayout(new GridLayout(1, false));
 
 		Composite composite = new Composite(container, SWT.BORDER);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));

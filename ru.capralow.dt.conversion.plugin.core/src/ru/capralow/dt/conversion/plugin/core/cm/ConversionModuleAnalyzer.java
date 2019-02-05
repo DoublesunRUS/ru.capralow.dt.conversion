@@ -59,7 +59,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
 
 public class ConversionModuleAnalyzer {
 
-	public static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
+	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
 	private ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	private IV8ProjectManager projectManager;
