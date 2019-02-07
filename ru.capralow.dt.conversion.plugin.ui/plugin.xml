@@ -75,4 +75,11 @@
 		</command>
 	</extension>
 
+	<extension point="com._1c.g5.v8.dt.diagram.framework.core.objectsconverters">
+		<objectConverter
+			class="ru.capralow.dt.conversion.plugin.ui.XDTOPackageConverter"
+			className="XDTOPackage">
+		</objectConverter>
+	</extension>
+
 </plugin>
