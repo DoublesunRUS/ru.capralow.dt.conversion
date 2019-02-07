@@ -12,23 +12,20 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import com._1c.g5.v8.dt.mcore.QName;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 import com._1c.g5.v8.dt.xdto.model.ObjectType;
 import com._1c.g5.v8.dt.xdto.model.Package;
+import com._1c.g5.v8.dt.xdto.model.Property;
 
 public class DataFormatToEMFGenerator {
 	public Resource generate(XDTOPackage xdtoPackage) throws IOException {
-		// next we will create our own new package to contained what we will generate
 		final EPackage newPackage = createPackage(xdtoPackage.getName(), "ed", xdtoPackage.getNamespace());
-
-		// next, create the row class
-		EClass edEClass = createEClass("EnterpriseData");
-		// add to package before we do anything else
-		newPackage.getEClassifiers().add(edEClass);
 
 		Package dataPackage = xdtoPackage.getPackage();
 
@@ -37,6 +34,24 @@ public class DataFormatToEMFGenerator {
 		while (itrObjects.hasNext()) {
 			ObjectType object = itrObjects.next();
 
+			String objectName = object.getName();
+
+			EClass ecObject = createEClass(objectName);
+			newPackage.getEClassifiers().add(ecObject);
+
+			EList<Property> objectProperties = object.getProperties();
+			Iterator<Property> itrProperties = objectProperties.iterator();
+			while (itrProperties.hasNext()) {
+				Property property = itrProperties.next();
+
+				String propertyTypeName = "";
+				QName propertyType = property.getType();
+				if (propertyType != null)
+					propertyTypeName = propertyType.getName();
+
+				addAttribute(ecObject, property.getName(), EcorePackage.Literals.ESTRING, true,
+						property.getLowerBound(), property.getUpperBound());
+			}
 			// addSuperType(edEClass, ddlPackage, "AbstractRow");
 
 			// addAttribute(customerRow, "id", EcorePackage.Literals.ESTRING, true, 1, 1);
@@ -52,23 +67,9 @@ public class DataFormatToEMFGenerator {
 		// addAttribute(customerRow, "lastName", EcorePackage.Literals.ESTRING, false,
 		// 0, 1);
 
-		// next, create the table class
-		EClass customers = createEClass("Customers");
-		// add to package before we do anything else
-		newPackage.getEClassifiers().add(customers);
-		// add our super-class
-		// addSuperType(customers, ddlPackage, "AbstractTable");
-		// add our features
-		// addReference(customers, "rows", customerRow, 0, -1);
-
-		// it is very important that we do everything through ResourceSet's
 		ResourceSet resourceSet = new ResourceSetImpl();
-		// now create a new resource to serialize the ecore model
 		Resource outputRes = resourceSet.createResource(URI.createURI(xdtoPackage.getName() + ".ecore"));
-		// add our new package to resource contents
 		outputRes.getContents().add(newPackage);
-		// and at last, we save to standard out. Remove the first argument to save to
-		// file specified in pathToOutputFile
 		outputRes.save(Collections.emptyMap());
 
 		return outputRes;
