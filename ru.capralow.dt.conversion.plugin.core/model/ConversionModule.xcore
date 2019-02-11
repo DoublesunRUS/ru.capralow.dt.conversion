@@ -14,7 +14,7 @@ import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister
 class ConversionModule {
 	String storeVersion = "1"
 	
-	Object[] subsystems
+	contains CmSubsystem[] subsystems
 	
 	Object moduleURI
 	
@@ -69,12 +69,30 @@ class ConversionModule {
 		}
 		return result
 	}
+	op Object[] getSendingDataRules(Subsystem subsystem) {
+		val result = newBasicEList()
+
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.forSending && dataRule.includedInSubsystem(subsystem))
+				result.add(dataRule)
+		}
+		return result
+	}
 
 	op Object[] getReceivingDataRules() {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
 			if (dataRule.forReceiving)
+				result.add(dataRule)
+		}
+		return result
+	}
+	op Object[] getReceivingDataRules(Subsystem subsystem) {
+		val result = newBasicEList()
+
+		for (CmDataRule dataRule : dataRules) {
+			if (dataRule.forReceiving && dataRule.includedInSubsystem(subsystem))
 				result.add(dataRule)
 		}
 		return result
@@ -97,12 +115,30 @@ class ConversionModule {
 		}
 		return result
 	}
+	op Object[] getSendingObjectRules(Subsystem subsystem) {
+		val result = newBasicEList()
+
+		for (CmObjectRule objectRule : objectRules) {
+			if (objectRule.forSending && objectRule.includedInSubsystem(subsystem))
+				result.add(objectRule)
+		}
+		return result
+	}
 
 	op Object[] getReceivingObjectRules() {
 		val result = newBasicEList()
 
 		for (CmObjectRule objectRule : objectRules) {
 			if (objectRule.forReceiving)
+				result.add(objectRule)
+		}
+		return result
+	}
+	op Object[] getReceivingObjectRules(Subsystem subsystem) {
+		val result = newBasicEList()
+
+		for (CmObjectRule objectRule : objectRules) {
+			if (objectRule.forReceiving && objectRule.includedInSubsystem(subsystem))
 				result.add(objectRule)
 		}
 		return result
@@ -399,6 +435,21 @@ class CmDataRule {
 	}
 	
 	refers CmObjectRule[] objectRules
+	
+	op Boolean includedInSubsystem(Subsystem subsystem) {
+		if (subsystem === null)
+			return true;
+		
+		if (subsystem.getContent().indexOf(configurationObject) != -1)
+			return true;
+		
+		for (CmObjectRule objectRule : objectRules) {
+			if (subsystem.getContent().indexOf(objectRule.configurationObject) != -1)
+				return true
+		}
+		
+		return false;
+	}
 }
 
 enum CmSelectionVariant {
@@ -502,6 +553,13 @@ class CmObjectRule {
 	CmIdentificationVariant identificationVariant
 	
 	String[] identificationFields
+	
+	op Boolean includedInSubsystem(Subsystem subsystem) {
+		if (subsystem === null)
+			return true;
+		
+		return subsystem.getContent().indexOf(configurationObject) != -1;
+	}
 }
 
 enum CmIdentificationVariant {
@@ -666,4 +724,15 @@ class CmAlgorithm {
 enum CmMethodType {
 	Procedure as "Процедура" = 0
 	Function as "Функция" = 1
+}
+
+class CmSubsystem {
+	derived String name get {
+		if (subsystem === null)
+			return "<Все подсистемы>";
+			
+		return (subsystem as Subsystem).getSynonym().get("ru");
+	}
+	
+	Object subsystem
 }

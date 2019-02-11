@@ -55,6 +55,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedMapImpl;
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
 
 public class ConversionModuleAnalyzer {
@@ -93,23 +94,31 @@ public class ConversionModuleAnalyzer {
 
 		conversionModule.setStoreVersion("1");
 
+		EList<CmSubsystem> subsystems = conversionModule.getSubsystems();
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
 		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
 
+		subsystems.clear();
 		dataRules.clear();
 		objectRules.clear();
 		predefineds.clear();
 		algorithms.clear();
 
-		EList<Subsystem> subsystems = ((Configuration) ((IConfigurationProject) configurationProject)
+		subsystems.add(new CmSubsystemImpl());
+		EList<Subsystem> confSubsystems = ((Configuration) ((IConfigurationProject) configurationProject)
 				.getConfiguration()).getSubsystems();
-		Iterator<Subsystem> itrSubsystem = subsystems.iterator();
-		while (itrSubsystem.hasNext()) {
-			Subsystem subsystem = itrSubsystem.next();
-			if (!subsystem.isIncludeInCommandInterface())
+		Iterator<Subsystem> itrConfSubsystem = confSubsystems.iterator();
+		while (itrConfSubsystem.hasNext()) {
+			Subsystem confSubsystem = itrConfSubsystem.next();
+			if (!confSubsystem.isIncludeInCommandInterface())
 				continue;
+
+			CmSubsystemImpl subsystem = new CmSubsystemImpl();
+			subsystem.setSubsystem(confSubsystem);
+
+			subsystems.add(subsystem);
 		}
 
 		Iterator<Method> itr = methods.iterator();

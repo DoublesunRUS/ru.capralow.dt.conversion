@@ -17,14 +17,18 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -51,6 +55,7 @@ import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditor;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
+import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
@@ -58,6 +63,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
+import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleAnalyzer;
 
@@ -75,6 +81,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private ConversionModuleAnalyzer conversionModuleAnalyzer;
 	private ConversionModule conversionModule;
 
+	private TableViewer viewerSubsystems;
 	private TableViewer viewerSendingDataRules, viewerSendingObjectRules;
 	private TableViewer viewerReceivingDataRules, viewerReceivingObjectRules;
 	private TableViewer viewerPredefineds;
@@ -83,6 +90,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private Button btnInformation;
 
 	private ToolItem tltmStoreVersion1, tltmStoreVersion2;
+
+	private CTabFolder tabFolder;
 
 	@Inject
 	public ConversionModuleEditor(String id, String title) {
@@ -101,16 +110,65 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		this.editable = false;
 
 		FormToolkit toolkit = managedForm.getToolkit();
+
 		ScrolledForm form = managedForm.getForm();
-
-		Composite body = form.getBody();
 		toolkit.decorateFormHeading(form.getForm());
-		toolkit.paintBordersFor(body);
+		GridLayoutFactory.fillDefaults().applyTo(form);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(form);
 
-		GridLayoutFactory.fillDefaults().applyTo(body);
+		Composite container = form.getBody();
+		toolkit.paintBordersFor(container);
+		GridLayoutFactory.fillDefaults().applyTo(container);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
+
+		Composite main = new Composite(container, SWT.NONE);
+		main.setLayout(new GridLayout(2, false));
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(main);
+
+		// Подсистемы
+		Composite compositeTableSubsystems = new Composite(main, SWT.NONE);
+		TableColumnLayout tclSubsystems = new TableColumnLayout();
+		compositeTableSubsystems.setLayout(tclSubsystems);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(compositeTableSubsystems);
+
+		viewerSubsystems = new TableViewer(compositeTableSubsystems, SWT.BORDER | SWT.V_SCROLL);
+
+		Table tableSubsystems = viewerSubsystems.getTable();
+
+		tableSubsystems.setHeaderVisible(true);
+		tableSubsystems.setLinesVisible(true);
+
+		TableViewerColumn tblclmnSubsystemsColumn1 = new TableViewerColumn(viewerSubsystems, SWT.NONE);
+		tclSubsystems.setColumnData(tblclmnSubsystemsColumn1.getColumn(), new ColumnWeightData(1, 150, true));
+		tblclmnSubsystemsColumn1.getColumn().setText("Подсистемы");
+		tblclmnSubsystemsColumn1.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CmSubsystem) element).getName();
+			}
+		});
+		viewerSubsystems.setContentProvider(new IStructuredContentProvider() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public Object[] getElements(Object inputElement) {
+				EList<Object> subsystems = (EList<Object>) inputElement;
+
+				Object[] viewerContent = new Object[subsystems.size()];
+
+				int i = 0;
+				Iterator<Object> itr = subsystems.iterator();
+				while (itr.hasNext()) {
+					viewerContent[i] = itr.next();
+					i++;
+				}
+
+				return viewerContent;
+			}
+
+		});
 
 		// Страницы
-		CTabFolder tabFolder = new CTabFolder(body, SWT.FLAT);
+		tabFolder = new CTabFolder(main, SWT.FLAT);
 		GridLayoutFactory.fillDefaults().applyTo(tabFolder);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tabFolder);
 
@@ -190,7 +248,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclSendingDataRules = new TableColumnLayout();
 		compositeSendingDataRules.setLayout(tclSendingDataRules);
 
-		viewerSendingDataRules = new TableViewer(compositeSendingDataRules, SWT.BORDER | SWT.V_SCROLL);
+		viewerSendingDataRules = new TableViewer(compositeSendingDataRules,
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table tableSendingDataRules = viewerSendingDataRules.getTable();
 
@@ -268,7 +327,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclSendingObjectRules = new TableColumnLayout();
 		compositeSendingObjectRules.setLayout(tclSendingObjectRules);
 
-		viewerSendingObjectRules = new TableViewer(compositeSendingObjectRules, SWT.BORDER | SWT.V_SCROLL);
+		viewerSendingObjectRules = new TableViewer(compositeSendingObjectRules,
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table tableSendingObjectRules = viewerSendingObjectRules.getTable();
 
@@ -323,12 +383,12 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			@SuppressWarnings("unchecked")
 			@Override
 			public Object[] getElements(Object inputElement) {
-				EList<Object> ObjectRules = (EList<Object>) inputElement;
+				EList<Object> objectRules = (EList<Object>) inputElement;
 
-				Object[] viewerContent = new Object[ObjectRules.size()];
+				Object[] viewerContent = new Object[objectRules.size()];
 
 				int i = 0;
-				Iterator<Object> itr = ObjectRules.iterator();
+				Iterator<Object> itr = objectRules.iterator();
 				while (itr.hasNext()) {
 					viewerContent[i] = itr.next();
 					i++;
@@ -349,7 +409,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclReceivingDataRules = new TableColumnLayout();
 		compositeReceivingDataRules.setLayout(tclReceivingDataRules);
 
-		viewerReceivingDataRules = new TableViewer(compositeReceivingDataRules, SWT.BORDER | SWT.V_SCROLL);
+		viewerReceivingDataRules = new TableViewer(compositeReceivingDataRules,
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table tableReceivingDataRules = viewerReceivingDataRules.getTable();
 
@@ -418,7 +479,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclReceivingObjectRules = new TableColumnLayout();
 		compositeReceivingObjectRules.setLayout(tclReceivingObjectRules);
 
-		viewerReceivingObjectRules = new TableViewer(compositeReceivingObjectRules, SWT.BORDER | SWT.V_SCROLL);
+		viewerReceivingObjectRules = new TableViewer(compositeReceivingObjectRules,
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table tableReceivingObjectRules = viewerReceivingObjectRules.getTable();
 
@@ -497,12 +559,12 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			@SuppressWarnings("unchecked")
 			@Override
 			public Object[] getElements(Object inputElement) {
-				EList<Object> ObjectRules = (EList<Object>) inputElement;
+				EList<Object> objectRules = (EList<Object>) inputElement;
 
-				Object[] viewerContent = new Object[ObjectRules.size()];
+				Object[] viewerContent = new Object[objectRules.size()];
 
 				int i = 0;
-				Iterator<Object> itr = ObjectRules.iterator();
+				Iterator<Object> itr = objectRules.iterator();
 				while (itr.hasNext()) {
 					viewerContent[i] = itr.next();
 					i++;
@@ -523,7 +585,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclPredefineds = new TableColumnLayout();
 		compositePredefineds.setLayout(tclPredefineds);
 
-		viewerPredefineds = new TableViewer(compositePredefineds, SWT.BORDER | SWT.V_SCROLL);
+		viewerPredefineds = new TableViewer(compositePredefineds, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table tablePredefineds = viewerPredefineds.getTable();
 
@@ -610,7 +672,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableColumnLayout tclAlgorithms = new TableColumnLayout();
 		compositeAlgorithms.setLayout(tclAlgorithms);
 
-		viewerAlgorithms = new TableViewer(compositeAlgorithms, SWT.BORDER | SWT.V_SCROLL);
+		viewerAlgorithms = new TableViewer(compositeAlgorithms, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table tableAlgorithms = viewerAlgorithms.getTable();
 
@@ -676,8 +738,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		tabItem6.setControl(compositeAlgorithms);
 
-		tabFolder.setSelection(0);
-
 		hookListeners();
 	}
 
@@ -694,6 +754,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		// tltmStoreVersion1.setSelection(storeVersion.equals("1"));
 		// tltmStoreVersion2.setSelection(storeVersion.equals("2"));
 
+		viewerSubsystems.setInput(conversionModule.getSubsystems());
+
 		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
 		viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules());
 
@@ -701,8 +763,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules());
 
 		viewerPredefineds.setInput(conversionModule.getPredefineds());
-
 		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
+
+		tabFolder.setSelection(0);
 	}
 
 	private void hookListeners() {
@@ -724,6 +787,23 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		// public void widgetDefaultSelected(SelectionEvent event) {
 		// }
 		// });
+
+		viewerSubsystems.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				CmSubsystem cmSubsystem = (CmSubsystem) ((StructuredSelection) ((TableViewer) event.getSource())
+						.getSelection()).getFirstElement();
+				Subsystem confSubsystem = null;
+				if (cmSubsystem != null)
+					confSubsystem = (Subsystem) cmSubsystem.getSubsystem();
+
+				viewerSendingDataRules.setInput(conversionModule.getSendingDataRules(confSubsystem));
+				viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules(confSubsystem));
+
+				viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules(confSubsystem));
+				viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules(confSubsystem));
+			}
+		});
 
 		viewerSendingDataRules.addDoubleClickListener((new IDoubleClickListener() {
 
