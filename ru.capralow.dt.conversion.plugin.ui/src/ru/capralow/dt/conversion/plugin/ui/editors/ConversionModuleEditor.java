@@ -31,10 +31,14 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
@@ -93,9 +97,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	private Button btnInformation;
 
-	private ToolItem tltmStoreVersion1, tltmStoreVersion2;
-
-	ToolItem tltmNewItem1, tltmNewItem2;
+	private ToolItem itemDropDown;
+	private MenuItem itemMenu1, itemMenu2;
 
 	private CTabFolder tabFolder;
 
@@ -142,11 +145,28 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		// Левая панель: меню
 		ToolBar toolBarMain = new ToolBar(compositeLeft, SWT.FLAT | SWT.RIGHT);
 
-		tltmNewItem1 = new ToolItem(toolBarMain, SWT.NONE);
-		tltmNewItem1.setText("Общие настройки...");
+		ToolItem itemDropDown = new ToolItem(toolBarMain, SWT.DROP_DOWN);
+		itemDropDown.setText("Меню");
+		itemDropDown.setToolTipText("Показать меню");
 
-		tltmNewItem2 = new ToolItem(toolBarMain, SWT.NONE);
-		tltmNewItem2.setText("Описание формата");
+		Menu menu = new Menu(form.getShell(), SWT.POP_UP);
+		itemMenu1 = new MenuItem(menu, SWT.PUSH);
+		itemMenu1.setText("Общие настройки...");
+		itemMenu2 = new MenuItem(menu, SWT.PUSH);
+		itemMenu2.setText("Описание формата");
+
+		itemDropDown.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Rectangle bounds = itemDropDown.getBounds();
+				Point point = toolBarMain.toDisplay(bounds.x, bounds.y + bounds.height);
+				menu.setLocation(point);
+				menu.setVisible(true);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
 
 		// Левая панель: Подсистемы
 		Composite compositeTableSubsystems = new Composite(compositeLeft, SWT.NONE);
@@ -792,11 +812,11 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	}
 
 	private void hookListeners() {
-		tltmNewItem1.addSelectionListener(new SelectionListener() {
+		itemMenu1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent event) {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
-						((ToolItem) event.getSource()).getParent().getShell(), conversionModule, editable);
+						((MenuItem) event.getSource()).getParent().getShell(), conversionModule, editable);
 				if (conversionModuleDialog.open() == Window.OK) {
 					try {
 						updateModule();
