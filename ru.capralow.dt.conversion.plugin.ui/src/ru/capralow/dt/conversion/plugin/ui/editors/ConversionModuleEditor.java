@@ -28,11 +28,15 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -91,6 +95,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	private ToolItem tltmStoreVersion1, tltmStoreVersion2;
 
+	ToolItem tltmNewItem1, tltmNewItem2;
+
 	private CTabFolder tabFolder;
 
 	@Inject
@@ -113,20 +119,37 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		ScrolledForm form = managedForm.getForm();
 		toolkit.decorateFormHeading(form.getForm());
+
 		GridLayoutFactory.fillDefaults().applyTo(form);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(form);
 
 		Composite container = form.getBody();
 		toolkit.paintBordersFor(container);
+
 		GridLayoutFactory.fillDefaults().applyTo(container);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
 
-		Composite main = new Composite(container, SWT.NONE);
-		main.setLayout(new GridLayout(2, false));
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(main);
+		// Основная панель
+		SashForm sashFormMain = new SashForm(container, SWT.HORIZONTAL);
+		sashFormMain.setLayout(new GridLayout(2, false));
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(sashFormMain);
 
-		// Подсистемы
-		Composite compositeTableSubsystems = new Composite(main, SWT.NONE);
+		// Левая панель
+		Composite compositeLeft = new Composite(sashFormMain, SWT.NONE);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(compositeLeft);
+		compositeLeft.setLayout(new GridLayout(1, false));
+
+		// Левая панель: меню
+		ToolBar toolBarMain = new ToolBar(compositeLeft, SWT.FLAT | SWT.RIGHT);
+
+		tltmNewItem1 = new ToolItem(toolBarMain, SWT.NONE);
+		tltmNewItem1.setText("Общие настройки...");
+
+		tltmNewItem2 = new ToolItem(toolBarMain, SWT.NONE);
+		tltmNewItem2.setText("Описание формата");
+
+		// Левая панель: Подсистемы
+		Composite compositeTableSubsystems = new Composite(compositeLeft, SWT.NONE);
 		TableColumnLayout tclSubsystems = new TableColumnLayout();
 		compositeTableSubsystems.setLayout(tclSubsystems);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(compositeTableSubsystems);
@@ -135,12 +158,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		Table tableSubsystems = viewerSubsystems.getTable();
 
-		tableSubsystems.setHeaderVisible(true);
 		tableSubsystems.setLinesVisible(true);
 
 		TableViewerColumn tblclmnSubsystemsColumn1 = new TableViewerColumn(viewerSubsystems, SWT.NONE);
 		tclSubsystems.setColumnData(tblclmnSubsystemsColumn1.getColumn(), new ColumnWeightData(1, 150, true));
-		tblclmnSubsystemsColumn1.getColumn().setText("Подсистемы");
 		tblclmnSubsystemsColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -167,8 +188,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		});
 
-		// Страницы
-		tabFolder = new CTabFolder(main, SWT.FLAT);
+		// Правая панель: Страницы
+		tabFolder = new CTabFolder(sashFormMain, SWT.FLAT);
 		GridLayoutFactory.fillDefaults().applyTo(tabFolder);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tabFolder);
 
@@ -738,6 +759,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		tabItem6.setControl(compositeAlgorithms);
 
+		sashFormMain.setWeights(new int[] { 20, 80 });
+
 		hookListeners();
 	}
 
@@ -769,24 +792,24 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	}
 
 	private void hookListeners() {
-		// btnInformation.addSelectionListener(new SelectionListener() {
-		//
-		// public void widgetSelected(SelectionEvent event) {
-		// ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
-		// ((Button) event.getSource()).getShell(), conversionModule);
-		// if (conversionModuleDialog.open() == Window.OK) {
-		// try {
-		// updateModule();
-		// } catch (CoreException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// ;
-		// }
-		//
-		// public void widgetDefaultSelected(SelectionEvent event) {
-		// }
-		// });
+		tltmNewItem1.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
+						((ToolItem) event.getSource()).getParent().getShell(), conversionModule, editable);
+				if (conversionModuleDialog.open() == Window.OK) {
+					try {
+						updateModule();
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				}
+				;
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
 
 		viewerSubsystems.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
