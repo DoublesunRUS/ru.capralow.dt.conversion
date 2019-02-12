@@ -1,9 +1,14 @@
 
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.handly.buffer.BufferChange;
@@ -11,6 +16,7 @@ import org.eclipse.handly.snapshot.NonExpiringSnapshot;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -44,14 +50,20 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.IStorageEditorInput;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 
@@ -74,6 +86,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleReport;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
@@ -825,6 +838,103 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					}
 				}
 				;
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
+
+		itemMenu2.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+
+				class StringStorage implements IStorage {
+					private String string;
+
+					StringStorage(String input) {
+						this.string = input;
+					}
+
+					public InputStream getContents() throws CoreException {
+						return new ByteArrayInputStream(string.getBytes());
+					}
+
+					public IPath getFullPath() {
+						return null;
+					}
+
+					public Object getAdapter(Class adapter) {
+						return null;
+					}
+
+					public String getName() {
+						int len = Math.min(5, string.length());
+						return string.substring(0, len).concat("..."); //$NON-NLS-1$
+					}
+
+					public boolean isReadOnly() {
+						return true;
+					}
+				}
+
+				class StringInput implements IStorageEditorInput {
+					private IStorage storage;
+
+					StringInput(IStorage storage) {
+						this.storage = storage;
+					}
+
+					public boolean exists() {
+						return true;
+					}
+
+					public ImageDescriptor getImageDescriptor() {
+						return null;
+					}
+
+					public String getName() {
+						return storage.getName();
+					}
+
+					public IPersistableElement getPersistable() {
+						return null;
+					}
+
+					public IStorage getStorage() {
+						return storage;
+					}
+
+					public String getToolTipText() {
+						return "String-based file: " + storage.getName();
+					}
+
+					public Object getAdapter(Class adapter) {
+						return null;
+					}
+				}
+
+				ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule);
+
+				try {
+					String stringReport = cmReport.createReport();
+
+					IStorage storage = new StringStorage(stringReport);
+					IStorageEditorInput input = new StringInput(storage);
+
+					IWorkbench workbench = PlatformUI.getWorkbench();
+
+					IEditorDescriptor defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.md");
+					if (defaultEditor == null)
+						defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.txt");
+
+					String editorID = defaultEditor.getId();
+
+					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
+
+				} catch (IOException | PartInitException e) {
+					e.printStackTrace();
+
+				}
 			}
 
 			public void widgetDefaultSelected(SelectionEvent event) {
