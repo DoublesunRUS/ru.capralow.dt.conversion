@@ -1,6 +1,7 @@
 package ru.capralow.dt.conversion.plugin.core.cm;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 public class ConversionModuleReport {
 
@@ -12,9 +13,15 @@ public class ConversionModuleReport {
 
 	public String createReport() throws IOException {
 		String result = "";
-		result += "Hello World";
-		result += "\r\n"; // write new line
-		result += "Good Bye!";
+		result += "## Описание формата миграции данных (подробное)\r\n";
+		result += "\r\n";
+
+		Iterator<CmSubsystem> itr = conversionModule.getSubsystems().iterator();
+		while (itr.hasNext()) {
+			CmSubsystem subsystem = itr.next();
+
+			result += "### " + subsystem.getName() + "\r\n\r\n";
+		}
 
 		return result;
 	}
