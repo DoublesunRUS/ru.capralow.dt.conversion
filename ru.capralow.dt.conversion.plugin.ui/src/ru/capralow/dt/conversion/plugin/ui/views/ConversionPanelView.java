@@ -1,7 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui.views;
 
-import java.util.Iterator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -93,11 +91,9 @@ public class ConversionPanelView extends ViewPart {
 				boolean refreshUI = false;
 				IProject project = null;
 
-				Iterator<Object> itr = objects.iterator();
-				while (itr.hasNext()) {
-					EObject object = (EObject) itr.next();
-
-					IFile file = resourceLookup.getPlatformResource(object.eResource());
+				for (Object object : objects) {
+					EObject eObject = (EObject) object;
+					IFile file = resourceLookup.getPlatformResource(eObject.eResource());
 
 					IPath path = file.getFullPath();
 
@@ -105,7 +101,7 @@ public class ConversionPanelView extends ViewPart {
 
 					if (delta != null) {
 						refreshUI = true;
-						project = projectManager.getProject(object).getProject();
+						project = projectManager.getProject(eObject).getProject();
 						break;
 					}
 				}

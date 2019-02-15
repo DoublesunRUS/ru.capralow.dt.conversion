@@ -4,12 +4,10 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.handly.buffer.BufferChange;
 import org.eclipse.handly.snapshot.NonExpiringSnapshot;
@@ -110,7 +108,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	private Button btnInformation;
 
-	private ToolItem itemDropDown;
 	private MenuItem itemMenu1, itemMenu2;
 
 	private CTabFolder tabFolder;
@@ -130,6 +127,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
 		this.editable = modelEditingSupport.canEdit(getModel());
 		this.editable = false;
+
+		IStructuredContentProvider viewerContentProvider = new ConversionModuleContentProvider();
 
 		FormToolkit toolkit = managedForm.getToolkit();
 
@@ -165,6 +164,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		Menu menu = new Menu(form.getShell(), SWT.POP_UP);
 		itemMenu1 = new MenuItem(menu, SWT.PUSH);
 		itemMenu1.setText("Общие настройки...");
+
 		itemMenu2 = new MenuItem(menu, SWT.PUSH);
 		itemMenu2.setText("Описание формата");
 
@@ -201,25 +201,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmSubsystem) element).getName();
 			}
 		});
-		viewerSubsystems.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<Object> subsystems = (EList<Object>) inputElement;
-
-				Object[] viewerContent = new Object[subsystems.size()];
-
-				int i = 0;
-				Iterator<Object> itr = subsystems.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerSubsystems.setContentProvider(viewerContentProvider);
 
 		// Правая панель: Страницы
 		tabFolder = new CTabFolder(sashFormMain, SWT.FLAT);
@@ -351,25 +333,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerSendingDataRules.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<Object> dataRules = (EList<Object>) inputElement;
-
-				Object[] viewerContent = new Object[dataRules.size()];
-
-				int i = 0;
-				Iterator<Object> itr = dataRules.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerSendingDataRules.setContentProvider(viewerContentProvider);
 
 		tabItem2.setControl(compositeSendingDataRules);
 
@@ -433,25 +397,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerSendingObjectRules.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<Object> objectRules = (EList<Object>) inputElement;
-
-				Object[] viewerContent = new Object[objectRules.size()];
-
-				int i = 0;
-				Iterator<Object> itr = objectRules.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerSendingObjectRules.setContentProvider(viewerContentProvider);
 
 		tabItem3.setControl(compositeSendingObjectRules);
 
@@ -503,25 +449,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerReceivingDataRules.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<Object> dataRules = (EList<Object>) inputElement;
-
-				Object[] viewerContent = new Object[dataRules.size()];
-
-				int i = 0;
-				Iterator<Object> itr = dataRules.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerReceivingDataRules.setContentProvider(viewerContentProvider);
 
 		tabItem4.setControl(compositeReceivingDataRules);
 
@@ -609,25 +537,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerReceivingObjectRules.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<Object> objectRules = (EList<Object>) inputElement;
-
-				Object[] viewerContent = new Object[objectRules.size()];
-
-				int i = 0;
-				Iterator<Object> itr = objectRules.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerReceivingObjectRules.setContentProvider(viewerContentProvider);
 
 		tabItem5.setControl(compositeReceivingObjectRules);
 
@@ -696,25 +606,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerPredefineds.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<Object> dataRules = (EList<Object>) inputElement;
-
-				Object[] viewerContent = new Object[dataRules.size()];
-
-				int i = 0;
-				Iterator<Object> itr = dataRules.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerPredefineds.setContentProvider(viewerContentProvider);
 
 		tabItem7.setControl(compositePredefineds);
 
@@ -770,25 +662,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerAlgorithms.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<Object> dataRules = (EList<Object>) inputElement;
-
-				Object[] viewerContent = new Object[dataRules.size()];
-
-				int i = 0;
-				Iterator<Object> itr = dataRules.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerAlgorithms.setContentProvider(viewerContentProvider);
 
 		tabItem6.setControl(compositeAlgorithms);
 

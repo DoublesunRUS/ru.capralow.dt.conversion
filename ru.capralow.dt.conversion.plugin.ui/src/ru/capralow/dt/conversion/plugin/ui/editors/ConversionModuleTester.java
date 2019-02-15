@@ -1,8 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
-import org.eclipse.emf.common.util.EList;
-
-import com._1c.g5.v8.dt.bsl.model.Method;
+import com._1c.g5.v8.dt.bsl.model.DeclareStatement;
 import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.bsl.model.RegionPreprocessorDeclareStatement;
 import com._1c.g5.v8.dt.core.expressions.AbstractDtPropertyTester;
@@ -21,14 +19,15 @@ public class ConversionModuleTester extends AbstractDtPropertyTester {
 			if (module == null)
 				return false;
 
-			String regionName = "";
-			EList<Method> methods = module.allMethods();
-			if (methods.size() != 0 && methods.get(0).eContainer() != null
-					&& methods.get(0).eContainer().eContainer() != null) {
-				regionName = ((RegionPreprocessorDeclareStatement) methods.get(0).eContainer().eContainer()).getName();
-			}
+			for (DeclareStatement statement : module.getDeclareStatements()) {
+				if (!(statement instanceof RegionPreprocessorDeclareStatement))
+					continue;
 
-			return methods.size() == 0 || regionName.equals("ПроцедурыКонвертации");
+				RegionPreprocessorDeclareStatement regionStatement = (RegionPreprocessorDeclareStatement) statement;
+
+				if (regionStatement.getName().equals("ПроцедурыКонвертации"))
+					return true;
+			}
 		}
 		return false;
 	}

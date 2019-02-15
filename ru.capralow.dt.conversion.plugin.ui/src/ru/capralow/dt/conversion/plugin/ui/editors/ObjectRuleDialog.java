@@ -1,9 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
-import java.util.Iterator;
-
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -111,6 +108,8 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
+
+		IStructuredContentProvider viewerContentProvider = new ConversionModuleContentProvider();
 
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -260,25 +259,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 			}
 		});
 
-		viewerAttributeRules.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<CmAttributeRule> attributeRules = (EList<CmAttributeRule>) inputElement;
-
-				CmAttributeRule[] viewerContent = new CmAttributeRule[attributeRules.size()];
-
-				int i = 0;
-				Iterator<CmAttributeRule> itr = attributeRules.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerAttributeRules.setContentProvider(viewerContentProvider);
 
 		tabItem2.setControl(compositeAttributeRules);
 
@@ -437,25 +418,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 			}
 		});
 
-		viewerIdentificationFields.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<String> identificationFields = (EList<String>) inputElement;
-
-				String[] viewerContent = new String[identificationFields.size()];
-
-				int i = 0;
-				Iterator<String> itr = identificationFields.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerIdentificationFields.setContentProvider(viewerContentProvider);
 
 		tabItem7.setControl(compositeIdentification);
 

@@ -2,9 +2,7 @@ package ru.capralow.dt.conversion.plugin.ui;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -30,11 +28,7 @@ public class DataFormatToEMFGenerator {
 
 		Package dataPackage = xdtoPackage.getPackage();
 
-		EList<ObjectType> dataObjects = dataPackage.getObjects();
-		Iterator<ObjectType> itrObjects = dataObjects.iterator();
-		while (itrObjects.hasNext()) {
-			ObjectType object = itrObjects.next();
-
+		for (ObjectType object : dataPackage.getObjects()) {
 			String objectName = object.getName();
 			if (!objectName.startsWith("Справочник."))
 				continue;
@@ -42,11 +36,7 @@ public class DataFormatToEMFGenerator {
 			EClass ecObject = createEClass(objectName.replace(".", "_"));
 			ePackage.getEClassifiers().add(ecObject);
 
-			EList<Property> objectProperties = object.getProperties();
-			Iterator<Property> itrProperties = objectProperties.iterator();
-			while (itrProperties.hasNext()) {
-				Property property = itrProperties.next();
-
+			for (Property property : object.getProperties()) {
 				String propertyName = property.getName();
 				QName propertyType = property.getType();
 

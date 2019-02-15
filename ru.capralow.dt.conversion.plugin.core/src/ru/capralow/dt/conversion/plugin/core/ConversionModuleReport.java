@@ -1,7 +1,6 @@
 package ru.capralow.dt.conversion.plugin.core;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
@@ -19,10 +18,7 @@ public class ConversionModuleReport {
 		result += "## Описание формата миграции данных (подробное)\r\n";
 		result += "\r\n";
 
-		Iterator<CmSubsystem> itr = conversionModule.getSubsystems().iterator();
-		while (itr.hasNext()) {
-			CmSubsystem subsystem = itr.next();
-
+		for (CmSubsystem subsystem : conversionModule.getSubsystems()) {
 			result += "### " + subsystem.getName() + "\r\n\r\n";
 		}
 

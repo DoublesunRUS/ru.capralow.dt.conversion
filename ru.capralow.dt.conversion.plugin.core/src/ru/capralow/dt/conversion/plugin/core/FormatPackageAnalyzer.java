@@ -1,9 +1,5 @@
 package ru.capralow.dt.conversion.plugin.core;
 
-import java.util.Iterator;
-
-import org.eclipse.emf.common.util.EList;
-
 import com._1c.g5.v8.dt.mcore.QName;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 import com._1c.g5.v8.dt.xdto.model.ObjectType;
@@ -28,20 +24,12 @@ public class FormatPackageAnalyzer {
 	public void analyze(XDTOPackage xdtoPackage) {
 		Package dataPackage = xdtoPackage.getPackage();
 
-		EList<ObjectType> dataObjects = dataPackage.getObjects();
-		Iterator<ObjectType> itrObjects = dataObjects.iterator();
-		while (itrObjects.hasNext()) {
-			ObjectType object = itrObjects.next();
-
+		for (ObjectType object : dataPackage.getObjects()) {
 			String objectName = object.getName();
 			if (!objectName.startsWith("Справочник."))
 				continue;
 
-			EList<Property> objectProperties = object.getProperties();
-			Iterator<Property> itrProperties = objectProperties.iterator();
-			while (itrProperties.hasNext()) {
-				Property property = itrProperties.next();
-
+			for (Property property : object.getProperties()) {
 				String propertyName = property.getName();
 				QName propertyType = property.getType();
 

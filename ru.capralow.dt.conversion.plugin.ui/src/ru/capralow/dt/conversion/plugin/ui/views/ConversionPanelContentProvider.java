@@ -1,7 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui.views;
 
-import java.util.Iterator;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -22,17 +20,11 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 		int i = 0;
 
-		Iterator<EvExchangePair> itr1 = exchangePairs.iterator();
-		while (itr1.hasNext()) {
-			EvExchangePair EvExchangePair = itr1.next();
-
+		for (EvExchangePair EvExchangePair : exchangePairs) {
 			treeContent[i] = EvExchangePair;
 			i++;
 		}
-		Iterator<EvConfiguration> itr2 = configurations.iterator();
-		while (itr2.hasNext()) {
-			EvConfiguration EvConfiguration = itr2.next();
-
+		for (EvConfiguration EvConfiguration : configurations) {
 			treeContent[i] = EvConfiguration;
 			i++;
 		}
@@ -94,9 +86,8 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 			Object[] treeContent = new Object[availableFormatVersions.size()];
 
 			int i = 0;
-			Iterator<EvFormatVersion> itr = (Iterator<EvFormatVersion>) availableFormatVersions.iterator();
-			while (itr.hasNext()) {
-				treeContent[i] = itr.next();
+			for (Object object : availableFormatVersions) {
+				treeContent[i] = object;
 				i++;
 			}
 

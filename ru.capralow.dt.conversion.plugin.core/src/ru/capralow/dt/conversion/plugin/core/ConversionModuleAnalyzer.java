@@ -40,6 +40,7 @@ import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.model.UndefinedLiteral;
+import com._1c.g5.v8.dt.cmi.model.impl.CommandInterfaceImpl;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8Project;
@@ -125,11 +126,12 @@ public class ConversionModuleAnalyzer {
 		algorithms.clear();
 
 		subsystems.add(new CmSubsystemImpl());
-		EList<Subsystem> confSubsystems = ((Configuration) ((IConfigurationProject) configurationProject)
-				.getConfiguration()).getSubsystems();
-		Iterator<Subsystem> itrConfSubsystem = confSubsystems.iterator();
-		while (itrConfSubsystem.hasNext()) {
-			Subsystem confSubsystem = itrConfSubsystem.next();
+
+		Configuration configuration = (Configuration) ((IConfigurationProject) configurationProject).getConfiguration();
+
+		CommandInterfaceImpl commandInterface = (CommandInterfaceImpl) configuration.getCommandInterface();
+
+		for (Subsystem confSubsystem : commandInterface.getSubsystemsOrder().getSubsystems()) {
 			if (!confSubsystem.isIncludeInCommandInterface())
 				continue;
 
@@ -139,9 +141,7 @@ public class ConversionModuleAnalyzer {
 			subsystems.add(subsystem);
 		}
 
-		Iterator<Method> itr = methods.iterator();
-		while (itr.hasNext()) {
-			Method method = itr.next();
+		for (Method method : methods) {
 			String methodName = method.getName();
 
 			if (methodName.equals("ПередКонвертацией")) {
@@ -161,9 +161,8 @@ public class ConversionModuleAnalyzer {
 
 			} else if (methodName.equals("ВерсияФорматаМенеджераОбмена")) {
 				EList<Statement> statements = method.allStatements();
-				Iterator<Statement> itrStatements = statements.iterator();
-				if (itrStatements.hasNext()) {
-					Statement statement = itrStatements.next();
+				if (statements.size() != 0) {
+					Statement statement = statements.get(0);
 					ReturnStatement returnStatement = (ReturnStatement) statement;
 					Expression returnExpression = returnStatement.getExpression();
 					StringLiteral stringLiteral = (StringLiteral) returnExpression;
@@ -219,19 +218,13 @@ public class ConversionModuleAnalyzer {
 		String methodName = method.getName();
 
 		if (methodName.equals("ЗаполнитьПравилаОбработкиДанных")) {
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				Statement statement = itrStatements.next();
-
+			for (Statement statement : method.allStatements()) {
 				if (statement instanceof IfStatement) {
 					IfStatement ifStatement = (IfStatement) statement;
 					EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
 					EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
 
-					Iterator<Statement> itrPartStatements = ifPartStatements.iterator();
-					while (itrPartStatements.hasNext()) {
-						Statement partStatement = itrPartStatements.next();
+					for (Statement partStatement : ifPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
@@ -250,9 +243,7 @@ public class ConversionModuleAnalyzer {
 					}
 
 					EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-					Iterator<Statement> itrElseIfPartStatements = elseIfPartStatements.iterator();
-					while (itrElseIfPartStatements.hasNext()) {
-						Statement partStatement = (Statement) itrElseIfPartStatements.next();
+					for (Statement partStatement : elseIfPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
@@ -275,12 +266,9 @@ public class ConversionModuleAnalyzer {
 		} else if (methodName.startsWith("ДобавитьПОД_")) {
 			CmDataRule dataRule = null;
 
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				SimpleStatement statement = (SimpleStatement) itrStatements.next();
+			for (Statement statement : method.allStatements()) {
 
-				Expression leftExpression = statement.getLeft();
+				Expression leftExpression = ((SimpleStatement) statement).getLeft();
 
 				if (leftExpression instanceof StaticFeatureAccess) {
 					StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
@@ -296,7 +284,7 @@ public class ConversionModuleAnalyzer {
 				} else if (leftExpression instanceof DynamicFeatureAccess) {
 					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
 
-					Expression rightExpression = statement.getRight();
+					Expression rightExpression = ((SimpleStatement) statement).getRight();
 
 					if (leftFeatureAccess.getName().equals("Имя")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -383,19 +371,13 @@ public class ConversionModuleAnalyzer {
 			}
 
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииОбъектов")) {
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				Statement statement = itrStatements.next();
-
+			for (Statement statement : method.allStatements()) {
 				if (statement instanceof IfStatement) {
 					IfStatement ifStatement = (IfStatement) statement;
 					EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
 					EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
 
-					Iterator<Statement> itrPartStatements = ifPartStatements.iterator();
-					while (itrPartStatements.hasNext()) {
-						Statement partStatement = itrPartStatements.next();
+					for (Statement partStatement : ifPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
@@ -420,9 +402,7 @@ public class ConversionModuleAnalyzer {
 					}
 
 					EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-					Iterator<Statement> itrElseIfPartStatements = elseIfPartStatements.iterator();
-					while (itrElseIfPartStatements.hasNext()) {
-						Statement partStatement = (Statement) itrElseIfPartStatements.next();
+					for (Statement partStatement : elseIfPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partInvocation = (Invocation) partSimpleStatement.getLeft();
@@ -472,12 +452,8 @@ public class ConversionModuleAnalyzer {
 			String configurationTabularSectionName = "";
 			String formatTabularSectionName = "";
 
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				SimpleStatement statement = (SimpleStatement) itrStatements.next();
-
-				Expression leftExpression = statement.getLeft();
+			for (Statement statement : method.allStatements()) {
+				Expression leftExpression = ((SimpleStatement) statement).getLeft();
 
 				if (leftExpression instanceof StaticFeatureAccess) {
 					StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
@@ -490,7 +466,7 @@ public class ConversionModuleAnalyzer {
 						formatTabularSectionName = "";
 
 					} else if (leftFeatureAccess.getName().equals("СвойстваТЧ")) {
-						Invocation rightInvocation = (Invocation) statement.getRight();
+						Invocation rightInvocation = (Invocation) ((SimpleStatement) statement).getRight();
 
 						EList<Expression> params = rightInvocation.getParams();
 
@@ -506,7 +482,7 @@ public class ConversionModuleAnalyzer {
 				} else if (leftExpression instanceof DynamicFeatureAccess) {
 					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
 
-					Expression rightExpression = statement.getRight();
+					Expression rightExpression = ((SimpleStatement) statement).getRight();
 					if (rightExpression instanceof UndefinedLiteral)
 						continue;
 
@@ -676,12 +652,8 @@ public class ConversionModuleAnalyzer {
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииПредопределенныхДанных")) {
 			CmPredefined predefined = null;
 
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				SimpleStatement statement = (SimpleStatement) itrStatements.next();
-
-				Expression leftExpression = statement.getLeft();
+			for (Statement statement : method.allStatements()) {
+				Expression leftExpression = ((SimpleStatement) statement).getLeft();
 
 				if (leftExpression instanceof StaticFeatureAccess) {
 					continue;
@@ -724,7 +696,7 @@ public class ConversionModuleAnalyzer {
 
 				} else if (leftExpression instanceof DynamicFeatureAccess) {
 					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-					Expression rightExpression = statement.getRight();
+					Expression rightExpression = ((SimpleStatement) statement).getRight();
 
 					if (leftFeatureAccess.getName().equals("ИмяПКПД")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -836,19 +808,13 @@ public class ConversionModuleAnalyzer {
 		String methodName = method.getName();
 
 		if (methodName.equals("ЗаполнитьПравилаОбработкиДанных")) {
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				Statement statement = itrStatements.next();
-
+			for (Statement statement : method.allStatements()) {
 				if (statement instanceof IfStatement) {
 					IfStatement ifStatement = (IfStatement) statement;
 					EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
 					EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
 
-					Iterator<Statement> itrPartStatements = ifPartStatements.iterator();
-					while (itrPartStatements.hasNext()) {
-						Statement partStatement = itrPartStatements.next();
+					for (Statement partStatement : ifPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
@@ -867,9 +833,7 @@ public class ConversionModuleAnalyzer {
 					}
 
 					EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-					Iterator<Statement> itrElseIfPartStatements = elseIfPartStatements.iterator();
-					while (itrElseIfPartStatements.hasNext()) {
-						Statement partStatement = (Statement) itrElseIfPartStatements.next();
+					for (Statement partStatement : elseIfPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
@@ -892,12 +856,8 @@ public class ConversionModuleAnalyzer {
 		} else if (methodName.startsWith("ДобавитьПОД_")) {
 			CmDataRule dataRule = null;
 
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				SimpleStatement statement = (SimpleStatement) itrStatements.next();
-
-				Expression leftExpression = statement.getLeft();
+			for (Statement statement : method.allStatements()) {
+				Expression leftExpression = ((SimpleStatement) statement).getLeft();
 
 				if (leftExpression instanceof StaticFeatureAccess) {
 					StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
@@ -913,7 +873,7 @@ public class ConversionModuleAnalyzer {
 				} else if (leftExpression instanceof DynamicFeatureAccess) {
 					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
 
-					Expression rightExpression = statement.getRight();
+					Expression rightExpression = ((SimpleStatement) statement).getRight();
 
 					if (leftFeatureAccess.getName().equals("Имя")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -996,19 +956,13 @@ public class ConversionModuleAnalyzer {
 			}
 
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииОбъектов")) {
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				Statement statement = itrStatements.next();
-
+			for (Statement statement : method.allStatements()) {
 				if (statement instanceof IfStatement) {
 					IfStatement ifStatement = (IfStatement) statement;
 					EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
 					EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
 
-					Iterator<Statement> itrPartStatements = ifPartStatements.iterator();
-					while (itrPartStatements.hasNext()) {
-						Statement partStatement = itrPartStatements.next();
+					for (Statement partStatement : ifPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
@@ -1033,9 +987,7 @@ public class ConversionModuleAnalyzer {
 					}
 
 					EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-					Iterator<Statement> itrElseIfPartStatements = elseIfPartStatements.iterator();
-					while (itrElseIfPartStatements.hasNext()) {
-						Statement partStatement = (Statement) itrElseIfPartStatements.next();
+					for (Statement partStatement : elseIfPartStatements) {
 						if (partStatement instanceof SimpleStatement) {
 							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
 							Invocation partInvocation = (Invocation) partSimpleStatement.getLeft();
@@ -1085,18 +1037,14 @@ public class ConversionModuleAnalyzer {
 			String configurationTabularSectionName = "";
 			String formatTabularSectionName = "";
 
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				SimpleStatement statement = (SimpleStatement) itrStatements.next();
-
-				Expression leftExpression = statement.getLeft();
+			for (Statement statement : method.allStatements()) {
+				Expression leftExpression = ((SimpleStatement) statement).getLeft();
 
 				if (leftExpression instanceof StaticFeatureAccess) {
 					StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
 
 					if (leftFeatureAccess.getName().equals("НоваяСтрока")) {
-						Invocation rightInvocation = (Invocation) statement.getRight();
+						Invocation rightInvocation = (Invocation) ((SimpleStatement) statement).getRight();
 						DynamicFeatureAccess rightFeatureAccess = (DynamicFeatureAccess) rightInvocation
 								.getMethodAccess();
 
@@ -1114,7 +1062,7 @@ public class ConversionModuleAnalyzer {
 				} else if (leftExpression instanceof DynamicFeatureAccess) {
 					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
 
-					Expression rightExpression = statement.getRight();
+					Expression rightExpression = ((SimpleStatement) statement).getRight();
 					if (rightExpression instanceof UndefinedLiteral)
 						continue;
 
@@ -1284,12 +1232,8 @@ public class ConversionModuleAnalyzer {
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииПредопределенныхДанных")) {
 			CmPredefined predefined = null;
 
-			EList<Statement> statements = method.allStatements();
-			Iterator<Statement> itrStatements = statements.iterator();
-			while (itrStatements.hasNext()) {
-				SimpleStatement statement = (SimpleStatement) itrStatements.next();
-
-				Expression leftExpression = statement.getLeft();
+			for (Statement statement : method.allStatements()) {
+				Expression leftExpression = ((SimpleStatement) statement).getLeft();
 
 				if (leftExpression instanceof StaticFeatureAccess) {
 					continue;
@@ -1332,7 +1276,7 @@ public class ConversionModuleAnalyzer {
 
 				} else if (leftExpression instanceof DynamicFeatureAccess) {
 					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-					Expression rightExpression = statement.getRight();
+					Expression rightExpression = ((SimpleStatement) statement).getRight();
 
 					if (leftFeatureAccess.getName().equals("ИмяПКПД")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1413,13 +1357,9 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static Method getMethod(Module mdModule, String methodName) {
-		Iterator<Method> itr = mdModule.allMethods().iterator();
-		while (itr.hasNext()) {
-			Method mdMethod = (Method) itr.next();
-
-			if (mdMethod.getName().equals(methodName)) {
+		for (Method mdMethod : mdModule.allMethods()) {
+			if (mdMethod.getName().equals(methodName))
 				return mdMethod;
-			}
 		}
 
 		return null;
@@ -1481,9 +1421,8 @@ public class ConversionModuleAnalyzer {
 		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndexByType(mdLiteral, qnObjectName,
 				true);
 		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
-		if (objectItr.hasNext()) {
+		if (objectItr.hasNext())
 			object = objectItr.next().getEObjectOrProxy();
-		}
 
 		if (object == null)
 			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + mdName));

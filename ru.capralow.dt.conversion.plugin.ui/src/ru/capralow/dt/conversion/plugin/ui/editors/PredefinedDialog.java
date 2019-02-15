@@ -1,8 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
-import java.util.Iterator;
-
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -60,6 +57,8 @@ public class PredefinedDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		IStructuredContentProvider viewerContentProvider = new ConversionModuleContentProvider();
+
 		Composite container = (Composite) super.createDialogArea(parent);
 
 		GridLayoutFactory.fillDefaults().applyTo(container);
@@ -164,25 +163,7 @@ public class PredefinedDialog extends Dialog {
 			}
 		});
 
-		viewerPredefinedMap.setContentProvider(new IStructuredContentProvider() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Object[] getElements(Object inputElement) {
-				EList<CmPredefinedMap> PredefinedMap = (EList<CmPredefinedMap>) inputElement;
-
-				CmPredefinedMap[] viewerContent = new CmPredefinedMap[PredefinedMap.size()];
-
-				int i = 0;
-				Iterator<CmPredefinedMap> itr = PredefinedMap.iterator();
-				while (itr.hasNext()) {
-					viewerContent[i] = itr.next();
-					i++;
-				}
-
-				return viewerContent;
-			}
-
-		});
+		viewerPredefinedMap.setContentProvider(viewerContentProvider);
 
 		// Заполнение диалога
 

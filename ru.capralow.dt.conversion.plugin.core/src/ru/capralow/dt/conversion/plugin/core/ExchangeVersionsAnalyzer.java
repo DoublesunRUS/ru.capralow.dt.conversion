@@ -101,14 +101,12 @@ public class ExchangeVersionsAnalyzer {
 			Collection<IConfigurationProject> prConfigurations = projectManager
 					.getProjects(IConfigurationProject.class);
 
-			Iterator<IConfigurationProject> itr = prConfigurations.iterator();
-			while (itr.hasNext()) {
-				IConfigurationProject prConfiguration = itr.next();
+			for (IConfigurationProject prConfiguration : prConfigurations) {
 				IProject project = prConfiguration.getProject();
 
 				updateConfiguration(project);
-
 			}
+
 		} else {
 			updateConfiguration(updatedProject);
 
@@ -117,10 +115,7 @@ public class ExchangeVersionsAnalyzer {
 		ArrayList<String> configurationsList = new ArrayList<String>();
 
 		EList<EvConfiguration> EvConfigurations = exchangeVersions.getConfigurations();
-		Iterator<EvConfiguration> itr = EvConfigurations.iterator();
-		while (itr.hasNext()) {
-			EvConfiguration EvConfiguration = itr.next();
-
+		for (EvConfiguration EvConfiguration : exchangeVersions.getConfigurations()) {
 			configurationsList.add(EvConfiguration.getConfigurationName());
 		}
 
@@ -144,10 +139,7 @@ public class ExchangeVersionsAnalyzer {
 			EList<EvExchangePair> exchangePairs = exchangeVersions.getExchangePairs();
 			exchangePairs.clear();
 
-			Iterator<Pair<String, String>> itrList = configurationPairs.iterator();
-			while (itrList.hasNext()) {
-				Pair<String, String> configurationPair = itrList.next();
-
+			for (Pair<String, String> configurationPair : configurationPairs) {
 				EvExchangePair EvExchangePair = new EvExchangePairImpl();
 
 				EvExchangePair.setConfigurationName1(configurationPair.getKey());
@@ -261,10 +253,7 @@ public class ExchangeVersionsAnalyzer {
 
 		List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
 		Collections.sort(sortedVersions);
-		Iterator<String> itrVersions = sortedVersions.iterator();
-		while (itrVersions.hasNext()) {
-			String version = itrVersions.next();
-
+		for (String version : sortedVersions) {
 			EvFormatVersion evFormatVersion = new EvFormatVersionImpl();
 
 			Module formatModule = availableFormatVersions.get(version);
@@ -277,9 +266,9 @@ public class ExchangeVersionsAnalyzer {
 			evFormatVersion.setVersion(version);
 			evFormatVersion.setModule(formatModule);
 
-			String URIPackage = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
+			String namespace = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
 
-			evFormatVersion.setXdtoPackage(getXDTOPackage(project, URIPackage));
+			evFormatVersion.setXdtoPackage(getXDTOPackage(project, namespace));
 
 			evAvailableFormatVersions.add(evFormatVersion);
 		}
@@ -293,9 +282,8 @@ public class ExchangeVersionsAnalyzer {
 		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
 				.getEObjectIndexByType(MdClassPackage.Literals.SUBSYSTEM, subsystemName, true);
 		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
-		if (objectItr.hasNext()) {
+		if (objectItr.hasNext())
 			return (Subsystem) objectItr.next().getEObjectOrProxy();
-		}
 
 		return null;
 	}
@@ -306,34 +294,27 @@ public class ExchangeVersionsAnalyzer {
 		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
 				.getEObjectIndexByType(MdClassPackage.Literals.COMMON_MODULE, moduleName, true);
 		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
-		if (objectItr.hasNext()) {
+		if (objectItr.hasNext())
 			return (CommonModule) objectItr.next().getEObjectOrProxy();
-		}
 
 		return null;
 	}
 
-	private XDTOPackage getXDTOPackage(IProject project, String uRIPackage) {
-		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
+	private XDTOPackage getXDTOPackage(IProject project, String namespace) {
+		IConfigurationProject configurationProject = (IConfigurationProject) projectManager.getProject(project);
 
-		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
-				.getEObjectIndexByType(MdClassPackage.Literals.XDTO_PACKAGE, uRIPackage, true);
-		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
-		if (objectItr.hasNext()) {
-			return (XDTOPackage) objectItr.next().getEObjectOrProxy();
+		for (XDTOPackage xdtoPackage : configurationProject.getConfiguration().getXDTOPackages()) {
+			if (xdtoPackage.getNamespace() == namespace)
+				return xdtoPackage;
 		}
 
 		return null;
 	}
 
 	private static Method getMethod(Module mdModule, String methodName) {
-		Iterator<Method> itr = mdModule.allMethods().iterator();
-		while (itr.hasNext()) {
-			Method mdMethod = (Method) itr.next();
-
-			if (mdMethod.getName().equals(methodName)) {
+		for (Method mdMethod : mdModule.allMethods()) {
+			if (mdMethod.getName().equals(methodName))
 				return mdMethod;
-			}
 		}
 
 		return null;
@@ -360,10 +341,7 @@ public class ExchangeVersionsAnalyzer {
 
 		if (projectManager.getProject(mdModule) instanceof IConfigurationProject) {
 			Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
-			Iterator<Module> itr = extensionModules.iterator();
-			while (itr.hasNext()) {
-				Module mdExtensionModule = itr.next();
-
+			for (Module mdExtensionModule : extensionModules) {
 				IExtensionProject extensionProject = (IExtensionProject) projectManager.getProject(mdExtensionModule);
 
 				if (!extensionProject.getParentProject().equals(projectManager.getProject(mdModule).getProject())) {
@@ -373,10 +351,7 @@ public class ExchangeVersionsAnalyzer {
 				Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
 						mdMethod.getName());
 
-				Iterator<Entry<Pragma, Method>> itrExtensions = extensionMethods.entrySet().iterator();
-				while (itrExtensions.hasNext()) {
-					Entry<Pragma, Method> extendedMethod = itrExtensions.next();
-
+				for (Entry<Pragma, Method> extendedMethod : extensionMethods.entrySet()) {
 					Map<String, Module> extensionFormatVersions = parseMethod(mainProject, mdExtensionModule,
 							extendedMethod.getValue(), coreObjects);
 
@@ -414,14 +389,9 @@ public class ExchangeVersionsAnalyzer {
 
 		Map<String, Module> formatVersions = new HashMap<String, Module>();
 
-		EList<Statement> mdStatements = mdMethod.getStatements();
-		Iterator<Statement> itr = mdStatements.iterator();
-		while (itr.hasNext()) {
-			Statement mdStatement = itr.next();
-
-			if (mdStatement instanceof IfStatement) {
+		for (Statement mdStatement : mdMethod.getStatements()) {
+			if (mdStatement instanceof IfStatement)
 				continue;
-			}
 
 			Invocation expression = (Invocation) ((SimpleStatement) mdStatement).getLeft();
 
@@ -513,11 +483,8 @@ public class ExchangeVersionsAnalyzer {
 		Method mdMethod = getMethod(mdCommonModule.getModule(), "ПриДобавленииПодсистемы");
 		if (mdMethod == null)
 			return version;
-		EList<Statement> mdStatements = mdMethod.getStatements();
-		Iterator<Statement> itr = mdStatements.iterator();
-		while (itr.hasNext()) {
-			Statement mdStatement = itr.next();
 
+		for (Statement mdStatement : mdMethod.getStatements()) {
 			DynamicFeatureAccess methodAccess = (DynamicFeatureAccess) ((SimpleStatement) mdStatement).getLeft();
 
 			if (methodAccess.getName().equalsIgnoreCase("Версия")) {
