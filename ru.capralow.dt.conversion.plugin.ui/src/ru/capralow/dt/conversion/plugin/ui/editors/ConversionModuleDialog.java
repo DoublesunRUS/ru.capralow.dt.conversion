@@ -44,7 +44,7 @@ public class ConversionModuleDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public ConversionModuleDialog(Shell parentShell, ConversionModule conversionModule, Boolean editable) {
@@ -58,7 +58,7 @@ public class ConversionModuleDialog extends Dialog {
 
 	/**
 	 * Create contents of the dialog.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
@@ -72,10 +72,6 @@ public class ConversionModuleDialog extends Dialog {
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
-		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
-				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
-
-		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
 
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -100,8 +96,10 @@ public class ConversionModuleDialog extends Dialog {
 		txtBeforeConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtBeforeConvertation.setText("<Описание процедуры>");
 
-		editorBeforeConvertation = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorBeforeConvertation = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
 				.withParent(compositeBeforeConvertationEditor);
 
 		XtextSourceViewer viewerBeforeConvertation = editorBeforeConvertation.getViewer();
@@ -121,8 +119,10 @@ public class ConversionModuleDialog extends Dialog {
 		txtBeforeFilling.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtBeforeFilling.setText("<Описание процедуры>");
 
-		editorBeforeFilling = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
+		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorBeforeFilling = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
 				.withParent(compositeBeforeFillingEditor);
 
 		XtextSourceViewer viewerBeforeFilling = editorBeforeFilling.getViewer();
@@ -142,8 +142,10 @@ public class ConversionModuleDialog extends Dialog {
 		txtAfterConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtAfterConvertation.setText("<Описание процедуры>");
 
-		editorAfterConvertation = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
+		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorAfterConvertation = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
 				.withParent(compositeAfterConvertationEditor);
 
 		XtextSourceViewer viewerAfterConvertation = editorAfterConvertation.getViewer();
@@ -177,7 +179,7 @@ public class ConversionModuleDialog extends Dialog {
 
 	/**
 	 * Create contents of the button bar.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override

@@ -61,7 +61,7 @@ public class ReceivingDataRuleDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public ReceivingDataRuleDialog(Shell parentShell, CmDataRule dataRule, Boolean editable) {
@@ -75,7 +75,7 @@ public class ReceivingDataRuleDialog extends Dialog {
 
 	/**
 	 * Create contents of the dialog.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
@@ -89,10 +89,6 @@ public class ReceivingDataRuleDialog extends Dialog {
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
-		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
-				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
-
-		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
 
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -256,8 +252,10 @@ public class ReceivingDataRuleDialog extends Dialog {
 		txtOnProcessing.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtOnProcessing.setText("<Описание процедуры>");
 
-		editorOnProcessing = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorOnProcessing = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
 				.withParent(compositeOnProcessingEditor);
 
 		editorOnProcessing.getViewer().getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -296,7 +294,7 @@ public class ReceivingDataRuleDialog extends Dialog {
 
 	/**
 	 * Create contents of the button bar.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override

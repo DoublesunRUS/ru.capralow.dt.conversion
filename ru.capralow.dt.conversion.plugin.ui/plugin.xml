@@ -52,7 +52,7 @@
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"> 
 			<command
-				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryEditorHandler"
+				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryWizardHandler"
 				label="Конструктор запроса"
 				style="push">
 			</command>

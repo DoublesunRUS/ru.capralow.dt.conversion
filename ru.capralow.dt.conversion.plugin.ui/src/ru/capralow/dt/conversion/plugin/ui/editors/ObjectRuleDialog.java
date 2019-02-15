@@ -2,6 +2,7 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
@@ -47,7 +48,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 
 @SuppressWarnings("restriction")
-public class ObjectRuleDialog extends Dialog {
+public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmObjectRule objectRule;
@@ -66,7 +67,7 @@ public class ObjectRuleDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public ObjectRuleDialog(Shell parentShell, CmObjectRule objectRule, Boolean editable) {
@@ -78,9 +79,25 @@ public class ObjectRuleDialog extends Dialog {
 		this.editable = editable;
 	}
 
+	/*
+	 * Каждый диалог, который имеет встроенные редакторы модуля, нужно расширить при
+	 * помощи "org.eclipse.core.runtime.IAdaptable" и реализовать данный метод,
+	 * который бы возвращал правильный актуальный EmbeddedEditor, иначе конструктор
+	 * запросов открываться не будет. Данный метод, лишь показывает, как это
+	 * реализовывать в случае вкладки "При отправке данных"
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+		if (org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor.class == adapter) {
+			return (T) editorOnSending;
+		}
+		return null;
+	}
+
 	/**
 	 * Create contents of the dialog.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
@@ -94,11 +111,6 @@ public class ObjectRuleDialog extends Dialog {
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
-
-		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
-				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
-
-		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
 
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -282,9 +294,11 @@ public class ObjectRuleDialog extends Dialog {
 		txtOnSendingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtOnSendingDeclaration.setText("<Имя и параметры процедуры>");
 
-		editorOnSending = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
-				.withParent(compositeOnSendingEditor);
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorOnSending = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
+				.withResourceValidator(resourceValidator).withParent(compositeOnSendingEditor);
 
 		XtextSourceViewer viewerOnSending = editorOnSending.getViewer();
 		viewerOnSending.setEditable(editable);
@@ -304,8 +318,10 @@ public class ObjectRuleDialog extends Dialog {
 		txtBeforeReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtBeforeReceivingDeclaration.setText("<Имя и параметры процедуры>");
 
-		editorBeforeReceiving = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
+		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorBeforeReceiving = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
 				.withParent(compositeBeforeReceivingEditor);
 
 		XtextSourceViewer viewerBeforeReceiving = editorBeforeReceiving.getViewer();
@@ -326,8 +342,10 @@ public class ObjectRuleDialog extends Dialog {
 		txtOnReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtOnReceivingDeclaration.setText("<Имя и параметры процедуры>");
 
-		editorOnReceiving = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
+		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorOnReceiving = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
 				.withParent(compositeOnReceivingEditor);
 
 		XtextSourceViewer viewerOnReceiving = editorOnReceiving.getViewer();
@@ -348,8 +366,10 @@ public class ObjectRuleDialog extends Dialog {
 		txtAfterReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtAfterReceivingDeclaration.setText("<Имя и параметры процедуры>");
 
-		editorAfterReceiving = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator)
+		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editorAfterReceiving = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder
 				.withParent(compositeAfterReceivingEditor);
 
 		XtextSourceViewer viewerAfterReceiving = editorAfterReceiving.getViewer();
@@ -512,7 +532,7 @@ public class ObjectRuleDialog extends Dialog {
 
 	/**
 	 * Create contents of the button bar.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override

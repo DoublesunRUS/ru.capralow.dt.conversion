@@ -40,7 +40,7 @@ public class AlgorithmDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public AlgorithmDialog(Shell parentShell, CmAlgorithm algorithm, Boolean editable) {
@@ -54,7 +54,7 @@ public class AlgorithmDialog extends Dialog {
 
 	/**
 	 * Create contents of the dialog.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
@@ -68,10 +68,6 @@ public class AlgorithmDialog extends Dialog {
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
-		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = resourceServiceProvider
-				.get(CustomModelAccessAwareEmbeddedEditorBuilder.class);
-
-		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
 
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -86,8 +82,10 @@ public class AlgorithmDialog extends Dialog {
 		txtAlgorithm.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtAlgorithm.setText("<Описание процедуры>");
 
-		editor = (CustomEmbeddedEditor) embeddedEditorFactory.newEditor(resourceProvider)
-				.showErrorAndWarningAnnotations().withResourceValidator(resourceValidator).withParent(composite);
+		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
+				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
+		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
+		editor = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder.withParent(composite);
 
 		XtextSourceViewer viewer = editor.getViewer();
 		viewer.setEditable(editable);
@@ -107,7 +105,7 @@ public class AlgorithmDialog extends Dialog {
 
 	/**
 	 * Create contents of the button bar.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
