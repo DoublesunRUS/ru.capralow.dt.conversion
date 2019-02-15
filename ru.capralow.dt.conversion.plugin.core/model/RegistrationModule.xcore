@@ -1,5 +1,4 @@
-@GenModel(publicConstructors="true", featureDelegation="Reflective",
-	rootExtendsClass="com._1c.g5.v8.bm.core.BmObject", rootExtendsInterface="com._1c.g5.v8.bm.core.IBmObject"
+@GenModel(publicConstructors="true", featureDelegation="Reflective"
 )
 package ru.capralow.dt.conversion.plugin.core.rm
 

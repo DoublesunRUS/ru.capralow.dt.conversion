@@ -79,14 +79,14 @@ import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
+import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.ConversionModuleReport;
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModuleReport;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";

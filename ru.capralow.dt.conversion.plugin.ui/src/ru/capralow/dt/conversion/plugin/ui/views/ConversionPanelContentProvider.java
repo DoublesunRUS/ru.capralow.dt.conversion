@@ -1,4 +1,4 @@
-package ru.capralow.dt.conversion.plugin.core.cp;
+package ru.capralow.dt.conversion.plugin.ui.views;
 
 import java.util.Iterator;
 
@@ -6,59 +6,64 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import ru.capralow.dt.conversion.plugin.core.ev.EvConfiguration;
+import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
+
 public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object conversionPanel) {
-		EList<CpExchangePair> exchangePairs = ((ConversionPanel) conversionPanel).getExchangePairs();
-		EList<CpConfiguration> configurations = ((ConversionPanel) conversionPanel).getConfigurations();
+		EList<EvExchangePair> exchangePairs = ((ExchangeVersions) conversionPanel).getExchangePairs();
+		EList<EvConfiguration> configurations = ((ExchangeVersions) conversionPanel).getConfigurations();
 
 		Object[] treeContent = new Object[exchangePairs.size() + configurations.size()];
 
 		int i = 0;
 
-		Iterator<CpExchangePair> itr1 = exchangePairs.iterator();
+		Iterator<EvExchangePair> itr1 = exchangePairs.iterator();
 		while (itr1.hasNext()) {
-			CpExchangePair CpExchangePair = itr1.next();
+			EvExchangePair EvExchangePair = itr1.next();
 
-			treeContent[i] = CpExchangePair;
+			treeContent[i] = EvExchangePair;
 			i++;
 		}
-		Iterator<CpConfiguration> itr2 = configurations.iterator();
+		Iterator<EvConfiguration> itr2 = configurations.iterator();
 		while (itr2.hasNext()) {
-			CpConfiguration cpConfiguration = itr2.next();
+			EvConfiguration EvConfiguration = itr2.next();
 
-			treeContent[i] = cpConfiguration;
+			treeContent[i] = EvConfiguration;
 			i++;
 		}
-		
+
 		return treeContent;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getChildren(Object arg0) {
-		if (arg0 instanceof CpExchangePair) {
-			EList<String> availableFormatVersions = ((CpExchangePair) arg0).getVersions();
-			
+		if (arg0 instanceof EvExchangePair) {
+			EList<String> availableFormatVersions = ((EvExchangePair) arg0).getVersions();
+
 			int treeSize = 1;
 			if (availableFormatVersions.size() != 0) {
 				treeSize++;
 			}
 			Object[] treeContent = new Object[treeSize];
 
-			treeContent[0] = ((CpExchangePair) arg0).getStatus();
-			
+			treeContent[0] = ((EvExchangePair) arg0).getStatus();
+
 			if (availableFormatVersions.size() != 0) {
 				treeContent[1] = availableFormatVersions;
 			}
 
 			return treeContent;
 
-		} else if (arg0 instanceof CpConfiguration) {
-			EList<CpFormatVersion> availableFormatVersions = ((CpConfiguration) arg0).getAvailableFormatVersions();
-			String storeVersion = ((CpConfiguration) arg0).getStoreVersion();
-			
+		} else if (arg0 instanceof EvConfiguration) {
+			EList<EvFormatVersion> availableFormatVersions = ((EvConfiguration) arg0).getAvailableFormatVersions();
+			String storeVersion = ((EvConfiguration) arg0).getStoreVersion();
+
 			int treeSize = 1;
 			if (storeVersion != null) {
 				treeSize++;
@@ -68,14 +73,14 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 			}
 			Object[] treeContent = new Object[treeSize];
 
-			treeContent[0] = ((CpConfiguration) arg0).getStatus();
-			
+			treeContent[0] = ((EvConfiguration) arg0).getStatus();
+
 			int i = 0;
 			if (storeVersion != null) {
 				i++;
 				treeContent[i] = "Версия модуля обмена данными: " + storeVersion;
 			}
-			
+
 			if (availableFormatVersions.size() != 0) {
 				i++;
 				treeContent[i] = availableFormatVersions;
@@ -84,12 +89,12 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 			return treeContent;
 
 		} else if (arg0 instanceof EList<?>) {
-			EList<CpFormatVersion> availableFormatVersions = (EList<CpFormatVersion>) arg0;
+			EList<EvFormatVersion> availableFormatVersions = (EList<EvFormatVersion>) arg0;
 
 			Object[] treeContent = new Object[availableFormatVersions.size()];
 
 			int i = 0;
-			Iterator<CpFormatVersion> itr = (Iterator<CpFormatVersion>) availableFormatVersions.iterator();
+			Iterator<EvFormatVersion> itr = (Iterator<EvFormatVersion>) availableFormatVersions.iterator();
 			while (itr.hasNext()) {
 				treeContent[i] = itr.next();
 				i++;
@@ -109,10 +114,10 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 	@Override
 	public boolean hasChildren(Object arg0) {
-		if (arg0 instanceof CpExchangePair) {
+		if (arg0 instanceof EvExchangePair) {
 			return true;
 
-		} else if (arg0 instanceof CpConfiguration) {
+		} else if (arg0 instanceof EvConfiguration) {
 			return true;
 
 		} else if (arg0 instanceof EList) {

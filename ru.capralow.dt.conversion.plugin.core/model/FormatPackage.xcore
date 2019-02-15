@@ -1,0 +1,19 @@
+@GenModel(publicConstructors="true", featureDelegation="Reflective"
+)
+package ru.capralow.dt.conversion.plugin.core.fp
+
+class FormatPackage {
+	contains FpCatalog[] catalogs
+	
+}
+
+class FpCatalog {
+	Object configurationObject
+	derived String configurationObjectName get {
+		if (configurationObject === null) {
+			return "";
+		}
+		
+		return configurationObject.toString();
+	}
+}

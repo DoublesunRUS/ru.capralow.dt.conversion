@@ -1,4 +1,4 @@
-package ru.capralow.dt.conversion.plugin.core.rm;
+package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,9 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
+import ru.capralow.dt.conversion.plugin.core.rm.ExchangePlanContent;
+import ru.capralow.dt.conversion.plugin.core.rm.RegistrationModule;
 
 public class RegistrationModuleContentProvider implements ITreeContentProvider {
 	

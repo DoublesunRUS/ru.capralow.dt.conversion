@@ -2,14 +2,6 @@
 <?eclipse version="3.0"?>
 <plugin>
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated RegistrationModule -->
-      <package
-            uri="ru.capralow.dt.conversion.plugin.core.rm"
-            class="ru.capralow.dt.conversion.plugin.core.rm.RmPackage"
-            genModel="model/RegistrationModule.xcore"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated ConversionModule -->
       <package
             uri="ru.capralow.dt.conversion.plugin.core.cm"
@@ -18,11 +10,27 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ConversionPanel -->
+      <!-- @generated RegistrationModule -->
       <package
-            uri="ru.capralow.dt.conversion.plugin.core.cp"
-            class="ru.capralow.dt.conversion.plugin.core.cp.CpPackage"
-            genModel="model/ConversionPanel.xcore"/>
+            uri="ru.capralow.dt.conversion.plugin.core.rm"
+            class="ru.capralow.dt.conversion.plugin.core.rm.RmPackage"
+            genModel="model/RegistrationModule.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ExchangeVersions -->
+      <package
+            uri="ru.capralow.dt.conversion.plugin.core.ev"
+            class="ru.capralow.dt.conversion.plugin.core.ev.EvPackage"
+            genModel="model/ExchangeVersions.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated FormatPackage -->
+      <package
+            uri="ru.capralow.dt.conversion.plugin.core.fp"
+            class="ru.capralow.dt.conversion.plugin.core.fp.FpPackage"
+            genModel="model/FormatPackage.xcore"/>
    </extension>
 
 </plugin>

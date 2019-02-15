@@ -1,4 +1,4 @@
-package ru.capralow.dt.conversion.plugin.core.cm;
+package ru.capralow.dt.conversion.plugin.core;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -49,6 +49,16 @@ import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 
+import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
+import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
+import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.CmMethodType;
+import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
+import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl;
@@ -57,6 +67,8 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedMapImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
+import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
 
 public class ConversionModuleAnalyzer {
 
@@ -87,6 +99,12 @@ public class ConversionModuleAnalyzer {
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
 		Module module = commonModule.getModule();
+
+		ExchangeVersionsAnalyzer exchangeVersionsAnalyzer = new ExchangeVersionsAnalyzer(projectManager,
+				bmEmfIndexManager);
+		exchangeVersionsAnalyzer.analyze(project);
+		ExchangeVersions exchangeVersions = exchangeVersionsAnalyzer.getExchangeVersions();
+		EList<EvFormatVersion> moduleExchangeVersions = exchangeVersions.getModuleFormatVersions(module);
 
 		EList<Method> methods = module.allMethods();
 

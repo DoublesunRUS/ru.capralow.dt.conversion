@@ -1,7 +1,10 @@
-package ru.capralow.dt.conversion.plugin.core.cm;
+package ru.capralow.dt.conversion.plugin.core;
 
 import java.io.IOException;
 import java.util.Iterator;
+
+import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 public class ConversionModuleReport {
 

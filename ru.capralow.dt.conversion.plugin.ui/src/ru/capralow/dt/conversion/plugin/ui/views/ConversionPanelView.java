@@ -18,10 +18,12 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
@@ -39,13 +41,9 @@ import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.ui.util.OpenHelper;
 import com.google.inject.Inject;
 
-import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanel;
-import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelContentProvider;
-import ru.capralow.dt.conversion.plugin.core.cp.ConversionPanelLabelProvider;
-import ru.capralow.dt.conversion.plugin.core.cp.CpFormatVersion;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.SWT;
+import ru.capralow.dt.conversion.plugin.core.ExchangeVersionsAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
 
 public class ConversionPanelView extends ViewPart {
 	public ConversionPanelView() {
@@ -62,7 +60,7 @@ public class ConversionPanelView extends ViewPart {
 
 	private TreeViewer treeViewer;
 
-	private ConversionPanelAnalyzer conversionPanelAnalyzer;
+	private ExchangeVersionsAnalyzer exchangeVersionsAnalyzer;
 
 	private IServicesOrchestrator servicesOrchestrator;
 
@@ -74,7 +72,7 @@ public class ConversionPanelView extends ViewPart {
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
 
-		this.conversionPanelAnalyzer = new ConversionPanelAnalyzer(projectManager, bmEmfIndexManager);
+		this.exchangeVersionsAnalyzer = new ExchangeVersionsAnalyzer(projectManager, bmEmfIndexManager);
 
 		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
@@ -88,9 +86,9 @@ public class ConversionPanelView extends ViewPart {
 			public void resourceChanged(IResourceChangeEvent event) {
 				IResourceDelta eventDelta = event.getDelta();
 
-				ConversionPanel conversionPanel = conversionPanelAnalyzer.getConversionPanel();
+				ExchangeVersions exchangeVersions = exchangeVersionsAnalyzer.getExchangeVersions();
 
-				EList<Object> objects = conversionPanel.getObjects();
+				EList<Object> objects = exchangeVersions.getObjects();
 
 				boolean refreshUI = false;
 				IProject project = null;
@@ -157,8 +155,8 @@ public class ConversionPanelView extends ViewPart {
 	}
 
 	private void updateTreeViewer(IProject project) {
-		conversionPanelAnalyzer.analyze(project);
-		treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
+		exchangeVersionsAnalyzer.analyze(project);
+		treeViewer.setInput(exchangeVersionsAnalyzer.getExchangeVersions());
 		treeViewer.expandAll();
 		treeViewer.refresh();
 
@@ -197,7 +195,7 @@ public class ConversionPanelView extends ViewPart {
 		layoutData.verticalAlignment = GridData.FILL;
 		treeViewer.getControl().setLayoutData(layoutData);
 
-		treeViewer.setInput(conversionPanelAnalyzer.getConversionPanel());
+		treeViewer.setInput(exchangeVersionsAnalyzer.getExchangeVersions());
 		treeViewer.expandAll();
 
 		hookListeners();
@@ -220,8 +218,8 @@ public class ConversionPanelView extends ViewPart {
 
 				Object element = ((IStructuredSelection) selection).getFirstElement();
 
-				if (element instanceof CpFormatVersion) {
-					Module module = ((CpFormatVersion) element).getModule();
+				if (element instanceof EvFormatVersion) {
+					Module module = ((EvFormatVersion) element).getModule();
 					CommonModule commonModule = (CommonModule) module.getOwner();
 
 					URI uri = EcoreUtil.getURI(commonModule);

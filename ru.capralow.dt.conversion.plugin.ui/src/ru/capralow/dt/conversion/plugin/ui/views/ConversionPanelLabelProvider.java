@@ -1,4 +1,4 @@
-package ru.capralow.dt.conversion.plugin.core.cp;
+package ru.capralow.dt.conversion.plugin.ui.views;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -7,24 +7,31 @@ import org.eclipse.swt.graphics.Image;
 
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 
+import ru.capralow.dt.conversion.plugin.core.ev.EvConfiguration;
+import ru.capralow.dt.conversion.plugin.core.ev.EvConfigurationStatus;
+import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePairStatus;
+import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
+
 public class ConversionPanelLabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof CpExchangePair) {
-			return ((CpExchangePair) element).getConfigurationName1() + " - " + ((CpExchangePair) element).getConfigurationName2();
+		if (element instanceof EvExchangePair) {
+			return ((EvExchangePair) element).getConfigurationName1() + " - "
+					+ ((EvExchangePair) element).getConfigurationName2();
 
-		} else if (element instanceof CpExchangePairStatus) {
-			return ((CpExchangePairStatus) element).getLiteral();
+		} else if (element instanceof EvExchangePairStatus) {
+			return ((EvExchangePairStatus) element).getLiteral();
 
-		} else if (element instanceof CpConfiguration) {
-			return ((CpConfiguration) element).getConfigurationName();
+		} else if (element instanceof EvConfiguration) {
+			return ((EvConfiguration) element).getConfigurationName();
 
-		} else if (element instanceof CpConfigurationStatus) {
-			return ((CpConfigurationStatus) element).getLiteral();
+		} else if (element instanceof EvConfigurationStatus) {
+			return ((EvConfigurationStatus) element).getLiteral();
 
-		} else if (element instanceof CpFormatVersion) {
-			CpFormatVersion formatVersion = (CpFormatVersion) element;
+		} else if (element instanceof EvFormatVersion) {
+			EvFormatVersion formatVersion = (EvFormatVersion) element;
 
 			String version = formatVersion.getVersion().intern();
 			String module = ((CommonModule) formatVersion.getModule().getOwner()).getName();

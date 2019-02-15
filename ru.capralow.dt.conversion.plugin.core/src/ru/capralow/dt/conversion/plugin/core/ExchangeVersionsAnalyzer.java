@@ -1,4 +1,4 @@
-package ru.capralow.dt.conversion.plugin.core.cp;
+package ru.capralow.dt.conversion.plugin.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,26 +55,33 @@ import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
+import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 
-import ru.capralow.dt.conversion.plugin.core.cp.impl.ConversionPanelImpl;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.CpConfigurationImpl;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.CpExchangePairImpl;
-import ru.capralow.dt.conversion.plugin.core.cp.impl.CpFormatVersionImpl;
+import ru.capralow.dt.conversion.plugin.core.ev.EvConfiguration;
+import ru.capralow.dt.conversion.plugin.core.ev.EvConfigurationStatus;
+import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePairStatus;
+import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
+import ru.capralow.dt.conversion.plugin.core.ev.impl.EvConfigurationImpl;
+import ru.capralow.dt.conversion.plugin.core.ev.impl.EvExchangePairImpl;
+import ru.capralow.dt.conversion.plugin.core.ev.impl.EvFormatVersionImpl;
+import ru.capralow.dt.conversion.plugin.core.ev.impl.ExchangeVersionsImpl;
 
-public class ConversionPanelAnalyzer {
+public class ExchangeVersionsAnalyzer {
 
 	private IV8ProjectManager projectManager;
 	private IBmEmfIndexManager bmEmfIndexManager;
 	private IModuleExtensionService moduleExtensionService;
-	private DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
+	private DynamicFeatureAccessComputer DynamicFeatureAccessComputer;
 
-	private ConversionPanel conversionPanel;
+	private ExchangeVersions exchangeVersions;
 
-	public ConversionPanel getConversionPanel() {
-		return conversionPanel;
+	public ExchangeVersions getExchangeVersions() {
+		return exchangeVersions;
 	}
 
-	public ConversionPanelAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
+	public ExchangeVersionsAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
 
 		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
@@ -83,9 +90,9 @@ public class ConversionPanelAnalyzer {
 		this.bmEmfIndexManager = bmEmfIndexManager;
 		this.moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 				.getModuleExtensionService();
-		this.dynamicFeatureAccessComputer = provider.get(DynamicFeatureAccessComputer.class);
+		this.DynamicFeatureAccessComputer = provider.get(DynamicFeatureAccessComputer.class);
 
-		this.conversionPanel = new ConversionPanelImpl();
+		this.exchangeVersions = new ExchangeVersionsImpl();
 	}
 
 	public void analyze(IProject updatedProject) {
@@ -109,19 +116,19 @@ public class ConversionPanelAnalyzer {
 
 		ArrayList<String> configurationsList = new ArrayList<String>();
 
-		EList<CpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
-		Iterator<CpConfiguration> itr = cpConfigurations.iterator();
+		EList<EvConfiguration> EvConfigurations = exchangeVersions.getConfigurations();
+		Iterator<EvConfiguration> itr = EvConfigurations.iterator();
 		while (itr.hasNext()) {
-			CpConfiguration cpConfiguration = itr.next();
+			EvConfiguration EvConfiguration = itr.next();
 
-			configurationsList.add(cpConfiguration.getConfigurationName());
+			configurationsList.add(EvConfiguration.getConfigurationName());
 		}
 
 		List<Pair<String, String>> configurationPairs = getPairs(configurationsList);
 
-		ECollections.sort(cpConfigurations, new Comparator<CpConfiguration>() {
+		ECollections.sort(EvConfigurations, new Comparator<EvConfiguration>() {
 			@Override
-			public int compare(CpConfiguration arg1, CpConfiguration arg2) {
+			public int compare(EvConfiguration arg1, EvConfiguration arg2) {
 				String algorithm1 = arg1.getConfigurationName().replaceAll("_", "");
 				String algorithm2 = arg2.getConfigurationName().replaceAll("_", "");
 
@@ -134,39 +141,39 @@ public class ConversionPanelAnalyzer {
 		});
 
 		if (configurationPairs.size() != 0) {
-			EList<CpExchangePair> exchangePairs = conversionPanel.getExchangePairs();
+			EList<EvExchangePair> exchangePairs = exchangeVersions.getExchangePairs();
 			exchangePairs.clear();
 
 			Iterator<Pair<String, String>> itrList = configurationPairs.iterator();
 			while (itrList.hasNext()) {
 				Pair<String, String> configurationPair = itrList.next();
 
-				CpExchangePair CpExchangePair = new CpExchangePairImpl();
+				EvExchangePair EvExchangePair = new EvExchangePairImpl();
 
-				CpExchangePair.setConfigurationName1(configurationPair.getKey());
-				CpExchangePair.setConfigurationName2(configurationPair.getValue());
+				EvExchangePair.setConfigurationName1(configurationPair.getKey());
+				EvExchangePair.setConfigurationName2(configurationPair.getValue());
 
-				CpConfiguration configuration1 = conversionPanel.getConfiguration(configurationPair.getKey());
-				CpConfiguration configuration2 = conversionPanel.getConfiguration(configurationPair.getValue());
+				EvConfiguration configuration1 = exchangeVersions.getConfiguration(configurationPair.getKey());
+				EvConfiguration configuration2 = exchangeVersions.getConfiguration(configurationPair.getValue());
 
-				EList<String> exchangePairVersions = CpExchangePair.getVersions();
+				EList<String> exchangePairVersions = EvExchangePair.getVersions();
 
 				Set<String> commonVersions = findCommons(configuration1.getVersions(), configuration2.getVersions());
 
 				exchangePairVersions.addAll(commonVersions);
 
 				if (exchangePairVersions.size() == 0) {
-					CpExchangePair.setStatus(CpExchangePairStatus.NO_SHARED_FORMAT_VERSIONS);
+					EvExchangePair.setStatus(EvExchangePairStatus.NO_SHARED_FORMAT_VERSIONS);
 				} else {
 
-					CpExchangePair.setStatus(CpExchangePairStatus.READY);
+					EvExchangePair.setStatus(EvExchangePairStatus.READY);
 				}
-				exchangePairs.add(CpExchangePair);
+				exchangePairs.add(EvExchangePair);
 			}
 
-			ECollections.sort(exchangePairs, new Comparator<CpExchangePair>() {
+			ECollections.sort(exchangePairs, new Comparator<EvExchangePair>() {
 				@Override
-				public int compare(CpExchangePair arg1, CpExchangePair arg2) {
+				public int compare(EvExchangePair arg1, EvExchangePair arg2) {
 					String algorithm1 = arg1.getConfigurationName1().replaceAll("_", "");
 					String algorithm2 = arg2.getConfigurationName1().replaceAll("_", "");
 
@@ -189,68 +196,68 @@ public class ConversionPanelAnalyzer {
 			project = ((IExtensionProject) projectManager.getProject(project)).getParentProject();
 		}
 
-		CpConfiguration cpConfiguration = conversionPanel.getConfiguration(project.getName());
+		EvConfiguration evConfiguration = exchangeVersions.getConfiguration(project.getName());
 
-		if (cpConfiguration == null) {
-			Collection<CpConfiguration> cpConfigurations = conversionPanel.getConfigurations();
+		if (evConfiguration == null) {
+			Collection<EvConfiguration> EvConfigurations = exchangeVersions.getConfigurations();
 
-			cpConfiguration = new CpConfigurationImpl();
-			cpConfigurations.add(cpConfiguration);
+			evConfiguration = new EvConfigurationImpl();
+			EvConfigurations.add(evConfiguration);
 
-			cpConfiguration.setConfigurationObject(project);
-			cpConfiguration.setConfigurationName(project.getName());
+			evConfiguration.setConfigurationObject(project);
+			evConfiguration.setConfigurationName(project.getName());
 		}
 
 		Configuration mdConfiguration = ((IConfigurationProject) projectManager.getProject(project)).getConfiguration();
 		if (mdConfiguration == null) {
-			cpConfiguration.setStatus(CpConfigurationStatus.NO_CONFIGURATION);
+			evConfiguration.setStatus(EvConfigurationStatus.NO_CONFIGURATION);
 			return;
 		}
 
 		Subsystem mdSubsystem = getSubsystem(project,
 				QualifiedName.create("Subsystem", "СтандартныеПодсистемы", "Subsystem", "ОбменДанными"));
 		if (mdSubsystem == null) {
-			cpConfiguration.setStatus(CpConfigurationStatus.NO_SUBSYSTEM);
+			evConfiguration.setStatus(EvConfigurationStatus.NO_SUBSYSTEM);
 			return;
 		}
 
 		String sslVersion = getSSLVersion(project);
 		if (sslVersion.isEmpty()) {
-			cpConfiguration.setStatus(CpConfigurationStatus.NO_SSL_VERSION);
+			evConfiguration.setStatus(EvConfigurationStatus.NO_SSL_VERSION);
 			return;
 		}
 
-		if (compareVersions(sslVersion, "2.4.1") == -1) {
-			cpConfiguration.setStoreVersion("1");
+		if (compareversions(sslVersion, "2.4.1") == -1) {
+			evConfiguration.setStoreVersion("1");
 		} else {
-			cpConfiguration.setStoreVersion("2");
+			evConfiguration.setStoreVersion("2");
 		}
 
 		CommonModule mdModule = getCommonModule(project,
 				QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
 		if (mdModule == null) {
-			cpConfiguration.setStatus(CpConfigurationStatus.NO_COMMON_MODULE);
+			evConfiguration.setStatus(EvConfigurationStatus.NO_COMMON_MODULE);
 			return;
 		}
 
-		EList<Object> coreObjects = cpConfiguration.getCoreObjects();
+		EList<Object> coreObjects = evConfiguration.getCoreObjects();
 		coreObjects.clear();
 
 		Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
 		if (mdMethod == null) {
-			cpConfiguration.setStatus(CpConfigurationStatus.NO_METHOD);
+			evConfiguration.setStatus(EvConfigurationStatus.NO_METHOD);
 			return;
 		}
 
 		Map<String, Module> availableFormatVersions = getAvailableFormatVersions(project, mdModule, mdMethod,
 				coreObjects);
 		if (availableFormatVersions.size() == 0) {
-			cpConfiguration.setStatus(CpConfigurationStatus.EMPTY_METHOD);
+			evConfiguration.setStatus(EvConfigurationStatus.EMPTY_METHOD);
 			return;
 		}
 
-		EList<CpFormatVersion> cpAvailableFormatVersions = cpConfiguration.getAvailableFormatVersions();
-		cpAvailableFormatVersions.clear();
+		EList<EvFormatVersion> evAvailableFormatVersions = evConfiguration.getAvailableFormatVersions();
+		evAvailableFormatVersions.clear();
 
 		List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
 		Collections.sort(sortedVersions);
@@ -258,22 +265,26 @@ public class ConversionPanelAnalyzer {
 		while (itrVersions.hasNext()) {
 			String version = itrVersions.next();
 
-			CpFormatVersion CpFormatVersion = new CpFormatVersionImpl();
+			EvFormatVersion evFormatVersion = new EvFormatVersionImpl();
 
 			Module formatModule = availableFormatVersions.get(version);
 
 			if (projectManager.getProject(formatModule) instanceof IExtensionProject) {
 				IExtensionProject formatProject = (IExtensionProject) projectManager.getProject(formatModule);
 
-				CpFormatVersion.setConfigurationName(formatProject.getConfiguration().getName());
+				evFormatVersion.setConfigurationName(formatProject.getConfiguration().getName());
 			}
-			CpFormatVersion.setVersion(version);
-			CpFormatVersion.setModule(formatModule);
+			evFormatVersion.setVersion(version);
+			evFormatVersion.setModule(formatModule);
 
-			cpAvailableFormatVersions.add(CpFormatVersion);
+			String URIPackage = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
+
+			evFormatVersion.setXdtoPackage(getXDTOPackage(project, URIPackage));
+
+			evAvailableFormatVersions.add(evFormatVersion);
 		}
 
-		cpConfiguration.setStatus(CpConfigurationStatus.READY);
+		evConfiguration.setStatus(EvConfigurationStatus.READY);
 	}
 
 	private Subsystem getSubsystem(IProject project, QualifiedName subsystemName) {
@@ -297,6 +308,19 @@ public class ConversionPanelAnalyzer {
 		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 		if (objectItr.hasNext()) {
 			return (CommonModule) objectItr.next().getEObjectOrProxy();
+		}
+
+		return null;
+	}
+
+	private XDTOPackage getXDTOPackage(IProject project, String uRIPackage) {
+		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
+
+		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
+				.getEObjectIndexByType(MdClassPackage.Literals.XDTO_PACKAGE, uRIPackage, true);
+		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
+		if (objectItr.hasNext()) {
+			return (XDTOPackage) objectItr.next().getEObjectOrProxy();
 		}
 
 		return null;
@@ -425,7 +449,7 @@ public class ConversionPanelAnalyzer {
 						formatVersions.put(versionNumber, mdFormatModule.getModule());
 					}
 				} else {
-					List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
+					List<FeatureEntry> featureEntries = DynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
 							EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
 					if (featureEntries.size() == 0) {
 						continue;
@@ -455,7 +479,7 @@ public class ConversionPanelAnalyzer {
 			} else {
 				StaticFeatureAccess staticMethodAccess = (StaticFeatureAccess) methodAccess;
 
-				List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(staticMethodAccess,
+				List<FeatureEntry> featureEntries = DynamicFeatureAccessComputer.resolveObject(staticMethodAccess,
 						EcoreUtil2.getContainerOfType(staticMethodAccess, Environmental.class).environments());
 				if (featureEntries.size() == 0) {
 					continue;
@@ -523,7 +547,7 @@ public class ConversionPanelAnalyzer {
 		return set;
 	}
 
-	public static int compareVersions(String version1, String version2) {
+	public static int compareversions(String version1, String version2) {
 
 		String[] levels1 = version1.split("\\.");
 		String[] levels2 = version2.split("\\.");
