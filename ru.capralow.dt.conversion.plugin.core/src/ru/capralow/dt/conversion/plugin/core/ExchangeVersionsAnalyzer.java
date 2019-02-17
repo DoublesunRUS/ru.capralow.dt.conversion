@@ -54,7 +54,7 @@ import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
-import com._1c.g5.v8.dt.core.platform.IExternalObjectProject;
+import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
@@ -116,6 +116,9 @@ public class ExchangeVersionsAnalyzer {
 			}
 
 		} else {
+			if (!(projectManager.getProject(updatedProject) instanceof IConfigurationProject))
+				return;
+
 			updateConfiguration(updatedProject);
 
 		}
@@ -187,17 +190,9 @@ public class ExchangeVersionsAnalyzer {
 		}
 	}
 
-	private void updateConfiguration(IProject project) {
+	private void updateConfiguration(IProject mainProject) {
 
-		if (projectManager.getProject(project) instanceof IExternalObjectProject)
-			return;
-
-		boolean isMainProject = !(projectManager.getProject(project) instanceof IExtensionProject);
-		if (!isMainProject) {
-			project = ((IExtensionProject) projectManager.getProject(project)).getParentProject();
-		}
-
-		EvConfiguration evConfiguration = exchangeVersions.getConfiguration(project.getName());
+		EvConfiguration evConfiguration = exchangeVersions.getConfiguration(mainProject.getName());
 
 		if (evConfiguration == null) {
 			Collection<EvConfiguration> EvConfigurations = exchangeVersions.getConfigurations();
@@ -205,24 +200,25 @@ public class ExchangeVersionsAnalyzer {
 			evConfiguration = new EvConfigurationImpl();
 			EvConfigurations.add(evConfiguration);
 
-			evConfiguration.setConfigurationObject(project);
-			evConfiguration.setConfigurationName(project.getName());
+			evConfiguration.setConfigurationObject(mainProject);
+			evConfiguration.setConfigurationName(mainProject.getName());
 		}
 
-		Configuration mdConfiguration = ((IConfigurationProject) projectManager.getProject(project)).getConfiguration();
+		Configuration mdConfiguration = ((IConfigurationProject) projectManager.getProject(mainProject))
+				.getConfiguration();
 		if (mdConfiguration == null) {
 			evConfiguration.setStatus(EvConfigurationStatus.NO_CONFIGURATION);
 			return;
 		}
 
-		Subsystem mdSubsystem = getSubsystem(project,
+		Subsystem mdSubsystem = getSubsystem(mainProject,
 				QualifiedName.create("Subsystem", "СтандартныеПодсистемы", "Subsystem", "ОбменДанными"));
 		if (mdSubsystem == null) {
 			evConfiguration.setStatus(EvConfigurationStatus.NO_SUBSYSTEM);
 			return;
 		}
 
-		String sslVersion = getSSLVersion(project);
+		String sslVersion = getSSLVersion(mainProject);
 		if (sslVersion.isEmpty()) {
 			evConfiguration.setStatus(EvConfigurationStatus.NO_SSL_VERSION);
 			return;
@@ -234,7 +230,7 @@ public class ExchangeVersionsAnalyzer {
 			evConfiguration.setStoreVersion("2");
 		}
 
-		CommonModule mdModule = getCommonModule(project,
+		CommonModule mdModule = getCommonModule(mainProject,
 				QualifiedName.create("CommonModule", "ОбменДаннымиПереопределяемый"));
 		if (mdModule == null) {
 			evConfiguration.setStatus(EvConfigurationStatus.NO_COMMON_MODULE);
@@ -250,7 +246,7 @@ public class ExchangeVersionsAnalyzer {
 			return;
 		}
 
-		Map<String, Module> availableFormatVersions = getAvailableFormatVersions(project, mdModule, mdMethod,
+		Map<String, Module> availableFormatVersions = getAvailableFormatVersions(mainProject, mdModule, mdMethod,
 				coreObjects);
 		if (availableFormatVersions.size() == 0) {
 			evConfiguration.setStatus(EvConfigurationStatus.EMPTY_METHOD);
@@ -263,6 +259,26 @@ public class ExchangeVersionsAnalyzer {
 		List<String> sortedVersions = new ArrayList<String>(availableFormatVersions.keySet());
 		Collections.sort(sortedVersions);
 		for (String version : sortedVersions) {
+			String namespace = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
+
+			XDTOPackage xdtoPackage = getXDTOPackage(mainProject, namespace);
+			if (xdtoPackage == null) {
+				for (IExtensionProject extensionProject : projectManager.getProjects(IExtensionProject.class)) {
+					if (!(extensionProject.getParentProject().equals(mainProject)))
+						continue;
+
+					xdtoPackage = getXDTOPackage(extensionProject.getProject(), namespace);
+					if (xdtoPackage != null)
+						break;
+				}
+			}
+
+			if (xdtoPackage == null) {
+				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден Пакет XDTO: " + namespace));
+
+				continue;
+			}
+
 			EvFormatVersion evFormatVersion = new EvFormatVersionImpl();
 
 			Module formatModule = availableFormatVersions.get(version);
@@ -274,12 +290,6 @@ public class ExchangeVersionsAnalyzer {
 			}
 			evFormatVersion.setVersion(version);
 			evFormatVersion.setModule(formatModule);
-
-			String namespace = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
-
-			XDTOPackage xdtoPackage = getXDTOPackage(project, namespace);
-			if (xdtoPackage == null && isMainProject)
-				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден Пакет XDTO: " + namespace));
 
 			evFormatVersion.setXdtoPackage(xdtoPackage);
 
@@ -314,9 +324,15 @@ public class ExchangeVersionsAnalyzer {
 	}
 
 	private XDTOPackage getXDTOPackage(IProject project, String namespace) {
-		IConfigurationProject configurationProject = (IConfigurationProject) projectManager.getProject(project);
+		IV8Project v8Project = projectManager.getProject(project);
 
-		for (XDTOPackage xdtoPackage : configurationProject.getConfiguration().getXDTOPackages()) {
+		EList<XDTOPackage> xdtoPackages;
+		if (v8Project instanceof IConfigurationProject)
+			xdtoPackages = ((IConfigurationProject) v8Project).getConfiguration().getXDTOPackages();
+		else
+			xdtoPackages = ((IExtensionProject) v8Project).getConfiguration().getXDTOPackages();
+
+		for (XDTOPackage xdtoPackage : xdtoPackages) {
 			if (xdtoPackage.getNamespace().equals(namespace))
 				return xdtoPackage;
 		}

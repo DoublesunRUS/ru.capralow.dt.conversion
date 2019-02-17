@@ -1,5 +1,8 @@
 package ru.capralow.dt.conversion.plugin.ui.views;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -66,17 +69,24 @@ public class ConversionPanelView extends ViewPart {
 
 	private IResourceChangeListener objectsListener;
 
+	private IProject[] projects;
+	private Map<IProject, Boolean> readyProjects;
+
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
 
-		this.exchangeVersionsAnalyzer = new ExchangeVersionsAnalyzer(projectManager, bmEmfIndexManager);
-
 		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
-		this.servicesOrchestrator = provider.get(IServicesOrchestrator.class);
+		servicesOrchestrator = provider.get(IServicesOrchestrator.class);
 
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		exchangeVersionsAnalyzer = new ExchangeVersionsAnalyzer(projectManager, bmEmfIndexManager);
+
+		projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		readyProjects = new HashMap<IProject, Boolean>();
+		for (IProject project : projects) {
+			readyProjects.put(project, false);
+		}
 
 		objectsListener = new IResourceChangeListener() {
 
@@ -150,8 +160,16 @@ public class ConversionPanelView extends ViewPart {
 
 	}
 
-	private void updateTreeViewer(IProject project) {
-		exchangeVersionsAnalyzer.analyze(project);
+	private void updateTreeViewer(IProject updatedProject) {
+		readyProjects.put(updatedProject, true);
+
+		for (IProject project : projects) {
+			Boolean isReady = readyProjects.get(project);
+			if (!isReady)
+				return;
+		}
+
+		exchangeVersionsAnalyzer.analyze(null);
 		treeViewer.setInput(exchangeVersionsAnalyzer.getExchangeVersions());
 		treeViewer.expandAll();
 		treeViewer.refresh();
