@@ -14,6 +14,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -31,7 +35,9 @@ import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
 import com._1c.g5.v8.dt.bsl.model.BslContextDefMethod;
+import com._1c.g5.v8.dt.bsl.model.Conditional;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
+import com._1c.g5.v8.dt.bsl.model.EmptyStatement;
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.FeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.FeatureEntry;
@@ -69,6 +75,8 @@ import ru.capralow.dt.conversion.plugin.core.ev.impl.EvFormatVersionImpl;
 import ru.capralow.dt.conversion.plugin.core.ev.impl.ExchangeVersionsImpl;
 
 public class ExchangeVersionsAnalyzer {
+	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
+	private ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	private IV8ProjectManager projectManager;
 	private IBmEmfIndexManager bmEmfIndexManager;
@@ -184,7 +192,8 @@ public class ExchangeVersionsAnalyzer {
 		if (projectManager.getProject(project) instanceof IExternalObjectProject)
 			return;
 
-		if (projectManager.getProject(project) instanceof IExtensionProject) {
+		boolean isMainProject = !(projectManager.getProject(project) instanceof IExtensionProject);
+		if (!isMainProject) {
 			project = ((IExtensionProject) projectManager.getProject(project)).getParentProject();
 		}
 
@@ -268,7 +277,11 @@ public class ExchangeVersionsAnalyzer {
 
 			String namespace = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
 
-			evFormatVersion.setXdtoPackage(getXDTOPackage(project, namespace));
+			XDTOPackage xdtoPackage = getXDTOPackage(project, namespace);
+			if (xdtoPackage == null && isMainProject)
+				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден Пакет XDTO: " + namespace));
+
+			evFormatVersion.setXdtoPackage(xdtoPackage);
 
 			evAvailableFormatVersions.add(evFormatVersion);
 		}
@@ -304,7 +317,7 @@ public class ExchangeVersionsAnalyzer {
 		IConfigurationProject configurationProject = (IConfigurationProject) projectManager.getProject(project);
 
 		for (XDTOPackage xdtoPackage : configurationProject.getConfiguration().getXDTOPackages()) {
-			if (xdtoPackage.getNamespace() == namespace)
+			if (xdtoPackage.getNamespace().equals(namespace))
 				return xdtoPackage;
 		}
 
@@ -389,13 +402,76 @@ public class ExchangeVersionsAnalyzer {
 
 		Map<String, Module> formatVersions = new HashMap<String, Module>();
 
-		for (Statement mdStatement : mdMethod.getStatements()) {
-			if (mdStatement instanceof IfStatement)
-				continue;
+		Map<String, String> modulesAliases = new HashMap<String, String>();
 
-			Invocation expression = (Invocation) ((SimpleStatement) mdStatement).getLeft();
+		for (Statement statement : mdMethod.getStatements()) {
+			if (statement instanceof IfStatement) {
+				IfStatement ifStatement = (IfStatement) statement;
 
-			FeatureAccess methodAccess = expression.getMethodAccess();
+				boolean trueStatement = true;
+
+				Conditional ifPart = ifStatement.getIfPart();
+				Invocation predicate = (Invocation) ifPart.getPredicate();
+
+				FeatureAccess methodAccess = predicate.getMethodAccess();
+				DynamicFeatureAccess dynamicMethodAccess = (DynamicFeatureAccess) methodAccess;
+
+				if (dynamicMethodAccess.getName().equals("ПодсистемаСуществует")) {
+					StringLiteral subsystemName = (StringLiteral) predicate.getParams().get(0);
+
+					QualifiedName qnSubsystemName = QualifiedName.create();
+
+					for (String stringPart : subsystemName.getLines().get(0).replace("\"", "").split("[.]")) {
+						qnSubsystemName = qnSubsystemName.append("Subsystem").append(stringPart);
+					}
+
+					Object subsystem = getSubsystem(mainProject, qnSubsystemName);
+
+					trueStatement = subsystem != null;
+				}
+
+				if (!trueStatement)
+					continue;
+
+				for (Statement ifPartStatement : ifPart.getStatements()) {
+					parseModuleStatement(formatVersions, ifPartStatement, variableName, modulesAliases, mainProject,
+							mdModule, mdMethod, coreObjects);
+
+				}
+
+			} else {
+				parseModuleStatement(formatVersions, statement, variableName, modulesAliases, mainProject, mdModule,
+						mdMethod, coreObjects);
+
+			}
+
+		}
+
+		return formatVersions;
+	}
+
+	private void parseModuleStatement(Map<String, Module> formatVersions, Statement statement, String variableName,
+			Map<String, String> modulesAliases, IProject mainProject, Module mdModule, Method mdMethod,
+			EList<Object> coreObjects) {
+
+		if (statement instanceof EmptyStatement)
+			return;
+
+		SimpleStatement simpleStatement = (SimpleStatement) statement;
+		Expression leftStatement = simpleStatement.getLeft();
+
+		if (leftStatement instanceof StaticFeatureAccess) {
+			String moduleAlias = ((StaticFeatureAccess) leftStatement).getName();
+
+			String moduleName = ((StringLiteral) ((Invocation) simpleStatement.getRight()).getParams().get(0))
+					.getLines().get(0).replace("\"", "");
+
+			modulesAliases.put(moduleAlias, moduleName);
+
+		} else {
+			Invocation leftInvocation = (Invocation) leftStatement;
+
+			FeatureAccess methodAccess = leftInvocation.getMethodAccess();
 
 			if (methodAccess instanceof DynamicFeatureAccess) {
 				DynamicFeatureAccess dynamicMethodAccess = (DynamicFeatureAccess) methodAccess;
@@ -403,10 +479,14 @@ public class ExchangeVersionsAnalyzer {
 
 				if (source.getName().equalsIgnoreCase(variableName)) {
 					if (dynamicMethodAccess.getName().equalsIgnoreCase("Вставить")) {
-						EList<Expression> params = expression.getParams();
+						EList<Expression> params = leftInvocation.getParams();
 						String versionNumber = ((StringLiteral) params.get(0)).getLines().get(0);
 						versionNumber = versionNumber.substring(1, versionNumber.length() - 1);
-						String moduleName = ((StaticFeatureAccess) params.get(1)).getName();
+						String moduleAlias = ((StaticFeatureAccess) params.get(1)).getName();
+
+						String moduleName = modulesAliases.get(moduleAlias);
+						if (moduleName == null)
+							moduleName = moduleAlias;
 
 						QualifiedName qnModuleName = QualifiedName.create("CommonModule", moduleName);
 
@@ -422,7 +502,7 @@ public class ExchangeVersionsAnalyzer {
 					List<FeatureEntry> featureEntries = DynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
 							EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
 					if (featureEntries.size() == 0) {
-						continue;
+						return;
 					}
 					FeatureEntry featureEntry = featureEntries.get(0);
 					EObject feature = featureEntry.getFeature();
@@ -452,7 +532,7 @@ public class ExchangeVersionsAnalyzer {
 				List<FeatureEntry> featureEntries = DynamicFeatureAccessComputer.resolveObject(staticMethodAccess,
 						EcoreUtil2.getContainerOfType(staticMethodAccess, Environmental.class).environments());
 				if (featureEntries.size() == 0) {
-					continue;
+					return;
 				}
 				FeatureEntry featureEntry = featureEntries.get(0);
 				EObject feature = featureEntry.getFeature();
@@ -466,10 +546,7 @@ public class ExchangeVersionsAnalyzer {
 				formatVersions.putAll(moduleFormatVersions);
 
 			}
-
 		}
-
-		return formatVersions;
 	}
 
 	private String getSSLVersion(IProject project) {

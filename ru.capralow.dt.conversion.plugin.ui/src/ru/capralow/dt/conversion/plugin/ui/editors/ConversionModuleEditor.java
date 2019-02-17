@@ -130,6 +130,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		IStructuredContentProvider viewerContentProvider = new ConversionModuleContentProvider();
 
+		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager);
+
 		FormToolkit toolkit = managedForm.getToolkit();
 
 		ScrolledForm form = managedForm.getForm();
@@ -164,7 +166,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		Menu menu = new Menu(form.getShell(), SWT.POP_UP);
 		itemMenu1 = new MenuItem(menu, SWT.PUSH);
 		itemMenu1.setText("Общие настройки...");
-
 		itemMenu2 = new MenuItem(menu, SWT.PUSH);
 		itemMenu2.setText("Описание формата");
 
@@ -674,8 +675,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	@Override
 	public void activate() {
 		super.activate();
-
-		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager);
 
 		conversionModuleAnalyzer.analyze(getModel());
 		conversionModule = conversionModuleAnalyzer.getConversionModule();

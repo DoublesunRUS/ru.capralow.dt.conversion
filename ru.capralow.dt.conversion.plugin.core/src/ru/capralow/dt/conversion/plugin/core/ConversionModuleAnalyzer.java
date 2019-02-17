@@ -72,7 +72,6 @@ import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
 
 public class ConversionModuleAnalyzer {
-
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
 	private ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 

@@ -3,7 +3,6 @@
 package ru.capralow.dt.conversion.plugin.core.ev
 
 import com._1c.g5.v8.dt.bsl.model.Module
-import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage
 
 class ExchangeVersions {
 	contains EvExchangePair[] ExchangePairs
@@ -74,7 +73,7 @@ class EvFormatVersion {
 	String configurationName
 	
 	contains Module module
-	contains XDTOPackage xdtoPackage
+	Object xdtoPackage
 }
 
 class EvExchangePair {
