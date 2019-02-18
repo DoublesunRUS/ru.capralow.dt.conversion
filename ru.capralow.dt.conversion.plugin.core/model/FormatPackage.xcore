@@ -1,19 +1,82 @@
-@GenModel(publicConstructors="true", featureDelegation="Reflective"
+@GenModel(
+	publicConstructors="true"
 )
 package ru.capralow.dt.conversion.plugin.core.fp
 
+import com._1c.g5.v8.dt.xdto.model.ObjectType
+import com._1c.g5.v8.dt.xdto.model.Property
+import com._1c.g5.v8.dt.xdto.model.ValueType
+
 class FormatPackage {
+	String version
+	
 	contains FpCatalog[] catalogs
+	
+	op FpProperty getProperty(String formatObjectName, String formatPropertyFullName) {
+		for (FpCatalog fpCatalog : catalogs) {
+			if (fpCatalog.name == formatObjectName) {
+				var property = fpCatalog.getProperty(formatPropertyFullName);
+				if (property === null)
+					return null;
+				
+				return property;
+			}
+		}
+		
+		return null;
+	}
 	
 }
 
 class FpCatalog {
-	Object configurationObject
-	derived String configurationObjectName get {
-		if (configurationObject === null) {
+	Object object
+	derived String name get {
+		if (object === null) {
 			return "";
 		}
 		
-		return configurationObject.toString();
+		return (getObject as ObjectType).getName();
 	}
+	
+	contains FpProperty[] properties
+
+	op FpProperty getProperty(String propertyName) {
+		for (FpProperty fpProperty : properties) {
+			if (propertyName == fpProperty.name) return fpProperty
+		}
+		return null;
+	}
+	
+}
+
+class FpProperty {
+	refers FpCatalog catalog
+
+	Object property
+	derived String name get {
+		if (property === null) {
+			return "";
+		}
+		
+		return (property as Property).getName();
+	}
+	
+	Object propertyType
+	derived String typeName get {
+		if (propertyType instanceof ObjectType) {
+			return (propertyType as ObjectType).getName();
+			
+		} else if (propertyType instanceof ValueType) {
+			var objectValue = (propertyType as ValueType);
+			if (objectValue.getName() === null)
+				return objectValue.getBaseType().getName();
+			
+			return objectValue.getName();
+		} else if (propertyType instanceof Property)
+			return (propertyType as Property).getType().getName();
+
+		return "<Неизвестный тип свойства: >" + propertyType.getClass();
+	}
+	
+	Boolean required
 }

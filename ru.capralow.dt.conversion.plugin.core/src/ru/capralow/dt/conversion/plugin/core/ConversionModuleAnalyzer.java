@@ -1,7 +1,9 @@
 package ru.capralow.dt.conversion.plugin.core;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.ILog;
@@ -45,10 +47,27 @@ import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.mcore.Field;
+import com._1c.g5.v8.dt.metadata.mdclass.BasicRegister;
+import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
+import com._1c.g5.v8.dt.metadata.mdclass.CatalogAttribute;
+import com._1c.g5.v8.dt.metadata.mdclass.CatalogTabularSection;
+import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypes;
+import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypesAttribute;
+import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypesTabularSection;
+import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypes;
+import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypesAttribute;
+import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypesTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import com._1c.g5.v8.dt.metadata.mdclass.Document;
+import com._1c.g5.v8.dt.metadata.mdclass.DocumentAttribute;
+import com._1c.g5.v8.dt.metadata.mdclass.DocumentTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
+import com._1c.g5.v8.dt.metadata.mdclass.StandardAttribute;
+import com._1c.g5.v8.dt.metadata.mdclass.StandardTabularSectionDescription;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
+import com._1c.g5.v8.dt.metadata.mdclass.TabularSectionAttribute;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
@@ -58,6 +77,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmMethodType;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.CmSpecialSubsystemType;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl;
@@ -70,6 +90,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
 import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
+import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 
 public class ConversionModuleAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
@@ -80,8 +101,14 @@ public class ConversionModuleAnalyzer {
 
 	private ConversionModule conversionModule;
 
+	private Map<String, FormatPackage> formatPackages = new HashMap<String, FormatPackage>();
+
 	public ConversionModule getConversionModule() {
 		return conversionModule;
+	}
+
+	public Map<String, FormatPackage> getFormatPackages() {
+		return formatPackages;
 	}
 
 	public ConversionModuleAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
@@ -98,13 +125,19 @@ public class ConversionModuleAnalyzer {
 		IProject project = configurationProject.getProject();
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
-		Module module = commonModule.getModule();
-
 		ExchangeVersionsAnalyzer exchangeVersionsAnalyzer = new ExchangeVersionsAnalyzer(projectManager,
 				bmEmfIndexManager);
 		exchangeVersionsAnalyzer.analyze(project);
 		ExchangeVersions exchangeVersions = exchangeVersionsAnalyzer.getExchangeVersions();
-		EList<EvFormatVersion> moduleExchangeVersions = exchangeVersions.getModuleFormatVersions(module);
+		EList<EvFormatVersion> moduleFormatVersions = exchangeVersions.getModuleFormatVersions(commonModule);
+		FormatPackageAnalyzer formatPackageAnalyzer = new FormatPackageAnalyzer();
+		for (EvFormatVersion formatVersion : moduleFormatVersions) {
+			formatPackageAnalyzer.analyze(formatVersion);
+
+			formatPackages.put(formatVersion.getVersion(), formatPackageAnalyzer.getFormatPackage());
+		}
+
+		Module module = commonModule.getModule();
 
 		EList<Method> methods = module.allMethods();
 
@@ -124,8 +157,6 @@ public class ConversionModuleAnalyzer {
 		predefineds.clear();
 		algorithms.clear();
 
-		subsystems.add(new CmSubsystemImpl());
-
 		Configuration configuration = (Configuration) ((IConfigurationProject) configurationProject).getConfiguration();
 
 		CommandInterfaceImpl commandInterface = (CommandInterfaceImpl) configuration.getCommandInterface();
@@ -139,6 +170,9 @@ public class ConversionModuleAnalyzer {
 
 			subsystems.add(subsystem);
 		}
+		CmSubsystemImpl subsystem = new CmSubsystemImpl();
+		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
+		subsystems.add(subsystem);
 
 		for (Method method : methods) {
 			String methodName = method.getName();
@@ -305,9 +339,12 @@ public class ConversionModuleAnalyzer {
 						String configurationObjectName = rightFeatureAccess3.getName() + "."
 								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						dataRule.setConfigurationObject(
-								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
+						EObject configurationObject = getConfigurationObject(configurationObjectName,
+								bmEmfIndexProvider);
+
+						dataRule.setConfigurationObject(configurationObject);
 						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
+						fillSubsystemsforObject(configurationObject, dataRule.getSubsystems());
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -499,8 +536,12 @@ public class ConversionModuleAnalyzer {
 						String configurationObjectName = rightFeatureAccess3.getName() + "."
 								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						objectRule.setConfigurationObject(
-								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
+						EObject configurationObject = getConfigurationObject(configurationObjectName,
+								bmEmfIndexProvider);
+
+						objectRule.setConfigurationObject(configurationObject);
+
+						fillSubsystemsforObject(configurationObject, objectRule.getSubsystems());
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -623,6 +664,23 @@ public class ConversionModuleAnalyzer {
 
 						attributeRule.setIsCustomRule(isCustomRule);
 						attributeRule.setObjectRule(attributeObjectRule);
+
+						if (configurationTabularSectionName.equals("НаборЗаписей"))
+							configurationTabularSectionName = "";
+
+						if (!configurationTabularSectionName.isEmpty()) {
+							EObject configurationObject = getConfigurationObject(objectRule.getConfigurationObject(),
+									configurationTabularSectionName);
+
+							attributeRule.setConfigurationTabularSection(configurationObject);
+						}
+
+						if (!configurationAttribute.isEmpty()) {
+							EObject configurationObject = getConfigurationObject(objectRule.getConfigurationObject(),
+									configurationTabularSectionName, configurationAttribute);
+
+							attributeRule.setConfigurationAttribute(configurationObject);
+						}
 
 						attributeRules.add(attributeRule);
 
@@ -1381,10 +1439,11 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private EObject getConfigurationObject(String mdName, IBmEmfIndexProvider bmEmfIndexProvider) {
-		String objectName = mdName.substring(mdName.indexOf(".") + 1);
-		String objectType = objectName.substring(0, objectName.indexOf("."));
-		objectName = objectName.substring(objectName.indexOf(".") + 1);
+	private EObject getConfigurationObject(String objectFullName, IBmEmfIndexProvider bmEmfIndexProvider) {
+		String[] objectArray = objectFullName.split("[.]");
+
+		String objectType = objectArray[1];
+		String objectName = objectArray[2];
 
 		QualifiedName qnObjectName = QualifiedName.create("");
 		EClass mdLiteral = MdClassPackage.Literals.CONFIGURATION;
@@ -1424,8 +1483,248 @@ public class ConversionModuleAnalyzer {
 			object = objectItr.next().getEObjectOrProxy();
 
 		if (object == null)
-			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + mdName));
+			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + objectFullName));
 
 		return object;
+	}
+
+	private EObject getConfigurationObject(Object configurationObject, String attributeTabularName) {
+
+		EObject object = null;
+
+		if (configurationObject instanceof Catalog) {
+			for (CatalogTabularSection tabularSection : ((Catalog) configurationObject).getTabularSections())
+				if (tabularSection.getName().equals(attributeTabularName)) {
+					object = tabularSection;
+					break;
+				}
+
+		} else if (configurationObject instanceof Document) {
+			Document typedObject = (Document) configurationObject;
+			for (DocumentTabularSection tabularSection : typedObject.getTabularSections())
+				if (tabularSection.getName().equals(attributeTabularName)) {
+					object = tabularSection;
+					break;
+				}
+			for (BasicRegister tabularSection : typedObject.getRegisterRecords())
+				if (tabularSection.getName().equals(attributeTabularName)) {
+					object = tabularSection;
+					break;
+				}
+
+		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
+			for (ChartOfCharacteristicTypesTabularSection tabularSection : ((ChartOfCharacteristicTypes) configurationObject)
+					.getTabularSections())
+				if (tabularSection.getName().equals(attributeTabularName)) {
+					object = tabularSection;
+					break;
+				}
+
+		} else if (configurationObject instanceof ChartOfCalculationTypes) {
+			ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
+			for (StandardTabularSectionDescription tabularSection : typedObject.getStandardTabularSections())
+				if (tabularSection.getName().equals(attributeTabularName)) {
+					object = tabularSection;
+					break;
+				}
+			for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
+				if (tabularSection.getName().equals(attributeTabularName)) {
+					object = tabularSection;
+					break;
+				}
+
+		}
+
+		if (object == null)
+			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID,
+					"Не найдена табличная часть конфигурации: " + attributeTabularName));
+
+		return object;
+	}
+
+	private EObject getConfigurationObject(Object configurationObject, String attributeTabularName,
+			String attributeName) {
+
+		EObject object = null;
+
+		if (attributeTabularName.isEmpty()) {
+			if (configurationObject instanceof Catalog) {
+				Catalog typedObject = (Catalog) configurationObject;
+				for (StandardAttribute attribute : typedObject.getStandardAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+				for (CatalogAttribute attribute : typedObject.getAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+
+			} else if (configurationObject instanceof Document) {
+				Document typedObject = (Document) configurationObject;
+				for (StandardAttribute attribute : typedObject.getStandardAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+				for (DocumentAttribute attribute : typedObject.getAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+
+			} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
+				ChartOfCharacteristicTypes typedObject = (ChartOfCharacteristicTypes) configurationObject;
+				for (StandardAttribute attribute : typedObject.getStandardAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+				for (ChartOfCharacteristicTypesAttribute attribute : typedObject.getAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+
+			} else if (configurationObject instanceof ChartOfCalculationTypes) {
+				ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
+				for (StandardAttribute attribute : typedObject.getStandardAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+				for (ChartOfCalculationTypesAttribute attribute : typedObject.getAttributes())
+					if (attribute.getName().equals(attributeName)) {
+						object = attribute;
+						break;
+					}
+
+			}
+
+			if (object == null)
+				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID,
+						"Не найден реквизит конфигурации: ".concat(attributeName)));
+
+		} else {
+			if (configurationObject instanceof Catalog) {
+				for (CatalogTabularSection tabularSection : ((Catalog) configurationObject).getTabularSections())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
+							if (attribute.getName().equals(attributeName)) {
+								object = attribute;
+								break;
+							}
+						break;
+					}
+
+			} else if (configurationObject instanceof Document) {
+				Document typedObject = (Document) configurationObject;
+				for (DocumentTabularSection tabularSection : typedObject.getTabularSections())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
+							if (attribute.getName().equals(attributeName)) {
+								object = attribute;
+								break;
+							}
+						break;
+					}
+				for (BasicRegister tabularSection : typedObject.getRegisterRecords())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						for (Field attribute : tabularSection.getFields())
+							if (attribute.getName().equals(attributeName)) {
+								object = attribute;
+								break;
+							}
+						break;
+					}
+
+			} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
+				for (ChartOfCharacteristicTypesTabularSection tabularSection : ((ChartOfCharacteristicTypes) configurationObject)
+						.getTabularSections())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
+							if (attribute.getName().equals(attributeName)) {
+								object = attribute;
+								break;
+							}
+						break;
+					}
+
+			} else if (configurationObject instanceof ChartOfCalculationTypes) {
+				ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
+				for (StandardTabularSectionDescription tabularSection : typedObject.getStandardTabularSections())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						for (StandardAttribute attribute : tabularSection.getStandardAttributes())
+							if (attribute.getName().equals(attributeName)) {
+								object = attribute;
+								break;
+							}
+						break;
+					}
+				for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
+							if (attribute.getName().equals(attributeName)) {
+								object = attribute;
+								break;
+							}
+						break;
+					}
+
+			}
+
+			if (object == null)
+				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден реквизит конфигурации: "
+						.concat(attributeTabularName).concat(".").concat(attributeName)));
+
+		}
+
+		return object;
+	}
+
+	private void fillSubsystemsforObject(Object object, EList<CmSubsystem> objectSubsystems) {
+		objectSubsystems.clear();
+
+		EList<CmSubsystem> interfaceSubsystems = conversionModule.getSubsystems();
+
+		for (CmSubsystem cmSubsystem : interfaceSubsystems) {
+			Subsystem interfaceSubsystem = (Subsystem) cmSubsystem.getSubsystem();
+			if (interfaceSubsystem == null)
+				return;
+
+			if (interfaceSubsystem.getContent().indexOf(object) != -1) {
+				objectSubsystems.add(cmSubsystem);
+				return;
+
+			} else {
+				Boolean added = fillSubsystemsforObject(object, cmSubsystem, objectSubsystems,
+						interfaceSubsystem.getSubsystems());
+
+				if (added)
+					return;
+
+			}
+		}
+	}
+
+	private Boolean fillSubsystemsforObject(Object object, CmSubsystem mainSubsystem,
+			EList<CmSubsystem> objectSubsystems, EList<Subsystem> interfaceSubsystems) {
+		for (Subsystem interfaceSubsystem : interfaceSubsystems) {
+			if (interfaceSubsystem.getContent().indexOf(object) != -1) {
+				objectSubsystems.add(mainSubsystem);
+				return true;
+			} else {
+				Boolean added = fillSubsystemsforObject(object, mainSubsystem, objectSubsystems,
+						interfaceSubsystem.getSubsystems());
+
+				if (added)
+					return true;
+
+			}
+
+		}
+
+		return false;
 	}
 }

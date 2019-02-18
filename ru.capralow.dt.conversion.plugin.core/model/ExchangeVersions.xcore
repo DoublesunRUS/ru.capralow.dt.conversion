@@ -1,8 +1,7 @@
-@GenModel(publicConstructors="true", featureDelegation="Reflective"
+@GenModel(
+	publicConstructors="true"
 )
 package ru.capralow.dt.conversion.plugin.core.ev
-
-import com._1c.g5.v8.dt.bsl.model.Module
 
 class ExchangeVersions {
 	contains EvExchangePair[] ExchangePairs
@@ -20,14 +19,14 @@ class ExchangeVersions {
 		val result = newBasicEList()
 
 		for (EvConfiguration configuration : configurations) {
-			for (Object coreObject : configuration.coreObjects) {
-				result.add(coreObject)
+			for (Object mainModule : configuration.mainModules) {
+				result.add(mainModule)
 			}
 		}
 		return result
 	}
 	
-	op EvFormatVersion[] getModuleFormatVersions(Module module) {
+	op EvFormatVersion[] getModuleFormatVersions(Object module) {
 		val result = newBasicEList()
 
 		for (EvConfiguration configuration : configurations) {
@@ -60,7 +59,7 @@ class EvConfiguration {
 		return result
 	}
 	
-	Object[] coreObjects
+	Object[] mainModules
 }
 
 class EvExtension {
@@ -72,7 +71,7 @@ class EvFormatVersion {
 	String version
 	String configurationName
 	
-	contains Module module
+	Object module
 	Object xdtoPackage
 }
 

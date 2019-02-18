@@ -2,7 +2,6 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,6 +17,7 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.part.FileEditorInput;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -39,116 +39,108 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.RegistrationModuleEditor";
 
 	// @Inject
-//	private IConfigurationProvider configurationProvider;
+	// private IConfigurationProvider configurationProvider;
 
 	@Inject
 	public RegistrationModuleEditor(String id, String title) {
 		super(id, "Правила регистрации");
-		// TODO Автоматически созданная заглушка конструктора
 	}
 
 	@Override
 	public void init(IEditorSite site, IDtEditorInput<EObject> input) throws PartInitException {
-		// TODO Автоматически созданная заглушка метода
 		super.init(site, input);
+
+		readRegistrationModule(((FileEditorInput) input).getFile());
+
+		// IProject project = ((FileEditorInput) input).getFile().getProject();
+		// Configuration configuration =
+		// configurationProvider.getConfiguration(project);
+		//
+		// EList<ExchangePlan> exchangePlans = configuration.getExchangePlans();
+		// ExchangePlan currentObject = exchangePlans.get(5);
+		// Template registrationModuleTemplate = currentObject.getTemplates().get(1);
+		// FileAwareTextDocumentImpl templateContext = (FileAwareTextDocumentImpl)
+		// registrationModuleTemplate
+		// .getTemplate();
+
+		// ITextEditor editor = (ITextEditor) getAdapter(ITextEditor.class);
+		// XtextDocumentProvider provider = (XtextDocumentProvider)
+		// editor.getDocumentProvider();
+		// IXtextDocument document = (IXtextDocument) provider.getDocument(editor);
+		//
+		// // ������� ������ ����������, � �������� ����������� ������, ��
+		// // �������� ���� ������� �������
+		// EObject moduleOwner = getModuleOwner(document);
+
 	}
 
 	@Override
 	protected Layout createPageLayout() {
-		// TODO Автоматически созданная заглушка метода
 		return super.createPageLayout();
 	}
 
-//	@Override
-//	public void createPartControl(Composite parent) {
-//		// TODO Автоматически созданная заглушка метода
-//		super.createPartControl(parent);
-//		
-//		GridLayout layout = new GridLayout();
-//		layout.numColumns = 1;
-//		layout.verticalSpacing = 2;
-//		layout.marginWidth = 0;
-//		layout.marginHeight = 2;
-//		parent.setLayout(layout);
+	// @Override
+	// public void createPartControl(Composite parent) {
+	// super.createPartControl(parent);
+	//
+	// GridLayout layout = new GridLayout();
+	// layout.numColumns = 1;
+	// layout.verticalSpacing = 2;
+	// layout.marginWidth = 0;
+	// layout.marginHeight = 2;
+	// parent.setLayout(layout);
 
-//		treeViewer = new TreeViewer(parent);
-//		treeViewer.setContentProvider(new RegistrationModuleContentProvider());
-//		labelProvider = new MovingBoxLabelProvider();
-//		treeViewer.setLabelProvider(labelProvider);
+	// treeViewer = new TreeViewer(parent);
+	// treeViewer.setContentProvider(new RegistrationModuleContentProvider());
+	// labelProvider = new MovingBoxLabelProvider();
+	// treeViewer.setLabelProvider(labelProvider);
 
-//		treeViewer.setUseHashlookup(true);
-//
-//		GridData layoutData = new GridData();
-//		layoutData.grabExcessHorizontalSpace = true;
-//		layoutData.grabExcessVerticalSpace = true;
-//		layoutData.horizontalAlignment = GridData.FILL;
-//		layoutData.verticalAlignment = GridData.FILL;
-//		treeViewer.getControl().setLayoutData(layoutData);
-//
-//		treeViewer.setInput(registrationModule);
-//		treeViewer.expandAll();
-//	}
+	// treeViewer.setUseHashlookup(true);
+	//
+	// GridData layoutData = new GridData();
+	// layoutData.grabExcessHorizontalSpace = true;
+	// layoutData.grabExcessVerticalSpace = true;
+	// layoutData.horizontalAlignment = GridData.FILL;
+	// layoutData.verticalAlignment = GridData.FILL;
+	// treeViewer.getControl().setLayoutData(layoutData);
+	//
+	// treeViewer.setInput(registrationModule);
+	// treeViewer.expandAll();
+	// }
 
 	protected TreeViewer treeViewer;
-//	protected RegistrationModuleLabelProvider labelProvider;
+	// protected RegistrationModuleLabelProvider labelProvider;
 
-//	protected Action onlyBoardGamesAction, atLeatThreeItems;
-//	protected Action booksBoxesGamesAction, noArticleAction;
-//	protected Action addBookAction, removeAction;
-//	protected ViewerFilter onlyBoardGamesFilter, atLeastThreeFilter;
-//	protected ViewerSorter booksBoxesGamesSorter, noArticleSorter;
-//	
-//	protected MovingBox root;
+	// protected Action onlyBoardGamesAction, atLeatThreeItems;
+	// protected Action booksBoxesGamesAction, noArticleAction;
+	// protected Action addBookAction, removeAction;
+	// protected ViewerFilter onlyBoardGamesFilter, atLeastThreeFilter;
+	// protected ViewerSorter booksBoxesGamesSorter, noArticleSorter;
+	//
+	// protected MovingBox root;
 
 	protected RegistrationModule registrationModule;
 
-//		readRegistrationModule(((FileEditorInput) input).getFile());
-
-//		IProject project = ((FileEditorInput) input).getFile().getProject();
-//		Configuration configuration = configurationProvider.getConfiguration(project);
-//
-//		EList<ExchangePlan> exchangePlans = configuration.getExchangePlans();
-//		ExchangePlan currentObject = exchangePlans.get(5);
-//		Template registrationModuleTemplate = currentObject.getTemplates().get(1);
-//		FileAwareTextDocumentImpl templateContext = (FileAwareTextDocumentImpl) registrationModuleTemplate
-//				.getTemplate();
-
-//		ITextEditor editor = (ITextEditor) getAdapter(ITextEditor.class);
-//		XtextDocumentProvider provider = (XtextDocumentProvider) editor.getDocumentProvider();
-//		IXtextDocument document = (IXtextDocument) provider.getDocument(editor);
-//		
-//		// ������� ������ ����������, � �������� ����������� ������, ��
-//		// �������� ���� ������� �������
-//		EObject moduleOwner = getModuleOwner(document);
-
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Автоматически созданная заглушка метода
-
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Автоматически созданная заглушка метода
-
 	}
 
 	@Override
 	public boolean isDirty() {
-		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
-		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Автоматически созданная заглушка метода
-
 	}
 
 	private void readRegistrationModule(IFile file) {
@@ -235,71 +227,58 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 
 				}
 			}
-//			fileInput.close();
+			// fileInput.close();
 
-		} catch (InvalidPropertiesFormatException e) {
-			// TODO Автоматически созданная заглушка метода
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Автоматически созданная заглушка метода
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Автоматически созданная заглушка метода
-			e.printStackTrace();
-		} catch (CoreException e1) {
-			// TODO Автоматически созданная заглушка метода
-			e1.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Автоматически созданная заглушка метода
+		} catch (CoreException | ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	protected void createPageControls(IManagedForm arg0) {
-		// TODO Автоматически созданная заглушка метода
-		return;
-
 	}
 
-//	private static class CustomLabelProvider extends LabelProvider implements IStyledLabelProvider {
-//		@Override
-//		public String getText(Object element) {
-//			return super.getText(element);
-//		}
-//
-//		@Override
-//		public StyledString getStyledText(Object element) {
-//			return new StyledString(super.getText(element));
-//		}
-//
-//		@Override
-//		public Image getImage(Object element) {
-//			return super.getImage(element);
-//		}
-//	}
-//
-//	private EObject getModuleOwner(IXtextDocument doc) {
-//		// ������ � ������������� ������� ����������� ����� ����� �������� ��������
-//		// ������ ����� ����������� �����
-//		// ������������� ������ �������� �������� � �������
-//		return doc.readOnly(new IUnitOfWork<EObject, XtextResource>() {
-//			@Override
-//			public EObject exec(XtextResource res) throws Exception {
-//				// ������ ���������, ����������� ������������� ������ ����������� �����
-//				if (res.getContents() != null && !res.getContents().isEmpty()) {
-//					EObject obj = res.getContents().get(0);
-//					if (obj instanceof Module) // ���������, ��� �������� � ���������� �������� ������������� ������
-//					{
-//						if (((Module) obj).getModuleType() != ModuleType.OBJECT_MODULE) // ���������� ������ ���������
-//																						// ������
-//							return null;
-//						Module module = (Module) obj;
-//						return EcoreUtil.resolve(module.getOwner(), module);
-//					}
-//				}
-//				return null;
-//			}
-//		});
-//	}
+	// private static class CustomLabelProvider extends LabelProvider implements
+	// IStyledLabelProvider {
+	// @Override
+	// public String getText(Object element) {
+	// return super.getText(element);
+	// }
+	//
+	// @Override
+	// public StyledString getStyledText(Object element) {
+	// return new StyledString(super.getText(element));
+	// }
+	//
+	// @Override
+	// public Image getImage(Object element) {
+	// return super.getImage(element);
+	// }
+	// }
+	//
+	// private EObject getModuleOwner(IXtextDocument doc) {
+	// // ������ � ������������� ������� ����������� ����� ����� �������� ��������
+	// // ������ ����� ����������� �����
+	// // ������������� ������ �������� �������� � �������
+	// return doc.readOnly(new IUnitOfWork<EObject, XtextResource>() {
+	// @Override
+	// public EObject exec(XtextResource res) throws Exception {
+	// // ������ ���������, ����������� ������������� ������ ����������� �����
+	// if (res.getContents() != null && !res.getContents().isEmpty()) {
+	// EObject obj = res.getContents().get(0);
+	// if (obj instanceof Module) // ���������, ��� �������� � ���������� ��������
+	// ������������� ������
+	// {
+	// if (((Module) obj).getModuleType() != ModuleType.OBJECT_MODULE) // ����������
+	// ������ ���������
+	// // ������
+	// return null;
+	// Module module = (Module) obj;
+	// return EcoreUtil.resolve(module.getOwner(), module);
+	// }
+	// }
+	// return null;
+	// }
+	// });
+	// }
 }

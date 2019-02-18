@@ -34,7 +34,7 @@ public class ConversionPanelLabelProvider implements ILabelProvider {
 			EvFormatVersion formatVersion = (EvFormatVersion) element;
 
 			String version = formatVersion.getVersion().intern();
-			String module = ((CommonModule) formatVersion.getModule().getOwner()).getName();
+			String module = ((CommonModule) formatVersion.getModule()).getName();
 
 			if (formatVersion.getConfigurationName() != null) {
 				module = formatVersion.getConfigurationName() + "." + module;

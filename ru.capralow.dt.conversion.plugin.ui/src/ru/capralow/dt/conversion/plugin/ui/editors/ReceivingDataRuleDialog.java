@@ -261,8 +261,10 @@ public class ReceivingDataRuleDialog extends Dialog {
 		txtObjectRuleName.setVisible(objectRules.size() < 2);
 		table.setVisible(objectRules.size() > 1);
 
-		txtObjectRuleName.setText(objectRules.get(0).getName());
-		viewer.setInput(objectRules);
+		if (objectRules.size() != 0) {
+			txtObjectRuleName.setText(objectRules.get(0).getName());
+			viewer.setInput(objectRules);
+		}
 
 		algorithmsText = dataRule.getConversionModule().getAllAlgorithmsText("");
 

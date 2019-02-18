@@ -7,7 +7,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -90,17 +89,17 @@ public class DataFormatToEMFGenerator {
 		reference.setUpperBound(upperBound);
 	}
 
-	private void addSuperType(EClass object, EPackage ddlPackage, String name) {
-		final EClass eSuperClass = (EClass) ddlPackage.getEClassifier(name);
-		object.getESuperTypes().add(eSuperClass);
-	}
-
-	private EEnum createEEnum(final String name) {
-		final EEnum eNum = EcoreFactory.eINSTANCE.createEEnum();
-		eNum.setName(name);
-		return eNum;
-
-	}
+	// private void addSuperType(EClass object, EPackage ddlPackage, String name) {
+	// final EClass eSuperClass = (EClass) ddlPackage.getEClassifier(name);
+	// object.getESuperTypes().add(eSuperClass);
+	// }
+	//
+	// private EEnum createEEnum(final String name) {
+	// final EEnum eNum = EcoreFactory.eINSTANCE.createEEnum();
+	// eNum.setName(name);
+	// return eNum;
+	//
+	// }
 
 	private EClass createEClass(final String name) {
 		final EClass eClass = EcoreFactory.eINSTANCE.createEClass();

@@ -31,7 +31,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
-import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.core.lifecycle.ProjectContext;
 import com._1c.g5.v8.dt.core.platform.IResourceLookup;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
@@ -104,6 +103,8 @@ public class ConversionPanelView extends ViewPart {
 				for (Object object : objects) {
 					EObject eObject = (EObject) object;
 					IFile file = resourceLookup.getPlatformResource(eObject.eResource());
+					if (file == null)
+						continue;
 
 					IPath path = file.getFullPath();
 
@@ -233,8 +234,7 @@ public class ConversionPanelView extends ViewPart {
 				Object element = ((IStructuredSelection) selection).getFirstElement();
 
 				if (element instanceof EvFormatVersion) {
-					Module module = ((EvFormatVersion) element).getModule();
-					CommonModule commonModule = (CommonModule) module.getOwner();
+					CommonModule commonModule = (CommonModule) ((EvFormatVersion) element).getModule();
 
 					URI uri = EcoreUtil.getURI(commonModule);
 

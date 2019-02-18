@@ -19,6 +19,9 @@ public class ConversionModuleTester extends AbstractDtPropertyTester {
 			if (module == null)
 				return false;
 
+			if (module.allMethods().size() == 0)
+				return true;
+
 			for (DeclareStatement statement : module.getDeclareStatements()) {
 				if (!(statement instanceof RegionPreprocessorDeclareStatement))
 					continue;

@@ -1,4 +1,5 @@
-@GenModel(publicConstructors="true", featureDelegation="Reflective"
+@GenModel(
+	publicConstructors="true"
 )
 package ru.capralow.dt.conversion.plugin.core.rm
 

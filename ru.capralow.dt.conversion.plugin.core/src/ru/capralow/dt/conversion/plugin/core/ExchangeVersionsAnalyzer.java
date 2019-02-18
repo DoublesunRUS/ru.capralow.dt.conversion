@@ -237,8 +237,8 @@ public class ExchangeVersionsAnalyzer {
 			return;
 		}
 
-		EList<Object> coreObjects = evConfiguration.getCoreObjects();
-		coreObjects.clear();
+		EList<Object> mainModules = evConfiguration.getMainModules();
+		mainModules.clear();
 
 		Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
 		if (mdMethod == null) {
@@ -246,8 +246,8 @@ public class ExchangeVersionsAnalyzer {
 			return;
 		}
 
-		Map<String, Module> availableFormatVersions = getAvailableFormatVersions(mainProject, mdModule, mdMethod,
-				coreObjects);
+		Map<String, CommonModule> availableFormatVersions = getAvailableFormatVersions(mainProject, mdModule, mdMethod,
+				mainModules);
 		if (availableFormatVersions.size() == 0) {
 			evConfiguration.setStatus(EvConfigurationStatus.EMPTY_METHOD);
 			return;
@@ -281,7 +281,7 @@ public class ExchangeVersionsAnalyzer {
 
 			EvFormatVersion evFormatVersion = new EvFormatVersionImpl();
 
-			Module formatModule = availableFormatVersions.get(version);
+			CommonModule formatModule = availableFormatVersions.get(version);
 
 			if (projectManager.getProject(formatModule) instanceof IExtensionProject) {
 				IExtensionProject formatProject = (IExtensionProject) projectManager.getProject(formatModule);
@@ -349,40 +349,41 @@ public class ExchangeVersionsAnalyzer {
 		return null;
 	}
 
-	private Map<String, Module> getAvailableFormatVersions(IProject mainProject, CommonModule mdModule, Method mdMethod,
-			EList<Object> coreObjects) {
+	private Map<String, CommonModule> getAvailableFormatVersions(IProject mainProject, CommonModule commonModule,
+			Method method, EList<Object> mainModules) {
 
-		Map<String, Module> formatVersions = parseMethod(mainProject, mdModule.getModule(), mdMethod, coreObjects);
+		Map<String, CommonModule> formatVersions = parseMethod(mainProject, commonModule, method, mainModules);
 
 		return formatVersions;
 	}
 
-	private Map<String, Module> parseMethod(IProject mainProject, Module mdModule, Method mdMethod,
-			EList<Object> coreObjects) {
+	private Map<String, CommonModule> parseMethod(IProject mainProject, CommonModule commonModule, Method method,
+			EList<Object> mainModules) {
 
-		coreObjects.add(mdModule);
+		mainModules.add(commonModule);
 
-		Map<String, Module> formatVersions = new HashMap<String, Module>();
+		Map<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
 
-		Map<String, Module> beforeFormatVersions = new HashMap<String, Module>();
-		Map<String, Module> insteadFormatVersions = getFormatVersions(mainProject, mdModule, mdMethod, coreObjects);
-		Map<String, Module> afterFormatVersions = new HashMap<String, Module>();
+		Map<String, CommonModule> beforeFormatVersions = new HashMap<String, CommonModule>();
+		Map<String, CommonModule> insteadFormatVersions = getFormatVersions(mainProject, commonModule, method,
+				mainModules);
+		Map<String, CommonModule> afterFormatVersions = new HashMap<String, CommonModule>();
 
-		if (projectManager.getProject(mdModule) instanceof IConfigurationProject) {
-			Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(mdModule);
-			for (Module mdExtensionModule : extensionModules) {
-				IExtensionProject extensionProject = (IExtensionProject) projectManager.getProject(mdExtensionModule);
+		if (projectManager.getProject(commonModule) instanceof IConfigurationProject) {
+			Collection<Module> extensionModules = moduleExtensionService.getExtensionModules(commonModule.getModule());
+			for (Module extensionModule : extensionModules) {
+				IExtensionProject extensionProject = (IExtensionProject) projectManager.getProject(extensionModule);
 
-				if (!extensionProject.getParentProject().equals(projectManager.getProject(mdModule).getProject())) {
+				if (!extensionProject.getParentProject().equals(projectManager.getProject(commonModule).getProject())) {
 					continue;
 				}
 
-				Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(mdExtensionModule,
-						mdMethod.getName());
+				Map<Pragma, Method> extensionMethods = moduleExtensionService.getExtensionMethods(extensionModule,
+						method.getName());
 
 				for (Entry<Pragma, Method> extendedMethod : extensionMethods.entrySet()) {
-					Map<String, Module> extensionFormatVersions = parseMethod(mainProject, mdExtensionModule,
-							extendedMethod.getValue(), coreObjects);
+					Map<String, CommonModule> extensionFormatVersions = parseMethod(mainProject,
+							(CommonModule) extensionModule.getOwner(), extendedMethod.getValue(), mainModules);
 
 					if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("До")) {
 						beforeFormatVersions.putAll(extensionFormatVersions);
@@ -406,8 +407,8 @@ public class ExchangeVersionsAnalyzer {
 
 	}
 
-	private Map<String, Module> getFormatVersions(IProject mainProject, Module mdModule, Method mdMethod,
-			EList<Object> coreObjects) {
+	private Map<String, CommonModule> getFormatVersions(IProject mainProject, CommonModule mdModule, Method mdMethod,
+			EList<Object> mainModules) {
 
 		if (mdMethod.getFormalParams().size() == 0) {
 			throw new RuntimeException("Список параметров у метода пустой: " + mdMethod.getName());
@@ -416,7 +417,7 @@ public class ExchangeVersionsAnalyzer {
 		FormalParam mdParam = mdMethod.getFormalParams().get(0);
 		String variableName = mdParam.getName();
 
-		Map<String, Module> formatVersions = new HashMap<String, Module>();
+		Map<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
 
 		Map<String, String> modulesAliases = new HashMap<String, String>();
 
@@ -451,13 +452,13 @@ public class ExchangeVersionsAnalyzer {
 
 				for (Statement ifPartStatement : ifPart.getStatements()) {
 					parseModuleStatement(formatVersions, ifPartStatement, variableName, modulesAliases, mainProject,
-							mdModule, mdMethod, coreObjects);
+							mdModule, mdMethod, mainModules);
 
 				}
 
 			} else {
 				parseModuleStatement(formatVersions, statement, variableName, modulesAliases, mainProject, mdModule,
-						mdMethod, coreObjects);
+						mdMethod, mainModules);
 
 			}
 
@@ -466,9 +467,9 @@ public class ExchangeVersionsAnalyzer {
 		return formatVersions;
 	}
 
-	private void parseModuleStatement(Map<String, Module> formatVersions, Statement statement, String variableName,
-			Map<String, String> modulesAliases, IProject mainProject, Module mdModule, Method mdMethod,
-			EList<Object> coreObjects) {
+	private void parseModuleStatement(Map<String, CommonModule> formatVersions, Statement statement,
+			String variableName, Map<String, String> modulesAliases, IProject mainProject, CommonModule commonModule,
+			Method method, EList<Object> mainModules) {
 
 		if (statement instanceof EmptyStatement)
 			return;
@@ -508,11 +509,11 @@ public class ExchangeVersionsAnalyzer {
 
 						CommonModule mdFormatModule = getCommonModule(mainProject, qnModuleName);
 						if (mdFormatModule == null) {
-							mdFormatModule = getCommonModule(projectManager.getProject(mdMethod).getProject(),
+							mdFormatModule = getCommonModule(projectManager.getProject(method).getProject(),
 									qnModuleName);
 						}
 
-						formatVersions.put(versionNumber, mdFormatModule.getModule());
+						formatVersions.put(versionNumber, mdFormatModule);
 					}
 				} else {
 					List<FeatureEntry> featureEntries = DynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
@@ -528,17 +529,16 @@ public class ExchangeVersionsAnalyzer {
 					((InternalEObject) newObject).eSetProxyURI((bslMethod).getSourceUri());
 					Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, methodAccess);
 
-					CommonModule mdSubCommonModule = getCommonModule(mainProject,
+					CommonModule subCommonModule = getCommonModule(mainProject,
 							QualifiedName.create("CommonModule", source.getName()));
-					if (mdSubCommonModule == null) {
-						mdSubCommonModule = getCommonModule(projectManager.getProject(mdSubMethod).getProject(),
+					if (subCommonModule == null) {
+						subCommonModule = getCommonModule(projectManager.getProject(mdSubMethod).getProject(),
 								QualifiedName.create("CommonModule", source.getName()));
 					}
-					Module mdSubModule = mdSubCommonModule.getModule();
-					coreObjects.add(mdSubModule);
+					mainModules.add(subCommonModule);
 
-					Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdSubModule, mdSubMethod,
-							coreObjects);
+					Map<String, CommonModule> moduleFormatVersions = parseMethod(mainProject, subCommonModule,
+							mdSubMethod, mainModules);
 
 					formatVersions.putAll(moduleFormatVersions);
 				}
@@ -555,9 +555,10 @@ public class ExchangeVersionsAnalyzer {
 
 				Method mdSubMethod = (Method) feature;
 
-				coreObjects.add(mdModule);
+				mainModules.add(commonModule);
 
-				Map<String, Module> moduleFormatVersions = parseMethod(mainProject, mdModule, mdSubMethod, coreObjects);
+				Map<String, CommonModule> moduleFormatVersions = parseMethod(mainProject, commonModule, mdSubMethod,
+						mainModules);
 
 				formatVersions.putAll(moduleFormatVersions);
 

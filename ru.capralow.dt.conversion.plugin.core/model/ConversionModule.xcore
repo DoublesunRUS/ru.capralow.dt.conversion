@@ -1,4 +1,5 @@
-@GenModel(publicConstructors="true", featureDelegation="Reflective"
+@GenModel(
+	publicConstructors="true"
 )
 package ru.capralow.dt.conversion.plugin.core.cm
 
@@ -14,6 +15,13 @@ class ConversionModule {
 	String storeVersion = "1"
 	
 	contains CmSubsystem[] subsystems
+	
+	op CmSubsystem getSubsystem(Object subsystemObject) {
+		for (CmSubsystem subsystem : subsystems) {
+			if (subsystemObject == subsystem.subsystem) return subsystem
+		}
+		return null;
+	}
 	
 	Object moduleURI
 	
@@ -68,7 +76,7 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getSendingDataRules(Subsystem subsystem) {
+	op Object[] getSendingDataRules(CmSubsystem subsystem) {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
@@ -87,7 +95,7 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getReceivingDataRules(Subsystem subsystem) {
+	op Object[] getReceivingDataRules(CmSubsystem subsystem) {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
@@ -114,11 +122,11 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getSendingObjectRules(Subsystem subsystem) {
+	op Object[] getSendingObjectRules(CmSubsystem cmSubsystem) {
 		val result = newBasicEList()
 
 		for (CmObjectRule objectRule : objectRules) {
-			if (objectRule.forSending && objectRule.includedInSubsystem(subsystem))
+			if (objectRule.forSending && objectRule.includedInSubsystem(cmSubsystem))
 				result.add(objectRule)
 		}
 		return result
@@ -133,11 +141,11 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getReceivingObjectRules(Subsystem subsystem) {
+	op Object[] getReceivingObjectRules(CmSubsystem cmSubsystem) {
 		val result = newBasicEList()
 
 		for (CmObjectRule objectRule : objectRules) {
-			if (objectRule.forReceiving && objectRule.includedInSubsystem(subsystem))
+			if (objectRule.forReceiving && objectRule.includedInSubsystem(cmSubsystem))
 				result.add(objectRule)
 		}
 		return result
@@ -435,19 +443,34 @@ class CmDataRule {
 	
 	refers CmObjectRule[] objectRules
 	
-	op Boolean includedInSubsystem(Subsystem subsystem) {
-		if (subsystem === null)
+	refers CmSubsystem[] subsystems
+	
+	op Boolean includedInSubsystem(CmSubsystem cmSubsystem) {
+		if (cmSubsystem === null || cmSubsystem.specialSubsystemType == CmSpecialSubsystemType.ALL)
 			return true;
 		
-		if (subsystem.getContent().indexOf(configurationObject) != -1)
-			return true;
-		
+		for (CmSubsystem subsystem : subsystems) {
+			if (subsystem == cmSubsystem)
+				return true;
+		}
+
 		for (CmObjectRule objectRule : objectRules) {
-			if (subsystem.getContent().indexOf(objectRule.configurationObject) != -1)
+			if (objectRule.includedInSubsystem(cmSubsystem))
 				return true
 		}
 		
-		return false;
+		if (cmSubsystem.specialSubsystemType != CmSpecialSubsystemType.EMPTY)
+			return false;
+			
+		if (subsystems.size() != 0)
+			return false;
+			
+		for (CmObjectRule objectRule : objectRules) {
+			if (objectRule.subsystems.size() != 0)
+				return false
+		}
+
+		return true;
 	}
 }
 
@@ -553,11 +576,24 @@ class CmObjectRule {
 	
 	String[] identificationFields
 	
-	op Boolean includedInSubsystem(Subsystem subsystem) {
-		if (subsystem === null)
+	refers CmSubsystem[] subsystems
+	
+	op Boolean includedInSubsystem(CmSubsystem cmSubsystem) {
+		if (cmSubsystem === null || cmSubsystem.specialSubsystemType == CmSpecialSubsystemType.ALL)
 			return true;
 		
-		return subsystem.getContent().indexOf(configurationObject) != -1;
+		for (CmSubsystem subsystem : subsystems) {
+			if (subsystem == cmSubsystem)
+				return true;
+		}
+
+		if (cmSubsystem.specialSubsystemType != CmSpecialSubsystemType.EMPTY)
+			return false;
+			
+		if (subsystems.size() != 0)
+			return false;
+			
+		return true;
 	}
 }
 
@@ -568,6 +604,9 @@ enum CmIdentificationVariant {
 }
 
 class CmAttributeRule {
+	Object configurationTabularSection
+	Object configurationAttribute
+	
 	String configurationTabularSectionName = ""
 	String configurationAttributeName = ""
 	op String getConfigurationAttributeFullName() {
@@ -647,7 +686,6 @@ class CmPredefined {
 		}
 		return false;
 	}
-
 }
 
 class CmPredefinedMap {
@@ -727,11 +765,19 @@ enum CmMethodType {
 
 class CmSubsystem {
 	derived String name get {
-		if (subsystem === null)
-			return "<Все подсистемы>";
+		if (specialSubsystemType == CmSpecialSubsystemType.ALL || specialSubsystemType == CmSpecialSubsystemType.EMPTY)
+			return specialSubsystemType.toString;
 			
 		return (subsystem as Subsystem).getSynonym().get("ru");
 	}
 	
 	Object subsystem
+	
+	CmSpecialSubsystemType specialSubsystemType
+}
+
+enum CmSpecialSubsystemType {
+	Subsystem as "<Подсистема>" = 0
+	All as "<Все подсистемы>" = 1
+	Empty as "<Остальное>" = 2
 }

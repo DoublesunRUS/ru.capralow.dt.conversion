@@ -4,10 +4,12 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.handly.buffer.BufferChange;
 import org.eclipse.handly.snapshot.NonExpiringSnapshot;
@@ -38,7 +40,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
@@ -73,7 +74,6 @@ import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditor;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
-import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
@@ -83,8 +83,11 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
+import ru.capralow.dt.conversion.plugin.core.cm.CmSpecialSubsystemType;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
+import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
@@ -106,9 +109,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private TableViewer viewerPredefineds;
 	private TableViewer viewerAlgorithms;
 
-	private Button btnInformation;
+	// private Button btnInformation;
 
-	private MenuItem itemMenu1, itemMenu2;
+	private MenuItem itemMenuSettings;
+	private Menu menuMain;
 
 	private CTabFolder tabFolder;
 
@@ -158,24 +162,22 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		// Левая панель: меню
 		ToolBar toolBarMain = new ToolBar(compositeLeft, SWT.FLAT | SWT.RIGHT);
-
 		ToolItem itemDropDown = new ToolItem(toolBarMain, SWT.DROP_DOWN);
 		itemDropDown.setText("Меню");
 		itemDropDown.setToolTipText("Показать меню");
 
-		Menu menu = new Menu(form.getShell(), SWT.POP_UP);
-		itemMenu1 = new MenuItem(menu, SWT.PUSH);
-		itemMenu1.setText("Общие настройки...");
-		itemMenu2 = new MenuItem(menu, SWT.PUSH);
-		itemMenu2.setText("Описание формата");
+		menuMain = new Menu(form.getShell(), SWT.POP_UP);
+
+		itemMenuSettings = new MenuItem(menuMain, SWT.PUSH);
+		itemMenuSettings.setText("Общие настройки...");
 
 		itemDropDown.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Rectangle bounds = itemDropDown.getBounds();
 				Point point = toolBarMain.toDisplay(bounds.x, bounds.y + bounds.height);
-				menu.setLocation(point);
-				menu.setVisible(true);
+				menuMain.setLocation(point);
+				menuMain.setVisible(true);
 			}
 
 			public void widgetDefaultSelected(SelectionEvent event) {
@@ -202,7 +204,27 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				return ((CmSubsystem) element).getName();
 			}
 		});
-		viewerSubsystems.setContentProvider(viewerContentProvider);
+		viewerSubsystems.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public Object[] getElements(Object inputElement) {
+				@SuppressWarnings("unchecked")
+				EList<Object> listObjects = (EList<Object>) inputElement;
+
+				Object[] viewerContent = new Object[listObjects.size() + 1];
+
+				CmSubsystemImpl subsystem = new CmSubsystemImpl();
+				subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.ALL);
+				viewerContent[0] = subsystem;
+
+				int i = 1;
+				for (Object object : listObjects) {
+					viewerContent[i] = object;
+					i++;
+				}
+
+				return viewerContent;
+			}
+		});
 
 		// Правая панель: Страницы
 		tabFolder = new CTabFolder(sashFormMain, SWT.FLAT);
@@ -670,35 +692,12 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		sashFormMain.setWeights(new int[] { 20, 80 });
 
 		hookListeners();
-	}
 
-	@Override
-	public void activate() {
-		super.activate();
-
-		conversionModuleAnalyzer.analyze(getModel());
-		conversionModule = conversionModuleAnalyzer.getConversionModule();
-
-		// String storeVersion = conversionModule.getStoreVersion();
-		// tltmStoreVersion1.setSelection(storeVersion.equals("1"));
-		// tltmStoreVersion2.setSelection(storeVersion.equals("2"));
-
-		viewerSubsystems.setInput(conversionModule.getSubsystems());
-
-		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
-		viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules());
-
-		viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules());
-		viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules());
-
-		viewerPredefineds.setInput(conversionModule.getPredefineds());
-		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
-
-		tabFolder.setSelection(0);
+		updatePage();
 	}
 
 	private void hookListeners() {
-		itemMenu1.addSelectionListener(new SelectionListener() {
+		itemMenuSettings.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent event) {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
@@ -717,117 +716,17 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		itemMenu2.addSelectionListener(new SelectionListener() {
-
-			public void widgetSelected(SelectionEvent event) {
-
-				class StringStorage implements IStorage {
-					private String string;
-
-					StringStorage(String input) {
-						this.string = input;
-					}
-
-					public InputStream getContents() throws CoreException {
-						return new ByteArrayInputStream(string.getBytes());
-					}
-
-					public IPath getFullPath() {
-						return null;
-					}
-
-					public Object getAdapter(Class adapter) {
-						return null;
-					}
-
-					public String getName() {
-						int len = Math.min(5, string.length());
-						return string.substring(0, len).concat("..."); //$NON-NLS-1$
-					}
-
-					public boolean isReadOnly() {
-						return true;
-					}
-				}
-
-				class StringInput implements IStorageEditorInput {
-					private IStorage storage;
-
-					StringInput(IStorage storage) {
-						this.storage = storage;
-					}
-
-					public boolean exists() {
-						return true;
-					}
-
-					public ImageDescriptor getImageDescriptor() {
-						return null;
-					}
-
-					public String getName() {
-						return storage.getName();
-					}
-
-					public IPersistableElement getPersistable() {
-						return null;
-					}
-
-					public IStorage getStorage() {
-						return storage;
-					}
-
-					public String getToolTipText() {
-						return "String-based file: " + storage.getName();
-					}
-
-					public Object getAdapter(Class adapter) {
-						return null;
-					}
-				}
-
-				ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule);
-
-				try {
-					String stringReport = cmReport.createReport();
-
-					IStorage storage = new StringStorage(stringReport);
-					IStorageEditorInput input = new StringInput(storage);
-
-					IWorkbench workbench = PlatformUI.getWorkbench();
-
-					IEditorDescriptor defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.md");
-					if (defaultEditor == null)
-						defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.txt");
-
-					String editorID = defaultEditor.getId();
-
-					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
-
-				} catch (IOException | PartInitException e) {
-					e.printStackTrace();
-
-				}
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-			}
-		});
-
 		viewerSubsystems.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				CmSubsystem cmSubsystem = (CmSubsystem) ((StructuredSelection) ((TableViewer) event.getSource())
 						.getSelection()).getFirstElement();
-				Subsystem confSubsystem = null;
-				if (cmSubsystem != null)
-					confSubsystem = (Subsystem) cmSubsystem.getSubsystem();
 
-				viewerSendingDataRules.setInput(conversionModule.getSendingDataRules(confSubsystem));
-				viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules(confSubsystem));
+				viewerSendingDataRules.setInput(conversionModule.getSendingDataRules(cmSubsystem));
+				viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules(cmSubsystem));
 
-				viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules(confSubsystem));
-				viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules(confSubsystem));
+				viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules(cmSubsystem));
+				viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules(cmSubsystem));
 			}
 		});
 
@@ -1012,6 +911,147 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}));
 	}
 
+	private void updatePage() {
+		conversionModuleAnalyzer.analyze(getModel());
+		conversionModule = conversionModuleAnalyzer.getConversionModule();
+
+		while (menuMain.getItemCount() > 1)
+			menuMain.getItem(1).dispose();
+		for (Entry<String, FormatPackage> formatPackage : conversionModuleAnalyzer.getFormatPackages().entrySet()) {
+			MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
+			itemMenu.setText("Описание формата " + formatPackage.getKey());
+			itemMenu.addSelectionListener(new SelectionListener() {
+
+				public void widgetSelected(SelectionEvent event) {
+
+					class StringStorage implements IStorage {
+						private String string;
+
+						StringStorage(String input) {
+							this.string = input;
+						}
+
+						@Override
+						public InputStream getContents() throws CoreException {
+							return new ByteArrayInputStream(string.getBytes());
+						}
+
+						@Override
+						public String getName() {
+							int len = string.indexOf("\r\n");
+							return string.substring(0, len).replace(".", "_").concat(".md"); // $NON-NLS-1$
+						}
+
+						@Override
+						public boolean isReadOnly() {
+							return true;
+						}
+
+						@Override
+						public <T> T getAdapter(Class<T> adapter) {
+							return null;
+						}
+
+						@Override
+						public IPath getFullPath() {
+							return null;
+						}
+					}
+
+					class StringInput implements IStorageEditorInput {
+						private IStorage storage;
+
+						StringInput(IStorage storage) {
+							this.storage = storage;
+						}
+
+						@Override
+						public boolean exists() {
+							return true;
+						}
+
+						@Override
+						public String getName() {
+							return storage.getName();
+						}
+
+						@Override
+						public IStorage getStorage() {
+							return storage;
+						}
+
+						@Override
+						public String getToolTipText() {
+							return "String-based file: " + storage.getName();
+						}
+
+						@Override
+						public <T> T getAdapter(Class<T> adapter) {
+							return null;
+						}
+
+						@Override
+						public ImageDescriptor getImageDescriptor() {
+							return null;
+						}
+
+						@Override
+						public IPersistableElement getPersistable() {
+							return null;
+						}
+
+					}
+
+					ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule,
+							formatPackage.getValue());
+
+					try {
+						String stringReport = cmReport.createReport();
+
+						IStorage storage = new StringStorage(stringReport);
+						IStorageEditorInput input = new StringInput(storage);
+
+						IWorkbench workbench = PlatformUI.getWorkbench();
+
+						IEditorDescriptor defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.md");
+						if (defaultEditor == null)
+							defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.txt");
+
+						String editorID = defaultEditor.getId();
+
+						IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
+
+					} catch (IOException | PartInitException e) {
+						e.printStackTrace();
+
+					}
+				}
+
+				public void widgetDefaultSelected(SelectionEvent event) {
+				}
+			});
+
+		}
+
+		// String storeVersion = conversionModule.getStoreVersion();
+		// tltmStoreVersion1.setSelection(storeVersion.equals("1"));
+		// tltmStoreVersion2.setSelection(storeVersion.equals("2"));
+
+		viewerSubsystems.setInput(conversionModule.getSubsystems());
+
+		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
+		viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules());
+
+		viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules());
+		viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules());
+
+		viewerPredefineds.setInput(conversionModule.getPredefineds());
+		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
+
+		tabFolder.setSelection(0);
+
+	}
+
 	private void updateModule() throws CoreException {
 		String newModule = conversionModule.getModuleText();
 
@@ -1039,6 +1079,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				if (!(formEditor instanceof DtGranularEditor))
 					continue;
 
+				@SuppressWarnings("unchecked")
 				IDtEditorInput<CommonModule> editorInput = ((DtGranularEditor<CommonModule>) formEditor)
 						.getEditorInput();
 				if (editorInput.getModel().getUuid() != getModel().getUuid())
