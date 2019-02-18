@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.eclipse.emf.common.util.EList;
 
+import com._1c.g5.v8.dt.mcore.DerivedField;
 import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
 import com._1c.g5.v8.dt.metadata.mdclass.CatalogAttribute;
 import com._1c.g5.v8.dt.metadata.mdclass.CatalogTabularSection;
@@ -171,6 +172,9 @@ public class ConversionModuleReport {
 						} else if (configurationAttribute instanceof TabularSectionAttribute) {
 							attributeSynonym = ((TabularSectionAttribute) configurationAttribute).getSynonym()
 									.get("ru");
+
+						} else if (configurationAttribute instanceof DerivedField) {
+							attributeSynonym = ((DerivedField) configurationAttribute).getNameRu();
 
 						} else
 							attributeSynonym = "<Неизвестный тип атрибута>" + configurationAttribute.getClass();

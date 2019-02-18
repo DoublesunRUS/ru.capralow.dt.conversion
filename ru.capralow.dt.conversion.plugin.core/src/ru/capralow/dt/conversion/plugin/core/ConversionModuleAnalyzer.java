@@ -1506,11 +1506,12 @@ public class ConversionModuleAnalyzer {
 					object = tabularSection;
 					break;
 				}
-			for (BasicRegister tabularSection : typedObject.getRegisterRecords())
-				if (tabularSection.getName().equals(attributeTabularName)) {
-					object = tabularSection;
-					break;
-				}
+			if (object == null)
+				for (BasicRegister tabularSection : typedObject.getRegisterRecords())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						object = tabularSection;
+						break;
+					}
 
 		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
 			for (ChartOfCharacteristicTypesTabularSection tabularSection : ((ChartOfCharacteristicTypes) configurationObject)
@@ -1527,11 +1528,12 @@ public class ConversionModuleAnalyzer {
 					object = tabularSection;
 					break;
 				}
-			for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
-				if (tabularSection.getName().equals(attributeTabularName)) {
-					object = tabularSection;
-					break;
-				}
+			if (object == null)
+				for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
+					if (tabularSection.getName().equals(attributeTabularName)) {
+						object = tabularSection;
+						break;
+					}
 
 		}
 
@@ -1555,11 +1557,12 @@ public class ConversionModuleAnalyzer {
 						object = attribute;
 						break;
 					}
-				for (CatalogAttribute attribute : typedObject.getAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
+				if (object == null)
+					for (CatalogAttribute attribute : typedObject.getAttributes())
+						if (attribute.getName().equals(attributeName)) {
+							object = attribute;
+							break;
+						}
 
 			} else if (configurationObject instanceof Document) {
 				Document typedObject = (Document) configurationObject;
@@ -1568,11 +1571,12 @@ public class ConversionModuleAnalyzer {
 						object = attribute;
 						break;
 					}
-				for (DocumentAttribute attribute : typedObject.getAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
+				if (object == null)
+					for (DocumentAttribute attribute : typedObject.getAttributes())
+						if (attribute.getName().equals(attributeName)) {
+							object = attribute;
+							break;
+						}
 
 			} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
 				ChartOfCharacteristicTypes typedObject = (ChartOfCharacteristicTypes) configurationObject;
@@ -1581,11 +1585,12 @@ public class ConversionModuleAnalyzer {
 						object = attribute;
 						break;
 					}
-				for (ChartOfCharacteristicTypesAttribute attribute : typedObject.getAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
+				if (object == null)
+					for (ChartOfCharacteristicTypesAttribute attribute : typedObject.getAttributes())
+						if (attribute.getName().equals(attributeName)) {
+							object = attribute;
+							break;
+						}
 
 			} else if (configurationObject instanceof ChartOfCalculationTypes) {
 				ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
@@ -1594,11 +1599,12 @@ public class ConversionModuleAnalyzer {
 						object = attribute;
 						break;
 					}
-				for (ChartOfCalculationTypesAttribute attribute : typedObject.getAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
+				if (object == null)
+					for (ChartOfCalculationTypesAttribute attribute : typedObject.getAttributes())
+						if (attribute.getName().equals(attributeName)) {
+							object = attribute;
+							break;
+						}
 
 			}
 
@@ -1629,15 +1635,20 @@ public class ConversionModuleAnalyzer {
 							}
 						break;
 					}
-				for (BasicRegister tabularSection : typedObject.getRegisterRecords())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						for (Field attribute : tabularSection.getFields())
-							if (attribute.getName().equals(attributeName)) {
-								object = attribute;
+				if (object == null)
+					for (BasicRegister tabularSection : typedObject.getRegisterRecords())
+						if (tabularSection.getName().equals(attributeTabularName)) {
+							for (Field attribute : tabularSection.getFields()) {
+								String fieldAttributeName = attribute.getName();
+								if (attribute instanceof Field)
+									fieldAttributeName = attribute.getNameRu();
+								if (fieldAttributeName.equals(attributeName)) {
+									object = attribute;
+									break;
+								}
 								break;
 							}
-						break;
-					}
+						}
 
 			} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
 				for (ChartOfCharacteristicTypesTabularSection tabularSection : ((ChartOfCharacteristicTypes) configurationObject)
@@ -1662,15 +1673,16 @@ public class ConversionModuleAnalyzer {
 							}
 						break;
 					}
-				for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
-							if (attribute.getName().equals(attributeName)) {
-								object = attribute;
-								break;
-							}
-						break;
-					}
+				if (object == null)
+					for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
+						if (tabularSection.getName().equals(attributeTabularName)) {
+							for (TabularSectionAttribute attribute : tabularSection.getAttributes())
+								if (attribute.getName().equals(attributeName)) {
+									object = attribute;
+									break;
+								}
+							break;
+						}
 
 			}
 
