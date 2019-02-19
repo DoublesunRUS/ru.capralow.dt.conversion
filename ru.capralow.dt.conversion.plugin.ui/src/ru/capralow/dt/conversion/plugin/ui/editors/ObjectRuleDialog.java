@@ -428,7 +428,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		txtConfigurationObjectName.setText(objectRule.getConfigurationObjectName());
 
-		txtFormatObjectName.setText(objectRule.getFormatObjectName());
+		txtFormatObjectName.setText(objectRule.getFormatObject());
 
 		tltmObjectRulesSize1.setSelection(objectRule.getForSending() && !objectRule.getForReceiving());
 		tltmObjectRulesSize2.setSelection(!objectRule.getForSending() && objectRule.getForReceiving());

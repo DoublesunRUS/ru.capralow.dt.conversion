@@ -47,27 +47,11 @@ import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
-import com._1c.g5.v8.dt.mcore.Field;
-import com._1c.g5.v8.dt.metadata.mdclass.BasicRegister;
-import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
-import com._1c.g5.v8.dt.metadata.mdclass.CatalogAttribute;
-import com._1c.g5.v8.dt.metadata.mdclass.CatalogTabularSection;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypes;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypesAttribute;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypesTabularSection;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypes;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypesAttribute;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypesTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
-import com._1c.g5.v8.dt.metadata.mdclass.Document;
-import com._1c.g5.v8.dt.metadata.mdclass.DocumentAttribute;
-import com._1c.g5.v8.dt.metadata.mdclass.DocumentTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
-import com._1c.g5.v8.dt.metadata.mdclass.StandardAttribute;
-import com._1c.g5.v8.dt.metadata.mdclass.StandardTabularSectionDescription;
+import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
-import com._1c.g5.v8.dt.metadata.mdclass.TabularSectionAttribute;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
@@ -339,11 +323,12 @@ public class ConversionModuleAnalyzer {
 						String configurationObjectName = rightFeatureAccess3.getName() + "."
 								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						EObject configurationObject = getConfigurationObject(configurationObjectName,
+						MdObject configurationObject = getConfigurationObject(configurationObjectName,
 								bmEmfIndexProvider);
 
-						dataRule.setConfigurationObject(configurationObject);
 						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
+						dataRule.setConfigurationObject(configurationObject);
+						dataRule.setConfigurationObjectName(configurationObjectName);
 						fillSubsystemsforObject(configurationObject, dataRule.getSubsystems());
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
@@ -485,8 +470,8 @@ public class ConversionModuleAnalyzer {
 		} else if (methodName.startsWith("ДобавитьПКО_")) {
 			CmObjectRule objectRule = null;
 
-			String configurationTabularSectionName = "";
-			String formatTabularSectionName = "";
+			String configurationTabularSection = "";
+			String formatTabularSection = "";
 
 			for (Statement statement : method.allStatements()) {
 				Expression leftExpression = ((SimpleStatement) statement).getLeft();
@@ -498,17 +483,17 @@ public class ConversionModuleAnalyzer {
 						continue;
 
 					else if (leftFeatureAccess.getName().equals("СвойстваШапки")) {
-						configurationTabularSectionName = "";
-						formatTabularSectionName = "";
+						configurationTabularSection = "";
+						formatTabularSection = "";
 
 					} else if (leftFeatureAccess.getName().equals("СвойстваТЧ")) {
 						Invocation rightInvocation = (Invocation) ((SimpleStatement) statement).getRight();
 
 						EList<Expression> params = rightInvocation.getParams();
 
-						configurationTabularSectionName = ((StringLiteral) params.get(1)).getLines().get(0)
-								.replace("\"", "");
-						formatTabularSectionName = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
+						configurationTabularSection = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"",
+								"");
+						formatTabularSection = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
 
 					} else {
 						throw new NullPointerException(
@@ -536,10 +521,11 @@ public class ConversionModuleAnalyzer {
 						String configurationObjectName = rightFeatureAccess3.getName() + "."
 								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
 
-						EObject configurationObject = getConfigurationObject(configurationObjectName,
+						MdObject configurationObject = getConfigurationObject(configurationObjectName,
 								bmEmfIndexProvider);
 
 						objectRule.setConfigurationObject(configurationObject);
+						objectRule.setConfigurationObjectName(configurationObjectName);
 
 						fillSubsystemsforObject(configurationObject, objectRule.getSubsystems());
 
@@ -652,35 +638,18 @@ public class ConversionModuleAnalyzer {
 
 						CmAttributeRuleImpl attributeRule = new CmAttributeRuleImpl();
 
-						attributeRule.setConfigurationTabularSectionName(configurationTabularSectionName);
-						attributeRule.setConfigurationAttributeName(configurationAttribute);
+						attributeRule.setConfigurationTabularSection(configurationTabularSection);
+						attributeRule.setConfigurationAttribute(configurationAttribute);
 						if (configurationAttribute.length() == 0)
-							attributeRule.setConfigurationTabularSectionName("");
+							attributeRule.setConfigurationTabularSection("");
 
-						attributeRule.setFormatTabularSectionName(formatTabularSectionName);
-						attributeRule.setFormatAttributeName(formatAttribute);
+						attributeRule.setFormatTabularSection(formatTabularSection);
+						attributeRule.setFormatAttribute(formatAttribute);
 						if (formatAttribute.length() == 0)
-							attributeRule.setFormatTabularSectionName("");
+							attributeRule.setFormatTabularSection("");
 
 						attributeRule.setIsCustomRule(isCustomRule);
 						attributeRule.setObjectRule(attributeObjectRule);
-
-						if (configurationTabularSectionName.equals("НаборЗаписей"))
-							configurationTabularSectionName = "";
-
-						if (!configurationTabularSectionName.isEmpty()) {
-							EObject configurationObject = getConfigurationObject(objectRule.getConfigurationObject(),
-									configurationTabularSectionName);
-
-							attributeRule.setConfigurationTabularSection(configurationObject);
-						}
-
-						if (!configurationAttribute.isEmpty()) {
-							EObject configurationObject = getConfigurationObject(objectRule.getConfigurationObject(),
-									configurationTabularSectionName, configurationAttribute);
-
-							attributeRule.setConfigurationAttribute(configurationObject);
-						}
 
 						attributeRules.add(attributeRule);
 
@@ -778,6 +747,7 @@ public class ConversionModuleAnalyzer {
 
 						predefined.setConfigurationObject(
 								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
+						predefined.setConfigurationObjectName(configurationObjectName);
 
 					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -951,6 +921,7 @@ public class ConversionModuleAnalyzer {
 
 						dataRule.setConfigurationObject(
 								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
+						dataRule.setConfigurationObjectName(configurationObjectName);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1091,7 +1062,7 @@ public class ConversionModuleAnalyzer {
 		} else if (methodName.startsWith("ДобавитьПКО_")) {
 			CmObjectRule objectRule = null;
 
-			String configurationTabularSectionName = "";
+			String configurationTabularSection = "";
 			String formatTabularSectionName = "";
 
 			for (Statement statement : method.allStatements()) {
@@ -1107,7 +1078,7 @@ public class ConversionModuleAnalyzer {
 
 						DynamicFeatureAccess source = (DynamicFeatureAccess) rightFeatureAccess.getSource();
 						if (source.getName().equals("Свойства")) {
-							configurationTabularSectionName = "";
+							configurationTabularSection = "";
 							formatTabularSectionName = "";
 						}
 
@@ -1139,6 +1110,7 @@ public class ConversionModuleAnalyzer {
 
 						objectRule.setConfigurationObject(
 								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
+						objectRule.setConfigurationObjectName(configurationObjectName);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1249,15 +1221,15 @@ public class ConversionModuleAnalyzer {
 
 						CmAttributeRuleImpl attributeRule = new CmAttributeRuleImpl();
 
-						attributeRule.setConfigurationTabularSectionName(configurationTabularSectionName);
-						attributeRule.setConfigurationAttributeName(configurationAttribute);
+						attributeRule.setConfigurationTabularSection(configurationTabularSection);
+						attributeRule.setConfigurationAttribute(configurationAttribute);
 						if (configurationAttribute.length() == 0)
-							attributeRule.setConfigurationTabularSectionName("");
+							attributeRule.setConfigurationTabularSection("");
 
-						attributeRule.setFormatTabularSectionName(formatTabularSectionName);
-						attributeRule.setFormatAttributeName(formatAttribute);
+						attributeRule.setFormatTabularSection(formatTabularSectionName);
+						attributeRule.setFormatAttribute(formatAttribute);
 						if (formatAttribute.length() == 0)
-							attributeRule.setFormatTabularSectionName("");
+							attributeRule.setFormatTabularSection("");
 
 						attributeRule.setIsCustomRule(isCustomRule);
 						attributeRule.setObjectRule(attributeObjectRule);
@@ -1355,6 +1327,7 @@ public class ConversionModuleAnalyzer {
 
 						predefined.setConfigurationObject(
 								getConfigurationObject(configurationObjectName, bmEmfIndexProvider));
+						predefined.setConfigurationObjectName(configurationObjectName);
 
 					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1439,7 +1412,7 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private EObject getConfigurationObject(String objectFullName, IBmEmfIndexProvider bmEmfIndexProvider) {
+	private MdObject getConfigurationObject(String objectFullName, IBmEmfIndexProvider bmEmfIndexProvider) {
 		String[] objectArray = objectFullName.split("[.]");
 
 		String objectType = objectArray[1];
@@ -1474,223 +1447,16 @@ public class ConversionModuleAnalyzer {
 
 		}
 
-		EObject object = null;
+		MdObject object = null;
 
 		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndexByType(mdLiteral, qnObjectName,
 				true);
 		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 		if (objectItr.hasNext())
-			object = objectItr.next().getEObjectOrProxy();
+			object = (MdObject) objectItr.next().getEObjectOrProxy();
 
 		if (object == null)
 			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + objectFullName));
-
-		return object;
-	}
-
-	private EObject getConfigurationObject(Object configurationObject, String attributeTabularName) {
-
-		EObject object = null;
-
-		if (configurationObject instanceof Catalog) {
-			for (CatalogTabularSection tabularSection : ((Catalog) configurationObject).getTabularSections())
-				if (tabularSection.getName().equals(attributeTabularName)) {
-					object = tabularSection;
-					break;
-				}
-
-		} else if (configurationObject instanceof Document) {
-			Document typedObject = (Document) configurationObject;
-			for (DocumentTabularSection tabularSection : typedObject.getTabularSections())
-				if (tabularSection.getName().equals(attributeTabularName)) {
-					object = tabularSection;
-					break;
-				}
-			if (object == null)
-				for (BasicRegister tabularSection : typedObject.getRegisterRecords())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						object = tabularSection;
-						break;
-					}
-
-		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
-			for (ChartOfCharacteristicTypesTabularSection tabularSection : ((ChartOfCharacteristicTypes) configurationObject)
-					.getTabularSections())
-				if (tabularSection.getName().equals(attributeTabularName)) {
-					object = tabularSection;
-					break;
-				}
-
-		} else if (configurationObject instanceof ChartOfCalculationTypes) {
-			ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
-			for (StandardTabularSectionDescription tabularSection : typedObject.getStandardTabularSections())
-				if (tabularSection.getName().equals(attributeTabularName)) {
-					object = tabularSection;
-					break;
-				}
-			if (object == null)
-				for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						object = tabularSection;
-						break;
-					}
-
-		}
-
-		if (object == null)
-			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID,
-					"Не найдена табличная часть конфигурации: " + attributeTabularName));
-
-		return object;
-	}
-
-	private EObject getConfigurationObject(Object configurationObject, String attributeTabularName,
-			String attributeName) {
-
-		EObject object = null;
-
-		if (attributeTabularName.isEmpty()) {
-			if (configurationObject instanceof Catalog) {
-				Catalog typedObject = (Catalog) configurationObject;
-				for (StandardAttribute attribute : typedObject.getStandardAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
-				if (object == null)
-					for (CatalogAttribute attribute : typedObject.getAttributes())
-						if (attribute.getName().equals(attributeName)) {
-							object = attribute;
-							break;
-						}
-
-			} else if (configurationObject instanceof Document) {
-				Document typedObject = (Document) configurationObject;
-				for (StandardAttribute attribute : typedObject.getStandardAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
-				if (object == null)
-					for (DocumentAttribute attribute : typedObject.getAttributes())
-						if (attribute.getName().equals(attributeName)) {
-							object = attribute;
-							break;
-						}
-
-			} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
-				ChartOfCharacteristicTypes typedObject = (ChartOfCharacteristicTypes) configurationObject;
-				for (StandardAttribute attribute : typedObject.getStandardAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
-				if (object == null)
-					for (ChartOfCharacteristicTypesAttribute attribute : typedObject.getAttributes())
-						if (attribute.getName().equals(attributeName)) {
-							object = attribute;
-							break;
-						}
-
-			} else if (configurationObject instanceof ChartOfCalculationTypes) {
-				ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
-				for (StandardAttribute attribute : typedObject.getStandardAttributes())
-					if (attribute.getName().equals(attributeName)) {
-						object = attribute;
-						break;
-					}
-				if (object == null)
-					for (ChartOfCalculationTypesAttribute attribute : typedObject.getAttributes())
-						if (attribute.getName().equals(attributeName)) {
-							object = attribute;
-							break;
-						}
-
-			}
-
-			if (object == null)
-				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID,
-						"Не найден реквизит конфигурации: ".concat(attributeName)));
-
-		} else {
-			if (configurationObject instanceof Catalog) {
-				for (CatalogTabularSection tabularSection : ((Catalog) configurationObject).getTabularSections())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
-							if (attribute.getName().equals(attributeName)) {
-								object = attribute;
-								break;
-							}
-						break;
-					}
-
-			} else if (configurationObject instanceof Document) {
-				Document typedObject = (Document) configurationObject;
-				for (DocumentTabularSection tabularSection : typedObject.getTabularSections())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
-							if (attribute.getName().equals(attributeName)) {
-								object = attribute;
-								break;
-							}
-						break;
-					}
-				if (object == null)
-					for (BasicRegister tabularSection : typedObject.getRegisterRecords())
-						if (tabularSection.getName().equals(attributeTabularName)) {
-							for (Field attribute : tabularSection.getFields()) {
-								String fieldAttributeName = attribute.getName();
-								if (attribute instanceof Field)
-									fieldAttributeName = attribute.getNameRu();
-								if (fieldAttributeName.equals(attributeName)) {
-									object = attribute;
-									break;
-								}
-								break;
-							}
-						}
-
-			} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
-				for (ChartOfCharacteristicTypesTabularSection tabularSection : ((ChartOfCharacteristicTypes) configurationObject)
-						.getTabularSections())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						for (TabularSectionAttribute attribute : tabularSection.getAttributes())
-							if (attribute.getName().equals(attributeName)) {
-								object = attribute;
-								break;
-							}
-						break;
-					}
-
-			} else if (configurationObject instanceof ChartOfCalculationTypes) {
-				ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
-				for (StandardTabularSectionDescription tabularSection : typedObject.getStandardTabularSections())
-					if (tabularSection.getName().equals(attributeTabularName)) {
-						for (StandardAttribute attribute : tabularSection.getStandardAttributes())
-							if (attribute.getName().equals(attributeName)) {
-								object = attribute;
-								break;
-							}
-						break;
-					}
-				if (object == null)
-					for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections())
-						if (tabularSection.getName().equals(attributeTabularName)) {
-							for (TabularSectionAttribute attribute : tabularSection.getAttributes())
-								if (attribute.getName().equals(attributeName)) {
-									object = attribute;
-									break;
-								}
-							break;
-						}
-
-			}
-
-			if (object == null)
-				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден реквизит конфигурации: "
-						.concat(attributeTabularName).concat(".").concat(attributeName)));
-
-		}
 
 		return object;
 	}

@@ -171,7 +171,7 @@ public class PredefinedDialog extends Dialog {
 
 		txtConfigurationObjectName.setText(predefined.getConfigurationObjectName());
 
-		txtFormatObjectName.setText(predefined.getFormatObjectName());
+		txtFormatObjectName.setText(predefined.getFormatObject());
 
 		tltmpredefinedsSize1.setSelection(predefined.getForSending() && !predefined.getForReceiving());
 		tltmpredefinedsSize2.setSelection(!predefined.getForSending() && predefined.getForReceiving());

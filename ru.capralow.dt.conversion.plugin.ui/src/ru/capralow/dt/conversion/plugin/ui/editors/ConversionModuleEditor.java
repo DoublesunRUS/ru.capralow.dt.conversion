@@ -407,7 +407,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmObjectRule) element).getFormatObject() == null)
 					return "";
-				return ((CmObjectRule) element).getFormatObjectName();
+				return ((CmObjectRule) element).getFormatObject();
 			}
 		});
 		TableViewerColumn tblclmnSendingObjectRulesColumn4 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
@@ -459,7 +459,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmDataRule) element).getFormatObject() == null)
 					return "";
-				return ((CmDataRule) element).getFormatObjectName();
+				return ((CmDataRule) element).getFormatObject();
 			}
 		});
 		TableViewerColumn tblclmnReceivingDataRulesColumn3 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
@@ -513,7 +513,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmObjectRule) element).getFormatObject() == null)
 					return "";
-				return ((CmObjectRule) element).getFormatObjectName();
+				return ((CmObjectRule) element).getFormatObject();
 			}
 		});
 		TableViewerColumn tblclmnReceivingObjectRulesColumn2 = new TableViewerColumn(viewerReceivingObjectRules,
@@ -607,7 +607,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmPredefined) element).getFormatObject() == null)
 					return "";
-				return ((CmPredefined) element).getFormatObjectName();
+				return ((CmPredefined) element).getFormatObject();
 			}
 		});
 		TableViewerColumn tblclmnPredefinedsColumn4 = new TableViewerColumn(viewerPredefineds, SWT.NONE);

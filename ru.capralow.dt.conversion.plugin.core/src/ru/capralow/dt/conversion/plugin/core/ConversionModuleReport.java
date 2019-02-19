@@ -1,25 +1,25 @@
 package ru.capralow.dt.conversion.plugin.core;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 
-import com._1c.g5.v8.dt.mcore.DerivedField;
+import com._1c.g5.v8.dt.metadata.mdclass.BasicRegister;
 import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
-import com._1c.g5.v8.dt.metadata.mdclass.CatalogAttribute;
 import com._1c.g5.v8.dt.metadata.mdclass.CatalogTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypes;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypesAttribute;
 import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypesTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypes;
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypesAttribute;
 import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypesTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.Document;
-import com._1c.g5.v8.dt.metadata.mdclass.DocumentAttribute;
 import com._1c.g5.v8.dt.metadata.mdclass.DocumentTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.Enum;
 import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister;
-import com._1c.g5.v8.dt.metadata.mdclass.TabularSectionAttribute;
+import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
+import com._1c.g5.v8.dt.metadata.mdclass.StandardAttribute;
+import com._1c.g5.v8.dt.metadata.mdclass.StandardTabularSectionDescription;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
@@ -44,17 +44,18 @@ public class ConversionModuleReport {
 		result += "Описание формата загрузки данных " + formatPackage.getVersion() + "\r\n\r\n";
 		result += "[TOC]\r\n\r\n";
 
-		for (CmSubsystem subsystem : conversionModule.getSubsystems()) {
-			EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(subsystem);
+		for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
+			EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
 			if (receivingObjectRules.size() == 0)
 				continue;
 
-			result += "### " + subsystem.getName() + "\r\n\r\n";
+			result += "### " + cmSubsystem.getName() + "\r\n\r\n";
 
 			for (Object objectRule : receivingObjectRules) {
 				CmObjectRule cmObjectRule = (CmObjectRule) objectRule;
 
-				Object configurationObject = cmObjectRule.getConfigurationObject();
+				MdObject configurationObject = cmObjectRule.getConfigurationObject();
+
 				String objectSynonym = "";
 				if (configurationObject instanceof Catalog) {
 					objectSynonym = ((Catalog) configurationObject).getSynonym().get("ru");
@@ -75,13 +76,12 @@ public class ConversionModuleReport {
 					objectSynonym = ((InformationRegister) configurationObject).getSynonym().get("ru");
 
 				}
-
 				if (cmObjectRule.getForGroup())
 					objectSynonym += " (группа)";
 
 				result += "##### " + objectSynonym + "\r\n";
 				result += "---\r\n";
-				result += "Объект формата: " + cmObjectRule.getFormatObjectName() + "\r\n";
+				result += "Объект формата: " + cmObjectRule.getFormatObject() + "\r\n";
 				result += "Объект конфигурации: " + cmObjectRule.getConfigurationObjectName() + "\r\n";
 				result += "\r\n";
 
@@ -102,14 +102,106 @@ public class ConversionModuleReport {
 					}
 				}
 
+				Map<String, String> tabularSectionSynonyms = new HashMap<String, String>();
+				Map<String, String> attributeSynonyms = new HashMap<String, String>();
+
+				if (configurationObject instanceof Catalog) {
+					Catalog typedObject = (Catalog) configurationObject;
+
+					for (StandardAttribute attribute : typedObject.getStandardAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedObject.getAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+
+					for (CatalogTabularSection tabularSection : ((Catalog) configurationObject).getTabularSections()) {
+						tabularSectionSynonyms.put(tabularSection.getName(), tabularSection.getSynonym().get("ru"));
+
+						for (StandardAttribute attribute : tabularSection.getStandardAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+						for (MdObject attribute : tabularSection.getAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+					}
+
+				} else if (configurationObject instanceof Document) {
+					Document typedObject = (Document) configurationObject;
+
+					for (StandardAttribute attribute : typedObject.getStandardAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedObject.getAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+
+					for (DocumentTabularSection tabularSection : typedObject.getTabularSections()) {
+						tabularSectionSynonyms.put(tabularSection.getName(), tabularSection.getSynonym().get("ru"));
+
+						for (StandardAttribute attribute : tabularSection.getStandardAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+						for (MdObject attribute : tabularSection.getAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+					}
+
+					for (BasicRegister tabularSection : typedObject.getRegisterRecords()) {
+						tabularSectionSynonyms.put(tabularSection.getName(), tabularSection.getSynonym().get("ru"));
+					}
+
+				} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
+					ChartOfCharacteristicTypes typedObject = (ChartOfCharacteristicTypes) configurationObject;
+
+					for (StandardAttribute attribute : typedObject.getStandardAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedObject.getAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+
+					for (ChartOfCharacteristicTypesTabularSection tabularSection : typedObject.getTabularSections()) {
+						tabularSectionSynonyms.put(tabularSection.getName(), tabularSection.getSynonym().get("ru"));
+
+						for (StandardAttribute attribute : tabularSection.getStandardAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+						for (MdObject attribute : tabularSection.getAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+					}
+
+				} else if (configurationObject instanceof ChartOfCalculationTypes) {
+					ChartOfCalculationTypes typedObject = (ChartOfCalculationTypes) configurationObject;
+					for (StandardAttribute attribute : typedObject.getStandardAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedObject.getAttributes())
+						attributeSynonyms.put(attribute.getName(), attribute.getSynonym().get("ru"));
+
+					for (StandardTabularSectionDescription tabularSection : typedObject.getStandardTabularSections()) {
+						tabularSectionSynonyms.put(tabularSection.getName(), tabularSection.getSynonym().get("ru"));
+
+						for (StandardAttribute attribute : tabularSection.getStandardAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+					}
+
+					for (ChartOfCalculationTypesTabularSection tabularSection : typedObject.getTabularSections()) {
+						tabularSectionSynonyms.put(tabularSection.getName(), tabularSection.getSynonym().get("ru"));
+
+						for (StandardAttribute attribute : tabularSection.getStandardAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+						for (MdObject attribute : tabularSection.getAttributes())
+							attributeSynonyms.put(tabularSection.getName().concat(".").concat(attribute.getName()),
+									attribute.getSynonym().get("ru"));
+					}
+
+				}
+
 				String configurationTabularSectionName = "<>";
 				String formatTabularSectionName = "<>";
 				for (CmAttributeRule attributeRule : cmObjectRule.getAttributeRules()) {
-					if (!(attributeRule.getConfigurationTabularSectionName().equals(configurationTabularSectionName))
-							|| !(attributeRule.getFormatTabularSectionName().equals(formatTabularSectionName))) {
+					if (!(attributeRule.getConfigurationTabularSection().equals(configurationTabularSectionName))
+							|| !(attributeRule.getFormatTabularSection().equals(formatTabularSectionName))) {
 
-						configurationTabularSectionName = attributeRule.getConfigurationTabularSectionName();
-						formatTabularSectionName = attributeRule.getFormatTabularSectionName();
+						configurationTabularSectionName = attributeRule.getConfigurationTabularSection();
+						formatTabularSectionName = attributeRule.getFormatTabularSection();
 
 						if (configurationTabularSectionName.equals("")) {
 							result += "\r\n";
@@ -119,29 +211,10 @@ public class ConversionModuleReport {
 
 						} else {
 
-							String tabularSynonym = configurationTabularSectionName;
-							Object configurationTabularSection = attributeRule.getConfigurationTabularSection();
-							if (configurationTabularSection != null) {
-								tabularSynonym = "<Не задан синоним>" + configurationTabularSectionName;
-								if (configurationTabularSection instanceof CatalogTabularSection) {
-									tabularSynonym = ((CatalogTabularSection) configurationTabularSection).getSynonym()
-											.get("ru");
-
-								} else if (configurationTabularSection instanceof DocumentTabularSection) {
-									tabularSynonym = ((DocumentTabularSection) configurationTabularSection).getSynonym()
-											.get("ru");
-
-								} else if (configurationTabularSection instanceof ChartOfCharacteristicTypesTabularSection) {
-									tabularSynonym = ((ChartOfCharacteristicTypesTabularSection) configurationTabularSection)
-											.getSynonym().get("ru");
-
-								} else if (configurationTabularSection instanceof ChartOfCalculationTypesTabularSection) {
-									tabularSynonym = ((ChartOfCalculationTypesTabularSection) configurationTabularSection)
-											.getSynonym().get("ru");
-
-								} else
-									tabularSynonym = "<Неизвестный тип ТЧ>" + configurationTabularSection.getClass();
-							}
+							String tabularSynonym = tabularSectionSynonyms
+									.get(attributeRule.getConfigurationTabularSection());
+							if (tabularSynonym == null)
+								tabularSynonym = attributeRule.getConfigurationTabularSection();
 
 							result += "\r\n\r\n";
 							result += "**Табличная часть: " + tabularSynonym + "**\r\n\r\n";
@@ -151,41 +224,16 @@ public class ConversionModuleReport {
 
 					}
 
-					String attributeSynonym = attributeRule.getConfigurationAttributeName();
-					Object configurationAttribute = attributeRule.getConfigurationAttribute();
-					if (configurationAttribute != null) {
-						attributeSynonym = "<Не задан синоним>" + attributeRule.getConfigurationAttributeName();
-						if (configurationAttribute instanceof CatalogAttribute) {
-							attributeSynonym = ((CatalogAttribute) configurationAttribute).getSynonym().get("ru");
-
-						} else if (configurationAttribute instanceof DocumentAttribute) {
-							attributeSynonym = ((DocumentAttribute) configurationAttribute).getSynonym().get("ru");
-
-						} else if (configurationAttribute instanceof ChartOfCharacteristicTypesAttribute) {
-							attributeSynonym = ((ChartOfCharacteristicTypesAttribute) configurationAttribute)
-									.getSynonym().get("ru");
-
-						} else if (configurationAttribute instanceof ChartOfCalculationTypesAttribute) {
-							attributeSynonym = ((ChartOfCalculationTypesAttribute) configurationAttribute).getSynonym()
-									.get("ru");
-
-						} else if (configurationAttribute instanceof TabularSectionAttribute) {
-							attributeSynonym = ((TabularSectionAttribute) configurationAttribute).getSynonym()
-									.get("ru");
-
-						} else if (configurationAttribute instanceof DerivedField) {
-							attributeSynonym = ((DerivedField) configurationAttribute).getNameRu();
-
-						} else
-							attributeSynonym = "<Неизвестный тип атрибута>" + configurationAttribute.getClass();
-					}
+					String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
+					if (attributeSynonym == null)
+						attributeSynonym = attributeRule.getConfigurationAttribute();
 
 					String propertyTypeName = attributeRule.getFormatAttributeFullName().length() != 0
 							? "<Свойство формата не найдено>"
 							: "";
 					String required = "";
 					String comment = "";
-					FpProperty property = formatPackage.getProperty(cmObjectRule.getFormatObjectName(),
+					FpProperty property = formatPackage.getProperty(cmObjectRule.getFormatObject(),
 							attributeRule.getFormatAttributeFullName());
 
 					if (property != null) {
@@ -193,11 +241,11 @@ public class ConversionModuleReport {
 						required = property.getRequired() ? "Да" : "";
 					}
 
-					if (attributeRule.getFormatAttributeName().isEmpty())
+					if (attributeRule.getFormatAttribute().isEmpty())
 						comment = "<Заполняется алгоритмом>";
 
-					result += attributeRule.getFormatAttributeName() + " | " + propertyTypeName + " | "
-							+ attributeSynonym + " | " + required + " | " + comment + "\r\n";
+					result += attributeRule.getFormatAttribute() + " | " + propertyTypeName + " | " + attributeSynonym
+							+ " | " + required + " | " + comment + "\r\n";
 				}
 
 				result += "\r\n\r\n\r\n";
@@ -207,5 +255,4 @@ public class ConversionModuleReport {
 
 		return result;
 	}
-
 }

@@ -3,13 +3,7 @@
 )
 package ru.capralow.dt.conversion.plugin.core.cm
 
-import com._1c.g5.v8.dt.metadata.mdclass.Subsystem
-import com._1c.g5.v8.dt.metadata.mdclass.Catalog
-import com._1c.g5.v8.dt.metadata.mdclass.Document
-import com._1c.g5.v8.dt.metadata.mdclass.Enum
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCharacteristicTypes
-import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypes
-import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister
+import com._1c.g5.v8.dt.metadata.mdclass.MdObject
 
 class ConversionModule {
 	String storeVersion = "1"
@@ -264,7 +258,7 @@ class ConversionModule {
 &ЗаполнениеМассиваПравил
 КонецПроцедуры"
 				.replaceAll("&ИмяПОД", dataRule.name)
-				.replace("&ОбъектВыборкиМетаданные", dataRule.getConfigurationObjectName())
+				.replace("&ОбъектВыборкиМетаданные", dataRule.configurationObjectName)
 				.replace("ПравилоОбработки.ОбъектВыборкиМетаданные = ;", "ПравилоОбработки.ОбъектВыборкиМетаданные = Неопределено;")
 				.replace("&ПриОбработке", dataRule.getOnProcessingEventDeclaration())
 				.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
@@ -310,7 +304,7 @@ class ConversionModule {
 &ЗаполнениеМассиваПравил
 КонецПроцедуры"
 				.replaceAll("&ИмяПОД", dataRule.name)
-				.replace("&ОбъектВыборкиФормат", dataRule.getFormatObjectName())
+				.replace("&ОбъектВыборкиФормат", dataRule.formatObject)
 				.replace("&ПриОбработке", dataRule.getOnProcessingEventDeclaration())
 				.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
 				.replace("&ЗаполнениеМассиваПравил", objectRulesText)
@@ -347,43 +341,10 @@ class CmDataRule {
 	
 	Boolean isDisabled = "false"
 	
-	Object configurationObject
-	derived String configurationObjectName get {
-		if (configurationObject === null) {
-			return "";
-		}
+	refers MdObject configurationObject
+	String configurationObjectName
 
-		var result = configurationObject.toString();
-		if (configurationObject instanceof Catalog) {
-			result = "СправочникСсылка." + (configurationObject as Catalog).getName();
-			
-		} else if (configurationObject instanceof Document) {
-			result = "ДокументСсылка." + (configurationObject as Document).getName();
-			
-		} else if (configurationObject instanceof Enum) {
-			result = "ПеречислениеСсылка." + (configurationObject as Enum).getName();
-			
-		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
-			result = "ПланВидовХарактеристикСсылка." + (configurationObject as ChartOfCharacteristicTypes).getName();
-			
-		} else if (configurationObject instanceof ChartOfCalculationTypes) {
-			result = "ПланВидовРасчетаСсылка." + (configurationObject as ChartOfCalculationTypes).getName();
-			
-		} else if (configurationObject instanceof InformationRegister) {
-			result = "РегистрСведенийНаборЗаписей." + (configurationObject as InformationRegister).getName();
-			
-		}
-
-		return result;
-	}
-	Object formatObject
-	op String getFormatObjectName() {
-		if (formatObject === null) {
-			return "";
-		}
-
-		return formatObject.toString();
-	}
+	String formatObject
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
@@ -486,43 +447,10 @@ class CmObjectRule {
 	
 	Boolean isDisabled = "false"
 	
-	Object configurationObject
-	derived String configurationObjectName get {
-		if (configurationObject === null) {
-			return "";
-		}
+	refers MdObject configurationObject
+	String configurationObjectName
 
-		var result = configurationObject.toString();
-		if (configurationObject instanceof Catalog) {
-			result = "СправочникСсылка." + (configurationObject as Catalog).getName();
-			
-		} else if (configurationObject instanceof Document) {
-			result = "ДокументСсылка." + (configurationObject as Document).getName();
-			
-		} else if (configurationObject instanceof Enum) {
-			result = "ПеречислениеСсылка." + (configurationObject as Enum).getName();
-			
-		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
-			result = "ПланВидовХарактеристикСсылка." + (configurationObject as ChartOfCharacteristicTypes).getName();
-			
-		} else if (configurationObject instanceof ChartOfCalculationTypes) {
-			result = "ПланВидовРасчетаСсылка." + (configurationObject as ChartOfCalculationTypes).getName();
-			
-		} else if (configurationObject instanceof InformationRegister) {
-			result = "РегистрСведенийНаборЗаписей." + (configurationObject as InformationRegister).getName();
-			
-		}
-
-		return result;
-	}
-	Object formatObject
-	op String getFormatObjectName() {
-		if (formatObject === null) {
-			return "";
-		}
-
-		return formatObject.toString();
-	}
+	String formatObject
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
@@ -604,24 +532,22 @@ enum CmIdentificationVariant {
 }
 
 class CmAttributeRule {
-	Object configurationTabularSection
-	Object configurationAttribute
+	String configurationTabularSection = ""
+	String configurationAttribute = ""
 	
-	String configurationTabularSectionName = ""
-	String configurationAttributeName = ""
 	op String getConfigurationAttributeFullName() {
-		var result = configurationAttributeName;
-		if (configurationTabularSectionName.length != 0)
-			result = configurationTabularSectionName + "." + result;
+		var result = configurationAttribute;
+		if (configurationTabularSection.length != 0)
+			result = configurationTabularSection + "." + result;
 		return result;
 	}
 
-	String formatTabularSectionName = ""
-	String formatAttributeName = ""
+	String formatTabularSection = ""
+	String formatAttribute = ""
 	op String getFormatAttributeFullName() {
-		var result = formatAttributeName;
-		if (formatTabularSectionName.length != 0)
-			result = formatTabularSectionName + "." + result;
+		var result = formatAttribute;
+		if (formatTabularSection.length != 0)
+			result = formatTabularSection + "." + result;
 		return result;
 	}
 	
@@ -635,43 +561,10 @@ class CmPredefined {
 	
 	String name = ""
 	
-	Object configurationObject
-	derived String configurationObjectName get {
-		if (configurationObject === null) {
-			return "";
-		}
+	refers MdObject configurationObject
+	String configurationObjectName
 
-		var result = configurationObject.toString();
-		if (configurationObject instanceof Catalog) {
-			result = "СправочникСсылка." + (configurationObject as Catalog).getName();
-			
-		} else if (configurationObject instanceof Document) {
-			result = "ДокументСсылка." + (configurationObject as Document).getName();
-			
-		} else if (configurationObject instanceof Enum) {
-			result = "ПеречислениеСсылка." + (configurationObject as Enum).getName();
-			
-		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
-			result = "ПланВидовХарактеристикСсылка." + (configurationObject as ChartOfCharacteristicTypes).getName();
-			
-		} else if (configurationObject instanceof ChartOfCalculationTypes) {
-			result = "ПланВидовРасчетаСсылка." + (configurationObject as ChartOfCalculationTypes).getName();
-			
-		} else if (configurationObject instanceof InformationRegister) {
-			result = "РегистрСведенийНаборЗаписей." + (configurationObject as InformationRegister).getName();
-			
-		}
-
-		return result;
-	}
-	Object formatObject
-	op String getFormatObjectName() {
-		if (formatObject === null) {
-			return "";
-		}
-
-		return formatObject.toString();
-	}
+	String formatObject
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
@@ -764,14 +657,19 @@ enum CmMethodType {
 }
 
 class CmSubsystem {
-	derived String name get {
-		if (specialSubsystemType == CmSpecialSubsystemType.ALL || specialSubsystemType == CmSpecialSubsystemType.EMPTY)
-			return specialSubsystemType.toString;
-			
-		return (subsystem as Subsystem).getSynonym().get("ru");
-	}
+	refers MdObject subsystem
 	
-	Object subsystem
+	derived String name get {
+		var name = "";
+		
+		if (specialSubsystemType == CmSpecialSubsystemType.SUBSYSTEM) {
+			name = subsystem.getName();
+		} else {
+			name = specialSubsystemType.getLiteral();
+		}
+	
+		return name;
+	}
 	
 	CmSpecialSubsystemType specialSubsystemType
 }

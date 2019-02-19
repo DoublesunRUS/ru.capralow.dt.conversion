@@ -250,7 +250,7 @@ public class ReceivingDataRuleDialog extends Dialog {
 		tltmSelectionVariant1.setSelection(selectionVariant == CmSelectionVariant.STANDART);
 		tltmSelectionVariant2.setSelection(selectionVariant == CmSelectionVariant.CUSTOM);
 
-		txtFormatObjectName.setText(dataRule.getFormatObjectName());
+		txtFormatObjectName.setText(dataRule.getFormatObject());
 
 		EList<CmObjectRule> objectRules = dataRule.getObjectRules();
 
