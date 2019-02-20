@@ -121,13 +121,11 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 	@Override
 	public void dispose() {
-		// TODO Автоматически созданная заглушка метода
 
 	}
 
 	@Override
 	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-		// TODO Автоматически созданная заглушка метода
 
 	}
 

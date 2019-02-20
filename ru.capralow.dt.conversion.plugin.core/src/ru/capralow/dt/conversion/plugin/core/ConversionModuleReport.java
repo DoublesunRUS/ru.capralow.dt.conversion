@@ -228,7 +228,7 @@ public class ConversionModuleReport {
 					if (attributeSynonym == null)
 						attributeSynonym = attributeRule.getConfigurationAttribute();
 
-					String propertyTypeName = attributeRule.getFormatAttributeFullName().length() != 0
+					String propertyType = attributeRule.getFormatAttributeFullName().length() != 0
 							? "<Свойство формата не найдено>"
 							: "";
 					String required = "";
@@ -237,14 +237,14 @@ public class ConversionModuleReport {
 							attributeRule.getFormatAttributeFullName());
 
 					if (property != null) {
-						propertyTypeName = property.getTypeName();
+						propertyType = property.getPropertyType().replaceAll(";", "<br>");
 						required = property.getRequired() ? "Да" : "";
 					}
 
 					if (attributeRule.getFormatAttribute().isEmpty())
 						comment = "<Заполняется алгоритмом>";
 
-					result += attributeRule.getFormatAttribute() + " | " + propertyTypeName + " | " + attributeSynonym
+					result += attributeRule.getFormatAttribute() + " | " + propertyType + " | " + attributeSynonym
 							+ " | " + required + " | " + comment + "\r\n";
 				}
 

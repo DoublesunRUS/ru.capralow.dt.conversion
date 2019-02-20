@@ -693,6 +693,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		hookListeners();
 
+		// FIXME: Найти правильное событие для обновления редактора правил
 		updatePage();
 	}
 

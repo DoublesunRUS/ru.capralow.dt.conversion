@@ -55,31 +55,26 @@ public class ConversionPanelLabelProvider implements ILabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Автоматически созданная заглушка метода
 
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Автоматически созданная заглушка метода
 
 	}
 
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Автоматически созданная заглушка метода
 		return false;
 	}
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Автоматически созданная заглушка метода
 
 	}
 
 	@Override
 	public Image getImage(Object element) {
-		// TODO Автоматически созданная заглушка метода
 		return null;
 	}
 
