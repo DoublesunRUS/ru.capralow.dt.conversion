@@ -3,6 +3,8 @@
 )
 package ru.capralow.dt.conversion.plugin.core.ev
 
+import com._1c.g5.v8.dt.metadata.mdclass.MdObject
+
 class ExchangeVersions {
 	contains EvExchangePair[] ExchangePairs
 	
@@ -41,9 +43,9 @@ class ExchangeVersions {
 
 class EvConfiguration {
 	Object configurationObject
-	String configurationName
+	String configurationName = ""
 	
-	String storeVersion
+	String storeVersion = ""
 	
 	contains EvExtension[] extensions
 	
@@ -63,21 +65,21 @@ class EvConfiguration {
 }
 
 class EvExtension {
-	Object configurationObject
-	String configurationName
+	refers MdObject configurationObject
+	String configurationName = ""
 }
 
 class EvFormatVersion {
-	String version
-	String configurationName
+	String version = ""
+	String configurationName = ""
 	
-	Object module
-	Object xdtoPackage
+	refers MdObject module
+	refers MdObject xdtoPackage
 }
 
 class EvExchangePair {
-	String configurationName1
-	String configurationName2
+	String configurationName1 = ""
+	String configurationName2 = ""
 	EvExchangePairStatus Status
 	String[] versions
 }

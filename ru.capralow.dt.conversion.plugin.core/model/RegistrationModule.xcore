@@ -8,19 +8,19 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class RegistrationModule {
-	String moduleRef
-	String moduleName
- 	String moduleVersion
+	String moduleRef = ""
+	String moduleName = ""
+ 	String moduleVersion = ""
 	Date moduleCreationDate
 	
-	String exchangePlanName
-	String exchangePlanMdObject
+	String exchangePlanName = ""
+	String exchangePlanMdObject =""
 	
-	String runtimeVersion
+	String runtimeVersion = ""
 	
-	String configurationName
-	String configurationSynonym
-	String configurationVersion
+	String configurationName = ""
+	String configurationSynonym = ""
+	String configurationVersion = ""
 	
 	contains ExchangePlanContent[] exchangePlanContent
 	
@@ -28,7 +28,7 @@ class RegistrationModule {
 }
 
 class ExchangePlanContent {
-	String mdObject
+	String mdObject = ""
 	AutoRegistration AutoRecord
 }
 
@@ -38,13 +38,13 @@ class RegistrationRule {
 	Boolean disabled
 	Boolean valid
 	
-	String code
-	String name
-	String mdObject
-	String objectName
-	String mdClass
+	String code = ""
+	String name = ""
+	String mdObject = ""
+	String objectName = ""
+	String mdClass = ""
 	
-	String attributeSendMode
+	String attributeSendMode = ""
 	
 	contains ObjectSelectionRule[] objectSelectionRules
 	contains ExchangePlanSelectionRule[] exchangePlanSelectionRules

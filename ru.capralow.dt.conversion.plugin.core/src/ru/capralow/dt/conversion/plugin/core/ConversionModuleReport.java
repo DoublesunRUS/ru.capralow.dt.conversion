@@ -196,6 +196,8 @@ public class ConversionModuleReport {
 
 				String configurationTabularSectionName = "<>";
 				String formatTabularSectionName = "<>";
+				String objectKeysResult = "";
+				String objectAttributesResult = "";
 				for (CmAttributeRule attributeRule : cmObjectRule.getAttributeRules()) {
 					if (!(attributeRule.getConfigurationTabularSection().equals(configurationTabularSectionName))
 							|| !(attributeRule.getFormatTabularSection().equals(formatTabularSectionName))) {
@@ -216,10 +218,10 @@ public class ConversionModuleReport {
 							if (tabularSynonym == null)
 								tabularSynonym = attributeRule.getConfigurationTabularSection();
 
-							result += "\r\n\r\n";
-							result += "**Табличная часть: " + tabularSynonym + "**\r\n\r\n";
-							result += "Свойство формата | Тип значения | Свойство конфигурации | Обязательное | Примечание\r\n";
-							result += "--- | --- | --- | --- | ---\r\n";
+							objectAttributesResult += "\r\n\r\n";
+							objectAttributesResult += "**Табличная часть: " + tabularSynonym + "**\r\n\r\n";
+							objectAttributesResult += "Свойство формата | Тип значения | Свойство конфигурации | Обязательное | Примечание\r\n";
+							objectAttributesResult += "--- | --- | --- | --- | ---\r\n";
 						}
 
 					}
@@ -233,20 +235,30 @@ public class ConversionModuleReport {
 							: "";
 					String required = "";
 					String comment = "";
-					FpProperty property = formatPackage.getProperty(cmObjectRule.getFormatObject(),
+					FpProperty fpProperty = formatPackage.getProperty(cmObjectRule.getFormatObject(),
 							attributeRule.getFormatAttributeFullName());
 
-					if (property != null) {
-						propertyType = property.getPropertyType().replaceAll(";", "<br>");
-						required = property.getRequired() ? "Да" : "";
+					boolean isKey = false;
+					if (fpProperty != null) {
+						propertyType = fpProperty.getPropertyType().replaceAll(";", "<br>");
+						required = fpProperty.getRequired() ? "Да" : "";
+						isKey = fpProperty.getIsKey();
 					}
 
 					if (attributeRule.getFormatAttribute().isEmpty())
 						comment = "<Заполняется алгоритмом>";
 
-					result += attributeRule.getFormatAttribute() + " | " + propertyType + " | " + attributeSynonym
-							+ " | " + required + " | " + comment + "\r\n";
+					if (isKey)
+						objectKeysResult += "*" + attributeRule.getFormatAttribute() + "* | *" + propertyType + "* | *"
+								+ attributeSynonym + "* | *" + required + "* | *" + comment + "*\r\n";
+
+					else
+						objectAttributesResult += attributeRule.getFormatAttribute() + " | " + propertyType + " | "
+								+ attributeSynonym + " | " + required + " | " + comment + "\r\n";
+
 				}
+
+				result += objectKeysResult + objectAttributesResult;
 
 				result += "\r\n\r\n\r\n";
 

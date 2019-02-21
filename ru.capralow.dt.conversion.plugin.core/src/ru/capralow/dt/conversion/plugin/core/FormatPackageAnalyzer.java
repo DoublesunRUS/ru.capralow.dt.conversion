@@ -35,6 +35,7 @@ import ru.capralow.dt.conversion.plugin.core.fp.impl.FpRegisterImpl;
 // TODO: Добавить синонимы для движений документов
 // TODO: Добавить вывод типов, перечислений и предопределенных элементов в конец документа
 // TODO: Добавить переопределение подсистем и полей по комментарию модуля
+// TODO: Ключевые свойства объекта вывести первыми
 
 public class FormatPackageAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
@@ -179,6 +180,8 @@ public class FormatPackageAnalyzer {
 		fpProperty.setRequired(property.getLowerBound() == 1);
 
 		fpProperty.setPropertyType(getPropertyType(property));
+
+		fpProperty.setIsKey(isKey);
 	}
 
 	private String getPropertyType(Property property) {
@@ -240,14 +243,29 @@ public class FormatPackageAnalyzer {
 	private String getBasePropertyType(ValueType propertyValueTypeDef) {
 		String propertyTypeName = propertyValueTypeDef.getBaseType().getName();
 
-		// TODO: Добавить раскрытие остальных типов (decimal и int)
 		if (propertyTypeName.equals("string")) {
 			propertyTypeName = "Строка";
 
 			int maxLength = propertyValueTypeDef.getMaxLength();
-			if (maxLength != 0) {
+			if (maxLength != 0)
 				propertyTypeName += " (".concat(Integer.toString(maxLength)).concat(")");
-			}
+
+		} else if (propertyTypeName.equals("decimal")) {
+			propertyTypeName = "Число (дробное)";
+
+			int totalDigits = propertyValueTypeDef.getTotalDigits();
+			int fractionDigits = propertyValueTypeDef.getFractionDigits();
+			if (totalDigits != 0)
+				propertyTypeName = "Число (".concat(Integer.toString(totalDigits)).concat(",")
+						.concat(Integer.toString(fractionDigits)).concat(")");
+
+		} else if (propertyTypeName.equals("int")) {
+			propertyTypeName = "Число (целое)";
+
+			int totalDigits = propertyValueTypeDef.getTotalDigits();
+			if (totalDigits != 0)
+				propertyTypeName = "Число (".concat(Integer.toString(totalDigits)).concat(")");
+
 		}
 
 		return propertyTypeName;

@@ -19,7 +19,7 @@ class ConversionModule {
 	
 	Object moduleURI
 	
-	String params
+	String params = ""
 	
 	String beforeConvertationEvent = ""
 	String
@@ -342,9 +342,9 @@ class CmDataRule {
 	Boolean isDisabled = "false"
 	
 	refers MdObject configurationObject
-	String configurationObjectName
+	String configurationObjectName = ""
 
-	String formatObject
+	String formatObject = ""
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
@@ -448,16 +448,16 @@ class CmObjectRule {
 	Boolean isDisabled = "false"
 	
 	refers MdObject configurationObject
-	String configurationObjectName
+	String configurationObjectName = ""
 
-	String formatObject
+	String formatObject = ""
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
 	
 	Boolean forGroup = "false"
 	
-	contains CmAttributeRule[] attributeRules
+	contains CmAttributeRule[] attributeRules opposite objectRule
 
 	String onSendingEvent = ""
 	derived String onSendingEventPrefix get {
@@ -551,7 +551,7 @@ class CmAttributeRule {
 		return result;
 	}
 	
-	refers CmObjectRule objectRule
+	container CmObjectRule objectRule opposite attributeRules
 	
 	Boolean isCustomRule = "false"
 }
@@ -562,14 +562,14 @@ class CmPredefined {
 	String name = ""
 	
 	refers MdObject configurationObject
-	String configurationObjectName
+	String configurationObjectName = ""
 
-	String formatObject
+	String formatObject = ""
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
 	
-	contains CmPredefinedMap[] predefinedMaps
+	contains CmPredefinedMap[] predefinedMaps opposite predefined
 	
 	op Boolean predefinedMapExists(Object configurationValue, Object formatValue) {
 		for (CmPredefinedMap predefinedMap : predefinedMaps) {
@@ -602,7 +602,7 @@ class CmPredefinedMap {
 		return formatValue.toString();
 	}
 	
-	refers CmPredefined predefined
+	container CmPredefined predefined opposite predefinedMaps
 }
 
 class CmAlgorithm {

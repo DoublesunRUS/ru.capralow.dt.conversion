@@ -6,7 +6,7 @@ package ru.capralow.dt.conversion.plugin.core.fp
 import com._1c.g5.v8.dt.xdto.model.ObjectType
 
 class FormatPackage {
-	String version
+	String version = ""
 	
 	contains FpCatalog[] catalogs
 	contains FpDocument[] documents
@@ -56,7 +56,7 @@ class FpCatalog {
 		return (getObject as ObjectType).getName();
 	}
 	
-	contains FpProperty[] properties
+	contains FpProperty[] properties opposite catalog
 
 	op FpProperty getProperty(String propertyName) {
 		for (FpProperty fpProperty : properties) {
@@ -77,7 +77,7 @@ class FpDocument {
 		return (getObject as ObjectType).getName();
 	}
 	
-	contains FpProperty[] properties
+	contains FpProperty[] properties opposite document
 
 	op FpProperty getProperty(String propertyName) {
 		for (FpProperty fpProperty : properties) {
@@ -98,7 +98,7 @@ class FpRegister {
 		return (getObject as ObjectType).getName();
 	}
 	
-	contains FpProperty[] properties
+	contains FpProperty[] properties opposite register
 
 	op FpProperty getProperty(String propertyName) {
 		for (FpProperty fpProperty : properties) {
@@ -110,13 +110,15 @@ class FpRegister {
 }
 
 class FpProperty {
-	refers FpCatalog catalog
+	container FpCatalog catalog opposite properties
+	container FpDocument document opposite properties
+	container FpRegister register opposite properties
 
 	Object property
-	String name
+	String name = ""
 	Boolean isKey
 	
-	String propertyType
+	String propertyType = ""
 	
 	Boolean required
 }
