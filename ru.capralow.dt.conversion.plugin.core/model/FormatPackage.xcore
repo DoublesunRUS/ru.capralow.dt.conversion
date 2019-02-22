@@ -47,65 +47,53 @@ class FormatPackage {
 }
 
 class FpCatalog {
-	Object object
-	derived String name get {
-		if (object === null) {
-			return "";
-		}
-		
-		return (getObject as ObjectType).getName();
-	}
+	refers ObjectType object
+	String name = ""
 	
 	contains FpProperty[] properties opposite catalog
-
 	op FpProperty getProperty(String propertyName) {
 		for (FpProperty fpProperty : properties) {
 			if (propertyName == fpProperty.name) return fpProperty
 		}
 		return null;
 	}
+	
+	refers ObjectType keysObject
+	String keysObjectName = ""
 	
 }
 
 class FpDocument {
-	Object object
-	derived String name get {
-		if (object === null) {
-			return "";
-		}
-		
-		return (getObject as ObjectType).getName();
-	}
+	refers ObjectType object
+	String name = ""
 	
 	contains FpProperty[] properties opposite document
-
 	op FpProperty getProperty(String propertyName) {
 		for (FpProperty fpProperty : properties) {
 			if (propertyName == fpProperty.name) return fpProperty
 		}
 		return null;
 	}
+	
+	refers ObjectType keysObject
+	String keysObjectName = ""
 	
 }
 
 class FpRegister {
-	Object object
-	derived String name get {
-		if (object === null) {
-			return "";
-		}
-		
-		return (getObject as ObjectType).getName();
-	}
+	refers ObjectType object
+	String name = ""
 	
 	contains FpProperty[] properties opposite register
-
 	op FpProperty getProperty(String propertyName) {
 		for (FpProperty fpProperty : properties) {
 			if (propertyName == fpProperty.name) return fpProperty
 		}
 		return null;
 	}
+	
+	refers ObjectType keysObject
+	String keysObjectName = ""
 	
 }
 

@@ -84,27 +84,34 @@ public class FormatPackageAnalyzer {
 
 				EList<FpProperty> fpProperties = null;
 
+				Object fpObject = null;
 				if (objectName.startsWith("Справочник.")) {
-					FpCatalogImpl fpCatalog = new FpCatalogImpl();
+					fpObject = new FpCatalogImpl();
+					FpCatalogImpl fpCatalog = (FpCatalogImpl) fpObject;
 					fpCatalogs.add(fpCatalog);
 
 					fpCatalog.setObject(object);
+					fpCatalog.setName(objectName);
 
 					fpProperties = fpCatalog.getProperties();
 
 				} else if (objectName.startsWith("Документ.")) {
-					FpDocumentImpl fpDocument = new FpDocumentImpl();
+					fpObject = new FpDocumentImpl();
+					FpDocumentImpl fpDocument = (FpDocumentImpl) fpObject;
 					fpDocuments.add(fpDocument);
 
 					fpDocument.setObject(object);
+					fpDocument.setName(objectName);
 
 					fpProperties = fpDocument.getProperties();
 
 				} else if (objectName.startsWith("Регистр")) {
-					FpRegisterImpl fpRegister = new FpRegisterImpl();
+					fpObject = new FpRegisterImpl();
+					FpRegisterImpl fpRegister = (FpRegisterImpl) fpObject;
 					fpRegisters.add(fpRegister);
 
 					fpRegister.setObject(object);
+					fpRegister.setName(objectName);
 
 					fpProperties = fpRegister.getProperties();
 
@@ -122,10 +129,35 @@ public class FormatPackageAnalyzer {
 
 					if (propertyName.equals("КлючевыеСвойства")) {
 						String propertyTypeName = property.getType().getName();
-						ObjectType propertyObject = packageObjects.get(propertyTypeName);
+						ObjectType propertyTypeObject = packageObjects.get(propertyTypeName);
 
-						for (Property subProperty : propertyObject.getProperties()) {
+						EList<FpProperty> fpKeyProperties = null;
+
+						if (objectName.startsWith("Справочник.")) {
+							FpCatalogImpl fpCatalog = (FpCatalogImpl) fpObject;
+
+							fpCatalog.setKeysObject(propertyTypeObject);
+							fpCatalog.setKeysObjectName(propertyTypeName);
+
+						} else if (objectName.startsWith("Документ.")) {
+							FpDocumentImpl fpDocument = (FpDocumentImpl) fpObject;
+
+							fpDocument.setKeysObject(propertyTypeObject);
+							fpDocument.setKeysObjectName(propertyTypeName);
+
+						} else if (objectName.startsWith("Регистр")) {
+							FpRegisterImpl fpRegister = (FpRegisterImpl) fpObject;
+
+							fpRegister.setKeysObject(propertyTypeObject);
+							fpRegister.setKeysObjectName(propertyTypeName);
+
+						}
+
+						for (Property subProperty : propertyTypeObject.getProperties()) {
 							addProperty(subProperty, subProperty.getName(), true, fpProperties, packageObjects,
+									packageValues);
+
+							addProperty(subProperty, subProperty.getName(), true, fpKeyProperties, packageObjects,
 									packageValues);
 						}
 

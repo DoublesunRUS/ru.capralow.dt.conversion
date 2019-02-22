@@ -14,37 +14,31 @@ public class ConversionModuleDataConfigurationContributor
 
 	@Override
 	public Collection<IDerivedDataComputer> getComputers() {
-		// TODO Автоматически созданная заглушка метода
 		return null;
 	}
 
 	@Override
 	public Collection<IContextCollector> getContextCollectors() {
-		// TODO Автоматически созданная заглушка метода
 		return null;
 	}
 
 	@Override
 	public Collection<ITypeSpecificObjectContextFactory> getContextFactories() {
-		// TODO Автоматически созданная заглушка метода
 		return null;
 	}
 
 	@Override
 	public Collection<IRemovalContextCollector> getRemovalContextCollectors() {
-		// TODO Автоматически созданная заглушка метода
 		return null;
 	}
 
 	@Override
 	public Collection<IDerivedDataRemover> getRemovers() {
-		// TODO Автоматически созданная заглушка метода
 		return null;
 	}
 
 	@Override
 	public Collection<DerivedDataSegmentDefinition> getSegmentDefinitions() {
-		// TODO Автоматически созданная заглушка метода
 		return null;
 	}
 
