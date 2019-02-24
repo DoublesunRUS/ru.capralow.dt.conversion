@@ -35,7 +35,6 @@ import ru.capralow.dt.conversion.plugin.core.fp.impl.FpRegisterImpl;
 // TODO: Добавить синонимы для движений документов
 // TODO: Добавить вывод типов, перечислений и предопределенных элементов в конец документа
 // TODO: Добавить переопределение подсистем и полей по комментарию модуля
-// TODO: Ключевые свойства объекта вывести первыми
 
 public class FormatPackageAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
@@ -138,18 +137,21 @@ public class FormatPackageAnalyzer {
 
 							fpCatalog.setKeysObject(propertyTypeObject);
 							fpCatalog.setKeysObjectName(propertyTypeName);
+							fpKeyProperties = fpCatalog.getProperties();
 
 						} else if (objectName.startsWith("Документ.")) {
 							FpDocumentImpl fpDocument = (FpDocumentImpl) fpObject;
 
 							fpDocument.setKeysObject(propertyTypeObject);
 							fpDocument.setKeysObjectName(propertyTypeName);
+							fpKeyProperties = fpDocument.getProperties();
 
 						} else if (objectName.startsWith("Регистр")) {
 							FpRegisterImpl fpRegister = (FpRegisterImpl) fpObject;
 
 							fpRegister.setKeysObject(propertyTypeObject);
 							fpRegister.setKeysObjectName(propertyTypeName);
+							fpKeyProperties = fpRegister.getProperties();
 
 						}
 

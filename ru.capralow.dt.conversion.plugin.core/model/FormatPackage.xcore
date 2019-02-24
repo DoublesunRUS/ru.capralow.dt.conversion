@@ -60,6 +60,7 @@ class FpCatalog {
 	
 	refers ObjectType keysObject
 	String keysObjectName = ""
+	contains FpProperty[] keyProperties opposite keysCatalog
 	
 }
 
@@ -77,6 +78,7 @@ class FpDocument {
 	
 	refers ObjectType keysObject
 	String keysObjectName = ""
+	contains FpProperty[] keyProperties opposite keysDocument
 	
 }
 
@@ -94,6 +96,7 @@ class FpRegister {
 	
 	refers ObjectType keysObject
 	String keysObjectName = ""
+	contains FpProperty[] keyProperties opposite keysRegister
 	
 }
 
@@ -101,6 +104,10 @@ class FpProperty {
 	container FpCatalog catalog opposite properties
 	container FpDocument document opposite properties
 	container FpRegister register opposite properties
+
+	container FpCatalog keysCatalog opposite keyProperties
+	container FpDocument keysDocument opposite keyProperties
+	container FpRegister keysRegister opposite keyProperties
 
 	Object property
 	String name = ""

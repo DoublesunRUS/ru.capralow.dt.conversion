@@ -2,7 +2,9 @@ package ru.capralow.dt.conversion.plugin.core;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -26,6 +28,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
 
@@ -194,11 +197,34 @@ public class ConversionModuleReport {
 
 				}
 
+				List<CmAttributeRule> attributeRules = cmObjectRule.getAttributeRules().stream()
+						.collect(Collectors.toList());
+
+				if (!(configurationObject instanceof InformationRegister)) {
+					CmAttributeRuleImpl refAttributeRule = new CmAttributeRuleImpl();
+
+					refAttributeRule.setConfigurationAttribute("Ссылка");
+
+					if (!cmObjectRule.getFormatObject().isEmpty())
+						refAttributeRule.setFormatAttribute("Ссылка");
+
+					refAttributeRule.setObjectRule(cmObjectRule);
+
+					attributeRules.add(0, refAttributeRule);
+				}
+
 				String configurationTabularSectionName = "<>";
 				String formatTabularSectionName = "<>";
 				String objectKeysResult = "";
 				String objectAttributesResult = "";
-				for (CmAttributeRule attributeRule : cmObjectRule.getAttributeRules()) {
+				boolean hasRef = false;
+				for (CmAttributeRule attributeRule : attributeRules) {
+					if (attributeRule.getConfigurationAttribute().equals("Ссылка"))
+						if (hasRef)
+							continue;
+						else
+							hasRef = true;
+
 					if (!(attributeRule.getConfigurationTabularSection().equals(configurationTabularSectionName))
 							|| !(attributeRule.getFormatTabularSection().equals(formatTabularSectionName))) {
 
@@ -226,10 +252,13 @@ public class ConversionModuleReport {
 
 					}
 
+					boolean isKey = false;
+
 					String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
 					if (attributeSynonym == null)
 						attributeSynonym = attributeRule.getConfigurationAttribute();
 
+					String formatAttribute = attributeRule.getFormatAttribute();
 					String propertyType = attributeRule.getFormatAttributeFullName().length() != 0
 							? "<Свойство формата не найдено>"
 							: "";
@@ -238,23 +267,34 @@ public class ConversionModuleReport {
 					FpProperty fpProperty = formatPackage.getProperty(cmObjectRule.getFormatObject(),
 							attributeRule.getFormatAttributeFullName());
 
-					boolean isKey = false;
 					if (fpProperty != null) {
+						isKey = fpProperty.getIsKey();
 						propertyType = fpProperty.getPropertyType().replaceAll(";", "<br>");
 						required = fpProperty.getRequired() ? "Да" : "";
-						isKey = fpProperty.getIsKey();
 					}
 
 					if (attributeRule.getFormatAttribute().isEmpty())
 						comment = "<Заполняется алгоритмом>";
 
-					if (isKey)
-						objectKeysResult += "*" + attributeRule.getFormatAttribute() + "* | *" + propertyType + "* | *"
-								+ attributeSynonym + "* | *" + required + "* | *" + comment + "*\r\n";
+					if (isKey) {
+						if (!formatAttribute.isEmpty())
+							formatAttribute = "*" + formatAttribute + "*";
+						if (!propertyType.isEmpty())
+							propertyType = "*" + propertyType + "*";
+						if (!attributeSynonym.isEmpty())
+							attributeSynonym = "*" + attributeSynonym + "*";
+						if (!required.isEmpty())
+							required = "*" + required + "*";
+						if (!comment.isEmpty())
+							comment = "*" + comment + "*";
+
+						objectKeysResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym + " | "
+								+ required + " | " + comment + "\r\n";
+					}
 
 					else
-						objectAttributesResult += attributeRule.getFormatAttribute() + " | " + propertyType + " | "
-								+ attributeSynonym + " | " + required + " | " + comment + "\r\n";
+						objectAttributesResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym
+								+ " | " + required + " | " + comment + "\r\n";
 
 				}
 
