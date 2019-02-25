@@ -213,6 +213,8 @@ public class ConversionModuleReport {
 					attributeRules.add(0, refAttributeRule);
 				}
 
+				String tabString = "\u00a0\u00a0\u00a0\u00a0";
+
 				String configurationTabularSectionName = "<>";
 				String formatTabularSectionName = "<>";
 				String objectKeysResult = "";
@@ -252,49 +254,114 @@ public class ConversionModuleReport {
 
 					}
 
-					boolean isKey = false;
-
-					String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
-					if (attributeSynonym == null)
-						attributeSynonym = attributeRule.getConfigurationAttribute();
-
-					String formatAttribute = attributeRule.getFormatAttribute();
-					String propertyType = attributeRule.getFormatAttributeFullName().length() != 0
-							? "<Свойство формата не найдено>"
-							: "";
-					String required = "";
-					String comment = "";
 					FpProperty fpProperty = formatPackage.getProperty(cmObjectRule.getFormatObject(),
 							attributeRule.getFormatAttributeFullName());
+					if (fpProperty == null) {
+						String formatAttribute = attributeRule.getFormatAttribute();
 
-					if (fpProperty != null) {
-						isKey = fpProperty.getIsKey();
-						propertyType = fpProperty.getPropertyType().replaceAll(";", "<br>");
-						required = fpProperty.getRequired() ? "Да" : "";
-					}
+						String propertyType = attributeRule.getFormatAttributeFullName().length() != 0
+								? "<Свойство формата не найдено>"
+								: "";
 
-					if (attributeRule.getFormatAttribute().isEmpty())
-						comment = "<Заполняется алгоритмом>";
+						String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
+						if (attributeSynonym == null)
+							attributeSynonym = attributeRule.getConfigurationAttribute();
 
-					if (isKey) {
-						if (!formatAttribute.isEmpty())
-							formatAttribute = "*" + formatAttribute + "*";
-						if (!propertyType.isEmpty())
-							propertyType = "*" + propertyType + "*";
-						if (!attributeSynonym.isEmpty())
-							attributeSynonym = "*" + attributeSynonym + "*";
-						if (!required.isEmpty())
-							required = "*" + required + "*";
-						if (!comment.isEmpty())
-							comment = "*" + comment + "*";
+						String required = "";
 
-						objectKeysResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym + " | "
-								+ required + " | " + comment + "\r\n";
-					}
+						String comment = "";
+						if (attributeRule.getFormatAttribute().isEmpty())
+							comment = "<Заполняется алгоритмом>";
 
-					else
 						objectAttributesResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym
 								+ " | " + required + " | " + comment + "\r\n";
+
+					} else {
+						String formatAttribute = attributeRule.getFormatAttribute();
+
+						String propertyType = attributeRule.getFormatAttributeFullName().length() != 0
+								? "<Свойство формата не найдено>"
+								: "";
+
+						String required = fpProperty.getRequired() ? "Да" : "";
+
+						String[] subPropertyTypes = fpProperty.getPropertyType().split("[;]");
+						if (subPropertyTypes.length == 1) {
+							String subPropertyType = subPropertyTypes[0];
+							propertyType = subPropertyType;
+							if (subPropertyType.startsWith("КлючевыеСвойства")) {
+								EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
+								if (keyProperties != null) {
+									for (FpProperty fpKeyProperty : keyProperties) {
+										formatAttribute += "<br>\r\n";
+										propertyType += "<br>\r\n";
+										required += "<br>\r\n";
+
+										formatAttribute += tabString + "_" + fpKeyProperty.getName();
+										propertyType += tabString + fpKeyProperty.getPropertyType();
+										required += tabString + (fpKeyProperty.getRequired() ? "Да" : "");
+									}
+								}
+
+							}
+
+						} else {
+							propertyType = "";
+
+							for (String subPropertyType : subPropertyTypes) {
+								formatAttribute += "<br>\r\n";
+								propertyType += "<br>\r\n";
+								required += "<br>\r\n";
+
+								propertyType += tabString + subPropertyType;
+								formatAttribute += tabString + "_" + subPropertyType;
+
+								if (subPropertyType.startsWith("КлючевыеСвойства")) {
+									EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
+									if (keyProperties != null) {
+										for (FpProperty fpKeyProperty : keyProperties) {
+											formatAttribute += "<br>\r\n";
+											propertyType += "<br>\r\n";
+											required += "<br>\r\n";
+
+											formatAttribute += tabString + tabString + fpKeyProperty.getName();
+											propertyType += tabString + tabString + fpKeyProperty.getPropertyType();
+											required += tabString + tabString
+													+ (fpKeyProperty.getRequired() ? "Да" : "");
+										}
+									}
+								}
+							}
+						}
+
+						String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
+						if (attributeSynonym == null)
+							attributeSynonym = attributeRule.getConfigurationAttribute();
+
+						String comment = "";
+						if (attributeRule.getFormatAttribute().isEmpty())
+							comment = "<Заполняется алгоритмом>";
+
+						boolean isKey = fpProperty.getIsKey();
+						if (isKey) {
+							if (!formatAttribute.isEmpty())
+								formatAttribute = "*" + formatAttribute + "*";
+							if (!propertyType.isEmpty())
+								propertyType = "*" + propertyType + "*";
+							if (!attributeSynonym.isEmpty())
+								attributeSynonym = "*" + attributeSynonym + "*";
+							if (!required.isEmpty())
+								required = "*" + required + "*";
+							if (!comment.isEmpty())
+								comment = "*" + comment + "*";
+
+							objectKeysResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym
+									+ " | " + required + " | " + comment + "\r\n";
+
+						} else
+							objectAttributesResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym
+									+ " | " + required + " | " + comment + "\r\n";
+					}
 
 				}
 

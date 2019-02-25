@@ -44,6 +44,26 @@ class FormatPackage {
 		return null;
 	}
 	
+	op FpProperty[] getKeyProperties(String formatObjectName) {
+		for (FpCatalog fpCatalog : catalogs) {
+			if (fpCatalog.keysObjectName == formatObjectName)
+				return fpCatalog.keyProperties;
+			
+		}
+		for (FpDocument fpDocument : documents) {
+			if (fpDocument.keysObjectName == formatObjectName)
+				return fpDocument.keyProperties;
+
+		}
+		for (FpRegister fpRegister : registers) {
+			if (fpRegister.keysObjectName == formatObjectName)
+				return fpRegister.keyProperties;
+
+		}
+		
+		return null;
+	}
+	
 }
 
 class FpCatalog {

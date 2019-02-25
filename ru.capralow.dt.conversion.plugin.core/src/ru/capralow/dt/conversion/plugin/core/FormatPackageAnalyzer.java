@@ -137,21 +137,21 @@ public class FormatPackageAnalyzer {
 
 							fpCatalog.setKeysObject(propertyTypeObject);
 							fpCatalog.setKeysObjectName(propertyTypeName);
-							fpKeyProperties = fpCatalog.getProperties();
+							fpKeyProperties = fpCatalog.getKeyProperties();
 
 						} else if (objectName.startsWith("Документ.")) {
 							FpDocumentImpl fpDocument = (FpDocumentImpl) fpObject;
 
 							fpDocument.setKeysObject(propertyTypeObject);
 							fpDocument.setKeysObjectName(propertyTypeName);
-							fpKeyProperties = fpDocument.getProperties();
+							fpKeyProperties = fpDocument.getKeyProperties();
 
 						} else if (objectName.startsWith("Регистр")) {
 							FpRegisterImpl fpRegister = (FpRegisterImpl) fpObject;
 
 							fpRegister.setKeysObject(propertyTypeObject);
 							fpRegister.setKeysObjectName(propertyTypeName);
-							fpKeyProperties = fpRegister.getProperties();
+							fpKeyProperties = fpRegister.getKeyProperties();
 
 						}
 
