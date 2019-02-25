@@ -29,13 +29,6 @@ import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDocumentImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpPropertyImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpRegisterImpl;
 
-// TODO: Раскрывать КлючевыеСвойства
-// TODO: Добавить ключевые поля в табличные части
-// TODO: Добавить синонимы для стандартных реквизитов
-// TODO: Добавить синонимы для движений документов
-// TODO: Добавить вывод типов, перечислений и предопределенных элементов в конец документа
-// TODO: Добавить переопределение подсистем и полей по комментарию модуля
-
 public class FormatPackageAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
 	private ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));

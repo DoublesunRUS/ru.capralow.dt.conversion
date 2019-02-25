@@ -42,6 +42,7 @@ public class ConversionModuleReport {
 		this.formatPackage = formatPackage;
 	}
 
+	// TODO: Добавить переопределение подсистем и полей по комментарию модуля
 	public String createReport() throws IOException {
 		String result = "";
 		result += "Описание формата загрузки данных " + formatPackage.getVersion() + "\r\n\r\n";
@@ -108,6 +109,8 @@ public class ConversionModuleReport {
 				Map<String, String> tabularSectionSynonyms = new HashMap<String, String>();
 				Map<String, String> attributeSynonyms = new HashMap<String, String>();
 
+				// TODO: Добавить синонимы для стандартных реквизитов
+				// TODO: Добавить синонимы для движений документов
 				if (configurationObject instanceof Catalog) {
 					Catalog typedObject = (Catalog) configurationObject;
 
@@ -213,8 +216,6 @@ public class ConversionModuleReport {
 					attributeRules.add(0, refAttributeRule);
 				}
 
-				String tabString = "\u00a0\u00a0\u00a0\u00a0";
-
 				String configurationTabularSectionName = "<>";
 				String formatTabularSectionName = "<>";
 				String objectKeysResult = "";
@@ -240,7 +241,7 @@ public class ConversionModuleReport {
 							result += "--- | --- | --- | --- | ---\r\n";
 
 						} else {
-
+							// TODO: Добавить ключевые поля в табличные части
 							String tabularSynonym = tabularSectionSynonyms
 									.get(attributeRule.getConfigurationTabularSection());
 							if (tabularSynonym == null)
@@ -273,66 +274,13 @@ public class ConversionModuleReport {
 						if (attributeRule.getFormatAttribute().isEmpty())
 							comment = "<Заполняется алгоритмом>";
 
-						objectAttributesResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym
-								+ " | " + required + " | " + comment + "\r\n";
+						objectAttributesResult += getTableRow(formatAttribute, propertyType, attributeSynonym, required,
+								comment, false, 0);
 
 					} else {
+						boolean isKey = fpProperty.getIsKey();
+
 						String formatAttribute = attributeRule.getFormatAttribute();
-
-						String propertyType = attributeRule.getFormatAttributeFullName().length() != 0
-								? "<Свойство формата не найдено>"
-								: "";
-
-						String required = fpProperty.getRequired() ? "Да" : "";
-
-						String[] subPropertyTypes = fpProperty.getPropertyType().split("[;]");
-						if (subPropertyTypes.length == 1) {
-							String subPropertyType = subPropertyTypes[0];
-							propertyType = subPropertyType;
-							if (subPropertyType.startsWith("КлючевыеСвойства")) {
-								EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
-								if (keyProperties != null) {
-									for (FpProperty fpKeyProperty : keyProperties) {
-										formatAttribute += "<br>\r\n";
-										propertyType += "<br>\r\n";
-										required += "<br>\r\n";
-
-										formatAttribute += tabString + "_" + fpKeyProperty.getName();
-										propertyType += tabString + fpKeyProperty.getPropertyType();
-										required += tabString + (fpKeyProperty.getRequired() ? "Да" : "");
-									}
-								}
-
-							}
-
-						} else {
-							propertyType = "";
-
-							for (String subPropertyType : subPropertyTypes) {
-								formatAttribute += "<br>\r\n";
-								propertyType += "<br>\r\n";
-								required += "<br>\r\n";
-
-								propertyType += tabString + subPropertyType;
-								formatAttribute += tabString + "_" + subPropertyType;
-
-								if (subPropertyType.startsWith("КлючевыеСвойства")) {
-									EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
-									if (keyProperties != null) {
-										for (FpProperty fpKeyProperty : keyProperties) {
-											formatAttribute += "<br>\r\n";
-											propertyType += "<br>\r\n";
-											required += "<br>\r\n";
-
-											formatAttribute += tabString + tabString + fpKeyProperty.getName();
-											propertyType += tabString + tabString + fpKeyProperty.getPropertyType();
-											required += tabString + tabString
-													+ (fpKeyProperty.getRequired() ? "Да" : "");
-										}
-									}
-								}
-							}
-						}
 
 						String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
 						if (attributeSynonym == null)
@@ -342,25 +290,72 @@ public class ConversionModuleReport {
 						if (attributeRule.getFormatAttribute().isEmpty())
 							comment = "<Заполняется алгоритмом>";
 
-						boolean isKey = fpProperty.getIsKey();
-						if (isKey) {
-							if (!formatAttribute.isEmpty())
-								formatAttribute = "*" + formatAttribute + "*";
-							if (!propertyType.isEmpty())
-								propertyType = "*" + propertyType + "*";
-							if (!attributeSynonym.isEmpty())
-								attributeSynonym = "*" + attributeSynonym + "*";
-							if (!required.isEmpty())
-								required = "*" + required + "*";
-							if (!comment.isEmpty())
-								comment = "*" + comment + "*";
+						String required = fpProperty.getRequired() ? "Да" : "";
 
-							objectKeysResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym
-									+ " | " + required + " | " + comment + "\r\n";
+						// TODO: Раскрывать КлючевыеСвойства у подсвойств
+						String[] subPropertyTypes = fpProperty.getPropertyType().split("[;]");
+						if (subPropertyTypes.length == 1) {
+							String subPropertyType = subPropertyTypes[0];
+							if (subPropertyType.isEmpty())
+								subPropertyType = "<Свойство формата не найдено>";
 
-						} else
-							objectAttributesResult += formatAttribute + " | " + propertyType + " | " + attributeSynonym
-									+ " | " + required + " | " + comment + "\r\n";
+							if (isKey)
+								objectKeysResult += getTableRow(formatAttribute, subPropertyType, attributeSynonym,
+										required, comment, isKey, 0);
+							else
+								objectAttributesResult += getTableRow(formatAttribute, subPropertyType,
+										attributeSynonym, required, comment, isKey, 0);
+
+							if (subPropertyType.startsWith("КлючевыеСвойства")) {
+								EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
+								if (keyProperties != null) {
+									for (FpProperty fpKeyProperty : keyProperties) {
+										if (isKey)
+											objectKeysResult += getTableRow("_" + fpKeyProperty.getName(),
+													fpKeyProperty.getPropertyType(), "", "",
+													fpKeyProperty.getRequired() ? "Да" : "", isKey, 1);
+										else
+											objectAttributesResult += getTableRow("_" + fpKeyProperty.getName(),
+													fpKeyProperty.getPropertyType(), "", "",
+													fpKeyProperty.getRequired() ? "Да" : "", isKey, 1);
+									}
+								}
+
+							}
+
+						} else {
+							if (isKey)
+								objectKeysResult += getTableRow(formatAttribute, "", attributeSynonym, required,
+										comment, isKey, 0);
+							else
+								objectAttributesResult += getTableRow(formatAttribute, "", attributeSynonym, required,
+										comment, isKey, 0);
+
+							for (String subPropertyType : subPropertyTypes) {
+								if (isKey)
+									objectKeysResult += getTableRow("_" + subPropertyType, subPropertyType, "", "", "",
+											isKey, 1);
+								else
+									objectAttributesResult += getTableRow("_" + subPropertyType, subPropertyType, "",
+											"", "", isKey, 1);
+
+								if (subPropertyType.startsWith("КлючевыеСвойства")) {
+									EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
+									if (keyProperties != null) {
+										for (FpProperty fpKeyProperty : keyProperties) {
+											if (isKey)
+												objectKeysResult += getTableRow("_" + fpKeyProperty.getName(),
+														fpKeyProperty.getPropertyType(), attributeSynonym, "",
+														fpKeyProperty.getRequired() ? "Да" : "", isKey, 2);
+											else
+												objectAttributesResult += getTableRow("_" + fpKeyProperty.getName(),
+														fpKeyProperty.getPropertyType(), attributeSynonym, "",
+														fpKeyProperty.getRequired() ? "Да" : "", isKey, 2);
+										}
+									}
+								}
+							}
+						}
 					}
 
 				}
@@ -368,10 +363,38 @@ public class ConversionModuleReport {
 				result += objectKeysResult + objectAttributesResult;
 
 				result += "\r\n\r\n\r\n";
+				// TODO: Добавить вывод типов, перечислений и предопределенных элементов в конец
+				// документа
 
 			}
 		}
 
 		return result;
 	}
+
+	String getTableRow(String col1, String col2, String col3, String col4, String col5, Boolean isKey, int numOfTabs) {
+		// String tabString = "\u00a0\u00a0\u00a0\u00a0";
+		String tabString = "&nbsp; &nbsp; ";
+
+		String prefix = "";
+		for (int i = 1; i <= numOfTabs; i++)
+			prefix += tabString;
+
+		if (isKey) {
+			if (!col1.isEmpty())
+				col1 = "*" + col1 + "*";
+			if (!col2.isEmpty())
+				col2 = "*" + col2 + "*";
+			if (!col3.isEmpty())
+				col3 = "*" + col3 + "*";
+			if (!col4.isEmpty())
+				col4 = "*" + col4 + "*";
+			if (!col5.isEmpty())
+				col5 = "*" + col5 + "*";
+		}
+
+		return prefix + col1 + " | " + prefix + col2 + " | " + prefix + col3 + " | " + prefix + col4 + " | " + prefix
+				+ col5 + "\r\n";
+	}
+
 }
