@@ -57,17 +57,7 @@
 						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
 							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
 						</environment>
 						<environment>
 							<os>linux</os>
@@ -128,7 +118,7 @@
 					<configuration>
 						<encoding>UTF-8</encoding>
 						<strictCompilerTarget>true</strictCompilerTarget>
-						<useProjectSettings>true</useProjectSettings>
+						<useProjectSettings>false</useProjectSettings>
 						<showWarnings>true</showWarnings>
 						<showDeprecation>true</showDeprecation>
 						<verbose>true</verbose>

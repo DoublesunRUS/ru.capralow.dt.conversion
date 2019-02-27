@@ -5,7 +5,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.CheckMode;
-import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
 import com._1c.g5.v8.dt.bsl.model.Module;
@@ -18,8 +17,8 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 /**
- * Delegating {@link IResourceValidator} implementation that notifies its
- * listeners upon validation completion.
+ * Delegating {@link org.eclipse.xtext.validation.IResourceValidator}
+ * implementation that notifies its listeners upon validation completion.
  */
 @Singleton
 public class ConversionResourceValidator extends NotifyingResourceValidator {
