@@ -130,7 +130,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
 		this.editable = modelEditingSupport.canEdit(getModel());
-		this.editable = false;
+		this.editable = true;
 
 		IStructuredContentProvider viewerContentProvider = new ConversionModuleContentProvider();
 
@@ -692,8 +692,12 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		sashFormMain.setWeights(new int[] { 20, 80 });
 
 		hookListeners();
+	}
 
-		// FIXME: Найти правильное событие для обновления редактора правил
+	@Override
+	public void setActive(boolean active) {
+		super.setActive(active);
+
 		updatePage();
 	}
 
