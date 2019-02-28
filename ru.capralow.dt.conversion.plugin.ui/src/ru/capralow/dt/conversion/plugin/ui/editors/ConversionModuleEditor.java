@@ -698,7 +698,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public void setActive(boolean active) {
 		super.setActive(active);
 
-		updatePage();
+		if (active)
+			updatePage();
 	}
 
 	private void hookListeners() {
