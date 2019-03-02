@@ -7,7 +7,7 @@
 
 В данном репозитории хранятся только исходники.
 
-Плагин можно установить через Eclipse с сайта обновления http://capralow.ru/edt/conversion .
+Плагин можно установить через Eclipse с сайта обновления http://capralow.ru/edt/conversion .<br>
 Для самостоятельной сборки плагина необходимо иметь доступ к сайту https://releases.1c.ru и настроить соответствующим образом Maven. Подробности настройки написаны [здесь](https://github.com/1C-Company/dt-example-plugins/blob/master/simple-plugin/README.md).
 
 ### Панель "Конвертация данных" (1.0.0)
