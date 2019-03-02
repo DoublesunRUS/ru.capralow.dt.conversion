@@ -1087,7 +1087,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				IDtEditorInput<CommonModule> editorInput = ((DtGranularEditor<CommonModule>) formEditor)
 						.getEditorInput();
-				if (editorInput.getModel().getUuid() != getModel().getUuid())
+				if (!editorInput.getModel().getUuid().equals(getModel().getUuid()))
 					continue;
 
 				embeddedEditor = formEditor.findPage("editors.pages.module").getAdapter(XtextEditor.class);
