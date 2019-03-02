@@ -42,6 +42,7 @@ import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.model.UndefinedLiteral;
+import com._1c.g5.v8.dt.cmi.model.SubsystemsOrder;
 import com._1c.g5.v8.dt.cmi.model.impl.CommandInterfaceImpl;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
@@ -145,15 +146,17 @@ public class ConversionModuleAnalyzer {
 
 		CommandInterfaceImpl commandInterface = (CommandInterfaceImpl) configuration.getCommandInterface();
 
-		for (Subsystem confSubsystem : commandInterface.getSubsystemsOrder().getSubsystems()) {
-			if (!confSubsystem.isIncludeInCommandInterface())
-				continue;
+		SubsystemsOrder subsystemsOrder = commandInterface.getSubsystemsOrder();
+		if (subsystemsOrder != null)
+			for (Subsystem confSubsystem : subsystemsOrder.getSubsystems()) {
+				if (!confSubsystem.isIncludeInCommandInterface())
+					continue;
 
-			CmSubsystemImpl subsystem = new CmSubsystemImpl();
-			subsystem.setSubsystem(confSubsystem);
+				CmSubsystemImpl subsystem = new CmSubsystemImpl();
+				subsystem.setSubsystem(confSubsystem);
 
-			subsystems.add(subsystem);
-		}
+				subsystems.add(subsystem);
+			}
 		CmSubsystemImpl subsystem = new CmSubsystemImpl();
 		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
 		subsystems.add(subsystem);

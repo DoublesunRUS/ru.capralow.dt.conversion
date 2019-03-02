@@ -1,5 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -29,10 +30,14 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedE
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 @SuppressWarnings("restriction")
-public class ConversionModuleDialog extends Dialog {
+public class ConversionModuleDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private ConversionModule conversionModule;
+
+	private CTabFolder tabFolder;
+
+	private CTabItem tabItemBeforeConvertation, tabItemBeforeFilling, tabItemAfterConvertation;
 
 	private CustomEmbeddedEditor editorBeforeConvertation, editorBeforeFilling, editorAfterConvertation;
 	private CustomEmbeddedEditorModelAccess modelAccessBeforeConvertation, modelAccessBeforeFilling,
@@ -54,6 +59,34 @@ public class ConversionModuleDialog extends Dialog {
 		this.conversionModule = conversionModule;
 
 		this.editable = editable;
+	}
+
+	/*
+	 * Каждый диалог, который имеет встроенные редакторы модуля, нужно расширить при
+	 * помощи "org.eclipse.core.runtime.IAdaptable" и реализовать данный метод,
+	 * который бы возвращал правильный актуальный EmbeddedEditor, иначе конструктор
+	 * запросов открываться не будет.
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+		if (org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor.class == adapter) {
+			CTabItem currentTabItem = tabFolder.getSelection();
+			if (currentTabItem == null)
+				return null;
+
+			if (currentTabItem.equals(tabItemBeforeConvertation))
+				return (T) editorBeforeConvertation;
+
+			else if (currentTabItem.equals(tabItemBeforeFilling))
+				return (T) editorBeforeFilling;
+
+			else if (currentTabItem.equals(tabItemAfterConvertation))
+				return (T) editorAfterConvertation;
+
+			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -78,19 +111,19 @@ public class ConversionModuleDialog extends Dialog {
 		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		container.setLayout(new GridLayout(1, false));
 
-		CTabFolder tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
+		tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tabFolder.setSelectionBackground(
 				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
-		CTabItem tabItem1 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem1.setText("Перед конвертацией");
+		tabItemBeforeConvertation = new CTabItem(tabFolder, SWT.NONE);
+		tabItemBeforeConvertation.setText("Перед конвертацией");
 
 		Composite compositeBeforeConvertationEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeBeforeConvertationEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		GridLayoutFactory.fillDefaults().applyTo(compositeBeforeConvertationEditor);
 
-		tabItem1.setControl(compositeBeforeConvertationEditor);
+		tabItemBeforeConvertation.setControl(compositeBeforeConvertationEditor);
 
 		Text txtBeforeConvertation = new Text(compositeBeforeConvertationEditor, SWT.BORDER);
 		txtBeforeConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
@@ -106,14 +139,14 @@ public class ConversionModuleDialog extends Dialog {
 		viewerBeforeConvertation.setEditable(editable);
 		viewerBeforeConvertation.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		CTabItem tabItem2 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem2.setText("Перед отложенным заполнением");
+		tabItemBeforeFilling = new CTabItem(tabFolder, SWT.NONE);
+		tabItemBeforeFilling.setText("Перед отложенным заполнением");
 
 		Composite compositeBeforeFillingEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeBeforeFillingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		GridLayoutFactory.fillDefaults().applyTo(compositeBeforeFillingEditor);
 
-		tabItem2.setControl(compositeBeforeFillingEditor);
+		tabItemBeforeFilling.setControl(compositeBeforeFillingEditor);
 
 		Text txtBeforeFilling = new Text(compositeBeforeFillingEditor, SWT.BORDER);
 		txtBeforeFilling.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
@@ -129,14 +162,14 @@ public class ConversionModuleDialog extends Dialog {
 		viewerBeforeFilling.setEditable(editable);
 		viewerBeforeFilling.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		CTabItem tabItem3 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem3.setText("Перед отложенным заполнением");
+		tabItemAfterConvertation = new CTabItem(tabFolder, SWT.NONE);
+		tabItemAfterConvertation.setText("Перед отложенным заполнением");
 
 		Composite compositeAfterConvertationEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeAfterConvertationEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		GridLayoutFactory.fillDefaults().applyTo(compositeAfterConvertationEditor);
 
-		tabItem3.setControl(compositeAfterConvertationEditor);
+		tabItemAfterConvertation.setControl(compositeAfterConvertationEditor);
 
 		Text txtAfterConvertation = new Text(compositeAfterConvertationEditor, SWT.BORDER);
 		txtAfterConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));

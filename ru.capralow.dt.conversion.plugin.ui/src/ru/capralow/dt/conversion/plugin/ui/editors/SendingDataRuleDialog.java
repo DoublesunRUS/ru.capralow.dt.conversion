@@ -1,5 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
@@ -44,12 +45,16 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
 
 @SuppressWarnings("restriction")
-public class SendingDataRuleDialog extends Dialog {
+public class SendingDataRuleDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmDataRule dataRule;
 	private Text txtDataRuleName, txtObjectRuleName;
 	private Text txtConfigurationObjectName;
+
+	private CTabFolder tabFolder;
+
+	private CTabItem tabItemOnProcessing, tabItemDataSelection;
 
 	private CustomEmbeddedEditor editorOnProcessing, editorDataSelection;
 	private CustomEmbeddedEditorModelAccess modelAccessOnProcessing, modelAccessDataSelection;
@@ -70,6 +75,31 @@ public class SendingDataRuleDialog extends Dialog {
 		this.dataRule = dataRule;
 
 		this.editable = editable;
+	}
+
+	/*
+	 * Каждый диалог, который имеет встроенные редакторы модуля, нужно расширить при
+	 * помощи "org.eclipse.core.runtime.IAdaptable" и реализовать данный метод,
+	 * который бы возвращал правильный актуальный EmbeddedEditor, иначе конструктор
+	 * запросов открываться не будет.
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+		if (org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor.class == adapter) {
+			CTabItem currentTabItem = tabFolder.getSelection();
+			if (currentTabItem == null)
+				return null;
+
+			if (currentTabItem.equals(tabItemOnProcessing))
+				return (T) editorOnProcessing;
+
+			else if (currentTabItem.equals(tabItemDataSelection))
+				return (T) editorDataSelection;
+
+			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -96,42 +126,42 @@ public class SendingDataRuleDialog extends Dialog {
 		GridLayoutFactory.fillDefaults().applyTo(container);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
 
-		CTabFolder tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
+		tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
 		GridLayoutFactory.fillDefaults().applyTo(tabFolder);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tabFolder);
 
 		tabFolder.setSelectionBackground(
 				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
-		CTabItem tabItem1 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem1.setText("Основные сведения");
+		CTabItem tabItemMain = new CTabItem(tabFolder, SWT.NONE);
+		tabItemMain.setText("Основные сведения");
 
-		Composite tabComposite1 = new Composite(tabFolder, SWT.NONE);
-		tabComposite1.setLayout(new GridLayout(3, false));
+		Composite tabCompositeMain = new Composite(tabFolder, SWT.NONE);
+		tabCompositeMain.setLayout(new GridLayout(3, false));
 
 		// 1.1
-		Label lblRuleName = new Label(tabComposite1, SWT.NONE);
+		Label lblRuleName = new Label(tabCompositeMain, SWT.NONE);
 		lblRuleName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblRuleName.setText("Идентификатор правила");
 
 		// 1.2
-		txtDataRuleName = new Text(tabComposite1, SWT.BORDER);
+		txtDataRuleName = new Text(tabCompositeMain, SWT.BORDER);
 		txtDataRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtDataRuleName.setText("<Идентификатор правила>");
 		txtDataRuleName.setEditable(editable);
 
 		// 1.3
-		Button btnDisable = new Button(tabComposite1, SWT.CHECK);
+		Button btnDisable = new Button(tabCompositeMain, SWT.CHECK);
 		btnDisable.setText("Отключить");
 		btnDisable.setEnabled(editable);
 
 		// 2.1
-		Label lblSelectionVariant = new Label(tabComposite1, SWT.NONE);
+		Label lblSelectionVariant = new Label(tabCompositeMain, SWT.NONE);
 		lblSelectionVariant.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblSelectionVariant.setText("Способ выборки");
 
 		// 2.2
-		ToolBar toolBarSelectionVariant = new ToolBar(tabComposite1, SWT.FLAT);
+		ToolBar toolBarSelectionVariant = new ToolBar(tabCompositeMain, SWT.FLAT);
 
 		ToolItem tltmSelectionVariant1 = new ToolItem(toolBarSelectionVariant, SWT.CHECK);
 		tltmSelectionVariant1.setText(CmSelectionVariant.STANDART.getLiteral());
@@ -144,29 +174,29 @@ public class SendingDataRuleDialog extends Dialog {
 		tltmSelectionVariant2.setEnabled(editable);
 
 		// 2.3
-		new Label(tabComposite1, SWT.NONE);
+		new Label(tabCompositeMain, SWT.NONE);
 
 		// 3.1
-		Label lblConfigurationObjectName = new Label(tabComposite1, SWT.NONE);
+		Label lblConfigurationObjectName = new Label(tabCompositeMain, SWT.NONE);
 		lblConfigurationObjectName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblConfigurationObjectName.setText("Объект конфигурации");
 
 		// 3.2
-		txtConfigurationObjectName = new Text(tabComposite1, SWT.BORDER);
+		txtConfigurationObjectName = new Text(tabCompositeMain, SWT.BORDER);
 		txtConfigurationObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtConfigurationObjectName.setText("<Объект конфигурации>");
 		txtConfigurationObjectName.setEditable(editable);
 
 		// 3.3
-		new Label(tabComposite1, SWT.NONE);
+		new Label(tabCompositeMain, SWT.NONE);
 
 		// 4.1
-		Label lblObjectRulesSize = new Label(tabComposite1, SWT.NONE);
+		Label lblObjectRulesSize = new Label(tabCompositeMain, SWT.NONE);
 		lblObjectRulesSize.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblObjectRulesSize.setText("Количество правил конвертации");
 
 		// 4.2
-		ToolBar toolBarObjectRulesSize = new ToolBar(tabComposite1, SWT.FLAT);
+		ToolBar toolBarObjectRulesSize = new ToolBar(tabCompositeMain, SWT.FLAT);
 
 		ToolItem tltmObjectRulesSize1 = new ToolItem(toolBarObjectRulesSize, SWT.CHECK);
 		tltmObjectRulesSize1.setText("Несколько");
@@ -179,24 +209,24 @@ public class SendingDataRuleDialog extends Dialog {
 		tltmObjectRulesSize2.setEnabled(editable);
 
 		// 4.3
-		new Label(tabComposite1, SWT.NONE);
+		new Label(tabCompositeMain, SWT.NONE);
 
 		// 5.1
-		Label lblObjectRuleName = new Label(tabComposite1, SWT.NONE);
+		Label lblObjectRuleName = new Label(tabCompositeMain, SWT.NONE);
 		lblObjectRuleName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblObjectRuleName.setText("Правило конвертации объекта");
 
 		// 5.2
-		txtObjectRuleName = new Text(tabComposite1, SWT.BORDER);
+		txtObjectRuleName = new Text(tabCompositeMain, SWT.BORDER);
 		txtObjectRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtObjectRuleName.setText("<Правило конвертации объекта>");
 		txtObjectRuleName.setEditable(editable);
 
 		// 5.3
-		new Label(tabComposite1, SWT.NONE);
+		new Label(tabCompositeMain, SWT.NONE);
 
 		// 6.1-3
-		Composite compositeTable = new Composite(tabComposite1, SWT.NONE);
+		Composite compositeTable = new Composite(tabCompositeMain, SWT.NONE);
 		TableColumnLayout tcl = new TableColumnLayout();
 		compositeTable.setLayout(tcl);
 		compositeTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 3, 1));
@@ -220,10 +250,10 @@ public class SendingDataRuleDialog extends Dialog {
 
 		viewer.setContentProvider(viewerContentProvider);
 
-		tabItem1.setControl(tabComposite1);
+		tabItemMain.setControl(tabCompositeMain);
 
-		CTabItem tabItem2 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem2.setText("При обработке");
+		tabItemOnProcessing = new CTabItem(tabFolder, SWT.NONE);
+		tabItemOnProcessing.setText("При обработке");
 
 		Composite compositeOnProcessingEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeOnProcessingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -243,10 +273,10 @@ public class SendingDataRuleDialog extends Dialog {
 		viewerOnProcessing.setEditable(editable);
 		viewerOnProcessing.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		tabItem2.setControl(compositeOnProcessingEditor);
+		tabItemOnProcessing.setControl(compositeOnProcessingEditor);
 
-		CTabItem tabItem3 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem3.setText("Выборка данных");
+		tabItemDataSelection = new CTabItem(tabFolder, SWT.NONE);
+		tabItemDataSelection.setText("Выборка данных");
 
 		Composite compositeDataSelectionEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeDataSelectionEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -266,7 +296,7 @@ public class SendingDataRuleDialog extends Dialog {
 		viewerDataSelection.setEditable(editable);
 		viewerDataSelection.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		tabItem3.setControl(compositeDataSelectionEditor);
+		tabItemDataSelection.setControl(compositeDataSelectionEditor);
 
 		// Заполнение диалога
 
@@ -277,7 +307,7 @@ public class SendingDataRuleDialog extends Dialog {
 		tltmSelectionVariant2.setSelection(selectionVariant == CmSelectionVariant.CUSTOM);
 
 		if (selectionVariant == CmSelectionVariant.STANDART)
-			tabItem3.dispose();
+			tabItemDataSelection.dispose();
 
 		txtConfigurationObjectName.setText(dataRule.getConfigurationObjectName());
 

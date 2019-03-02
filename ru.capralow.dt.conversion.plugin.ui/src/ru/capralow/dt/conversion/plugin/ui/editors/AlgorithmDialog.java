@@ -1,5 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -26,13 +27,13 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedE
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 
 @SuppressWarnings("restriction")
-public class AlgorithmDialog extends Dialog {
+public class AlgorithmDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmAlgorithm algorithm;
 
-	private CustomEmbeddedEditor editor;
-	private CustomEmbeddedEditorModelAccess modelAccess;
+	private CustomEmbeddedEditor editorAlgorithm;
+	private CustomEmbeddedEditorModelAccess modelAccessAlgorithm;
 
 	private String algorithmsText;
 
@@ -50,6 +51,21 @@ public class AlgorithmDialog extends Dialog {
 		this.algorithm = algorithm;
 
 		this.editable = editable;
+	}
+
+	/*
+	 * Каждый диалог, который имеет встроенные редакторы модуля, нужно расширить при
+	 * помощи "org.eclipse.core.runtime.IAdaptable" и реализовать данный метод,
+	 * который бы возвращал правильный актуальный EmbeddedEditor, иначе конструктор
+	 * запросов открываться не будет.
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+		if (org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor.class == adapter) {
+			return (T) editorAlgorithm;
+		}
+		return null;
 	}
 
 	/**
@@ -85,9 +101,9 @@ public class AlgorithmDialog extends Dialog {
 		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
 		customModelAccessAwareEmbeddedEditorBuilder.setEditorId(EDITOR_ID);
-		editor = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder.withParent(composite);
+		editorAlgorithm = (CustomEmbeddedEditor) customModelAccessAwareEmbeddedEditorBuilder.withParent(composite);
 
-		XtextSourceViewer viewer = editor.getViewer();
+		XtextSourceViewer viewer = editorAlgorithm.getViewer();
 		viewer.setEditable(editable);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
@@ -124,10 +140,10 @@ public class AlgorithmDialog extends Dialog {
 	}
 
 	private synchronized CustomEmbeddedEditorModelAccess getModelAccess() {
-		if (modelAccess == null) {
-			modelAccess = (CustomEmbeddedEditorModelAccess) editor.createPartialEditor("", "", "", true);
+		if (modelAccessAlgorithm == null) {
+			modelAccessAlgorithm = (CustomEmbeddedEditorModelAccess) editorAlgorithm.createPartialEditor("", "", "", true);
 		}
-		return modelAccess;
+		return modelAccessAlgorithm;
 	}
 
 	@Override

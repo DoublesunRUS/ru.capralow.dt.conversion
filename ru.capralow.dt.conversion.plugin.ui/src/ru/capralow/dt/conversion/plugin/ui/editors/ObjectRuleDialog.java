@@ -52,8 +52,11 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	private Text txtObjectRuleName;
 	private Text txtConfigurationObjectName, txtFormatObjectName;
 
+	private CTabFolder tabFolder;
 	private TableViewer viewerAttributeRules, viewerIdentificationFields;
 
+	private CTabItem tabItemOnSendingEditor, tabItemBeforeReceivingEditor, tabItemOnReceivingEditor,
+			tabItemAfterReceivingEditor;
 	private CustomEmbeddedEditor editorOnSending, editorBeforeReceiving, editorOnReceiving, editorAfterReceiving;
 	private CustomEmbeddedEditorModelAccess modelAccessOnSending, modelAccessBeforeReceiving, modelAccessOnReceiving,
 			modelAccessAfterReceiving;
@@ -80,14 +83,29 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	 * Каждый диалог, который имеет встроенные редакторы модуля, нужно расширить при
 	 * помощи "org.eclipse.core.runtime.IAdaptable" и реализовать данный метод,
 	 * который бы возвращал правильный актуальный EmbeddedEditor, иначе конструктор
-	 * запросов открываться не будет. Данный метод, лишь показывает, как это
-	 * реализовывать в случае вкладки "При отправке данных"
+	 * запросов открываться не будет.
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getAdapter(Class<T> adapter) {
 		if (org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor.class == adapter) {
-			return (T) editorOnSending;
+			CTabItem currentTabItem = tabFolder.getSelection();
+			if (currentTabItem == null)
+				return null;
+
+			if (currentTabItem.equals(tabItemOnSendingEditor))
+				return (T) editorOnSending;
+
+			else if (currentTabItem.equals(tabItemBeforeReceivingEditor))
+				return (T) editorBeforeReceiving;
+
+			else if (currentTabItem.equals(tabItemOnReceivingEditor))
+				return (T) editorOnReceiving;
+
+			else if (currentTabItem.equals(tabItemAfterReceivingEditor))
+				return (T) editorAfterReceiving;
+
+			return null;
 		}
 		return null;
 	}
@@ -116,7 +134,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		GridLayoutFactory.fillDefaults().applyTo(container);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
 
-		CTabFolder tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
+		tabFolder = new CTabFolder(container, SWT.BORDER | SWT.FLAT);
 		GridLayoutFactory.fillDefaults().applyTo(tabFolder);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tabFolder);
 
@@ -124,8 +142,8 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 				Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
 		// Основные сведения
-		CTabItem tabItem1 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem1.setText("Основные сведения");
+		CTabItem tabItemMain = new CTabItem(tabFolder, SWT.NONE);
+		tabItemMain.setText("Основные сведения");
 
 		Composite compositeMain = new Composite(tabFolder, 0);
 		compositeMain.setLayout(new GridLayout(3, false));
@@ -203,11 +221,11 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		btnForGroup.setText("Правило для группы справочника");
 		btnForGroup.setEnabled(editable);
 
-		tabItem1.setControl(compositeMain);
+		tabItemMain.setControl(compositeMain);
 
 		// Правила конвертации свойств
-		CTabItem tabItem2 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem2.setText("Правила конвертации свойств");
+		CTabItem tabItemAttributeRules = new CTabItem(tabFolder, SWT.NONE);
+		tabItemAttributeRules.setText("Правила конвертации свойств");
 
 		Composite compositeAttributeRules = new Composite(tabFolder, SWT.BORDER);
 		TableColumnLayout tclAttributeRules = new TableColumnLayout();
@@ -261,11 +279,11 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		viewerAttributeRules.setContentProvider(viewerContentProvider);
 
-		tabItem2.setControl(compositeAttributeRules);
+		tabItemAttributeRules.setControl(compositeAttributeRules);
 
 		// При отправке данных
-		CTabItem tabItem3 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem3.setText("При отправке данных");
+		tabItemOnSendingEditor = new CTabItem(tabFolder, SWT.NONE);
+		tabItemOnSendingEditor.setText("При отправке данных");
 
 		Composite compositeOnSendingEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeOnSendingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -285,11 +303,11 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		viewerOnSending.setEditable(editable);
 		viewerOnSending.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		tabItem3.setControl(compositeOnSendingEditor);
+		tabItemOnSendingEditor.setControl(compositeOnSendingEditor);
 
 		// При конвертации данных XDTO
-		CTabItem tabItem4 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem4.setText("При конвертации данных XDTO");
+		tabItemBeforeReceivingEditor = new CTabItem(tabFolder, SWT.NONE);
+		tabItemBeforeReceivingEditor.setText("При конвертации данных XDTO");
 
 		Composite compositeBeforeReceivingEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeBeforeReceivingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -309,11 +327,11 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		viewerBeforeReceiving.setEditable(editable);
 		viewerBeforeReceiving.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		tabItem4.setControl(compositeBeforeReceivingEditor);
+		tabItemBeforeReceivingEditor.setControl(compositeBeforeReceivingEditor);
 
 		// Перед записью полученных данных
-		CTabItem tabItem5 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem5.setText("Перед записью полученных данных");
+		tabItemOnReceivingEditor = new CTabItem(tabFolder, SWT.NONE);
+		tabItemOnReceivingEditor.setText("Перед записью полученных данных");
 
 		Composite compositeOnReceivingEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeOnReceivingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -333,11 +351,11 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		viewerOnReceiving.setEditable(editable);
 		viewerOnReceiving.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		tabItem5.setControl(compositeOnReceivingEditor);
+		tabItemOnReceivingEditor.setControl(compositeOnReceivingEditor);
 
 		// После загрузки всех данных
-		CTabItem tabItem6 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem6.setText("После загрузки всех данных");
+		tabItemAfterReceivingEditor = new CTabItem(tabFolder, SWT.NONE);
+		tabItemAfterReceivingEditor.setText("После загрузки всех данных");
 
 		Composite compositeAfterReceivingEditor = new Composite(tabFolder, SWT.BORDER);
 		compositeAfterReceivingEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -357,11 +375,11 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		viewerAfterReceiving.setEditable(false); // Редактируется в алгоритмах
 		viewerAfterReceiving.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		tabItem6.setControl(compositeAfterReceivingEditor);
+		tabItemAfterReceivingEditor.setControl(compositeAfterReceivingEditor);
 
 		// Идентификация
-		CTabItem tabItem7 = new CTabItem(tabFolder, SWT.NONE);
-		tabItem7.setText("Идентификация");
+		CTabItem tabItemIdentification = new CTabItem(tabFolder, SWT.NONE);
+		tabItemIdentification.setText("Идентификация");
 
 		Composite compositeIdentification = new Composite(tabFolder, SWT.BORDER);
 		compositeIdentification.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
@@ -420,7 +438,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		viewerIdentificationFields.setContentProvider(viewerContentProvider);
 
-		tabItem7.setControl(compositeIdentification);
+		tabItemIdentification.setControl(compositeIdentification);
 
 		// Заполнение диалога
 
@@ -435,13 +453,13 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		tltmObjectRulesSize3.setSelection(objectRule.getForSending() && objectRule.getForReceiving());
 
 		if (!objectRule.getForSending())
-			tabItem3.dispose();
+			tabItemOnSendingEditor.dispose();
 
 		if (!objectRule.getForReceiving()) {
-			tabItem4.dispose();
-			tabItem5.dispose();
-			tabItem6.dispose();
-			tabItem7.dispose();
+			tabItemBeforeReceivingEditor.dispose();
+			tabItemOnReceivingEditor.dispose();
+			tabItemAfterReceivingEditor.dispose();
+			tabItemIdentification.dispose();
 		}
 
 		btnForGroup.setSelection(objectRule.getForGroup());

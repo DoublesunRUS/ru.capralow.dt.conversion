@@ -130,7 +130,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
 		this.editable = modelEditingSupport.canEdit(getModel());
-		this.editable = true;
 
 		IStructuredContentProvider viewerContentProvider = new ConversionModuleContentProvider();
 

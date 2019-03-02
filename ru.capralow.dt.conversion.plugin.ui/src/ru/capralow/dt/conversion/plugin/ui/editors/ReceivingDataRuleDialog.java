@@ -1,5 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
@@ -43,7 +44,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
 
 @SuppressWarnings("restriction")
-public class ReceivingDataRuleDialog extends Dialog {
+public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmDataRule dataRule;
@@ -69,6 +70,21 @@ public class ReceivingDataRuleDialog extends Dialog {
 		this.dataRule = dataRule;
 
 		this.editable = editable;
+	}
+
+	/*
+	 * Каждый диалог, который имеет встроенные редакторы модуля, нужно расширить при
+	 * помощи "org.eclipse.core.runtime.IAdaptable" и реализовать данный метод,
+	 * который бы возвращал правильный актуальный EmbeddedEditor, иначе конструктор
+	 * запросов открываться не будет.
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+		if (org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor.class == adapter) {
+			return (T) editorOnProcessing;
+		}
+		return null;
 	}
 
 	/**
