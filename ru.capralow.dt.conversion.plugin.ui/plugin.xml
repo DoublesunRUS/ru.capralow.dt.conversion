@@ -82,4 +82,17 @@
 		</objectConverter>
 	</extension>
 
+	<extension point="org.eclipse.xtext.builder.participant">
+		<participant
+			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.ConversionModuleXtextBuilderParticipant"
+			fileExtensions="bsl">
+		</participant>
+	</extension>
+
+	<extension point="com._1c.g5.v8.dt.bsl.externalBslValidator">
+		<externalValidator
+			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.ConversionModuleExternalBslValidator">
+		</externalValidator>
+	</extension>
+
 </plugin>
