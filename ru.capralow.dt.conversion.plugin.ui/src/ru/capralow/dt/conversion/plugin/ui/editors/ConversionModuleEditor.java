@@ -1058,7 +1058,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	}
 
 	private void updateModule() throws CoreException {
-		String newModule = conversionModule.getModuleText();
+		String newModule = conversionModuleAnalyzer.getModuleText();
 
 		// System.out.print(newModule);
 

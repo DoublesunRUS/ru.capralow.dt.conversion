@@ -1,10 +1,14 @@
 package ru.capralow.dt.conversion.plugin.core;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
@@ -53,6 +57,9 @@ import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
+import com.google.common.io.CharSource;
+import com.google.common.io.CharStreams;
+import com.google.common.io.Resources;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
@@ -1507,5 +1514,146 @@ public class ConversionModuleAnalyzer {
 		}
 
 		return false;
+	}
+
+	public String getModuleText() {
+		if (conversionModule.getStoreVersion() == "2")
+			return getModuleTextV2();
+		else
+			return getModuleTextV2();
+	}
+
+	private String getModuleTextV2() {
+		String ls = System.lineSeparator();
+
+		final String TEMPLATE_NAME_MAIN = "ConversionModuleV2.txt";
+		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
+
+		final String TEMPLATE_NAME_SENDINGDATARULE = "SendingDataRuleV2.txt";
+		String templateSendingDataRuleContent = readContents(getFileInputSupplier(TEMPLATE_NAME_SENDINGDATARULE),
+				TEMPLATE_NAME_SENDINGDATARULE);
+
+		final String TEMPLATE_NAME_RECEIVINGDATARULE = "ReceivingDataRuleV2.txt";
+		String templateReceivingDataRuleContent = readContents(getFileInputSupplier(TEMPLATE_NAME_RECEIVINGDATARULE),
+				TEMPLATE_NAME_RECEIVINGDATARULE);
+
+		StringTemplate templateMain = new StringTemplate(templateMainContent);
+
+		templateMain.setAttribute("ConvertationName", "// Конвертация %1 от %2");
+
+		templateMain.setAttribute("BeforeConvertationEvent", conversionModule.getBeforeConvertationEventText());
+		templateMain.setAttribute("AfterConvertationEvent", conversionModule.getAfterConvertationEventText());
+		templateMain.setAttribute("BeforeFillingEvent", conversionModule.getBeforeFillingEventText());
+
+		templateMain.setAttribute("StoreVersion", conversionModule.getStoreVersion());
+
+		String dataRulesDeclarationSendingText = "";
+		String dataRulesDeclarationReceivingText = "";
+		String sendingDataRules = "";
+		String receivingDataRules = "";
+		for (CmDataRule dataRule : conversionModule.getDataRules()) {
+			if (dataRule.getForSending()) {
+				if (!dataRulesDeclarationSendingText.isEmpty())
+					dataRulesDeclarationSendingText += ls;
+				dataRulesDeclarationSendingText += "ДобавитьПОД_" + dataRule.getName() + "(ПравилаОбработкиДанных);";
+
+				if (!sendingDataRules.isEmpty())
+					sendingDataRules += ls;
+				StringTemplate templateSendingDataRule = new StringTemplate(templateSendingDataRuleContent);
+
+				templateSendingDataRule.setAttribute("DataRuleName", dataRule.getName());
+
+				templateSendingDataRule.setAttribute("ConfigurationObject",
+						dataRule.getConfigurationObjectName().isEmpty() ? "Неопределено"
+								: dataRule.getConfigurationObjectName());
+				templateSendingDataRule.setAttribute("OnProcessingEvent", dataRule.getOnProcessingEventDeclaration());
+				templateSendingDataRule.setAttribute("DataSelectionEvent", dataRule.getDataSelectionEventDeclaration());
+				templateSendingDataRule.setAttribute("IsDataCleaning", dataRule.getDataCleaningDeclaration());
+
+				String objectRulesText = "";
+				for (CmObjectRule objectRule : dataRule.getObjectRules()) {
+					if (!objectRulesText.isEmpty())
+						objectRulesText += ls;
+
+					objectRulesText += "ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.getName() + "\");";
+				}
+				templateSendingDataRule.setAttribute("ObjectRules", objectRulesText);
+
+				String dataRuleEventsText = "";
+				if (!dataRule.getOnProcessingEvent().isEmpty())
+					dataRuleEventsText += ls + dataRule.getOnProcessingEventText();
+				if (!dataRule.getDataSelectionEvent().isEmpty())
+					dataRuleEventsText += ls + dataRule.getDataSelectionEventText();
+
+				templateSendingDataRule.setAttribute("Events", dataRuleEventsText);
+
+				String sendingDataRule = templateSendingDataRule.toString()
+						.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
+						.replace("	ПравилоОбработки.ВыборкаДанных           = \"\";", "---")
+						.replaceAll("---\\r\\n|---\\r|---\\n", "");
+
+				sendingDataRules += sendingDataRule;
+
+			}
+
+			if (dataRule.getForReceiving()) {
+				if (!dataRulesDeclarationReceivingText.isEmpty())
+					dataRulesDeclarationReceivingText += ls;
+				dataRulesDeclarationReceivingText += "ДобавитьПОД_" + dataRule.getName() + "(ПравилаОбработкиДанных);";
+
+				if (!receivingDataRules.isEmpty())
+					receivingDataRules += ls;
+				StringTemplate templateReceivingDataRule = new StringTemplate(templateReceivingDataRuleContent);
+
+				templateReceivingDataRule.setAttribute("DataRuleName", dataRule.getName());
+
+				templateReceivingDataRule.setAttribute("FormatObject", dataRule.getFormatObject());
+				templateReceivingDataRule.setAttribute("OnProcessingEvent", dataRule.getOnProcessingEventDeclaration());
+
+				String objectRulesText = "";
+				for (CmObjectRule objectRule : dataRule.getObjectRules()) {
+					if (!objectRulesText.isEmpty())
+						objectRulesText += ls;
+
+					objectRulesText += "ПравилоОбработки.ИспользуемыеПКО.Добавить(\"" + objectRule.getName() + "\");";
+				}
+				templateReceivingDataRule.setAttribute("ObjectRules", objectRulesText);
+
+				String dataRuleEventsText = "";
+				if (!dataRule.getOnProcessingEvent().isEmpty())
+					dataRuleEventsText += ls + dataRule.getOnProcessingEventText();
+
+				templateReceivingDataRule.setAttribute("Events", dataRuleEventsText);
+
+				String receivingDataRule = templateReceivingDataRule.toString()
+						.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
+						.replaceAll("---\\r\\n|---\\r|---\\n", "");
+
+				receivingDataRules += receivingDataRule;
+			}
+		}
+		templateMain.setAttribute("DataRulesDeclarationSending", dataRulesDeclarationSendingText);
+		templateMain.setAttribute("DataRulesDeclarationReceiving", dataRulesDeclarationReceivingText);
+
+		templateMain.setAttribute("SendingDataRules", sendingDataRules);
+		templateMain.setAttribute("ReceivingDataRules", receivingDataRules);
+
+		templateMain.setAttribute("Algorithms", conversionModule.getAllAlgorithmsText(""));
+
+		return templateMain.toString();
+
+	}
+
+	private static String readContents(CharSource source, String path) {
+		try (Reader reader = source.openBufferedStream()) {
+			return CharStreams.toString(reader);
+		} catch (IOException | NullPointerException e) {
+			return "";
+		}
+	}
+
+	private static CharSource getFileInputSupplier(String partName) {
+		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/" + partName),
+				StandardCharsets.UTF_8);
 	}
 }
