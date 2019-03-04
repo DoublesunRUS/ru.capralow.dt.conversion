@@ -58,6 +58,14 @@
 			</command>
 		</menuContribution>
 		
+		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"> 
+			<command
+				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryEditorHandler"
+				label="Редактор запроса"
+				style="push">
+			</command>
+		</menuContribution>
+		
 		<menuContribution
 			locationURI="popup:com._1c.g5.v8.dt.navigator.ui.navigator.popup">
 			<command commandId="ru.capralow.dt.conversion.plugin.ui.command.DataFormatToEMFGenerator"
