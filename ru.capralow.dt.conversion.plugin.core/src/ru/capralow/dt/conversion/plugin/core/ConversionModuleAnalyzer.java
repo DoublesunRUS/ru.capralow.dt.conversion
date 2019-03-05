@@ -52,8 +52,11 @@ import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister;
+import com._1c.g5.v8.dt.metadata.mdclass.InformationRegisterDimension;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
@@ -1472,14 +1475,12 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private void fillSubsystemsforObject(Object object, EList<CmSubsystem> objectSubsystems) {
-		objectSubsystems.clear();
-
 		EList<CmSubsystem> interfaceSubsystems = conversionModule.getSubsystems();
 
 		for (CmSubsystem cmSubsystem : interfaceSubsystems) {
 			Subsystem interfaceSubsystem = (Subsystem) cmSubsystem.getSubsystem();
 			if (interfaceSubsystem == null)
-				return;
+				continue;
 
 			if (interfaceSubsystem.getContent().indexOf(object) != -1) {
 				objectSubsystems.add(cmSubsystem);
@@ -1493,6 +1494,19 @@ public class ConversionModuleAnalyzer {
 					return;
 
 			}
+		}
+
+		if (object instanceof InformationRegister) {
+			for (InformationRegisterDimension dimension : ((InformationRegister) object).getDimensions()) {
+				if (!dimension.isMaster())
+					continue;
+
+				for (TypeItem type : dimension.getType().getTypes()) {
+					MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(type);
+					fillSubsystemsforObject(masterObject, objectSubsystems);
+				}
+			}
+
 		}
 	}
 
