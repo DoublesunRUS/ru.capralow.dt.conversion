@@ -1159,7 +1159,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 						@Override
 						public String getName() {
-							int len = string.indexOf("\r\n");
+							int len = string.indexOf(System.lineSeparator());
 							return string.substring(0, len).replace(".", "_").concat(".md"); // $NON-NLS-1$
 						}
 

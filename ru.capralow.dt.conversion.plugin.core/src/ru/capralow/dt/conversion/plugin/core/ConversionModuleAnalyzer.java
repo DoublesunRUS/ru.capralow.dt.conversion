@@ -59,11 +59,13 @@ import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
 import com._1c.g5.v8.dt.metadata.mdclass.CatalogCommand;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import com._1c.g5.v8.dt.metadata.mdclass.Document;
 import com._1c.g5.v8.dt.metadata.mdclass.DocumentCommand;
 import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister;
 import com._1c.g5.v8.dt.metadata.mdclass.InformationRegisterDimension;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
+import com._1c.g5.v8.dt.metadata.mdclass.StandardCommand;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
@@ -1479,19 +1481,35 @@ public class ConversionModuleAnalyzer {
 		for (CommandsPlacementFragment placementFragment : mainCommandInterface.getCommandsPlacement()
 				.getPlacementFragments()) {
 			for (Command placementCommand : placementFragment.getCommands()) {
-				if (placementCommand instanceof CatalogCommand) {
+				if (object instanceof Catalog && placementCommand instanceof CatalogCommand) {
 					CatalogCommand placementCatalogCommand = (CatalogCommand) placementCommand;
+					Catalog masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementCatalogCommand,
+							Catalog.class);
+					if (masterObject.equals((Catalog) object)) {
+						objectSubsystems.add(cmMainSubsystem);
+						return;
+					}
 
-				} else if (placementCommand instanceof DocumentCommand) {
+				} else if (object instanceof Document && placementCommand instanceof DocumentCommand) {
 					DocumentCommand placementDocumentCommand = (DocumentCommand) placementCommand;
+					Document masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementDocumentCommand,
+							Document.class);
+					if (masterObject.equals((Document) object)) {
+						objectSubsystems.add(cmMainSubsystem);
+						return;
+					}
+
+				} else if (placementCommand instanceof StandardCommand) {
+					StandardCommand placementStandardCommand = (StandardCommand) placementCommand;
+					MdObject masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementStandardCommand,
+							MdObject.class);
+					if (masterObject.equals(object)) {
+						objectSubsystems.add(cmMainSubsystem);
+						return;
+					}
 
 				}
 			}
-		}
-
-		if (false) {
-			objectSubsystems.add(cmMainSubsystem);
-			return;
 		}
 
 		if (object instanceof Catalog) {

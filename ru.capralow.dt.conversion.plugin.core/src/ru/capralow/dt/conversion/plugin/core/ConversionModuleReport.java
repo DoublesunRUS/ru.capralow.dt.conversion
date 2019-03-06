@@ -123,7 +123,7 @@ public class ConversionModuleReport {
 
 		templateObject.setAttribute("ObjectRule", objectSynonym);
 		templateObject.setAttribute("FormatObject", cmObjectRule.getFormatObject());
-		templateObject.setAttribute("ConfigurationObject", cmObjectRule.getConfigurationObjectName());
+		templateObject.setAttribute("ConfigurationObject", cmObjectRule.getConfigurationObjectFormattedName());
 
 		EList<String> identificationFields = cmObjectRule.getIdentificationFields();
 
