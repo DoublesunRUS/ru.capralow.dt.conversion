@@ -1667,7 +1667,7 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static CharSource getFileInputSupplier(String partName) {
-		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/" + partName),
+		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/module/" + partName),
 				StandardCharsets.UTF_8);
 	}
 }

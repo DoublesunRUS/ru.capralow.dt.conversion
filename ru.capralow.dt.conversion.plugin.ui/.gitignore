@@ -1,2 +1,4 @@
 /bin/
 /target/
+/plugin win.launch
+/plugin mac.launch

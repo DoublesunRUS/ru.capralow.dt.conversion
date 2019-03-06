@@ -1,0 +1,5 @@
+Описание формата загрузки данных $FormatVersion$
+
+[TOC]
+
+$ObjectRules$

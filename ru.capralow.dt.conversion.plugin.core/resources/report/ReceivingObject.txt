@@ -1,0 +1,9 @@
+##### $ObjectRule$
+---
+Объект формата: $FormatObject$
+Объект конфигурации: $ConfigurationObject$
+
+**Вариант идентификации: $IdentificationVariant$**
+$IdentificationFields$
+
+$AttributeRules$
