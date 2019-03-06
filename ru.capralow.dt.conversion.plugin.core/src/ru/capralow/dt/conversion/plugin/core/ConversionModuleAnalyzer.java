@@ -3,7 +3,6 @@ package ru.capralow.dt.conversion.plugin.core;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -234,21 +232,6 @@ public class ConversionModuleAnalyzer {
 			}
 
 		}
-
-		ECollections.sort(algorithms, new Comparator<CmAlgorithm>() {
-			@Override
-			public int compare(CmAlgorithm arg1, CmAlgorithm arg2) {
-				String algorithm1 = arg1.getName().replaceAll("_", "");
-				String algorithm2 = arg2.getName().replaceAll("_", "");
-
-				if (algorithm1.equalsIgnoreCase(algorithm2))
-					return 0;
-
-				return algorithm1.compareToIgnoreCase(algorithm2);
-			}
-
-		});
-
 	}
 
 	public void analyzeV2(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,

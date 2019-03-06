@@ -5,14 +5,14 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 
 public class ConversionModuleContentProvider implements IStructuredContentProvider {
 	@Override
-	public Object[] getElements(Object inputElement) {
+	public Object[] getElements(Object elements) {
 		@SuppressWarnings("unchecked")
-		EList<Object> listObjects = (EList<Object>) inputElement;
+		EList<Object> listElements = (EList<Object>) elements;
 
-		Object[] viewerContent = new Object[listObjects.size()];
+		Object[] viewerContent = new Object[listElements.size()];
 
 		int i = 0;
-		for (Object object : listObjects) {
+		for (Object object : listElements) {
 			viewerContent[i] = object;
 			i++;
 		}

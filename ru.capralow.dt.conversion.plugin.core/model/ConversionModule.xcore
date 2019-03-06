@@ -178,6 +178,31 @@ class CmDataRule {
 	
 	refers MdObject configurationObject
 	String configurationObjectName = ""
+	derived String configurationObjectFormattedName get {
+		var result = "";
+		
+		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
+			result = "Справочник." + configurationObject.getName();
+		
+		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
+			result = "Документ." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
+			result = "Перечисление." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
+			result = "ПланВидовХарактеристик." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
+			result = "ПланВидовРасчета." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
+			result = "РегистрСведений." + configurationObject.getName();
+			
+		}
+		
+		return result;
+	}
 
 	String formatObject = ""
 	
@@ -268,6 +293,8 @@ class CmDataRule {
 
 		return true;
 	}
+	
+	refers CmGroup group
 }
 
 enum CmSelectionVariant {
@@ -284,6 +311,31 @@ class CmObjectRule {
 	
 	refers MdObject configurationObject
 	String configurationObjectName = ""
+	derived String configurationObjectFormattedName get {
+		var result = "";
+		
+		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
+			result = "Справочник." + configurationObject.getName();
+		
+		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
+			result = "Документ." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
+			result = "Перечисление." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
+			result = "ПланВидовХарактеристик." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
+			result = "ПланВидовРасчета." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
+			result = "РегистрСведений." + configurationObject.getName();
+			
+		}
+		
+		return result;
+	}
 
 	String formatObject = ""
 	
@@ -398,6 +450,31 @@ class CmPredefined {
 	
 	refers MdObject configurationObject
 	String configurationObjectName = ""
+	derived String configurationObjectFormattedName get {
+		var result = "";
+		
+		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
+			result = "Справочник." + configurationObject.getName();
+		
+		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
+			result = "Документ." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
+			result = "Перечисление." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
+			result = "ПланВидовХарактеристик." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
+			result = "ПланВидовРасчета." + configurationObject.getName();
+			
+		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
+			result = "РегистрСведений." + configurationObject.getName();
+			
+		}
+		
+		return result;
+	}
 
 	String formatObject = ""
 	
@@ -514,4 +591,8 @@ enum CmSpecialSubsystemType {
 	All as "<Все подсистемы>" = 1
 	Main as "Главное" = 2
 	Empty as "<Остальное>" = 3
+}
+
+class CmGroup {
+	String name
 }

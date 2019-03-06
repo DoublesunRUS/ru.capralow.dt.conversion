@@ -4,11 +4,13 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Comparator;
 import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.handly.buffer.BufferChange;
@@ -130,8 +132,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
 		this.editable = modelEditingSupport.canEdit(getModel());
-
-		IStructuredContentProvider viewerContentProvider = new ConversionModuleContentProvider();
 
 		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager);
 
@@ -323,7 +323,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmDataRule) element).getConfigurationObject() == null)
 					return "";
-				return ((CmDataRule) element).getConfigurationObjectName();
+				return ((CmDataRule) element).getConfigurationObjectFormattedName();
 			}
 		});
 		TableViewerColumn tblclmnSendingDataRulesColumn1 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
@@ -355,7 +355,43 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerSendingDataRules.setContentProvider(viewerContentProvider);
+		viewerSendingDataRules.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public Object[] getElements(Object elements) {
+				@SuppressWarnings("unchecked")
+				EList<CmDataRule> listElements = (EList<CmDataRule>) elements;
+
+				ECollections.sort(listElements, new Comparator<CmDataRule>() {
+					@Override
+					public int compare(CmDataRule cmArg1, CmDataRule cmArg2) {
+						String stringArg1 = cmArg1.getConfigurationObjectName().replaceAll("_", "");
+						String stringArg2 = cmArg2.getConfigurationObjectName().replaceAll("_", "");
+
+						if (stringArg1.equalsIgnoreCase(stringArg2)) {
+							String stringArg3 = cmArg1.getName().replaceAll("_", "");
+							String stringArg4 = cmArg2.getName().replaceAll("_", "");
+							if (stringArg3.equalsIgnoreCase(stringArg4))
+								return 0;
+
+							return stringArg3.compareToIgnoreCase(stringArg4);
+						}
+
+						return stringArg1.compareToIgnoreCase(stringArg2);
+					}
+
+				});
+
+				Object[] viewerContent = new Object[listElements.size()];
+
+				int i = 0;
+				for (CmDataRule cmElement : listElements) {
+					viewerContent[i] = cmElement;
+					i++;
+				}
+
+				return viewerContent;
+			}
+		});
 
 		tabItem2.setControl(compositeSendingDataRules);
 
@@ -384,7 +420,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmObjectRule) element).getConfigurationObject() == null)
 					return "";
-				return ((CmObjectRule) element).getConfigurationObjectName();
+				return ((CmObjectRule) element).getConfigurationObjectFormattedName();
 			}
 		});
 		TableViewerColumn tblclmnSendingObjectRulesColumn3 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
@@ -419,7 +455,49 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerSendingObjectRules.setContentProvider(viewerContentProvider);
+		viewerSendingObjectRules.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public Object[] getElements(Object elements) {
+				@SuppressWarnings("unchecked")
+				EList<CmObjectRule> listElements = (EList<CmObjectRule>) elements;
+
+				ECollections.sort(listElements, new Comparator<CmObjectRule>() {
+					@Override
+					public int compare(CmObjectRule cmArg1, CmObjectRule cmArg2) {
+						String stringArg1 = cmArg1.getConfigurationObjectName().replaceAll("_", "");
+						String stringArg2 = cmArg2.getConfigurationObjectName().replaceAll("_", "");
+
+						if (stringArg1.equalsIgnoreCase(stringArg2)) {
+							String stringArg3 = cmArg1.getFormatObject().replaceAll("_", "");
+							String stringArg4 = cmArg2.getFormatObject().replaceAll("_", "");
+							if (stringArg3.equalsIgnoreCase(stringArg4)) {
+								String stringArg5 = cmArg1.getName().replaceAll("_", "");
+								String stringArg6 = cmArg2.getName().replaceAll("_", "");
+								if (stringArg5.equalsIgnoreCase(stringArg6))
+									return 0;
+
+								return stringArg5.compareToIgnoreCase(stringArg6);
+							}
+
+							return stringArg3.compareToIgnoreCase(stringArg4);
+						}
+
+						return stringArg1.compareToIgnoreCase(stringArg2);
+					}
+
+				});
+
+				Object[] viewerContent = new Object[listElements.size()];
+
+				int i = 0;
+				for (CmObjectRule cmElement : listElements) {
+					viewerContent[i] = cmElement;
+					i++;
+				}
+
+				return viewerContent;
+			}
+		});
 
 		tabItem3.setControl(compositeSendingObjectRules);
 
@@ -471,7 +549,43 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerReceivingDataRules.setContentProvider(viewerContentProvider);
+		viewerReceivingDataRules.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public Object[] getElements(Object elements) {
+				@SuppressWarnings("unchecked")
+				EList<CmDataRule> listElements = (EList<CmDataRule>) elements;
+
+				ECollections.sort(listElements, new Comparator<CmDataRule>() {
+					@Override
+					public int compare(CmDataRule cmArg1, CmDataRule cmArg2) {
+						String stringArg1 = cmArg1.getFormatObject().replaceAll("_", "");
+						String stringArg2 = cmArg2.getFormatObject().replaceAll("_", "");
+
+						if (stringArg1.equalsIgnoreCase(stringArg2)) {
+							String stringArg3 = cmArg1.getName().replaceAll("_", "");
+							String stringArg4 = cmArg2.getName().replaceAll("_", "");
+							if (stringArg3.equalsIgnoreCase(stringArg4))
+								return 0;
+
+							return stringArg3.compareToIgnoreCase(stringArg4);
+						}
+
+						return stringArg1.compareToIgnoreCase(stringArg2);
+					}
+
+				});
+
+				Object[] viewerContent = new Object[listElements.size()];
+
+				int i = 0;
+				for (CmDataRule cmElement : listElements) {
+					viewerContent[i] = cmElement;
+					i++;
+				}
+
+				return viewerContent;
+			}
+		});
 
 		tabItem4.setControl(compositeReceivingDataRules);
 
@@ -514,7 +628,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmObjectRule) element).getConfigurationObject() == null)
 					return "";
-				return ((CmObjectRule) element).getConfigurationObjectName();
+				return ((CmObjectRule) element).getConfigurationObjectFormattedName();
 			}
 		});
 		TableViewerColumn tblclmnReceivingObjectRulesColumn1 = new TableViewerColumn(viewerReceivingObjectRules,
@@ -559,7 +673,49 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerReceivingObjectRules.setContentProvider(viewerContentProvider);
+		viewerReceivingObjectRules.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public Object[] getElements(Object elements) {
+				@SuppressWarnings("unchecked")
+				EList<CmObjectRule> listElements = (EList<CmObjectRule>) elements;
+
+				ECollections.sort(listElements, new Comparator<CmObjectRule>() {
+					@Override
+					public int compare(CmObjectRule cmArg1, CmObjectRule cmArg2) {
+						String stringArg1 = cmArg1.getFormatObject().replaceAll("_", "");
+						String stringArg2 = cmArg2.getFormatObject().replaceAll("_", "");
+
+						if (stringArg1.equalsIgnoreCase(stringArg2)) {
+							String stringArg3 = cmArg1.getConfigurationObjectName().replaceAll("_", "");
+							String stringArg4 = cmArg2.getConfigurationObjectName().replaceAll("_", "");
+							if (stringArg3.equalsIgnoreCase(stringArg4)) {
+								String stringArg5 = cmArg1.getName().replaceAll("_", "");
+								String stringArg6 = cmArg2.getName().replaceAll("_", "");
+								if (stringArg5.equalsIgnoreCase(stringArg6))
+									return 0;
+
+								return stringArg5.compareToIgnoreCase(stringArg6);
+							}
+
+							return stringArg3.compareToIgnoreCase(stringArg4);
+						}
+
+						return stringArg1.compareToIgnoreCase(stringArg2);
+					}
+
+				});
+
+				Object[] viewerContent = new Object[listElements.size()];
+
+				int i = 0;
+				for (CmObjectRule cmElement : listElements) {
+					viewerContent[i] = cmElement;
+					i++;
+				}
+
+				return viewerContent;
+			}
+		});
 
 		tabItem5.setControl(compositeReceivingObjectRules);
 
@@ -586,7 +742,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public String getText(Object element) {
 				if (((CmPredefined) element).getConfigurationObject() == null)
 					return "";
-				return ((CmPredefined) element).getConfigurationObjectName();
+				return ((CmPredefined) element).getConfigurationObjectFormattedName();
 			}
 		});
 		TableViewerColumn tblclmnPredefinedsColumn3 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
@@ -628,7 +784,37 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerPredefineds.setContentProvider(viewerContentProvider);
+		viewerPredefineds.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public Object[] getElements(Object elements) {
+				@SuppressWarnings("unchecked")
+				EList<CmPredefined> listElements = (EList<CmPredefined>) elements;
+
+				ECollections.sort(listElements, new Comparator<CmPredefined>() {
+					@Override
+					public int compare(CmPredefined cmArg1, CmPredefined cmArg2) {
+						String stringArg1 = cmArg1.getName().replaceAll("_", "");
+						String stringArg2 = cmArg2.getName().replaceAll("_", "");
+
+						if (stringArg1.equalsIgnoreCase(stringArg2))
+							return 0;
+
+						return stringArg1.compareToIgnoreCase(stringArg2);
+					}
+
+				});
+
+				Object[] viewerContent = new Object[listElements.size()];
+
+				int i = 0;
+				for (CmPredefined cmElement : listElements) {
+					viewerContent[i] = cmElement;
+					i++;
+				}
+
+				return viewerContent;
+			}
+		});
 
 		tabItem7.setControl(compositePredefineds);
 
@@ -684,7 +870,37 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 		});
 
-		viewerAlgorithms.setContentProvider(viewerContentProvider);
+		viewerAlgorithms.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public Object[] getElements(Object elements) {
+				@SuppressWarnings("unchecked")
+				EList<CmAlgorithm> listElements = (EList<CmAlgorithm>) elements;
+
+				ECollections.sort(listElements, new Comparator<CmAlgorithm>() {
+					@Override
+					public int compare(CmAlgorithm cmArg1, CmAlgorithm cmArg2) {
+						String stringArg1 = cmArg1.getName().replaceAll("_", "");
+						String stringArg2 = cmArg2.getName().replaceAll("_", "");
+
+						if (stringArg1.equalsIgnoreCase(stringArg2))
+							return 0;
+
+						return stringArg1.compareToIgnoreCase(stringArg2);
+					}
+
+				});
+
+				Object[] viewerContent = new Object[listElements.size()];
+
+				int i = 0;
+				for (CmAlgorithm cmElement : listElements) {
+					viewerContent[i] = cmElement;
+					i++;
+				}
+
+				return viewerContent;
+			}
+		});
 
 		tabItem6.setControl(compositeAlgorithms);
 
