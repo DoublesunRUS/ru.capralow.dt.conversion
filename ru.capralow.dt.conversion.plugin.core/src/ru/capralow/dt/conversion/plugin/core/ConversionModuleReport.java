@@ -438,8 +438,7 @@ public class ConversionModuleReport {
 				col5 = "*" + col5 + "*";
 		}
 
-		return prefix + col1 + " | " + prefix + col2 + " | " + prefix + col3 + " | " + prefix + col4 + " | " + prefix
-				+ col5 + "\r\n";
+		return prefix + col1 + " | " + prefix + col2 + " | " + prefix + col3 + " | " + col4 + " | " + col5 + "\r\n";
 	}
 
 	private static String readContents(CharSource source, String path) {

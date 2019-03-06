@@ -46,15 +46,22 @@ import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.model.UndefinedLiteral;
+import com._1c.g5.v8.dt.cmi.model.CommandInterface;
+import com._1c.g5.v8.dt.cmi.model.CommandsPlacementFragment;
 import com._1c.g5.v8.dt.cmi.model.SubsystemsOrder;
-import com._1c.g5.v8.dt.cmi.model.impl.CommandInterfaceImpl;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IExtensionProject;
 import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.mcore.Command;
+import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com._1c.g5.v8.dt.mcore.TypeSet;
+import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
+import com._1c.g5.v8.dt.metadata.mdclass.CatalogCommand;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
+import com._1c.g5.v8.dt.metadata.mdclass.DocumentCommand;
 import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister;
 import com._1c.g5.v8.dt.metadata.mdclass.InformationRegisterDimension;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
@@ -154,7 +161,12 @@ public class ConversionModuleAnalyzer {
 
 		Configuration configuration = (Configuration) ((IConfigurationProject) configurationProject).getConfiguration();
 
-		CommandInterfaceImpl commandInterface = (CommandInterfaceImpl) configuration.getCommandInterface();
+		CommandInterface commandInterface = (CommandInterface) configuration.getCommandInterface();
+
+		CommandInterface mainCommandInterface = (CommandInterface) configuration.getMainSectionCommandInterface();
+		CmSubsystemImpl cmMainSubsystem = new CmSubsystemImpl();
+		cmMainSubsystem.setSpecialSubsystemType(CmSpecialSubsystemType.MAIN);
+		subsystems.add(cmMainSubsystem);
 
 		SubsystemsOrder subsystemsOrder = commandInterface.getSubsystemsOrder();
 		if (subsystemsOrder != null)
@@ -209,10 +221,10 @@ public class ConversionModuleAnalyzer {
 				String storeVersion = conversionModule.getStoreVersion();
 
 				if (storeVersion.equals("1")) {
-					analyzeV1(method, module, bmEmfIndexProvider);
+					analyzeV1(method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
 
 				} else if (storeVersion.equals("2")) {
-					analyzeV2(method, module, bmEmfIndexProvider);
+					analyzeV2(method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
 
 				} else {
 					throw new NullPointerException("Неизвестная версия формата: " + storeVersion);
@@ -239,7 +251,8 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	public void analyzeV2(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider) {
+	public void analyzeV2(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
+			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
@@ -342,7 +355,8 @@ public class ConversionModuleAnalyzer {
 						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
 						dataRule.setConfigurationObject(configurationObject);
 						dataRule.setConfigurationObjectName(configurationObjectName);
-						fillSubsystemsforObject(configurationObject, dataRule.getSubsystems());
+						fillSubsystemsforObject(configurationObject, dataRule.getSubsystems(), mainCommandInterface,
+								cmMainSubsystem);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -540,7 +554,8 @@ public class ConversionModuleAnalyzer {
 						objectRule.setConfigurationObject(configurationObject);
 						objectRule.setConfigurationObjectName(configurationObjectName);
 
-						fillSubsystemsforObject(configurationObject, objectRule.getSubsystems());
+						fillSubsystemsforObject(configurationObject, objectRule.getSubsystems(), mainCommandInterface,
+								cmMainSubsystem);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -839,7 +854,8 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	public void analyzeV1(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider) {
+	public void analyzeV1(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
+			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
@@ -1474,7 +1490,33 @@ public class ConversionModuleAnalyzer {
 		return object;
 	}
 
-	private void fillSubsystemsforObject(Object object, EList<CmSubsystem> objectSubsystems) {
+	private void fillSubsystemsforObject(Object object, EList<CmSubsystem> objectSubsystems,
+			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
+
+		for (CommandsPlacementFragment placementFragment : mainCommandInterface.getCommandsPlacement()
+				.getPlacementFragments()) {
+			for (Command placementCommand : placementFragment.getCommands()) {
+				if (placementCommand instanceof CatalogCommand) {
+					CatalogCommand placementCatalogCommand = (CatalogCommand) placementCommand;
+
+				} else if (placementCommand instanceof DocumentCommand) {
+					DocumentCommand placementDocumentCommand = (DocumentCommand) placementCommand;
+
+				}
+			}
+		}
+
+		if (false) {
+			objectSubsystems.add(cmMainSubsystem);
+			return;
+		}
+
+		if (object instanceof Catalog) {
+			for (MdObject masterObject : ((Catalog) object).getOwners()) {
+				fillSubsystemsforObject(masterObject, objectSubsystems, mainCommandInterface, cmMainSubsystem);
+			}
+		}
+
 		EList<CmSubsystem> interfaceSubsystems = conversionModule.getSubsystems();
 
 		for (CmSubsystem cmSubsystem : interfaceSubsystems) {
@@ -1502,11 +1544,20 @@ public class ConversionModuleAnalyzer {
 					continue;
 
 				for (TypeItem type : dimension.getType().getTypes()) {
-					MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(type);
-					fillSubsystemsforObject(masterObject, objectSubsystems);
+					if (type instanceof TypeSet) {
+						for (Type subType : ((TypeSet) type).getTypes()) {
+							MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(subType);
+							fillSubsystemsforObject(masterObject, objectSubsystems, mainCommandInterface,
+									cmMainSubsystem);
+						}
+
+					} else {
+						MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(type);
+						fillSubsystemsforObject(masterObject, objectSubsystems, mainCommandInterface, cmMainSubsystem);
+
+					}
 				}
 			}
-
 		}
 	}
 

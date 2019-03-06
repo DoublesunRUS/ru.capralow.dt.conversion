@@ -20,7 +20,8 @@ Require-Bundle: com.google.inject;bundle-version="[3.0.0,4.0.0)",
  com._1c.g5.v8.dt.mcore;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ com._1c.g5.v8.dt.cai.model
 Bundle-ActivationPolicy: lazy
 Import-Package: com._1c.g5.modeling.xtext.scoping;version="3.1.0",
  com._1c.g5.v8.bm.core;version="5.0.0",

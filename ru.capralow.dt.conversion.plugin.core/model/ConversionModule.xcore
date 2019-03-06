@@ -498,7 +498,7 @@ class CmSubsystem {
 		var name = "";
 		
 		if (specialSubsystemType == CmSpecialSubsystemType.SUBSYSTEM) {
-			name = subsystem.getName();
+			name = subsystem.getSynonym().get("ru");
 		} else {
 			name = specialSubsystemType.getLiteral();
 		}
@@ -512,5 +512,6 @@ class CmSubsystem {
 enum CmSpecialSubsystemType {
 	Subsystem as "<Подсистема>" = 0
 	All as "<Все подсистемы>" = 1
-	Empty as "<Остальное>" = 2
+	Main as "Главное" = 2
+	Empty as "<Остальное>" = 3
 }
