@@ -5,6 +5,8 @@ package ru.capralow.dt.conversion.plugin.core.rg
 
 class ReportGroups {
 	contains RgVariant[] variants
+	
+	Boolean addObjectsList
 }
 
 class RgVariant {

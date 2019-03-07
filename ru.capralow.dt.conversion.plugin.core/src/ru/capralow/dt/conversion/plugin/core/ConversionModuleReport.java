@@ -54,8 +54,7 @@ public class ConversionModuleReport {
 		this.rgVariant = rgVariant;
 	}
 
-	// TODO: Добавить переопределение подсистем и полей по комментарию модуля
-	public String createReport() throws IOException {
+	public String createFullReport() throws IOException {
 		final String TEMPLATE_NAME_MAIN = "ReceivingConversionReport.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
 
@@ -64,11 +63,11 @@ public class ConversionModuleReport {
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
-		templateMain.setAttribute("FormatVersion", formatPackage.getVersion());
-
 		String groupObjects = "";
 
 		if (rgVariant != null) {
+			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + formatPackage.getVersion());
+
 			for (RgGroup rgGroup : rgVariant.getGroups()) {
 				StringTemplate templateGroups = new StringTemplate(templateGroupContent);
 
@@ -81,7 +80,7 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						objects += getObject((CmObjectRule) objectRule);
+						objects += getFullObject((CmObjectRule) objectRule);
 				}
 
 				templateGroups.setAttribute("ObjectRules", objects);
@@ -91,6 +90,8 @@ public class ConversionModuleReport {
 			}
 
 		} else {
+			templateMain.setAttribute("FormatVersion", formatPackage.getVersion());
+
 			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
 				EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
 				if (receivingObjectRules.size() == 0)
@@ -102,7 +103,7 @@ public class ConversionModuleReport {
 
 				String objects = "";
 				for (Object objectRule : receivingObjectRules)
-					objects += getObject((CmObjectRule) objectRule);
+					objects += getFullObject((CmObjectRule) objectRule);
 				templateGroups.setAttribute("ObjectRules", objects);
 
 				groupObjects += templateGroups.toString();
@@ -117,7 +118,52 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	private String getObject(CmObjectRule cmObjectRule) {
+	public String createObjectsReport() throws IOException {
+		final String TEMPLATE_NAME_MAIN = "ReceivingObjectsList.txt";
+		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
+
+		StringTemplate templateMain = new StringTemplate(templateMainContent);
+
+		String tabularRows = "";
+
+		if (rgVariant != null) {
+			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + formatPackage.getVersion());
+
+			for (RgGroup rgGroup : rgVariant.getGroups()) {
+				tabularRows += "**" + rgGroup.getName() + "** | | | | \r\n";
+
+				for (RgRule rgRule : rgGroup.getRules()) {
+					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getRuleName());
+					if (dataRule == null)
+						continue;
+
+					for (Object objectRule : dataRule.getObjectRules())
+						tabularRows += getObjectRow((CmObjectRule) objectRule) + "\r\n";
+				}
+
+			}
+
+		} else {
+			templateMain.setAttribute("FormatVersion", formatPackage.getVersion());
+
+			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
+				EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
+				if (receivingObjectRules.size() == 0)
+					continue;
+
+				tabularRows += "**" + cmSubsystem.getName() + "** | | | | \r\n";
+
+				for (Object objectRule : receivingObjectRules)
+					tabularRows += getObjectRow((CmObjectRule) objectRule) + "\r\n";
+			}
+		}
+
+		templateMain.setAttribute("TabularRows", tabularRows);
+
+		return templateMain.toString();
+	}
+
+	private String getFullObject(CmObjectRule cmObjectRule) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 
@@ -447,6 +493,53 @@ public class ConversionModuleReport {
 		templateObject.setAttribute("AttributeRules", attributeRulesText);
 
 		return templateObject.toString();
+	}
+
+	private String getObjectRow(CmObjectRule cmObjectRule) {
+		MdObject configurationObject = cmObjectRule.getConfigurationObject();
+
+		String objectSynonym = "";
+		if (configurationObject instanceof Catalog) {
+			objectSynonym = ((Catalog) configurationObject).getSynonym().get("ru");
+
+		} else if (configurationObject instanceof Document) {
+			objectSynonym = ((Document) configurationObject).getSynonym().get("ru");
+
+		} else if (configurationObject instanceof Enum) {
+			objectSynonym = ((Enum) configurationObject).getSynonym().get("ru");
+
+		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
+			objectSynonym = ((ChartOfCharacteristicTypes) configurationObject).getSynonym().get("ru");
+
+		} else if (configurationObject instanceof ChartOfCalculationTypes) {
+			objectSynonym = ((ChartOfCalculationTypes) configurationObject).getSynonym().get("ru");
+
+		} else if (configurationObject instanceof InformationRegister) {
+			objectSynonym = ((InformationRegister) configurationObject).getSynonym().get("ru");
+
+		}
+		if (cmObjectRule.getForGroup())
+			objectSynonym += " (группа)";
+
+		EList<String> identificationFields = cmObjectRule.getIdentificationFields();
+
+		CmIdentificationVariant identificationVariant = cmObjectRule.getIdentificationVariant();
+		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS
+				&& identificationFields.size() == 0)
+			identificationVariant = CmIdentificationVariant.UUID;
+
+		String identificationFieldsTable = "";
+		if (identificationFields.size() != 0) {
+			for (String identificationField : cmObjectRule.getIdentificationFields()) {
+				identificationFieldsTable += "<br>" + identificationField;
+			}
+		}
+
+		String objectRow = objectSynonym + " | " + cmObjectRule.getFormatObject() + " | "
+				+ cmObjectRule.getConfigurationObjectFormattedName() + " | " + identificationVariant
+				+ identificationFieldsTable + " | ";
+
+		return objectRow;
 	}
 
 	private String getTableRow(String col1, String col2, String col3, String col4, String col5, Boolean isKey,

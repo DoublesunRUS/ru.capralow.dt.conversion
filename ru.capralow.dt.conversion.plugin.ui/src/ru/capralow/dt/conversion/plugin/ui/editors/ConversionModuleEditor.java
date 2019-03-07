@@ -1138,124 +1138,24 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		conversionModuleAnalyzer.analyze(getModel());
 		conversionModule = conversionModuleAnalyzer.getConversionModule();
 		ReportGroups reportGroups = conversionModuleAnalyzer.getReportGroups();
-		RgVariant rgVariant = reportGroups.getVariants().get(0);
 
 		while (menuMain.getItemCount() > 1)
 			menuMain.getItem(1).dispose();
 		for (Entry<String, FormatPackage> formatPackage : conversionModuleAnalyzer.getFormatPackages().entrySet()) {
-			MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
-			itemMenu.setText("Описание формата " + formatPackage.getKey());
-			itemMenu.addSelectionListener(new SelectionListener() {
+			if (reportGroups == null)
+				addReportMenuItem(formatPackage.getKey(), formatPackage.getValue(), null, false);
 
-				public void widgetSelected(SelectionEvent event) {
-
-					class StringStorage implements IStorage {
-						private String string;
-
-						StringStorage(String input) {
-							this.string = input;
-						}
-
-						@Override
-						public InputStream getContents() throws CoreException {
-							return new ByteArrayInputStream(string.getBytes());
-						}
-
-						@Override
-						public String getName() {
-							int len = string.indexOf(System.lineSeparator());
-							return string.substring(0, len).replace(".", "_").concat(".md"); // $NON-NLS-1$
-						}
-
-						@Override
-						public boolean isReadOnly() {
-							return true;
-						}
-
-						@Override
-						public <T> T getAdapter(Class<T> adapter) {
-							return null;
-						}
-
-						@Override
-						public IPath getFullPath() {
-							return null;
-						}
-					}
-
-					class StringInput implements IStorageEditorInput {
-						private IStorage storage;
-
-						StringInput(IStorage storage) {
-							this.storage = storage;
-						}
-
-						@Override
-						public boolean exists() {
-							return true;
-						}
-
-						@Override
-						public String getName() {
-							return storage.getName();
-						}
-
-						@Override
-						public IStorage getStorage() {
-							return storage;
-						}
-
-						@Override
-						public String getToolTipText() {
-							return "String-based file: " + storage.getName();
-						}
-
-						@Override
-						public <T> T getAdapter(Class<T> adapter) {
-							return null;
-						}
-
-						@Override
-						public ImageDescriptor getImageDescriptor() {
-							return null;
-						}
-
-						@Override
-						public IPersistableElement getPersistable() {
-							return null;
-						}
-
-					}
-
-					ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule,
-							formatPackage.getValue(), rgVariant);
-
-					try {
-						String stringReport = cmReport.createReport();
-
-						IStorage storage = new StringStorage(stringReport);
-						IStorageEditorInput input = new StringInput(storage);
-
-						IWorkbench workbench = PlatformUI.getWorkbench();
-
-						IEditorDescriptor defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.md");
-						if (defaultEditor == null)
-							defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.txt");
-
-						String editorID = defaultEditor.getId();
-
-						IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
-
-					} catch (IOException | PartInitException e) {
-						e.printStackTrace();
-
-					}
+			else {
+				EList<RgVariant> rgVariants = reportGroups.getVariants();
+				for (RgVariant rgVariant : rgVariants) {
+					if (reportGroups.getAddObjectsList())
+						addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
+								rgVariant, true);
+					addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
+							rgVariant, false);
 				}
 
-				public void widgetDefaultSelected(SelectionEvent event) {
-				}
-			});
-
+			}
 		}
 
 		// String storeVersion = conversionModule.getStoreVersion();
@@ -1343,5 +1243,123 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			buffer.release();
 
 		}
+	}
+
+	private void addReportMenuItem(String name, FormatPackage formatPackage, RgVariant rgVariant, boolean objectsOnly) {
+		MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
+		if (objectsOnly)
+			itemMenu.setText("Список объектов " + name);
+		else
+			itemMenu.setText("Описание формата " + name);
+		itemMenu.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+
+				class StringStorage implements IStorage {
+					private String string;
+
+					StringStorage(String input) {
+						this.string = input;
+					}
+
+					@Override
+					public InputStream getContents() throws CoreException {
+						return new ByteArrayInputStream(string.getBytes());
+					}
+
+					@Override
+					public String getName() {
+						int len = string.indexOf(System.lineSeparator());
+						return string.substring(0, len).replace(".", "_").concat(".md"); // $NON-NLS-1$
+					}
+
+					@Override
+					public boolean isReadOnly() {
+						return true;
+					}
+
+					@Override
+					public <T> T getAdapter(Class<T> adapter) {
+						return null;
+					}
+
+					@Override
+					public IPath getFullPath() {
+						return null;
+					}
+				}
+
+				class StringInput implements IStorageEditorInput {
+					private IStorage storage;
+
+					StringInput(IStorage storage) {
+						this.storage = storage;
+					}
+
+					@Override
+					public boolean exists() {
+						return true;
+					}
+
+					@Override
+					public String getName() {
+						return storage.getName();
+					}
+
+					@Override
+					public IStorage getStorage() {
+						return storage;
+					}
+
+					@Override
+					public String getToolTipText() {
+						return "String-based file: " + storage.getName();
+					}
+
+					@Override
+					public <T> T getAdapter(Class<T> adapter) {
+						return null;
+					}
+
+					@Override
+					public ImageDescriptor getImageDescriptor() {
+						return null;
+					}
+
+					@Override
+					public IPersistableElement getPersistable() {
+						return null;
+					}
+
+				}
+
+				ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule, formatPackage,
+						rgVariant);
+
+				try {
+					String stringReport = objectsOnly ? cmReport.createObjectsReport() : cmReport.createFullReport();
+
+					IStorage storage = new StringStorage(stringReport);
+					IStorageEditorInput input = new StringInput(storage);
+
+					IWorkbench workbench = PlatformUI.getWorkbench();
+
+					IEditorDescriptor defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.md");
+					if (defaultEditor == null)
+						defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.txt");
+
+					String editorID = defaultEditor.getId();
+
+					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
+
+				} catch (IOException | PartInitException e) {
+					e.printStackTrace();
+
+				}
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
 	}
 }

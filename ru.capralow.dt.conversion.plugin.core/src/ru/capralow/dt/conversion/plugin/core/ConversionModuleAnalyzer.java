@@ -197,7 +197,7 @@ public class ConversionModuleAnalyzer {
 		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
 		subsystems.add(subsystem);
 
-		reportGroups = readReportGroups();
+		reportGroups = readReportGroups(commonModule.getName());
 
 		for (Method method : methods) {
 			String methodName = method.getName();
@@ -1739,9 +1739,14 @@ public class ConversionModuleAnalyzer {
 				StandardCharsets.UTF_8);
 	}
 
-	private ReportGroups readReportGroups() {
+	private ReportGroups readReportGroups(String moduleName) {
+		if (!moduleName.equals("_ОбщийМодуль"))
+			return null;
+
 		ReportGroups reportGroups = new ReportGroupsImpl();
 		EList<RgVariant> rgVariants = reportGroups.getVariants();
+
+		reportGroups.setAddObjectsList(true);
 
 		RgVariant rgVariant = new RgVariantImpl();
 		rgVariant.setName("Упрощенный перенос");
