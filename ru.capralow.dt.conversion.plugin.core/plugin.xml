@@ -33,4 +33,12 @@
             genModel="model/FormatPackage.xcore"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ReportGroups -->
+      <package
+            uri="ru.capralow.dt.conversion.plugin.core.rg"
+            class="ru.capralow.dt.conversion.plugin.core.rg.RgPackage"
+            genModel="model/ReportGroups.xcore"/>
+   </extension>
+
 </plugin>

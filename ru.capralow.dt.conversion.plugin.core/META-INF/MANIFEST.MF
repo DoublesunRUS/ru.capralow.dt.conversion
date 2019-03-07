@@ -57,4 +57,7 @@ Export-Package: ru.capralow.dt.conversion.plugin.core,
  ru.capralow.dt.conversion.plugin.core.fp.util,
  ru.capralow.dt.conversion.plugin.core.rm,
  ru.capralow.dt.conversion.plugin.core.rm.impl,
- ru.capralow.dt.conversion.plugin.core.rm.util
+ ru.capralow.dt.conversion.plugin.core.rm.util,
+ ru.capralow.dt.conversion.plugin.core.rg,
+ ru.capralow.dt.conversion.plugin.core.rg.impl,
+ ru.capralow.dt.conversion.plugin.core.rg.util

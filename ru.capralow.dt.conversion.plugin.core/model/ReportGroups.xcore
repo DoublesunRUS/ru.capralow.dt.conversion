@@ -1,0 +1,26 @@
+@GenModel(
+	publicConstructors="true"
+)
+package ru.capralow.dt.conversion.plugin.core.rg
+
+class ReportGroups {
+	contains RgVariant[] variants
+}
+
+class RgVariant {
+	String name
+	
+	contains RgGroup[] groups
+	
+	contains RgRule[] rules
+}
+
+class RgGroup {
+	String name
+	
+	refers RgRule[] rules
+}
+
+class RgRule {
+	String ruleName
+}

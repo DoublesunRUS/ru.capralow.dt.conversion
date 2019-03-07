@@ -30,6 +30,7 @@ import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
+import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
@@ -37,15 +38,20 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
+import ru.capralow.dt.conversion.plugin.core.rg.RgGroup;
+import ru.capralow.dt.conversion.plugin.core.rg.RgRule;
+import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
 
 public class ConversionModuleReport {
 
 	private ConversionModule conversionModule;
 	private FormatPackage formatPackage;
+	private RgVariant rgVariant;
 
-	public ConversionModuleReport(ConversionModule conversionModule, FormatPackage formatPackage) {
+	public ConversionModuleReport(ConversionModule conversionModule, FormatPackage formatPackage, RgVariant rgVariant) {
 		this.conversionModule = conversionModule;
 		this.formatPackage = formatPackage;
+		this.rgVariant = rgVariant;
 	}
 
 	// TODO: Добавить переопределение подсистем и полей по комментарию модуля
@@ -53,32 +59,57 @@ public class ConversionModuleReport {
 		final String TEMPLATE_NAME_MAIN = "ReceivingConversionReport.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
 
-		final String TEMPLATE_NAME_SUBSYSTEM = "ReceivingSubsystem.txt";
-		String templateSubsystemContent = readContents(getFileInputSupplier(TEMPLATE_NAME_SUBSYSTEM),
-				TEMPLATE_NAME_SUBSYSTEM);
+		final String TEMPLATE_NAME_GROUP = "ReceivingGroup.txt";
+		String templateGroupContent = readContents(getFileInputSupplier(TEMPLATE_NAME_GROUP), TEMPLATE_NAME_GROUP);
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
 		templateMain.setAttribute("FormatVersion", formatPackage.getVersion());
 
-		String subsystemObjects = "";
-		for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
-			EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
-			if (receivingObjectRules.size() == 0)
-				continue;
+		String groupObjects = "";
 
-			StringTemplate templateSubsystems = new StringTemplate(templateSubsystemContent);
+		if (rgVariant != null) {
+			for (RgGroup rgGroup : rgVariant.getGroups()) {
+				StringTemplate templateGroups = new StringTemplate(templateGroupContent);
 
-			templateSubsystems.setAttribute("Subsystem", cmSubsystem.getName());
+				templateGroups.setAttribute("GroupName", rgGroup.getName());
 
-			String objects = "";
-			for (Object objectRule : receivingObjectRules)
-				objects += getObject((CmObjectRule) objectRule);
-			templateSubsystems.setAttribute("ObjectRules", objects);
+				String objects = "";
+				for (RgRule rgRule : rgGroup.getRules()) {
+					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getRuleName());
+					if (dataRule == null)
+						continue;
 
-			subsystemObjects += templateSubsystems.toString();
+					for (Object objectRule : dataRule.getObjectRules())
+						objects += getObject((CmObjectRule) objectRule);
+				}
+
+				templateGroups.setAttribute("ObjectRules", objects);
+
+				groupObjects += templateGroups.toString();
+
+			}
+
+		} else {
+			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
+				EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
+				if (receivingObjectRules.size() == 0)
+					continue;
+
+				StringTemplate templateGroups = new StringTemplate(templateGroupContent);
+
+				templateGroups.setAttribute("GroupName", cmSubsystem.getName());
+
+				String objects = "";
+				for (Object objectRule : receivingObjectRules)
+					objects += getObject((CmObjectRule) objectRule);
+				templateGroups.setAttribute("ObjectRules", objects);
+
+				groupObjects += templateGroups.toString();
+			}
 		}
-		templateMain.setAttribute("ObjectRules", subsystemObjects);
+
+		templateMain.setAttribute("ObjectRules", groupObjects);
 
 		// TODO: Добавить вывод типов, перечислений и предопределенных элементов в конец
 		// документа
@@ -121,6 +152,8 @@ public class ConversionModuleReport {
 		if (cmObjectRule.getForGroup())
 			objectSynonym += " (группа)";
 
+		templateObject.setAttribute("Subsystem",
+				!cmObjectRule.getSubsystems().isEmpty() ? cmObjectRule.getSubsystems().get(0).getName() : "Нет");
 		templateObject.setAttribute("ObjectRule", objectSynonym);
 		templateObject.setAttribute("FormatObject", cmObjectRule.getFormatObject());
 		templateObject.setAttribute("ConfigurationObject", cmObjectRule.getConfigurationObjectFormattedName());

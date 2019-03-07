@@ -90,6 +90,8 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
+import ru.capralow.dt.conversion.plugin.core.rg.ReportGroups;
+import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
@@ -1135,6 +1137,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private void updatePage() {
 		conversionModuleAnalyzer.analyze(getModel());
 		conversionModule = conversionModuleAnalyzer.getConversionModule();
+		ReportGroups reportGroups = conversionModuleAnalyzer.getReportGroups();
+		RgVariant rgVariant = reportGroups.getVariants().get(0);
 
 		while (menuMain.getItemCount() > 1)
 			menuMain.getItem(1).dispose();
@@ -1224,7 +1228,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					}
 
 					ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule,
-							formatPackage.getValue());
+							formatPackage.getValue(), rgVariant);
 
 					try {
 						String stringReport = cmReport.createReport();

@@ -1,6 +1,9 @@
 ##### $ObjectRule$
 ---
+Интерфейс: $Subsystem$
+
 Объект формата: $FormatObject$
+
 Объект конфигурации: $ConfigurationObject$
 
 **Вариант идентификации: $IdentificationVariant$**
