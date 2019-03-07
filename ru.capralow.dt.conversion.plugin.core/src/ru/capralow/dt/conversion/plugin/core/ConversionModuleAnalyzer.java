@@ -1892,10 +1892,8 @@ public class ConversionModuleAnalyzer {
 
 		rgGroup = addRgGroup(rgVariant, "Средний заработок");
 		addRgRule(rgVariant, rgGroup, "П_КоэффициентИндексацииЗаработка");
-		addRgRule(rgVariant, rgGroup, "П_ДанныеОВремениДляРасчетаСреднегоОбщий");
-		addRgRule(rgVariant, rgGroup, "П_ДанныеОНачисленияхДляРасчетаСреднегоОбщий");
-		addRgRule(rgVariant, rgGroup, "П_ДанныеОВремениДляРасчетаСреднегоФСС");
-		addRgRule(rgVariant, rgGroup, "П_ДанныеОНачисленияхДляРасчетаСреднегоФСС");
+		addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоОбщий");
+		addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоФСС");
 
 		rgGroup = addRgGroup(rgVariant, "Взаиморасчеты с сотрудниками");
 		addRgRule(rgVariant, rgGroup, "П_НачальнаяЗадолженностьПоЗарплате");
