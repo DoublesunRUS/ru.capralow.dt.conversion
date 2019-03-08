@@ -13,16 +13,14 @@ class RgVariant {
 	String name
 	
 	contains RgGroup[] groups
-	
-	contains RgRule[] rules
 }
 
 class RgGroup {
 	String name
 	
-	refers RgRule[] rules
+	contains RgRule[] rules
 }
 
 class RgRule {
-	String ruleName
+	String name
 }

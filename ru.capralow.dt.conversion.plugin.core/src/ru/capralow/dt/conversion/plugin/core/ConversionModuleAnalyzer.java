@@ -1,5 +1,6 @@
 package ru.capralow.dt.conversion.plugin.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -10,13 +11,17 @@ import java.util.Map;
 import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -98,10 +103,8 @@ import ru.capralow.dt.conversion.plugin.core.rg.ReportGroups;
 import ru.capralow.dt.conversion.plugin.core.rg.RgGroup;
 import ru.capralow.dt.conversion.plugin.core.rg.RgRule;
 import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
-import ru.capralow.dt.conversion.plugin.core.rg.impl.ReportGroupsImpl;
 import ru.capralow.dt.conversion.plugin.core.rg.impl.RgGroupImpl;
 import ru.capralow.dt.conversion.plugin.core.rg.impl.RgRuleImpl;
-import ru.capralow.dt.conversion.plugin.core.rg.impl.RgVariantImpl;
 
 public class ConversionModuleAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
@@ -197,7 +200,7 @@ public class ConversionModuleAnalyzer {
 		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
 		subsystems.add(subsystem);
 
-		reportGroups = readReportGroups(commonModule.getName());
+		reportGroups = readReportGroups(project.getLocation(), commonModule.getName());
 
 		for (Method method : methods) {
 			String methodName = method.getName();
@@ -1739,171 +1742,221 @@ public class ConversionModuleAnalyzer {
 				StandardCharsets.UTF_8);
 	}
 
-	private ReportGroups readReportGroups(String moduleName) {
-		if (!moduleName.equals("_ОбщийМодуль"))
+	private ReportGroups readReportGroups(IPath projectPath, String moduleName) {
+		URI uri = URI.createFileURI(projectPath.toString() + File.separator + moduleName + ".xmi");
+
+		File file = new File(uri.toFileString());
+		if (!file.exists())
 			return null;
 
-		ReportGroups reportGroups = new ReportGroupsImpl();
-		EList<RgVariant> rgVariants = reportGroups.getVariants();
+		XMIResource xmiResource = new XMIResourceImpl(uri);
+		try {
+			xmiResource.load(null);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
-		reportGroups.setAddObjectsList(true);
-
-		RgVariant rgVariant = new RgVariantImpl();
-		rgVariant.setName("Упрощенный перенос");
-		rgVariants.add(rgVariant);
-
-		RgGroup rgGroup = addRgGroup(rgVariant, "Общие настройки программы");
-		addRgRule(rgVariant, rgGroup, "П_НастройкиВоинскогоУчета");
-		addRgRule(rgVariant, rgGroup, "П_НастройкиГрейдов");
-		addRgRule(rgVariant, rgGroup, "П_НастройкиЗаймовСотрудникам");
-		addRgRule(rgVariant, rgGroup, "П_НастройкиУчетаВремени");
-		addRgRule(rgVariant, rgGroup, "П_НастройкиШтатногоРасписания");
-		addRgRule(rgVariant, rgGroup, "П_НастройкиРасчетаЗарплаты");
-
-		rgGroup = addRgGroup(rgVariant, "НСИ");
-		addRgRule(rgVariant, rgGroup, "П_ВидыКонтактнойИнформации");
-		addRgRule(rgVariant, rgGroup, "П_ДополнительныеРеквизитыИСведения");
-		addRgRule(rgVariant, rgGroup, "П_ЗначенияСвойствОбъектов");
-		addRgRule(rgVariant, rgGroup, "П_ВидыДокументовОбОбразовании");
-		addRgRule(rgVariant, rgGroup, "П_ВидыНалоговыхОрганов");
-		addRgRule(rgVariant, rgGroup, "П_ВидыОтпусков");
-		addRgRule(rgVariant, rgGroup, "П_ВидыСтажа");
-		addRgRule(rgVariant, rgGroup, "П_Военкоматы");
-		addRgRule(rgVariant, rgGroup, "П_СоставыВоеннослужащих");
-		addRgRule(rgVariant, rgGroup, "П_ВоинскиеЗвания");
-		addRgRule(rgVariant, rgGroup, "П_ГрафикиРаботыСотрудников");
-		addRgRule(rgVariant, rgGroup, "П_Грейды");
-		addRgRule(rgVariant, rgGroup, "П_СписокЛьготныхПрофессий");
-		addRgRule(rgVariant, rgGroup, "П_Должности");
-		addRgRule(rgVariant, rgGroup, "П_КлассификаторСпециальностей");
-		addRgRule(rgVariant, rgGroup, "П_Контрагенты");
-		addRgRule(rgVariant, rgGroup, "П_БанковскиеСчетаКонтрагентов");
-		addRgRule(rgVariant, rgGroup, "П_МедицинскиеОрганизации");
-		addRgRule(rgVariant, rgGroup, "П_Награды");
-		addRgRule(rgVariant, rgGroup, "П_НалоговыеОрганы");
-		addRgRule(rgVariant, rgGroup, "П_ПереченьДолжностейДляБронированияГраждан");
-		addRgRule(rgVariant, rgGroup, "П_ПричиныУвольнений");
-		addRgRule(rgVariant, rgGroup, "П_ПрожиточныеМинимумы");
-		addRgRule(rgVariant, rgGroup, "П_ПрофессииРабочих");
-		addRgRule(rgVariant, rgGroup, "П_Работодатели");
-		addRgRule(rgVariant, rgGroup, "П_СерверыДокументооборота");
-		addRgRule(rgVariant, rgGroup, "П_СтраныМира");
-		addRgRule(rgVariant, rgGroup, "П_ТарифыПлатежныхАгентов");
-		addRgRule(rgVariant, rgGroup, "П_УчебныеЗаведения");
-		addRgRule(rgVariant, rgGroup, "П_УчетныеЗаписиДокументооборота");
-		addRgRule(rgVariant, rgGroup, "П_ЯзыкиНародовМира");
-
-		rgGroup = addRgGroup(rgVariant, "Физические лица");
-		addRgRule(rgVariant, rgGroup, "П_ФизическиеЛица");
-		addRgRule(rgVariant, rgGroup, "П_ВоинскийУчет");
-		addRgRule(rgVariant, rgGroup, "П_ГражданствоФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_ДокументыФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_ЗнаниеЯзыковФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_НаградыФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_ОбразованиеФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_ПрофессииФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_РодственникиФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_СведенияОбИнвалидностиФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_СостоянияВБракеФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_СпециальностиФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_СтатусНалогоплательщиковНДФЛ");
-		addRgRule(rgVariant, rgGroup, "П_СтатусыЗастрахованныхФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_ТрудоваяДеятельностьФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_УченыеЗванияФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_УченыеСтепениФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_ФИОФизическихЛиц");
-
-		rgGroup = addRgGroup(rgVariant, "Организационная структура");
-		addRgRule(rgVariant, rgGroup, "П_ДоверенностиНалогоплательщика");
-		addRgRule(rgVariant, rgGroup, "П_РегистрацииВНалоговомОргане");
-		addRgRule(rgVariant, rgGroup, "П_Организации");
-		addRgRule(rgVariant, rgGroup, "П_ПодразделенияОрганизаций");
-		addRgRule(rgVariant, rgGroup, "П_ТерриторииВыполненияРабот");
-		addRgRule(rgVariant, rgGroup, "П_СведенияОбОтветственныхЛицах");
-		addRgRule(rgVariant, rgGroup, "П_ЗарплатныеПроекты");
-		addRgRule(rgVariant, rgGroup, "П_Кассы");
-		addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыОрганизаций");
-		addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыПодразделений");
-
-		rgGroup = addRgGroup(rgVariant, "Сотрудники");
-		addRgRule(rgVariant, rgGroup, "П_Сотрудники");
-		addRgRule(rgVariant, rgGroup, "П_БанковскиеСчетаФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_БронированиеГраждан");
-		addRgRule(rgVariant, rgGroup, "П_ВременноПребывающиеИностранцы");
-		addRgRule(rgVariant, rgGroup, "П_ДоходыПредыдущегоМестаРаботыНДФЛ");
-		addRgRule(rgVariant, rgGroup, "П_ЛицевыеСчетаСотрудников");
-		addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыСотрудников");
-		addRgRule(rgVariant, rgGroup, "П_СтажиФизическихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_СевернаяНадбавкаПараметрыИсчисления");
-		addRgRule(rgVariant, rgGroup, "П_СевернаяНадбавкаПроценты");
-		addRgRule(rgVariant, rgGroup, "П_РолиФизическихЛиц");
-
-		rgGroup = addRgGroup(rgVariant, "Данные для расчета зарплаты");
-		addRgRule(rgVariant, rgGroup, "П_ВидыИспользованияРабочегоВремени");
-		addRgRule(rgVariant, rgGroup, "П_ПоказателиРасчетаЗарплаты");
-		addRgRule(rgVariant, rgGroup, "П_Начисления");
-		addRgRule(rgVariant, rgGroup, "П_Удержания");
-		addRgRule(rgVariant, rgGroup, "П_ВходящаяСправкаОЗаработкеДляРасчетаПособий");
-
-		rgGroup = addRgGroup(rgVariant, "Штатное расписание");
-		addRgRule(rgVariant, rgGroup, "П_ШтатноеРасписание");
-		addRgRule(rgVariant, rgGroup, "П_УтверждениеШтатногоРасписания");
-		addRgRule(rgVariant, rgGroup, "П_ИзменениеШтатногоРасписания");
-		addRgRule(rgVariant, rgGroup, "П_КлассыУсловийТрудаПоШтатномуРасписанию");
-
-		rgGroup = addRgGroup(rgVariant, "Кадровая история (срез)");
-		addRgRule(rgVariant, rgGroup, "П_НачальнаяШтатнаяРасстановка");
-		addRgRule(rgVariant, rgGroup, "П_ТерриторииСотрудников");
-		addRgRule(rgVariant, rgGroup, "П_КонтрактыДоговорыСотрудников");
-		addRgRule(rgVariant, rgGroup, "П_РеестрКадровыхПриказов");
-		addRgRule(rgVariant, rgGroup, "П_РеестрОтпусков");
-
-		rgGroup = addRgGroup(rgVariant, "Кадровая история (документы)");
-		addRgRule(rgVariant, rgGroup, "П_КадроваяИсторияСотрудников");
-
-		rgGroup = addRgGroup(rgVariant, "Плановые удержания");
-		addRgRule(rgVariant, rgGroup, "П_ПостоянноеУдержаниеВПользуТретьихЛиц");
-		addRgRule(rgVariant, rgGroup, "П_УдержаниеВСчетРасчетовПоПрочимОперациям");
-		addRgRule(rgVariant, rgGroup, "П_УдержаниеДобровольныхВзносовВНПФ");
-		addRgRule(rgVariant, rgGroup, "П_УдержаниеДобровольныхСтраховыхВзносов");
-		addRgRule(rgVariant, rgGroup, "П_УдержаниеПрофсоюзныхВзносов");
-
-		rgGroup = addRgGroup(rgVariant, "Договоры ГПХ");
-		addRgRule(rgVariant, rgGroup, "П_ДоговорАвторскогоЗаказа");
-		addRgRule(rgVariant, rgGroup, "П_ДоговорРаботыУслуги");
-
-		rgGroup = addRgGroup(rgVariant, "Исполнительные листы");
-		addRgRule(rgVariant, rgGroup, "П_ИсполнительныйЛист");
-		addRgRule(rgVariant, rgGroup, "П_ИзменениеУсловийИсполнительногоЛиста");
-		addRgRule(rgVariant, rgGroup, "П_УдержанияПоИсполнительнымДокументам");
-
-		rgGroup = addRgGroup(rgVariant, "Займы сотрудникам");
-		addRgRule(rgVariant, rgGroup, "П_ДоговорЗаймаСотруднику");
-
-		rgGroup = addRgGroup(rgVariant, "Пособия социального страхования");
-		addRgRule(rgVariant, rgGroup, "П_ОтпускПоУходуЗаРебенком");
-		addRgRule(rgVariant, rgGroup, "П_ИзменениеУсловийОплатыОтпускаПоУходуЗаРебенком");
-		addRgRule(rgVariant, rgGroup, "П_ВозвратИзОтпускаПоУходуЗаРебенком");
-		addRgRule(rgVariant, rgGroup, "П_ПособияПоСоциальномуСтрахованию");
-		addRgRule(rgVariant, rgGroup, "П_ПособияПоУходуЗаРебенком");
-
-		rgGroup = addRgGroup(rgVariant, "Расчеты");
-		addRgRule(rgVariant, rgGroup, "П_ПериодыОплаченныеДоНачалаЭксплуатации");
-
-		rgGroup = addRgGroup(rgVariant, "Средний заработок");
-		addRgRule(rgVariant, rgGroup, "П_КоэффициентИндексацииЗаработка");
-		addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоОбщий");
-		addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоФСС");
-
-		rgGroup = addRgGroup(rgVariant, "Взаиморасчеты с сотрудниками");
-		addRgRule(rgVariant, rgGroup, "П_НачальнаяЗадолженностьПоЗарплате");
-
-		rgGroup = addRgGroup(rgVariant, "Отражение зарплаты в бухгалтерском учете");
-		addRgRule(rgVariant, rgGroup, "П_НачислениеОценочныхОбязательствПоОтпускам");
-
+		ReportGroups reportGroups = (ReportGroups) xmiResource.getContents().get(0);
 		return reportGroups;
 
+		// if (!moduleName.equals("_ОбщийМодуль1"))
+		// return null;
+		//
+		// reportGroups = new ReportGroupsImpl();
+		// EList<RgVariant> rgVariants = reportGroups.getVariants();
+		//
+		// reportGroups.setAddObjectsList(true);
+		//
+		// RgVariant rgVariant = new RgVariantImpl();
+		// rgVariant.setName("Упрощенный перенос");
+		// rgVariants.add(rgVariant);
+		//
+		// RgGroup rgGroup = addRgGroup(rgVariant, "Общие настройки программы");
+		// addRgRule(rgVariant, rgGroup, "П_НастройкиВоинскогоУчета");
+		// addRgRule(rgVariant, rgGroup, "П_НастройкиГрейдов");
+		// addRgRule(rgVariant, rgGroup, "П_НастройкиЗаймовСотрудникам");
+		// addRgRule(rgVariant, rgGroup, "П_НастройкиУчетаВремени");
+		// addRgRule(rgVariant, rgGroup, "П_НастройкиШтатногоРасписания");
+		// addRgRule(rgVariant, rgGroup, "П_НастройкиРасчетаЗарплаты");
+		//
+		// rgGroup = addRgGroup(rgVariant, "НСИ");
+		// addRgRule(rgVariant, rgGroup, "П_ВидыКонтактнойИнформации");
+		// addRgRule(rgVariant, rgGroup, "П_ДополнительныеРеквизитыИСведения");
+		// addRgRule(rgVariant, rgGroup, "П_ЗначенияСвойствОбъектов");
+		// addRgRule(rgVariant, rgGroup, "П_ВидыДокументовОбОбразовании");
+		// addRgRule(rgVariant, rgGroup, "П_ВидыНалоговыхОрганов");
+		// addRgRule(rgVariant, rgGroup, "П_ВидыОтпусков");
+		// addRgRule(rgVariant, rgGroup, "П_ВидыСтажа");
+		// addRgRule(rgVariant, rgGroup, "П_Военкоматы");
+		// addRgRule(rgVariant, rgGroup, "П_СоставыВоеннослужащих");
+		// addRgRule(rgVariant, rgGroup, "П_ВоинскиеЗвания");
+		// addRgRule(rgVariant, rgGroup, "П_ГрафикиРаботыСотрудников");
+		// addRgRule(rgVariant, rgGroup, "П_Грейды");
+		// addRgRule(rgVariant, rgGroup, "П_СписокЛьготныхПрофессий");
+		// addRgRule(rgVariant, rgGroup, "П_Должности");
+		// addRgRule(rgVariant, rgGroup, "П_КлассификаторСпециальностей");
+		// addRgRule(rgVariant, rgGroup, "П_Контрагенты");
+		// addRgRule(rgVariant, rgGroup, "П_БанковскиеСчетаКонтрагентов");
+		// addRgRule(rgVariant, rgGroup, "П_МедицинскиеОрганизации");
+		// addRgRule(rgVariant, rgGroup, "П_Награды");
+		// addRgRule(rgVariant, rgGroup, "П_НалоговыеОрганы");
+		// addRgRule(rgVariant, rgGroup, "П_ПереченьДолжностейДляБронированияГраждан");
+		// addRgRule(rgVariant, rgGroup, "П_ПричиныУвольнений");
+		// addRgRule(rgVariant, rgGroup, "П_ПрожиточныеМинимумы");
+		// addRgRule(rgVariant, rgGroup, "П_ПрофессииРабочих");
+		// addRgRule(rgVariant, rgGroup, "П_Работодатели");
+		// addRgRule(rgVariant, rgGroup, "П_СерверыДокументооборота");
+		// addRgRule(rgVariant, rgGroup, "П_СтраныМира");
+		// addRgRule(rgVariant, rgGroup, "П_ТарифыПлатежныхАгентов");
+		// addRgRule(rgVariant, rgGroup, "П_УчебныеЗаведения");
+		// addRgRule(rgVariant, rgGroup, "П_УчетныеЗаписиДокументооборота");
+		// addRgRule(rgVariant, rgGroup, "П_ЯзыкиНародовМира");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Физические лица");
+		// addRgRule(rgVariant, rgGroup, "П_ФизическиеЛица");
+		// addRgRule(rgVariant, rgGroup, "П_ВоинскийУчет");
+		// addRgRule(rgVariant, rgGroup, "П_ГражданствоФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_ДокументыФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_ЗнаниеЯзыковФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_НаградыФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_ОбразованиеФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_ПрофессииФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_РодственникиФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_СведенияОбИнвалидностиФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_СостоянияВБракеФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_СпециальностиФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_СтатусНалогоплательщиковНДФЛ");
+		// addRgRule(rgVariant, rgGroup, "П_СтатусыЗастрахованныхФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_ТрудоваяДеятельностьФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_УченыеЗванияФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_УченыеСтепениФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_ФИОФизическихЛиц");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Организационная структура");
+		// addRgRule(rgVariant, rgGroup, "П_ДоверенностиНалогоплательщика");
+		// addRgRule(rgVariant, rgGroup, "П_РегистрацииВНалоговомОргане");
+		// addRgRule(rgVariant, rgGroup, "П_Организации");
+		// addRgRule(rgVariant, rgGroup, "П_ПодразделенияОрганизаций");
+		// addRgRule(rgVariant, rgGroup, "П_ТерриторииВыполненияРабот");
+		// addRgRule(rgVariant, rgGroup, "П_СведенияОбОтветственныхЛицах");
+		// addRgRule(rgVariant, rgGroup, "П_ЗарплатныеПроекты");
+		// addRgRule(rgVariant, rgGroup, "П_Кассы");
+		// addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыОрганизаций");
+		// addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыПодразделений");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Сотрудники");
+		// addRgRule(rgVariant, rgGroup, "П_Сотрудники");
+		// addRgRule(rgVariant, rgGroup, "П_БанковскиеСчетаФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_БронированиеГраждан");
+		// addRgRule(rgVariant, rgGroup, "П_ВременноПребывающиеИностранцы");
+		// addRgRule(rgVariant, rgGroup, "П_ДоходыПредыдущегоМестаРаботыНДФЛ");
+		// addRgRule(rgVariant, rgGroup, "П_ЛицевыеСчетаСотрудников");
+		// addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыСотрудников");
+		// addRgRule(rgVariant, rgGroup, "П_СтажиФизическихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_СевернаяНадбавкаПараметрыИсчисления");
+		// addRgRule(rgVariant, rgGroup, "П_СевернаяНадбавкаПроценты");
+		// addRgRule(rgVariant, rgGroup, "П_РолиФизическихЛиц");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Данные для расчета зарплаты");
+		// addRgRule(rgVariant, rgGroup, "П_ВидыИспользованияРабочегоВремени");
+		// addRgRule(rgVariant, rgGroup, "П_ПоказателиРасчетаЗарплаты");
+		// addRgRule(rgVariant, rgGroup, "П_Начисления");
+		// addRgRule(rgVariant, rgGroup, "П_Удержания");
+		// addRgRule(rgVariant, rgGroup,
+		// "П_ВходящаяСправкаОЗаработкеДляРасчетаПособий");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Штатное расписание");
+		// addRgRule(rgVariant, rgGroup, "П_ШтатноеРасписание");
+		// addRgRule(rgVariant, rgGroup, "П_УтверждениеШтатногоРасписания");
+		// addRgRule(rgVariant, rgGroup, "П_ИзменениеШтатногоРасписания");
+		// addRgRule(rgVariant, rgGroup, "П_КлассыУсловийТрудаПоШтатномуРасписанию");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Кадровая история (срез)");
+		// addRgRule(rgVariant, rgGroup, "П_НачальнаяШтатнаяРасстановка");
+		// addRgRule(rgVariant, rgGroup, "П_ТерриторииСотрудников");
+		// addRgRule(rgVariant, rgGroup, "П_КонтрактыДоговорыСотрудников");
+		// addRgRule(rgVariant, rgGroup, "П_РеестрКадровыхПриказов");
+		// addRgRule(rgVariant, rgGroup, "П_РеестрОтпусков");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Кадровая история (документы)");
+		// addRgRule(rgVariant, rgGroup, "П_КадроваяИсторияСотрудников");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Плановые удержания");
+		// addRgRule(rgVariant, rgGroup, "П_ПостоянноеУдержаниеВПользуТретьихЛиц");
+		// addRgRule(rgVariant, rgGroup, "П_УдержаниеВСчетРасчетовПоПрочимОперациям");
+		// addRgRule(rgVariant, rgGroup, "П_УдержаниеДобровольныхВзносовВНПФ");
+		// addRgRule(rgVariant, rgGroup, "П_УдержаниеДобровольныхСтраховыхВзносов");
+		// addRgRule(rgVariant, rgGroup, "П_УдержаниеПрофсоюзныхВзносов");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Договоры ГПХ");
+		// addRgRule(rgVariant, rgGroup, "П_ДоговорАвторскогоЗаказа");
+		// addRgRule(rgVariant, rgGroup, "П_ДоговорРаботыУслуги");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Исполнительные листы");
+		// addRgRule(rgVariant, rgGroup, "П_ИсполнительныйЛист");
+		// addRgRule(rgVariant, rgGroup, "П_ИзменениеУсловийИсполнительногоЛиста");
+		// addRgRule(rgVariant, rgGroup, "П_УдержанияПоИсполнительнымДокументам");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Займы сотрудникам");
+		// addRgRule(rgVariant, rgGroup, "П_ДоговорЗаймаСотруднику");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Пособия социального страхования");
+		// addRgRule(rgVariant, rgGroup, "П_ОтпускПоУходуЗаРебенком");
+		// addRgRule(rgVariant, rgGroup,
+		// "П_ИзменениеУсловийОплатыОтпускаПоУходуЗаРебенком");
+		// addRgRule(rgVariant, rgGroup, "П_ВозвратИзОтпускаПоУходуЗаРебенком");
+		// addRgRule(rgVariant, rgGroup, "П_ПособияПоСоциальномуСтрахованию");
+		// addRgRule(rgVariant, rgGroup, "П_ПособияПоУходуЗаРебенком");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Расчеты");
+		// addRgRule(rgVariant, rgGroup, "П_ПериодыОплаченныеДоНачалаЭксплуатации");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Средний заработок");
+		// addRgRule(rgVariant, rgGroup, "П_КоэффициентИндексацииЗаработка");
+		// addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоОбщий");
+		// addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоФСС");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Взаиморасчеты с сотрудниками");
+		// addRgRule(rgVariant, rgGroup, "П_НачальнаяЗадолженностьПоЗарплате");
+		//
+		// rgGroup = addRgGroup(rgVariant, "Отражение зарплаты в бухгалтерском учете");
+		// addRgRule(rgVariant, rgGroup, "П_НачислениеОценочныхОбязательствПоОтпускам");
+		//
+		// final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
+		// saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
+		//
+		// xmiResource.getContents().add(reportGroups);
+		// try {
+		// xmiResource.save(saveOptions);
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		//
+		// return reportGroups;
+
 	}
+
+	// protected File getResourceFile(URI uri) throws FileNotFoundException {
+	// IWorkspace workspace = ResourcesPlugin.getWorkspace();
+	// String[] segments = uri.segments();
+	// if (!foundProjectInWorkspace(workspace, URI.decode(segments[1]))) {
+	// throw new FileNotFoundException("There is no project with name: " +
+	// segments[1]); //$NON-NLS-1$
+	// }
+	// IPath resourcePath = ВашПлагин.getDefault().getStateLocation();
+	// for (int i = 1; i < segments.length - 1; ++i) {
+	// resourcePath = resourcePath.append(segments[i]);
+	// File file = resourcePath.toFile();
+	// if (file.exists() && !file.isDirectory()) {
+	// file.delete();
+	// } else if (!file.exists()) {
+	// file.mkdir();
+	// }
+	// }
+	// resourcePath = resourcePath.append(segments[segments.length - 1]);
+	// File file = resourcePath.toFile();
+	// return file;
+	// }
 
 	private RgGroup addRgGroup(RgVariant rgVariant, String groupName) {
 		EList<RgGroup> rgGroups = rgVariant.getGroups();
@@ -1916,12 +1969,10 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private void addRgRule(RgVariant rgVariant, RgGroup rgGroup, String ruleName) {
-		EList<RgRule> rgRules = rgVariant.getRules();
 		EList<RgRule> rgGroupRules = rgGroup.getRules();
 
 		RgRule rgRule = new RgRuleImpl();
-		rgRule.setRuleName(ruleName);
-		rgRules.add(rgRule);
+		rgRule.setName(ruleName);
 		rgGroupRules.add(rgRule);
 	}
 }

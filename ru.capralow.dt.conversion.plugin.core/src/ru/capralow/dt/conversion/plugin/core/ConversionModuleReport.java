@@ -75,7 +75,7 @@ public class ConversionModuleReport {
 
 				String objects = "";
 				for (RgRule rgRule : rgGroup.getRules()) {
-					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getRuleName());
+					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getName());
 					if (dataRule == null)
 						continue;
 
@@ -133,7 +133,7 @@ public class ConversionModuleReport {
 				tabularRows += "**" + rgGroup.getName() + "** | | | | \r\n";
 
 				for (RgRule rgRule : rgGroup.getRules()) {
-					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getRuleName());
+					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getName());
 					if (dataRule == null)
 						continue;
 

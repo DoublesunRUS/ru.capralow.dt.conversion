@@ -1142,17 +1142,23 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		while (menuMain.getItemCount() > 1)
 			menuMain.getItem(1).dispose();
 		for (Entry<String, FormatPackage> formatPackage : conversionModuleAnalyzer.getFormatPackages().entrySet()) {
-			if (reportGroups == null)
-				addReportMenuItem(formatPackage.getKey(), formatPackage.getValue(), null, false);
+			if (reportGroups == null) {
+				ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule, formatPackage.getValue(),
+						null);
 
-			else {
+				addReportMenuItem(formatPackage.getKey(), formatPackage.getValue(), cmReport, null, false);
+
+			} else {
 				EList<RgVariant> rgVariants = reportGroups.getVariants();
 				for (RgVariant rgVariant : rgVariants) {
+					ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule,
+							formatPackage.getValue(), rgVariant);
+
 					if (reportGroups.getAddObjectsList())
 						addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
-								rgVariant, true);
+								cmReport, rgVariant, true);
 					addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
-							rgVariant, false);
+							cmReport, rgVariant, false);
 				}
 
 			}
@@ -1245,7 +1251,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}
 	}
 
-	private void addReportMenuItem(String name, FormatPackage formatPackage, RgVariant rgVariant, boolean objectsOnly) {
+	private void addReportMenuItem(String name, FormatPackage formatPackage, ConversionModuleReport cmReport,
+			RgVariant rgVariant, boolean objectsOnly) {
 		MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
 		if (objectsOnly)
 			itemMenu.setText("Список объектов " + name);
@@ -1332,9 +1339,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					}
 
 				}
-
-				ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule, formatPackage,
-						rgVariant);
 
 				try {
 					String stringReport = objectsOnly ? cmReport.createObjectsReport() : cmReport.createFullReport();
