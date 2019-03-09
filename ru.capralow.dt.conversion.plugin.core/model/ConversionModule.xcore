@@ -12,7 +12,7 @@ class ConversionModule {
 	
 	op CmSubsystem getSubsystem(Object subsystemObject) {
 		for (CmSubsystem subsystem : subsystems) {
-			if (subsystemObject == subsystem.subsystem) return subsystem
+			if (subsystemObject.equals(subsystem.subsystem)) return subsystem
 		}
 		return null;
 	}
@@ -56,7 +56,7 @@ class ConversionModule {
 	
 	op CmDataRule getDataRule(String ruleName) {
 		for (CmDataRule dataRule : dataRules) {
-			if (ruleName == dataRule.name) return dataRule
+			if (ruleName.equals(dataRule.name)) return dataRule
 		}
 		return null;
 	}
@@ -102,7 +102,7 @@ class ConversionModule {
 	contains CmObjectRule[] objectRules opposite conversionModule
 	op CmObjectRule getObjectRule(String ruleName) {
 		for (CmObjectRule objectRule : objectRules) {
-			if (ruleName == objectRule.name) return objectRule
+			if (ruleName.equals(objectRule.name)) return objectRule
 		}
 		return null;
 	}
@@ -150,7 +150,7 @@ class ConversionModule {
 	contains CmAlgorithm[] algorithms opposite conversionModule
 	op CmAlgorithm getAlgorithm(String algorithmName) {
 		for (CmAlgorithm algorithm : algorithms) {
-			if (algorithmName == algorithm.name) return algorithm
+			if (algorithmName.equals(algorithm.name)) return algorithm
 		}
 		return null;
 	}
@@ -182,22 +182,22 @@ class CmDataRule {
 		var result = "";
 		
 		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
-			result = "Справочник." + configurationObject.getName();
+			result = "Справочник." + configurationObjectName.split("[.]").get(2);
 		
 		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
-			result = "Документ." + configurationObject.getName();
+			result = "Документ." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
-			result = "Перечисление." + configurationObject.getName();
+			result = "Перечисление." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
-			result = "ПланВидовХарактеристик." + configurationObject.getName();
+			result = "ПланВидовХарактеристик." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
-			result = "ПланВидовРасчета." + configurationObject.getName();
+			result = "ПланВидовРасчета." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
-			result = "РегистрСведений." + configurationObject.getName();
+			result = "РегистрСведений." + configurationObjectName.split("[.]").get(2);
 			
 		}
 		
@@ -271,7 +271,7 @@ class CmDataRule {
 			return true;
 		
 		for (CmSubsystem subsystem : subsystems) {
-			if (subsystem == cmSubsystem)
+			if (subsystem.equals(cmSubsystem))
 				return true;
 		}
 
@@ -315,22 +315,22 @@ class CmObjectRule {
 		var result = "";
 		
 		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
-			result = "Справочник." + configurationObject.getName();
+			result = "Справочник." + configurationObjectName.split("[.]").get(2);
 		
 		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
-			result = "Документ." + configurationObject.getName();
+			result = "Документ." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
-			result = "Перечисление." + configurationObject.getName();
+			result = "Перечисление." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
-			result = "ПланВидовХарактеристик." + configurationObject.getName();
+			result = "ПланВидовХарактеристик." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
-			result = "ПланВидовРасчета." + configurationObject.getName();
+			result = "ПланВидовРасчета." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
-			result = "РегистрСведений." + configurationObject.getName();
+			result = "РегистрСведений." + configurationObjectName.split("[.]").get(2);
 			
 		}
 		
@@ -398,7 +398,7 @@ class CmObjectRule {
 			return true;
 		
 		for (CmSubsystem subsystem : subsystems) {
-			if (subsystem == cmSubsystem)
+			if (subsystem.equals(cmSubsystem))
 				return true;
 		}
 
@@ -454,22 +454,22 @@ class CmPredefined {
 		var result = "";
 		
 		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
-			result = "Справочник." + configurationObject.getName();
+			result = "Справочник." + configurationObjectName.split("[.]").get(2);
 		
 		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
-			result = "Документ." + configurationObject.getName();
+			result = "Документ." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
-			result = "Перечисление." + configurationObject.getName();
+			result = "Перечисление." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
-			result = "ПланВидовХарактеристик." + configurationObject.getName();
+			result = "ПланВидовХарактеристик." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
-			result = "ПланВидовРасчета." + configurationObject.getName();
+			result = "ПланВидовРасчета." + configurationObjectName.split("[.]").get(2);
 			
 		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
-			result = "РегистрСведений." + configurationObject.getName();
+			result = "РегистрСведений." + configurationObjectName.split("[.]").get(2);
 			
 		}
 		
@@ -485,8 +485,8 @@ class CmPredefined {
 	
 	op Boolean predefinedMapExists(Object configurationValue, Object formatValue) {
 		for (CmPredefinedMap predefinedMap : predefinedMaps) {
-			if (configurationValue == predefinedMap.configurationValue
-				&& formatValue == predefinedMap.formatValue
+			if (configurationValue.equals(predefinedMap.configurationValue)
+				&& formatValue.equals(predefinedMap.formatValue)
 			) return true
 		}
 		return false;

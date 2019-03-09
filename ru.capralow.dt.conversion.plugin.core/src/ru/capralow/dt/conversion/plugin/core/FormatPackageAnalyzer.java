@@ -17,7 +17,7 @@ import com._1c.g5.v8.dt.xdto.model.Property;
 import com._1c.g5.v8.dt.xdto.model.Type;
 import com._1c.g5.v8.dt.xdto.model.ValueType;
 
-import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.fp.FpCatalog;
 import ru.capralow.dt.conversion.plugin.core.fp.FpDocument;
@@ -43,7 +43,7 @@ public class FormatPackageAnalyzer {
 		this.formatPackage = new FormatPackageImpl();
 	}
 
-	public void analyze(EvFormatVersion formatVersion) {
+	public void analyze(EpFormatVersion formatVersion) {
 		EList<FpCatalog> fpCatalogs = formatPackage.getCatalogs();
 		EList<FpDocument> fpDocuments = formatPackage.getDocuments();
 		EList<FpRegister> fpRegisters = formatPackage.getRegisters();

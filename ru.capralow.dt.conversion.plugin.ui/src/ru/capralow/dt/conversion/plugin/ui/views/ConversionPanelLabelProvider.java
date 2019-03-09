@@ -5,39 +5,37 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
-
-import ru.capralow.dt.conversion.plugin.core.ev.EvConfiguration;
-import ru.capralow.dt.conversion.plugin.core.ev.EvConfigurationStatus;
-import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePair;
-import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePairStatus;
-import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePairStatus;
+import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.EpProjectStatus;
+import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProject;
 
 public class ConversionPanelLabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof EvExchangePair) {
-			return ((EvExchangePair) element).getConfigurationName1() + " - "
-					+ ((EvExchangePair) element).getConfigurationName2();
+		if (element instanceof EpExchangePair) {
+			return ((EpExchangePair) element).getConfigurationName1() + " - "
+					+ ((EpExchangePair) element).getConfigurationName2();
 
-		} else if (element instanceof EvExchangePairStatus) {
-			return ((EvExchangePairStatus) element).getLiteral();
+		} else if (element instanceof EpExchangePairStatus) {
+			return ((EpExchangePairStatus) element).getLiteral();
 
-		} else if (element instanceof EvConfiguration) {
-			return ((EvConfiguration) element).getConfigurationName();
+		} else if (element instanceof ExchangeProject) {
+			return ((ExchangeProject) element).getName();
 
-		} else if (element instanceof EvConfigurationStatus) {
-			return ((EvConfigurationStatus) element).getLiteral();
+		} else if (element instanceof EpProjectStatus) {
+			return ((EpProjectStatus) element).getLiteral();
 
-		} else if (element instanceof EvFormatVersion) {
-			EvFormatVersion formatVersion = (EvFormatVersion) element;
+		} else if (element instanceof EpFormatVersion) {
+			EpFormatVersion formatVersion = (EpFormatVersion) element;
 
 			String version = formatVersion.getVersion().intern();
-			String module = ((CommonModule) formatVersion.getModule()).getName();
+			String module = formatVersion.getModuleName();
 
-			if (formatVersion.getConfigurationName() != null) {
-				module = formatVersion.getConfigurationName() + "." + module;
+			if (!formatVersion.getExtensionName().isEmpty()) {
+				module = formatVersion.getExtensionName() + "." + module;
 			}
 
 			return version + " [" + module + "]";

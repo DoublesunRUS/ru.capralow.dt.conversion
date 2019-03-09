@@ -18,14 +18,6 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ExchangeVersions -->
-      <package
-            uri="ru.capralow.dt.conversion.plugin.core.ev"
-            class="ru.capralow.dt.conversion.plugin.core.ev.EvPackage"
-            genModel="model/ExchangeVersions.xcore"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated FormatPackage -->
       <package
             uri="ru.capralow.dt.conversion.plugin.core.fp"
@@ -39,6 +31,14 @@
             uri="ru.capralow.dt.conversion.plugin.core.rg"
             class="ru.capralow.dt.conversion.plugin.core.rg.RgPackage"
             genModel="model/ReportGroups.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ExchangeVersions -->
+      <package
+            uri="ru.capralow.dt.conversion.plugin.core.ep"
+            class="ru.capralow.dt.conversion.plugin.core.ep.EpPackage"
+            genModel="model/ExchangeProjects.xcore"/>
    </extension>
 
 </plugin>

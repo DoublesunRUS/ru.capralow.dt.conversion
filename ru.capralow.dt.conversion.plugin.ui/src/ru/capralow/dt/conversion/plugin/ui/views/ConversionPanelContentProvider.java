@@ -4,28 +4,30 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import ru.capralow.dt.conversion.plugin.core.ev.EvConfiguration;
-import ru.capralow.dt.conversion.plugin.core.ev.EvExchangePair;
-import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
+import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.ExchangeData;
+import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProject;
 
 public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 	@Override
-	public Object[] getElements(Object conversionPanel) {
-		EList<EvExchangePair> exchangePairs = ((ExchangeVersions) conversionPanel).getExchangePairs();
-		EList<EvConfiguration> configurations = ((ExchangeVersions) conversionPanel).getConfigurations();
+	public Object[] getElements(Object object) {
+		ExchangeData exchangeData = (ExchangeData) object;
 
-		Object[] treeContent = new Object[exchangePairs.size() + configurations.size()];
+		EList<EpExchangePair> exchangePairs = exchangeData.getPairs();
+		EList<ExchangeProject> exchangeProjects = exchangeData.getProjects();
+
+		Object[] treeContent = new Object[exchangePairs.size() + exchangeProjects.size()];
 
 		int i = 0;
 
-		for (EvExchangePair EvExchangePair : exchangePairs) {
-			treeContent[i] = EvExchangePair;
+		for (EpExchangePair epExchangePair : exchangePairs) {
+			treeContent[i] = epExchangePair;
 			i++;
 		}
-		for (EvConfiguration EvConfiguration : configurations) {
-			treeContent[i] = EvConfiguration;
+		for (ExchangeProject exchangeProject : exchangeProjects) {
+			treeContent[i] = exchangeProject;
 			i++;
 		}
 
@@ -34,9 +36,9 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object[] getChildren(Object arg0) {
-		if (arg0 instanceof EvExchangePair) {
-			EList<String> availableFormatVersions = ((EvExchangePair) arg0).getVersions();
+	public Object[] getChildren(Object object) {
+		if (object instanceof EpExchangePair) {
+			EList<String> availableFormatVersions = ((EpExchangePair) object).getVersions();
 
 			int treeSize = 1;
 			if (availableFormatVersions.size() != 0) {
@@ -44,7 +46,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 			}
 			Object[] treeContent = new Object[treeSize];
 
-			treeContent[0] = ((EvExchangePair) arg0).getStatus();
+			treeContent[0] = ((EpExchangePair) object).getStatus();
 
 			if (availableFormatVersions.size() != 0) {
 				treeContent[1] = availableFormatVersions;
@@ -52,42 +54,42 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 			return treeContent;
 
-		} else if (arg0 instanceof EvConfiguration) {
-			EList<EvFormatVersion> availableFormatVersions = ((EvConfiguration) arg0).getAvailableFormatVersions();
-			String storeVersion = ((EvConfiguration) arg0).getStoreVersion();
+		} else if (object instanceof ExchangeProject) {
+			EList<EpFormatVersion> formatVersions = ((ExchangeProject) object).getFormatVersions();
+			String storeVersion = ((ExchangeProject) object).getStoreVersion();
 
 			int treeSize = 1;
-			if (storeVersion != null) {
+			if (!storeVersion.isEmpty()) {
 				treeSize++;
 			}
-			if (availableFormatVersions.size() != 0) {
+			if (formatVersions.size() != 0) {
 				treeSize++;
 			}
 			Object[] treeContent = new Object[treeSize];
 
-			treeContent[0] = ((EvConfiguration) arg0).getStatus();
+			treeContent[0] = ((ExchangeProject) object).getStatus();
 
 			int i = 0;
-			if (storeVersion != null) {
+			if (!storeVersion.isEmpty()) {
 				i++;
 				treeContent[i] = "Версия модуля обмена данными: " + storeVersion;
 			}
 
-			if (availableFormatVersions.size() != 0) {
+			if (formatVersions.size() != 0) {
 				i++;
-				treeContent[i] = availableFormatVersions;
+				treeContent[i] = formatVersions;
 			}
 
 			return treeContent;
 
-		} else if (arg0 instanceof EList<?>) {
-			EList<EvFormatVersion> availableFormatVersions = (EList<EvFormatVersion>) arg0;
+		} else if (object instanceof EList<?>) {
+			EList<EpFormatVersion> formatVersions = (EList<EpFormatVersion>) object;
 
-			Object[] treeContent = new Object[availableFormatVersions.size()];
+			Object[] treeContent = new Object[formatVersions.size()];
 
 			int i = 0;
-			for (Object object : availableFormatVersions) {
-				treeContent[i] = object;
+			for (Object formatVersion : formatVersions) {
+				treeContent[i] = formatVersion;
 				i++;
 			}
 
@@ -99,20 +101,20 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 	}
 
 	@Override
-	public Object getParent(Object arg0) {
+	public Object getParent(Object object) {
 		return null;
 	}
 
 	@Override
-	public boolean hasChildren(Object arg0) {
-		if (arg0 instanceof EvExchangePair) {
+	public boolean hasChildren(Object object) {
+		if (object instanceof EpExchangePair) {
 			return true;
 
-		} else if (arg0 instanceof EvConfiguration) {
+		} else if (object instanceof ExchangeProject) {
 			return true;
 
-		} else if (arg0 instanceof EList) {
-			return ((EList<?>) arg0).size() != 0;
+		} else if (object instanceof EList) {
+			return ((EList<?>) object).size() != 0;
 
 		}
 
@@ -125,7 +127,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 	}
 
 	@Override
-	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
+	public void inputChanged(Viewer viewer, Object oldObject, Object newObject) {
 
 	}
 

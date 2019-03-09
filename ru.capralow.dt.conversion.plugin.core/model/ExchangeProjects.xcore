@@ -1,0 +1,101 @@
+@GenModel(
+	publicConstructors="true"
+)
+package ru.capralow.dt.conversion.plugin.core.ep
+
+import com._1c.g5.v8.dt.metadata.mdclass.MdObject
+
+class ExchangeProject {
+	String name = ""
+	
+	String storeVersion = ""
+	
+	contains EpExtension[] extensions
+	
+	EpProjectStatus status
+	
+	contains EpFormatVersion[] formatVersions
+	
+	op String[] getVersions() {
+		val result = newBasicEList()
+		for (EpFormatVersion formatVersion : formatVersions) {
+			result.add(formatVersion.getVersion)
+		}
+		return result
+	}
+	
+	refers MdObject[] settingsModules
+
+	op EpFormatVersion[] getModuleFormatVersions(MdObject module) {
+		val result = newBasicEList()
+		for (EpFormatVersion formatVersion : formatVersions) {
+			if (formatVersion.module.equals(module))
+				result.add(formatVersion)
+		}
+		return result
+	}
+}
+
+class ExchangeProjects {
+	refers ExchangeProject[] projects
+	
+	op ExchangeProject getProject(String name) {
+		for (ExchangeProject project : projects) {
+			if (name.equals(project.name)) return project
+		}
+		return null;
+	}
+	
+//	op MdObject[] getObjects() {
+//		val result = newBasicEList()
+//
+//		for (EvConfiguration configuration : configurations) {
+//			for (MdObject mainModule : configuration.mainModules) {
+//				result.add(mainModule)
+//			}
+//		}
+//		return result
+//	}
+	
+}
+
+class EpExtension {
+	String name = ""
+}
+
+class EpFormatVersion {
+	String version = ""
+	String extensionName = ""
+	String moduleName = ""
+	
+	refers MdObject module
+	refers MdObject xdtoPackage
+}
+
+enum EpProjectStatus {
+	NoConfiguration as "Ожидание активации проектного контекста" = 0
+	NoSubsystem as "Нет подсистемы ОбменДанными" = 1
+	NoSSLVersion as "Не удалось определить версию БСП" = 2
+	NoCommonModule as "Нет общего модуля ОбменДаннымиПереопределяемый" = 3
+	NoMethod as "В общем модуле нет метода ПриПолученииДоступныхВерсийФормата" = 4
+	EmptyMethod as "В процедуре ПриПолученииДоступныхВерсийФормата не указаны версии формата" = 5
+	Ready as "Конфигурация готова к обмену" = 6
+}
+class ExchangeData {
+	refers ExchangeProject[] projects
+
+	contains EpExchangePair[] pairs
+}
+
+class EpExchangePair {
+	String configurationName1 = ""
+	String configurationName2 = ""
+	EpExchangePairStatus status
+	String[] versions
+}
+
+enum EpExchangePairStatus {
+	NoSharedFormatVersions as "Нет совпадений по доступным версиям формата" = 0
+	Ready as "Конфигурации готовы к обмену" = 1
+}
+

@@ -7,7 +7,7 @@ import com._1c.g5.v8.dt.bsl.validation.IExternalBslValidator;
 import com._1c.g5.v8.dt.bsl.validation.IMessages;
 import com._1c.g5.v8.dt.mcore.McorePackage;
 
-public class ConversionModuleExternalBslValidator implements IExternalBslValidator {
+public class ConversionValidator implements IExternalBslValidator {
 
 	public static final String ERROR_CODE = "Export method in form or command module";
 

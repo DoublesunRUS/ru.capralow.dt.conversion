@@ -92,6 +92,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.rg.ReportGroups;
 import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
+import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
@@ -100,7 +101,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Inject
 	private IV8ProjectManager projectManager;
-
 	@Inject
 	private IBmEmfIndexManager bmEmfIndexManager;
 
@@ -135,7 +135,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
 		this.editable = modelEditingSupport.canEdit(getModel());
 
-		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager);
+		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager,
+				Activator.getDefault());
 
 		FormToolkit toolkit = managedForm.getToolkit();
 

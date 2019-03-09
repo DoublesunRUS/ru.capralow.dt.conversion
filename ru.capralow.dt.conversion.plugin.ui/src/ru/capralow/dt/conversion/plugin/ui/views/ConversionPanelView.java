@@ -3,16 +3,13 @@ package ru.capralow.dt.conversion.plugin.ui.views;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -32,7 +29,7 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.lifecycle.ProjectContext;
-import com._1c.g5.v8.dt.core.platform.IResourceLookup;
+import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.lifecycle.IServiceContextLifecycleListener;
 import com._1c.g5.v8.dt.lifecycle.IServicesOrchestrator;
@@ -41,9 +38,10 @@ import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.ui.util.OpenHelper;
 import com.google.inject.Inject;
 
-import ru.capralow.dt.conversion.plugin.core.ExchangeVersionsAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.ev.EvFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ev.ExchangeVersions;
+import ru.capralow.dt.conversion.plugin.core.ExchangeProjectsAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.ExchangeData;
+import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionPanelView extends ViewPart {
 	public ConversionPanelView() {
@@ -55,12 +53,9 @@ public class ConversionPanelView extends ViewPart {
 	@Inject
 	private IBmEmfIndexManager bmEmfIndexManager;
 
-	@Inject
-	private IResourceLookup resourceLookup;
-
 	private TreeViewer treeViewer;
 
-	private ExchangeVersionsAnalyzer exchangeVersionsAnalyzer;
+	private ExchangeProjectsAnalyzer exchangeProjectsAnalyzer;
 
 	private IServicesOrchestrator servicesOrchestrator;
 
@@ -79,51 +74,14 @@ public class ConversionPanelView extends ViewPart {
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 		servicesOrchestrator = provider.get(IServicesOrchestrator.class);
 
-		exchangeVersionsAnalyzer = new ExchangeVersionsAnalyzer(projectManager, bmEmfIndexManager);
+		exchangeProjectsAnalyzer = new ExchangeProjectsAnalyzer(projectManager, bmEmfIndexManager,
+				Activator.getDefault());
 
 		projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		readyProjects = new HashMap<IProject, Boolean>();
 		for (IProject project : projects) {
 			readyProjects.put(project, false);
 		}
-
-		objectsListener = new IResourceChangeListener() {
-
-			@Override
-			public void resourceChanged(IResourceChangeEvent event) {
-				IResourceDelta eventDelta = event.getDelta();
-
-				ExchangeVersions exchangeVersions = exchangeVersionsAnalyzer.getExchangeVersions();
-
-				EList<Object> objects = exchangeVersions.getObjects();
-
-				boolean refreshUI = false;
-				IProject project = null;
-
-				for (Object object : objects) {
-					EObject eObject = (EObject) object;
-					IFile file = resourceLookup.getPlatformResource(eObject.eResource());
-					if (file == null)
-						continue;
-
-					IPath path = file.getFullPath();
-
-					IResourceDelta delta = eventDelta.findMember(path);
-
-					if (delta != null) {
-						refreshUI = true;
-						project = projectManager.getProject(eObject).getProject();
-						break;
-					}
-				}
-
-				if (refreshUI) {
-					updateTreeViewer(project);
-				}
-
-			}
-
-		};
 
 		for (int i = 0; i < projects.length; i++) {
 			IProject project = projects[i];
@@ -157,6 +115,31 @@ public class ConversionPanelView extends ViewPart {
 			}
 		}
 
+		objectsListener = new IResourceChangeListener() {
+			@Override
+			public void resourceChanged(IResourceChangeEvent event) {
+				IResourceDelta eventDelta = event.getDelta();
+
+				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+					if (!(projectManager.getProject(project) instanceof IConfigurationProject))
+						continue;
+
+					IPath path = project.getFullPath();
+
+					IResourceDelta delta = eventDelta.findMember(path);
+
+					if (delta != null) {
+						Display.getDefault().asyncExec(new Runnable() {
+							public void run() {
+								updateTreeViewer(project);
+							}
+						});
+					}
+				}
+			}
+
+		};
+
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(objectsListener, IResourceChangeEvent.POST_CHANGE);
 
 	}
@@ -170,8 +153,9 @@ public class ConversionPanelView extends ViewPart {
 				return;
 		}
 
-		exchangeVersionsAnalyzer.analyze(null);
-		treeViewer.setInput(exchangeVersionsAnalyzer.getExchangeVersions());
+		exchangeProjectsAnalyzer.loadResources();
+		ExchangeData exchangeData = exchangeProjectsAnalyzer.analyzePairs();
+		treeViewer.setInput(exchangeData);
 		treeViewer.expandAll();
 		treeViewer.refresh();
 
@@ -210,7 +194,6 @@ public class ConversionPanelView extends ViewPart {
 		layoutData.verticalAlignment = GridData.FILL;
 		treeViewer.getControl().setLayoutData(layoutData);
 
-		treeViewer.setInput(exchangeVersionsAnalyzer.getExchangeVersions());
 		treeViewer.expandAll();
 
 		hookListeners();
@@ -233,8 +216,8 @@ public class ConversionPanelView extends ViewPart {
 
 				Object element = ((IStructuredSelection) selection).getFirstElement();
 
-				if (element instanceof EvFormatVersion) {
-					CommonModule commonModule = (CommonModule) ((EvFormatVersion) element).getModule();
+				if (element instanceof EpFormatVersion) {
+					CommonModule commonModule = (CommonModule) ((EpFormatVersion) element).getModule();
 
 					URI uri = EcoreUtil.getURI(commonModule);
 
