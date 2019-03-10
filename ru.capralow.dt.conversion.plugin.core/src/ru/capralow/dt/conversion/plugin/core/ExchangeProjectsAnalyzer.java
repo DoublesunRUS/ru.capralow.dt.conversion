@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -31,6 +33,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.xbase.lib.Pair;
 
@@ -128,11 +131,34 @@ public class ExchangeProjectsAnalyzer {
 			if (!file.exists())
 				return null;
 
-			// FIXME: Сделать чтобы ресолвились ссылки
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
-			EcoreUtil.resolveAll(xmiResource);
 			ExchangeProject exchangeProject = (ExchangeProject) xmiResource.getContents().get(0);
+
+			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
+			for (EpFormatVersion formatVersion : exchangeProject.getFormatVersions()) {
+				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
+						.getEObjectIndex(formatVersion.getModule());
+				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
+				if (objectItr.hasNext())
+					formatVersion.setModule((MdObject) objectItr.next().getEObjectOrProxy());
+
+				objectIndex = bmEmfIndexProvider.getEObjectIndex(formatVersion.getXdtoPackage());
+				objectItr = objectIndex.iterator();
+				if (objectItr.hasNext())
+					formatVersion.setXdtoPackage((MdObject) objectItr.next().getEObjectOrProxy());
+			}
+
+			EList<MdObject> oldSettingsModules = exchangeProject.getSettingsModules();
+			EList<MdObject> settingsModules = new BasicEList<MdObject>();
+			for (MdObject settingsModule : oldSettingsModules) {
+				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(settingsModule);
+				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
+				if (objectItr.hasNext())
+					settingsModules.add((MdObject) objectItr.next().getEObjectOrProxy());
+			}
+			oldSettingsModules.clear();
+			oldSettingsModules.addAll(settingsModules);
 
 			ExchangeProject oldProject = exchangeProjects.getProject(project.getName());
 			if (oldProject != null)
