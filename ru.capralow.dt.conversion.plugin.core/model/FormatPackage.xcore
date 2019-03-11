@@ -8,8 +8,11 @@ import com._1c.g5.v8.dt.xdto.model.ObjectType
 class FormatPackage {
 	String version = ""
 	
+	contains FpDefinedType[] definedTypes
+	contains FpDefinedType[] refTypes
 	contains FpCatalog[] catalogs
 	contains FpDocument[] documents
+	contains FpEnum[] enums
 	contains FpRegister[] registers
 	
 	op FpProperty getProperty(String formatObjectName, String formatPropertyFullName) {
@@ -64,6 +67,21 @@ class FormatPackage {
 		return null;
 	}
 	
+	op FpDefinedType getDefinedType(String name) {
+		for (FpDefinedType fpDefinedType : definedTypes) {
+			if (fpDefinedType.name.equals(name))
+				return fpDefinedType;
+		}
+		
+		return null;
+	}
+	
+}
+
+class FpDefinedType {
+	String name = ""
+
+	contains FpType[] types opposite definedType
 }
 
 class FpCatalog {
@@ -102,6 +120,11 @@ class FpDocument {
 	
 }
 
+class FpEnum {
+	refers ObjectType object
+	String name = ""
+}
+
 class FpRegister {
 	refers ObjectType object
 	String name = ""
@@ -136,4 +159,12 @@ class FpProperty {
 	String propertyType = ""
 	
 	Boolean required
+}
+
+class FpType {
+	container FpDefinedType definedType opposite types
+
+	String name = ""
+	
+	String propertyType = ""
 }

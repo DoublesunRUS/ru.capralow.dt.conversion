@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.antlr.stringtemplate.StringTemplate;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import com._1c.g5.v8.dt.metadata.mdclass.BasicRegister;
@@ -37,6 +38,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
+import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
 import ru.capralow.dt.conversion.plugin.core.rg.RgGroup;
 import ru.capralow.dt.conversion.plugin.core.rg.RgRule;
@@ -61,9 +63,15 @@ public class ConversionModuleReport {
 		final String TEMPLATE_NAME_GROUP = "ReceivingGroup.txt";
 		String templateGroupContent = readContents(getFileInputSupplier(TEMPLATE_NAME_GROUP), TEMPLATE_NAME_GROUP);
 
+		final String TEMPLATE_NAME_DEFINEDTYPES = "ReceivingDefinedTypes.txt";
+		String templateDefinedTypesContent = readContents(getFileInputSupplier(TEMPLATE_NAME_DEFINEDTYPES),
+				TEMPLATE_NAME_DEFINEDTYPES);
+
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
 		String groupObjects = "";
+
+		EList<FpDefinedType> fpDefinedTypes = new BasicEList<FpDefinedType>();
 
 		if (rgVariant != null) {
 			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + formatPackage.getVersion());
@@ -80,7 +88,7 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						objects += getFullObject((CmObjectRule) objectRule);
+						objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes);
 				}
 
 				templateGroups.setAttribute("ObjectRules", objects);
@@ -103,7 +111,7 @@ public class ConversionModuleReport {
 
 				String objects = "";
 				for (Object objectRule : receivingObjectRules)
-					objects += getFullObject((CmObjectRule) objectRule);
+					objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes);
 				templateGroups.setAttribute("ObjectRules", objects);
 
 				groupObjects += templateGroups.toString();
@@ -114,6 +122,16 @@ public class ConversionModuleReport {
 
 		// TODO: Добавить вывод типов, перечислений и предопределенных элементов в конец
 		// документа
+		StringTemplate templateDefinedTypes = new StringTemplate(templateDefinedTypesContent);
+
+		String typesRows = "";
+		for (FpDefinedType fpDefinedType : fpDefinedTypes) {
+			typesRows += fpDefinedType.getName() + " | " + fpDefinedType.getTypes().get(0).getPropertyType() + "\r\n";
+		}
+
+		templateDefinedTypes.setAttribute("TypesRows", typesRows);
+
+		templateMain.setAttribute("DefinedTypes", templateDefinedTypes.toString());
 
 		return templateMain.toString();
 	}
@@ -163,7 +181,7 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	private String getFullObject(CmObjectRule cmObjectRule) {
+	private String getFullObject(CmObjectRule cmObjectRule, EList<FpDefinedType> fpDefinedTypes) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 
@@ -395,6 +413,10 @@ public class ConversionModuleReport {
 					String subPropertyType = subPropertyTypes[0];
 					if (subPropertyType.isEmpty())
 						subPropertyType = "<Свойство формата не найдено>";
+
+					FpDefinedType fpDefinedType = formatPackage.getDefinedType(subPropertyType);
+					if (fpDefinedType != null && !fpDefinedTypes.contains(fpDefinedType))
+						fpDefinedTypes.add(fpDefinedType);
 
 					Boolean isSubKey = subPropertyType.startsWith("КлючевыеСвойства");
 

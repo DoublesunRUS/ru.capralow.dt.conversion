@@ -20,14 +20,19 @@ import com._1c.g5.v8.dt.xdto.model.ValueType;
 import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.fp.FpCatalog;
+import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
 import ru.capralow.dt.conversion.plugin.core.fp.FpDocument;
+import ru.capralow.dt.conversion.plugin.core.fp.FpEnum;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
 import ru.capralow.dt.conversion.plugin.core.fp.FpRegister;
+import ru.capralow.dt.conversion.plugin.core.fp.FpType;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FormatPackageImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpCatalogImpl;
+import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDefinedTypeImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDocumentImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpPropertyImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpRegisterImpl;
+import ru.capralow.dt.conversion.plugin.core.fp.impl.FpTypeImpl;
 
 public class FormatPackageAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
@@ -44,12 +49,16 @@ public class FormatPackageAnalyzer {
 	}
 
 	public void analyze(EpFormatVersion formatVersion) {
+		EList<FpDefinedType> fpDefinedTypes = formatPackage.getDefinedTypes();
 		EList<FpCatalog> fpCatalogs = formatPackage.getCatalogs();
 		EList<FpDocument> fpDocuments = formatPackage.getDocuments();
+		EList<FpEnum> fpEnums = formatPackage.getEnums();
 		EList<FpRegister> fpRegisters = formatPackage.getRegisters();
 
+		fpDefinedTypes.clear();
 		fpCatalogs.clear();
 		fpDocuments.clear();
+		fpEnums.clear();
 		fpRegisters.clear();
 
 		formatPackage.setVersion(formatVersion.getVersion());
@@ -73,13 +82,12 @@ public class FormatPackageAnalyzer {
 
 			String objectName = object.getName();
 			if (baseType != null && baseType.getName().equals("Object")) {
-
 				EList<FpProperty> fpProperties = null;
 
 				Object fpObject = null;
 				if (objectName.startsWith("Справочник.")) {
 					fpObject = new FpCatalogImpl();
-					FpCatalogImpl fpCatalog = (FpCatalogImpl) fpObject;
+					FpCatalog fpCatalog = (FpCatalog) fpObject;
 					fpCatalogs.add(fpCatalog);
 
 					fpCatalog.setObject(object);
@@ -89,7 +97,7 @@ public class FormatPackageAnalyzer {
 
 				} else if (objectName.startsWith("Документ.")) {
 					fpObject = new FpDocumentImpl();
-					FpDocumentImpl fpDocument = (FpDocumentImpl) fpObject;
+					FpDocument fpDocument = (FpDocument) fpObject;
 					fpDocuments.add(fpDocument);
 
 					fpDocument.setObject(object);
@@ -99,7 +107,7 @@ public class FormatPackageAnalyzer {
 
 				} else if (objectName.startsWith("Регистр")) {
 					fpObject = new FpRegisterImpl();
-					FpRegisterImpl fpRegister = (FpRegisterImpl) fpObject;
+					FpRegister fpRegister = (FpRegister) fpObject;
 					fpRegisters.add(fpRegister);
 
 					fpRegister.setObject(object);
@@ -114,6 +122,7 @@ public class FormatPackageAnalyzer {
 
 					LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
 					continue;
+
 				}
 
 				for (Property property : object.getProperties()) {
@@ -126,21 +135,21 @@ public class FormatPackageAnalyzer {
 						EList<FpProperty> fpKeyProperties = null;
 
 						if (objectName.startsWith("Справочник.")) {
-							FpCatalogImpl fpCatalog = (FpCatalogImpl) fpObject;
+							FpCatalog fpCatalog = (FpCatalog) fpObject;
 
 							fpCatalog.setKeysObject(propertyTypeObject);
 							fpCatalog.setKeysObjectName(propertyTypeName);
 							fpKeyProperties = fpCatalog.getKeyProperties();
 
 						} else if (objectName.startsWith("Документ.")) {
-							FpDocumentImpl fpDocument = (FpDocumentImpl) fpObject;
+							FpDocument fpDocument = (FpDocument) fpObject;
 
 							fpDocument.setKeysObject(propertyTypeObject);
 							fpDocument.setKeysObjectName(propertyTypeName);
 							fpKeyProperties = fpDocument.getKeyProperties();
 
 						} else if (objectName.startsWith("Регистр")) {
-							FpRegisterImpl fpRegister = (FpRegisterImpl) fpObject;
+							FpRegister fpRegister = (FpRegister) fpObject;
 
 							fpRegister.setKeysObject(propertyTypeObject);
 							fpRegister.setKeysObjectName(propertyTypeName);
@@ -191,6 +200,28 @@ public class FormatPackageAnalyzer {
 
 					}
 				}
+
+			} else {
+				if (objectName.contains(".") || objectName.startsWith("КлючевыеСвойства"))
+					continue;
+
+				FpDefinedTypeImpl fpDefinedType = new FpDefinedTypeImpl();
+				fpDefinedTypes.add(fpDefinedType);
+
+				EList<FpType> fpTypes = fpDefinedType.getTypes();
+
+				fpDefinedType.setName(objectName);
+				for (Property property : object.getProperties()) {
+					String propertyName = property.getName();
+					String propertyTypeName = property.getType().getName();
+
+					FpType fpType = new FpTypeImpl();
+					fpTypes.add(fpType);
+
+					fpType.setName(propertyName);
+					fpType.setPropertyType(propertyTypeName);
+				}
+
 			}
 		}
 
@@ -198,7 +229,7 @@ public class FormatPackageAnalyzer {
 
 	private void addProperty(Property property, String propertyName, Boolean isKey, EList<FpProperty> fpProperties,
 			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
-		FpPropertyImpl fpProperty = new FpPropertyImpl();
+		FpProperty fpProperty = new FpPropertyImpl();
 		fpProperties.add(fpProperty);
 
 		fpProperty.setProperty(property);
