@@ -131,15 +131,12 @@ public class ConversionModuleAnalyzer {
 		IProject project = configurationProject.getProject();
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
-		ExchangeProjectsAnalyzer exchangeVersionsAnalyzer = new ExchangeProjectsAnalyzer(projectManager,
-				bmEmfIndexManager, plugin);
-		ExchangeProject exchangeProject = exchangeVersionsAnalyzer.loadResource(project);
+		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, bmEmfIndexProvider, plugin);
 		EList<EpFormatVersion> moduleFormatVersions = exchangeProject.getModuleFormatVersions(commonModule);
-		FormatPackageAnalyzer formatPackageAnalyzer = new FormatPackageAnalyzer();
 		for (EpFormatVersion formatVersion : moduleFormatVersions) {
-			formatPackageAnalyzer.analyze(formatVersion);
+			FormatPackage formatPackage = FormatPackageAnalyzer.loadResource(formatVersion, project, plugin);
 
-			formatPackages.put(formatVersion.getVersion(), formatPackageAnalyzer.getFormatPackage());
+			formatPackages.put(formatVersion.getVersion(), formatPackage);
 		}
 
 		Module module = commonModule.getModule();

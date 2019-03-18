@@ -344,7 +344,7 @@ class CmObjectRule {
 	
 	Boolean forGroup = "false"
 	
-	contains CmAttributeRule[] attributeRules opposite objectRule
+	contains CmAttributeRule[] attributeRules
 
 	String onSendingEvent = ""
 	derived String onSendingEventPrefix get {
@@ -438,7 +438,7 @@ class CmAttributeRule {
 		return result;
 	}
 	
-	container CmObjectRule objectRule opposite attributeRules
+	refers CmObjectRule objectRule
 	
 	Boolean isCustomRule = "false"
 }

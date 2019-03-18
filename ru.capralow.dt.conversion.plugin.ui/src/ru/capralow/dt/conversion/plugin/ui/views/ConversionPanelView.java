@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import ru.capralow.dt.conversion.plugin.core.ExchangeProjectsAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ep.ExchangeData;
+import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProjects;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionPanelView extends ViewPart {
@@ -54,8 +55,6 @@ public class ConversionPanelView extends ViewPart {
 	private IBmEmfIndexManager bmEmfIndexManager;
 
 	private TreeViewer treeViewer;
-
-	private ExchangeProjectsAnalyzer exchangeProjectsAnalyzer;
 
 	private IServicesOrchestrator servicesOrchestrator;
 
@@ -73,9 +72,6 @@ public class ConversionPanelView extends ViewPart {
 		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 		servicesOrchestrator = provider.get(IServicesOrchestrator.class);
-
-		exchangeProjectsAnalyzer = new ExchangeProjectsAnalyzer(projectManager, bmEmfIndexManager,
-				Activator.getDefault());
 
 		projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		readyProjects = new HashMap<IProject, Boolean>();
@@ -153,8 +149,9 @@ public class ConversionPanelView extends ViewPart {
 				return;
 		}
 
-		exchangeProjectsAnalyzer.loadResources();
-		ExchangeData exchangeData = exchangeProjectsAnalyzer.analyzePairs();
+		ExchangeProjects exchangeProjects = ExchangeProjectsAnalyzer.loadResources(projectManager, bmEmfIndexManager,
+				Activator.getDefault());
+		ExchangeData exchangeData = ExchangeProjectsAnalyzer.analyzePairs(exchangeProjects);
 		treeViewer.setInput(exchangeData);
 		treeViewer.expandAll();
 		treeViewer.refresh();

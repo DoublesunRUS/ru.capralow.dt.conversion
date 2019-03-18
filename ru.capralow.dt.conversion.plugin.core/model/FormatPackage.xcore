@@ -4,6 +4,7 @@
 package ru.capralow.dt.conversion.plugin.core.fp
 
 import com._1c.g5.v8.dt.xdto.model.ObjectType
+import com._1c.g5.v8.dt.xdto.model.Property
 
 class FormatPackage {
 	String version = ""
@@ -152,7 +153,7 @@ class FpProperty {
 	container FpDocument keysDocument opposite keyProperties
 	container FpRegister keysRegister opposite keyProperties
 
-	Object property
+	refers Property property
 	String name = ""
 	Boolean isKey
 	

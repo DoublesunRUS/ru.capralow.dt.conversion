@@ -1,13 +1,20 @@
 package ru.capralow.dt.conversion.plugin.core;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com._1c.g5.v8.dt.mcore.QName;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
@@ -35,20 +42,61 @@ import ru.capralow.dt.conversion.plugin.core.fp.impl.FpRegisterImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpTypeImpl;
 
 public class FormatPackageAnalyzer {
-	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui"; //$NON-NLS-1$
-	private ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
+	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
-	private FormatPackage formatPackage;
+	public static FormatPackage loadResource(EpFormatVersion epFormatVersion, IProject project,
+			AbstractUIPlugin plugin) {
+		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "formatPackage-"
+				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
 
-	public FormatPackage getFormatPackage() {
-		return formatPackage;
+		try {
+			File file = ConversionUtils.getResourceFile(uri, plugin);
+
+			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
+
+			if (!file.exists())
+				return null;
+
+			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
+			xmiResource.load(loadOptions);
+			FormatPackage formatPackage = (FormatPackage) xmiResource.getContents().get(0);
+
+			return formatPackage;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+
+		return null;
 	}
 
-	public FormatPackageAnalyzer() {
-		this.formatPackage = new FormatPackageImpl();
+	public static void saveResource(EpFormatVersion epFormatVersion, FormatPackage formatPackage, IProject project,
+			AbstractUIPlugin plugin) {
+		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "formatPackage-"
+				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
+
+		File file;
+		try {
+			file = ConversionUtils.getResourceFile(uri, plugin);
+
+			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
+
+			xmiResource.getContents().add(formatPackage);
+			final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
+			saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
+			xmiResource.save(saveOptions);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
 	}
 
-	public void analyze(EpFormatVersion formatVersion) {
+	public static FormatPackage analyze(EpFormatVersion epFormatVersion) {
+		FormatPackage formatPackage = new FormatPackageImpl();
+
 		EList<FpDefinedType> fpDefinedTypes = formatPackage.getDefinedTypes();
 		EList<FpCatalog> fpCatalogs = formatPackage.getCatalogs();
 		EList<FpDocument> fpDocuments = formatPackage.getDocuments();
@@ -61,9 +109,9 @@ public class FormatPackageAnalyzer {
 		fpEnums.clear();
 		fpRegisters.clear();
 
-		formatPackage.setVersion(formatVersion.getVersion());
+		formatPackage.setVersion(epFormatVersion.getVersion());
 
-		Package dataPackage = ((XDTOPackage) formatVersion.getXdtoPackage()).getPackage();
+		Package dataPackage = ((XDTOPackage) epFormatVersion.getXdtoPackage()).getPackage();
 
 		Map<String, ObjectType> packageObjects = new HashMap<String, ObjectType>();
 		for (ObjectType object : dataPackage.getObjects()) {
@@ -118,7 +166,7 @@ public class FormatPackageAnalyzer {
 				} else {
 					String msg = String.format(
 							"У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип", objectName,
-							formatVersion.getVersion());
+							epFormatVersion.getVersion());
 
 					LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
 					continue;
@@ -224,10 +272,12 @@ public class FormatPackageAnalyzer {
 			}
 		}
 
+		return formatPackage;
 	}
 
-	private void addProperty(Property property, String propertyName, Boolean isKey, EList<FpProperty> fpProperties,
-			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+	private static void addProperty(Property property, String propertyName, Boolean isKey,
+			EList<FpProperty> fpProperties, Map<String, ObjectType> packageObjects,
+			Map<String, ValueType> packageValues) {
 		FpProperty fpProperty = new FpPropertyImpl();
 		fpProperties.add(fpProperty);
 
@@ -241,7 +291,7 @@ public class FormatPackageAnalyzer {
 		fpProperty.setIsKey(isKey);
 	}
 
-	private String getPropertyType(Property property) {
+	private static String getPropertyType(Property property) {
 		String propertyTypeName = "";
 
 		QName propertyType = property.getType();
@@ -300,7 +350,7 @@ public class FormatPackageAnalyzer {
 		return propertyTypeName;
 	}
 
-	private String getBasePropertyType(ValueType propertyValueTypeDef) {
+	private static String getBasePropertyType(ValueType propertyValueTypeDef) {
 		String propertyTypeName = propertyValueTypeDef.getBaseType().getName();
 
 		if (propertyTypeName.equals("string")) {

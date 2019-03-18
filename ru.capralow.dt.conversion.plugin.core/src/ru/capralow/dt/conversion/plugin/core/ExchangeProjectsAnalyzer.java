@@ -86,41 +86,13 @@ public class ExchangeProjectsAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
 	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
-	private IV8ProjectManager projectManager;
-	private IBmEmfIndexManager bmEmfIndexManager;
-	private AbstractUIPlugin plugin;
+	private static IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
+			.getModuleExtensionService();
+	private static DynamicFeatureAccessComputer dynamicFeatureAccessComputer = IResourceServiceProvider.Registry.INSTANCE
+			.getResourceServiceProvider(URI.createURI("foo.bsl")).get(DynamicFeatureAccessComputer.class);
 
-	private IModuleExtensionService moduleExtensionService;
-	private DynamicFeatureAccessComputer DynamicFeatureAccessComputer;
-
-	private ExchangeProjects exchangeProjects;
-
-	public ExchangeProjectsAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
+	public static ExchangeProject loadResource(IProject project, IBmEmfIndexProvider bmEmfIndexProvider,
 			AbstractUIPlugin plugin) {
-
-		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
-				.getResourceServiceProvider(URI.createURI("foo.bsl"));
-
-		this.projectManager = projectManager;
-		this.bmEmfIndexManager = bmEmfIndexManager;
-		this.plugin = plugin;
-
-		this.moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
-				.getModuleExtensionService();
-		this.DynamicFeatureAccessComputer = provider.get(DynamicFeatureAccessComputer.class);
-
-		this.exchangeProjects = new ExchangeProjectsImpl();
-	}
-
-	public ExchangeProject getExchangeProject(IProject project) {
-		return exchangeProjects.getProject(project.getName());
-	}
-
-	public ExchangeProjects getExchangeProjects() {
-		return exchangeProjects;
-	}
-
-	public ExchangeProject loadResource(IProject project) {
 		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "exchangeProject.xmi", false);
 
 		try {
@@ -135,7 +107,6 @@ public class ExchangeProjectsAnalyzer {
 			xmiResource.load(loadOptions);
 			ExchangeProject exchangeProject = (ExchangeProject) xmiResource.getContents().get(0);
 
-			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 			for (EpFormatVersion formatVersion : exchangeProject.getFormatVersions()) {
 				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
 						.getEObjectIndex(formatVersion.getModule());
@@ -160,11 +131,6 @@ public class ExchangeProjectsAnalyzer {
 			oldSettingsModules.clear();
 			oldSettingsModules.addAll(settingsModules);
 
-			ExchangeProject oldProject = exchangeProjects.getProject(project.getName());
-			if (oldProject != null)
-				exchangeProjects.getProjects().remove(oldProject);
-			exchangeProjects.getProjects().add(exchangeProject);
-
 			return exchangeProject;
 
 		} catch (IOException e) {
@@ -175,7 +141,7 @@ public class ExchangeProjectsAnalyzer {
 		return null;
 	}
 
-	public void saveResource(ExchangeProject exchangeProject, IProject project) {
+	public static void saveResource(ExchangeProject exchangeProject, IProject project, AbstractUIPlugin plugin) {
 		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "exchangeProject.xmi", false);
 
 		File file;
@@ -195,20 +161,24 @@ public class ExchangeProjectsAnalyzer {
 		}
 	}
 
-	public ExchangeProjects loadResources() {
-		exchangeProjects.getProjects().clear();
+	public static ExchangeProjects loadResources(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
+			AbstractUIPlugin plugin) {
+		ExchangeProjects exchangeProjects = new ExchangeProjectsImpl();
 
 		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 			if (!(projectManager.getProject(project) instanceof IConfigurationProject))
 				continue;
 
-			loadResource(project);
+			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
+
+			ExchangeProject exchangeProject = loadResource(project, bmEmfIndexProvider, plugin);
+			exchangeProjects.getProjects().add(exchangeProject);
 		}
 
 		return exchangeProjects;
 	}
 
-	public ExchangeData analyzePairs() {
+	public static ExchangeData analyzePairs(ExchangeProjects exchangeProjects) {
 		ArrayList<String> listProjects = new ArrayList<String>();
 
 		EList<ExchangeProject> epProjects = exchangeProjects.getProjects();
@@ -281,34 +251,26 @@ public class ExchangeProjectsAnalyzer {
 		return exchangeData;
 	}
 
-	public ExchangeProject analyzeProject(IProject project) {
-		if (!(projectManager.getProject(project) instanceof IConfigurationProject))
-			return null;
+	public static ExchangeProject analyzeProject(IConfigurationProject configurationProject,
+			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
+		ExchangeProject exchangeProject = new ExchangeProjectImpl();
 
-		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
+		IProject mainProject = configurationProject.getProject();
 
-		ExchangeProject exchangeProject = exchangeProjects.getProject(project.getName());
-
-		if (exchangeProject == null) {
-			EList<ExchangeProject> ExchangeProjects = exchangeProjects.getProjects();
-
-			exchangeProject = new ExchangeProjectImpl();
-			ExchangeProjects.add(exchangeProject);
-
-			exchangeProject.setName(project.getName());
-		}
+		exchangeProject.setName(mainProject.getName());
 
 		EList<MdObject> settingsModules = exchangeProject.getSettingsModules();
 		settingsModules.clear();
 		EList<EpFormatVersion> epFormatVersions = exchangeProject.getFormatVersions();
 		epFormatVersions.clear();
 
-		Configuration mdConfiguration = ((IConfigurationProject) projectManager.getProject(project)).getConfiguration();
+		Configuration mdConfiguration = configurationProject.getConfiguration();
 		if (mdConfiguration == null) {
 			exchangeProject.setStatus(EpProjectStatus.NO_CONFIGURATION);
 			return exchangeProject;
 		}
 
+		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
 		Subsystem mdSubsystem = (Subsystem) ConversionUtils
 				.getConfigurationObject("Подсистема.СтандартныеПодсистемы.ОбменДанными", bmEmfIndexProvider);
 		if (mdSubsystem == null) {
@@ -316,7 +278,7 @@ public class ExchangeProjectsAnalyzer {
 			return exchangeProject;
 		}
 
-		String sslVersion = getSSLVersion(project);
+		String sslVersion = getSSLVersion(bmEmfIndexProvider);
 		if (sslVersion.isEmpty()) {
 			exchangeProject.setStatus(EpProjectStatus.NO_SSL_VERSION);
 			return exchangeProject;
@@ -340,8 +302,8 @@ public class ExchangeProjectsAnalyzer {
 			return exchangeProject;
 		}
 
-		Map<String, CommonModule> formatVersions = getProjectFormatVersions(exchangeProject, project, mdModule,
-				mdMethod);
+		Map<String, CommonModule> formatVersions = getProjectFormatVersions(exchangeProject, mainProject, mdModule,
+				mdMethod, projectManager, bmEmfIndexManager);
 		if (formatVersions.size() == 0) {
 			exchangeProject.setStatus(EpProjectStatus.EMPTY_METHOD);
 			return exchangeProject;
@@ -352,13 +314,13 @@ public class ExchangeProjectsAnalyzer {
 		for (String version : sortedVersions) {
 			String namespace = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
 
-			XDTOPackage xdtoPackage = getXDTOPackageByNamespace(project, namespace);
+			XDTOPackage xdtoPackage = getXDTOPackageByNamespace(mainProject, namespace, projectManager);
 			if (xdtoPackage == null) {
 				for (IExtensionProject extensionProject : projectManager.getProjects(IExtensionProject.class)) {
-					if (!(extensionProject.getParentProject().equals(project)))
+					if (!(extensionProject.getParentProject().equals(mainProject)))
 						continue;
 
-					xdtoPackage = getXDTOPackageByNamespace(extensionProject.getProject(), namespace);
+					xdtoPackage = getXDTOPackageByNamespace(extensionProject.getProject(), namespace, projectManager);
 					if (xdtoPackage != null)
 						break;
 				}
@@ -393,7 +355,8 @@ public class ExchangeProjectsAnalyzer {
 		return exchangeProject;
 	}
 
-	private XDTOPackage getXDTOPackageByNamespace(IProject project, String namespace) {
+	private static XDTOPackage getXDTOPackageByNamespace(IProject project, String namespace,
+			IV8ProjectManager projectManager) {
 		IV8Project v8Project = projectManager.getProject(project);
 
 		EList<XDTOPackage> xdtoPackages;
@@ -419,17 +382,19 @@ public class ExchangeProjectsAnalyzer {
 		return null;
 	}
 
-	private Map<String, CommonModule> getProjectFormatVersions(ExchangeProject exchangeProject, IProject mainProject,
-			CommonModule mdMainModule, Method mdMainMethod) {
+	private static Map<String, CommonModule> getProjectFormatVersions(ExchangeProject exchangeProject,
+			IProject mainProject, CommonModule mdMainModule, Method mdMainMethod, IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager) {
 
-		Map<String, CommonModule> formatVersions = parseMethod(exchangeProject, mainProject, mdMainModule,
-				mdMainMethod);
+		Map<String, CommonModule> formatVersions = parseMethod(exchangeProject, mainProject, mdMainModule, mdMainMethod,
+				projectManager, bmEmfIndexManager);
 
 		return formatVersions;
 	}
 
-	private Map<String, CommonModule> parseMethod(ExchangeProject exchangeProject, IProject mainProject,
-			CommonModule mdCommonModule, Method mdMethod) {
+	private static Map<String, CommonModule> parseMethod(ExchangeProject exchangeProject, IProject mainProject,
+			CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager) {
 
 		EList<MdObject> settingsModules = exchangeProject.getSettingsModules();
 
@@ -439,7 +404,7 @@ public class ExchangeProjectsAnalyzer {
 
 		Map<String, CommonModule> beforeFormatVersions = new HashMap<String, CommonModule>();
 		Map<String, CommonModule> insteadFormatVersions = getModuleFormatVersions(exchangeProject, mainProject,
-				mdCommonModule, mdMethod);
+				mdCommonModule, mdMethod, projectManager, bmEmfIndexManager);
 		Map<String, CommonModule> afterFormatVersions = new HashMap<String, CommonModule>();
 
 		if (projectManager.getProject(mdCommonModule) instanceof IConfigurationProject) {
@@ -458,7 +423,8 @@ public class ExchangeProjectsAnalyzer {
 
 				for (Entry<Pragma, Method> extendedMethod : extensionMethods.entrySet()) {
 					Map<String, CommonModule> extensionFormatVersions = parseMethod(exchangeProject, mainProject,
-							(CommonModule) extensionModule.getOwner(), extendedMethod.getValue());
+							(CommonModule) extensionModule.getOwner(), extendedMethod.getValue(), projectManager,
+							bmEmfIndexManager);
 
 					if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("До")) {
 						beforeFormatVersions.putAll(extensionFormatVersions);
@@ -482,12 +448,14 @@ public class ExchangeProjectsAnalyzer {
 
 	}
 
-	private Map<String, CommonModule> getModuleFormatVersions(ExchangeProject exchangeProject, IProject mainProject,
-			CommonModule mdCommonModule, Method mdMethod) {
-
+	private static Map<String, CommonModule> getModuleFormatVersions(ExchangeProject exchangeProject,
+			IProject mainProject, CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager) {
 		if (mdMethod.getFormalParams().size() == 0) {
 			throw new RuntimeException("Список параметров у метода пустой: " + mdMethod.getName());
 		}
+
+		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
 
 		FormalParam mdParam = mdMethod.getFormalParams().get(0);
 		String variableName = mdParam.getName();
@@ -517,7 +485,6 @@ public class ExchangeProjectsAnalyzer {
 						subsystemName += "." + stringPart;
 					}
 
-					IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
 					Subsystem subsystem = (Subsystem) ConversionUtils.getConfigurationObject(subsystemName,
 							bmEmfIndexProvider);
 
@@ -529,13 +496,13 @@ public class ExchangeProjectsAnalyzer {
 
 				for (Statement ifPartStatement : ifPart.getStatements()) {
 					parseModuleStatement(formatVersions, ifPartStatement, variableName, modulesAliases, exchangeProject,
-							mainProject, mdCommonModule, mdMethod);
+							mainProject, mdCommonModule, mdMethod, projectManager, bmEmfIndexManager);
 
 				}
 
 			} else {
 				parseModuleStatement(formatVersions, statement, variableName, modulesAliases, exchangeProject,
-						mainProject, mdCommonModule, mdMethod);
+						mainProject, mdCommonModule, mdMethod, projectManager, bmEmfIndexManager);
 
 			}
 
@@ -544,9 +511,10 @@ public class ExchangeProjectsAnalyzer {
 		return formatVersions;
 	}
 
-	private void parseModuleStatement(Map<String, CommonModule> formatVersions, Statement statement,
+	private static void parseModuleStatement(Map<String, CommonModule> formatVersions, Statement statement,
 			String variableName, Map<String, String> modulesAliases, ExchangeProject exchangeProject,
-			IProject mainProject, CommonModule commonModule, Method method) {
+			IProject mainProject, CommonModule commonModule, Method method, IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager) {
 		if (statement instanceof EmptyStatement)
 			return;
 
@@ -596,7 +564,7 @@ public class ExchangeProjectsAnalyzer {
 						formatVersions.put(versionNumber, mdFormatModule);
 					}
 				} else {
-					List<FeatureEntry> featureEntries = DynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
+					List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
 							EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
 					if (featureEntries.size() == 0) {
 						return;
@@ -621,14 +589,14 @@ public class ExchangeProjectsAnalyzer {
 					settingsModules.add(subCommonModule);
 
 					Map<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject,
-							subCommonModule, mdSubMethod);
+							subCommonModule, mdSubMethod, projectManager, bmEmfIndexManager);
 
 					formatVersions.putAll(moduleFormatVersions);
 				}
 			} else {
 				StaticFeatureAccess staticMethodAccess = (StaticFeatureAccess) methodAccess;
 
-				List<FeatureEntry> featureEntries = DynamicFeatureAccessComputer.resolveObject(staticMethodAccess,
+				List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(staticMethodAccess,
 						EcoreUtil2.getContainerOfType(staticMethodAccess, Environmental.class).environments());
 				if (featureEntries.size() == 0) {
 					return;
@@ -641,7 +609,7 @@ public class ExchangeProjectsAnalyzer {
 				settingsModules.add(commonModule);
 
 				Map<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject, commonModule,
-						mdSubMethod);
+						mdSubMethod, projectManager, bmEmfIndexManager);
 
 				formatVersions.putAll(moduleFormatVersions);
 
@@ -649,10 +617,9 @@ public class ExchangeProjectsAnalyzer {
 		}
 	}
 
-	private String getSSLVersion(IProject project) {
+	private static String getSSLVersion(IBmEmfIndexProvider bmEmfIndexProvider) {
 		String version = "";
 
-		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 		CommonModule mdCommonModule = (CommonModule) ConversionUtils
 				.getConfigurationObject("ОбщийМодуль.ОбновлениеИнформационнойБазыБСП", bmEmfIndexProvider);
 		if (mdCommonModule == null)
@@ -675,7 +642,7 @@ public class ExchangeProjectsAnalyzer {
 		return version;
 	}
 
-	private <T> List<Pair<T, T>> getPairs(List<T> list) {
+	private static <T> List<Pair<T, T>> getPairs(List<T> list) {
 		List<Pair<T, T>> pairs = new LinkedList<>();
 
 		for (int i = 0; i < list.size() - 1; i++)
@@ -685,14 +652,14 @@ public class ExchangeProjectsAnalyzer {
 		return pairs;
 	}
 
-	private Set<String> findCommons(EList<String> a, EList<String> b) {
+	private static Set<String> findCommons(EList<String> a, EList<String> b) {
 		Set<String> set = new LinkedHashSet<String>(a);
 		set.retainAll(b);
 
 		return set;
 	}
 
-	private int compareVersions(String version1, String version2) {
+	private static int compareVersions(String version1, String version2) {
 
 		String[] levels1 = version1.split("\\.");
 		String[] levels2 = version2.split("\\.");
