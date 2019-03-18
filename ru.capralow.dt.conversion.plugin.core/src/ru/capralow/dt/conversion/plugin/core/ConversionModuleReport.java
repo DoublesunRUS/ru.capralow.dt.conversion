@@ -12,7 +12,9 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
+import com._1c.g5.v8.dt.metadata.mdclass.AccumulationRegister;
 import com._1c.g5.v8.dt.metadata.mdclass.BasicRegister;
+import com._1c.g5.v8.dt.metadata.mdclass.CalculationRegister;
 import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
 import com._1c.g5.v8.dt.metadata.mdclass.CatalogTabularSection;
 import com._1c.g5.v8.dt.metadata.mdclass.ChartOfCalculationTypes;
@@ -246,7 +248,6 @@ public class ConversionModuleReport {
 		Map<String, String> attributeSynonyms = new HashMap<String, String>();
 
 		// TODO: Добавить синонимы для стандартных реквизитов
-		// TODO: Добавить синонимы для движений документов
 		if (configurationObject instanceof Catalog) {
 			Catalog typedObject = (Catalog) configurationObject;
 
@@ -285,8 +286,59 @@ public class ConversionModuleReport {
 							attribute.getSynonym().get("ru"));
 			}
 
-			for (BasicRegister tabularSection : typedObject.getRegisterRecords()) {
-				tabularSectionSynonyms.put(tabularSection.getName(), tabularSection.getSynonym().get("ru"));
+			for (BasicRegister registerObject : typedObject.getRegisterRecords()) {
+				tabularSectionSynonyms.put(registerObject.getName(), registerObject.getSynonym().get("ru"));
+
+				if (registerObject instanceof InformationRegister) {
+					InformationRegister typedRegisterObject = (InformationRegister) registerObject;
+
+					for (StandardAttribute attribute : typedRegisterObject.getStandardAttributes())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getDimensions())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getResources())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getAttributes())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+
+				} else if (registerObject instanceof AccumulationRegister) {
+					AccumulationRegister typedRegisterObject = (AccumulationRegister) registerObject;
+
+					for (StandardAttribute attribute : typedRegisterObject.getStandardAttributes())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getDimensions())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getResources())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getAttributes())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+
+				} else if (registerObject instanceof CalculationRegister) {
+					CalculationRegister typedRegisterObject = (CalculationRegister) registerObject;
+
+					for (StandardAttribute attribute : typedRegisterObject.getStandardAttributes())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getDimensions())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getResources())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+					for (MdObject attribute : typedRegisterObject.getAttributes())
+						attributeSynonyms.put(typedRegisterObject.getName().concat(".").concat(attribute.getName()),
+								attribute.getSynonym().get("ru"));
+
+				}
+
 			}
 
 		} else if (configurationObject instanceof ChartOfCharacteristicTypes) {
@@ -334,6 +386,21 @@ public class ConversionModuleReport {
 							attribute.getSynonym().get("ru"));
 			}
 
+		} else if (configurationObject instanceof InformationRegister) {
+			InformationRegister typedObject = (InformationRegister) configurationObject;
+			for (StandardAttribute attribute : typedObject.getStandardAttributes())
+				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+						attribute.getSynonym().get("ru"));
+			for (MdObject attribute : typedObject.getDimensions())
+				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+						attribute.getSynonym().get("ru"));
+			for (MdObject attribute : typedObject.getResources())
+				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+						attribute.getSynonym().get("ru"));
+			for (MdObject attribute : typedObject.getAttributes())
+				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+						attribute.getSynonym().get("ru"));
+
 		}
 
 		List<CmAttributeRule> attributeRules = cmObjectRule.getAttributeRules().stream().collect(Collectors.toList());
@@ -379,7 +446,7 @@ public class ConversionModuleReport {
 						? "<Свойство формата не найдено>"
 						: "";
 
-				String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
+				String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttributeFullName());
 				if (attributeSynonym == null)
 					attributeSynonym = attributeRule.getConfigurationAttribute();
 
@@ -397,7 +464,7 @@ public class ConversionModuleReport {
 
 				String formatAttribute = attributeRule.getFormatAttribute();
 
-				String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttribute());
+				String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttributeFullName());
 				if (attributeSynonym == null)
 					attributeSynonym = attributeRule.getConfigurationAttribute();
 
