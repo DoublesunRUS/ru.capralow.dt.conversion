@@ -49,17 +49,8 @@ import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
 
 public class ConversionModuleReport {
 
-	private ConversionModule conversionModule;
-	private FormatPackage formatPackage;
-	private RgVariant rgVariant;
-
-	public ConversionModuleReport(ConversionModule conversionModule, FormatPackage formatPackage, RgVariant rgVariant) {
-		this.conversionModule = conversionModule;
-		this.formatPackage = formatPackage;
-		this.rgVariant = rgVariant;
-	}
-
-	public String createFullReport() throws IOException {
+	public static String createFullReport(RgVariant rgVariant, FormatPackage formatPackage,
+			ConversionModule conversionModule) throws IOException {
 		final String TEMPLATE_NAME_MAIN = "ReceivingConversionReport.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
 
@@ -91,7 +82,7 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes);
+						objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes, formatPackage);
 				}
 
 				templateGroups.setAttribute("ObjectRules", objects);
@@ -114,7 +105,7 @@ public class ConversionModuleReport {
 
 				String objects = "";
 				for (Object objectRule : receivingObjectRules)
-					objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes);
+					objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes, formatPackage);
 				templateGroups.setAttribute("ObjectRules", objects);
 
 				groupObjects += templateGroups.toString();
@@ -146,7 +137,8 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	public String createObjectsReport() throws IOException {
+	public static String createObjectsReport(RgVariant rgVariant, FormatPackage formatPackage,
+			ConversionModule conversionModule) throws IOException {
 		final String TEMPLATE_NAME_MAIN = "ReceivingObjectsList.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
 
@@ -191,7 +183,8 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	private String getFullObject(CmObjectRule cmObjectRule, EList<FpDefinedType> fpDefinedTypes) {
+	private static String getFullObject(CmObjectRule cmObjectRule, EList<FpDefinedType> fpDefinedTypes,
+			FormatPackage formatPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 
@@ -592,7 +585,7 @@ public class ConversionModuleReport {
 		return templateObject.toString();
 	}
 
-	private String getObjectRow(CmObjectRule cmObjectRule) {
+	private static String getObjectRow(CmObjectRule cmObjectRule) {
 		MdObject configurationObject = cmObjectRule.getConfigurationObject();
 
 		String objectSynonym = "";
@@ -639,7 +632,7 @@ public class ConversionModuleReport {
 		return objectRow;
 	}
 
-	private String getTableRow(String col1, String col2, String col3, String col4, String col5, Boolean isKey,
+	private static String getTableRow(String col1, String col2, String col3, String col4, String col5, Boolean isKey,
 			int numOfTabs) {
 		// String tabString = "\u00a0\u00a0\u00a0\u00a0";
 		String tabString = "&nbsp; &nbsp; ";

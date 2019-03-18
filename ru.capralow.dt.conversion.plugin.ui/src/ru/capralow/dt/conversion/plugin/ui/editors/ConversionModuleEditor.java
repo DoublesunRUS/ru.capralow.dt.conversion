@@ -1144,22 +1144,16 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			menuMain.getItem(1).dispose();
 		for (Entry<String, FormatPackage> formatPackage : conversionModuleAnalyzer.getFormatPackages().entrySet()) {
 			if (reportGroups == null) {
-				ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule, formatPackage.getValue(),
-						null);
-
-				addReportMenuItem(formatPackage.getKey(), formatPackage.getValue(), cmReport, null, false);
+				addReportMenuItem(formatPackage.getKey(), formatPackage.getValue(), null, false);
 
 			} else {
 				EList<RgVariant> rgVariants = reportGroups.getVariants();
 				for (RgVariant rgVariant : rgVariants) {
-					ConversionModuleReport cmReport = new ConversionModuleReport(conversionModule,
-							formatPackage.getValue(), rgVariant);
-
 					if (reportGroups.getAddObjectsList())
 						addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
-								cmReport, rgVariant, true);
+								rgVariant, true);
 					addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
-							cmReport, rgVariant, false);
+							rgVariant, false);
 				}
 
 			}
@@ -1252,8 +1246,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}
 	}
 
-	private void addReportMenuItem(String name, FormatPackage formatPackage, ConversionModuleReport cmReport,
-			RgVariant rgVariant, boolean objectsOnly) {
+	private void addReportMenuItem(String name, FormatPackage formatPackage, RgVariant rgVariant, boolean objectsOnly) {
 		MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
 		if (objectsOnly)
 			itemMenu.setText("Список объектов " + name);
@@ -1342,7 +1335,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				}
 
 				try {
-					String stringReport = objectsOnly ? cmReport.createObjectsReport() : cmReport.createFullReport();
+					String stringReport = objectsOnly
+							? ConversionModuleReport.createObjectsReport(rgVariant, formatPackage, conversionModule)
+							: ConversionModuleReport.createFullReport(rgVariant, formatPackage, conversionModule);
 
 					IStorage storage = new StringStorage(stringReport);
 					IStorageEditorInput input = new StringInput(storage);
