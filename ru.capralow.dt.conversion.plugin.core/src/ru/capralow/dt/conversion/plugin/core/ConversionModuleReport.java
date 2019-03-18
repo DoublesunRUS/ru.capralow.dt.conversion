@@ -42,6 +42,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
+import ru.capralow.dt.conversion.plugin.core.fp.FpType;
 import ru.capralow.dt.conversion.plugin.core.rg.RgGroup;
 import ru.capralow.dt.conversion.plugin.core.rg.RgRule;
 import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
@@ -128,7 +129,14 @@ public class ConversionModuleReport {
 
 		String typesRows = "";
 		for (FpDefinedType fpDefinedType : fpDefinedTypes) {
-			typesRows += fpDefinedType.getName() + " | " + fpDefinedType.getTypes().get(0).getPropertyType() + "\r\n";
+			boolean firstRow = true;
+			for (FpType fpType : fpDefinedType.getTypes()) {
+				if (firstRow) {
+					typesRows += fpDefinedType.getName() + " | " + fpType.getPropertyType() + "\r\n";
+					firstRow = false;
+				} else
+					typesRows += " | " + fpType.getPropertyType() + "\r\n";
+			}
 		}
 
 		templateDefinedTypes.setAttribute("TypesRows", typesRows);

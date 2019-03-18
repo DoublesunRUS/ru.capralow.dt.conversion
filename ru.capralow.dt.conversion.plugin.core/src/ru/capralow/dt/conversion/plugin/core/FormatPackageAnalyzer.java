@@ -213,13 +213,12 @@ public class FormatPackageAnalyzer {
 				fpDefinedType.setName(objectName);
 				for (Property property : object.getProperties()) {
 					String propertyName = property.getName();
-					String propertyTypeName = property.getType().getName();
 
 					FpType fpType = new FpTypeImpl();
 					fpTypes.add(fpType);
 
 					fpType.setName(propertyName);
-					fpType.setPropertyType(propertyTypeName);
+					fpType.setPropertyType(getPropertyType(property));
 				}
 
 			}
@@ -272,7 +271,10 @@ public class FormatPackageAnalyzer {
 		} else {
 			propertyTypeName = propertyType.getName();
 
-			if (propertyTypeName.equals("boolean"))
+			if (propertyTypeName.equals("anyType"))
+				propertyTypeName = "Произвольный";
+
+			else if (propertyTypeName.equals("boolean"))
 				propertyTypeName = "Булево";
 
 			else if (propertyTypeName.equals("date"))
