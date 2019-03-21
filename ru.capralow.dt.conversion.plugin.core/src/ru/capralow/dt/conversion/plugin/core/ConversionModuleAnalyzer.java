@@ -238,7 +238,7 @@ public class ConversionModuleAnalyzer {
 		}
 	}
 
-	public void analyzeV2(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
+	private void analyzeV2(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
 			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
@@ -844,7 +844,7 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	public void analyzeV1(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
+	private void analyzeV1(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
 			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
