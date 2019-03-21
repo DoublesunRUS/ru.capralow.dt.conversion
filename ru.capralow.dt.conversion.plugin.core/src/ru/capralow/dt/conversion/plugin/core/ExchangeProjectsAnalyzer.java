@@ -100,6 +100,7 @@ public class ExchangeProjectsAnalyzer {
 
 			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
 
+			// TODO: Сделать пересборку вторичных данных если файла нет
 			if (!file.exists())
 				return null;
 

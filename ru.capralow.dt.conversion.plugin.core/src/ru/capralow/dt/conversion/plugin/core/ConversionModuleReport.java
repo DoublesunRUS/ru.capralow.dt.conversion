@@ -3,6 +3,7 @@ package ru.capralow.dt.conversion.plugin.core;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
+import ru.capralow.dt.conversion.plugin.core.fp.FpObject;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
 import ru.capralow.dt.conversion.plugin.core.fp.FpType;
 import ru.capralow.dt.conversion.plugin.core.rg.RgGroup;
@@ -67,6 +69,44 @@ public class ConversionModuleReport {
 
 		EList<FpDefinedType> fpDefinedTypes = new BasicEList<FpDefinedType>();
 
+		Map<String, EList<FpProperty>> mapKeyProperties = new HashMap<String, EList<FpProperty>>();
+
+		for (CmObjectRule objectRule : conversionModule.getObjectRules()) {
+			if (objectRule.getFormatObject().isEmpty())
+				continue;
+
+			FpObject formatObject = formatPackage.getFormatObject(objectRule.getFormatObject());
+			EList<FpProperty> fpKeyProperties = new BasicEList<FpProperty>();
+
+			ArrayList<String> listIdentificationFields = new ArrayList<String>();
+			if (objectRule.getIdentificationVariant() != CmIdentificationVariant.SEARCH_FIELDS)
+				for (FpProperty fpKeyProperty : formatObject.getKeyProperties()) {
+					if (fpKeyProperty.getName().equals("Ссылка")) {
+						fpKeyProperties.add(fpKeyProperty);
+						break;
+					}
+				}
+			for (String identificationVariant : objectRule.getIdentificationFields()) {
+				for (String identificationField : identificationVariant.split("[,]")) {
+					if (!listIdentificationFields.contains(identificationField))
+						listIdentificationFields.add(identificationField);
+				}
+			}
+			for (CmAttributeRule cmAttributeRule : objectRule.getAttributeRules()) {
+				if (!listIdentificationFields.contains(cmAttributeRule.getConfigurationAttribute()))
+					continue;
+
+				for (FpProperty fpKeyProperty : formatObject.getKeyProperties()) {
+					if (fpKeyProperty.getName().equals(cmAttributeRule.getFormatAttribute())) {
+						fpKeyProperties.add(fpKeyProperty);
+						break;
+					}
+				}
+			}
+
+			mapKeyProperties.put(formatObject.getKeysObjectName(), fpKeyProperties);
+		}
+
 		if (rgVariant != null) {
 			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + formatPackage.getVersion());
 
@@ -82,7 +122,8 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes, formatPackage);
+						objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes,
+								formatPackage);
 				}
 
 				templateGroups.setAttribute("ObjectRules", objects);
@@ -105,7 +146,8 @@ public class ConversionModuleReport {
 
 				String objects = "";
 				for (Object objectRule : receivingObjectRules)
-					objects += getFullObject((CmObjectRule) objectRule, fpDefinedTypes, formatPackage);
+					objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes,
+							formatPackage);
 				templateGroups.setAttribute("ObjectRules", objects);
 
 				groupObjects += templateGroups.toString();
@@ -183,8 +225,8 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	private static String getFullObject(CmObjectRule cmObjectRule, EList<FpDefinedType> fpDefinedTypes,
-			FormatPackage formatPackage) {
+	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<FpProperty>> mapKeyProperties,
+			EList<FpDefinedType> fpDefinedTypes, FormatPackage formatPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 
@@ -498,7 +540,7 @@ public class ConversionModuleReport {
 								isKey, 0);
 
 					if (isSubKey) {
-						EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
+						EList<FpProperty> keyProperties = mapKeyProperties.get(subPropertyType);
 						if (keyProperties != null) {
 							for (FpProperty fpKeyProperty : keyProperties) {
 								if (isKey)
@@ -533,7 +575,7 @@ public class ConversionModuleReport {
 									isSubKey ? "КлючевыеСвойства" : subPropertyType, "", "", "", isKey, 1);
 
 						if (isSubKey) {
-							EList<FpProperty> keyProperties = formatPackage.getKeyProperties(subPropertyType);
+							EList<FpProperty> keyProperties = mapKeyProperties.get(subPropertyType);
 							if (keyProperties != null) {
 								for (FpProperty fpKeyProperty : keyProperties) {
 									if (isKey)

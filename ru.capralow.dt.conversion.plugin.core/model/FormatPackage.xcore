@@ -11,13 +11,13 @@ class FormatPackage {
 	
 	contains FpDefinedType[] definedTypes
 	contains FpDefinedType[] refTypes
-	contains FpCatalog[] catalogs
-	contains FpDocument[] documents
+	contains FpObject[] catalogs
+	contains FpObject[] documents
 	contains FpEnum[] enums
-	contains FpRegister[] registers
+	contains FpObject[] registers
 	
 	op FpProperty getProperty(String formatObjectName, String formatPropertyFullName) {
-		for (FpCatalog fpCatalog : catalogs) {
+		for (FpObject fpCatalog : catalogs) {
 			if (fpCatalog.name.equals(formatObjectName)) {
 				var property = fpCatalog.getProperty(formatPropertyFullName);
 				if (property === null)
@@ -26,7 +26,7 @@ class FormatPackage {
 				return property;
 			}
 		}
-		for (FpDocument fpDocument : documents) {
+		for (FpObject fpDocument : documents) {
 			if (fpDocument.name.equals(formatObjectName)) {
 				var property = fpDocument.getProperty(formatPropertyFullName);
 				if (property === null)
@@ -35,7 +35,7 @@ class FormatPackage {
 				return property;
 			}
 		}
-		for (FpRegister fpRegister : registers) {
+		for (FpObject fpRegister : registers) {
 			if (fpRegister.name.equals(formatObjectName)) {
 				var property = fpRegister.getProperty(formatPropertyFullName);
 				if (property === null)
@@ -48,20 +48,20 @@ class FormatPackage {
 		return null;
 	}
 	
-	op FpProperty[] getKeyProperties(String formatObjectName) {
-		for (FpCatalog fpCatalog : catalogs) {
-			if (fpCatalog.keysObjectName.equals(formatObjectName))
-				return fpCatalog.keyProperties;
+	op FpObject getFormatObject(String formatObjectName) {
+		for (FpObject fpCatalog : catalogs) {
+			if (fpCatalog.name.equals(formatObjectName))
+				return fpCatalog;
 			
 		}
-		for (FpDocument fpDocument : documents) {
-			if (fpDocument.keysObjectName.equals(formatObjectName))
-				return fpDocument.keyProperties;
+		for (FpObject fpDocument : documents) {
+			if (fpDocument.name.equals(formatObjectName))
+				return fpDocument;
 
 		}
-		for (FpRegister fpRegister : registers) {
-			if (fpRegister.keysObjectName.equals(formatObjectName))
-				return fpRegister.keyProperties;
+		for (FpObject fpRegister : registers) {
+			if (fpRegister.name.equals(formatObjectName))
+				return fpRegister;
 
 		}
 		
@@ -85,11 +85,11 @@ class FpDefinedType {
 	contains FpType[] types opposite definedType
 }
 
-class FpCatalog {
+class FpObject {
 	refers ObjectType object
 	String name = ""
 	
-	contains FpProperty[] properties opposite catalog
+	contains FpProperty[] properties
 	op FpProperty getProperty(String propertyName) {
 		for (FpProperty fpProperty : properties) {
 			if (propertyName.equals(fpProperty.name)) return fpProperty
@@ -99,25 +99,7 @@ class FpCatalog {
 	
 	refers ObjectType keysObject
 	String keysObjectName = ""
-	contains FpProperty[] keyProperties opposite keysCatalog
-	
-}
-
-class FpDocument {
-	refers ObjectType object
-	String name = ""
-	
-	contains FpProperty[] properties opposite document
-	op FpProperty getProperty(String propertyName) {
-		for (FpProperty fpProperty : properties) {
-			if (propertyName.equals(fpProperty.name)) return fpProperty
-		}
-		return null;
-	}
-	
-	refers ObjectType keysObject
-	String keysObjectName = ""
-	contains FpProperty[] keyProperties opposite keysDocument
+	contains FpProperty[] keyProperties
 	
 }
 
@@ -126,33 +108,7 @@ class FpEnum {
 	String name = ""
 }
 
-class FpRegister {
-	refers ObjectType object
-	String name = ""
-	
-	contains FpProperty[] properties opposite register
-	op FpProperty getProperty(String propertyName) {
-		for (FpProperty fpProperty : properties) {
-			if (propertyName.equals(fpProperty.name)) return fpProperty
-		}
-		return null;
-	}
-	
-	refers ObjectType keysObject
-	String keysObjectName = ""
-	contains FpProperty[] keyProperties opposite keysRegister
-	
-}
-
 class FpProperty {
-	container FpCatalog catalog opposite properties
-	container FpDocument document opposite properties
-	container FpRegister register opposite properties
-
-	container FpCatalog keysCatalog opposite keyProperties
-	container FpDocument keysDocument opposite keyProperties
-	container FpRegister keysRegister opposite keyProperties
-
 	refers Property property
 	String name = ""
 	Boolean isKey

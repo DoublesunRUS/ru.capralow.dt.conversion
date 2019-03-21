@@ -26,19 +26,15 @@ import com._1c.g5.v8.dt.xdto.model.ValueType;
 
 import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
-import ru.capralow.dt.conversion.plugin.core.fp.FpCatalog;
 import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
-import ru.capralow.dt.conversion.plugin.core.fp.FpDocument;
 import ru.capralow.dt.conversion.plugin.core.fp.FpEnum;
+import ru.capralow.dt.conversion.plugin.core.fp.FpObject;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
-import ru.capralow.dt.conversion.plugin.core.fp.FpRegister;
 import ru.capralow.dt.conversion.plugin.core.fp.FpType;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FormatPackageImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpCatalogImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDefinedTypeImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDocumentImpl;
+import ru.capralow.dt.conversion.plugin.core.fp.impl.FpObjectImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpPropertyImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpRegisterImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpTypeImpl;
 
 public class FormatPackageAnalyzer {
@@ -55,6 +51,7 @@ public class FormatPackageAnalyzer {
 
 			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
 
+			// TODO: Сделать пересборку вторичных данных если файла нет
 			if (!file.exists())
 				return null;
 
@@ -98,10 +95,10 @@ public class FormatPackageAnalyzer {
 		FormatPackage formatPackage = new FormatPackageImpl();
 
 		EList<FpDefinedType> fpDefinedTypes = formatPackage.getDefinedTypes();
-		EList<FpCatalog> fpCatalogs = formatPackage.getCatalogs();
-		EList<FpDocument> fpDocuments = formatPackage.getDocuments();
+		EList<FpObject> fpCatalogs = formatPackage.getCatalogs();
+		EList<FpObject> fpDocuments = formatPackage.getDocuments();
 		EList<FpEnum> fpEnums = formatPackage.getEnums();
-		EList<FpRegister> fpRegisters = formatPackage.getRegisters();
+		EList<FpObject> fpRegisters = formatPackage.getRegisters();
 
 		fpDefinedTypes.clear();
 		fpCatalogs.clear();
@@ -132,36 +129,15 @@ public class FormatPackageAnalyzer {
 			if (baseType != null && baseType.getName().equals("Object")) {
 				EList<FpProperty> fpProperties = null;
 
-				Object fpObject = null;
+				FpObject fpObject = new FpObjectImpl();
 				if (objectName.startsWith("Справочник.")) {
-					fpObject = new FpCatalogImpl();
-					FpCatalog fpCatalog = (FpCatalog) fpObject;
-					fpCatalogs.add(fpCatalog);
-
-					fpCatalog.setObject(object);
-					fpCatalog.setName(objectName);
-
-					fpProperties = fpCatalog.getProperties();
+					fpCatalogs.add(fpObject);
 
 				} else if (objectName.startsWith("Документ.")) {
-					fpObject = new FpDocumentImpl();
-					FpDocument fpDocument = (FpDocument) fpObject;
-					fpDocuments.add(fpDocument);
-
-					fpDocument.setObject(object);
-					fpDocument.setName(objectName);
-
-					fpProperties = fpDocument.getProperties();
+					fpDocuments.add(fpObject);
 
 				} else if (objectName.startsWith("Регистр")) {
-					fpObject = new FpRegisterImpl();
-					FpRegister fpRegister = (FpRegister) fpObject;
-					fpRegisters.add(fpRegister);
-
-					fpRegister.setObject(object);
-					fpRegister.setName(objectName);
-
-					fpProperties = fpRegister.getProperties();
+					fpRegisters.add(fpObject);
 
 				} else {
 					String msg = String.format(
@@ -173,6 +149,11 @@ public class FormatPackageAnalyzer {
 
 				}
 
+				fpObject.setObject(object);
+				fpObject.setName(objectName);
+
+				fpProperties = fpObject.getProperties();
+
 				for (Property property : object.getProperties()) {
 					String propertyName = property.getName();
 
@@ -182,28 +163,9 @@ public class FormatPackageAnalyzer {
 
 						EList<FpProperty> fpKeyProperties = null;
 
-						if (objectName.startsWith("Справочник.")) {
-							FpCatalog fpCatalog = (FpCatalog) fpObject;
-
-							fpCatalog.setKeysObject(propertyTypeObject);
-							fpCatalog.setKeysObjectName(propertyTypeName);
-							fpKeyProperties = fpCatalog.getKeyProperties();
-
-						} else if (objectName.startsWith("Документ.")) {
-							FpDocument fpDocument = (FpDocument) fpObject;
-
-							fpDocument.setKeysObject(propertyTypeObject);
-							fpDocument.setKeysObjectName(propertyTypeName);
-							fpKeyProperties = fpDocument.getKeyProperties();
-
-						} else if (objectName.startsWith("Регистр")) {
-							FpRegister fpRegister = (FpRegister) fpObject;
-
-							fpRegister.setKeysObject(propertyTypeObject);
-							fpRegister.setKeysObjectName(propertyTypeName);
-							fpKeyProperties = fpRegister.getKeyProperties();
-
-						}
+						fpObject.setKeysObject(propertyTypeObject);
+						fpObject.setKeysObjectName(propertyTypeName);
+						fpKeyProperties = fpObject.getKeyProperties();
 
 						for (Property subProperty : propertyTypeObject.getProperties()) {
 							addProperty(subProperty, subProperty.getName(), true, fpProperties, packageObjects,
