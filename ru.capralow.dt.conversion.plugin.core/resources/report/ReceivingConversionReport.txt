@@ -3,5 +3,5 @@
 [TOC]
 
 $ObjectRules$
-
 $DefinedTypes$
+$Enums$

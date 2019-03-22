@@ -3,8 +3,10 @@
 )
 package ru.capralow.dt.conversion.plugin.core.fp
 
+import com._1c.g5.v8.dt.xdto.model.Enumeration
 import com._1c.g5.v8.dt.xdto.model.ObjectType
 import com._1c.g5.v8.dt.xdto.model.Property
+import com._1c.g5.v8.dt.xdto.model.ValueType
 
 class FormatPackage {
 	String version = ""
@@ -77,6 +79,14 @@ class FormatPackage {
 		return null;
 	}
 	
+	op FpEnum getEnum(String name) {
+		for (FpEnum fpEnum : enums) {
+			if (fpEnum.name.equals(name))
+				return fpEnum;
+		}
+		
+		return null;
+	}
 }
 
 class FpDefinedType {
@@ -104,8 +114,10 @@ class FpObject {
 }
 
 class FpEnum {
-	refers ObjectType object
+	refers ValueType object
 	String name = ""
+	
+	refers Enumeration[] enumerations
 }
 
 class FpProperty {

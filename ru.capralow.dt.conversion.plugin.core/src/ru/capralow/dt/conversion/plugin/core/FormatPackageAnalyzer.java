@@ -18,6 +18,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com._1c.g5.v8.dt.mcore.QName;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
+import com._1c.g5.v8.dt.xdto.model.Enumeration;
 import com._1c.g5.v8.dt.xdto.model.ObjectType;
 import com._1c.g5.v8.dt.xdto.model.Package;
 import com._1c.g5.v8.dt.xdto.model.Property;
@@ -33,6 +34,7 @@ import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
 import ru.capralow.dt.conversion.plugin.core.fp.FpType;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FormatPackageImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDefinedTypeImpl;
+import ru.capralow.dt.conversion.plugin.core.fp.impl.FpEnumImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpObjectImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpPropertyImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.impl.FpTypeImpl;
@@ -215,7 +217,7 @@ public class FormatPackageAnalyzer {
 				if (objectName.contains(".") || objectName.startsWith("КлючевыеСвойства"))
 					continue;
 
-				FpDefinedTypeImpl fpDefinedType = new FpDefinedTypeImpl();
+				FpDefinedType fpDefinedType = new FpDefinedTypeImpl();
 				fpDefinedTypes.add(fpDefinedType);
 
 				EList<FpType> fpTypes = fpDefinedType.getTypes();
@@ -232,6 +234,20 @@ public class FormatPackageAnalyzer {
 				}
 
 			}
+		}
+
+		for (ValueType type : dataPackage.getTypes()) {
+			EList<Enumeration> enums = type.getEnumerations();
+			if (enums.size() == 0)
+				continue;
+
+			FpEnum fpEnum = new FpEnumImpl();
+			fpEnums.add(fpEnum);
+
+			fpEnum.setObject(type);
+			fpEnum.setName(type.getName());
+
+			fpEnum.getEnumerations().addAll(enums);
 		}
 
 		return formatPackage;

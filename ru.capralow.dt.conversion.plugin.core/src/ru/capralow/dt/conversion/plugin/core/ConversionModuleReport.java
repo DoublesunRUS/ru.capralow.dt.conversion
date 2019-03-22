@@ -29,6 +29,7 @@ import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister;
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 import com._1c.g5.v8.dt.metadata.mdclass.StandardAttribute;
 import com._1c.g5.v8.dt.metadata.mdclass.StandardTabularSectionDescription;
+import com._1c.g5.v8.dt.xdto.model.Enumeration;
 import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
@@ -42,6 +43,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
 import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
 import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
+import ru.capralow.dt.conversion.plugin.core.fp.FpEnum;
 import ru.capralow.dt.conversion.plugin.core.fp.FpObject;
 import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
 import ru.capralow.dt.conversion.plugin.core.fp.FpType;
@@ -59,15 +61,12 @@ public class ConversionModuleReport {
 		final String TEMPLATE_NAME_GROUP = "ReceivingGroup.txt";
 		String templateGroupContent = readContents(getFileInputSupplier(TEMPLATE_NAME_GROUP), TEMPLATE_NAME_GROUP);
 
-		final String TEMPLATE_NAME_DEFINEDTYPES = "ReceivingDefinedTypes.txt";
-		String templateDefinedTypesContent = readContents(getFileInputSupplier(TEMPLATE_NAME_DEFINEDTYPES),
-				TEMPLATE_NAME_DEFINEDTYPES);
-
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
 		String groupObjects = "";
 
 		EList<FpDefinedType> fpDefinedTypes = new BasicEList<FpDefinedType>();
+		EList<FpEnum> fpEnums = new BasicEList<FpEnum>();
 
 		Map<String, EList<FpProperty>> mapKeyProperties = new HashMap<String, EList<FpProperty>>();
 
@@ -122,7 +121,7 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes,
+						objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes, fpEnums,
 								formatPackage);
 				}
 
@@ -146,7 +145,7 @@ public class ConversionModuleReport {
 
 				String objects = "";
 				for (Object objectRule : receivingObjectRules)
-					objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes,
+					objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes, fpEnums,
 							formatPackage);
 				templateGroups.setAttribute("ObjectRules", objects);
 
@@ -156,27 +155,74 @@ public class ConversionModuleReport {
 
 		templateMain.setAttribute("ObjectRules", groupObjects);
 
-		// TODO: Добавить вывод типов, перечислений и предопределенных элементов в конец
-		// документа
-		StringTemplate templateDefinedTypes = new StringTemplate(templateDefinedTypesContent);
+		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(fpDefinedTypes));
 
-		String typesRows = "";
+		templateMain.setAttribute("Enums", createEnumsReport(fpEnums));
+
+		// TODO: Добавить вывод предопределенных элементов в конец документа
+
+		return templateMain.toString();
+	}
+
+	protected static String createDefinedTypesReport(EList<FpDefinedType> fpDefinedTypes) {
+		if (fpDefinedTypes.size() == 0)
+			return "";
+
+		final String TEMPLATE_NAME = "ReceivingDefinedTypes.txt";
+		String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME), TEMPLATE_NAME);
+
+		StringTemplate template = new StringTemplate(templateContent);
+
+		String rows = "";
 		for (FpDefinedType fpDefinedType : fpDefinedTypes) {
+			EList<FpType> fpTypes = fpDefinedType.getTypes();
 			boolean firstRow = true;
-			for (FpType fpType : fpDefinedType.getTypes()) {
+			for (FpType fpType : fpTypes) {
 				if (firstRow) {
-					typesRows += fpDefinedType.getName() + " | " + fpType.getPropertyType() + "\r\n";
+					if (fpTypes.size() == 1)
+						rows += fpDefinedType.getName() + " | " + fpType.getPropertyType() + "\r\n";
+
+					else {
+						rows += fpDefinedType.getName() + " | " + "\r\n";
+						rows += " | " + fpType.getPropertyType() + "\r\n";
+
+					}
 					firstRow = false;
 				} else
-					typesRows += " | " + fpType.getPropertyType() + "\r\n";
+					rows += " | " + fpType.getPropertyType() + "\r\n";
 			}
 		}
 
-		templateDefinedTypes.setAttribute("TypesRows", typesRows);
+		template.setAttribute("Rows", rows);
 
-		templateMain.setAttribute("DefinedTypes", templateDefinedTypes.toString());
+		return template.toString();
+	}
 
-		return templateMain.toString();
+	protected static String createEnumsReport(EList<FpEnum> fpEnums) {
+		if (fpEnums.size() == 0)
+			return "";
+
+		final String TEMPLATE_NAME = "ReceivingEnums.txt";
+		String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME), TEMPLATE_NAME);
+
+		StringTemplate template = new StringTemplate(templateContent);
+
+		String rows = "";
+		for (FpEnum fpEnum : fpEnums) {
+			boolean firstRow = true;
+			for (Enumeration enumeration : fpEnum.getEnumerations()) {
+				if (firstRow) {
+					rows += fpEnum.getName() + " | " + enumeration.getContent() + "\r\n";
+					firstRow = false;
+
+				} else
+					rows += " | " + enumeration.getContent() + "\r\n";
+			}
+		}
+
+		template.setAttribute("Rows", rows);
+
+		return template.toString();
 	}
 
 	public static String createObjectsReport(RgVariant rgVariant, FormatPackage formatPackage,
@@ -226,7 +272,7 @@ public class ConversionModuleReport {
 	}
 
 	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<FpProperty>> mapKeyProperties,
-			EList<FpDefinedType> fpDefinedTypes, FormatPackage formatPackage) {
+			EList<FpDefinedType> fpDefinedTypes, EList<FpEnum> fpEnums, FormatPackage formatPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 
@@ -267,25 +313,8 @@ public class ConversionModuleReport {
 		templateObject.setAttribute("FormatObject", cmObjectRule.getFormatObject());
 		templateObject.setAttribute("ConfigurationObject", cmObjectRule.getConfigurationObjectFormattedName());
 
-		EList<String> identificationFields = cmObjectRule.getIdentificationFields();
-
-		CmIdentificationVariant identificationVariant = cmObjectRule.getIdentificationVariant();
-		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS
-				&& identificationFields.size() == 0)
-			identificationVariant = CmIdentificationVariant.UUID;
-
-		templateObject.setAttribute("IdentificationVariant", identificationVariant);
-
-		if (identificationFields.size() != 0) {
-			String identificationFieldsTable = "";
-			identificationFieldsTable += "Порядок поиска по ключевым полям | Реквизиты поиска\r\n";
-			identificationFieldsTable += "--- | ---";
-			for (String identificationField : cmObjectRule.getIdentificationFields()) {
-				identificationFieldsTable += "\r\n" + (identificationFields.indexOf(identificationField) + 1) + " | "
-						+ identificationField;
-			}
-			templateObject.setAttribute("IdentificationFields", identificationFieldsTable);
-		}
+		templateObject.setAttribute("Identification", createIdentificationReport(
+				cmObjectRule.getIdentificationVariant(), cmObjectRule.getIdentificationFields()));
 
 		Map<String, String> tabularSectionSynonyms = new HashMap<String, String>();
 		Map<String, String> attributeSynonyms = new HashMap<String, String>();
@@ -489,6 +518,10 @@ public class ConversionModuleReport {
 						? "<Свойство формата не найдено>"
 						: "";
 
+				FpEnum fpEnum = formatPackage.getEnum(propertyType);
+				if (fpEnum != null && !fpEnums.contains(fpEnum))
+					fpEnums.add(fpEnum);
+
 				String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttributeFullName());
 				if (attributeSynonym == null)
 					attributeSynonym = attributeRule.getConfigurationAttribute();
@@ -527,6 +560,10 @@ public class ConversionModuleReport {
 					FpDefinedType fpDefinedType = formatPackage.getDefinedType(subPropertyType);
 					if (fpDefinedType != null && !fpDefinedTypes.contains(fpDefinedType))
 						fpDefinedTypes.add(fpDefinedType);
+
+					FpEnum fpEnum = formatPackage.getEnum(subPropertyType);
+					if (fpEnum != null && !fpEnums.contains(fpEnum))
+						fpEnums.add(fpEnum);
 
 					Boolean isSubKey = subPropertyType.startsWith("КлючевыеСвойства");
 
@@ -625,6 +662,34 @@ public class ConversionModuleReport {
 		templateObject.setAttribute("AttributeRules", attributeRulesText);
 
 		return templateObject.toString();
+	}
+
+	protected static String createIdentificationReport(CmIdentificationVariant identificationVariant,
+			EList<String> identificationFields) {
+		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS
+				&& identificationFields.size() == 0)
+			identificationVariant = CmIdentificationVariant.UUID;
+
+		String result = "**Вариант идентификации: " + identificationVariant + "**";
+
+		if (identificationVariant != CmIdentificationVariant.UUID && identificationFields.size() != 0) {
+			final String TEMPLATE_NAME = "ReceivingIdentification.txt";
+			String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME), TEMPLATE_NAME);
+
+			StringTemplate template = new StringTemplate(templateContent);
+
+			String rows = "";
+			for (String identificationField : identificationFields) {
+				rows += (identificationFields.indexOf(identificationField) + 1) + " | " + identificationField + "\r\n";
+			}
+			template.setAttribute("Rows", rows);
+
+			result += "\r\n\r\n" + template.toString();
+
+		} else
+			result += "\r\n";
+
+		return result;
 	}
 
 	private static String getObjectRow(CmObjectRule cmObjectRule) {

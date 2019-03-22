@@ -6,7 +6,5 @@
 
 Объект конфигурации: $ConfigurationObject$
 
-**Вариант идентификации: $IdentificationVariant$**
-$IdentificationFields$
-
+$Identification$
 $AttributeRules$
