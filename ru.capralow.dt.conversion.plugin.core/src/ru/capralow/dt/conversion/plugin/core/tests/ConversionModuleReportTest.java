@@ -1,4 +1,4 @@
-package ru.capralow.dt.conversion.plugin.core;
+package ru.capralow.dt.conversion.plugin.core.tests;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,6 +9,7 @@ import org.junit.Test;
 import com._1c.g5.v8.dt.xdto.model.Enumeration;
 import com._1c.g5.v8.dt.xdto.model.XdtoFactory;
 
+import ru.capralow.dt.conversion.plugin.core.ConversionModuleReport;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
 import ru.capralow.dt.conversion.plugin.core.fp.FpEnum;

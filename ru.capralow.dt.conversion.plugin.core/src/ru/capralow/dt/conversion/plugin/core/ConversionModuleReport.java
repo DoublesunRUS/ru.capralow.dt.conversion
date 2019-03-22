@@ -164,7 +164,7 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	protected static String createDefinedTypesReport(EList<FpDefinedType> fpDefinedTypes) {
+	public static String createDefinedTypesReport(EList<FpDefinedType> fpDefinedTypes) {
 		if (fpDefinedTypes.size() == 0)
 			return "";
 
@@ -180,16 +180,16 @@ public class ConversionModuleReport {
 			for (FpType fpType : fpTypes) {
 				if (firstRow) {
 					if (fpTypes.size() == 1)
-						rows += fpDefinedType.getName() + " | " + fpType.getPropertyType() + "\r\n";
+						rows += fpDefinedType.getName() + " | " + fpType.getPropertyType() + System.lineSeparator();
 
 					else {
-						rows += fpDefinedType.getName() + " | " + "\r\n";
-						rows += " | " + fpType.getPropertyType() + "\r\n";
+						rows += fpDefinedType.getName() + " | " + System.lineSeparator();
+						rows += " | " + fpType.getPropertyType() + System.lineSeparator();
 
 					}
 					firstRow = false;
 				} else
-					rows += " | " + fpType.getPropertyType() + "\r\n";
+					rows += " | " + fpType.getPropertyType() + System.lineSeparator();
 			}
 		}
 
@@ -198,7 +198,7 @@ public class ConversionModuleReport {
 		return template.toString();
 	}
 
-	protected static String createEnumsReport(EList<FpEnum> fpEnums) {
+	public static String createEnumsReport(EList<FpEnum> fpEnums) {
 		if (fpEnums.size() == 0)
 			return "";
 
@@ -212,11 +212,11 @@ public class ConversionModuleReport {
 			boolean firstRow = true;
 			for (Enumeration enumeration : fpEnum.getEnumerations()) {
 				if (firstRow) {
-					rows += fpEnum.getName() + " | " + enumeration.getContent() + "\r\n";
+					rows += fpEnum.getName() + " | " + enumeration.getContent() + System.lineSeparator();
 					firstRow = false;
 
 				} else
-					rows += " | " + enumeration.getContent() + "\r\n";
+					rows += " | " + enumeration.getContent() + System.lineSeparator();
 			}
 		}
 
@@ -238,7 +238,7 @@ public class ConversionModuleReport {
 			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + formatPackage.getVersion());
 
 			for (RgGroup rgGroup : rgVariant.getGroups()) {
-				tabularRows += "**" + rgGroup.getName() + "** | | | | \r\n";
+				tabularRows += "**" + rgGroup.getName() + "** | | | | " + System.lineSeparator();
 
 				for (RgRule rgRule : rgGroup.getRules()) {
 					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getName());
@@ -246,7 +246,7 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						tabularRows += getObjectRow((CmObjectRule) objectRule) + "\r\n";
+						tabularRows += getObjectRow((CmObjectRule) objectRule) + System.lineSeparator();
 				}
 
 			}
@@ -259,10 +259,10 @@ public class ConversionModuleReport {
 				if (receivingObjectRules.size() == 0)
 					continue;
 
-				tabularRows += "**" + cmSubsystem.getName() + "** | | | | \r\n";
+				tabularRows += "**" + cmSubsystem.getName() + "** | | | | " + System.lineSeparator();
 
 				for (Object objectRule : receivingObjectRules)
-					tabularRows += getObjectRow((CmObjectRule) objectRule) + "\r\n";
+					tabularRows += getObjectRow((CmObjectRule) objectRule) + System.lineSeparator();
 			}
 		}
 
@@ -664,7 +664,7 @@ public class ConversionModuleReport {
 		return templateObject.toString();
 	}
 
-	protected static String createIdentificationReport(CmIdentificationVariant identificationVariant,
+	public static String createIdentificationReport(CmIdentificationVariant identificationVariant,
 			EList<String> identificationFields) {
 		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS
 				&& identificationFields.size() == 0)
@@ -680,14 +680,15 @@ public class ConversionModuleReport {
 
 			String rows = "";
 			for (String identificationField : identificationFields) {
-				rows += (identificationFields.indexOf(identificationField) + 1) + " | " + identificationField + "\r\n";
+				rows += (identificationFields.indexOf(identificationField) + 1) + " | " + identificationField
+						+ System.lineSeparator();
 			}
 			template.setAttribute("Rows", rows);
 
-			result += "\r\n\r\n" + template.toString();
+			result += System.lineSeparator() + System.lineSeparator() + template.toString();
 
 		} else
-			result += "\r\n";
+			result += System.lineSeparator();
 
 		return result;
 	}
@@ -761,7 +762,8 @@ public class ConversionModuleReport {
 				col5 = "*" + col5 + "*";
 		}
 
-		return prefix + col1 + " | " + prefix + col2 + " | " + prefix + col3 + " | " + col4 + " | " + col5 + "\r\n";
+		return prefix + col1 + " | " + prefix + col2 + " | " + prefix + col3 + " | " + col4 + " | " + col5
+				+ System.lineSeparator();
 	}
 
 	private static String readContents(CharSource source, String path) {
