@@ -121,16 +121,16 @@ public class ExchangeProjectsAnalyzer {
 					formatVersion.setXdtoPackage((MdObject) objectItr.next().getEObjectOrProxy());
 			}
 
-			EList<MdObject> oldSettingsModules = exchangeProject.getSettingsModules();
-			EList<MdObject> settingsModules = new BasicEList<MdObject>();
-			for (MdObject settingsModule : oldSettingsModules) {
-				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(settingsModule);
+			EList<MdObject> oldList = exchangeProject.getSettingsModules();
+			EList<MdObject> newList = new BasicEList<MdObject>();
+			for (MdObject oldItem : oldList) {
+				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(oldItem);
 				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 				if (objectItr.hasNext())
-					settingsModules.add((MdObject) objectItr.next().getEObjectOrProxy());
+					newList.add((MdObject) objectItr.next().getEObjectOrProxy());
 			}
-			oldSettingsModules.clear();
-			oldSettingsModules.addAll(settingsModules);
+			oldList.clear();
+			oldList.addAll(newList);
 
 			return exchangeProject;
 

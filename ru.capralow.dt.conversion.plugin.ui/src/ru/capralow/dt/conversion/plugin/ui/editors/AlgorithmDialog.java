@@ -25,12 +25,14 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourcePro
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
 import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 @SuppressWarnings("restriction")
 public class AlgorithmDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmAlgorithm algorithm;
+	private ConversionModule conversionModule;
 
 	private CustomEmbeddedEditor editorAlgorithm;
 	private CustomEmbeddedEditorModelAccess modelAccessAlgorithm;
@@ -44,11 +46,13 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 	 *
 	 * @param parentShell
 	 */
-	public AlgorithmDialog(Shell parentShell, CmAlgorithm algorithm, Boolean editable) {
+	public AlgorithmDialog(Shell parentShell, CmAlgorithm algorithm, ConversionModule conversionModule,
+			Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.algorithm = algorithm;
+		this.conversionModule = conversionModule;
 
 		this.editable = editable;
 	}
@@ -80,7 +84,7 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) algorithm.getConversionModule().getModuleURI());
+		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
@@ -109,7 +113,7 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 
 		// Заполнение данными
 
-		algorithmsText = algorithm.getConversionModule().getAllAlgorithmsText(algorithm.getName());
+		algorithmsText = conversionModule.getAllAlgorithmsText(algorithm.getName());
 
 		txtAlgorithm.setText(algorithm.getPrefix());
 		getModelAccess().updateEditablePart(algorithm.getAlgorithmText());
@@ -141,7 +145,8 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 
 	private synchronized CustomEmbeddedEditorModelAccess getModelAccess() {
 		if (modelAccessAlgorithm == null) {
-			modelAccessAlgorithm = (CustomEmbeddedEditorModelAccess) editorAlgorithm.createPartialEditor("", "", "", true);
+			modelAccessAlgorithm = (CustomEmbeddedEditorModelAccess) editorAlgorithm.createPartialEditor("", "", "",
+					true);
 		}
 		return modelAccessAlgorithm;
 	}

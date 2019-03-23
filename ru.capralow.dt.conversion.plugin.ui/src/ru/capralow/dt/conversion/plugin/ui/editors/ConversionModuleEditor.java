@@ -970,7 +970,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmDataRule dataRule = ((CmDataRule) element);
 
 					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule, editable);
+							event.getViewer().getControl().getShell(), dataRule, conversionModule, editable);
 					if (dataRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1000,7 +1000,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmObjectRule objectRule = ((CmObjectRule) element);
 
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule, editable);
+							objectRule, conversionModule, editable);
 					if (objectRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1030,7 +1030,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmDataRule dataRule = ((CmDataRule) element);
 
 					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule, editable);
+							event.getViewer().getControl().getShell(), dataRule, conversionModule, editable);
 					if (dataRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1060,7 +1060,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmObjectRule objectRule = ((CmObjectRule) element);
 
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule, editable);
+							objectRule, conversionModule, editable);
 					if (objectRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1120,7 +1120,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmAlgorithm algorithm = ((CmAlgorithm) element);
 
 					AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
-							algorithm, editable);
+							algorithm, conversionModule, editable);
 					if (algorithmDialog.open() == Window.OK) {
 						try {
 							updateModule();

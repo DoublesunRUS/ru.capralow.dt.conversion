@@ -43,12 +43,15 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedE
 import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 @SuppressWarnings("restriction")
 public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmObjectRule objectRule;
+	private ConversionModule conversionModule;
+
 	private Text txtObjectRuleName;
 	private Text txtConfigurationObjectName, txtFormatObjectName;
 
@@ -70,11 +73,13 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	 *
 	 * @param parentShell
 	 */
-	public ObjectRuleDialog(Shell parentShell, CmObjectRule objectRule, Boolean editable) {
+	public ObjectRuleDialog(Shell parentShell, CmObjectRule objectRule, ConversionModule conversionModule,
+			Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.objectRule = objectRule;
+		this.conversionModule = conversionModule;
 
 		this.editable = editable;
 	}
@@ -122,7 +127,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) objectRule.getConversionModule().getModuleURI());
+		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
@@ -469,10 +474,9 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		viewerAttributeRules.setInput(objectRule.getAttributeRules());
 
 		if (objectRule.getAfterReceivingAlgorithm() != null)
-			algorithmsText = objectRule.getConversionModule()
-					.getAllAlgorithmsText(objectRule.getAfterReceivingAlgorithm().getName());
+			algorithmsText = conversionModule.getAllAlgorithmsText(objectRule.getAfterReceivingAlgorithm().getName());
 		else
-			algorithmsText = objectRule.getConversionModule().getAllAlgorithmsText("");
+			algorithmsText = conversionModule.getAllAlgorithmsText("");
 
 		txtOnSendingDeclaration.setText(objectRule.getOnSendingEventPrefix());
 		getModelAccessOnSending().updateEditablePart(objectRule.getOnSendingEventText());

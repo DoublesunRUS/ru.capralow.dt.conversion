@@ -134,7 +134,8 @@ public class ConversionModuleAnalyzer {
 		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, bmEmfIndexProvider, plugin);
 		EList<EpFormatVersion> moduleFormatVersions = exchangeProject.getModuleFormatVersions(commonModule);
 		for (EpFormatVersion formatVersion : moduleFormatVersions) {
-			FormatPackage formatPackage = FormatPackageAnalyzer.loadResource(formatVersion, project, plugin);
+			FormatPackage formatPackage = FormatPackageAnalyzer.loadResource(formatVersion, project, bmEmfIndexProvider,
+					plugin);
 
 			formatPackages.put(formatVersion.getVersion(), formatPackage);
 		}

@@ -42,12 +42,15 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedE
 import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
 
 @SuppressWarnings("restriction")
 public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private CmDataRule dataRule;
+	private ConversionModule conversionModule;
+
 	private Text txtDataRuleName, txtObjectRuleName;
 	private Text txtFormatObjectName;
 
@@ -63,11 +66,13 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 	 *
 	 * @param parentShell
 	 */
-	public ReceivingDataRuleDialog(Shell parentShell, CmDataRule dataRule, Boolean editable) {
+	public ReceivingDataRuleDialog(Shell parentShell, CmDataRule dataRule, ConversionModule conversionModule,
+			Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.dataRule = dataRule;
+		this.conversionModule = conversionModule;
 
 		this.editable = editable;
 	}
@@ -99,7 +104,7 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) dataRule.getConversionModule().getModuleURI());
+		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);
@@ -282,7 +287,7 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 			viewer.setInput(objectRules);
 		}
 
-		algorithmsText = dataRule.getConversionModule().getAllAlgorithmsText("");
+		algorithmsText = conversionModule.getAllAlgorithmsText("");
 
 		txtOnProcessing.setText(dataRule.getOnProcessingEventPrefix());
 		getModelAccessOnProcessing().updateEditablePart(dataRule.getOnProcessingEventText());

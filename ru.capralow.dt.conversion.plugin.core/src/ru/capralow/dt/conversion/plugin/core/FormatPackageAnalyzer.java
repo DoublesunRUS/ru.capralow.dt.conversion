@@ -3,6 +3,7 @@ package ru.capralow.dt.conversion.plugin.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
@@ -10,12 +11,15 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.resource.IEObjectDescription;
 
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.mcore.QName;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 import com._1c.g5.v8.dt.xdto.model.Enumeration;
@@ -44,7 +48,7 @@ public class FormatPackageAnalyzer {
 	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	public static FormatPackage loadResource(EpFormatVersion epFormatVersion, IProject project,
-			AbstractUIPlugin plugin) {
+			IBmEmfIndexProvider bmEmfIndexProvider, AbstractUIPlugin plugin) {
 		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "formatPackage-"
 				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
 
@@ -60,6 +64,24 @@ public class FormatPackageAnalyzer {
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
 			FormatPackage formatPackage = (FormatPackage) xmiResource.getContents().get(0);
+
+			for (FpEnum fpEnum : formatPackage.getEnums()) {
+				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(fpEnum.getObject());
+				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
+				if (objectItr.hasNext())
+					fpEnum.setObject((ValueType) objectItr.next().getEObjectOrProxy());
+
+				EList<Enumeration> oldList = fpEnum.getEnumerations();
+				EList<Enumeration> newList = new BasicEList<Enumeration>();
+				for (Enumeration oldItem : oldList) {
+					objectIndex = bmEmfIndexProvider.getEObjectIndex(oldItem);
+					objectItr = objectIndex.iterator();
+					if (objectItr.hasNext())
+						newList.add((Enumeration) objectItr.next().getEObjectOrProxy());
+				}
+				oldList.clear();
+				oldList.addAll(newList);
+			}
 
 			return formatPackage;
 

@@ -60,7 +60,8 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 		}
 
 		for (EpFormatVersion epFormatVersion : exchangeProject.getFormatVersions()) {
-			FormatPackage formatPackage = FormatPackageAnalyzer.loadResource(epFormatVersion, project, plugin);
+			FormatPackage formatPackage = FormatPackageAnalyzer.loadResource(epFormatVersion, project,
+					bmEmfIndexProvider, plugin);
 			if (formatPackage == null) {
 				formatPackage = FormatPackageAnalyzer.analyze(epFormatVersion);
 				FormatPackageAnalyzer.saveResource(epFormatVersion, formatPackage, project, plugin);

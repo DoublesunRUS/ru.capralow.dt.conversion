@@ -52,7 +52,7 @@ class ConversionModule {
 		return result;
 	}
 	
-	contains CmDataRule[] dataRules opposite conversionModule
+	contains CmDataRule[] dataRules
 	
 	op CmDataRule getDataRule(String ruleName) {
 		for (CmDataRule dataRule : dataRules) {
@@ -99,7 +99,7 @@ class ConversionModule {
 		return result
 	}
 
-	contains CmObjectRule[] objectRules opposite conversionModule
+	contains CmObjectRule[] objectRules
 	op CmObjectRule getObjectRule(String ruleName) {
 		for (CmObjectRule objectRule : objectRules) {
 			if (ruleName.equals(objectRule.name)) return objectRule
@@ -145,9 +145,9 @@ class ConversionModule {
 		return result
 	}
 
-	contains CmPredefined[] predefineds opposite conversionModule
+	contains CmPredefined[] predefineds
 
-	contains CmAlgorithm[] algorithms opposite conversionModule
+	contains CmAlgorithm[] algorithms
 	op CmAlgorithm getAlgorithm(String algorithmName) {
 		for (CmAlgorithm algorithm : algorithms) {
 			if (algorithmName.equals(algorithm.name)) return algorithm
@@ -170,8 +170,6 @@ class ConversionModule {
 }
 
 class CmDataRule {
-	container ConversionModule conversionModule opposite dataRules
-	
 	String name = ""
 	
 	Boolean isDisabled = "false"
@@ -303,8 +301,6 @@ enum CmSelectionVariant {
 }
 
 class CmObjectRule {
-	container ConversionModule conversionModule opposite objectRules
-	
 	String name = ""
 	
 	Boolean isDisabled = "false"
@@ -444,8 +440,6 @@ class CmAttributeRule {
 }
 
 class CmPredefined {
-	container ConversionModule conversionModule opposite predefineds
-	
 	String name = ""
 	
 	refers MdObject configurationObject
@@ -481,7 +475,7 @@ class CmPredefined {
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
 	
-	contains CmPredefinedMap[] predefinedMaps opposite predefined
+	contains CmPredefinedMap[] predefinedMaps
 	
 	op Boolean predefinedMapExists(Object configurationValue, Object formatValue) {
 		for (CmPredefinedMap predefinedMap : predefinedMaps) {
@@ -513,13 +507,9 @@ class CmPredefinedMap {
 
 		return formatValue.toString();
 	}
-	
-	container CmPredefined predefined opposite predefinedMaps
 }
 
 class CmAlgorithm {
-	container ConversionModule conversionModule opposite algorithms
-	
 	String name = ""
 	
 	CmMethodType methodType

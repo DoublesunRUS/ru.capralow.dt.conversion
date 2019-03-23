@@ -92,7 +92,7 @@ class FormatPackage {
 class FpDefinedType {
 	String name = ""
 
-	contains FpType[] types opposite definedType
+	contains FpType[] types
 }
 
 class FpObject {
@@ -131,8 +131,6 @@ class FpProperty {
 }
 
 class FpType {
-	container FpDefinedType definedType opposite types
-
 	String name = ""
 	
 	String propertyType = ""

@@ -518,10 +518,6 @@ public class ConversionModuleReport {
 						? "<Свойство формата не найдено>"
 						: "";
 
-				FpEnum fpEnum = formatPackage.getEnum(propertyType);
-				if (fpEnum != null && !fpEnums.contains(fpEnum))
-					fpEnums.add(fpEnum);
-
 				String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttributeFullName());
 				if (attributeSynonym == null)
 					attributeSynonym = attributeRule.getConfigurationAttribute();
