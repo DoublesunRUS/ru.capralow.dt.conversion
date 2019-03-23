@@ -17,10 +17,10 @@ class EnterpriseData {
 	contains EdEnum[] enums
 	contains EdObject[] registers
 	
-	op EdProperty getProperty(String formatObjectName, String formatPropertyFullName) {
+	op EdProperty getProperty(String objectName, String propertyName) {
 		for (EdObject fpCatalog : catalogs) {
-			if (fpCatalog.getName.equals(formatObjectName)) {
-				var property = fpCatalog.getProperty(formatPropertyFullName);
+			if (fpCatalog.getName.equals(objectName)) {
+				var property = fpCatalog.getProperty(propertyName);
 				if (property === null)
 					return null;
 				
@@ -28,8 +28,8 @@ class EnterpriseData {
 			}
 		}
 		for (EdObject fpDocument : documents) {
-			if (fpDocument.getName.equals(formatObjectName)) {
-				var property = fpDocument.getProperty(formatPropertyFullName);
+			if (fpDocument.getName.equals(objectName)) {
+				var property = fpDocument.getProperty(propertyName);
 				if (property === null)
 					return null;
 				
@@ -37,8 +37,8 @@ class EnterpriseData {
 			}
 		}
 		for (EdObject fpRegister : registers) {
-			if (fpRegister.getName.equals(formatObjectName)) {
-				var property = fpRegister.getProperty(formatPropertyFullName);
+			if (fpRegister.getName.equals(objectName)) {
+				var property = fpRegister.getProperty(propertyName);
 				if (property === null)
 					return null;
 				
@@ -49,19 +49,19 @@ class EnterpriseData {
 		return null;
 	}
 	
-	op EdObject getFormatObject(String formatObjectName) {
+	op EdObject getObject(String name) {
 		for (EdObject fpCatalog : catalogs) {
-			if (fpCatalog.getName.equals(formatObjectName))
+			if (fpCatalog.getName.equals(name))
 				return fpCatalog;
 			
 		}
 		for (EdObject fpDocument : documents) {
-			if (fpDocument.getName.equals(formatObjectName))
+			if (fpDocument.getName.equals(name))
 				return fpDocument;
 
 		}
 		for (EdObject fpRegister : registers) {
-			if (fpRegister.getName.equals(formatObjectName))
+			if (fpRegister.getName.equals(name))
 				return fpRegister;
 
 		}

@@ -29,12 +29,12 @@ import com._1c.g5.v8.dt.xdto.model.Property;
 import com._1c.g5.v8.dt.xdto.model.Type;
 import com._1c.g5.v8.dt.xdto.model.ValueType;
 
-import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdObject;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ed.model.edFactory;
 import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 
@@ -60,13 +60,13 @@ public class EnterpriseDataAnalyzer {
 			xmiResource.load(loadOptions);
 			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
 
-			for (EdEnum fpEnum : enterpriseDataPackage.getEnums()) {
-				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(fpEnum.getObject());
+			for (EdEnum edEnum : enterpriseDataPackage.getEnums()) {
+				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(edEnum.getObject());
 				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 				if (objectItr.hasNext())
-					fpEnum.setObject((ValueType) objectItr.next().getEObjectOrProxy());
+					edEnum.setObject((ValueType) objectItr.next().getEObjectOrProxy());
 
-				EList<Enumeration> oldList = fpEnum.getEnumerations();
+				EList<Enumeration> oldList = edEnum.getEnumerations();
 				EList<Enumeration> newList = new BasicEList<Enumeration>();
 				for (Enumeration oldItem : oldList) {
 					objectIndex = bmEmfIndexProvider.getEObjectIndex(oldItem);
@@ -113,17 +113,17 @@ public class EnterpriseDataAnalyzer {
 	public static EnterpriseData analyze(EpFormatVersion epFormatVersion) {
 		EnterpriseData enterpriseDataPackage = edFactory.eINSTANCE.createEnterpriseData();
 
-		EList<EdDefinedType> fpDefinedTypes = enterpriseDataPackage.getDefinedTypes();
-		EList<EdObject> fpCatalogs = enterpriseDataPackage.getCatalogs();
-		EList<EdObject> fpDocuments = enterpriseDataPackage.getDocuments();
-		EList<EdEnum> fpEnums = enterpriseDataPackage.getEnums();
-		EList<EdObject> fpRegisters = enterpriseDataPackage.getRegisters();
+		EList<EdDefinedType> edDefinedTypes = enterpriseDataPackage.getDefinedTypes();
+		EList<EdObject> edCatalogs = enterpriseDataPackage.getCatalogs();
+		EList<EdObject> edDocuments = enterpriseDataPackage.getDocuments();
+		EList<EdEnum> edEnums = enterpriseDataPackage.getEnums();
+		EList<EdObject> edRegisters = enterpriseDataPackage.getRegisters();
 
-		fpDefinedTypes.clear();
-		fpCatalogs.clear();
-		fpDocuments.clear();
-		fpEnums.clear();
-		fpRegisters.clear();
+		edDefinedTypes.clear();
+		edCatalogs.clear();
+		edDocuments.clear();
+		edEnums.clear();
+		edRegisters.clear();
 
 		enterpriseDataPackage.setVersion(epFormatVersion.getVersion());
 
@@ -141,22 +141,20 @@ public class EnterpriseDataAnalyzer {
 			packageValues.put(typeName, type);
 		}
 
-		for (ObjectType object : dataPackage.getObjects()) {
-			QName baseType = object.getBaseType();
+		for (ObjectType xdtoObject : dataPackage.getObjects()) {
+			QName baseType = xdtoObject.getBaseType();
 
-			String objectName = object.getName();
+			String objectName = xdtoObject.getName();
 			if (baseType != null && baseType.getName().equals("Object")) {
-				EList<EdProperty> fpProperties = null;
-
-				EdObject fpObject = edFactory.eINSTANCE.createEdObject();
+				EdObject edObject = edFactory.eINSTANCE.createEdObject();
 				if (objectName.startsWith("Справочник.")) {
-					fpCatalogs.add(fpObject);
+					edCatalogs.add(edObject);
 
 				} else if (objectName.startsWith("Документ.")) {
-					fpDocuments.add(fpObject);
+					edDocuments.add(edObject);
 
 				} else if (objectName.startsWith("Регистр")) {
-					fpRegisters.add(fpObject);
+					edRegisters.add(edObject);
 
 				} else {
 					String msg = String.format(
@@ -168,29 +166,29 @@ public class EnterpriseDataAnalyzer {
 
 				}
 
-				fpObject.setObject(object);
-				fpObject.setName(objectName);
+				edObject.setObject(xdtoObject);
+				edObject.setName(objectName);
 
-				fpProperties = fpObject.getProperties();
+				EList<EdProperty> edProperties = edObject.getProperties();
 
-				for (Property property : object.getProperties()) {
+				for (Property property : xdtoObject.getProperties()) {
 					String propertyName = property.getName();
 
 					if (propertyName.equals("КлючевыеСвойства")) {
 						String propertyTypeName = property.getType().getName();
 						ObjectType propertyTypeObject = packageObjects.get(propertyTypeName);
 
-						EList<EdProperty> fpKeyProperties = null;
+						EList<EdProperty> edKeyProperties = null;
 
-						fpObject.setKeysObject(propertyTypeObject);
-						fpObject.setKeysObjectName(propertyTypeName);
-						fpKeyProperties = fpObject.getKeyProperties();
+						edObject.setKeysObject(propertyTypeObject);
+						edObject.setKeysObjectName(propertyTypeName);
+						edKeyProperties = edObject.getKeyProperties();
 
 						for (Property subProperty : propertyTypeObject.getProperties()) {
-							addProperty(subProperty, subProperty.getName(), true, fpProperties, packageObjects,
+							addProperty(subProperty, subProperty.getName(), true, edProperties, packageObjects,
 									packageValues);
 
-							addProperty(subProperty, subProperty.getName(), true, fpKeyProperties, packageObjects,
+							addProperty(subProperty, subProperty.getName(), true, edKeyProperties, packageObjects,
 									packageValues);
 						}
 
@@ -220,11 +218,11 @@ public class EnterpriseDataAnalyzer {
 
 							for (Property subProperty : propertyObject.getProperties()) {
 								addProperty(subProperty, propertyName.concat(".").concat(subProperty.getName()), false,
-										fpProperties, packageObjects, packageValues);
+										edProperties, packageObjects, packageValues);
 							}
 
 						} else
-							addProperty(property, property.getName(), false, fpProperties, packageObjects,
+							addProperty(property, property.getName(), false, edProperties, packageObjects,
 									packageValues);
 
 					}
@@ -234,20 +232,20 @@ public class EnterpriseDataAnalyzer {
 				if (objectName.contains(".") || objectName.startsWith("КлючевыеСвойства"))
 					continue;
 
-				EdDefinedType fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
-				fpDefinedTypes.add(fpDefinedType);
+				EdDefinedType edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
+				edDefinedTypes.add(edDefinedType);
 
-				EList<EdType> fpTypes = fpDefinedType.getTypes();
+				EList<EdType> edTypes = edDefinedType.getTypes();
 
-				fpDefinedType.setName(objectName);
-				for (Property property : object.getProperties()) {
+				edDefinedType.setName(objectName);
+				for (Property property : xdtoObject.getProperties()) {
 					String propertyName = property.getName();
 
-					EdType fpType = edFactory.eINSTANCE.createEdType();
-					fpTypes.add(fpType);
+					EdType edType = edFactory.eINSTANCE.createEdType();
+					edTypes.add(edType);
 
-					fpType.setName(propertyName);
-					fpType.setPropertyType(getPropertyType(property));
+					edType.setName(propertyName);
+					edType.setPropertyType(getPropertyType(property));
 				}
 
 			}
@@ -258,32 +256,32 @@ public class EnterpriseDataAnalyzer {
 			if (enums.size() == 0)
 				continue;
 
-			EdEnum fpEnum = edFactory.eINSTANCE.createEdEnum();
-			fpEnums.add(fpEnum);
+			EdEnum edEnum = edFactory.eINSTANCE.createEdEnum();
+			edEnums.add(edEnum);
 
-			fpEnum.setObject(type);
-			fpEnum.setName(type.getName());
+			edEnum.setObject(type);
+			edEnum.setName(type.getName());
 
-			fpEnum.getEnumerations().addAll(enums);
+			edEnum.getEnumerations().addAll(enums);
 		}
 
 		return enterpriseDataPackage;
 	}
 
-	private static void addProperty(Property property, String propertyName, Boolean isKey,
-			EList<EdProperty> fpProperties, Map<String, ObjectType> packageObjects,
+	private static void addProperty(Property xdtoProperty, String propertyName, Boolean isKey,
+			EList<EdProperty> edProperties, Map<String, ObjectType> packageObjects,
 			Map<String, ValueType> packageValues) {
-		EdProperty fpProperty = edFactory.eINSTANCE.createEdProperty();
-		fpProperties.add(fpProperty);
+		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
+		edProperties.add(edProperty);
 
-		fpProperty.setProperty(property);
-		fpProperty.setName(propertyName);
+		edProperty.setProperty(xdtoProperty);
+		edProperty.setName(propertyName);
 
-		fpProperty.setRequired(property.getLowerBound() == 1);
+		edProperty.setRequired(xdtoProperty.getLowerBound() == 1);
 
-		fpProperty.setPropertyType(getPropertyType(property));
+		edProperty.setPropertyType(getPropertyType(xdtoProperty));
 
-		fpProperty.setIsKey(isKey);
+		edProperty.setIsKey(isKey);
 	}
 
 	private static String getPropertyType(Property property) {

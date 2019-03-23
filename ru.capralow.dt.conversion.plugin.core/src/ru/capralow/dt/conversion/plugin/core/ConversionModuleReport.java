@@ -65,8 +65,8 @@ public class ConversionModuleReport {
 
 		String groupObjects = "";
 
-		EList<EdDefinedType> fpDefinedTypes = new BasicEList<EdDefinedType>();
-		EList<EdEnum> fpEnums = new BasicEList<EdEnum>();
+		EList<EdDefinedType> edDefinedTypes = new BasicEList<EdDefinedType>();
+		EList<EdEnum> edEnums = new BasicEList<EdEnum>();
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
@@ -74,14 +74,14 @@ public class ConversionModuleReport {
 			if (objectRule.getFormatObject().isEmpty())
 				continue;
 
-			EdObject formatObject = enterpriseDataPackage.getFormatObject(objectRule.getFormatObject());
-			EList<EdProperty> fpKeyProperties = new BasicEList<EdProperty>();
+			EdObject formatObject = enterpriseDataPackage.getObject(objectRule.getFormatObject());
+			EList<EdProperty> edKeyProperties = new BasicEList<EdProperty>();
 
 			ArrayList<String> listIdentificationFields = new ArrayList<String>();
 			if (objectRule.getIdentificationVariant() != CmIdentificationVariant.SEARCH_FIELDS)
-				for (EdProperty fpKeyProperty : formatObject.getKeyProperties()) {
-					if (fpKeyProperty.getName().equals("Ссылка")) {
-						fpKeyProperties.add(fpKeyProperty);
+				for (EdProperty edKeyProperty : formatObject.getKeyProperties()) {
+					if (edKeyProperty.getName().equals("Ссылка")) {
+						edKeyProperties.add(edKeyProperty);
 						break;
 					}
 				}
@@ -95,15 +95,15 @@ public class ConversionModuleReport {
 				if (!listIdentificationFields.contains(cmAttributeRule.getConfigurationAttribute()))
 					continue;
 
-				for (EdProperty fpKeyProperty : formatObject.getKeyProperties()) {
-					if (fpKeyProperty.getName().equals(cmAttributeRule.getFormatAttribute())) {
-						fpKeyProperties.add(fpKeyProperty);
+				for (EdProperty edKeyProperty : formatObject.getKeyProperties()) {
+					if (edKeyProperty.getName().equals(cmAttributeRule.getFormatAttribute())) {
+						edKeyProperties.add(edKeyProperty);
 						break;
 					}
 				}
 			}
 
-			mapKeyProperties.put(formatObject.getKeysObjectName(), fpKeyProperties);
+			mapKeyProperties.put(formatObject.getKeysObjectName(), edKeyProperties);
 		}
 
 		if (rgVariant != null) {
@@ -121,7 +121,7 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes, fpEnums,
+						objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, edDefinedTypes, edEnums,
 								enterpriseDataPackage);
 				}
 
@@ -145,7 +145,7 @@ public class ConversionModuleReport {
 
 				String objects = "";
 				for (Object objectRule : receivingObjectRules)
-					objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes, fpEnums,
+					objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, edDefinedTypes, edEnums,
 							enterpriseDataPackage);
 				templateGroups.setAttribute("ObjectRules", objects);
 
@@ -155,17 +155,17 @@ public class ConversionModuleReport {
 
 		templateMain.setAttribute("ObjectRules", groupObjects);
 
-		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(fpDefinedTypes));
+		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(edDefinedTypes));
 
-		templateMain.setAttribute("Enums", createEnumsReport(fpEnums));
+		templateMain.setAttribute("Enums", createEnumsReport(edEnums));
 
 		// TODO: Добавить вывод предопределенных элементов в конец документа
 
 		return templateMain.toString();
 	}
 
-	public static String createDefinedTypesReport(EList<EdDefinedType> fpDefinedTypes) {
-		if (fpDefinedTypes.size() == 0)
+	public static String createDefinedTypesReport(EList<EdDefinedType> edDefinedTypes) {
+		if (edDefinedTypes.size() == 0)
 			return "";
 
 		final String TEMPLATE_NAME = "ReceivingDefinedTypes.txt";
@@ -174,22 +174,22 @@ public class ConversionModuleReport {
 		StringTemplate template = new StringTemplate(templateContent);
 
 		String rows = "";
-		for (EdDefinedType fpDefinedType : fpDefinedTypes) {
-			EList<EdType> fpTypes = fpDefinedType.getTypes();
+		for (EdDefinedType edDefinedType : edDefinedTypes) {
+			EList<EdType> edTypes = edDefinedType.getTypes();
 			boolean firstRow = true;
-			for (EdType fpType : fpTypes) {
+			for (EdType edType : edTypes) {
 				if (firstRow) {
-					if (fpTypes.size() == 1)
-						rows += fpDefinedType.getName() + " | " + fpType.getPropertyType() + System.lineSeparator();
+					if (edTypes.size() == 1)
+						rows += edDefinedType.getName() + " | " + edType.getPropertyType() + System.lineSeparator();
 
 					else {
-						rows += fpDefinedType.getName() + " | " + System.lineSeparator();
-						rows += " | " + fpType.getPropertyType() + System.lineSeparator();
+						rows += edDefinedType.getName() + " | " + System.lineSeparator();
+						rows += " | " + edType.getPropertyType() + System.lineSeparator();
 
 					}
 					firstRow = false;
 				} else
-					rows += " | " + fpType.getPropertyType() + System.lineSeparator();
+					rows += " | " + edType.getPropertyType() + System.lineSeparator();
 			}
 		}
 
@@ -198,8 +198,8 @@ public class ConversionModuleReport {
 		return template.toString();
 	}
 
-	public static String createEnumsReport(EList<EdEnum> fpEnums) {
-		if (fpEnums.size() == 0)
+	public static String createEnumsReport(EList<EdEnum> edEnums) {
+		if (edEnums.size() == 0)
 			return "";
 
 		final String TEMPLATE_NAME = "ReceivingEnums.txt";
@@ -208,11 +208,11 @@ public class ConversionModuleReport {
 		StringTemplate template = new StringTemplate(templateContent);
 
 		String rows = "";
-		for (EdEnum fpEnum : fpEnums) {
+		for (EdEnum edEnum : edEnums) {
 			boolean firstRow = true;
-			for (Enumeration enumeration : fpEnum.getEnumerations()) {
+			for (Enumeration enumeration : edEnum.getEnumerations()) {
 				if (firstRow) {
-					rows += fpEnum.getName() + " | " + enumeration.getContent() + System.lineSeparator();
+					rows += edEnum.getName() + " | " + enumeration.getContent() + System.lineSeparator();
 					firstRow = false;
 
 				} else
@@ -272,7 +272,7 @@ public class ConversionModuleReport {
 	}
 
 	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<EdProperty>> mapKeyProperties,
-			EList<EdDefinedType> fpDefinedTypes, EList<EdEnum> fpEnums, EnterpriseData enterpriseDataPackage) {
+			EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums, EnterpriseData enterpriseDataPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 
@@ -509,9 +509,9 @@ public class ConversionModuleReport {
 				tabularSectionRow[1] = "";
 			}
 
-			EdProperty fpProperty = enterpriseDataPackage.getProperty(cmObjectRule.getFormatObject(),
+			EdProperty edProperty = enterpriseDataPackage.getProperty(cmObjectRule.getFormatObject(),
 					attributeRule.getFormatAttributeFullName());
-			if (fpProperty == null) {
+			if (edProperty == null) {
 				String formatAttribute = attributeRule.getFormatAttribute();
 
 				String propertyType = attributeRule.getFormatAttributeFullName().length() != 0
@@ -532,7 +532,7 @@ public class ConversionModuleReport {
 						false, 0);
 
 			} else {
-				boolean isKey = fpProperty.getIsKey();
+				boolean isKey = edProperty.getIsKey();
 
 				String formatAttribute = attributeRule.getFormatAttribute();
 
@@ -544,22 +544,22 @@ public class ConversionModuleReport {
 				if (attributeRule.getFormatAttribute().isEmpty())
 					comment = "<Заполняется алгоритмом>";
 
-				String required = fpProperty.getRequired() ? "Да" : "";
+				String required = edProperty.getRequired() ? "Да" : "";
 
 				// TODO: Раскрывать КлючевыеСвойства у подсвойств
-				String[] subPropertyTypes = fpProperty.getPropertyType().split("[;]");
+				String[] subPropertyTypes = edProperty.getPropertyType().split("[;]");
 				if (subPropertyTypes.length == 1) {
 					String subPropertyType = subPropertyTypes[0];
 					if (subPropertyType.isEmpty())
 						subPropertyType = "<Свойство формата не найдено>";
 
-					EdDefinedType fpDefinedType = enterpriseDataPackage.getDefinedType(subPropertyType);
-					if (fpDefinedType != null && !fpDefinedTypes.contains(fpDefinedType))
-						fpDefinedTypes.add(fpDefinedType);
+					EdDefinedType edDefinedType = enterpriseDataPackage.getDefinedType(subPropertyType);
+					if (edDefinedType != null && !edDefinedTypes.contains(edDefinedType))
+						edDefinedTypes.add(edDefinedType);
 
-					EdEnum fpEnum = enterpriseDataPackage.getEnum(subPropertyType);
-					if (fpEnum != null && !fpEnums.contains(fpEnum))
-						fpEnums.add(fpEnum);
+					EdEnum edEnum = enterpriseDataPackage.getEnum(subPropertyType);
+					if (edEnum != null && !edEnums.contains(edEnum))
+						edEnums.add(edEnum);
 
 					Boolean isSubKey = subPropertyType.startsWith("КлючевыеСвойства");
 
@@ -573,17 +573,17 @@ public class ConversionModuleReport {
 								isKey, 0);
 
 					if (isSubKey) {
-						EList<EdProperty> keyProperties = mapKeyProperties.get(subPropertyType);
-						if (keyProperties != null) {
-							for (EdProperty fpKeyProperty : keyProperties) {
+						EList<EdProperty> edKeyProperties = mapKeyProperties.get(subPropertyType);
+						if (edKeyProperties != null) {
+							for (EdProperty edKeyProperty : edKeyProperties) {
 								if (isKey)
-									tabularSectionRow[0] += getTableRow("_" + fpKeyProperty.getName(),
-											fpKeyProperty.getPropertyType(), "",
-											fpKeyProperty.getRequired() ? "Да" : "", "", isKey, 1);
+									tabularSectionRow[0] += getTableRow("_" + edKeyProperty.getName(),
+											edKeyProperty.getPropertyType(), "",
+											edKeyProperty.getRequired() ? "Да" : "", "", isKey, 1);
 								else
-									tabularSectionRow[1] += getTableRow("_" + fpKeyProperty.getName(),
-											fpKeyProperty.getPropertyType(), "",
-											fpKeyProperty.getRequired() ? "Да" : "", "", isKey, 1);
+									tabularSectionRow[1] += getTableRow("_" + edKeyProperty.getName(),
+											edKeyProperty.getPropertyType(), "",
+											edKeyProperty.getRequired() ? "Да" : "", "", isKey, 1);
 							}
 						}
 
@@ -608,17 +608,17 @@ public class ConversionModuleReport {
 									isSubKey ? "КлючевыеСвойства" : subPropertyType, "", "", "", isKey, 1);
 
 						if (isSubKey) {
-							EList<EdProperty> keyProperties = mapKeyProperties.get(subPropertyType);
-							if (keyProperties != null) {
-								for (EdProperty fpKeyProperty : keyProperties) {
+							EList<EdProperty> edKeyProperties = mapKeyProperties.get(subPropertyType);
+							if (edKeyProperties != null) {
+								for (EdProperty edKeyProperty : edKeyProperties) {
 									if (isKey)
-										tabularSectionRow[0] += getTableRow("_" + fpKeyProperty.getName(),
-												fpKeyProperty.getPropertyType(), "",
-												fpKeyProperty.getRequired() ? "Да" : "", "", isKey, 2);
+										tabularSectionRow[0] += getTableRow("_" + edKeyProperty.getName(),
+												edKeyProperty.getPropertyType(), "",
+												edKeyProperty.getRequired() ? "Да" : "", "", isKey, 2);
 									else
-										tabularSectionRow[1] += getTableRow("_" + fpKeyProperty.getName(),
-												fpKeyProperty.getPropertyType(), "",
-												fpKeyProperty.getRequired() ? "Да" : "", "", isKey, 2);
+										tabularSectionRow[1] += getTableRow("_" + edKeyProperty.getName(),
+												edKeyProperty.getPropertyType(), "",
+												edKeyProperty.getRequired() ? "Да" : "", "", isKey, 2);
 								}
 							}
 						}

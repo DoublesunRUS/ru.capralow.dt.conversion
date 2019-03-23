@@ -77,89 +77,89 @@ public class ConversionModuleReportTest {
 
 	@Test
 	public void testCreateEmptyDefinedTypesReport() {
-		EList<EdDefinedType> fpDefinedTypes = new BasicEList<EdDefinedType>();
+		EList<EdDefinedType> edDefinedTypes = new BasicEList<EdDefinedType>();
 
 		String report1 = "";
 
-		String report2 = ConversionModuleReport.createDefinedTypesReport(fpDefinedTypes);
+		String report2 = ConversionModuleReport.createDefinedTypesReport(edDefinedTypes);
 
 		assertEquals("Описание формата для пустых определяемых типов соответствует ожидаемому", report1, report2);
 	}
 
 	@Test
 	public void testCreateDefinedTypesReport() {
-		EList<EdDefinedType> fpDefinedTypes = new BasicEList<EdDefinedType>();
+		EList<EdDefinedType> edDefinedTypes = new BasicEList<EdDefinedType>();
 
-		EdDefinedType fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
-		fpDefinedTypes.add(fpDefinedType);
-		fpDefinedType.setName("Простой тип");
-		EList<EdType> fpTypes = fpDefinedType.getTypes();
-		EdType fpType = edFactory.eINSTANCE.createEdType();
-		fpTypes.add(fpType);
-		fpType.setName("ЦелоеЧисло");
-		fpType.setPropertyType("Число (целое)");
+		EdDefinedType edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
+		edDefinedTypes.add(edDefinedType);
+		edDefinedType.setName("Простой тип");
+		EList<EdType> edTypes = edDefinedType.getTypes();
+		EdType edType = edFactory.eINSTANCE.createEdType();
+		edTypes.add(edType);
+		edType.setName("ЦелоеЧисло");
+		edType.setPropertyType("Число (целое)");
 
-		fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
-		fpDefinedTypes.add(fpDefinedType);
-		fpDefinedType.setName("Составной тип");
-		fpTypes = fpDefinedType.getTypes();
-		fpType = edFactory.eINSTANCE.createEdType();
-		fpTypes.add(fpType);
-		fpType.setName("Дата");
-		fpType.setPropertyType("Дата (дата)");
-		fpType = edFactory.eINSTANCE.createEdType();
-		fpTypes.add(fpType);
-		fpType.setName("СсылкаНаОбъект");
-		fpType.setPropertyType("ЛюбаяСсылка");
-		fpType = edFactory.eINSTANCE.createEdType();
-		fpTypes.add(fpType);
-		fpType.setName("ДокументСсылка");
-		fpType.setPropertyType("КлючевыеСвойстваДокумент");
-		fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
-		fpDefinedTypes.add(fpDefinedType);
-		fpDefinedType.setName("Простой тип");
-		fpTypes = fpDefinedType.getTypes();
-		fpType = edFactory.eINSTANCE.createEdType();
-		fpTypes.add(fpType);
-		fpType.setName("Дата");
-		fpType.setPropertyType("Число (целое)");
+		edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
+		edDefinedTypes.add(edDefinedType);
+		edDefinedType.setName("Составной тип");
+		edTypes = edDefinedType.getTypes();
+		edType = edFactory.eINSTANCE.createEdType();
+		edTypes.add(edType);
+		edType.setName("Дата");
+		edType.setPropertyType("Дата (дата)");
+		edType = edFactory.eINSTANCE.createEdType();
+		edTypes.add(edType);
+		edType.setName("СсылкаНаОбъект");
+		edType.setPropertyType("ЛюбаяСсылка");
+		edType = edFactory.eINSTANCE.createEdType();
+		edTypes.add(edType);
+		edType.setName("ДокументСсылка");
+		edType.setPropertyType("КлючевыеСвойстваДокумент");
+		edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
+		edDefinedTypes.add(edDefinedType);
+		edDefinedType.setName("Простой тип");
+		edTypes = edDefinedType.getTypes();
+		edType = edFactory.eINSTANCE.createEdType();
+		edTypes.add(edType);
+		edType.setName("Дата");
+		edType.setPropertyType("Число (целое)");
 
 		String report1 = String.join(System.lineSeparator(), "### Определяемые типы", "", "Имя типа | Состав типа",
 				"--- | ---", "Простой тип | Число (целое)", "Составной тип | ", " | Дата (дата)", " | ЛюбаяСсылка",
 				" | КлючевыеСвойстваДокумент", "Простой тип | Число (целое)", "");
 
-		String report2 = ConversionModuleReport.createDefinedTypesReport(fpDefinedTypes);
+		String report2 = ConversionModuleReport.createDefinedTypesReport(edDefinedTypes);
 
 		assertEquals("Описание формата для определяемых типов соответствует ожидаемому", report1, report2);
 	}
 
 	@Test
 	public void testCreateEmptyEnumsReport() {
-		EList<EdEnum> fpEnums = new BasicEList<EdEnum>();
+		EList<EdEnum> edEnums = new BasicEList<EdEnum>();
 
 		String report1 = "";
 
-		String report2 = ConversionModuleReport.createEnumsReport(fpEnums);
+		String report2 = ConversionModuleReport.createEnumsReport(edEnums);
 
 		assertEquals("Описание формата для пустых перечислений соответствует ожидаемому", report1, report2);
 	}
 
 	@Test
 	public void testCreateEnumsReport() {
-		EList<EdEnum> fpEnums = new BasicEList<EdEnum>();
+		EList<EdEnum> edEnums = new BasicEList<EdEnum>();
 
-		EdEnum fpEnum = edFactory.eINSTANCE.createEdEnum();
-		fpEnums.add(fpEnum);
-		fpEnum.setName("Перечисление1");
-		EList<Enumeration> enumerations = fpEnum.getEnumerations();
+		EdEnum epEnum = edFactory.eINSTANCE.createEdEnum();
+		edEnums.add(epEnum);
+		epEnum.setName("Перечисление1");
+		EList<Enumeration> enumerations = epEnum.getEnumerations();
 		Enumeration enumeration = XdtoFactory.eINSTANCE.createEnumeration();
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение11");
 
-		fpEnum = edFactory.eINSTANCE.createEdEnum();
-		fpEnums.add(fpEnum);
-		fpEnum.setName("Перечисление2");
-		enumerations = fpEnum.getEnumerations();
+		epEnum = edFactory.eINSTANCE.createEdEnum();
+		edEnums.add(epEnum);
+		epEnum.setName("Перечисление2");
+		enumerations = epEnum.getEnumerations();
 		enumeration = XdtoFactory.eINSTANCE.createEnumeration();
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение21");
@@ -173,10 +173,10 @@ public class ConversionModuleReportTest {
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение24");
 
-		fpEnum = edFactory.eINSTANCE.createEdEnum();
-		fpEnums.add(fpEnum);
-		fpEnum.setName("Перечисление3");
-		enumerations = fpEnum.getEnumerations();
+		epEnum = edFactory.eINSTANCE.createEdEnum();
+		edEnums.add(epEnum);
+		epEnum.setName("Перечисление3");
+		enumerations = epEnum.getEnumerations();
 		enumeration = XdtoFactory.eINSTANCE.createEnumeration();
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение31");
@@ -188,7 +188,7 @@ public class ConversionModuleReportTest {
 				"Имя перечисления | Значения", "--- | ---", "Перечисление1 | Значение11", "Перечисление2 | Значение21",
 				" | Значение22", " | Значение23", " | Значение24", "Перечисление3 | Значение31", " | Значение32", "");
 
-		String report2 = ConversionModuleReport.createEnumsReport(fpEnums);
+		String report2 = ConversionModuleReport.createEnumsReport(edEnums);
 
 		assertEquals("Описание формата для перечислений соответствует ожидаемому", report1, report2);
 	}
