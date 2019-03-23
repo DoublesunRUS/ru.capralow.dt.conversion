@@ -68,30 +68,23 @@ import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
-import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
-import ru.capralow.dt.conversion.plugin.core.cm.CmMethodType;
-import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.CmPredefinedMap;
-import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
-import ru.capralow.dt.conversion.plugin.core.cm.CmSpecialSubsystemType;
-import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAlgorithmImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmDataRuleImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmObjectRuleImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmPredefinedMapImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.ConversionModuleImpl;
-import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProject;
-import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
-import ru.capralow.dt.conversion.plugin.core.rg.ReportGroups;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmSelectionVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
+import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
+import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 
 public class ConversionModuleAnalyzer {
 	private IV8ProjectManager projectManager;
@@ -101,7 +94,7 @@ public class ConversionModuleAnalyzer {
 	private ConversionModule conversionModule;
 	private ReportGroups reportGroups;
 
-	private Map<String, FormatPackage> formatPackages = new HashMap<String, FormatPackage>();
+	private Map<String, EnterpriseDataXdto> enterpriseDataPackages = new HashMap<String, EnterpriseDataXdto>();
 
 	public ConversionModuleAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
 			AbstractUIPlugin plugin) {
@@ -109,15 +102,15 @@ public class ConversionModuleAnalyzer {
 		this.bmEmfIndexManager = bmEmfIndexManager;
 		this.plugin = plugin;
 
-		this.conversionModule = new ConversionModuleImpl();
+		this.conversionModule = cmFactory.eINSTANCE.createConversionModule();
 	}
 
 	public ConversionModule getConversionModule() {
 		return conversionModule;
 	}
 
-	public Map<String, FormatPackage> getFormatPackages() {
-		return formatPackages;
+	public Map<String, EnterpriseDataXdto> getEnterpriseDataPackages() {
+		return enterpriseDataPackages;
 	}
 
 	public ReportGroups getReportGroups() {
@@ -134,10 +127,10 @@ public class ConversionModuleAnalyzer {
 		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, bmEmfIndexProvider, plugin);
 		EList<EpFormatVersion> moduleFormatVersions = exchangeProject.getModuleFormatVersions(commonModule);
 		for (EpFormatVersion formatVersion : moduleFormatVersions) {
-			FormatPackage formatPackage = FormatPackageAnalyzer.loadResource(formatVersion, project, bmEmfIndexProvider,
-					plugin);
+			EnterpriseDataXdto enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.loadResource(formatVersion, project,
+					bmEmfIndexProvider, plugin);
 
-			formatPackages.put(formatVersion.getVersion(), formatPackage);
+			enterpriseDataPackages.put(formatVersion.getVersion(), enterpriseDataPackage);
 		}
 
 		Module module = commonModule.getModule();
@@ -165,7 +158,7 @@ public class ConversionModuleAnalyzer {
 		CommandInterface commandInterface = (CommandInterface) configuration.getCommandInterface();
 
 		CommandInterface mainCommandInterface = (CommandInterface) configuration.getMainSectionCommandInterface();
-		CmSubsystem cmMainSubsystem = new CmSubsystemImpl();
+		CmSubsystem cmMainSubsystem = cmFactory.eINSTANCE.createCmSubsystem();
 		cmMainSubsystem.setSpecialSubsystemType(CmSpecialSubsystemType.MAIN);
 		subsystems.add(cmMainSubsystem);
 
@@ -175,12 +168,12 @@ public class ConversionModuleAnalyzer {
 				if (!confSubsystem.isIncludeInCommandInterface())
 					continue;
 
-				CmSubsystem subsystem = new CmSubsystemImpl();
+				CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
 				subsystem.setSubsystem(confSubsystem);
 
 				subsystems.add(subsystem);
 			}
-		CmSubsystem subsystem = new CmSubsystemImpl();
+		CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
 		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
 		subsystems.add(subsystem);
 
@@ -262,7 +255,7 @@ public class ConversionModuleAnalyzer {
 							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression
 									.getMethodAccess();
 
-							CmDataRule dataRule = new CmDataRuleImpl();
+							CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 
 							dataRule.setName(partMethodAccess.getName().substring(12));
 							dataRule.setForSending(true);
@@ -281,7 +274,7 @@ public class ConversionModuleAnalyzer {
 							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression
 									.getMethodAccess();
 
-							CmDataRule dataRule = new CmDataRuleImpl();
+							CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 
 							dataRule.setName(partMethodAccess.getName().substring(12));
 							dataRule.setForSending(false);
@@ -390,7 +383,7 @@ public class ConversionModuleAnalyzer {
 
 					CmObjectRule objectRule = conversionModule.getObjectRule(ruleName);
 					if (objectRule == null) {
-						objectRule = new CmObjectRuleImpl();
+						objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 						objectRule.setName(ruleName);
 
@@ -425,7 +418,7 @@ public class ConversionModuleAnalyzer {
 
 							CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 							if (objectRule == null) {
-								objectRule = new CmObjectRuleImpl();
+								objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 								objectRule.setName(objectRuleName);
 
@@ -450,7 +443,7 @@ public class ConversionModuleAnalyzer {
 
 							CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 							if (objectRule == null) {
-								objectRule = new CmObjectRuleImpl();
+								objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 								objectRule.setName(objectRuleName);
 
@@ -471,7 +464,7 @@ public class ConversionModuleAnalyzer {
 
 					CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 					if (objectRule == null) {
-						objectRule = new CmObjectRuleImpl();
+						objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 						objectRule.setName(objectRuleName);
 
@@ -601,7 +594,7 @@ public class ConversionModuleAnalyzer {
 
 						CmAlgorithm algorithm = conversionModule.getAlgorithm(algorithmName);
 						if (algorithm == null) {
-							algorithm = new CmAlgorithmImpl();
+							algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
 
 							algorithm.setName(algorithmName);
 
@@ -644,7 +637,7 @@ public class ConversionModuleAnalyzer {
 							attributeObjectRule = conversionModule.getObjectRule(attributeRuleName);
 
 							if (attributeObjectRule == null) {
-								attributeObjectRule = new CmObjectRuleImpl();
+								attributeObjectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 								attributeObjectRule.setName(attributeRuleName);
 
@@ -654,7 +647,7 @@ public class ConversionModuleAnalyzer {
 
 						EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
 
-						CmAttributeRule attributeRule = new CmAttributeRuleImpl();
+						CmAttributeRule attributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
 
 						attributeRule.setConfigurationTabularSection(configurationTabularSection);
 						attributeRule.setConfigurationAttribute(configurationAttribute);
@@ -731,7 +724,7 @@ public class ConversionModuleAnalyzer {
 					if (predefined.predefinedMapExists(configurationValueName, formatValueName))
 						continue;
 
-					CmPredefinedMap predefinedMap = new CmPredefinedMapImpl();
+					CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
 
 					predefinedMap.setConfigurationValue(configurationValueName);
 					predefinedMap.setFormatValue(formatValueName);
@@ -746,7 +739,7 @@ public class ConversionModuleAnalyzer {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
 						String predefinedName = stringLiteral.getLines().get(0).replace("\"", "");
 
-						predefined = new CmPredefinedImpl();
+						predefined = cmFactory.eINSTANCE.createCmPredefined();
 
 						predefined.setName(predefinedName);
 
@@ -801,7 +794,7 @@ public class ConversionModuleAnalyzer {
 
 			CmAlgorithm algorithm = conversionModule.getAlgorithm(methodName);
 			if (algorithm == null) {
-				algorithm = new CmAlgorithmImpl();
+				algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
 
 				algorithm.setName(methodName);
 
@@ -868,7 +861,7 @@ public class ConversionModuleAnalyzer {
 							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression
 									.getMethodAccess();
 
-							CmDataRule dataRule = new CmDataRuleImpl();
+							CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 
 							dataRule.setName(partMethodAccess.getName().substring(12));
 							dataRule.setForSending(true);
@@ -887,7 +880,7 @@ public class ConversionModuleAnalyzer {
 							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression
 									.getMethodAccess();
 
-							CmDataRule dataRule = new CmDataRuleImpl();
+							CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 
 							dataRule.setName(partMethodAccess.getName().substring(12));
 							dataRule.setForSending(false);
@@ -987,7 +980,7 @@ public class ConversionModuleAnalyzer {
 
 					CmObjectRule objectRule = conversionModule.getObjectRule(ruleName);
 					if (objectRule == null) {
-						objectRule = new CmObjectRuleImpl();
+						objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 						objectRule.setName(ruleName);
 
@@ -1022,7 +1015,7 @@ public class ConversionModuleAnalyzer {
 
 							CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 							if (objectRule == null) {
-								objectRule = new CmObjectRuleImpl();
+								objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 								objectRule.setName(objectRuleName);
 
@@ -1047,7 +1040,7 @@ public class ConversionModuleAnalyzer {
 
 							CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 							if (objectRule == null) {
-								objectRule = new CmObjectRuleImpl();
+								objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 								objectRule.setName(objectRuleName);
 
@@ -1068,7 +1061,7 @@ public class ConversionModuleAnalyzer {
 
 					CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
 					if (objectRule == null) {
-						objectRule = new CmObjectRuleImpl();
+						objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 						objectRule.setName(objectRuleName);
 
@@ -1188,7 +1181,7 @@ public class ConversionModuleAnalyzer {
 
 						CmAlgorithm algorithm = conversionModule.getAlgorithm(algorithmName);
 						if (algorithm == null) {
-							algorithm = new CmAlgorithmImpl();
+							algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
 
 							algorithm.setName(algorithmName);
 
@@ -1231,7 +1224,7 @@ public class ConversionModuleAnalyzer {
 							attributeObjectRule = conversionModule.getObjectRule(attributeRuleName);
 
 							if (attributeObjectRule == null) {
-								attributeObjectRule = new CmObjectRuleImpl();
+								attributeObjectRule = cmFactory.eINSTANCE.createCmObjectRule();
 
 								attributeObjectRule.setName(attributeRuleName);
 
@@ -1241,7 +1234,7 @@ public class ConversionModuleAnalyzer {
 
 						EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
 
-						CmAttributeRule attributeRule = new CmAttributeRuleImpl();
+						CmAttributeRule attributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
 
 						attributeRule.setConfigurationTabularSection(configurationTabularSection);
 						attributeRule.setConfigurationAttribute(configurationAttribute);
@@ -1318,7 +1311,7 @@ public class ConversionModuleAnalyzer {
 					if (predefined.predefinedMapExists(configurationValueName, formatValueName))
 						continue;
 
-					CmPredefinedMap predefinedMap = new CmPredefinedMapImpl();
+					CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
 
 					predefinedMap.setConfigurationValue(configurationValueName);
 					predefinedMap.setFormatValue(formatValueName);
@@ -1333,7 +1326,7 @@ public class ConversionModuleAnalyzer {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
 						String predefinedName = stringLiteral.getLines().get(0).replace("\"", "");
 
-						predefined = new CmPredefinedImpl();
+						predefined = cmFactory.eINSTANCE.createCmPredefined();
 
 						predefined.setName(predefinedName);
 
@@ -1385,7 +1378,7 @@ public class ConversionModuleAnalyzer {
 
 			CmAlgorithm algorithm = conversionModule.getAlgorithm(methodName);
 			if (algorithm == null) {
-				algorithm = new CmAlgorithmImpl();
+				algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
 
 				algorithm.setName(methodName);
 

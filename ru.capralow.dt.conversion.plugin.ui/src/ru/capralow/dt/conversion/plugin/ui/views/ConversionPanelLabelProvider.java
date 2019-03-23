@@ -5,11 +5,11 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePair;
-import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePairStatus;
-import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ep.EpProjectStatus;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProject;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePairStatus;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpProjectStatus;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class ConversionPanelLabelProvider implements ILabelProvider {
 

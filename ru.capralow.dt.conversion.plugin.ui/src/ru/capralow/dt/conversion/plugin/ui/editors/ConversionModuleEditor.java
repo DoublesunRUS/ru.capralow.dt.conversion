@@ -81,17 +81,17 @@ import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleReport;
-import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
-import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.CmSpecialSubsystemType;
-import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmSubsystemImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
-import ru.capralow.dt.conversion.plugin.core.rg.ReportGroups;
-import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
+import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
+import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
@@ -214,7 +214,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object[] viewerContent = new Object[listObjects.size() + 1];
 
-				CmSubsystemImpl subsystem = new CmSubsystemImpl();
+				CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
 				subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.ALL);
 				viewerContent[0] = subsystem;
 
@@ -1142,17 +1142,18 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		while (menuMain.getItemCount() > 1)
 			menuMain.getItem(1).dispose();
-		for (Entry<String, FormatPackage> formatPackage : conversionModuleAnalyzer.getFormatPackages().entrySet()) {
+		for (Entry<String, EnterpriseDataXdto> enterpriseDataPackage : conversionModuleAnalyzer.getEnterpriseDataPackages()
+				.entrySet()) {
 			if (reportGroups == null) {
-				addReportMenuItem(formatPackage.getKey(), formatPackage.getValue(), null, false);
+				addReportMenuItem(enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(), null, false);
 
 			} else {
 				EList<RgVariant> rgVariants = reportGroups.getVariants();
 				for (RgVariant rgVariant : rgVariants) {
 					if (reportGroups.getAddObjectsList())
-						addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
+						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(),
 								rgVariant, true);
-					addReportMenuItem(rgVariant.getName() + " " + formatPackage.getKey(), formatPackage.getValue(),
+					addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(),
 							rgVariant, false);
 				}
 
@@ -1246,7 +1247,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}
 	}
 
-	private void addReportMenuItem(String name, FormatPackage formatPackage, RgVariant rgVariant, boolean objectsOnly) {
+	private void addReportMenuItem(String name, EnterpriseDataXdto enterpriseDataPackage, RgVariant rgVariant,
+			boolean objectsOnly) {
 		MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
 		if (objectsOnly)
 			itemMenu.setText("Список объектов " + name);
@@ -1336,8 +1338,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				try {
 					String stringReport = objectsOnly
-							? ConversionModuleReport.createObjectsReport(rgVariant, formatPackage, conversionModule)
-							: ConversionModuleReport.createFullReport(rgVariant, formatPackage, conversionModule);
+							? ConversionModuleReport.createObjectsReport(rgVariant, enterpriseDataPackage, conversionModule)
+							: ConversionModuleReport.createFullReport(rgVariant, enterpriseDataPackage, conversionModule);
 
 					IStorage storage = new StringStorage(stringReport);
 					IStorageEditorInput input = new StringInput(storage);

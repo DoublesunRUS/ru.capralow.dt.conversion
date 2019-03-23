@@ -29,11 +29,10 @@ import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
-import ru.capralow.dt.conversion.plugin.core.rm.AutoRegistration;
-import ru.capralow.dt.conversion.plugin.core.rm.ExchangePlanContent;
-import ru.capralow.dt.conversion.plugin.core.rm.RegistrationModule;
-import ru.capralow.dt.conversion.plugin.core.rm.impl.ExchangePlanContentImpl;
-import ru.capralow.dt.conversion.plugin.core.rm.impl.RegistrationModuleImpl;
+import ru.capralow.dt.conversion.plugin.core.rm.model.AutoRegistration;
+import ru.capralow.dt.conversion.plugin.core.rm.model.ExchangePlanContent;
+import ru.capralow.dt.conversion.plugin.core.rm.model.RegistrationModule;
+import ru.capralow.dt.conversion.plugin.core.rm.model.rmFactory;
 
 public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.RegistrationModuleEditor";
@@ -144,7 +143,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 	}
 
 	private void readRegistrationModule(IFile file) {
-		registrationModule = new RegistrationModuleImpl();
+		registrationModule = rmFactory.eINSTANCE.createRegistrationModule();
 
 		InputStream fileInput;
 		try {
@@ -200,7 +199,8 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 							continue;
 						}
 
-						ExchangePlanContentImpl exchangePlanContentElement = new ExchangePlanContentImpl();
+						ExchangePlanContent exchangePlanContentElement = rmFactory.eINSTANCE
+								.createExchangePlanContent();
 
 						NodeList childChildNodeList = childNode.getChildNodes();
 						for (int cci = 0; cci < childChildNodeList.getLength(); cci++) {

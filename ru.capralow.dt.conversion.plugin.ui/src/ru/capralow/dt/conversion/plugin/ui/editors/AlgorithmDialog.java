@@ -24,8 +24,8 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmAlgorithm;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
+import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 
 @SuppressWarnings("restriction")
 public class AlgorithmDialog extends Dialog implements IAdaptable {

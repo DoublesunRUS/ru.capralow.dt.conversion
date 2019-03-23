@@ -1,7 +1,7 @@
-@GenModel(
-	publicConstructors="true"
-)
-package ru.capralow.dt.conversion.plugin.core.rm
+@GenModel(loadInitialization="false", literalsInterface="true", nonNLSMarkers="true", prefix="rm", updateClasspath="false",
+	featureDelegation="Reflective")
+@Ecore(nsPrefix="rm", nsURI="http://ru.capralow.dt.conversion.plugin.core.rm.model")
+package ru.capralow.dt.conversion.plugin.core.rm.model
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

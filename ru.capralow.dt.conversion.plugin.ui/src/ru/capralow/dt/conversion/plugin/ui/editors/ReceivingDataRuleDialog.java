@@ -39,10 +39,10 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmSelectionVariant;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmSelectionVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 
 @SuppressWarnings("restriction")
 public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {

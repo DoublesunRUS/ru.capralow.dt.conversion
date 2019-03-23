@@ -39,9 +39,9 @@ import com._1c.g5.v8.dt.ui.util.OpenHelper;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.ExchangeProjectsAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeData;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProjects;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeData;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProjects;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionPanelView extends ViewPart {

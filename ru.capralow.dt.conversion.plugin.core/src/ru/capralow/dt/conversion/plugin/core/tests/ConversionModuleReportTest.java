@@ -10,13 +10,11 @@ import com._1c.g5.v8.dt.xdto.model.Enumeration;
 import com._1c.g5.v8.dt.xdto.model.XdtoFactory;
 
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleReport;
-import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
-import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
-import ru.capralow.dt.conversion.plugin.core.fp.FpEnum;
-import ru.capralow.dt.conversion.plugin.core.fp.FpType;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDefinedTypeImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpEnumImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpTypeImpl;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
+import ru.capralow.dt.conversion.plugin.core.ed.model.edFactory;
 
 public class ConversionModuleReportTest {
 
@@ -79,7 +77,7 @@ public class ConversionModuleReportTest {
 
 	@Test
 	public void testCreateEmptyDefinedTypesReport() {
-		EList<FpDefinedType> fpDefinedTypes = new BasicEList<FpDefinedType>();
+		EList<EdDefinedType> fpDefinedTypes = new BasicEList<EdDefinedType>();
 
 		String report1 = "";
 
@@ -90,38 +88,38 @@ public class ConversionModuleReportTest {
 
 	@Test
 	public void testCreateDefinedTypesReport() {
-		EList<FpDefinedType> fpDefinedTypes = new BasicEList<FpDefinedType>();
+		EList<EdDefinedType> fpDefinedTypes = new BasicEList<EdDefinedType>();
 
-		FpDefinedType fpDefinedType = new FpDefinedTypeImpl();
+		EdDefinedType fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
 		fpDefinedTypes.add(fpDefinedType);
 		fpDefinedType.setName("Простой тип");
-		EList<FpType> fpTypes = fpDefinedType.getTypes();
-		FpType fpType = new FpTypeImpl();
+		EList<EdType> fpTypes = fpDefinedType.getTypes();
+		EdType fpType = edFactory.eINSTANCE.createEdType();
 		fpTypes.add(fpType);
 		fpType.setName("ЦелоеЧисло");
 		fpType.setPropertyType("Число (целое)");
 
-		fpDefinedType = new FpDefinedTypeImpl();
+		fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
 		fpDefinedTypes.add(fpDefinedType);
 		fpDefinedType.setName("Составной тип");
 		fpTypes = fpDefinedType.getTypes();
-		fpType = new FpTypeImpl();
+		fpType = edFactory.eINSTANCE.createEdType();
 		fpTypes.add(fpType);
 		fpType.setName("Дата");
 		fpType.setPropertyType("Дата (дата)");
-		fpType = new FpTypeImpl();
+		fpType = edFactory.eINSTANCE.createEdType();
 		fpTypes.add(fpType);
 		fpType.setName("СсылкаНаОбъект");
 		fpType.setPropertyType("ЛюбаяСсылка");
-		fpType = new FpTypeImpl();
+		fpType = edFactory.eINSTANCE.createEdType();
 		fpTypes.add(fpType);
 		fpType.setName("ДокументСсылка");
 		fpType.setPropertyType("КлючевыеСвойстваДокумент");
-		fpDefinedType = new FpDefinedTypeImpl();
+		fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
 		fpDefinedTypes.add(fpDefinedType);
 		fpDefinedType.setName("Простой тип");
 		fpTypes = fpDefinedType.getTypes();
-		fpType = new FpTypeImpl();
+		fpType = edFactory.eINSTANCE.createEdType();
 		fpTypes.add(fpType);
 		fpType.setName("Дата");
 		fpType.setPropertyType("Число (целое)");
@@ -137,7 +135,7 @@ public class ConversionModuleReportTest {
 
 	@Test
 	public void testCreateEmptyEnumsReport() {
-		EList<FpEnum> fpEnums = new BasicEList<FpEnum>();
+		EList<EdEnum> fpEnums = new BasicEList<EdEnum>();
 
 		String report1 = "";
 
@@ -148,9 +146,9 @@ public class ConversionModuleReportTest {
 
 	@Test
 	public void testCreateEnumsReport() {
-		EList<FpEnum> fpEnums = new BasicEList<FpEnum>();
+		EList<EdEnum> fpEnums = new BasicEList<EdEnum>();
 
-		FpEnum fpEnum = new FpEnumImpl();
+		EdEnum fpEnum = edFactory.eINSTANCE.createEdEnum();
 		fpEnums.add(fpEnum);
 		fpEnum.setName("Перечисление1");
 		EList<Enumeration> enumerations = fpEnum.getEnumerations();
@@ -158,7 +156,7 @@ public class ConversionModuleReportTest {
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение11");
 
-		fpEnum = new FpEnumImpl();
+		fpEnum = edFactory.eINSTANCE.createEdEnum();
 		fpEnums.add(fpEnum);
 		fpEnum.setName("Перечисление2");
 		enumerations = fpEnum.getEnumerations();
@@ -175,7 +173,7 @@ public class ConversionModuleReportTest {
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение24");
 
-		fpEnum = new FpEnumImpl();
+		fpEnum = edFactory.eINSTANCE.createEdEnum();
 		fpEnums.add(fpEnum);
 		fpEnum.setName("Перечисление3");
 		enumerations = fpEnum.getEnumerations();

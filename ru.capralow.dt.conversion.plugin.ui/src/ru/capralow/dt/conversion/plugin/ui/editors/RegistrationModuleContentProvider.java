@@ -8,8 +8,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import ru.capralow.dt.conversion.plugin.core.rm.ExchangePlanContent;
-import ru.capralow.dt.conversion.plugin.core.rm.RegistrationModule;
+import ru.capralow.dt.conversion.plugin.core.rm.model.ExchangePlanContent;
+import ru.capralow.dt.conversion.plugin.core.rm.model.RegistrationModule;
 
 public class RegistrationModuleContentProvider implements ITreeContentProvider {
 

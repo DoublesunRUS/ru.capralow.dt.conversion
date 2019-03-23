@@ -29,27 +29,22 @@ import com._1c.g5.v8.dt.xdto.model.Property;
 import com._1c.g5.v8.dt.xdto.model.Type;
 import com._1c.g5.v8.dt.xdto.model.ValueType;
 
-import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
-import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
-import ru.capralow.dt.conversion.plugin.core.fp.FpEnum;
-import ru.capralow.dt.conversion.plugin.core.fp.FpObject;
-import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
-import ru.capralow.dt.conversion.plugin.core.fp.FpType;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FormatPackageImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpDefinedTypeImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpEnumImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpObjectImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpPropertyImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.impl.FpTypeImpl;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdObject;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
+import ru.capralow.dt.conversion.plugin.core.ed.model.edFactory;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 
-public class FormatPackageAnalyzer {
+public class EnterpriseDataXdtoAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
 	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
-	public static FormatPackage loadResource(EpFormatVersion epFormatVersion, IProject project,
+	public static EnterpriseDataXdto loadResource(EpFormatVersion epFormatVersion, IProject project,
 			IBmEmfIndexProvider bmEmfIndexProvider, AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "formatPackage-"
+		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "enterpriseDataPackage-"
 				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
 
 		try {
@@ -63,9 +58,9 @@ public class FormatPackageAnalyzer {
 
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
-			FormatPackage formatPackage = (FormatPackage) xmiResource.getContents().get(0);
+			EnterpriseDataXdto enterpriseDataPackage = (EnterpriseDataXdto) xmiResource.getContents().get(0);
 
-			for (FpEnum fpEnum : formatPackage.getEnums()) {
+			for (EdEnum fpEnum : enterpriseDataPackage.getEnums()) {
 				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(fpEnum.getObject());
 				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 				if (objectItr.hasNext())
@@ -83,7 +78,7 @@ public class FormatPackageAnalyzer {
 				oldList.addAll(newList);
 			}
 
-			return formatPackage;
+			return enterpriseDataPackage;
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -93,9 +88,9 @@ public class FormatPackageAnalyzer {
 		return null;
 	}
 
-	public static void saveResource(EpFormatVersion epFormatVersion, FormatPackage formatPackage, IProject project,
-			AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "formatPackage-"
+	public static void saveResource(EpFormatVersion epFormatVersion, EnterpriseDataXdto enterpriseDataPackage,
+			IProject project, AbstractUIPlugin plugin) {
+		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "enterpriseDataPackage-"
 				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
 
 		File file;
@@ -104,7 +99,7 @@ public class FormatPackageAnalyzer {
 
 			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
 
-			xmiResource.getContents().add(formatPackage);
+			xmiResource.getContents().add(enterpriseDataPackage);
 			final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
 			saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
 			xmiResource.save(saveOptions);
@@ -115,14 +110,14 @@ public class FormatPackageAnalyzer {
 		}
 	}
 
-	public static FormatPackage analyze(EpFormatVersion epFormatVersion) {
-		FormatPackage formatPackage = new FormatPackageImpl();
+	public static EnterpriseDataXdto analyze(EpFormatVersion epFormatVersion) {
+		EnterpriseDataXdto enterpriseDataPackage = edFactory.eINSTANCE.createEnterpriseDataXdto();
 
-		EList<FpDefinedType> fpDefinedTypes = formatPackage.getDefinedTypes();
-		EList<FpObject> fpCatalogs = formatPackage.getCatalogs();
-		EList<FpObject> fpDocuments = formatPackage.getDocuments();
-		EList<FpEnum> fpEnums = formatPackage.getEnums();
-		EList<FpObject> fpRegisters = formatPackage.getRegisters();
+		EList<EdDefinedType> fpDefinedTypes = enterpriseDataPackage.getDefinedTypes();
+		EList<EdObject> fpCatalogs = enterpriseDataPackage.getCatalogs();
+		EList<EdObject> fpDocuments = enterpriseDataPackage.getDocuments();
+		EList<EdEnum> fpEnums = enterpriseDataPackage.getEnums();
+		EList<EdObject> fpRegisters = enterpriseDataPackage.getRegisters();
 
 		fpDefinedTypes.clear();
 		fpCatalogs.clear();
@@ -130,7 +125,7 @@ public class FormatPackageAnalyzer {
 		fpEnums.clear();
 		fpRegisters.clear();
 
-		formatPackage.setVersion(epFormatVersion.getVersion());
+		enterpriseDataPackage.setVersion(epFormatVersion.getVersion());
 
 		Package dataPackage = ((XDTOPackage) epFormatVersion.getXdtoPackage()).getPackage();
 
@@ -151,9 +146,9 @@ public class FormatPackageAnalyzer {
 
 			String objectName = object.getName();
 			if (baseType != null && baseType.getName().equals("Object")) {
-				EList<FpProperty> fpProperties = null;
+				EList<EdProperty> fpProperties = null;
 
-				FpObject fpObject = new FpObjectImpl();
+				EdObject fpObject = edFactory.eINSTANCE.createEdObject();
 				if (objectName.startsWith("Справочник.")) {
 					fpCatalogs.add(fpObject);
 
@@ -185,7 +180,7 @@ public class FormatPackageAnalyzer {
 						String propertyTypeName = property.getType().getName();
 						ObjectType propertyTypeObject = packageObjects.get(propertyTypeName);
 
-						EList<FpProperty> fpKeyProperties = null;
+						EList<EdProperty> fpKeyProperties = null;
 
 						fpObject.setKeysObject(propertyTypeObject);
 						fpObject.setKeysObjectName(propertyTypeName);
@@ -239,16 +234,16 @@ public class FormatPackageAnalyzer {
 				if (objectName.contains(".") || objectName.startsWith("КлючевыеСвойства"))
 					continue;
 
-				FpDefinedType fpDefinedType = new FpDefinedTypeImpl();
+				EdDefinedType fpDefinedType = edFactory.eINSTANCE.createEdDefinedType();
 				fpDefinedTypes.add(fpDefinedType);
 
-				EList<FpType> fpTypes = fpDefinedType.getTypes();
+				EList<EdType> fpTypes = fpDefinedType.getTypes();
 
 				fpDefinedType.setName(objectName);
 				for (Property property : object.getProperties()) {
 					String propertyName = property.getName();
 
-					FpType fpType = new FpTypeImpl();
+					EdType fpType = edFactory.eINSTANCE.createEdType();
 					fpTypes.add(fpType);
 
 					fpType.setName(propertyName);
@@ -263,7 +258,7 @@ public class FormatPackageAnalyzer {
 			if (enums.size() == 0)
 				continue;
 
-			FpEnum fpEnum = new FpEnumImpl();
+			EdEnum fpEnum = edFactory.eINSTANCE.createEdEnum();
 			fpEnums.add(fpEnum);
 
 			fpEnum.setObject(type);
@@ -272,13 +267,13 @@ public class FormatPackageAnalyzer {
 			fpEnum.getEnumerations().addAll(enums);
 		}
 
-		return formatPackage;
+		return enterpriseDataPackage;
 	}
 
 	private static void addProperty(Property property, String propertyName, Boolean isKey,
-			EList<FpProperty> fpProperties, Map<String, ObjectType> packageObjects,
+			EList<EdProperty> fpProperties, Map<String, ObjectType> packageObjects,
 			Map<String, ValueType> packageValues) {
-		FpProperty fpProperty = new FpPropertyImpl();
+		EdProperty fpProperty = edFactory.eINSTANCE.createEdProperty();
 		fpProperties.add(fpProperty);
 
 		fpProperty.setProperty(property);

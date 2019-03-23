@@ -69,18 +69,14 @@ import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 
-import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePair;
-import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePairStatus;
-import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ep.EpProjectStatus;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeData;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProject;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProjects;
-import ru.capralow.dt.conversion.plugin.core.ep.impl.EpExchangePairImpl;
-import ru.capralow.dt.conversion.plugin.core.ep.impl.EpFormatVersionImpl;
-import ru.capralow.dt.conversion.plugin.core.ep.impl.ExchangeDataImpl;
-import ru.capralow.dt.conversion.plugin.core.ep.impl.ExchangeProjectImpl;
-import ru.capralow.dt.conversion.plugin.core.ep.impl.ExchangeProjectsImpl;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePairStatus;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpProjectStatus;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeData;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProjects;
+import ru.capralow.dt.conversion.plugin.core.ep.model.epFactory;
 
 public class ExchangeProjectsAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
@@ -164,7 +160,7 @@ public class ExchangeProjectsAnalyzer {
 
 	public static ExchangeProjects loadResources(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
 			AbstractUIPlugin plugin) {
-		ExchangeProjects exchangeProjects = new ExchangeProjectsImpl();
+		ExchangeProjects exchangeProjects = epFactory.eINSTANCE.createExchangeProjects();
 
 		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 			if (!(projectManager.getProject(project) instanceof IConfigurationProject))
@@ -203,7 +199,7 @@ public class ExchangeProjectsAnalyzer {
 
 		});
 
-		ExchangeData exchangeData = new ExchangeDataImpl();
+		ExchangeData exchangeData = epFactory.eINSTANCE.createExchangeData();
 		exchangeData.getProjects().addAll(epProjects);
 
 		if (configurationPairs.size() != 0) {
@@ -211,7 +207,7 @@ public class ExchangeProjectsAnalyzer {
 			epPairs.clear();
 
 			for (Pair<String, String> configurationPair : configurationPairs) {
-				EpExchangePair epExchangePair = new EpExchangePairImpl();
+				EpExchangePair epExchangePair = epFactory.eINSTANCE.createEpExchangePair();
 
 				epExchangePair.setConfigurationName1(configurationPair.getKey());
 				epExchangePair.setConfigurationName2(configurationPair.getValue());
@@ -254,7 +250,7 @@ public class ExchangeProjectsAnalyzer {
 
 	public static ExchangeProject analyzeProject(IConfigurationProject configurationProject,
 			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
-		ExchangeProject exchangeProject = new ExchangeProjectImpl();
+		ExchangeProject exchangeProject = epFactory.eINSTANCE.createExchangeProject();
 
 		IProject mainProject = configurationProject.getProject();
 
@@ -333,7 +329,7 @@ public class ExchangeProjectsAnalyzer {
 				continue;
 			}
 
-			EpFormatVersion epFormatVersion = new EpFormatVersionImpl();
+			EpFormatVersion epFormatVersion = epFactory.eINSTANCE.createEpFormatVersion();
 
 			CommonModule formatModule = formatVersions.get(version);
 

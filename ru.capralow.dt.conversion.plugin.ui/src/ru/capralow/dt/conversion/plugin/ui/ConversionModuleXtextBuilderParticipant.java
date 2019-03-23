@@ -12,11 +12,11 @@ import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.ExchangeProjectsAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.FormatPackageAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ep.EpProjectStatus;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProject;
-import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
+import ru.capralow.dt.conversion.plugin.core.EnterpriseDataXdtoAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpProjectStatus;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtext.builder.IXtextBuilderParticipant {
 
@@ -60,16 +60,16 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 		}
 
 		for (EpFormatVersion epFormatVersion : exchangeProject.getFormatVersions()) {
-			FormatPackage formatPackage = FormatPackageAnalyzer.loadResource(epFormatVersion, project,
+			EnterpriseDataXdto enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.loadResource(epFormatVersion, project,
 					bmEmfIndexProvider, plugin);
-			if (formatPackage == null) {
-				formatPackage = FormatPackageAnalyzer.analyze(epFormatVersion);
-				FormatPackageAnalyzer.saveResource(epFormatVersion, formatPackage, project, plugin);
+			if (enterpriseDataPackage == null) {
+				enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.analyze(epFormatVersion);
+				EnterpriseDataXdtoAnalyzer.saveResource(epFormatVersion, enterpriseDataPackage, project, plugin);
 
 			} else {
 				// TODO: Сделать обновление только когда deltas соответствует пакетам
-				formatPackage = FormatPackageAnalyzer.analyze(epFormatVersion);
-				FormatPackageAnalyzer.saveResource(epFormatVersion, formatPackage, project, plugin);
+				enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.analyze(epFormatVersion);
+				EnterpriseDataXdtoAnalyzer.saveResource(epFormatVersion, enterpriseDataPackage, project, plugin);
 
 			}
 		}

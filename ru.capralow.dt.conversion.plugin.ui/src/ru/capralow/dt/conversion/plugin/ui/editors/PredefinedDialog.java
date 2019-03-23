@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
 
 public class PredefinedDialog extends Dialog {
 

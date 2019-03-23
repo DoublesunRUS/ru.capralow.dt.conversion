@@ -40,10 +40,10 @@ import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorModelAccess
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomEmbeddedEditorResourceProvider;
 import com._1c.g5.v8.dt.lcore.ui.editor.embedded.CustomModelAccessAwareEmbeddedEditorBuilder;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
-import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 
 @SuppressWarnings("restriction")
 public class ObjectRuleDialog extends Dialog implements IAdaptable {

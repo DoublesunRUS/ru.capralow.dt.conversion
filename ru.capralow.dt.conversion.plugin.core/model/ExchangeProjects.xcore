@@ -1,7 +1,7 @@
-@GenModel(
-	publicConstructors="true"
-)
-package ru.capralow.dt.conversion.plugin.core.ep
+@GenModel(loadInitialization="false", literalsInterface="true", nonNLSMarkers="true", prefix="ep", updateClasspath="false",
+	featureDelegation="Reflective")
+@Ecore(nsPrefix="ep", nsURI="http://ru.capralow.dt.conversion.plugin.core.ep.model")
+package ru.capralow.dt.conversion.plugin.core.ep.model
 
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject
 

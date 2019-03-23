@@ -34,26 +34,26 @@ import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 
-import ru.capralow.dt.conversion.plugin.core.cm.CmAttributeRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmDataRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmIdentificationVariant;
-import ru.capralow.dt.conversion.plugin.core.cm.CmObjectRule;
-import ru.capralow.dt.conversion.plugin.core.cm.CmSubsystem;
-import ru.capralow.dt.conversion.plugin.core.cm.ConversionModule;
-import ru.capralow.dt.conversion.plugin.core.cm.impl.CmAttributeRuleImpl;
-import ru.capralow.dt.conversion.plugin.core.fp.FormatPackage;
-import ru.capralow.dt.conversion.plugin.core.fp.FpDefinedType;
-import ru.capralow.dt.conversion.plugin.core.fp.FpEnum;
-import ru.capralow.dt.conversion.plugin.core.fp.FpObject;
-import ru.capralow.dt.conversion.plugin.core.fp.FpProperty;
-import ru.capralow.dt.conversion.plugin.core.fp.FpType;
-import ru.capralow.dt.conversion.plugin.core.rg.RgGroup;
-import ru.capralow.dt.conversion.plugin.core.rg.RgRule;
-import ru.capralow.dt.conversion.plugin.core.rg.RgVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
+import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdObject;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
+import ru.capralow.dt.conversion.plugin.core.rg.model.RgGroup;
+import ru.capralow.dt.conversion.plugin.core.rg.model.RgRule;
+import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 
 public class ConversionModuleReport {
 
-	public static String createFullReport(RgVariant rgVariant, FormatPackage formatPackage,
+	public static String createFullReport(RgVariant rgVariant, EnterpriseDataXdto enterpriseDataPackage,
 			ConversionModule conversionModule) throws IOException {
 		final String TEMPLATE_NAME_MAIN = "ReceivingConversionReport.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
@@ -65,21 +65,21 @@ public class ConversionModuleReport {
 
 		String groupObjects = "";
 
-		EList<FpDefinedType> fpDefinedTypes = new BasicEList<FpDefinedType>();
-		EList<FpEnum> fpEnums = new BasicEList<FpEnum>();
+		EList<EdDefinedType> fpDefinedTypes = new BasicEList<EdDefinedType>();
+		EList<EdEnum> fpEnums = new BasicEList<EdEnum>();
 
-		Map<String, EList<FpProperty>> mapKeyProperties = new HashMap<String, EList<FpProperty>>();
+		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		for (CmObjectRule objectRule : conversionModule.getObjectRules()) {
 			if (objectRule.getFormatObject().isEmpty())
 				continue;
 
-			FpObject formatObject = formatPackage.getFormatObject(objectRule.getFormatObject());
-			EList<FpProperty> fpKeyProperties = new BasicEList<FpProperty>();
+			EdObject formatObject = enterpriseDataPackage.getFormatObject(objectRule.getFormatObject());
+			EList<EdProperty> fpKeyProperties = new BasicEList<EdProperty>();
 
 			ArrayList<String> listIdentificationFields = new ArrayList<String>();
 			if (objectRule.getIdentificationVariant() != CmIdentificationVariant.SEARCH_FIELDS)
-				for (FpProperty fpKeyProperty : formatObject.getKeyProperties()) {
+				for (EdProperty fpKeyProperty : formatObject.getKeyProperties()) {
 					if (fpKeyProperty.getName().equals("Ссылка")) {
 						fpKeyProperties.add(fpKeyProperty);
 						break;
@@ -95,7 +95,7 @@ public class ConversionModuleReport {
 				if (!listIdentificationFields.contains(cmAttributeRule.getConfigurationAttribute()))
 					continue;
 
-				for (FpProperty fpKeyProperty : formatObject.getKeyProperties()) {
+				for (EdProperty fpKeyProperty : formatObject.getKeyProperties()) {
 					if (fpKeyProperty.getName().equals(cmAttributeRule.getFormatAttribute())) {
 						fpKeyProperties.add(fpKeyProperty);
 						break;
@@ -107,7 +107,7 @@ public class ConversionModuleReport {
 		}
 
 		if (rgVariant != null) {
-			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + formatPackage.getVersion());
+			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
 
 			for (RgGroup rgGroup : rgVariant.getGroups()) {
 				StringTemplate templateGroups = new StringTemplate(templateGroupContent);
@@ -122,7 +122,7 @@ public class ConversionModuleReport {
 
 					for (Object objectRule : dataRule.getObjectRules())
 						objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes, fpEnums,
-								formatPackage);
+								enterpriseDataPackage);
 				}
 
 				templateGroups.setAttribute("ObjectRules", objects);
@@ -132,7 +132,7 @@ public class ConversionModuleReport {
 			}
 
 		} else {
-			templateMain.setAttribute("FormatVersion", formatPackage.getVersion());
+			templateMain.setAttribute("FormatVersion", enterpriseDataPackage.getVersion());
 
 			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
 				EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
@@ -146,7 +146,7 @@ public class ConversionModuleReport {
 				String objects = "";
 				for (Object objectRule : receivingObjectRules)
 					objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, fpDefinedTypes, fpEnums,
-							formatPackage);
+							enterpriseDataPackage);
 				templateGroups.setAttribute("ObjectRules", objects);
 
 				groupObjects += templateGroups.toString();
@@ -164,7 +164,7 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	public static String createDefinedTypesReport(EList<FpDefinedType> fpDefinedTypes) {
+	public static String createDefinedTypesReport(EList<EdDefinedType> fpDefinedTypes) {
 		if (fpDefinedTypes.size() == 0)
 			return "";
 
@@ -174,10 +174,10 @@ public class ConversionModuleReport {
 		StringTemplate template = new StringTemplate(templateContent);
 
 		String rows = "";
-		for (FpDefinedType fpDefinedType : fpDefinedTypes) {
-			EList<FpType> fpTypes = fpDefinedType.getTypes();
+		for (EdDefinedType fpDefinedType : fpDefinedTypes) {
+			EList<EdType> fpTypes = fpDefinedType.getTypes();
 			boolean firstRow = true;
-			for (FpType fpType : fpTypes) {
+			for (EdType fpType : fpTypes) {
 				if (firstRow) {
 					if (fpTypes.size() == 1)
 						rows += fpDefinedType.getName() + " | " + fpType.getPropertyType() + System.lineSeparator();
@@ -198,7 +198,7 @@ public class ConversionModuleReport {
 		return template.toString();
 	}
 
-	public static String createEnumsReport(EList<FpEnum> fpEnums) {
+	public static String createEnumsReport(EList<EdEnum> fpEnums) {
 		if (fpEnums.size() == 0)
 			return "";
 
@@ -208,7 +208,7 @@ public class ConversionModuleReport {
 		StringTemplate template = new StringTemplate(templateContent);
 
 		String rows = "";
-		for (FpEnum fpEnum : fpEnums) {
+		for (EdEnum fpEnum : fpEnums) {
 			boolean firstRow = true;
 			for (Enumeration enumeration : fpEnum.getEnumerations()) {
 				if (firstRow) {
@@ -225,7 +225,7 @@ public class ConversionModuleReport {
 		return template.toString();
 	}
 
-	public static String createObjectsReport(RgVariant rgVariant, FormatPackage formatPackage,
+	public static String createObjectsReport(RgVariant rgVariant, EnterpriseDataXdto enterpriseDataPackage,
 			ConversionModule conversionModule) throws IOException {
 		final String TEMPLATE_NAME_MAIN = "ReceivingObjectsList.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
@@ -235,7 +235,7 @@ public class ConversionModuleReport {
 		String tabularRows = "";
 
 		if (rgVariant != null) {
-			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + formatPackage.getVersion());
+			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
 
 			for (RgGroup rgGroup : rgVariant.getGroups()) {
 				tabularRows += "**" + rgGroup.getName() + "** | | | | " + System.lineSeparator();
@@ -252,7 +252,7 @@ public class ConversionModuleReport {
 			}
 
 		} else {
-			templateMain.setAttribute("FormatVersion", formatPackage.getVersion());
+			templateMain.setAttribute("FormatVersion", enterpriseDataPackage.getVersion());
 
 			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
 				EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
@@ -271,8 +271,8 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<FpProperty>> mapKeyProperties,
-			EList<FpDefinedType> fpDefinedTypes, EList<FpEnum> fpEnums, FormatPackage formatPackage) {
+	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<EdProperty>> mapKeyProperties,
+			EList<EdDefinedType> fpDefinedTypes, EList<EdEnum> fpEnums, EnterpriseDataXdto enterpriseDataPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 
@@ -478,7 +478,7 @@ public class ConversionModuleReport {
 		List<CmAttributeRule> attributeRules = cmObjectRule.getAttributeRules().stream().collect(Collectors.toList());
 
 		if (!(configurationObject instanceof InformationRegister)) {
-			CmAttributeRuleImpl refAttributeRule = new CmAttributeRuleImpl();
+			CmAttributeRule refAttributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
 
 			refAttributeRule.setConfigurationAttribute("Ссылка");
 
@@ -509,7 +509,7 @@ public class ConversionModuleReport {
 				tabularSectionRow[1] = "";
 			}
 
-			FpProperty fpProperty = formatPackage.getProperty(cmObjectRule.getFormatObject(),
+			EdProperty fpProperty = enterpriseDataPackage.getProperty(cmObjectRule.getFormatObject(),
 					attributeRule.getFormatAttributeFullName());
 			if (fpProperty == null) {
 				String formatAttribute = attributeRule.getFormatAttribute();
@@ -553,11 +553,11 @@ public class ConversionModuleReport {
 					if (subPropertyType.isEmpty())
 						subPropertyType = "<Свойство формата не найдено>";
 
-					FpDefinedType fpDefinedType = formatPackage.getDefinedType(subPropertyType);
+					EdDefinedType fpDefinedType = enterpriseDataPackage.getDefinedType(subPropertyType);
 					if (fpDefinedType != null && !fpDefinedTypes.contains(fpDefinedType))
 						fpDefinedTypes.add(fpDefinedType);
 
-					FpEnum fpEnum = formatPackage.getEnum(subPropertyType);
+					EdEnum fpEnum = enterpriseDataPackage.getEnum(subPropertyType);
 					if (fpEnum != null && !fpEnums.contains(fpEnum))
 						fpEnums.add(fpEnum);
 
@@ -573,9 +573,9 @@ public class ConversionModuleReport {
 								isKey, 0);
 
 					if (isSubKey) {
-						EList<FpProperty> keyProperties = mapKeyProperties.get(subPropertyType);
+						EList<EdProperty> keyProperties = mapKeyProperties.get(subPropertyType);
 						if (keyProperties != null) {
-							for (FpProperty fpKeyProperty : keyProperties) {
+							for (EdProperty fpKeyProperty : keyProperties) {
 								if (isKey)
 									tabularSectionRow[0] += getTableRow("_" + fpKeyProperty.getName(),
 											fpKeyProperty.getPropertyType(), "",
@@ -608,9 +608,9 @@ public class ConversionModuleReport {
 									isSubKey ? "КлючевыеСвойства" : subPropertyType, "", "", "", isKey, 1);
 
 						if (isSubKey) {
-							EList<FpProperty> keyProperties = mapKeyProperties.get(subPropertyType);
+							EList<EdProperty> keyProperties = mapKeyProperties.get(subPropertyType);
 							if (keyProperties != null) {
-								for (FpProperty fpKeyProperty : keyProperties) {
+								for (EdProperty fpKeyProperty : keyProperties) {
 									if (isKey)
 										tabularSectionRow[0] += getTableRow("_" + fpKeyProperty.getName(),
 												fpKeyProperty.getPropertyType(), "",

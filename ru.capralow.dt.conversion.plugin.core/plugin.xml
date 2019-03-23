@@ -4,41 +4,41 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated ConversionModule -->
       <package
-            uri="ru.capralow.dt.conversion.plugin.core.cm"
-            class="ru.capralow.dt.conversion.plugin.core.cm.CmPackage"
+            uri="http://ru.capralow.dt.conversion.plugin.core.cm.model"
+            class="ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage"
             genModel="model/ConversionModule.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ExchangeProjects -->
+      <package
+            uri="http://ru.capralow.dt.conversion.plugin.core.ep.model"
+            class="ru.capralow.dt.conversion.plugin.core.ep.model.epPackage"
+            genModel="model/ExchangeProjects.xcore"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated RegistrationModule -->
       <package
-            uri="ru.capralow.dt.conversion.plugin.core.rm"
-            class="ru.capralow.dt.conversion.plugin.core.rm.RmPackage"
+            uri="http://ru.capralow.dt.conversion.plugin.core.rm.model"
+            class="ru.capralow.dt.conversion.plugin.core.rm.model.rmPackage"
             genModel="model/RegistrationModule.xcore"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated FormatPackage -->
-      <package
-            uri="ru.capralow.dt.conversion.plugin.core.fp"
-            class="ru.capralow.dt.conversion.plugin.core.fp.FpPackage"
-            genModel="model/FormatPackage.xcore"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated ReportGroups -->
       <package
-            uri="ru.capralow.dt.conversion.plugin.core.rg"
-            class="ru.capralow.dt.conversion.plugin.core.rg.RgPackage"
+            uri="http://ru.capralow.dt.conversion.plugin.core.rg.model"
+            class="ru.capralow.dt.conversion.plugin.core.rg.model.rgPackage"
             genModel="model/ReportGroups.xcore"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ExchangeVersions -->
+      <!-- @generated EnterpriseDataXdto -->
       <package
-            uri="ru.capralow.dt.conversion.plugin.core.ep"
-            class="ru.capralow.dt.conversion.plugin.core.ep.EpPackage"
-            genModel="model/ExchangeProjects.xcore"/>
+            uri="http://ru.capralow.dt.conversion.plugin.core.ed.model"
+            class="ru.capralow.dt.conversion.plugin.core.ed.model.edPackage"
+            genModel="model/EnterpriseDataXdto.xcore"/>
    </extension>
 
 </plugin>

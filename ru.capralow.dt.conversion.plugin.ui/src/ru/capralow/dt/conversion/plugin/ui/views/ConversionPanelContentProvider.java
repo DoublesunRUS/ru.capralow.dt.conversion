@@ -4,10 +4,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import ru.capralow.dt.conversion.plugin.core.ep.EpExchangePair;
-import ru.capralow.dt.conversion.plugin.core.ep.EpFormatVersion;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeData;
-import ru.capralow.dt.conversion.plugin.core.ep.ExchangeProject;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePair;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeData;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class ConversionPanelContentProvider implements ITreeContentProvider {
 
