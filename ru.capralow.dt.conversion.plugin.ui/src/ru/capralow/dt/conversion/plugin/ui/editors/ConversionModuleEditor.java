@@ -89,7 +89,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
-import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
@@ -1142,7 +1142,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		while (menuMain.getItemCount() > 1)
 			menuMain.getItem(1).dispose();
-		for (Entry<String, EnterpriseDataXdto> enterpriseDataPackage : conversionModuleAnalyzer.getEnterpriseDataPackages()
+		for (Entry<String, EnterpriseData> enterpriseDataPackage : conversionModuleAnalyzer.getEnterpriseDataPackages()
 				.entrySet()) {
 			if (reportGroups == null) {
 				addReportMenuItem(enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(), null, false);
@@ -1247,7 +1247,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		}
 	}
 
-	private void addReportMenuItem(String name, EnterpriseDataXdto enterpriseDataPackage, RgVariant rgVariant,
+	private void addReportMenuItem(String name, EnterpriseData enterpriseDataPackage, RgVariant rgVariant,
 			boolean objectsOnly) {
 		MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
 		if (objectsOnly)

@@ -1,5 +1,4 @@
-@GenModel(loadInitialization="false", literalsInterface="true", nonNLSMarkers="true", prefix="ed", updateClasspath="false",
-	featureDelegation="Reflective", rootExtendsClass="com._1c.g5.v8.bm.core.BmObject")
+@GenModel(loadInitialization="false", literalsInterface="true", nonNLSMarkers="true", prefix="ed", updateClasspath="false")
 @Ecore(nsPrefix="ed", nsURI="http://ru.capralow.dt.conversion.plugin.core.ed.model")
 package ru.capralow.dt.conversion.plugin.core.ed.model
 
@@ -8,7 +7,7 @@ import com._1c.g5.v8.dt.xdto.model.ObjectType
 import com._1c.g5.v8.dt.xdto.model.Property
 import com._1c.g5.v8.dt.xdto.model.ValueType
 
-class EnterpriseDataXdto {
+class EnterpriseData {
 	String version = ""
 	
 	contains EdDefinedType[] definedTypes

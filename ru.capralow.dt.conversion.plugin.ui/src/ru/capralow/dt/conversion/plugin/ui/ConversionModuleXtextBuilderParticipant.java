@@ -12,8 +12,8 @@ import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.ExchangeProjectsAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.EnterpriseDataXdtoAnalyzer;
-import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.EnterpriseDataAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ep.model.EpProjectStatus;
 import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
@@ -60,16 +60,16 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 		}
 
 		for (EpFormatVersion epFormatVersion : exchangeProject.getFormatVersions()) {
-			EnterpriseDataXdto enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.loadResource(epFormatVersion, project,
+			EnterpriseData enterpriseDataPackage = EnterpriseDataAnalyzer.loadResource(epFormatVersion, project,
 					bmEmfIndexProvider, plugin);
 			if (enterpriseDataPackage == null) {
-				enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.analyze(epFormatVersion);
-				EnterpriseDataXdtoAnalyzer.saveResource(epFormatVersion, enterpriseDataPackage, project, plugin);
+				enterpriseDataPackage = EnterpriseDataAnalyzer.analyze(epFormatVersion);
+				EnterpriseDataAnalyzer.saveResource(epFormatVersion, enterpriseDataPackage, project, plugin);
 
 			} else {
 				// TODO: Сделать обновление только когда deltas соответствует пакетам
-				enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.analyze(epFormatVersion);
-				EnterpriseDataXdtoAnalyzer.saveResource(epFormatVersion, enterpriseDataPackage, project, plugin);
+				enterpriseDataPackage = EnterpriseDataAnalyzer.analyze(epFormatVersion);
+				EnterpriseDataAnalyzer.saveResource(epFormatVersion, enterpriseDataPackage, project, plugin);
 
 			}
 		}

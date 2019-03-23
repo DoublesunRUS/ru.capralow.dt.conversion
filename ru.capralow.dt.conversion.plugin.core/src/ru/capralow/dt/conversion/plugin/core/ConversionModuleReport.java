@@ -41,7 +41,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
-import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdObject;
@@ -53,7 +53,7 @@ import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 
 public class ConversionModuleReport {
 
-	public static String createFullReport(RgVariant rgVariant, EnterpriseDataXdto enterpriseDataPackage,
+	public static String createFullReport(RgVariant rgVariant, EnterpriseData enterpriseDataPackage,
 			ConversionModule conversionModule) throws IOException {
 		final String TEMPLATE_NAME_MAIN = "ReceivingConversionReport.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
@@ -225,7 +225,7 @@ public class ConversionModuleReport {
 		return template.toString();
 	}
 
-	public static String createObjectsReport(RgVariant rgVariant, EnterpriseDataXdto enterpriseDataPackage,
+	public static String createObjectsReport(RgVariant rgVariant, EnterpriseData enterpriseDataPackage,
 			ConversionModule conversionModule) throws IOException {
 		final String TEMPLATE_NAME_MAIN = "ReceivingObjectsList.txt";
 		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
@@ -272,7 +272,7 @@ public class ConversionModuleReport {
 	}
 
 	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<EdProperty>> mapKeyProperties,
-			EList<EdDefinedType> fpDefinedTypes, EList<EdEnum> fpEnums, EnterpriseDataXdto enterpriseDataPackage) {
+			EList<EdDefinedType> fpDefinedTypes, EList<EdEnum> fpEnums, EnterpriseData enterpriseDataPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
 

@@ -38,7 +38,7 @@
       <package
             uri="http://ru.capralow.dt.conversion.plugin.core.ed.model"
             class="ru.capralow.dt.conversion.plugin.core.ed.model.edPackage"
-            genModel="model/EnterpriseDataXdto.xcore"/>
+            genModel="model/EnterpriseData.xcore"/>
    </extension>
 
 </plugin>

@@ -184,9 +184,9 @@ public class ConversionModuleReportTest {
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение32");
 
-		String report1 = String.join(System.lineSeparator(), "### Перечисления", "", "Имя перечисления | Значения",
-				"--- | ---", "Перечисление1 | Значение11", "Перечисление2 | Значение21", " | Значение22",
-				" | Значение23", " | Значение24", "Перечисление3 | Значение31", " | Значение32", "");
+		String report1 = String.join(System.lineSeparator(), "### Перечисления и предопределенные элементы", "",
+				"Имя перечисления | Значения", "--- | ---", "Перечисление1 | Значение11", "Перечисление2 | Значение21",
+				" | Значение22", " | Значение23", " | Значение24", "Перечисление3 | Значение31", " | Значение32", "");
 
 		String report2 = ConversionModuleReport.createEnumsReport(fpEnums);
 

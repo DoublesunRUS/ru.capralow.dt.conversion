@@ -29,7 +29,7 @@ import com._1c.g5.v8.dt.xdto.model.Property;
 import com._1c.g5.v8.dt.xdto.model.Type;
 import com._1c.g5.v8.dt.xdto.model.ValueType;
 
-import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdObject;
@@ -38,11 +38,11 @@ import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.edFactory;
 import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 
-public class EnterpriseDataXdtoAnalyzer {
+public class EnterpriseDataAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
 	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
-	public static EnterpriseDataXdto loadResource(EpFormatVersion epFormatVersion, IProject project,
+	public static EnterpriseData loadResource(EpFormatVersion epFormatVersion, IProject project,
 			IBmEmfIndexProvider bmEmfIndexProvider, AbstractUIPlugin plugin) {
 		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "enterpriseDataPackage-"
 				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
@@ -58,7 +58,7 @@ public class EnterpriseDataXdtoAnalyzer {
 
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
-			EnterpriseDataXdto enterpriseDataPackage = (EnterpriseDataXdto) xmiResource.getContents().get(0);
+			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
 
 			for (EdEnum fpEnum : enterpriseDataPackage.getEnums()) {
 				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(fpEnum.getObject());
@@ -88,7 +88,7 @@ public class EnterpriseDataXdtoAnalyzer {
 		return null;
 	}
 
-	public static void saveResource(EpFormatVersion epFormatVersion, EnterpriseDataXdto enterpriseDataPackage,
+	public static void saveResource(EpFormatVersion epFormatVersion, EnterpriseData enterpriseDataPackage,
 			IProject project, AbstractUIPlugin plugin) {
 		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "enterpriseDataPackage-"
 				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
@@ -110,8 +110,8 @@ public class EnterpriseDataXdtoAnalyzer {
 		}
 	}
 
-	public static EnterpriseDataXdto analyze(EpFormatVersion epFormatVersion) {
-		EnterpriseDataXdto enterpriseDataPackage = edFactory.eINSTANCE.createEnterpriseDataXdto();
+	public static EnterpriseData analyze(EpFormatVersion epFormatVersion) {
+		EnterpriseData enterpriseDataPackage = edFactory.eINSTANCE.createEnterpriseData();
 
 		EList<EdDefinedType> fpDefinedTypes = enterpriseDataPackage.getDefinedTypes();
 		EList<EdObject> fpCatalogs = enterpriseDataPackage.getCatalogs();

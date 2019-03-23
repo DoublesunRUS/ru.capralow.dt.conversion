@@ -81,7 +81,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
-import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseDataXdto;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
@@ -94,7 +94,7 @@ public class ConversionModuleAnalyzer {
 	private ConversionModule conversionModule;
 	private ReportGroups reportGroups;
 
-	private Map<String, EnterpriseDataXdto> enterpriseDataPackages = new HashMap<String, EnterpriseDataXdto>();
+	private Map<String, EnterpriseData> enterpriseDataPackages = new HashMap<String, EnterpriseData>();
 
 	public ConversionModuleAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
 			AbstractUIPlugin plugin) {
@@ -109,7 +109,7 @@ public class ConversionModuleAnalyzer {
 		return conversionModule;
 	}
 
-	public Map<String, EnterpriseDataXdto> getEnterpriseDataPackages() {
+	public Map<String, EnterpriseData> getEnterpriseDataPackages() {
 		return enterpriseDataPackages;
 	}
 
@@ -127,7 +127,7 @@ public class ConversionModuleAnalyzer {
 		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, bmEmfIndexProvider, plugin);
 		EList<EpFormatVersion> moduleFormatVersions = exchangeProject.getModuleFormatVersions(commonModule);
 		for (EpFormatVersion formatVersion : moduleFormatVersions) {
-			EnterpriseDataXdto enterpriseDataPackage = EnterpriseDataXdtoAnalyzer.loadResource(formatVersion, project,
+			EnterpriseData enterpriseDataPackage = EnterpriseDataAnalyzer.loadResource(formatVersion, project,
 					bmEmfIndexProvider, plugin);
 
 			enterpriseDataPackages.put(formatVersion.getVersion(), enterpriseDataPackage);

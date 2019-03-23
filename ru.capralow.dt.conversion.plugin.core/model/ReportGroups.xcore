@@ -1,5 +1,4 @@
-@GenModel(loadInitialization="false", literalsInterface="true", nonNLSMarkers="true", prefix="rg", updateClasspath="false",
-	featureDelegation="Reflective")
+@GenModel(loadInitialization="false", literalsInterface="true", nonNLSMarkers="true", prefix="rg", updateClasspath="false")
 @Ecore(nsPrefix="rg", nsURI="http://ru.capralow.dt.conversion.plugin.core.rg.model")
 package ru.capralow.dt.conversion.plugin.core.rg.model
 
