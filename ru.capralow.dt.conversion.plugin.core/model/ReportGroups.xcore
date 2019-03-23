@@ -5,21 +5,21 @@ package ru.capralow.dt.conversion.plugin.core.rg.model
 class ReportGroups {
 	contains RgVariant[] variants
 	
-	Boolean addObjectsList
+	Boolean addObjectsList = "false"
 }
 
 class RgVariant {
-	String name
+	String name = ""
 	
 	contains RgGroup[] groups
 }
 
 class RgGroup {
-	String name
+	String name = ""
 	
 	contains RgRule[] rules
 }
 
 class RgRule {
-	String name
+	String name = ""
 }

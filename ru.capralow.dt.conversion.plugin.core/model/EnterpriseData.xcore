@@ -122,11 +122,11 @@ class EdEnum {
 class EdProperty {
 	refers Property property
 	String name = ""
-	Boolean isKey
+	Boolean isKey = "false"
 	
 	String propertyType = ""
 	
-	Boolean required
+	Boolean required = "false"
 }
 
 class EdType {

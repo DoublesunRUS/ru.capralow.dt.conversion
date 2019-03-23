@@ -32,10 +32,10 @@ class ExchangePlanContent {
 }
 
 class RegistrationRule {
-	Boolean isFolder
+	Boolean isFolder = "false"
 	
-	Boolean disabled
-	Boolean valid
+	Boolean disabled = "false"
+	Boolean valid = "false"
 	
 	String code = ""
 	String name = ""
@@ -50,12 +50,12 @@ class RegistrationRule {
 }
 
 class ObjectSelectionRule {
-	Boolean isFolder
+	Boolean isFolder = "false"
 	
 }
 
 class ExchangePlanSelectionRule {
-	Boolean isFolder
+	Boolean isFolder = "false"
 	
 }
 
