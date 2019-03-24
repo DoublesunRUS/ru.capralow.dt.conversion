@@ -205,7 +205,7 @@ public class ConversionModuleReport {
 					prefix += tabString;
 
 				rows += prefix + (definedTypeName.length == 1 ? "" : "_") + definedTypeName[definedTypeName.length - 1]
-						+ " | " + definedTypeArray[1] + System.lineSeparator();
+						+ " | " + prefix + definedTypeArray[1] + System.lineSeparator();
 			}
 		}
 

@@ -200,10 +200,12 @@ public class ConversionModuleReportTest {
 		mapKeyProperties.put("КлючевыеСвойстваМойДокумент", edProperties);
 
 		String report1 = String.join(System.lineSeparator(), "### Определяемые типы", "", "Имя типа | Состав типа",
-				"--- | ---", "Составной тип | ", "&nbsp; &nbsp; _Тип1 | Дата", "&nbsp; &nbsp; _Тип2 | ЛюбаяСсылка",
-				"&nbsp; &nbsp; _Тип3 | КлючевыеСвойства",
-				"&nbsp; &nbsp; &nbsp; &nbsp; _Ссылка | СправочникСсылка.МойДокумент",
-				"&nbsp; &nbsp; &nbsp; &nbsp; _Номер | Строка(11)", "&nbsp; &nbsp; &nbsp; &nbsp; _Дата | ДатаВремя", "");
+				"--- | ---", "Составной тип | ", "&nbsp; &nbsp; _Тип1 | &nbsp; &nbsp; Дата",
+				"&nbsp; &nbsp; _Тип2 | &nbsp; &nbsp; ЛюбаяСсылка",
+				"&nbsp; &nbsp; _Тип3 | &nbsp; &nbsp; КлючевыеСвойства",
+				"&nbsp; &nbsp; &nbsp; &nbsp; _Ссылка | &nbsp; &nbsp; &nbsp; &nbsp; СправочникСсылка.МойДокумент",
+				"&nbsp; &nbsp; &nbsp; &nbsp; _Номер | &nbsp; &nbsp; &nbsp; &nbsp; Строка(11)",
+				"&nbsp; &nbsp; &nbsp; &nbsp; _Дата | &nbsp; &nbsp; &nbsp; &nbsp; ДатаВремя", "");
 
 		String report2 = ConversionModuleReport.createDefinedTypesReport(edDefinedTypes, mapKeyProperties);
 
