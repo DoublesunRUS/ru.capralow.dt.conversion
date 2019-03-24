@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -17,9 +18,8 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import com._1c.g5.v8.bm.core.IBmTransaction;
-import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.mcore.QName;
+import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 import com._1c.g5.v8.dt.xdto.model.Enumeration;
 import com._1c.g5.v8.dt.xdto.model.ObjectType;
@@ -40,7 +40,7 @@ public class EnterpriseDataAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
 	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
-	public static EnterpriseData loadResource(String version, IProject project, IBmEmfIndexProvider bmEmfIndexProvider,
+	public static EnterpriseData loadResource(String version, IProject project, Configuration configuration,
 			AbstractUIPlugin plugin) {
 		URI uri = URI.createPlatformResourceURI(
 				project.getName() + File.separator + "enterpriseDataPackage-" + version.replace(".", "_") + ".xmi",
@@ -59,13 +59,18 @@ public class EnterpriseDataAnalyzer {
 			xmiResource.load(loadOptions);
 			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
 
+			enterpriseDataPackage.setXdtoPackage(
+					(XDTOPackage) EcoreUtil.resolve(enterpriseDataPackage.getXdtoPackage(), configuration));
+
 			for (EdEnum edEnum : enterpriseDataPackage.getEnums()) {
-				IBmTransaction transaction = bmEmfIndexProvider.getModel().getEngine().beginReadonlyTransaction(true);
-				ValueType obj = (ValueType) transaction.getObjectByUri(EcoreUtil.getURI(edEnum.getObject()));
-				transaction.commit();
-				edEnum.setObject(obj);
-				edEnum.getEnumerations().clear();
-				edEnum.getEnumerations().addAll(obj.getEnumerations());
+				edEnum.setObject((ValueType) EcoreUtil.resolve(edEnum.getObject(), configuration));
+
+				EList<Enumeration> oldList = edEnum.getEnumerations();
+				EList<Enumeration> newList = new BasicEList<Enumeration>();
+				for (Enumeration oldItem : oldList)
+					newList.add((Enumeration) EcoreUtil.resolve(oldItem, configuration));
+				oldList.clear();
+				oldList.addAll(newList);
 			}
 
 			return enterpriseDataPackage;
@@ -112,6 +117,7 @@ public class EnterpriseDataAnalyzer {
 		edEnums.clear();
 
 		enterpriseDataPackage.setVersion(version);
+		enterpriseDataPackage.setXdtoPackage(xdtoPackage);
 
 		Package dataPackage = xdtoPackage.getPackage();
 

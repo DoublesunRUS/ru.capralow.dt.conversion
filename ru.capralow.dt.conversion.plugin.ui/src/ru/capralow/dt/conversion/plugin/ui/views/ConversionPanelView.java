@@ -27,7 +27,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
-import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.lifecycle.ProjectContext;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
@@ -50,9 +49,6 @@ public class ConversionPanelView extends ViewPart {
 
 	@Inject
 	private IV8ProjectManager projectManager;
-
-	@Inject
-	private IBmEmfIndexManager bmEmfIndexManager;
 
 	private TreeViewer treeViewer;
 
@@ -149,7 +145,7 @@ public class ConversionPanelView extends ViewPart {
 				return;
 		}
 
-		ExchangeProjects exchangeProjects = ExchangeProjectsAnalyzer.loadResources(projectManager, bmEmfIndexManager,
+		ExchangeProjects exchangeProjects = ExchangeProjectsAnalyzer.loadResources(projectManager,
 				Activator.getDefault());
 		ExchangeData exchangeData = ExchangeProjectsAnalyzer.analyzePairs(exchangeProjects);
 		treeViewer.setInput(exchangeData);

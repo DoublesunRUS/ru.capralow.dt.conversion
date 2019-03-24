@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.xbase.lib.Pair;
 
@@ -86,8 +84,7 @@ public class ExchangeProjectsAnalyzer {
 	private static DynamicFeatureAccessComputer dynamicFeatureAccessComputer = IResourceServiceProvider.Registry.INSTANCE
 			.getResourceServiceProvider(URI.createURI("foo.bsl")).get(DynamicFeatureAccessComputer.class);
 
-	public static ExchangeProject loadResource(IProject project, IBmEmfIndexProvider bmEmfIndexProvider,
-			AbstractUIPlugin plugin) {
+	public static ExchangeProject loadResource(IProject project, Configuration configuration, AbstractUIPlugin plugin) {
 		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "exchangeProject.xmi", false);
 
 		try {
@@ -104,26 +101,15 @@ public class ExchangeProjectsAnalyzer {
 			ExchangeProject exchangeProject = (ExchangeProject) xmiResource.getContents().get(0);
 
 			for (EpFormatVersion formatVersion : exchangeProject.getFormatVersions()) {
-				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
-						.getEObjectIndex(formatVersion.getModule());
-				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
-				if (objectItr.hasNext())
-					formatVersion.setModule((CommonModule) objectItr.next().getEObjectOrProxy());
-
-				objectIndex = bmEmfIndexProvider.getEObjectIndex(formatVersion.getXdtoPackage());
-				objectItr = objectIndex.iterator();
-				if (objectItr.hasNext())
-					formatVersion.setXdtoPackage((XDTOPackage) objectItr.next().getEObjectOrProxy());
+				formatVersion.setModule((CommonModule) EcoreUtil.resolve(formatVersion.getModule(), configuration));
+				formatVersion
+						.setXdtoPackage((XDTOPackage) EcoreUtil.resolve(formatVersion.getXdtoPackage(), configuration));
 			}
 
 			EList<CommonModule> oldList = exchangeProject.getSettingsModules();
 			EList<CommonModule> newList = new BasicEList<CommonModule>();
-			for (CommonModule oldItem : oldList) {
-				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(oldItem);
-				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
-				if (objectItr.hasNext())
-					newList.add((CommonModule) objectItr.next().getEObjectOrProxy());
-			}
+			for (CommonModule oldItem : oldList)
+				newList.add((CommonModule) EcoreUtil.resolve(oldItem, configuration));
 			oldList.clear();
 			oldList.addAll(newList);
 
@@ -157,17 +143,16 @@ public class ExchangeProjectsAnalyzer {
 		}
 	}
 
-	public static ExchangeProjects loadResources(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
-			AbstractUIPlugin plugin) {
+	public static ExchangeProjects loadResources(IV8ProjectManager projectManager, AbstractUIPlugin plugin) {
 		ExchangeProjects exchangeProjects = epFactory.eINSTANCE.createExchangeProjects();
 
 		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			if (!(projectManager.getProject(project) instanceof IConfigurationProject))
+			IV8Project configurationProject = projectManager.getProject(project);
+			if (!(configurationProject instanceof IConfigurationProject))
 				continue;
 
-			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
-
-			ExchangeProject exchangeProject = loadResource(project, bmEmfIndexProvider, plugin);
+			ExchangeProject exchangeProject = loadResource(project,
+					((IConfigurationProject) configurationProject).getConfiguration(), plugin);
 			exchangeProjects.getProjects().add(exchangeProject);
 		}
 

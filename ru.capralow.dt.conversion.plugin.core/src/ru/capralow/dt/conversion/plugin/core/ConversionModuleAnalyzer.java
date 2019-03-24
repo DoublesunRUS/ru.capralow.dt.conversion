@@ -124,11 +124,13 @@ public class ConversionModuleAnalyzer {
 		IProject project = configurationProject.getProject();
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
 
-		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, bmEmfIndexProvider, plugin);
+		Configuration configuration = ((IConfigurationProject) configurationProject).getConfiguration();
+
+		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, configuration, plugin);
 		EList<EpFormatVersion> moduleFormatVersions = exchangeProject.getModuleFormatVersions(commonModule);
 		for (EpFormatVersion formatVersion : moduleFormatVersions) {
 			EnterpriseData enterpriseDataPackage = EnterpriseDataAnalyzer.loadResource(formatVersion.getVersion(),
-					project, bmEmfIndexProvider, plugin);
+					project, configuration, plugin);
 
 			enterpriseDataPackages.put(formatVersion.getVersion(), enterpriseDataPackage);
 		}
@@ -152,8 +154,6 @@ public class ConversionModuleAnalyzer {
 		objectRules.clear();
 		predefineds.clear();
 		algorithms.clear();
-
-		Configuration configuration = (Configuration) ((IConfigurationProject) configurationProject).getConfiguration();
 
 		CommandInterface commandInterface = (CommandInterface) configuration.getCommandInterface();
 

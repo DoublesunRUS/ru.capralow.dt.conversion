@@ -5,10 +5,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
-import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IV8Project;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
+import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.EnterpriseDataAnalyzer;
@@ -33,11 +33,10 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 			return;
 
 		IConfigurationProject configurationProject = (IConfigurationProject) v8Project;
-
-		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(project);
+		Configuration configuration = configurationProject.getConfiguration();
 		Activator plugin = Activator.getDefault();
 
-		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, bmEmfIndexProvider, plugin);
+		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, configuration, plugin);
 		if (exchangeProject == null) {
 			exchangeProject = ExchangeProjectsAnalyzer.analyzeProject(configurationProject, projectManager,
 					bmEmfIndexManager);
@@ -61,7 +60,7 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 
 		for (EpFormatVersion epFormatVersion : exchangeProject.getFormatVersions()) {
 			EnterpriseData enterpriseDataPackage = EnterpriseDataAnalyzer.loadResource(epFormatVersion.getVersion(),
-					project, bmEmfIndexProvider, plugin);
+					project, configuration, plugin);
 			if (enterpriseDataPackage == null) {
 				enterpriseDataPackage = EnterpriseDataAnalyzer.analyze(epFormatVersion.getXdtoPackage());
 				EnterpriseDataAnalyzer.saveResource(enterpriseDataPackage, project, plugin);
