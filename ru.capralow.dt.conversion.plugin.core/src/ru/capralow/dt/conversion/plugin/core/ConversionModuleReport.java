@@ -41,12 +41,12 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
-import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdObject;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
+import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.rg.model.RgGroup;
 import ru.capralow.dt.conversion.plugin.core.rg.model.RgRule;
 import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
@@ -68,43 +68,8 @@ public class ConversionModuleReport {
 		EList<EdDefinedType> edDefinedTypes = new BasicEList<EdDefinedType>();
 		EList<EdEnum> edEnums = new BasicEList<EdEnum>();
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
-
-		for (CmObjectRule objectRule : conversionModule.getObjectRules()) {
-			if (objectRule.getFormatObject().isEmpty())
-				continue;
-
-			EdObject formatObject = enterpriseDataPackage.getObject(objectRule.getFormatObject());
-			EList<EdProperty> edKeyProperties = new BasicEList<EdProperty>();
-
-			ArrayList<String> listIdentificationFields = new ArrayList<String>();
-			if (objectRule.getIdentificationVariant() != CmIdentificationVariant.SEARCH_FIELDS)
-				for (EdProperty edKeyProperty : formatObject.getKeyProperties()) {
-					if (edKeyProperty.getName().equals("Ссылка")) {
-						edKeyProperties.add(edKeyProperty);
-						break;
-					}
-				}
-			for (String identificationVariant : objectRule.getIdentificationFields()) {
-				for (String identificationField : identificationVariant.split("[,]")) {
-					if (!listIdentificationFields.contains(identificationField))
-						listIdentificationFields.add(identificationField);
-				}
-			}
-			for (CmAttributeRule cmAttributeRule : objectRule.getAttributeRules()) {
-				if (!listIdentificationFields.contains(cmAttributeRule.getConfigurationAttribute()))
-					continue;
-
-				for (EdProperty edKeyProperty : formatObject.getKeyProperties()) {
-					if (edKeyProperty.getName().equals(cmAttributeRule.getFormatAttribute())) {
-						edKeyProperties.add(edKeyProperty);
-						break;
-					}
-				}
-			}
-
-			mapKeyProperties.put(formatObject.getKeysObjectName(), edKeyProperties);
-		}
+		Map<String, EList<EdProperty>> mapKeyProperties = getKeyProperties(conversionModule.getObjectRules(),
+				enterpriseDataPackage);
 
 		if (rgVariant != null) {
 			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
@@ -155,16 +120,60 @@ public class ConversionModuleReport {
 
 		templateMain.setAttribute("ObjectRules", groupObjects);
 
-		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(edDefinedTypes));
+		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(edDefinedTypes, mapKeyProperties));
 
+		// TODO: Добавить вывод перечислений и предопределенных элементов в конец
+		// документа
 		templateMain.setAttribute("Enums", createEnumsReport(edEnums));
-
-		// TODO: Добавить вывод предопределенных элементов в конец документа
 
 		return templateMain.toString();
 	}
 
-	public static String createDefinedTypesReport(EList<EdDefinedType> edDefinedTypes) {
+	public static Map<String, EList<EdProperty>> getKeyProperties(EList<CmObjectRule> objectRules,
+			EnterpriseData enterpriseDataPackage) {
+		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+
+		for (CmObjectRule objectRule : objectRules) {
+			if (objectRule.getFormatObject().isEmpty())
+				continue;
+
+			EdObject formatObject = enterpriseDataPackage.getObject(objectRule.getFormatObject());
+			EList<EdProperty> edKeyProperties = new BasicEList<EdProperty>();
+
+			ArrayList<String> listIdentificationFields = new ArrayList<String>();
+			if (objectRule.getIdentificationVariant() != CmIdentificationVariant.SEARCH_FIELDS)
+				for (EdProperty edKeyProperty : formatObject.getKeyProperties()) {
+					if (edKeyProperty.getName().equals("Ссылка")) {
+						edKeyProperties.add(edKeyProperty);
+						break;
+					}
+				}
+			for (String identificationVariant : objectRule.getIdentificationFields()) {
+				for (String identificationField : identificationVariant.split("[,]")) {
+					if (!listIdentificationFields.contains(identificationField))
+						listIdentificationFields.add(identificationField);
+				}
+			}
+			for (CmAttributeRule cmAttributeRule : objectRule.getAttributeRules()) {
+				if (!listIdentificationFields.contains(cmAttributeRule.getConfigurationAttribute()))
+					continue;
+
+				for (EdProperty edKeyProperty : formatObject.getKeyProperties()) {
+					if (edKeyProperty.getName().equals(cmAttributeRule.getFormatAttribute())) {
+						edKeyProperties.add(edKeyProperty);
+						break;
+					}
+				}
+			}
+
+			mapKeyProperties.put(formatObject.getKeysName(), edKeyProperties);
+		}
+
+		return mapKeyProperties;
+	}
+
+	public static String createDefinedTypesReport(EList<EdDefinedType> edDefinedTypes,
+			Map<String, EList<EdProperty>> mapKeyProperties) {
 		if (edDefinedTypes.size() == 0)
 			return "";
 
@@ -173,23 +182,32 @@ public class ConversionModuleReport {
 
 		StringTemplate template = new StringTemplate(templateContent);
 
+		String tabString = "&nbsp; &nbsp; ";
+
 		String rows = "";
 		for (EdDefinedType edDefinedType : edDefinedTypes) {
 			EList<EdType> edTypes = edDefinedType.getTypes();
-			boolean firstRow = true;
+
+			String definedTypesType = "";
 			for (EdType edType : edTypes) {
-				if (firstRow) {
-					if (edTypes.size() == 1)
-						rows += edDefinedType.getName() + " | " + edType.getPropertyType() + System.lineSeparator();
+				if (!definedTypesType.isEmpty())
+					definedTypesType += ";";
+				definedTypesType += edType.getName() + ":" + edType.getPropertyType();
+			}
 
-					else {
-						rows += edDefinedType.getName() + " | " + System.lineSeparator();
-						rows += " | " + edType.getPropertyType() + System.lineSeparator();
+			ArrayList<String> definedTypes = expandPropertyType(edDefinedType.getName(), definedTypesType, false,
+					mapKeyProperties);
+			for (String definedType : definedTypes) {
+				String[] definedTypeArray = definedType.split("[,]", 3);
 
-					}
-					firstRow = false;
-				} else
-					rows += " | " + edType.getPropertyType() + System.lineSeparator();
+				String[] definedTypeName = definedTypeArray[0].split("[_]");
+
+				String prefix = "";
+				for (int i = 1; i <= definedTypeName.length - 1; i++)
+					prefix += tabString;
+
+				rows += prefix + (definedTypeName.length == 1 ? "" : "_") + definedTypeName[definedTypeName.length - 1]
+						+ " | " + definedTypeArray[1] + System.lineSeparator();
 			}
 		}
 
@@ -544,85 +562,36 @@ public class ConversionModuleReport {
 				if (attributeRule.getFormatAttribute().isEmpty())
 					comment = "<Заполняется алгоритмом>";
 
-				String required = edProperty.getRequired() ? "Да" : "";
+				ArrayList<String> listPropertyTypes = expandPropertyType(formatAttribute, edProperty.getType(),
+						edProperty.getRequired(), mapKeyProperties);
 
-				// TODO: Раскрывать КлючевыеСвойства у подсвойств
-				String[] subPropertyTypes = edProperty.getPropertyType().split("[;]");
-				if (subPropertyTypes.length == 1) {
-					String subPropertyType = subPropertyTypes[0];
-					if (subPropertyType.isEmpty())
-						subPropertyType = "<Свойство формата не найдено>";
+				boolean firstRow = true;
+				for (String propertyType : listPropertyTypes) {
+					String[] propertyTypeArray = propertyType.split("[,]", 3);
 
-					EdDefinedType edDefinedType = enterpriseDataPackage.getDefinedType(subPropertyType);
+					String propertyTypeName = propertyTypeArray[0];
+					String propertyTypeType = propertyTypeArray[1];
+					String propertyTypeRequired = propertyTypeArray[2];
+
+					EdDefinedType edDefinedType = enterpriseDataPackage.getDefinedType(propertyTypeType);
 					if (edDefinedType != null && !edDefinedTypes.contains(edDefinedType))
 						edDefinedTypes.add(edDefinedType);
 
-					EdEnum edEnum = enterpriseDataPackage.getEnum(subPropertyType);
+					EdEnum edEnum = enterpriseDataPackage.getEnum(propertyTypeType);
 					if (edEnum != null && !edEnums.contains(edEnum))
 						edEnums.add(edEnum);
 
-					Boolean isSubKey = subPropertyType.startsWith("КлючевыеСвойства");
+					String[] propertyTypeNameArray = propertyTypeName.split("[_]");
 
-					if (isKey)
-						tabularSectionRow[0] += getTableRow(formatAttribute,
-								isSubKey ? "КлючевыеСвойства" : subPropertyType, attributeSynonym, required, comment,
-								isKey, 0);
-					else
-						tabularSectionRow[1] += getTableRow(formatAttribute,
-								isSubKey ? "КлючевыеСвойства" : subPropertyType, attributeSynonym, required, comment,
-								isKey, 0);
+					tabularSectionRow[isKey ? 0 : 1] += getTableRow(
+							(propertyTypeNameArray.length == 1 ? "" : "_")
+									+ propertyTypeNameArray[propertyTypeNameArray.length - 1],
+							propertyTypeType, firstRow ? attributeSynonym : "",
+							propertyTypeRequired.equals("true") ? "Да" : "", firstRow ? comment : "", isKey,
+							propertyTypeNameArray.length - 1);
 
-					if (isSubKey) {
-						EList<EdProperty> edKeyProperties = mapKeyProperties.get(subPropertyType);
-						if (edKeyProperties != null) {
-							for (EdProperty edKeyProperty : edKeyProperties) {
-								if (isKey)
-									tabularSectionRow[0] += getTableRow("_" + edKeyProperty.getName(),
-											edKeyProperty.getPropertyType(), "",
-											edKeyProperty.getRequired() ? "Да" : "", "", isKey, 1);
-								else
-									tabularSectionRow[1] += getTableRow("_" + edKeyProperty.getName(),
-											edKeyProperty.getPropertyType(), "",
-											edKeyProperty.getRequired() ? "Да" : "", "", isKey, 1);
-							}
-						}
-
-					}
-
-				} else {
-					if (isKey)
-						tabularSectionRow[0] += getTableRow(formatAttribute, "", attributeSynonym, required, comment,
-								isKey, 0);
-					else
-						tabularSectionRow[1] += getTableRow(formatAttribute, "", attributeSynonym, required, comment,
-								isKey, 0);
-
-					for (String subPropertyType : subPropertyTypes) {
-						Boolean isSubKey = subPropertyType.startsWith("КлючевыеСвойства");
-
-						if (isKey)
-							tabularSectionRow[0] += getTableRow("_" + subPropertyType,
-									isSubKey ? "КлючевыеСвойства" : subPropertyType, "", "", "", isKey, 1);
-						else
-							tabularSectionRow[1] += getTableRow("_" + subPropertyType,
-									isSubKey ? "КлючевыеСвойства" : subPropertyType, "", "", "", isKey, 1);
-
-						if (isSubKey) {
-							EList<EdProperty> edKeyProperties = mapKeyProperties.get(subPropertyType);
-							if (edKeyProperties != null) {
-								for (EdProperty edKeyProperty : edKeyProperties) {
-									if (isKey)
-										tabularSectionRow[0] += getTableRow("_" + edKeyProperty.getName(),
-												edKeyProperty.getPropertyType(), "",
-												edKeyProperty.getRequired() ? "Да" : "", "", isKey, 2);
-									else
-										tabularSectionRow[1] += getTableRow("_" + edKeyProperty.getName(),
-												edKeyProperty.getPropertyType(), "",
-												edKeyProperty.getRequired() ? "Да" : "", "", isKey, 2);
-								}
-							}
-						}
-					}
+					if (firstRow)
+						firstRow = false;
 				}
 
 				tabularSectionsRows.put(configurationTabularSectionName, tabularSectionRow);
@@ -660,8 +629,74 @@ public class ConversionModuleReport {
 		return templateObject.toString();
 	}
 
+	public static ArrayList<String> expandPropertyType(String propertyName, String propertyType,
+			Boolean propertyRequired, Map<String, EList<EdProperty>> mapKeyProperties) {
+		ArrayList<String> listProperties = new ArrayList<String>();
+
+		if (propertyType.isEmpty()) {
+			if (!propertyName.isEmpty())
+				listProperties.add(String.join(",", propertyName, "**Не указан тип**", propertyRequired ? "true" : ""));
+
+			return listProperties;
+		}
+
+		String[] subPropertyTypes = propertyType.split("[;]");
+		if (subPropertyTypes.length == 1) {
+			String subPropertyType = subPropertyTypes[0];
+			String[] subPropertyTypeList = subPropertyType.split(":");
+			String subPropertyTypeName = "";
+			String subPropertyTypeType = "";
+			if (subPropertyTypeList.length == 1)
+				subPropertyTypeType = subPropertyTypeList[0];
+
+			else {
+				subPropertyTypeName = subPropertyTypeList[0];
+				subPropertyTypeType = subPropertyTypeList[1];
+
+			}
+			if (subPropertyTypeType.startsWith("КлючевыеСвойства")) {
+				EList<EdProperty> subPropertyKeys = mapKeyProperties.get(subPropertyTypeType);
+				if (subPropertyKeys == null) {
+					listProperties.add(String.join(",", propertyName.concat(subPropertyTypeName),
+							"**Не найдены ".concat(subPropertyTypeType).concat("**"), propertyRequired ? "true" : ""));
+					return listProperties;
+				}
+
+				listProperties.add(String.join(",", propertyName.concat(subPropertyTypeName), "КлючевыеСвойства",
+						propertyRequired ? "true" : ""));
+				for (EdProperty subPropertyKey : subPropertyKeys) {
+					String subPropertyName = propertyName.concat(subPropertyTypeName).concat("_")
+							.concat(subPropertyKey.getName());
+					if (propertyName.endsWith(subPropertyKey.getName())
+							|| subPropertyName.endsWith("Родитель_Владелец"))
+						continue;
+					listProperties.addAll(expandPropertyType(subPropertyName, subPropertyKey.getType(),
+							subPropertyKey.getRequired(), mapKeyProperties));
+				}
+
+			} else {
+				listProperties.add(String.join(",", propertyName.concat(subPropertyTypeName), subPropertyTypeType,
+						propertyRequired ? "true" : ""));
+
+			}
+
+		} else {
+			listProperties.add(String.join(",", propertyName, "", propertyRequired ? "true" : ""));
+
+			for (String subPropertyType : subPropertyTypes)
+				listProperties
+						.addAll(expandPropertyType(propertyName.concat("_"), subPropertyType, false, mapKeyProperties));
+
+		}
+
+		return listProperties;
+	}
+
 	public static String createIdentificationReport(CmIdentificationVariant identificationVariant,
 			EList<String> identificationFields) {
+		if (identificationVariant == null)
+			return "**Вариант идентификации: Не определен**";
+
 		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS
 				&& identificationFields.size() == 0)
 			identificationVariant = CmIdentificationVariant.UUID;

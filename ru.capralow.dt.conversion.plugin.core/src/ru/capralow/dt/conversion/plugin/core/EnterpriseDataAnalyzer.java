@@ -36,16 +36,16 @@ import ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ed.model.edFactory;
-import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 
 public class EnterpriseDataAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
 	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
-	public static EnterpriseData loadResource(EpFormatVersion epFormatVersion, IProject project,
-			IBmEmfIndexProvider bmEmfIndexProvider, AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "enterpriseDataPackage-"
-				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
+	public static EnterpriseData loadResource(String version, IProject project, IBmEmfIndexProvider bmEmfIndexProvider,
+			AbstractUIPlugin plugin) {
+		URI uri = URI.createPlatformResourceURI(
+				project.getName() + File.separator + "enterpriseDataPackage-" + version.replace(".", "_") + ".xmi",
+				false);
 
 		try {
 			File file = ConversionUtils.getResourceFile(uri, plugin);
@@ -88,10 +88,9 @@ public class EnterpriseDataAnalyzer {
 		return null;
 	}
 
-	public static void saveResource(EpFormatVersion epFormatVersion, EnterpriseData enterpriseDataPackage,
-			IProject project, AbstractUIPlugin plugin) {
+	public static void saveResource(EnterpriseData enterpriseDataPackage, IProject project, AbstractUIPlugin plugin) {
 		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "enterpriseDataPackage-"
-				+ epFormatVersion.getVersion().replace(".", "_") + ".xmi", false);
+				+ enterpriseDataPackage.getVersion().replace(".", "_") + ".xmi", false);
 
 		File file;
 		try {
@@ -110,24 +109,21 @@ public class EnterpriseDataAnalyzer {
 		}
 	}
 
-	public static EnterpriseData analyze(EpFormatVersion epFormatVersion) {
+	public static EnterpriseData analyze(XDTOPackage xdtoPackage) {
+		String[] namespaceArray = xdtoPackage.getNamespace().split("[/]");
+		String version = namespaceArray[namespaceArray.length - 1];
+
 		EnterpriseData enterpriseDataPackage = edFactory.eINSTANCE.createEnterpriseData();
 
 		EList<EdDefinedType> edDefinedTypes = enterpriseDataPackage.getDefinedTypes();
-		EList<EdObject> edCatalogs = enterpriseDataPackage.getCatalogs();
-		EList<EdObject> edDocuments = enterpriseDataPackage.getDocuments();
 		EList<EdEnum> edEnums = enterpriseDataPackage.getEnums();
-		EList<EdObject> edRegisters = enterpriseDataPackage.getRegisters();
 
 		edDefinedTypes.clear();
-		edCatalogs.clear();
-		edDocuments.clear();
 		edEnums.clear();
-		edRegisters.clear();
 
-		enterpriseDataPackage.setVersion(epFormatVersion.getVersion());
+		enterpriseDataPackage.setVersion(version);
 
-		Package dataPackage = ((XDTOPackage) epFormatVersion.getXdtoPackage()).getPackage();
+		Package dataPackage = xdtoPackage.getPackage();
 
 		Map<String, ObjectType> packageObjects = new HashMap<String, ObjectType>();
 		for (ObjectType object : dataPackage.getObjects()) {
@@ -146,86 +142,24 @@ public class EnterpriseDataAnalyzer {
 
 			String objectName = xdtoObject.getName();
 			if (baseType != null && baseType.getName().equals("Object")) {
-				EdObject edObject = edFactory.eINSTANCE.createEdObject();
 				if (objectName.startsWith("Справочник.")) {
-					edCatalogs.add(edObject);
+					addCatalog(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
 
 				} else if (objectName.startsWith("Документ.")) {
-					edDocuments.add(edObject);
+					addDocument(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
 
 				} else if (objectName.startsWith("Регистр")) {
-					edRegisters.add(edObject);
+					addRegister(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
 
 				} else {
+					addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
 					String msg = String.format(
 							"У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип", objectName,
-							epFormatVersion.getVersion());
+							version);
 
 					LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
 					continue;
 
-				}
-
-				edObject.setObject(xdtoObject);
-				edObject.setName(objectName);
-
-				EList<EdProperty> edProperties = edObject.getProperties();
-
-				for (Property property : xdtoObject.getProperties()) {
-					String propertyName = property.getName();
-
-					if (propertyName.equals("КлючевыеСвойства")) {
-						String propertyTypeName = property.getType().getName();
-						ObjectType propertyTypeObject = packageObjects.get(propertyTypeName);
-
-						EList<EdProperty> edKeyProperties = null;
-
-						edObject.setKeysObject(propertyTypeObject);
-						edObject.setKeysObjectName(propertyTypeName);
-						edKeyProperties = edObject.getKeyProperties();
-
-						for (Property subProperty : propertyTypeObject.getProperties()) {
-							addProperty(subProperty, subProperty.getName(), true, edProperties, packageObjects,
-									packageValues);
-
-							addProperty(subProperty, subProperty.getName(), true, edKeyProperties, packageObjects,
-									packageValues);
-						}
-
-					} else {
-						boolean tabularSection = false;
-
-						String subPropertyTypeName = "";
-						if (property.getType() != null) {
-							String propertyTabularTypeName = property.getType().getName();
-							ObjectType propertyTabularSection = packageObjects.get(propertyTabularTypeName);
-
-							if (propertyTabularSection != null) {
-								EList<Property> subProperties = propertyTabularSection.getProperties();
-								if (subProperties.size() == 1) {
-									Property subProperty = propertyTabularSection.getProperties().get(0);
-									String subPropertyName = subProperty.getName();
-									if (subPropertyName.equals("Строка")) {
-										subPropertyTypeName = subProperty.getType().getName();
-										tabularSection = true;
-									}
-								}
-							}
-						}
-
-						if (tabularSection) {
-							ObjectType propertyObject = packageObjects.get(subPropertyTypeName);
-
-							for (Property subProperty : propertyObject.getProperties()) {
-								addProperty(subProperty, propertyName.concat(".").concat(subProperty.getName()), false,
-										edProperties, packageObjects, packageValues);
-							}
-
-						} else
-							addProperty(property, property.getName(), false, edProperties, packageObjects,
-									packageValues);
-
-					}
 				}
 
 			} else {
@@ -268,20 +202,101 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackage;
 	}
 
-	private static void addProperty(Property xdtoProperty, String propertyName, Boolean isKey,
-			EList<EdProperty> edProperties, Map<String, ObjectType> packageObjects,
+	private static EdObject addObject(ObjectType xdtoObject, Map<String, ObjectType> packageObjects,
 			Map<String, ValueType> packageValues) {
-		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
-		edProperties.add(edProperty);
+		EdObject edObject = edFactory.eINSTANCE.createEdObject();
 
-		edProperty.setProperty(xdtoProperty);
-		edProperty.setName(propertyName);
+		edObject.setMainName(xdtoObject.getName());
+
+		edObject.setXdtoMainObject(xdtoObject);
+
+		EList<EdProperty> edProperties = edObject.getMainProperties();
+
+		for (Property xdtoProperty : xdtoObject.getProperties()) {
+			String xdtoPropertyName = xdtoProperty.getName();
+
+			if (xdtoPropertyName.equals("КлючевыеСвойства")) {
+				String xdtoKeyPropertyName = xdtoProperty.getType().getName();
+				ObjectType xdtoKeyObject = packageObjects.get(xdtoKeyPropertyName);
+
+				edObject.setXdtoKeysObject(xdtoKeyObject);
+				edObject.setKeysName(xdtoKeyPropertyName);
+
+				for (Property xdtoKeyProperty : xdtoKeyObject.getProperties()) {
+					edProperties.add(addProperty(xdtoKeyProperty, xdtoKeyProperty.getName(), true));
+				}
+
+			} else {
+				boolean tabularSection = false;
+
+				String xdtoTabularSectionName = "";
+				if (xdtoProperty.getType() != null) {
+					String xdtoTabularName = xdtoProperty.getType().getName();
+					ObjectType xdtoTabularObject = packageObjects.get(xdtoTabularName);
+
+					if (xdtoTabularObject != null) {
+						EList<Property> xdtoTabularProperties = xdtoTabularObject.getProperties();
+						if (xdtoTabularProperties.size() == 1) {
+							Property xdtoTabularProperty = xdtoTabularObject.getProperties().get(0);
+							if (xdtoTabularProperty.getName().equals("Строка")) {
+								xdtoTabularSectionName = xdtoTabularProperty.getType().getName();
+								tabularSection = true;
+							}
+						}
+					}
+				}
+
+				if (tabularSection) {
+					ObjectType xdtoTabularObject = packageObjects.get(xdtoTabularSectionName);
+
+					for (Property xdtoTabularProperty : xdtoTabularObject.getProperties()) {
+						edProperties.add(addProperty(xdtoTabularProperty,
+								xdtoPropertyName.concat(".").concat(xdtoTabularProperty.getName()), false));
+					}
+
+				} else
+					edProperties.add(addProperty(xdtoProperty, xdtoProperty.getName(), false));
+
+			}
+		}
+
+		return edObject;
+	}
+
+	private static void addCatalog(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+		enterpriseDataPackage.getCatalogs().add(addObject(xdtoObject, packageObjects, packageValues));
+	}
+
+	private static void addDocument(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+		enterpriseDataPackage.getDocuments().add(addObject(xdtoObject, packageObjects, packageValues));
+	}
+
+	private static void addRegister(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+		enterpriseDataPackage.getRegisters().add(addObject(xdtoObject, packageObjects, packageValues));
+	}
+
+	private static void addUnknownObject(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+		enterpriseDataPackage.getUnknownObjects().add(addObject(xdtoObject, packageObjects, packageValues));
+	}
+
+	private static EdProperty addProperty(Property xdtoProperty, String xdtoPropertyName, Boolean isKey) {
+		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
+
+		edProperty.setName(xdtoPropertyName);
+
+		edProperty.setXdtoProperty(xdtoProperty);
+
+		edProperty.setIsKey(isKey);
+
+		edProperty.setType(getPropertyType(xdtoProperty));
 
 		edProperty.setRequired(xdtoProperty.getLowerBound() == 1);
 
-		edProperty.setPropertyType(getPropertyType(xdtoProperty));
-
-		edProperty.setIsKey(isKey);
+		return edProperty;
 	}
 
 	private static String getPropertyType(Property property) {
@@ -306,7 +321,7 @@ public class EnterpriseDataAnalyzer {
 				for (Property typeProperty : propertyObjectTypeDef.getProperties()) {
 					if (!propertyTypeName.isEmpty())
 						propertyTypeName += ";";
-					propertyTypeName += getPropertyType(typeProperty);
+					propertyTypeName += typeProperty.getName().concat(":").concat(getPropertyType(typeProperty));
 				}
 
 			}
@@ -321,22 +336,22 @@ public class EnterpriseDataAnalyzer {
 				propertyTypeName = "Булево";
 
 			else if (propertyTypeName.equals("date"))
-				propertyTypeName = "Дата (дата)";
+				propertyTypeName = "Дата";
 
 			else if (propertyTypeName.equals("dateTime"))
-				propertyTypeName = "Дата (дата и время)";
+				propertyTypeName = "ДатаВремя";
 
 			else if (propertyTypeName.equals("decimal"))
-				propertyTypeName = "Число (дробное)";
+				propertyTypeName = "ДробноеЧисло";
 
 			else if (propertyTypeName.equals("int"))
-				propertyTypeName = "Число (целое)";
+				propertyTypeName = "ЦелоеЧисло";
 
 			else if (propertyTypeName.equals("string"))
 				propertyTypeName = "Строка";
 
 			else if (propertyTypeName.equals("time"))
-				propertyTypeName = "Дата (время)";
+				propertyTypeName = "Время";
 
 		}
 
@@ -351,23 +366,23 @@ public class EnterpriseDataAnalyzer {
 
 			int maxLength = propertyValueTypeDef.getMaxLength();
 			if (maxLength != 0)
-				propertyTypeName += " (".concat(Integer.toString(maxLength)).concat(")");
+				propertyTypeName = "Строка(".concat(Integer.toString(maxLength)).concat(")");
 
 		} else if (propertyTypeName.equals("decimal")) {
-			propertyTypeName = "Число (дробное)";
+			propertyTypeName = "ДробноеЧисло";
 
 			int totalDigits = propertyValueTypeDef.getTotalDigits();
 			int fractionDigits = propertyValueTypeDef.getFractionDigits();
 			if (totalDigits != 0)
-				propertyTypeName = "Число (".concat(Integer.toString(totalDigits)).concat(",")
+				propertyTypeName = "ДробноеЧисло(".concat(Integer.toString(totalDigits)).concat(".")
 						.concat(Integer.toString(fractionDigits)).concat(")");
 
 		} else if (propertyTypeName.equals("int")) {
-			propertyTypeName = "Число (целое)";
+			propertyTypeName = "ЦелоеЧисло";
 
 			int totalDigits = propertyValueTypeDef.getTotalDigits();
 			if (totalDigits != 0)
-				propertyTypeName = "Число (".concat(Integer.toString(totalDigits)).concat(")");
+				propertyTypeName = "ЦелоеЧисло(".concat(Integer.toString(totalDigits)).concat(")");
 
 		}
 

@@ -2,6 +2,7 @@
 @Ecore(nsPrefix="ed", nsURI="http://ru.capralow.dt.conversion.plugin.core.ed.model")
 package ru.capralow.dt.conversion.plugin.core.ed.model
 
+import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage
 import com._1c.g5.v8.dt.xdto.model.Enumeration
 import com._1c.g5.v8.dt.xdto.model.ObjectType
 import com._1c.g5.v8.dt.xdto.model.Property
@@ -9,6 +10,7 @@ import com._1c.g5.v8.dt.xdto.model.ValueType
 
 class EnterpriseData {
 	String version = ""
+	refers XDTOPackage xdtoPackage
 	
 	contains EdDefinedType[] definedTypes
 	contains EdDefinedType[] refTypes
@@ -16,10 +18,12 @@ class EnterpriseData {
 	contains EdObject[] documents
 	contains EdEnum[] enums
 	contains EdObject[] registers
+
+	contains EdObject[] unknownObjects
 	
 	op EdProperty getProperty(String objectName, String propertyName) {
 		for (EdObject fpCatalog : catalogs) {
-			if (fpCatalog.getName.equals(objectName)) {
+			if (fpCatalog.getMainName.equals(objectName)) {
 				var property = fpCatalog.getProperty(propertyName);
 				if (property === null)
 					return null;
@@ -28,7 +32,7 @@ class EnterpriseData {
 			}
 		}
 		for (EdObject fpDocument : documents) {
-			if (fpDocument.getName.equals(objectName)) {
+			if (fpDocument.getMainName.equals(objectName)) {
 				var property = fpDocument.getProperty(propertyName);
 				if (property === null)
 					return null;
@@ -37,7 +41,7 @@ class EnterpriseData {
 			}
 		}
 		for (EdObject fpRegister : registers) {
-			if (fpRegister.getName.equals(objectName)) {
+			if (fpRegister.getMainName.equals(objectName)) {
 				var property = fpRegister.getProperty(propertyName);
 				if (property === null)
 					return null;
@@ -51,17 +55,17 @@ class EnterpriseData {
 	
 	op EdObject getObject(String name) {
 		for (EdObject fpCatalog : catalogs) {
-			if (fpCatalog.getName.equals(name))
+			if (fpCatalog.getMainName.equals(name))
 				return fpCatalog;
 			
 		}
 		for (EdObject fpDocument : documents) {
-			if (fpDocument.getName.equals(name))
+			if (fpDocument.getMainName.equals(name))
 				return fpDocument;
 
 		}
 		for (EdObject fpRegister : registers) {
-			if (fpRegister.getName.equals(name))
+			if (fpRegister.getMainName.equals(name))
 				return fpRegister;
 
 		}
@@ -94,22 +98,47 @@ class EdDefinedType {
 	contains EdType[] types
 }
 
-class EdObject {
-	refers ObjectType object
+class EdType {
 	String name = ""
 	
-	contains EdProperty[] properties
-	op EdProperty getProperty(String propertyName) {
-		for (EdProperty fpProperty : properties) {
-			if (propertyName.equals(fpProperty.getName)) return fpProperty
+	String propertyType = ""
+}
+
+class EdObject {
+	String mainName = ""
+	String keysName = ""
+	
+	refers ObjectType xdtoMainObject
+	refers ObjectType xdtoKeysObject
+
+	contains EdProperty[] mainProperties
+	op EdProperty getProperty(String name) {
+		for (EdProperty edProperty : mainProperties) {
+			if (name.equals(edProperty.getName)) return edProperty
 		}
 		return null;
 	}
 	
-	refers ObjectType keysObject
-	String keysObjectName = ""
-	contains EdProperty[] keyProperties
+	op EdProperty[] getKeyProperties() {
+		val keyProperties = newBasicEList();
+		for (EdProperty edProperty : mainProperties) {
+			if (edProperty.isKey)
+				keyProperties.add(edProperty);
+		}
+		return keyProperties;
+	}
+}
+
+class EdProperty {
+	String name = ""
+
+	refers Property xdtoProperty
+
+	Boolean isKey = "false"
 	
+	String ^type = ""
+	
+	Boolean required = "false"
 }
 
 class EdEnum {
@@ -117,20 +146,4 @@ class EdEnum {
 	String name = ""
 	
 	refers Enumeration[] enumerations
-}
-
-class EdProperty {
-	refers Property property
-	String name = ""
-	Boolean isKey = "false"
-	
-	String propertyType = ""
-	
-	Boolean required = "false"
-}
-
-class EdType {
-	String name = ""
-	
-	String propertyType = ""
 }

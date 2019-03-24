@@ -65,7 +65,6 @@ import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
-import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 
@@ -109,21 +108,21 @@ public class ExchangeProjectsAnalyzer {
 						.getEObjectIndex(formatVersion.getModule());
 				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 				if (objectItr.hasNext())
-					formatVersion.setModule((MdObject) objectItr.next().getEObjectOrProxy());
+					formatVersion.setModule((CommonModule) objectItr.next().getEObjectOrProxy());
 
 				objectIndex = bmEmfIndexProvider.getEObjectIndex(formatVersion.getXdtoPackage());
 				objectItr = objectIndex.iterator();
 				if (objectItr.hasNext())
-					formatVersion.setXdtoPackage((MdObject) objectItr.next().getEObjectOrProxy());
+					formatVersion.setXdtoPackage((XDTOPackage) objectItr.next().getEObjectOrProxy());
 			}
 
-			EList<MdObject> oldList = exchangeProject.getSettingsModules();
-			EList<MdObject> newList = new BasicEList<MdObject>();
-			for (MdObject oldItem : oldList) {
+			EList<CommonModule> oldList = exchangeProject.getSettingsModules();
+			EList<CommonModule> newList = new BasicEList<CommonModule>();
+			for (CommonModule oldItem : oldList) {
 				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(oldItem);
 				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 				if (objectItr.hasNext())
-					newList.add((MdObject) objectItr.next().getEObjectOrProxy());
+					newList.add((CommonModule) objectItr.next().getEObjectOrProxy());
 			}
 			oldList.clear();
 			oldList.addAll(newList);
@@ -256,7 +255,7 @@ public class ExchangeProjectsAnalyzer {
 
 		exchangeProject.setName(mainProject.getName());
 
-		EList<MdObject> settingsModules = exchangeProject.getSettingsModules();
+		EList<CommonModule> settingsModules = exchangeProject.getSettingsModules();
 		settingsModules.clear();
 		EList<EpFormatVersion> epFormatVersions = exchangeProject.getFormatVersions();
 		epFormatVersions.clear();
@@ -393,7 +392,7 @@ public class ExchangeProjectsAnalyzer {
 			CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 
-		EList<MdObject> settingsModules = exchangeProject.getSettingsModules();
+		EList<CommonModule> settingsModules = exchangeProject.getSettingsModules();
 
 		settingsModules.add(mdCommonModule);
 
@@ -515,7 +514,7 @@ public class ExchangeProjectsAnalyzer {
 		if (statement instanceof EmptyStatement)
 			return;
 
-		EList<MdObject> settingsModules = exchangeProject.getSettingsModules();
+		EList<CommonModule> settingsModules = exchangeProject.getSettingsModules();
 
 		SimpleStatement simpleStatement = (SimpleStatement) statement;
 		Expression leftStatement = simpleStatement.getLeft();

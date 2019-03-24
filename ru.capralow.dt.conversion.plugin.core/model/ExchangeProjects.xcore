@@ -2,7 +2,8 @@
 @Ecore(nsPrefix="ep", nsURI="http://ru.capralow.dt.conversion.plugin.core.ep.model")
 package ru.capralow.dt.conversion.plugin.core.ep.model
 
-import com._1c.g5.v8.dt.metadata.mdclass.MdObject
+import com._1c.g5.v8.dt.metadata.mdclass.CommonModule
+import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage
 
 class ExchangeProject {
 	String name = ""
@@ -23,9 +24,9 @@ class ExchangeProject {
 		return result
 	}
 	
-	refers MdObject[] settingsModules
+	refers CommonModule[] settingsModules
 
-	op EpFormatVersion[] getModuleFormatVersions(MdObject module) {
+	op EpFormatVersion[] getModuleFormatVersions(CommonModule module) {
 		val result = newBasicEList()
 		for (EpFormatVersion formatVersion : formatVersions) {
 			if (formatVersion.module.equals(module))
@@ -67,8 +68,8 @@ class EpFormatVersion {
 	String extensionName = ""
 	String moduleName = ""
 	
-	refers MdObject module
-	refers MdObject xdtoPackage
+	refers CommonModule module
+	refers XDTOPackage xdtoPackage
 }
 
 enum EpProjectStatus {
