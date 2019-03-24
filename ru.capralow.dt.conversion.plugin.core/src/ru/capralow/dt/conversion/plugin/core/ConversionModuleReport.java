@@ -122,8 +122,6 @@ public class ConversionModuleReport {
 
 		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(edDefinedTypes, mapKeyProperties));
 
-		// TODO: Добавить вывод перечислений и предопределенных элементов в конец
-		// документа
 		templateMain.setAttribute("Enums", createEnumsReport(edEnums));
 
 		return templateMain.toString();

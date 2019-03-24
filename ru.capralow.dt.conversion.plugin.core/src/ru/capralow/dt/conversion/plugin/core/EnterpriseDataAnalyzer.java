@@ -3,7 +3,6 @@ package ru.capralow.dt.conversion.plugin.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
@@ -11,14 +10,14 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.xtext.resource.IEObjectDescription;
 
+import com._1c.g5.v8.bm.core.IBmTransaction;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.mcore.QName;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
@@ -61,21 +60,12 @@ public class EnterpriseDataAnalyzer {
 			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
 
 			for (EdEnum edEnum : enterpriseDataPackage.getEnums()) {
-				Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndex(edEnum.getObject());
-				Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
-				if (objectItr.hasNext())
-					edEnum.setObject((ValueType) objectItr.next().getEObjectOrProxy());
-
-				EList<Enumeration> oldList = edEnum.getEnumerations();
-				EList<Enumeration> newList = new BasicEList<Enumeration>();
-				for (Enumeration oldItem : oldList) {
-					objectIndex = bmEmfIndexProvider.getEObjectIndex(oldItem);
-					objectItr = objectIndex.iterator();
-					if (objectItr.hasNext())
-						newList.add((Enumeration) objectItr.next().getEObjectOrProxy());
-				}
-				oldList.clear();
-				oldList.addAll(newList);
+				IBmTransaction transaction = bmEmfIndexProvider.getModel().getEngine().beginReadonlyTransaction(true);
+				ValueType obj = (ValueType) transaction.getObjectByUri(EcoreUtil.getURI(edEnum.getObject()));
+				transaction.commit();
+				edEnum.setObject(obj);
+				edEnum.getEnumerations().clear();
+				edEnum.getEnumerations().addAll(obj.getEnumerations());
 			}
 
 			return enterpriseDataPackage;
