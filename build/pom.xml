@@ -9,6 +9,8 @@
 	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<name>Конвертация данных для EDT</name>
+
 	<prerequisites>
 		<maven>3.1.1</maven>
 	</prerequisites>
@@ -25,6 +27,8 @@
 	</properties>
 
 	<modules>
+		<module>../ru.capralow.dt.conversion.plugin.core.tests</module>
+
 		<module>../target</module>
 		<module>../ru.capralow.dt.conversion.plugin.core</module>
 		<module>../ru.capralow.dt.conversion.plugin.ui</module>
@@ -192,5 +196,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<name>Конвертация данных для EDT</name>
 </project>
