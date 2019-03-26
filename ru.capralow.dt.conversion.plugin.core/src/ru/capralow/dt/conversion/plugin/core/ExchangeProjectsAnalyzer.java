@@ -283,7 +283,7 @@ public class ExchangeProjectsAnalyzer {
 			return exchangeProject;
 		}
 
-		Map<String, CommonModule> formatVersions = getProjectFormatVersions(exchangeProject, mainProject, mdModule,
+		HashMap<String, CommonModule> formatVersions = getProjectFormatVersions(exchangeProject, mainProject, mdModule,
 				mdMethod, projectManager, bmEmfIndexManager);
 		if (formatVersions.size() == 0) {
 			exchangeProject.setStatus(EpProjectStatus.EMPTY_METHOD);
@@ -363,17 +363,17 @@ public class ExchangeProjectsAnalyzer {
 		return null;
 	}
 
-	private static Map<String, CommonModule> getProjectFormatVersions(ExchangeProject exchangeProject,
+	private static HashMap<String, CommonModule> getProjectFormatVersions(ExchangeProject exchangeProject,
 			IProject mainProject, CommonModule mdMainModule, Method mdMainMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 
-		Map<String, CommonModule> formatVersions = parseMethod(exchangeProject, mainProject, mdMainModule, mdMainMethod,
-				projectManager, bmEmfIndexManager);
+		HashMap<String, CommonModule> formatVersions = parseMethod(exchangeProject, mainProject, mdMainModule,
+				mdMainMethod, projectManager, bmEmfIndexManager);
 
 		return formatVersions;
 	}
 
-	private static Map<String, CommonModule> parseMethod(ExchangeProject exchangeProject, IProject mainProject,
+	private static HashMap<String, CommonModule> parseMethod(ExchangeProject exchangeProject, IProject mainProject,
 			CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 
@@ -381,12 +381,12 @@ public class ExchangeProjectsAnalyzer {
 
 		settingsModules.add(mdCommonModule);
 
-		Map<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
+		HashMap<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
 
-		Map<String, CommonModule> beforeFormatVersions = new HashMap<String, CommonModule>();
-		Map<String, CommonModule> insteadFormatVersions = getModuleFormatVersions(exchangeProject, mainProject,
+		HashMap<String, CommonModule> beforeFormatVersions = new HashMap<String, CommonModule>();
+		HashMap<String, CommonModule> insteadFormatVersions = getModuleFormatVersions(exchangeProject, mainProject,
 				mdCommonModule, mdMethod, projectManager, bmEmfIndexManager);
-		Map<String, CommonModule> afterFormatVersions = new HashMap<String, CommonModule>();
+		HashMap<String, CommonModule> afterFormatVersions = new HashMap<String, CommonModule>();
 
 		if (projectManager.getProject(mdCommonModule) instanceof IConfigurationProject) {
 			Collection<Module> extensionModules = moduleExtensionService
@@ -403,7 +403,7 @@ public class ExchangeProjectsAnalyzer {
 						mdMethod.getName());
 
 				for (Entry<Pragma, Method> extendedMethod : extensionMethods.entrySet()) {
-					Map<String, CommonModule> extensionFormatVersions = parseMethod(exchangeProject, mainProject,
+					HashMap<String, CommonModule> extensionFormatVersions = parseMethod(exchangeProject, mainProject,
 							(CommonModule) extensionModule.getOwner(), extendedMethod.getValue(), projectManager,
 							bmEmfIndexManager);
 
@@ -429,7 +429,7 @@ public class ExchangeProjectsAnalyzer {
 
 	}
 
-	private static Map<String, CommonModule> getModuleFormatVersions(ExchangeProject exchangeProject,
+	private static HashMap<String, CommonModule> getModuleFormatVersions(ExchangeProject exchangeProject,
 			IProject mainProject, CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 		if (mdMethod.getFormalParams().size() == 0) {
@@ -441,9 +441,9 @@ public class ExchangeProjectsAnalyzer {
 		FormalParam mdParam = mdMethod.getFormalParams().get(0);
 		String variableName = mdParam.getName();
 
-		Map<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
+		HashMap<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
 
-		Map<String, String> modulesAliases = new HashMap<String, String>();
+		HashMap<String, String> modulesAliases = new HashMap<String, String>();
 
 		for (Statement statement : mdMethod.getStatements()) {
 			if (statement instanceof IfStatement) {
@@ -492,8 +492,8 @@ public class ExchangeProjectsAnalyzer {
 		return formatVersions;
 	}
 
-	private static void parseModuleStatement(Map<String, CommonModule> formatVersions, Statement statement,
-			String variableName, Map<String, String> modulesAliases, ExchangeProject exchangeProject,
+	private static void parseModuleStatement(HashMap<String, CommonModule> formatVersions, Statement statement,
+			String variableName, HashMap<String, String> modulesAliases, ExchangeProject exchangeProject,
 			IProject mainProject, CommonModule commonModule, Method method, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 		if (statement instanceof EmptyStatement)
@@ -569,7 +569,7 @@ public class ExchangeProjectsAnalyzer {
 					}
 					settingsModules.add(subCommonModule);
 
-					Map<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject,
+					HashMap<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject,
 							subCommonModule, mdSubMethod, projectManager, bmEmfIndexManager);
 
 					formatVersions.putAll(moduleFormatVersions);
@@ -589,8 +589,8 @@ public class ExchangeProjectsAnalyzer {
 
 				settingsModules.add(commonModule);
 
-				Map<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject, commonModule,
-						mdSubMethod, projectManager, bmEmfIndexManager);
+				HashMap<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject,
+						commonModule, mdSubMethod, projectManager, bmEmfIndexManager);
 
 				formatVersions.putAll(moduleFormatVersions);
 

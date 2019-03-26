@@ -121,13 +121,13 @@ public class EnterpriseDataAnalyzer {
 
 		Package dataPackage = xdtoPackage.getPackage();
 
-		Map<String, ObjectType> packageObjects = new HashMap<String, ObjectType>();
+		HashMap<String, ObjectType> packageObjects = new HashMap<String, ObjectType>();
 		for (ObjectType object : dataPackage.getObjects()) {
 			String objectName = object.getName();
 			packageObjects.put(objectName, object);
 		}
 
-		Map<String, ValueType> packageValues = new HashMap<String, ValueType>();
+		HashMap<String, ValueType> packageValues = new HashMap<String, ValueType>();
 		for (ValueType type : dataPackage.getTypes()) {
 			String typeName = type.getName();
 			packageValues.put(typeName, type);
@@ -198,8 +198,8 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackage;
 	}
 
-	private static EdObject addObject(ObjectType xdtoObject, Map<String, ObjectType> packageObjects,
-			Map<String, ValueType> packageValues) {
+	private static EdObject addObject(ObjectType xdtoObject, HashMap<String, ObjectType> packageObjects,
+			HashMap<String, ValueType> packageValues) {
 		EdObject edObject = edFactory.eINSTANCE.createEdObject();
 
 		edObject.setMainName(xdtoObject.getName());
@@ -260,22 +260,22 @@ public class EnterpriseDataAnalyzer {
 	}
 
 	private static void addCatalog(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
 		enterpriseDataPackage.getCatalogs().add(addObject(xdtoObject, packageObjects, packageValues));
 	}
 
 	private static void addDocument(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
 		enterpriseDataPackage.getDocuments().add(addObject(xdtoObject, packageObjects, packageValues));
 	}
 
 	private static void addRegister(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
 		enterpriseDataPackage.getRegisters().add(addObject(xdtoObject, packageObjects, packageValues));
 	}
 
 	private static void addUnknownObject(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects, Map<String, ValueType> packageValues) {
+			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
 		enterpriseDataPackage.getUnknownObjects().add(addObject(xdtoObject, packageObjects, packageValues));
 	}
 

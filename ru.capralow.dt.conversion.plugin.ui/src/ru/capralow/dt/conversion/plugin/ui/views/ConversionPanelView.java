@@ -1,7 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.views;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -59,7 +58,7 @@ public class ConversionPanelView extends ViewPart {
 	private IResourceChangeListener objectsListener;
 
 	private IProject[] projects;
-	private Map<IProject, Boolean> readyProjects;
+	private HashMap<IProject, Boolean> readyProjects;
 
 	@Override
 	public void init(IViewSite site) throws PartInitException {

@@ -1,7 +1,6 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
@@ -13,7 +12,7 @@ import ru.capralow.dt.conversion.plugin.core.rm.model.RegistrationModule;
 
 public class RegistrationModuleContentProvider implements ITreeContentProvider {
 
-	private Map<String, String[]> contentMap = new HashMap<>();
+	private HashMap<String, String[]> contentMap = new HashMap<>();
 
 	@Override
 	public Object[] getElements(Object registrationModule) {

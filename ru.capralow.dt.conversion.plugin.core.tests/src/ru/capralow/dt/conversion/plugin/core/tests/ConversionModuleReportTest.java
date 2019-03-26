@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -14,6 +13,7 @@ import com._1c.g5.v8.dt.xdto.model.Enumeration;
 import com._1c.g5.v8.dt.xdto.model.XdtoFactory;
 
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleReport;
+import ru.capralow.dt.conversion.plugin.core.MarkdownTable;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum;
@@ -75,8 +75,12 @@ public class ConversionModuleReportTest {
 		EList<String> fields = new BasicEList<String>();
 		fields.add("Реквизит1");
 
-		String report1 = String.join(System.lineSeparator(), "**Вариант идентификации: По полям поиска**", "",
-				"Порядок поиска по ключевым полям | Реквизиты поиска", "--- | ---", "1 | Реквизит1", "");
+		String report1 = "**Вариант идентификации: По полям поиска**" + System.lineSeparator() + System.lineSeparator();
+
+		MarkdownTable mdTable = new MarkdownTable(
+				new String[] { "Порядок поиска по ключевым полям", "Реквизиты поиска" });
+		mdTable.addRow(1, new String[][] { { "1", "0", "" }, { "Реквизит1", "0", "" } });
+		report1 += mdTable.getTable();
 
 		String report2 = ConversionModuleReport.createIdentificationReport(CmIdentificationVariant.SEARCH_FIELDS,
 				fields);
@@ -91,9 +95,14 @@ public class ConversionModuleReportTest {
 		fields.add("Реквизит1,Реквизит2");
 		fields.add("Реквизит1");
 
-		String report1 = String.join(System.lineSeparator(), "**Вариант идентификации: По полям поиска**", "",
-				"Порядок поиска по ключевым полям | Реквизиты поиска", "--- | ---", "1 | Реквизит1,Реквизит2,Реквизит3",
-				"2 | Реквизит1,Реквизит2", "3 | Реквизит1", "");
+		String report1 = "**Вариант идентификации: По полям поиска**" + System.lineSeparator() + System.lineSeparator();
+
+		MarkdownTable mdTable = new MarkdownTable(
+				new String[] { "Порядок поиска по ключевым полям", "Реквизиты поиска" });
+		mdTable.addRow(1, new String[][] { { "1", "0", "" }, { "Реквизит1,Реквизит2,Реквизит3", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "2", "0", "" }, { "Реквизит1,Реквизит2", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "3", "0", "" }, { "Реквизит1", "0", "" } });
+		report1 += mdTable.getTable();
 
 		String report2 = ConversionModuleReport.createIdentificationReport(CmIdentificationVariant.SEARCH_FIELDS,
 				fields);
@@ -117,9 +126,13 @@ public class ConversionModuleReportTest {
 		EList<String> fields = new BasicEList<String>();
 		fields.add("Реквизит1");
 
-		String report1 = String.join(System.lineSeparator(),
-				"**Вариант идентификации: Сначала по уникальному идентификатору потом по полям поиска**", "",
-				"Порядок поиска по ключевым полям | Реквизиты поиска", "--- | ---", "1 | Реквизит1", "");
+		String report1 = "**Вариант идентификации: Сначала по уникальному идентификатору потом по полям поиска**"
+				+ System.lineSeparator() + System.lineSeparator();
+
+		MarkdownTable mdTable = new MarkdownTable(
+				new String[] { "Порядок поиска по ключевым полям", "Реквизиты поиска" });
+		mdTable.addRow(1, new String[][] { { "1", "0", "" }, { "Реквизит1", "0", "" } });
+		report1 += mdTable.getTable();
 
 		String report2 = ConversionModuleReport
 				.createIdentificationReport(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS, fields);
@@ -134,10 +147,15 @@ public class ConversionModuleReportTest {
 		fields.add("Реквизит1,Реквизит2");
 		fields.add("Реквизит1");
 
-		String report1 = String.join(System.lineSeparator(),
-				"**Вариант идентификации: Сначала по уникальному идентификатору потом по полям поиска**", "",
-				"Порядок поиска по ключевым полям | Реквизиты поиска", "--- | ---", "1 | Реквизит1,Реквизит2,Реквизит3",
-				"2 | Реквизит1,Реквизит2", "3 | Реквизит1", "");
+		String report1 = "**Вариант идентификации: Сначала по уникальному идентификатору потом по полям поиска**"
+				+ System.lineSeparator() + System.lineSeparator();
+
+		MarkdownTable mdTable = new MarkdownTable(
+				new String[] { "Порядок поиска по ключевым полям", "Реквизиты поиска" });
+		mdTable.addRow(1, new String[][] { { "1", "0", "" }, { "Реквизит1,Реквизит2,Реквизит3", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "2", "0", "" }, { "Реквизит1,Реквизит2", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "3", "0", "" }, { "Реквизит1", "0", "" } });
+		report1 += mdTable.getTable();
 
 		String report2 = ConversionModuleReport
 				.createIdentificationReport(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS, fields);
@@ -148,7 +166,7 @@ public class ConversionModuleReportTest {
 	@Test
 	public void testCreateDefinedTypesReportEmpty() {
 		EList<EdDefinedType> edDefinedTypes = new BasicEList<EdDefinedType>();
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		String report1 = "";
 
@@ -182,7 +200,7 @@ public class ConversionModuleReportTest {
 		edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
 		edDefinedTypes.add(edDefinedType);
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 		EList<EdProperty> edProperties = new BasicEList<EdProperty>();
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
 		edProperties.add(edProperty);
@@ -199,13 +217,17 @@ public class ConversionModuleReportTest {
 		edProperty.setType("ДатаВремя");
 		mapKeyProperties.put("КлючевыеСвойстваМойДокумент", edProperties);
 
-		String report1 = String.join(System.lineSeparator(), "### Определяемые типы", "", "Имя типа | Состав типа",
-				"--- | ---", "Составной тип | ", "&nbsp; &nbsp; _Тип1 | &nbsp; &nbsp; Дата",
-				"&nbsp; &nbsp; _Тип2 | &nbsp; &nbsp; ЛюбаяСсылка",
-				"&nbsp; &nbsp; _Тип3 | &nbsp; &nbsp; КлючевыеСвойства",
-				"&nbsp; &nbsp; &nbsp; &nbsp; _Ссылка | &nbsp; &nbsp; &nbsp; &nbsp; СправочникСсылка.МойДокумент",
-				"&nbsp; &nbsp; &nbsp; &nbsp; _Номер | &nbsp; &nbsp; &nbsp; &nbsp; Строка(11)",
-				"&nbsp; &nbsp; &nbsp; &nbsp; _Дата | &nbsp; &nbsp; &nbsp; &nbsp; ДатаВремя", "");
+		String report1 = "### Определяемые типы" + System.lineSeparator() + System.lineSeparator();
+
+		MarkdownTable mdTable = new MarkdownTable(new String[] { "Имя типа", "Состав типа" });
+		mdTable.addRow(1, new String[][] { { "Составной тип", "0", "" }, { "", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "_Тип1", "1", "" }, { "Дата", "1", "" } });
+		mdTable.addRow(1, new String[][] { { "_Тип2", "1", "" }, { "ЛюбаяСсылка", "1", "" } });
+		mdTable.addRow(1, new String[][] { { "_Тип3", "1", "" }, { "КлючевыеСвойства", "1", "" } });
+		mdTable.addRow(1, new String[][] { { "_Ссылка", "2", "" }, { "СправочникСсылка.МойДокумент", "2", "" } });
+		mdTable.addRow(1, new String[][] { { "_Номер", "2", "" }, { "Строка(11)", "2", "" } });
+		mdTable.addRow(1, new String[][] { { "_Дата", "2", "" }, { "ДатаВремя", "2", "" } });
+		report1 += mdTable.getTable();
 
 		String report2 = ConversionModuleReport.createDefinedTypesReport(edDefinedTypes, mapKeyProperties);
 
@@ -263,9 +285,18 @@ public class ConversionModuleReportTest {
 		enumerations.add(enumeration);
 		enumeration.setContent("Значение32");
 
-		String report1 = String.join(System.lineSeparator(), "### Перечисления и предопределенные элементы", "",
-				"Имя перечисления | Значения", "--- | ---", "Перечисление1 | Значение11", "Перечисление2 | Значение21",
-				" | Значение22", " | Значение23", " | Значение24", "Перечисление3 | Значение31", " | Значение32", "");
+		String report1 = "### Перечисления и предопределенные элементы" + System.lineSeparator()
+				+ System.lineSeparator();
+
+		MarkdownTable mdTable = new MarkdownTable(new String[] { "Имя перечисления", "Значения" });
+		mdTable.addRow(1, new String[][] { { "Перечисление1", "0", "" }, { "Значение11", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "Перечисление2", "0", "" }, { "Значение21", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "", "0", "" }, { "Значение22", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "", "0", "" }, { "Значение23", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "", "0", "" }, { "Значение24", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "Перечисление3", "0", "" }, { "Значение31", "0", "" } });
+		mdTable.addRow(1, new String[][] { { "", "0", "" }, { "Значение32", "0", "" } });
+		report1 += mdTable.getTable();
 
 		String report2 = ConversionModuleReport.createEnumsReport(edEnums);
 
@@ -298,7 +329,7 @@ public class ConversionModuleReportTest {
 		ArrayList<String> report1 = new ArrayList<String>();
 		report1.add(String.join(",", "Комментарий", "Строка", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		ArrayList<String> report2 = ConversionModuleReport.expandPropertyType("Комментарий", "Строка", false,
 				mapKeyProperties);
@@ -313,7 +344,7 @@ public class ConversionModuleReportTest {
 		ArrayList<String> report1 = new ArrayList<String>();
 		report1.add(String.join(",", "Вид", "ВидыКонтактнойИнформации", "true"));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		ArrayList<String> report2 = ConversionModuleReport.expandPropertyType("Вид", "ВидыКонтактнойИнформации", true,
 				mapKeyProperties);
@@ -328,7 +359,7 @@ public class ConversionModuleReportTest {
 		ArrayList<String> report1 = new ArrayList<String>();
 		report1.add(String.join(",", "Значение", "ЗначениеДополнительногоРеквизита", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 		// edProperties = new BasicEList<EdProperty>();
 		// edProperty = edFactory.eINSTANCE.createEdProperty();
 		// edProperties.add(edProperty);
@@ -357,7 +388,7 @@ public class ConversionModuleReportTest {
 		ArrayList<String> report1 = new ArrayList<String>();
 		report1.add(String.join(",", "ДокументОснование", "**Не найдены КлючевыеСвойстваМойДокумент**", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		ArrayList<String> report2 = ConversionModuleReport.expandPropertyType("ДокументОснование",
 				"КлючевыеСвойстваМойДокумент", false, mapKeyProperties);
@@ -375,7 +406,7 @@ public class ConversionModuleReportTest {
 		report1.add(String.join(",", "ДокументОснование_Номер", "Строка(11)", ""));
 		report1.add(String.join(",", "ДокументОснование_Дата", "ДатаВремя", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 		EList<EdProperty> edProperties = new BasicEList<EdProperty>();
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
 		edProperties.add(edProperty);
@@ -417,7 +448,7 @@ public class ConversionModuleReportTest {
 		report1.add(String.join(",", "Значение_МойДокумент1Ссылка_Организация_Префикс", "Строка(2)", ""));
 		report1.add(String.join(",", "Значение_МойДокумент2Ссылка", "**Не найдены КлючевыеСвойстваМойДокумент2**", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		EList<EdProperty> edProperties = new BasicEList<EdProperty>();
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
@@ -496,7 +527,7 @@ public class ConversionModuleReportTest {
 				String.join(",", "Значение_МойДокумент2Ссылка_Организация_РегистрационныйНомерПФР", "Строка(14)", ""));
 		report1.add(String.join(",", "Значение_МойДокумент2Ссылка_Организация_Префикс", "Строка(2)", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		EList<EdProperty> edProperties = new BasicEList<EdProperty>();
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
@@ -589,7 +620,7 @@ public class ConversionModuleReportTest {
 		report1.add(String.join(",", "Значение_Организация_ФизическиеЛицаСсылка_Наименование", "Строка(100)", "true"));
 		report1.add(String.join(",", "Значение_Организация_ФизическиеЛицаСсылка_Код", "Строка(10)", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		EList<EdProperty> edProperties = new BasicEList<EdProperty>();
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
@@ -715,7 +746,7 @@ public class ConversionModuleReportTest {
 		report1.add(
 				String.join(",", "Значение_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_Код", "Строка(10)", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		EList<EdProperty> edProperties = new BasicEList<EdProperty>();
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
@@ -834,7 +865,7 @@ public class ConversionModuleReportTest {
 		report1.add(String.join(",", "Значение_Подразделение_Родитель_Код", "Строка(9)", ""));
 		report1.add(String.join(",", "Значение_Подразделение_Код", "Строка(9)", ""));
 
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		EList<EdProperty> edProperties = new BasicEList<EdProperty>();
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();

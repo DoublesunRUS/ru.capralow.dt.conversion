@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.core.resources.IProject;
@@ -94,7 +93,7 @@ public class ConversionModuleAnalyzer {
 	private ConversionModule conversionModule;
 	private ReportGroups reportGroups;
 
-	private Map<String, EnterpriseData> enterpriseDataPackages = new HashMap<String, EnterpriseData>();
+	private HashMap<String, EnterpriseData> enterpriseDataPackages = new HashMap<String, EnterpriseData>();
 
 	public ConversionModuleAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
 			AbstractUIPlugin plugin) {
@@ -109,7 +108,7 @@ public class ConversionModuleAnalyzer {
 		return conversionModule;
 	}
 
-	public Map<String, EnterpriseData> getEnterpriseDataPackages() {
+	public HashMap<String, EnterpriseData> getEnterpriseDataPackages() {
 		return enterpriseDataPackages;
 	}
 
@@ -1856,7 +1855,8 @@ public class ConversionModuleAnalyzer {
 		// rgGroup = addRgGroup(rgVariant, "Отражение зарплаты в бухгалтерском учете");
 		// addRgRule(rgVariant, rgGroup, "П_НачислениеОценочныхОбязательствПоОтпускам");
 		//
-		// final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
+		// final HashMap<Object, Object> saveOptions =
+		// xmiResource.getDefaultSaveOptions();
 		// saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
 		//
 		// xmiResource.getContents().add(reportGroups);

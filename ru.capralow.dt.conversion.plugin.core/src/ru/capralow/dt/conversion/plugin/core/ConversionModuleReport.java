@@ -68,7 +68,7 @@ public class ConversionModuleReport {
 		EList<EdDefinedType> edDefinedTypes = new BasicEList<EdDefinedType>();
 		EList<EdEnum> edEnums = new BasicEList<EdEnum>();
 
-		Map<String, EList<EdProperty>> mapKeyProperties = getKeyProperties(conversionModule.getObjectRules(),
+		HashMap<String, EList<EdProperty>> mapKeyProperties = getKeyProperties(conversionModule.getObjectRules(),
 				enterpriseDataPackage);
 
 		if (rgVariant != null) {
@@ -127,9 +127,9 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	public static Map<String, EList<EdProperty>> getKeyProperties(EList<CmObjectRule> objectRules,
+	public static HashMap<String, EList<EdProperty>> getKeyProperties(EList<CmObjectRule> objectRules,
 			EnterpriseData enterpriseDataPackage) {
-		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
 
 		for (CmObjectRule objectRule : objectRules) {
 			if (objectRule.getFormatObject().isEmpty())
@@ -171,7 +171,7 @@ public class ConversionModuleReport {
 	}
 
 	public static String createDefinedTypesReport(EList<EdDefinedType> edDefinedTypes,
-			Map<String, EList<EdProperty>> mapKeyProperties) {
+			HashMap<String, EList<EdProperty>> mapKeyProperties) {
 		if (edDefinedTypes.size() == 0)
 			return "";
 
@@ -180,9 +180,8 @@ public class ConversionModuleReport {
 
 		StringTemplate template = new StringTemplate(templateContent);
 
-		String tabString = "&nbsp; &nbsp; ";
+		MarkdownTable mdTable = new MarkdownTable(new String[] { "Имя типа", "Состав типа" });
 
-		String rows = "";
 		for (EdDefinedType edDefinedType : edDefinedTypes) {
 			EList<EdType> edTypes = edDefinedType.getTypes();
 
@@ -200,16 +199,16 @@ public class ConversionModuleReport {
 
 				String[] definedTypeName = definedTypeArray[0].split("[_]");
 
-				String prefix = "";
-				for (int i = 1; i <= definedTypeName.length - 1; i++)
-					prefix += tabString;
-
-				rows += prefix + (definedTypeName.length == 1 ? "" : "_") + definedTypeName[definedTypeName.length - 1]
-						+ " | " + prefix + definedTypeArray[1] + System.lineSeparator();
+				String numOfTabs = Integer.toString(definedTypeName.length - 1);
+				mdTable.addRow(1,
+						new String[][] {
+								{ (definedTypeName.length == 1 ? "" : "_")
+										+ definedTypeName[definedTypeName.length - 1], numOfTabs, "" },
+								{ definedTypeArray[1], numOfTabs, "" } });
 			}
 		}
 
-		template.setAttribute("Rows", rows);
+		template.setAttribute("Rows", mdTable.getTable());
 
 		return template.toString();
 	}
@@ -223,20 +222,23 @@ public class ConversionModuleReport {
 
 		StringTemplate template = new StringTemplate(templateContent);
 
-		String rows = "";
+		MarkdownTable mdTable = new MarkdownTable(new String[] { "Имя перечисления", "Значения" });
+
 		for (EdEnum edEnum : edEnums) {
 			boolean firstRow = true;
 			for (Enumeration enumeration : edEnum.getEnumerations()) {
 				if (firstRow) {
-					rows += edEnum.getName() + " | " + enumeration.getContent() + System.lineSeparator();
+					mdTable.addRow(1,
+							new String[][] { { edEnum.getName(), "0", "" }, { enumeration.getContent(), "0", "" } });
+
 					firstRow = false;
 
 				} else
-					rows += " | " + enumeration.getContent() + System.lineSeparator();
+					mdTable.addRow(1, new String[][] { { "", "0", "" }, { enumeration.getContent(), "0", "" } });
 			}
 		}
 
-		template.setAttribute("Rows", rows);
+		template.setAttribute("Rows", mdTable.getTable());
 
 		return template.toString();
 	}
@@ -248,13 +250,15 @@ public class ConversionModuleReport {
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
-		String tabularRows = "";
+		MarkdownTable mdTable = new MarkdownTable(new String[] { "Наименование", "Объект формата",
+				"Объект конфигурации", "Правила поиска", "Примечание" });
 
 		if (rgVariant != null) {
 			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
 
 			for (RgGroup rgGroup : rgVariant.getGroups()) {
-				tabularRows += "**" + rgGroup.getName() + "** | | | | " + System.lineSeparator();
+				mdTable.addRow(1, new String[][] { { rgGroup.getName(), "0", "**" }, { "", "0", "" }, { "", "0", "" },
+						{ "", "0", "" }, { "", "0", "" } });
 
 				for (RgRule rgRule : rgGroup.getRules()) {
 					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getName());
@@ -262,7 +266,7 @@ public class ConversionModuleReport {
 						continue;
 
 					for (Object objectRule : dataRule.getObjectRules())
-						tabularRows += getObjectRow((CmObjectRule) objectRule) + System.lineSeparator();
+						mdTable.addRow(1, getObjectRow((CmObjectRule) objectRule));
 				}
 
 			}
@@ -275,19 +279,17 @@ public class ConversionModuleReport {
 				if (receivingObjectRules.size() == 0)
 					continue;
 
-				tabularRows += "**" + cmSubsystem.getName() + "** | | | | " + System.lineSeparator();
-
 				for (Object objectRule : receivingObjectRules)
-					tabularRows += getObjectRow((CmObjectRule) objectRule) + System.lineSeparator();
+					mdTable.addRow(1, getObjectRow((CmObjectRule) objectRule));
 			}
 		}
 
-		templateMain.setAttribute("TabularRows", tabularRows);
+		templateMain.setAttribute("TabularRows", mdTable.getTable());
 
 		return templateMain.toString();
 	}
 
-	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<EdProperty>> mapKeyProperties,
+	private static String getFullObject(CmObjectRule cmObjectRule, HashMap<String, EList<EdProperty>> mapKeyProperties,
 			EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums, EnterpriseData enterpriseDataPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
@@ -332,8 +334,8 @@ public class ConversionModuleReport {
 		templateObject.setAttribute("Identification", createIdentificationReport(
 				cmObjectRule.getIdentificationVariant(), cmObjectRule.getIdentificationFields()));
 
-		Map<String, String> tabularSectionSynonyms = new HashMap<String, String>();
-		Map<String, String> attributeSynonyms = new HashMap<String, String>();
+		HashMap<String, String> tabularSectionSynonyms = new HashMap<String, String>();
+		HashMap<String, String> attributeSynonyms = new HashMap<String, String>();
 
 		// TODO: Добавить синонимы для стандартных реквизитов
 		if (configurationObject instanceof Catalog) {
@@ -506,7 +508,7 @@ public class ConversionModuleReport {
 			attributeRules.add(0, refAttributeRule);
 		}
 
-		HashMap<String, String[]> tabularSectionsRows = new HashMap<String, String[]>();
+		HashMap<String, MarkdownTable> tabularSectionsRows = new HashMap<String, MarkdownTable>();
 
 		boolean hasRef = false;
 		for (CmAttributeRule attributeRule : attributeRules) {
@@ -518,11 +520,10 @@ public class ConversionModuleReport {
 
 			String configurationTabularSectionName = attributeRule.getConfigurationTabularSection();
 
-			String[] tabularSectionRow = tabularSectionsRows.get(configurationTabularSectionName);
+			MarkdownTable tabularSectionRow = tabularSectionsRows.get(configurationTabularSectionName);
 			if (tabularSectionRow == null) {
-				tabularSectionRow = new String[2];
-				tabularSectionRow[0] = "";
-				tabularSectionRow[1] = "";
+				tabularSectionRow = new MarkdownTable(new String[] { "Свойство формата", "Тип значения",
+						"Наименование поля", "Обязательное", "Примечание" });
 			}
 
 			EdProperty edProperty = enterpriseDataPackage.getProperty(cmObjectRule.getFormatObject(),
@@ -544,8 +545,8 @@ public class ConversionModuleReport {
 				if (attributeRule.getFormatAttribute().isEmpty())
 					comment = "<Заполняется алгоритмом>";
 
-				tabularSectionRow[0] += getTableRow(formatAttribute, propertyType, attributeSynonym, required, comment,
-						false, 0);
+				tabularSectionRow.addRow(1, new String[][] { { formatAttribute, "0", "" }, { propertyType, "0", "" },
+						{ attributeSynonym, "0", "" }, { required, "0", "" }, { comment, "0", "" } });
 
 			} else {
 				boolean isKey = edProperty.getIsKey();
@@ -581,12 +582,16 @@ public class ConversionModuleReport {
 
 					String[] propertyTypeNameArray = propertyTypeName.split("[_]");
 
-					tabularSectionRow[isKey ? 0 : 1] += getTableRow(
-							(propertyTypeNameArray.length == 1 ? "" : "_")
-									+ propertyTypeNameArray[propertyTypeNameArray.length - 1],
-							propertyTypeType, firstRow ? attributeSynonym : "",
-							propertyTypeRequired.equals("true") ? "Да" : "", firstRow ? comment : "", isKey,
-							propertyTypeNameArray.length - 1);
+					String numOfTabs = Integer.toString(propertyTypeNameArray.length - 1);
+					tabularSectionRow.addRow(isKey ? 1 : 2,
+							new String[][] {
+									{ (propertyTypeNameArray.length == 1 ? "" : "_")
+											+ propertyTypeNameArray[propertyTypeNameArray.length - 1], numOfTabs,
+											isKey ? "*" : "" },
+									{ propertyTypeType, numOfTabs, isKey ? "*" : "" },
+									{ firstRow ? attributeSynonym : "", "0", isKey ? "*" : "" },
+									{ propertyTypeRequired.equals("true") ? "Да" : "", "0", isKey ? "*" : "" },
+									{ firstRow ? comment : "", "0", isKey ? "*" : "" } });
 
 					if (firstRow)
 						firstRow = false;
@@ -598,7 +603,7 @@ public class ConversionModuleReport {
 		}
 
 		String attributeRulesText = "";
-		for (Map.Entry<String, String[]> tabularSectionRow : tabularSectionsRows.entrySet()) {
+		for (Map.Entry<String, MarkdownTable> tabularSectionRow : tabularSectionsRows.entrySet()) {
 			StringTemplate templateAttributes = new StringTemplate(templateAttributesContent);
 
 			String configurationTabularSectionName = tabularSectionRow.getKey();
@@ -616,8 +621,7 @@ public class ConversionModuleReport {
 
 			}
 
-			templateAttributes.setAttribute("TabularRows",
-					tabularSectionRow.getValue()[0] + tabularSectionRow.getValue()[1]);
+			templateAttributes.setAttribute("TabularRows", tabularSectionRow.getValue().getTable());
 
 			attributeRulesText += templateAttributes.toString();
 		}
@@ -628,7 +632,7 @@ public class ConversionModuleReport {
 	}
 
 	public static ArrayList<String> expandPropertyType(String propertyName, String propertyType,
-			Boolean propertyRequired, Map<String, EList<EdProperty>> mapKeyProperties) {
+			Boolean propertyRequired, HashMap<String, EList<EdProperty>> mapKeyProperties) {
 		ArrayList<String> listProperties = new ArrayList<String>();
 
 		if (propertyType.isEmpty()) {
@@ -702,19 +706,16 @@ public class ConversionModuleReport {
 		String result = "**Вариант идентификации: " + identificationVariant + "**";
 
 		if (identificationVariant != CmIdentificationVariant.UUID && identificationFields.size() != 0) {
-			final String TEMPLATE_NAME = "ReceivingIdentification.txt";
-			String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME), TEMPLATE_NAME);
+			MarkdownTable mdTable = new MarkdownTable(
+					new String[] { "Порядок поиска по ключевым полям", "Реквизиты поиска" });
 
-			StringTemplate template = new StringTemplate(templateContent);
+			for (String identificationField : identificationFields)
+				mdTable.addRow(1,
+						new String[][] {
+								{ Integer.toString(identificationFields.indexOf(identificationField) + 1), "0", "" },
+								{ identificationField, "0", "" } });
 
-			String rows = "";
-			for (String identificationField : identificationFields) {
-				rows += (identificationFields.indexOf(identificationField) + 1) + " | " + identificationField
-						+ System.lineSeparator();
-			}
-			template.setAttribute("Rows", rows);
-
-			result += System.lineSeparator() + System.lineSeparator() + template.toString();
+			result += System.lineSeparator() + System.lineSeparator() + mdTable.getTable();
 
 		} else
 			result += System.lineSeparator();
@@ -722,7 +723,7 @@ public class ConversionModuleReport {
 		return result;
 	}
 
-	private static String getObjectRow(CmObjectRule cmObjectRule) {
+	private static String[][] getObjectRow(CmObjectRule cmObjectRule) {
 		MdObject configurationObject = cmObjectRule.getConfigurationObject();
 
 		String objectSynonym = "";
@@ -762,37 +763,11 @@ public class ConversionModuleReport {
 			}
 		}
 
-		String objectRow = objectSynonym + " | " + cmObjectRule.getFormatObject() + " | "
-				+ cmObjectRule.getConfigurationObjectFormattedName() + " | " + identificationVariant
-				+ identificationFieldsTable + " | ";
+		String[][] objectRow = new String[][] { { objectSynonym, "0", "" }, { cmObjectRule.getFormatObject(), "0", "" },
+				{ cmObjectRule.getConfigurationObjectFormattedName(), "0", "" },
+				{ identificationVariant.getLiteral() + identificationFieldsTable, "0", "" }, { "", "0", "" } };
 
 		return objectRow;
-	}
-
-	private static String getTableRow(String col1, String col2, String col3, String col4, String col5, Boolean isKey,
-			int numOfTabs) {
-		// String tabString = "\u00a0\u00a0\u00a0\u00a0";
-		String tabString = "&nbsp; &nbsp; ";
-
-		String prefix = "";
-		for (int i = 1; i <= numOfTabs; i++)
-			prefix += tabString;
-
-		if (isKey) {
-			if (!col1.isEmpty())
-				col1 = "*" + col1 + "*";
-			if (!col2.isEmpty())
-				col2 = "*" + col2 + "*";
-			if (!col3.isEmpty())
-				col3 = "*" + col3 + "*";
-			if (!col4.isEmpty())
-				col4 = "*" + col4 + "*";
-			if (!col5.isEmpty())
-				col5 = "*" + col5 + "*";
-		}
-
-		return prefix + col1 + " | " + prefix + col2 + " | " + prefix + col3 + " | " + col4 + " | " + col5
-				+ System.lineSeparator();
 	}
 
 	private static String readContents(CharSource source, String path) {
