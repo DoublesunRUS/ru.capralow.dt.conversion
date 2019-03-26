@@ -612,7 +612,6 @@ public class ConversionModuleReport {
 				templateAttributes.setAttribute("TabularSection", "Шапка");
 
 			} else {
-				// TODO: Добавить ключевые поля в табличные части
 				String tabularSynonym = tabularSectionSynonyms.get(configurationTabularSectionName);
 				if (tabularSynonym == null)
 					tabularSynonym = configurationTabularSectionName;
