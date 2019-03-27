@@ -100,7 +100,7 @@ public class ConversionModuleReport {
 			templateMain.setAttribute("FormatVersion", enterpriseDataPackage.getVersion());
 
 			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
-				EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
+				EList<CmObjectRule> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
 				if (receivingObjectRules.size() == 0)
 					continue;
 
@@ -109,8 +109,8 @@ public class ConversionModuleReport {
 				templateGroups.setAttribute("GroupName", cmSubsystem.getName());
 
 				String objects = "";
-				for (Object objectRule : receivingObjectRules)
-					objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, edDefinedTypes, edEnums,
+				for (CmObjectRule objectRule : receivingObjectRules)
+					objects += getFullObject(objectRule, mapKeyProperties, edDefinedTypes, edEnums,
 							enterpriseDataPackage);
 				templateGroups.setAttribute("ObjectRules", objects);
 
@@ -275,12 +275,12 @@ public class ConversionModuleReport {
 			templateMain.setAttribute("FormatVersion", enterpriseDataPackage.getVersion());
 
 			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
-				EList<Object> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
+				EList<CmObjectRule> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
 				if (receivingObjectRules.size() == 0)
 					continue;
 
-				for (Object objectRule : receivingObjectRules)
-					mdTable.addRow(1, getObjectRow((CmObjectRule) objectRule));
+				for (CmObjectRule objectRule : receivingObjectRules)
+					mdTable.addRow(1, getObjectRow(objectRule));
 			}
 		}
 
@@ -778,7 +778,7 @@ public class ConversionModuleReport {
 	}
 
 	private static CharSource getFileInputSupplier(String partName) {
-		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/report/" + partName),
+		return Resources.asCharSource(ConversionModuleReport.class.getResource("/resources/report/" + partName),
 				StandardCharsets.UTF_8);
 	}
 }

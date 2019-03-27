@@ -51,6 +51,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 	private CmObjectRule objectRule;
 	private ConversionModule conversionModule;
+	private URI moduleURI;
 
 	private Text txtObjectRuleName;
 	private Text txtConfigurationObjectName, txtFormatObjectName;
@@ -74,12 +75,13 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	 * @param parentShell
 	 */
 	public ObjectRuleDialog(Shell parentShell, CmObjectRule objectRule, ConversionModule conversionModule,
-			Boolean editable) {
+			URI moduleURI, Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.objectRule = objectRule;
 		this.conversionModule = conversionModule;
+		this.moduleURI = moduleURI;
 
 		this.editable = editable;
 	}
@@ -127,7 +129,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
+		resourceProvider.setPlatformUri(moduleURI);
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);

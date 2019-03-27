@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -81,42 +82,77 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
-import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
-import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 
 public class ConversionModuleAnalyzer {
-	private IV8ProjectManager projectManager;
-	private IBmEmfIndexManager bmEmfIndexManager;
-	private AbstractUIPlugin plugin;
-
-	private ConversionModule conversionModule;
-	private ReportGroups reportGroups;
-
-	private HashMap<String, EnterpriseData> enterpriseDataPackages = new HashMap<String, EnterpriseData>();
-
-	public ConversionModuleAnalyzer(IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
-			AbstractUIPlugin plugin) {
-		this.projectManager = projectManager;
-		this.bmEmfIndexManager = bmEmfIndexManager;
-		this.plugin = plugin;
-
-		this.conversionModule = cmFactory.eINSTANCE.createConversionModule();
+	public static URI getResourceURIforPlugin(String moduleName, IProject project, AbstractUIPlugin plugin) {
+		return ConversionUtils.getResourceURIforPlugin(project.getName(), "conversionModule-" + moduleName, plugin);
 	}
 
-	public ConversionModule getConversionModule() {
-		return conversionModule;
+	public static ConversionModule loadResource(URI xmiUri, Configuration configuration) {
+		if (xmiUri.toFileString() != null) {
+			File file = new File(xmiUri.toFileString());
+			if (!file.exists())
+				return null;
+		}
+		try {
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
+
+			// TODO: Сделать пересборку вторичных данных если файла нет
+			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
+			xmiResource.load(loadOptions);
+			ConversionModule conversionModule = (ConversionModule) xmiResource.getContents().get(0);
+
+			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems())
+				if (cmSubsystem.getSubsystem() != null)
+					cmSubsystem.setSubsystem((Subsystem) EcoreUtil.resolve(cmSubsystem.getSubsystem(), configuration));
+
+			for (CmDataRule cmDataRule : conversionModule.getDataRules())
+				if (cmDataRule.getConfigurationObject() != null)
+					cmDataRule.setConfigurationObject(
+							(MdObject) EcoreUtil.resolve(cmDataRule.getConfigurationObject(), configuration));
+
+			for (CmObjectRule cmObjectRule : conversionModule.getObjectRules())
+				if (cmObjectRule.getConfigurationObject() != null)
+					cmObjectRule.setConfigurationObject(
+							(MdObject) EcoreUtil.resolve(cmObjectRule.getConfigurationObject(), configuration));
+
+			for (CmPredefined cmPredefined : conversionModule.getPredefineds())
+				if (cmPredefined.getConfigurationObject() != null)
+					cmPredefined.setConfigurationObject(
+							(MdObject) EcoreUtil.resolve(cmPredefined.getConfigurationObject(), configuration));
+
+			return conversionModule;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+
+		return null;
 	}
 
-	public HashMap<String, EnterpriseData> getEnterpriseDataPackages() {
-		return enterpriseDataPackages;
+	public static void saveResource(ConversionModule conversionModule, URI xmiUri) {
+		try {
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
+
+			xmiResource.getContents().add(conversionModule);
+			final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
+			saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
+			xmiResource.save(saveOptions);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+
 	}
 
-	public ReportGroups getReportGroups() {
-		return reportGroups;
-	}
+	public static ConversionModule analyze(CommonModule commonModule, ExchangeProject exchangeProject,
+			HashMap<String, EnterpriseData> enterpriseDataPackages, IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager, AbstractUIPlugin plugin) {
+		ConversionModule conversionModule = cmFactory.eINSTANCE.createConversionModule();
 
-	public void analyze(CommonModule commonModule) {
 		IV8Project configurationProject = projectManager.getProject(commonModule);
 		if (configurationProject instanceof IExtensionProject)
 			configurationProject = ((IExtensionProject) configurationProject).getParent();
@@ -125,20 +161,9 @@ public class ConversionModuleAnalyzer {
 
 		Configuration configuration = ((IConfigurationProject) configurationProject).getConfiguration();
 
-		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(project, configuration, plugin);
-		EList<EpFormatVersion> moduleFormatVersions = exchangeProject.getModuleFormatVersions(commonModule);
-		for (EpFormatVersion formatVersion : moduleFormatVersions) {
-			EnterpriseData enterpriseDataPackage = EnterpriseDataAnalyzer.loadResource(formatVersion.getVersion(),
-					project, configuration, plugin);
-
-			enterpriseDataPackages.put(formatVersion.getVersion(), enterpriseDataPackage);
-		}
-
 		Module module = commonModule.getModule();
 
 		EList<Method> methods = module.allMethods();
-
-		conversionModule.setModuleURI(EcoreUtil.getURI(module));
 
 		conversionModule.setStoreVersion("1");
 
@@ -175,8 +200,6 @@ public class ConversionModuleAnalyzer {
 		CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
 		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
 		subsystems.add(subsystem);
-
-		reportGroups = readReportGroups(project.getLocation(), commonModule.getName());
 
 		for (Method method : methods) {
 			String methodName = method.getName();
@@ -216,10 +239,12 @@ public class ConversionModuleAnalyzer {
 				String storeVersion = conversionModule.getStoreVersion();
 
 				if (storeVersion.equals("1")) {
-					analyzeV1(method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
+					analyzeV1(conversionModule, method, module, bmEmfIndexProvider, mainCommandInterface,
+							cmMainSubsystem);
 
 				} else if (storeVersion.equals("2")) {
-					analyzeV2(method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
+					analyzeV2(conversionModule, method, module, bmEmfIndexProvider, mainCommandInterface,
+							cmMainSubsystem);
 
 				} else {
 					throw new NullPointerException("Неизвестная версия формата: " + storeVersion);
@@ -229,10 +254,13 @@ public class ConversionModuleAnalyzer {
 			}
 
 		}
+
+		return conversionModule;
 	}
 
-	private void analyzeV2(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
-			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
+	private static void analyzeV2(ConversionModule conversionModule, Method method, Module module,
+			IBmEmfIndexProvider bmEmfIndexProvider, CommandInterface mainCommandInterface,
+			CmSubsystem cmMainSubsystem) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
@@ -336,8 +364,8 @@ public class ConversionModuleAnalyzer {
 
 						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
 						dataRule.setConfigurationObject(configurationObject);
-						fillSubsystemsforObject(configurationObject, dataRule.getSubsystems(), mainCommandInterface,
-								cmMainSubsystem);
+						fillSubsystemsforObject(conversionModule, configurationObject, dataRule.getSubsystems(),
+								mainCommandInterface, cmMainSubsystem);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -536,8 +564,8 @@ public class ConversionModuleAnalyzer {
 
 						objectRule.setConfigurationObject(configurationObject);
 
-						fillSubsystemsforObject(configurationObject, objectRule.getSubsystems(), mainCommandInterface,
-								cmMainSubsystem);
+						fillSubsystemsforObject(conversionModule, configurationObject, objectRule.getSubsystems(),
+								mainCommandInterface, cmMainSubsystem);
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -837,8 +865,9 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private void analyzeV1(Method method, Module module, IBmEmfIndexProvider bmEmfIndexProvider,
-			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
+	private static void analyzeV1(ConversionModule conversionModule, Method method, Module module,
+			IBmEmfIndexProvider bmEmfIndexProvider, CommandInterface mainCommandInterface,
+			CmSubsystem cmMainSubsystem) {
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
@@ -1410,7 +1439,7 @@ public class ConversionModuleAnalyzer {
 		return null;
 	}
 
-	private String getMethodText(String method) {
+	private static String getMethodText(String method) {
 		String result = "";
 
 		String[] methodArray = method.split(System.lineSeparator());
@@ -1427,8 +1456,8 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private void fillSubsystemsforObject(Object object, EList<CmSubsystem> objectSubsystems,
-			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
+	private static void fillSubsystemsforObject(ConversionModule conversionModule, Object object,
+			EList<CmSubsystem> objectSubsystems, CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
 
 		for (CommandsPlacementFragment placementFragment : mainCommandInterface.getCommandsPlacement()
 				.getPlacementFragments()) {
@@ -1466,7 +1495,8 @@ public class ConversionModuleAnalyzer {
 
 		if (object instanceof Catalog) {
 			for (MdObject masterObject : ((Catalog) object).getOwners()) {
-				fillSubsystemsforObject(masterObject, objectSubsystems, mainCommandInterface, cmMainSubsystem);
+				fillSubsystemsforObject(conversionModule, masterObject, objectSubsystems, mainCommandInterface,
+						cmMainSubsystem);
 			}
 		}
 
@@ -1482,7 +1512,7 @@ public class ConversionModuleAnalyzer {
 				return;
 
 			} else {
-				Boolean added = fillSubsystemsforObject(object, cmSubsystem, objectSubsystems,
+				Boolean added = fillSubsystemsforObject(conversionModule, object, cmSubsystem, objectSubsystems,
 						interfaceSubsystem.getSubsystems());
 
 				if (added)
@@ -1500,13 +1530,14 @@ public class ConversionModuleAnalyzer {
 					if (type instanceof TypeSet) {
 						for (Type subType : ((TypeSet) type).getTypes()) {
 							MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(subType);
-							fillSubsystemsforObject(masterObject, objectSubsystems, mainCommandInterface,
-									cmMainSubsystem);
+							fillSubsystemsforObject(conversionModule, masterObject, objectSubsystems,
+									mainCommandInterface, cmMainSubsystem);
 						}
 
 					} else {
 						MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(type);
-						fillSubsystemsforObject(masterObject, objectSubsystems, mainCommandInterface, cmMainSubsystem);
+						fillSubsystemsforObject(conversionModule, masterObject, objectSubsystems, mainCommandInterface,
+								cmMainSubsystem);
 
 					}
 				}
@@ -1514,14 +1545,14 @@ public class ConversionModuleAnalyzer {
 		}
 	}
 
-	private Boolean fillSubsystemsforObject(Object object, CmSubsystem mainSubsystem,
-			EList<CmSubsystem> objectSubsystems, EList<Subsystem> interfaceSubsystems) {
+	private static Boolean fillSubsystemsforObject(ConversionModule conversionModule, Object object,
+			CmSubsystem mainSubsystem, EList<CmSubsystem> objectSubsystems, EList<Subsystem> interfaceSubsystems) {
 		for (Subsystem interfaceSubsystem : interfaceSubsystems) {
 			if (interfaceSubsystem.getContent().indexOf(object) != -1) {
 				objectSubsystems.add(mainSubsystem);
 				return true;
 			} else {
-				Boolean added = fillSubsystemsforObject(object, mainSubsystem, objectSubsystems,
+				Boolean added = fillSubsystemsforObject(conversionModule, object, mainSubsystem, objectSubsystems,
 						interfaceSubsystem.getSubsystems());
 
 				if (added)
@@ -1534,14 +1565,16 @@ public class ConversionModuleAnalyzer {
 		return false;
 	}
 
-	public String getModuleText() {
+	public static String getModuleText(ConversionModule conversionModule, String name,
+			GregorianCalendar gregorianCalendar) {
 		if (conversionModule.getStoreVersion() == "2")
-			return getModuleTextV2();
+			return getModuleTextV2(conversionModule, name, gregorianCalendar);
 		else
-			return getModuleTextV2();
+			return getModuleTextV2(conversionModule, name, gregorianCalendar);
 	}
 
-	private String getModuleTextV2() {
+	private static String getModuleTextV2(ConversionModule conversionModule, String name,
+			GregorianCalendar gregorianCalendar) {
 		String ls = System.lineSeparator();
 
 		final String TEMPLATE_NAME_MAIN = "ConversionModuleV2.txt";
@@ -1557,7 +1590,8 @@ public class ConversionModuleAnalyzer {
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
-		templateMain.setAttribute("ConvertationName", "// Конвертация %1 от %2");
+		templateMain.setAttribute("ConvertationName",
+				"// Конвертация " + name + " от " + gregorianCalendar.getTime() + "");
 
 		templateMain.setAttribute("BeforeConvertationEvent", conversionModule.getBeforeConvertationEventText());
 		templateMain.setAttribute("AfterConvertationEvent", conversionModule.getAfterConvertationEventText());
@@ -1675,217 +1709,4 @@ public class ConversionModuleAnalyzer {
 				StandardCharsets.UTF_8);
 	}
 
-	private ReportGroups readReportGroups(IPath projectPath, String moduleName) {
-		URI uri = URI.createFileURI(projectPath.toString() + File.separator + moduleName + ".xmi");
-
-		File file = new File(uri.toFileString());
-		if (!file.exists())
-			return null;
-
-		XMIResource xmiResource = new XMIResourceImpl(uri);
-		try {
-			xmiResource.load(null);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		ReportGroups reportGroups = (ReportGroups) xmiResource.getContents().get(0);
-		return reportGroups;
-
-		// if (!moduleName.equals("_ОбщийМодуль1"))
-		// return null;
-		//
-		// reportGroups = new ReportGroupsImpl();
-		// EList<RgVariant> rgVariants = reportGroups.getVariants();
-		//
-		// reportGroups.setAddObjectsList(true);
-		//
-		// RgVariant rgVariant = new RgVariantImpl();
-		// rgVariant.setName("Упрощенный перенос");
-		// rgVariants.add(rgVariant);
-		//
-		// RgGroup rgGroup = addRgGroup(rgVariant, "Общие настройки программы");
-		// addRgRule(rgVariant, rgGroup, "П_НастройкиВоинскогоУчета");
-		// addRgRule(rgVariant, rgGroup, "П_НастройкиГрейдов");
-		// addRgRule(rgVariant, rgGroup, "П_НастройкиЗаймовСотрудникам");
-		// addRgRule(rgVariant, rgGroup, "П_НастройкиУчетаВремени");
-		// addRgRule(rgVariant, rgGroup, "П_НастройкиШтатногоРасписания");
-		// addRgRule(rgVariant, rgGroup, "П_НастройкиРасчетаЗарплаты");
-		//
-		// rgGroup = addRgGroup(rgVariant, "НСИ");
-		// addRgRule(rgVariant, rgGroup, "П_ВидыКонтактнойИнформации");
-		// addRgRule(rgVariant, rgGroup, "П_ДополнительныеРеквизитыИСведения");
-		// addRgRule(rgVariant, rgGroup, "П_ЗначенияСвойствОбъектов");
-		// addRgRule(rgVariant, rgGroup, "П_ВидыДокументовОбОбразовании");
-		// addRgRule(rgVariant, rgGroup, "П_ВидыНалоговыхОрганов");
-		// addRgRule(rgVariant, rgGroup, "П_ВидыОтпусков");
-		// addRgRule(rgVariant, rgGroup, "П_ВидыСтажа");
-		// addRgRule(rgVariant, rgGroup, "П_Военкоматы");
-		// addRgRule(rgVariant, rgGroup, "П_СоставыВоеннослужащих");
-		// addRgRule(rgVariant, rgGroup, "П_ВоинскиеЗвания");
-		// addRgRule(rgVariant, rgGroup, "П_ГрафикиРаботыСотрудников");
-		// addRgRule(rgVariant, rgGroup, "П_Грейды");
-		// addRgRule(rgVariant, rgGroup, "П_СписокЛьготныхПрофессий");
-		// addRgRule(rgVariant, rgGroup, "П_Должности");
-		// addRgRule(rgVariant, rgGroup, "П_КлассификаторСпециальностей");
-		// addRgRule(rgVariant, rgGroup, "П_Контрагенты");
-		// addRgRule(rgVariant, rgGroup, "П_БанковскиеСчетаКонтрагентов");
-		// addRgRule(rgVariant, rgGroup, "П_МедицинскиеОрганизации");
-		// addRgRule(rgVariant, rgGroup, "П_Награды");
-		// addRgRule(rgVariant, rgGroup, "П_НалоговыеОрганы");
-		// addRgRule(rgVariant, rgGroup, "П_ПереченьДолжностейДляБронированияГраждан");
-		// addRgRule(rgVariant, rgGroup, "П_ПричиныУвольнений");
-		// addRgRule(rgVariant, rgGroup, "П_ПрожиточныеМинимумы");
-		// addRgRule(rgVariant, rgGroup, "П_ПрофессииРабочих");
-		// addRgRule(rgVariant, rgGroup, "П_Работодатели");
-		// addRgRule(rgVariant, rgGroup, "П_СерверыДокументооборота");
-		// addRgRule(rgVariant, rgGroup, "П_СтраныМира");
-		// addRgRule(rgVariant, rgGroup, "П_ТарифыПлатежныхАгентов");
-		// addRgRule(rgVariant, rgGroup, "П_УчебныеЗаведения");
-		// addRgRule(rgVariant, rgGroup, "П_УчетныеЗаписиДокументооборота");
-		// addRgRule(rgVariant, rgGroup, "П_ЯзыкиНародовМира");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Физические лица");
-		// addRgRule(rgVariant, rgGroup, "П_ФизическиеЛица");
-		// addRgRule(rgVariant, rgGroup, "П_ВоинскийУчет");
-		// addRgRule(rgVariant, rgGroup, "П_ГражданствоФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_ДокументыФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_ЗнаниеЯзыковФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_НаградыФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_ОбразованиеФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_ПрофессииФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_РодственникиФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_СведенияОбИнвалидностиФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_СостоянияВБракеФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_СпециальностиФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_СтатусНалогоплательщиковНДФЛ");
-		// addRgRule(rgVariant, rgGroup, "П_СтатусыЗастрахованныхФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_ТрудоваяДеятельностьФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_УченыеЗванияФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_УченыеСтепениФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_ФИОФизическихЛиц");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Организационная структура");
-		// addRgRule(rgVariant, rgGroup, "П_ДоверенностиНалогоплательщика");
-		// addRgRule(rgVariant, rgGroup, "П_РегистрацииВНалоговомОргане");
-		// addRgRule(rgVariant, rgGroup, "П_Организации");
-		// addRgRule(rgVariant, rgGroup, "П_ПодразделенияОрганизаций");
-		// addRgRule(rgVariant, rgGroup, "П_ТерриторииВыполненияРабот");
-		// addRgRule(rgVariant, rgGroup, "П_СведенияОбОтветственныхЛицах");
-		// addRgRule(rgVariant, rgGroup, "П_ЗарплатныеПроекты");
-		// addRgRule(rgVariant, rgGroup, "П_Кассы");
-		// addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыОрганизаций");
-		// addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыПодразделений");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Сотрудники");
-		// addRgRule(rgVariant, rgGroup, "П_Сотрудники");
-		// addRgRule(rgVariant, rgGroup, "П_БанковскиеСчетаФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_БронированиеГраждан");
-		// addRgRule(rgVariant, rgGroup, "П_ВременноПребывающиеИностранцы");
-		// addRgRule(rgVariant, rgGroup, "П_ДоходыПредыдущегоМестаРаботыНДФЛ");
-		// addRgRule(rgVariant, rgGroup, "П_ЛицевыеСчетаСотрудников");
-		// addRgRule(rgVariant, rgGroup, "П_МестаВыплатыЗарплатыСотрудников");
-		// addRgRule(rgVariant, rgGroup, "П_СтажиФизическихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_СевернаяНадбавкаПараметрыИсчисления");
-		// addRgRule(rgVariant, rgGroup, "П_СевернаяНадбавкаПроценты");
-		// addRgRule(rgVariant, rgGroup, "П_РолиФизическихЛиц");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Данные для расчета зарплаты");
-		// addRgRule(rgVariant, rgGroup, "П_ВидыИспользованияРабочегоВремени");
-		// addRgRule(rgVariant, rgGroup, "П_ПоказателиРасчетаЗарплаты");
-		// addRgRule(rgVariant, rgGroup, "П_Начисления");
-		// addRgRule(rgVariant, rgGroup, "П_Удержания");
-		// addRgRule(rgVariant, rgGroup,
-		// "П_ВходящаяСправкаОЗаработкеДляРасчетаПособий");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Штатное расписание");
-		// addRgRule(rgVariant, rgGroup, "П_ШтатноеРасписание");
-		// addRgRule(rgVariant, rgGroup, "П_УтверждениеШтатногоРасписания");
-		// addRgRule(rgVariant, rgGroup, "П_ИзменениеШтатногоРасписания");
-		// addRgRule(rgVariant, rgGroup, "П_КлассыУсловийТрудаПоШтатномуРасписанию");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Кадровая история (срез)");
-		// addRgRule(rgVariant, rgGroup, "П_НачальнаяШтатнаяРасстановка");
-		// addRgRule(rgVariant, rgGroup, "П_ТерриторииСотрудников");
-		// addRgRule(rgVariant, rgGroup, "П_КонтрактыДоговорыСотрудников");
-		// addRgRule(rgVariant, rgGroup, "П_РеестрКадровыхПриказов");
-		// addRgRule(rgVariant, rgGroup, "П_РеестрОтпусков");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Кадровая история (документы)");
-		// addRgRule(rgVariant, rgGroup, "П_КадроваяИсторияСотрудников");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Плановые удержания");
-		// addRgRule(rgVariant, rgGroup, "П_ПостоянноеУдержаниеВПользуТретьихЛиц");
-		// addRgRule(rgVariant, rgGroup, "П_УдержаниеВСчетРасчетовПоПрочимОперациям");
-		// addRgRule(rgVariant, rgGroup, "П_УдержаниеДобровольныхВзносовВНПФ");
-		// addRgRule(rgVariant, rgGroup, "П_УдержаниеДобровольныхСтраховыхВзносов");
-		// addRgRule(rgVariant, rgGroup, "П_УдержаниеПрофсоюзныхВзносов");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Договоры ГПХ");
-		// addRgRule(rgVariant, rgGroup, "П_ДоговорАвторскогоЗаказа");
-		// addRgRule(rgVariant, rgGroup, "П_ДоговорРаботыУслуги");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Исполнительные листы");
-		// addRgRule(rgVariant, rgGroup, "П_ИсполнительныйЛист");
-		// addRgRule(rgVariant, rgGroup, "П_ИзменениеУсловийИсполнительногоЛиста");
-		// addRgRule(rgVariant, rgGroup, "П_УдержанияПоИсполнительнымДокументам");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Займы сотрудникам");
-		// addRgRule(rgVariant, rgGroup, "П_ДоговорЗаймаСотруднику");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Пособия социального страхования");
-		// addRgRule(rgVariant, rgGroup, "П_ОтпускПоУходуЗаРебенком");
-		// addRgRule(rgVariant, rgGroup,
-		// "П_ИзменениеУсловийОплатыОтпускаПоУходуЗаРебенком");
-		// addRgRule(rgVariant, rgGroup, "П_ВозвратИзОтпускаПоУходуЗаРебенком");
-		// addRgRule(rgVariant, rgGroup, "П_ПособияПоСоциальномуСтрахованию");
-		// addRgRule(rgVariant, rgGroup, "П_ПособияПоУходуЗаРебенком");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Расчеты");
-		// addRgRule(rgVariant, rgGroup, "П_ПериодыОплаченныеДоНачалаЭксплуатации");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Средний заработок");
-		// addRgRule(rgVariant, rgGroup, "П_КоэффициентИндексацииЗаработка");
-		// addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоОбщий");
-		// addRgRule(rgVariant, rgGroup, "П_ДанныеДляРасчетаСреднегоФСС");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Взаиморасчеты с сотрудниками");
-		// addRgRule(rgVariant, rgGroup, "П_НачальнаяЗадолженностьПоЗарплате");
-		//
-		// rgGroup = addRgGroup(rgVariant, "Отражение зарплаты в бухгалтерском учете");
-		// addRgRule(rgVariant, rgGroup, "П_НачислениеОценочныхОбязательствПоОтпускам");
-		//
-		// final HashMap<Object, Object> saveOptions =
-		// xmiResource.getDefaultSaveOptions();
-		// saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
-		//
-		// xmiResource.getContents().add(reportGroups);
-		// try {
-		// xmiResource.save(saveOptions);
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		//
-		// return reportGroups;
-
-	}
-
-	// private RgGroup addRgGroup(RgVariant rgVariant, String groupName) {
-	// EList<RgGroup> rgGroups = rgVariant.getGroups();
-	//
-	// RgGroup rgGroup = new RgGroupImpl();
-	// rgGroup.setName(groupName);
-	// rgGroups.add(rgGroup);
-	//
-	// return rgGroup;
-	// }
-	//
-	// private void addRgRule(RgVariant rgVariant, RgGroup rgGroup, String ruleName)
-	// {
-	// EList<RgRule> rgGroupRules = rgGroup.getRules();
-	//
-	// RgRule rgRule = new RgRuleImpl();
-	// rgRule.setName(ruleName);
-	// rgGroupRules.add(rgRule);
-	// }
 }

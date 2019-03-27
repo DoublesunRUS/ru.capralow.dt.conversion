@@ -84,18 +84,19 @@ public class ExchangeProjectsAnalyzer {
 	private static DynamicFeatureAccessComputer dynamicFeatureAccessComputer = IResourceServiceProvider.Registry.INSTANCE
 			.getResourceServiceProvider(URI.createURI("foo.bsl")).get(DynamicFeatureAccessComputer.class);
 
-	public static ExchangeProject loadResource(IProject project, Configuration configuration, AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "exchangeProject.xmi", false);
+	public static URI getResourceURIforPlugin(IProject project, AbstractUIPlugin plugin) {
+		return ConversionUtils.getResourceURIforPlugin(project.getName(), "exchangeProject", plugin);
+	}
+
+	public static ExchangeProject loadResource(URI xmiUri, Configuration configuration) {
+		File file = new File(xmiUri.toFileString());
+		if (!file.exists())
+			return null;
 
 		try {
-			File file = ConversionUtils.getResourceFile(uri, plugin);
-
-			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
 			// TODO: Сделать пересборку вторичных данных если файла нет
-			if (!file.exists())
-				return null;
-
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
 			ExchangeProject exchangeProject = (ExchangeProject) xmiResource.getContents().get(0);
@@ -123,14 +124,9 @@ public class ExchangeProjectsAnalyzer {
 		return null;
 	}
 
-	public static void saveResource(ExchangeProject exchangeProject, IProject project, AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "exchangeProject.xmi", false);
-
-		File file;
+	public static void saveResource(ExchangeProject exchangeProject, URI xmiUri) {
 		try {
-			file = ConversionUtils.getResourceFile(uri, plugin);
-
-			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
 			xmiResource.getContents().add(exchangeProject);
 			final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
@@ -143,7 +139,7 @@ public class ExchangeProjectsAnalyzer {
 		}
 	}
 
-	public static ExchangeProjects loadResources(IV8ProjectManager projectManager, AbstractUIPlugin plugin) {
+	public static ExchangeProjects loadPluginResources(IV8ProjectManager projectManager, AbstractUIPlugin plugin) {
 		ExchangeProjects exchangeProjects = epFactory.eINSTANCE.createExchangeProjects();
 
 		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
@@ -151,8 +147,10 @@ public class ExchangeProjectsAnalyzer {
 			if (!(configurationProject instanceof IConfigurationProject))
 				continue;
 
-			ExchangeProject exchangeProject = loadResource(project,
-					((IConfigurationProject) configurationProject).getConfiguration(), plugin);
+			URI xmiURI = getResourceURIforPlugin(project, plugin);
+
+			ExchangeProject exchangeProject = loadResource(xmiURI,
+					((IConfigurationProject) configurationProject).getConfiguration());
 			exchangeProjects.getProjects().add(exchangeProject);
 		}
 

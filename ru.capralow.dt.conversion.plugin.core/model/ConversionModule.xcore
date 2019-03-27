@@ -3,20 +3,19 @@
 package ru.capralow.dt.conversion.plugin.core.cm.model
 
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject
+import com._1c.g5.v8.dt.metadata.mdclass.Subsystem
 
 class ConversionModule {
 	String storeVersion = "1"
 	
 	contains CmSubsystem[] subsystems
 	
-	op CmSubsystem getSubsystem(Object subsystemObject) {
-		for (CmSubsystem subsystem : subsystems) {
-			if (subsystemObject.equals(subsystem.subsystem)) return subsystem
+	op CmSubsystem getSubsystem(Subsystem mdSubsystem) {
+		for (CmSubsystem cmSubsystem : subsystems) {
+			if (mdSubsystem.equals(cmSubsystem.subsystem)) return cmSubsystem
 		}
 		return null;
 	}
-	
-	Object moduleURI
 	
 	String params = ""
 	
@@ -60,7 +59,7 @@ class ConversionModule {
 		return null;
 	}
 	
-	op Object[] getSendingDataRules() {
+	op CmDataRule[] getSendingDataRules() {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
@@ -69,7 +68,7 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getSendingDataRules(CmSubsystem subsystem) {
+	op CmDataRule[] getSendingDataRules(CmSubsystem subsystem) {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
@@ -79,7 +78,7 @@ class ConversionModule {
 		return result
 	}
 
-	op Object[] getReceivingDataRules() {
+	op CmDataRule[] getReceivingDataRules() {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
@@ -88,7 +87,7 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getReceivingDataRules(CmSubsystem subsystem) {
+	op CmDataRule[] getReceivingDataRules(CmSubsystem subsystem) {
 		val result = newBasicEList()
 
 		for (CmDataRule dataRule : dataRules) {
@@ -106,7 +105,7 @@ class ConversionModule {
 		return null;
 	}
 
-	op Object[] getSendingObjectRules() {
+	op CmObjectRule[] getSendingObjectRules() {
 		val result = newBasicEList()
 
 		for (CmObjectRule objectRule : objectRules) {
@@ -115,7 +114,7 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getSendingObjectRules(CmSubsystem cmSubsystem) {
+	op CmObjectRule[] getSendingObjectRules(CmSubsystem cmSubsystem) {
 		val result = newBasicEList()
 
 		for (CmObjectRule objectRule : objectRules) {
@@ -125,7 +124,7 @@ class ConversionModule {
 		return result
 	}
 
-	op Object[] getReceivingObjectRules() {
+	op CmObjectRule[] getReceivingObjectRules() {
 		val result = newBasicEList()
 
 		for (CmObjectRule objectRule : objectRules) {
@@ -134,7 +133,7 @@ class ConversionModule {
 		}
 		return result
 	}
-	op Object[] getReceivingObjectRules(CmSubsystem cmSubsystem) {
+	op CmObjectRule[] getReceivingObjectRules(CmSubsystem cmSubsystem) {
 		val result = newBasicEList()
 
 		for (CmObjectRule objectRule : objectRules) {
@@ -476,7 +475,7 @@ class CmPredefined {
 	
 	contains CmPredefinedMap[] predefinedMaps
 	
-	op Boolean predefinedMapExists(Object configurationValue, Object formatValue) {
+	op Boolean predefinedMapExists(String configurationValue, String formatValue) {
 		for (CmPredefinedMap predefinedMap : predefinedMaps) {
 			if (configurationValue.equals(predefinedMap.configurationValue)
 				&& formatValue.equals(predefinedMap.formatValue)
@@ -487,7 +486,7 @@ class CmPredefined {
 }
 
 class CmPredefinedMap {
-	Object configurationValue
+	String configurationValue
 	op String getConfigurationValueName() {
 		if (configurationValue === null) {
 			return "";
@@ -498,7 +497,7 @@ class CmPredefinedMap {
 		configurationValueName = configurationValueName.substring(configurationValueName.indexOf(".") + 1);
 		return configurationValueName;
 	}
-	Object formatValue
+	String formatValue
 	op String getFormatValueName() {
 		if (formatValue === null) {
 			return "";
@@ -558,7 +557,7 @@ enum CmMethodType {
 }
 
 class CmSubsystem {
-	refers MdObject subsystem
+	refers Subsystem subsystem
 	
 	derived String name get {
 		var name = "";

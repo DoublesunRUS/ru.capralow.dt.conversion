@@ -33,6 +33,7 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 
 	private CmAlgorithm algorithm;
 	private ConversionModule conversionModule;
+	private URI moduleURI;
 
 	private CustomEmbeddedEditor editorAlgorithm;
 	private CustomEmbeddedEditorModelAccess modelAccessAlgorithm;
@@ -46,13 +47,14 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 	 *
 	 * @param parentShell
 	 */
-	public AlgorithmDialog(Shell parentShell, CmAlgorithm algorithm, ConversionModule conversionModule,
+	public AlgorithmDialog(Shell parentShell, CmAlgorithm algorithm, ConversionModule conversionModule, URI moduleURI,
 			Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.algorithm = algorithm;
 		this.conversionModule = conversionModule;
+		this.moduleURI = moduleURI;
 
 		this.editable = editable;
 	}
@@ -84,7 +86,7 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
+		resourceProvider.setPlatformUri(moduleURI);
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);

@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IStorage;
@@ -13,6 +14,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.handly.buffer.BufferChange;
 import org.eclipse.handly.snapshot.NonExpiringSnapshot;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -69,8 +71,8 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.EmbeddedEditorBuffer;
-import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.model.IModelEditingSupport;
+import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditor;
 import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
@@ -81,6 +83,9 @@ import com.google.inject.Inject;
 
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleReport;
+import ru.capralow.dt.conversion.plugin.core.EnterpriseDataAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.ExchangeProjectsAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.ReportGroupsAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
@@ -90,6 +95,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
@@ -101,10 +107,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Inject
 	private IV8ProjectManager projectManager;
-	@Inject
-	private IBmEmfIndexManager bmEmfIndexManager;
 
-	private ConversionModuleAnalyzer conversionModuleAnalyzer;
+	private URI moduleURI;
+
 	private ConversionModule conversionModule;
 
 	private TableViewer viewerSubsystems;
@@ -129,14 +134,13 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	protected void createPageControls(IManagedForm managedForm) {
 		setActiveFeature(MdClassPackage.Literals.COMMON_MODULE__MODULE);
 
+		moduleURI = EcoreUtil.getURI(getModel().getModule());
+
 		IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 
 		IModelEditingSupport modelEditingSupport = provider.get(IModelEditingSupport.class);
 		this.editable = modelEditingSupport.canEdit(getModel());
-
-		conversionModuleAnalyzer = new ConversionModuleAnalyzer(projectManager, bmEmfIndexManager,
-				Activator.getDefault());
 
 		FormToolkit toolkit = managedForm.getToolkit();
 
@@ -925,7 +929,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 			public void widgetSelected(SelectionEvent event) {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
-						((MenuItem) event.getSource()).getParent().getShell(), conversionModule, editable);
+						((MenuItem) event.getSource()).getParent().getShell(), conversionModule, moduleURI, editable);
 				if (conversionModuleDialog.open() == Window.OK) {
 					try {
 						updateModule();
@@ -970,7 +974,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmDataRule dataRule = ((CmDataRule) element);
 
 					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule, conversionModule, editable);
+							event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
 					if (dataRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1000,7 +1004,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmObjectRule objectRule = ((CmObjectRule) element);
 
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule, conversionModule, editable);
+							objectRule, conversionModule, moduleURI, editable);
 					if (objectRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1030,7 +1034,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmDataRule dataRule = ((CmDataRule) element);
 
 					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule, conversionModule, editable);
+							event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
 					if (dataRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1060,7 +1064,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmObjectRule objectRule = ((CmObjectRule) element);
 
 					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule, conversionModule, editable);
+							objectRule, conversionModule, moduleURI, editable);
 					if (objectRuleDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1120,7 +1124,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					CmAlgorithm algorithm = ((CmAlgorithm) element);
 
 					AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
-							algorithm, conversionModule, editable);
+							algorithm, conversionModule, moduleURI, editable);
 					if (algorithmDialog.open() == Window.OK) {
 						try {
 							updateModule();
@@ -1136,14 +1140,29 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	}
 
 	private void updatePage() {
-		conversionModuleAnalyzer.analyze(getModel());
-		conversionModule = conversionModuleAnalyzer.getConversionModule();
-		ReportGroups reportGroups = conversionModuleAnalyzer.getReportGroups();
+		CommonModule commonModule = getModel();
+		IConfigurationProject configurationProject = (IConfigurationProject) projectManager.getProject(commonModule);
+
+		URI xmiURI = ReportGroupsAnalyzer.getResourceURIforPlugin(commonModule.getName(),
+				configurationProject.getProject(), Activator.getDefault());
+		ReportGroups reportGroups = ReportGroupsAnalyzer.loadResource(xmiURI);
+
+		xmiURI = ExchangeProjectsAnalyzer.getResourceURIforPlugin(configurationProject.getProject(),
+				Activator.getDefault());
+		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(xmiURI,
+				configurationProject.getConfiguration());
+
+		HashMap<String, EnterpriseData> enterpriseDataPackages = EnterpriseDataAnalyzer.loadPluginResources(
+				exchangeProject, configurationProject.getConfiguration(), configurationProject.getProject(),
+				Activator.getDefault());
+
+		xmiURI = ConversionModuleAnalyzer.getResourceURIforPlugin(commonModule.getName(),
+				configurationProject.getProject(), Activator.getDefault());
+		conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configurationProject.getConfiguration());
 
 		while (menuMain.getItemCount() > 1)
 			menuMain.getItem(1).dispose();
-		for (Entry<String, EnterpriseData> enterpriseDataPackage : conversionModuleAnalyzer.getEnterpriseDataPackages()
-				.entrySet()) {
+		for (Entry<String, EnterpriseData> enterpriseDataPackage : enterpriseDataPackages.entrySet()) {
 			if (reportGroups == null) {
 				addReportMenuItem(enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(), null, false);
 
@@ -1151,10 +1170,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				EList<RgVariant> rgVariants = reportGroups.getVariants();
 				for (RgVariant rgVariant : rgVariants) {
 					if (reportGroups.getAddObjectsList())
-						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(),
-								rgVariant, true);
-					addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(),
-							rgVariant, false);
+						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
+								enterpriseDataPackage.getValue(), rgVariant, true);
+					addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
+							enterpriseDataPackage.getValue(), rgVariant, false);
 				}
 
 			}
@@ -1180,7 +1199,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	}
 
 	private void updateModule() throws CoreException {
-		String newModule = conversionModuleAnalyzer.getModuleText();
+		String newModule = ConversionModuleAnalyzer.getModuleText(conversionModule, "", null);
 
 		// System.out.print(newModule);
 
@@ -1338,8 +1357,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				try {
 					String stringReport = objectsOnly
-							? ConversionModuleReport.createObjectsReport(rgVariant, enterpriseDataPackage, conversionModule)
-							: ConversionModuleReport.createFullReport(rgVariant, enterpriseDataPackage, conversionModule);
+							? ConversionModuleReport.createObjectsReport(rgVariant, enterpriseDataPackage,
+									conversionModule)
+							: ConversionModuleReport.createFullReport(rgVariant, enterpriseDataPackage,
+									conversionModule);
 
 					IStorage storage = new StringStorage(stringReport);
 					IStorageEditorInput input = new StringInput(storage);

@@ -35,26 +35,27 @@ import ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EdType;
 import ru.capralow.dt.conversion.plugin.core.ed.model.EnterpriseData;
 import ru.capralow.dt.conversion.plugin.core.ed.model.edFactory;
+import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
+import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class EnterpriseDataAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
 	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
-	public static EnterpriseData loadResource(String version, IProject project, Configuration configuration,
-			AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(
-				project.getName() + File.separator + "enterpriseDataPackage-" + version.replace(".", "_") + ".xmi",
-				false);
+	public static URI getResourceURIforPlugin(String version, IProject project, AbstractUIPlugin plugin) {
+		return ConversionUtils.getResourceURIforPlugin(project.getName(),
+				"enterpriseDataPackage-" + version.replace(".", "_"), plugin);
+	}
+
+	public static EnterpriseData loadResource(URI xmiUri, Configuration configuration) {
+		File file = new File(xmiUri.toFileString());
+		if (!file.exists())
+			return null;
 
 		try {
-			File file = ConversionUtils.getResourceFile(uri, plugin);
-
-			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
 			// TODO: Сделать пересборку вторичных данных если файла нет
-			if (!file.exists())
-				return null;
-
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
 			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
@@ -83,15 +84,9 @@ public class EnterpriseDataAnalyzer {
 		return null;
 	}
 
-	public static void saveResource(EnterpriseData enterpriseDataPackage, IProject project, AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(project.getName() + File.separator + "enterpriseDataPackage-"
-				+ enterpriseDataPackage.getVersion().replace(".", "_") + ".xmi", false);
-
-		File file;
+	public static void saveResource(EnterpriseData enterpriseDataPackage, URI xmiUri) {
 		try {
-			file = ConversionUtils.getResourceFile(uri, plugin);
-
-			XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(file.getPath()));
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
 			xmiResource.getContents().add(enterpriseDataPackage);
 			final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
@@ -196,6 +191,22 @@ public class EnterpriseDataAnalyzer {
 		}
 
 		return enterpriseDataPackage;
+	}
+
+	public static HashMap<String, EnterpriseData> loadPluginResources(ExchangeProject exchangeProject,
+			Configuration configuration, IProject project, AbstractUIPlugin plugin) {
+		HashMap<String, EnterpriseData> enterpriseDataPackages = new HashMap<String, EnterpriseData>();
+
+		for (EpFormatVersion epFormatVersion : exchangeProject.getFormatVersions()) {
+			URI edXmiURI = EnterpriseDataAnalyzer.getResourceURIforPlugin(epFormatVersion.getVersion(), project,
+					plugin);
+
+			EnterpriseData enterpriseDataPackage = loadResource(edXmiURI, configuration);
+
+			enterpriseDataPackages.put(epFormatVersion.getVersion(), enterpriseDataPackage);
+		}
+
+		return enterpriseDataPackages;
 	}
 
 	private static EdObject addObject(ObjectType xdtoObject, HashMap<String, ObjectType> packageObjects,

@@ -34,6 +34,7 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 	private static final String EDITOR_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"; //$NON-NLS-1$
 
 	private ConversionModule conversionModule;
+	private URI moduleURI;
 
 	private CTabFolder tabFolder;
 
@@ -52,11 +53,13 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 	 *
 	 * @param parentShell
 	 */
-	public ConversionModuleDialog(Shell parentShell, ConversionModule conversionModule, Boolean editable) {
+	public ConversionModuleDialog(Shell parentShell, ConversionModule conversionModule, URI moduleURI,
+			Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.conversionModule = conversionModule;
+		this.moduleURI = moduleURI;
 
 		this.editable = editable;
 	}
@@ -101,7 +104,7 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
+		resourceProvider.setPlatformUri(moduleURI);
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);

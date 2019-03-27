@@ -85,7 +85,23 @@ public final class ConversionUtils {
 		return object;
 	}
 
-	public static File getResourceFile(URI uri, AbstractUIPlugin plugin) throws FileNotFoundException {
+	public static URI getResourceURIforPlugin(String projectName, String fileName, AbstractUIPlugin plugin) {
+		URI uri = URI.createPlatformResourceURI(projectName + File.separator + fileName + ".xmi", false);
+
+		try {
+			File file = ConversionUtils.getResourceFile(uri, plugin);
+
+			return URI.createFileURI(file.getPath());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+
+		}
+
+		return null;
+	}
+
+	private static File getResourceFile(URI uri, AbstractUIPlugin plugin) throws FileNotFoundException {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		String[] segments = uri.segments();
 		if (!foundProjectInWorkspace(workspace, URI.decode(segments[1]))) {
@@ -109,4 +125,5 @@ public final class ConversionUtils {
 	private static Boolean foundProjectInWorkspace(IWorkspace workspace, String projectName) {
 		return workspace.getRoot().getProject(projectName) != null;
 	}
+
 }

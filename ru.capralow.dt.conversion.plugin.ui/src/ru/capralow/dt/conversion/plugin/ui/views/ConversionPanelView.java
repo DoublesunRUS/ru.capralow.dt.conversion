@@ -144,7 +144,7 @@ public class ConversionPanelView extends ViewPart {
 				return;
 		}
 
-		ExchangeProjects exchangeProjects = ExchangeProjectsAnalyzer.loadResources(projectManager,
+		ExchangeProjects exchangeProjects = ExchangeProjectsAnalyzer.loadPluginResources(projectManager,
 				Activator.getDefault());
 		ExchangeData exchangeData = ExchangeProjectsAnalyzer.analyzePairs(exchangeProjects);
 		treeViewer.setInput(exchangeData);

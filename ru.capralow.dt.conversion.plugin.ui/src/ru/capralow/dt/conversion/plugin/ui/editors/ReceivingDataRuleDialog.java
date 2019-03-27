@@ -50,6 +50,7 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 
 	private CmDataRule dataRule;
 	private ConversionModule conversionModule;
+	private URI moduleURI;
 
 	private Text txtDataRuleName, txtObjectRuleName;
 	private Text txtFormatObjectName;
@@ -67,12 +68,13 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 	 * @param parentShell
 	 */
 	public ReceivingDataRuleDialog(Shell parentShell, CmDataRule dataRule, ConversionModule conversionModule,
-			Boolean editable) {
+			URI moduleURI, Boolean editable) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.PRIMARY_MODAL);
 
 		this.dataRule = dataRule;
 		this.conversionModule = conversionModule;
+		this.moduleURI = moduleURI;
 
 		this.editable = editable;
 	}
@@ -104,7 +106,7 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 
 		CustomEmbeddedEditorResourceProvider resourceProvider = (CustomEmbeddedEditorResourceProvider) resourceServiceProvider
 				.get(IEditedResourceProvider.class);
-		resourceProvider.setPlatformUri((URI) conversionModule.getModuleURI());
+		resourceProvider.setPlatformUri(moduleURI);
 
 		IResourceValidator resourceValidator = resourceServiceProvider.get(ConversionResourceValidator.class);
 		EmbeddedEditorFactory embeddedEditorFactory = resourceServiceProvider.get(EmbeddedEditorFactory.class);

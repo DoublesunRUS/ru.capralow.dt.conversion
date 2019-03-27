@@ -21,7 +21,7 @@ class ExchangeProject {
 		for (EpFormatVersion formatVersion : formatVersions) {
 			result.add(formatVersion.getVersion)
 		}
-		return result
+		return result;
 	}
 	
 	refers CommonModule[] settingsModules
@@ -32,7 +32,16 @@ class ExchangeProject {
 			if (formatVersion.module.equals(module))
 				result.add(formatVersion)
 		}
-		return result
+		return result;
+	}
+
+	op CommonModule[] getFormatModules() {
+		val result = newBasicEList()
+		for (EpFormatVersion formatVersion : formatVersions) {
+			if (!result.contains(formatVersion.module))
+				result.add(formatVersion.module);
+		}
+		return result;
 	}
 }
 
@@ -45,18 +54,6 @@ class ExchangeProjects {
 		}
 		return null;
 	}
-	
-//	op MdObject[] getObjects() {
-//		val result = newBasicEList()
-//
-//		for (EvConfiguration configuration : configurations) {
-//			for (MdObject mainModule : configuration.mainModules) {
-//				result.add(mainModule)
-//			}
-//		}
-//		return result
-//	}
-	
 }
 
 class EpExtension {
