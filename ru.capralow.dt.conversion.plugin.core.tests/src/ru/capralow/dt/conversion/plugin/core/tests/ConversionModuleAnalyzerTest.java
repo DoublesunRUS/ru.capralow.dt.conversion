@@ -25,7 +25,7 @@ public class ConversionModuleAnalyzerTest {
 		String moduleName = "МенеджерОбменаЧерезУниверсальныйФормат";
 
 		final String NAME = projectName + "/" + moduleName + ".txt";
-		String report1 = readContents(getFileInputSupplier(NAME), NAME);
+		String report1 = readContents(getFileInputSupplier(NAME), NAME).replace("\r\n", System.lineSeparator());
 
 		URI xmiURI = getResourceURI(projectName + "/" + "conversionModule-" + moduleName + ".xmi");
 		ConversionModule conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, null);
