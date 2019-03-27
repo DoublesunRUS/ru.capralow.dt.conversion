@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -1565,16 +1566,14 @@ public class ConversionModuleAnalyzer {
 		return false;
 	}
 
-	public static String getModuleText(ConversionModule conversionModule, String name,
-			GregorianCalendar gregorianCalendar) {
+	public static String getModuleText(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
 		if (conversionModule.getStoreVersion() == "2")
-			return getModuleTextV2(conversionModule, name, gregorianCalendar);
+			return getModuleTextV2(conversionModule, name, localDateTime);
 		else
-			return getModuleTextV2(conversionModule, name, gregorianCalendar);
+			return getModuleTextV2(conversionModule, name, localDateTime);
 	}
 
-	private static String getModuleTextV2(ConversionModule conversionModule, String name,
-			GregorianCalendar gregorianCalendar) {
+	private static String getModuleTextV2(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
 		String ls = System.lineSeparator();
 
 		final String TEMPLATE_NAME_MAIN = "ConversionModuleV2.txt";
@@ -1590,8 +1589,8 @@ public class ConversionModuleAnalyzer {
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
-		templateMain.setAttribute("ConvertationName",
-				"// Конвертация " + name + " от " + gregorianCalendar.getTime() + "");
+		templateMain.setAttribute("ConvertationName", "// Конвертация " + name + " от "
+				+ localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + "");
 
 		templateMain.setAttribute("BeforeConvertationEvent", conversionModule.getBeforeConvertationEventText());
 		templateMain.setAttribute("AfterConvertationEvent", conversionModule.getAfterConvertationEventText());

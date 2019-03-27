@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 
 import org.eclipse.emf.common.util.URI;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class ConversionModuleAnalyzerTest {
 		ConversionModule conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, null);
 
 		String report2 = ConversionModuleAnalyzer.getModuleText(conversionModule, "ЗУП3.1.3",
-				new GregorianCalendar(2017, 7, 21, 13, 5, 35));
+				LocalDateTime.of(2017, 8, 21, 13, 5, 35));
 
 		assertEquals("Модуль обмена: " + projectName + " запись модуля", report1, report2);
 	}
