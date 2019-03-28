@@ -1914,6 +1914,9 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static int compareArraysOfString(String[] str1, String[] str2) {
+		if (str1 == null || str2 == null)
+			return 0;
+
 		if (str1.equals(str2))
 			return 0;
 
@@ -1921,6 +1924,9 @@ public class ConversionModuleAnalyzer {
 			return str1.length - str2.length;
 
 		for (int i = 0; i < str1.length; i++) {
+			if (str1[i] == null || str2[i] == null)
+				continue;
+
 			int result = str1[i].compareToIgnoreCase(str2[i]);
 			if (result != 0)
 				return result;
