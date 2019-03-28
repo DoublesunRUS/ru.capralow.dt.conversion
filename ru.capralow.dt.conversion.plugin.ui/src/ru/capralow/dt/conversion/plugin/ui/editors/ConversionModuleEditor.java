@@ -4,7 +4,6 @@ package ru.capralow.dt.conversion.plugin.ui.editors;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -372,25 +371,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmDataRule> listElements = (EList<CmDataRule>) elements;
 
-				ECollections.sort(listElements, new Comparator<CmDataRule>() {
-					@Override
-					public int compare(CmDataRule cmArg1, CmDataRule cmArg2) {
-						String stringArg1 = cmArg1.getConfigurationObjectName().replaceAll("_", "");
-						String stringArg2 = cmArg2.getConfigurationObjectName().replaceAll("_", "");
-
-						if (stringArg1.equalsIgnoreCase(stringArg2)) {
-							String stringArg3 = cmArg1.getName().replaceAll("_", "");
-							String stringArg4 = cmArg2.getName().replaceAll("_", "");
-							if (stringArg3.equalsIgnoreCase(stringArg4))
-								return 0;
-
-							return stringArg3.compareToIgnoreCase(stringArg4);
-						}
-
-						return stringArg1.compareToIgnoreCase(stringArg2);
-					}
-
-				});
+				ECollections.sort(listElements, ConversionModuleAnalyzer
+						.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -472,31 +454,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmObjectRule> listElements = (EList<CmObjectRule>) elements;
 
-				ECollections.sort(listElements, new Comparator<CmObjectRule>() {
-					@Override
-					public int compare(CmObjectRule cmArg1, CmObjectRule cmArg2) {
-						String stringArg1 = cmArg1.getConfigurationObjectName().replaceAll("_", "");
-						String stringArg2 = cmArg2.getConfigurationObjectName().replaceAll("_", "");
-
-						if (stringArg1.equalsIgnoreCase(stringArg2)) {
-							String stringArg3 = cmArg1.getFormatObject().replaceAll("_", "");
-							String stringArg4 = cmArg2.getFormatObject().replaceAll("_", "");
-							if (stringArg3.equalsIgnoreCase(stringArg4)) {
-								String stringArg5 = cmArg1.getName().replaceAll("_", "");
-								String stringArg6 = cmArg2.getName().replaceAll("_", "");
-								if (stringArg5.equalsIgnoreCase(stringArg6))
-									return 0;
-
-								return stringArg5.compareToIgnoreCase(stringArg6);
-							}
-
-							return stringArg3.compareToIgnoreCase(stringArg4);
-						}
-
-						return stringArg1.compareToIgnoreCase(stringArg2);
-					}
-
-				});
+				ECollections.sort(listElements, ConversionModuleAnalyzer
+						.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -566,25 +525,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmDataRule> listElements = (EList<CmDataRule>) elements;
 
-				ECollections.sort(listElements, new Comparator<CmDataRule>() {
-					@Override
-					public int compare(CmDataRule cmArg1, CmDataRule cmArg2) {
-						String stringArg1 = cmArg1.getFormatObject().replaceAll("_", "");
-						String stringArg2 = cmArg2.getFormatObject().replaceAll("_", "");
-
-						if (stringArg1.equalsIgnoreCase(stringArg2)) {
-							String stringArg3 = cmArg1.getName().replaceAll("_", "");
-							String stringArg4 = cmArg2.getName().replaceAll("_", "");
-							if (stringArg3.equalsIgnoreCase(stringArg4))
-								return 0;
-
-							return stringArg3.compareToIgnoreCase(stringArg4);
-						}
-
-						return stringArg1.compareToIgnoreCase(stringArg2);
-					}
-
-				});
+				ECollections.sort(listElements, ConversionModuleAnalyzer
+						.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -690,31 +632,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmObjectRule> listElements = (EList<CmObjectRule>) elements;
 
-				ECollections.sort(listElements, new Comparator<CmObjectRule>() {
-					@Override
-					public int compare(CmObjectRule cmArg1, CmObjectRule cmArg2) {
-						String stringArg1 = cmArg1.getFormatObject().replaceAll("_", "");
-						String stringArg2 = cmArg2.getFormatObject().replaceAll("_", "");
-
-						if (stringArg1.equalsIgnoreCase(stringArg2)) {
-							String stringArg3 = cmArg1.getConfigurationObjectName().replaceAll("_", "");
-							String stringArg4 = cmArg2.getConfigurationObjectName().replaceAll("_", "");
-							if (stringArg3.equalsIgnoreCase(stringArg4)) {
-								String stringArg5 = cmArg1.getName().replaceAll("_", "");
-								String stringArg6 = cmArg2.getName().replaceAll("_", "");
-								if (stringArg5.equalsIgnoreCase(stringArg6))
-									return 0;
-
-								return stringArg5.compareToIgnoreCase(stringArg6);
-							}
-
-							return stringArg3.compareToIgnoreCase(stringArg4);
-						}
-
-						return stringArg1.compareToIgnoreCase(stringArg2);
-					}
-
-				});
+				ECollections.sort(listElements, ConversionModuleAnalyzer
+						.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -801,19 +720,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmPredefined> listElements = (EList<CmPredefined>) elements;
 
-				ECollections.sort(listElements, new Comparator<CmPredefined>() {
-					@Override
-					public int compare(CmPredefined cmArg1, CmPredefined cmArg2) {
-						String stringArg1 = cmArg1.getName().replaceAll("_", "");
-						String stringArg2 = cmArg2.getName().replaceAll("_", "");
-
-						if (stringArg1.equalsIgnoreCase(stringArg2))
-							return 0;
-
-						return stringArg1.compareToIgnoreCase(stringArg2);
-					}
-
-				});
+				ECollections.sort(listElements, ConversionModuleAnalyzer.getPredefinedComparator());
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -887,19 +794,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmAlgorithm> listElements = (EList<CmAlgorithm>) elements;
 
-				ECollections.sort(listElements, new Comparator<CmAlgorithm>() {
-					@Override
-					public int compare(CmAlgorithm cmArg1, CmAlgorithm cmArg2) {
-						String stringArg1 = cmArg1.getName().replaceAll("_", "");
-						String stringArg2 = cmArg2.getName().replaceAll("_", "");
-
-						if (stringArg1.equalsIgnoreCase(stringArg2))
-							return 0;
-
-						return stringArg1.compareToIgnoreCase(stringArg2);
-					}
-
-				});
+				ECollections.sort(listElements, ConversionModuleAnalyzer.getAlgorithmComparator());
 
 				Object[] viewerContent = new Object[listElements.size()];
 

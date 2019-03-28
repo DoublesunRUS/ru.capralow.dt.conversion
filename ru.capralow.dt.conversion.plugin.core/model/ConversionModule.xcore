@@ -291,6 +291,10 @@ class CmDataRule {
 	}
 	
 	refers CmGroup group
+	
+	op String toString() {
+		return name + " " + configurationObjectName + " " + formatObject;
+	}
 }
 
 enum CmSelectionVariant {
@@ -403,6 +407,10 @@ class CmObjectRule {
 			return false;
 			
 		return true;
+	}
+	
+	op String toString() {
+		return name + " " + configurationObjectName + " " + formatObject;
 	}
 }
 

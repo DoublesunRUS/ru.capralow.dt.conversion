@@ -6,11 +6,13 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -1587,6 +1589,14 @@ public class ConversionModuleAnalyzer {
 		String templateReceivingDataRuleContent = readContents(getFileInputSupplier(TEMPLATE_NAME_RECEIVINGDATARULE),
 				TEMPLATE_NAME_RECEIVINGDATARULE);
 
+		final String TEMPLATE_NAME_SENDINGOBJECTRULE = "SendingObjectRuleV2.txt";
+		String templateSendingObjectRuleContent = readContents(getFileInputSupplier(TEMPLATE_NAME_SENDINGOBJECTRULE),
+				TEMPLATE_NAME_SENDINGOBJECTRULE);
+
+		final String TEMPLATE_NAME_RECEIVINGOBJECTRULE = "ReceivingObjectRuleV2.txt";
+		String templateReceivingObjectRuleContent = readContents(
+				getFileInputSupplier(TEMPLATE_NAME_RECEIVINGOBJECTRULE), TEMPLATE_NAME_RECEIVINGOBJECTRULE);
+
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
 		templateMain.setAttribute("ConvertationName", "// Конвертация " + name + " от "
@@ -1602,7 +1612,12 @@ public class ConversionModuleAnalyzer {
 		String dataRulesDeclarationReceivingText = "";
 		String sendingDataRules = "";
 		String receivingDataRules = "";
-		for (CmDataRule dataRule : conversionModule.getDataRules()) {
+
+		EList<CmDataRule> dataRules = conversionModule.getDataRules();
+		ECollections.sort(dataRules,
+				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
+
+		for (CmDataRule dataRule : dataRules) {
 			if (dataRule.getForSending()) {
 				if (!dataRulesDeclarationSendingText.isEmpty())
 					dataRulesDeclarationSendingText += ls;
@@ -1685,9 +1700,74 @@ public class ConversionModuleAnalyzer {
 		}
 		templateMain.setAttribute("DataRulesDeclarationSending", dataRulesDeclarationSendingText);
 		templateMain.setAttribute("DataRulesDeclarationReceiving", dataRulesDeclarationReceivingText);
-
 		templateMain.setAttribute("SendingDataRules", sendingDataRules);
 		templateMain.setAttribute("ReceivingDataRules", receivingDataRules);
+
+		String objectRulesDeclarationSendingText = "";
+		String objectRulesDeclarationReceivingText = "";
+		String objectRulesDeclarationBothText = "";
+		String sendingObjectRules = "";
+		String receivingObjectRules = "";
+		String bothObjectRules = "";
+
+		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+		ECollections.sort(objectRules,
+				ConversionModuleAnalyzer.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
+
+		for (CmObjectRule objectRule : objectRules) {
+			if (objectRule.getForSending() && objectRule.getForReceiving()) {
+				if (!objectRulesDeclarationBothText.isEmpty())
+					objectRulesDeclarationBothText += ls;
+				objectRulesDeclarationBothText += "ДобавитьПКО_" + objectRule.getName() + "(ПравилаКонвертации);";
+
+			} else {
+				if (objectRule.getForSending()) {
+					if (!objectRulesDeclarationSendingText.isEmpty())
+						objectRulesDeclarationSendingText += ls;
+					objectRulesDeclarationSendingText += "ДобавитьПКО_" + objectRule.getName()
+							+ "(ПравилаКонвертации);";
+
+					if (!sendingObjectRules.isEmpty())
+						sendingObjectRules += ls;
+					StringTemplate templateSendingObjectRule = new StringTemplate(templateSendingObjectRuleContent);
+
+					templateSendingObjectRule.setAttribute("ObjectRuleName", objectRule.getName());
+
+					String sendingObjectRule = templateSendingObjectRule.toString()
+							.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
+							.replace("	ПравилоОбработки.ВыборкаДанных           = \"\";", "---")
+							.replaceAll("---\\r\\n|---\\r|---\\n", "");
+
+					sendingObjectRules += sendingObjectRule;
+
+				}
+
+				if (objectRule.getForReceiving()) {
+					if (!objectRulesDeclarationReceivingText.isEmpty())
+						objectRulesDeclarationReceivingText += ls;
+					objectRulesDeclarationReceivingText += "ДобавитьПКО_" + objectRule.getName()
+							+ "(ПравилаКонвертации);";
+
+					if (!receivingObjectRules.isEmpty())
+						receivingObjectRules += ls;
+					StringTemplate templateReceivingObjectRule = new StringTemplate(templateReceivingObjectRuleContent);
+
+					templateReceivingObjectRule.setAttribute("ObjectRuleName", objectRule.getName());
+
+					String receivingObjectRule = templateReceivingObjectRule.toString()
+							.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
+							.replaceAll("---\\r\\n|---\\r|---\\n", "");
+
+					receivingObjectRules += receivingObjectRule;
+				}
+			}
+		}
+		templateMain.setAttribute("ObjectRulesDeclarationSending", objectRulesDeclarationSendingText);
+		templateMain.setAttribute("ObjectRulesDeclarationReceiving", objectRulesDeclarationReceivingText);
+		templateMain.setAttribute("ObjectRulesDeclarationBoth", objectRulesDeclarationBothText);
+		templateMain.setAttribute("SendingObjectRules", sendingObjectRules);
+		templateMain.setAttribute("ReceivingObjectRules", receivingObjectRules);
+		templateMain.setAttribute("BothObjectRules", bothObjectRules);
 
 		templateMain.setAttribute("Algorithms", conversionModule.getAllAlgorithmsText(""));
 
@@ -1708,4 +1788,144 @@ public class ConversionModuleAnalyzer {
 				StandardCharsets.UTF_8);
 	}
 
+	public static int COMPARATOR_ORDER_BY_NAME = 1;
+	public static int COMPARATOR_ORDER_BY_SENDING = 2;
+	public static int COMPARATOR_ORDER_BY_RECEIVING = 3;
+
+	public static Comparator<CmDataRule> getDataRuleComparator(int comparatorOrder) {
+		return new Comparator<CmDataRule>() {
+			@Override
+			public int compare(CmDataRule cmArg1, CmDataRule cmArg2) {
+				String[] str1;
+				String[] str2;
+
+				if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
+					str1 = new String[2];
+					str2 = new String[2];
+
+					str1[0] = cmArg1.getConfigurationObjectName().replaceAll("_", "");
+					str1[1] = cmArg1.getName().replaceAll("_", "");
+
+					str2[0] = cmArg2.getConfigurationObjectName().replaceAll("_", "");
+					str2[1] = cmArg2.getName().replaceAll("_", "");
+
+				} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
+					str1 = new String[2];
+					str2 = new String[2];
+
+					str1[0] = cmArg1.getFormatObject().replaceAll("_", "");
+					str1[1] = cmArg1.getName().replaceAll("_", "");
+
+					str2[0] = cmArg2.getFormatObject().replaceAll("_", "");
+					str2[1] = cmArg2.getName().replaceAll("_", "");
+
+				} else { // COMPARATOR_ORDER_BY_NAME
+					str1 = new String[1];
+					str2 = new String[1];
+
+					str1[0] = cmArg1.getName().replaceAll("_", "");
+
+					str2[0] = cmArg2.getName().replaceAll("_", "");
+
+				}
+
+				return compareArraysOfString(str1, str2);
+			}
+
+		};
+	}
+
+	public static Comparator<CmObjectRule> getObjectRuleComparator(int comparatorOrder) {
+		return new Comparator<CmObjectRule>() {
+			@Override
+			public int compare(CmObjectRule cmArg1, CmObjectRule cmArg2) {
+				String[] str1;
+				String[] str2;
+
+				if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
+					str1 = new String[3];
+					str2 = new String[3];
+
+					str1[0] = cmArg1.getConfigurationObjectName().replaceAll("_", "");
+					str1[1] = cmArg1.getFormatObject().replaceAll("_", "");
+					str1[2] = cmArg1.getName().replaceAll("_", "");
+
+					str2[0] = cmArg2.getConfigurationObjectName().replaceAll("_", "");
+					str1[1] = cmArg2.getFormatObject().replaceAll("_", "");
+					str2[2] = cmArg2.getName().replaceAll("_", "");
+
+				} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
+					str1 = new String[3];
+					str2 = new String[3];
+
+					str1[0] = cmArg1.getFormatObject().replaceAll("_", "");
+					str1[1] = cmArg1.getConfigurationObjectName().replaceAll("_", "");
+					str1[2] = cmArg1.getName().replaceAll("_", "");
+
+					str2[0] = cmArg2.getFormatObject().replaceAll("_", "");
+					str2[1] = cmArg2.getConfigurationObjectName().replaceAll("_", "");
+					str1[2] = cmArg2.getName().replaceAll("_", "");
+
+				} else { // COMPARATOR_ORDER_BY_NAME
+					str1 = new String[1];
+					str2 = new String[1];
+
+					str1[0] = cmArg1.getName().replaceAll("_", "");
+
+					str2[0] = cmArg2.getName().replaceAll("_", "");
+
+				}
+
+				return compareArraysOfString(str1, str2);
+			}
+		};
+	}
+
+	public static Comparator<CmPredefined> getPredefinedComparator() {
+		return new Comparator<CmPredefined>() {
+			@Override
+			public int compare(CmPredefined cmArg1, CmPredefined cmArg2) {
+				String[] str1 = new String[1];
+				String[] str2 = new String[1];
+
+				str1[0] = cmArg1.getName().replaceAll("_", "");
+
+				str2[0] = cmArg2.getName().replaceAll("_", "");
+
+				return compareArraysOfString(str1, str2);
+			}
+		};
+	}
+
+	public static Comparator<CmAlgorithm> getAlgorithmComparator() {
+		return new Comparator<CmAlgorithm>() {
+			@Override
+			public int compare(CmAlgorithm cmArg1, CmAlgorithm cmArg2) {
+				String[] str1 = new String[1];
+				String[] str2 = new String[1];
+
+				str1[0] = cmArg1.getName().replaceAll("_", "");
+
+				str2[0] = cmArg2.getName().replaceAll("_", "");
+
+				return compareArraysOfString(str1, str2);
+			}
+		};
+	}
+
+	private static int compareArraysOfString(String[] str1, String[] str2) {
+		if (str1.equals(str2))
+			return 0;
+
+		if (str1.length != str2.length)
+			return str1.length - str2.length;
+
+		for (int i = 0; i < str1.length; i++) {
+			int result = str1[i].compareToIgnoreCase(str2[i]);
+			if (result != 0)
+				return result;
+		}
+
+		return 0;
+	}
 }
