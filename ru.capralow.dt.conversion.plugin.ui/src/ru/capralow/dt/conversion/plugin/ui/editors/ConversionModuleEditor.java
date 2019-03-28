@@ -1160,8 +1160,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				exchangeProject, configurationProject.getConfiguration(), configurationProject.getProject(),
 				Activator.getDefault());
 
-		// FIXME: Починить определение того, что модуль изменен, сейчас всегда ложь
-		if (!isDirty()) {
+		XtextEditor embeddedEditor = getModuleEditor();
+		if (embeddedEditor.isDirty()) {
 			conversionModule = ConversionModuleAnalyzer.analyze(commonModule, exchangeProject, enterpriseDataPackages,
 					projectManager, bmEmfIndexManager, Activator.getDefault());
 
@@ -1210,11 +1210,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	}
 
-	private void updateModule() throws CoreException {
-		String newModule = ConversionModuleAnalyzer.getModuleText(conversionModule, "", null);
-
-		// System.out.print(newModule);
-
+	private XtextEditor getModuleEditor() {
 		XtextEditor embeddedEditor = null;
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		for (IEditorReference editorReference : page.getEditorReferences()) {
@@ -1259,6 +1255,14 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		if (embeddedEditor == null) {
 			throw new NullPointerException("Не удалось найти редактор для помещения изменений.");
 		}
+
+		return embeddedEditor;
+	}
+
+	private void updateModule() throws CoreException {
+		String newModule = ConversionModuleAnalyzer.getModuleText(conversionModule, "", null);
+
+		XtextEditor embeddedEditor = getModuleEditor();
 
 		EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument());
 		try {
