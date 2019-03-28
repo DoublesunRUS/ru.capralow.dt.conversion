@@ -71,6 +71,7 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.EmbeddedEditorBuffer;
+import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.core.model.IModelEditingSupport;
 import com._1c.g5.v8.dt.core.platform.IConfigurationProject;
 import com._1c.g5.v8.dt.core.platform.IV8ProjectManager;
@@ -107,6 +108,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Inject
 	private IV8ProjectManager projectManager;
+
+	@Inject
+	private IBmEmfIndexManager bmEmfIndexManager;
 
 	private URI moduleURI;
 
@@ -1156,9 +1160,17 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				exchangeProject, configurationProject.getConfiguration(), configurationProject.getProject(),
 				Activator.getDefault());
 
-		xmiURI = ConversionModuleAnalyzer.getResourceURIforPlugin(commonModule.getName(),
-				configurationProject.getProject(), Activator.getDefault());
-		conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configurationProject.getConfiguration());
+		// FIXME: Починить определение того, что модуль изменен, сейчас всегда ложь
+		if (!isDirty()) {
+			conversionModule = ConversionModuleAnalyzer.analyze(commonModule, exchangeProject, enterpriseDataPackages,
+					projectManager, bmEmfIndexManager, Activator.getDefault());
+
+		} else {
+			xmiURI = ConversionModuleAnalyzer.getResourceURIforPlugin(commonModule.getName(),
+					configurationProject.getProject(), Activator.getDefault());
+			conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configurationProject.getConfiguration());
+
+		}
 
 		while (menuMain.getItemCount() > 1)
 			menuMain.getItem(1).dispose();
