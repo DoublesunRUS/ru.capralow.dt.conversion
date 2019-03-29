@@ -2,8 +2,8 @@
 	<servers>
 		<server>
 			<id>dt_repository</id>
-			<username>${env.partners.v8.1c.ru.username}</username>
-			<password>${env.partners.v8.1c.ru.password}</password>
+			<username>${env.partners_v8_1c_ru_username}</username>
+			<password>${env.partners_v8_1c_ru_password}</password>
 		</server>
 	</servers>
 	
