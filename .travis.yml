@@ -1,5 +1,5 @@
 language: java
 script:
-- echo ${env.M2_MASTER}
-- echo ${env.DT_REPO_PASSWORD}
+- echo $M2_MASTER
+- echo $DT_REPO_PASSWORD
 - mvn clean test verify -f build/pom.xml -s build/settings.xml -Dsettings.security=build/settings-security.xml
