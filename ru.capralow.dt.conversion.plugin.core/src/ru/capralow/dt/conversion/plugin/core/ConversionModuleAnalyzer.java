@@ -1733,9 +1733,16 @@ public class ConversionModuleAnalyzer {
 
 					templateSendingObjectRule.setAttribute("ObjectRuleName", objectRule.getName());
 
+					templateSendingObjectRule.setAttribute("ConfigurationObject",
+							objectRule.getConfigurationObjectName().isEmpty() ? "Неопределено"
+									: objectRule.getConfigurationObjectName());
+					templateSendingObjectRule.setAttribute("FormatObject", objectRule.getFormatObject());
+					templateSendingObjectRule.setAttribute("ForGroup", objectRule.getForGroupDeclaration());
+					templateSendingObjectRule.setAttribute("OnSendingEvent", objectRule.getOnSendingEventDeclaration());
+
 					String sendingObjectRule = templateSendingObjectRule.toString()
-							.replace("	ПравилоОбработки.ПриОбработке            = \"\";", "---")
-							.replace("	ПравилоОбработки.ВыборкаДанных           = \"\";", "---")
+							.replace("	ПравилоКонвертации.ПравилоДляГруппыСправочника  = Ложь;", "---")
+							.replace("	ПравилоКонвертации.ПриОтправкеДанных = \"\";", "---")
 							.replaceAll("---\\r\\n|---\\r|---\\n", "");
 
 					sendingObjectRules += sendingObjectRule;

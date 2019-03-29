@@ -361,6 +361,12 @@ class CmObjectRule {
 	Boolean forReceiving = "false"
 	
 	Boolean forGroup = "false"
+	op String getForGroupDeclaration() {
+		if (forGroup)
+			return "Истина"
+		else
+			return "Ложь";
+	}
 	
 	contains CmAttributeRule[] attributeRules
 
@@ -375,6 +381,12 @@ class CmObjectRule {
 			+ onSendingEvent + System.lineSeparator()
 			+ onSendingEventSuffix + System.lineSeparator();
 		return result;
+	}
+	op String getOnSendingEventDeclaration() {
+		if (onSendingEvent.length == 0)
+			return ""
+		else
+			return "ПКО_&ИмяПКО_ПриОтправкеДанных".replace("&ИмяПКО", name);
 	}
 	
 	String beforeReceivingEvent = ""
