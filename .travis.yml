@@ -1,3 +1,2 @@
 language: java
-script:
-- mvn clean test verify -f build/pom.xml -s build/settings.xml -Dsettings.security=build/settings-security.xml
+script: mvn test -f build/pom.xml -s build/settings.xml -Dsettings.security=build/settings-security.xml
