@@ -1,2 +1,10 @@
 language: java
-script: mvn test -f build/pom.xml -s build/settings.xml
+
+jdk:
+  - oraclejdk8
+
+script: mvn test verify -f build/pom.xml -s build/settings.xml
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
