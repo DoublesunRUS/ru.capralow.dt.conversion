@@ -1,4 +1,5 @@
-# dt.conversion
+# dt.conversion [![Build Status](https://travis-ci.org/DoublesunRUS/ru.capralow.dt.conversion.svg?branch=dev)](https://travis-ci.org/DoublesunRUS/ru.capralow.dt.conversion)
+
 
 ## Конвертация данных для [1C:Enterprise Development Tools](http://v8.1c.ru/overview/IDE/) 1.10
 
