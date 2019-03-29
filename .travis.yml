@@ -1,3 +1,2 @@
 language: java
-script: mvn deploy --settings build/settings.xml
-script: mvn clean test verify -f build/pom.xml
+script: mvn clean test verify -f build/pom.xml --settings build/settings.xml
