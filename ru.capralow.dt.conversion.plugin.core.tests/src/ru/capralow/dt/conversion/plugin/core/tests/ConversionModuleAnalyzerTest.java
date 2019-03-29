@@ -28,43 +28,46 @@ public class ConversionModuleAnalyzerTest {
 
 	@Test
 	public void testGetDataRuleComparatorByName() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойВторойДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+		String report1 = String.join(System.lineSeparator(),
+				"name:ВтороеПравило md:Метаданные.Документы.Документ1 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ПервоеПравило md:Метаданные.Документы.Документ2 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ПятоеПравило md:Метаданные.Документы.Документ3 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ТретьеПравило md:Метаданные.Документы.Документ4 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ЧетвертоеПравило md:Метаданные.Документы.Документ5 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ШестоеПравило md:Метаданные.Документы.Документ6 xdto:<Пустое> <НаправлениеНеЗадано>");
 
 		BasicEList<CmDataRule> report2 = new BasicEList<CmDataRule>();
 
 		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
 		dataRule.setName("ПервоеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ2");
+		dataRule.setFormatObject("");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
 		dataRule.setName("ВтороеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ1");
+		dataRule.setFormatObject("");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
 		dataRule.setName("ТретьеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ4");
+		dataRule.setFormatObject("");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ПервоеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		dataRule.setName("ЧетвертоеПравило");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ5");
+		dataRule.setFormatObject("");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ВтороеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		dataRule.setName("ПятоеПравило");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ3");
+		dataRule.setFormatObject("");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ТретьеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		dataRule.setName("ШестоеПравило");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ6");
+		dataRule.setFormatObject("");
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
@@ -74,44 +77,47 @@ public class ConversionModuleAnalyzerTest {
 	}
 
 	@Test
-	public void testGetDataRuleComparatorBySending() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойВторойДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойПервыйДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+	public void testGetDataRuleComparatorByMd() {
+		String report1 = String.join(System.lineSeparator(),
+				"name:ПервоеПравило md:<Пустое> xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ВтороеПравило md:<Пустое> xdto:Документ.Документ5 <НаправлениеНеЗадано>",
+				"name:ТретьеПравило md:Метаданные.Документы.Документ1 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ЧетвертоеПравило md:Метаданные.Документы.Документ1 xdto:Документ.Документ4 <НаправлениеНеЗадано>",
+				"name:ПятоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ6 <НаправлениеНеЗадано>",
+				"name:ШестоеПравило md:Метаданные.Документы.Документ3 xdto:Документ.Документ2 <НаправлениеНеЗадано>");
 
 		BasicEList<CmDataRule> report2 = new BasicEList<CmDataRule>();
 
 		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ПервоеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ2");
+		dataRule.setFormatObject("Документ.Документ6");
+		dataRule.setName("ПятоеПравило");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ВтороеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ3");
+		dataRule.setFormatObject("Документ.Документ2");
+		dataRule.setName("ШестоеПравило");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ1");
+		dataRule.setFormatObject("Документ.Документ4");
+		dataRule.setName("ЧетвертоеПравило");
+		dataRule = cmFactory.eINSTANCE.createCmDataRule();
+		report2.add(dataRule);
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ1");
+		dataRule.setFormatObject("");
 		dataRule.setName("ТретьеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ПервоеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
-		dataRule = cmFactory.eINSTANCE.createCmDataRule();
-		report2.add(dataRule);
+		dataRule.setConfigurationObjectName("");
+		dataRule.setFormatObject("Документ.Документ5");
 		dataRule.setName("ВтороеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ТретьеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		dataRule.setConfigurationObjectName("");
+		dataRule.setFormatObject("");
+		dataRule.setName("ПервоеПравило");
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
@@ -121,44 +127,47 @@ public class ConversionModuleAnalyzerTest {
 	}
 
 	@Test
-	public void testGetDataRuleComparatorByReceiving() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойВторойДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойПервыйДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+	public void testGetDataRuleComparatorByXdto() {
+		String report1 = String.join(System.lineSeparator(),
+				"name:ПервоеПравило md:<Пустое> xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ВтороеПравило md:Метаданные.Документы.Документ5 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ТретьеПравило md:<Пустое> xdto:Документ.Документ1 <НаправлениеНеЗадано>",
+				"name:ЧетвертоеПравило md:Метаданные.Документы.Документ4 xdto:Документ.Документ1 <НаправлениеНеЗадано>",
+				"name:ПятоеПравило md:Метаданные.Документы.Документ6 xdto:Документ.Документ2 <НаправлениеНеЗадано>",
+				"name:ШестоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ3 <НаправлениеНеЗадано>");
 
 		BasicEList<CmDataRule> report2 = new BasicEList<CmDataRule>();
 
 		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ПервоеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		dataRule.setFormatObject("Документ.Документ2");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ6");
+		dataRule.setName("ПятоеПравило");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ВтороеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		dataRule.setFormatObject("Документ.Документ3");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ2");
+		dataRule.setName("ШестоеПравило");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
+		dataRule.setFormatObject("Документ.Документ1");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ4");
+		dataRule.setName("ЧетвертоеПравило");
+		dataRule = cmFactory.eINSTANCE.createCmDataRule();
+		report2.add(dataRule);
+		dataRule.setFormatObject("Документ.Документ1");
+		dataRule.setConfigurationObjectName("");
 		dataRule.setName("ТретьеПравило");
-		dataRule.setFormatObject("Документ.МойПервыйДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ПервоеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
-		dataRule = cmFactory.eINSTANCE.createCmDataRule();
-		report2.add(dataRule);
+		dataRule.setFormatObject("");
+		dataRule.setConfigurationObjectName("Метаданные.Документы.Документ5");
 		dataRule.setName("ВтороеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
 		dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
-		dataRule.setName("ТретьеПравило");
-		dataRule.setFormatObject("Документ.МойВторойДокумент");
-		dataRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		dataRule.setConfigurationObjectName("");
+		dataRule.setFormatObject("");
+		dataRule.setName("ПервоеПравило");
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
@@ -169,43 +178,46 @@ public class ConversionModuleAnalyzerTest {
 
 	@Test
 	public void testGetObjectRuleComparatorByName() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойВторойДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+		String report1 = String.join(System.lineSeparator(),
+				"name:ВтороеПравило md:Метаданные.Документы.Документ1 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ПервоеПравило md:Метаданные.Документы.Документ2 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ПятоеПравило md:Метаданные.Документы.Документ3 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ТретьеПравило md:Метаданные.Документы.Документ4 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ЧетвертоеПравило md:Метаданные.Документы.Документ5 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ШестоеПравило md:Метаданные.Документы.Документ6 xdto:<Пустое> <НаправлениеНеЗадано>");
 
 		BasicEList<CmObjectRule> report2 = new BasicEList<CmObjectRule>();
 
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
 		objectRule.setName("ПервоеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ2");
+		objectRule.setFormatObject("");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
 		objectRule.setName("ВтороеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ1");
+		objectRule.setFormatObject("");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
 		objectRule.setName("ТретьеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ4");
+		objectRule.setFormatObject("");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ПервоеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		objectRule.setName("ЧетвертоеПравило");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ5");
+		objectRule.setFormatObject("");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ВтороеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		objectRule.setName("ПятоеПравило");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ3");
+		objectRule.setFormatObject("");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ТретьеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		objectRule.setName("ШестоеПравило");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ6");
+		objectRule.setFormatObject("");
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
@@ -215,91 +227,98 @@ public class ConversionModuleAnalyzerTest {
 	}
 
 	@Test
-	public void testGetObjectRuleComparatorBySending() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойВторойДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойПервыйДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+	public void testGetObjectRuleComparatorByMd() {
+		String report1 = String.join(System.lineSeparator(),
+				"name:ПервоеПравило md:<Пустое> xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ВтороеПравило md:<Пустое> xdto:Документ.Документ5 <НаправлениеНеЗадано>",
+				"name:ТретьеПравило md:Метаданные.Документы.Документ1 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ЧетвертоеПравило md:Метаданные.Документы.Документ1 xdto:Документ.Документ4 <НаправлениеНеЗадано>",
+				"name:ПятоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ6 <НаправлениеНеЗадано>",
+				"name:ШестоеПравило md:Метаданные.Документы.Документ3 xdto:Документ.Документ2 <НаправлениеНеЗадано>");
 
 		BasicEList<CmObjectRule> report2 = new BasicEList<CmObjectRule>();
 
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ПервоеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ2");
+		objectRule.setFormatObject("Документ.Документ6");
+		objectRule.setName("ПятоеПравило");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ВтороеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ3");
+		objectRule.setFormatObject("Документ.Документ2");
+		objectRule.setName("ШестоеПравило");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ1");
+		objectRule.setFormatObject("Документ.Документ4");
+		objectRule.setName("ЧетвертоеПравило");
+		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		report2.add(objectRule);
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ1");
+		objectRule.setFormatObject("");
 		objectRule.setName("ТретьеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ПервоеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
-		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-		report2.add(objectRule);
+		objectRule.setConfigurationObjectName("");
+		objectRule.setFormatObject("Документ.Документ5");
 		objectRule.setName("ВтороеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ТретьеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		objectRule.setConfigurationObjectName("");
+		objectRule.setFormatObject("");
+		objectRule.setName("ПервоеПравило");
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
 
-		assertEquals("Модуль обмена: сортировка ПКО", report1.toString().replace(", ", System.lineSeparator()),
+		assertEquals("Модуль обмена: сортировка ПКО по объекту конфигурации (метаданным)",
+				report1.toString().replace(", ", System.lineSeparator()),
 				report2.toString().replace(", ", System.lineSeparator()).replace("[", "").replace("]", ""));
 	}
 
 	@Test
-	public void testGetObjectRuleComparatorByReceiving() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойВторойДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойПервыйДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+	public void testGetObjectRuleComparatorByXdto() {
+		String report1 = String.join(System.lineSeparator(),
+				"name:ПервоеПравило md:<Пустое> xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ВтороеПравило md:Метаданные.Документы.Документ5 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ТретьеПравило md:<Пустое> xdto:Документ.Документ1 <НаправлениеНеЗадано>",
+				"name:ЧетвертоеПравило md:Метаданные.Документы.Документ4 xdto:Документ.Документ1 <НаправлениеНеЗадано>",
+				"name:ПятоеПравило md:Метаданные.Документы.Документ6 xdto:Документ.Документ2 <НаправлениеНеЗадано>",
+				"name:ШестоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ3 <НаправлениеНеЗадано>");
 
 		BasicEList<CmObjectRule> report2 = new BasicEList<CmObjectRule>();
 
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ПервоеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		objectRule.setFormatObject("Документ.Документ2");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ6");
+		objectRule.setName("ПятоеПравило");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ВтороеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		objectRule.setFormatObject("Документ.Документ3");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ2");
+		objectRule.setName("ШестоеПравило");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
+		objectRule.setFormatObject("Документ.Документ1");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ4");
+		objectRule.setName("ЧетвертоеПравило");
+		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		report2.add(objectRule);
+		objectRule.setFormatObject("Документ.Документ1");
+		objectRule.setConfigurationObjectName("");
 		objectRule.setName("ТретьеПравило");
-		objectRule.setFormatObject("Документ.МойПервыйДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ПервоеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
-		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-		report2.add(objectRule);
+		objectRule.setFormatObject("");
+		objectRule.setConfigurationObjectName("Метаданные.Документы.Документ5");
 		objectRule.setName("ВтороеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
 		objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
-		objectRule.setName("ТретьеПравило");
-		objectRule.setFormatObject("Документ.МойВторойДокумент");
-		objectRule.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		objectRule.setConfigurationObjectName("");
+		objectRule.setFormatObject("");
+		objectRule.setName("ПервоеПравило");
 
 		ECollections.sort(report2, ConversionModuleAnalyzer
 				.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
@@ -310,43 +329,46 @@ public class ConversionModuleAnalyzerTest {
 
 	@Test
 	public void testGetPredefinedComparator() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойВторойДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойПервыйДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+		String report1 = String.join(System.lineSeparator(),
+				"name:ВтороеПравило md:Метаданные.Документы.Документ1 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ПервоеПравило md:Метаданные.Документы.Документ2 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ПятоеПравило md:Метаданные.Документы.Документ3 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ТретьеПравило md:Метаданные.Документы.Документ4 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ЧетвертоеПравило md:Метаданные.Документы.Документ5 xdto:<Пустое> <НаправлениеНеЗадано>",
+				"name:ШестоеПравило md:Метаданные.Документы.Документ6 xdto:<Пустое> <НаправлениеНеЗадано>");
 
 		BasicEList<CmPredefined> report2 = new BasicEList<CmPredefined>();
 
 		CmPredefined predefined = cmFactory.eINSTANCE.createCmPredefined();
 		report2.add(predefined);
 		predefined.setName("ПервоеПравило");
-		predefined.setFormatObject("Документ.МойПервыйДокумент");
-		predefined.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		predefined.setConfigurationObjectName("Метаданные.Документы.Документ2");
+		predefined.setFormatObject("");
 		predefined = cmFactory.eINSTANCE.createCmPredefined();
 		report2.add(predefined);
 		predefined.setName("ВтороеПравило");
-		predefined.setFormatObject("Документ.МойПервыйДокумент");
-		predefined.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		predefined.setConfigurationObjectName("Метаданные.Документы.Документ1");
+		predefined.setFormatObject("");
 		predefined = cmFactory.eINSTANCE.createCmPredefined();
 		report2.add(predefined);
 		predefined.setName("ТретьеПравило");
-		predefined.setFormatObject("Документ.МойПервыйДокумент");
-		predefined.setConfigurationObjectName("Метаданные.Документы.МойПервыйДокумент");
+		predefined.setConfigurationObjectName("Метаданные.Документы.Документ4");
+		predefined.setFormatObject("");
 		predefined = cmFactory.eINSTANCE.createCmPredefined();
 		report2.add(predefined);
-		predefined.setName("ПервоеПравило");
-		predefined.setFormatObject("Документ.МойВторойДокумент");
-		predefined.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		predefined.setName("ЧетвертоеПравило");
+		predefined.setConfigurationObjectName("Метаданные.Документы.Документ5");
+		predefined.setFormatObject("");
 		predefined = cmFactory.eINSTANCE.createCmPredefined();
 		report2.add(predefined);
-		predefined.setName("ВтороеПравило");
-		predefined.setFormatObject("Документ.МойВторойДокумент");
-		predefined.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		predefined.setName("ПятоеПравило");
+		predefined.setConfigurationObjectName("Метаданные.Документы.Документ3");
+		predefined.setFormatObject("");
 		predefined = cmFactory.eINSTANCE.createCmPredefined();
 		report2.add(predefined);
-		predefined.setName("ТретьеПравило");
-		predefined.setFormatObject("Документ.МойВторойДокумент");
-		predefined.setConfigurationObjectName("Метаданные.Документы.МойВторойДокумент");
+		predefined.setName("ШестоеПравило");
+		predefined.setConfigurationObjectName("Метаданные.Документы.Документ6");
+		predefined.setFormatObject("");
 
 		ECollections.sort(report2, ConversionModuleAnalyzer.getPredefinedComparator());
 
@@ -356,31 +378,36 @@ public class ConversionModuleAnalyzerTest {
 
 	@Test
 	public void testGetAlgorithmComparator() {
-		String report1 = String.join(System.lineSeparator(), "Документ.МойВторойДокумент ВтороеПравило",
-				"Документ.МойВторойДокумент ПервоеПравило", "Документ.МойВторойДокумент ТретьеПравило",
-				"Документ.МойПервыйДокумент ВтороеПравило", "Документ.МойПервыйДокумент ПервоеПравило",
-				"Документ.МойПервыйДокумент ТретьеПравило");
+		String report1 = String.join(System.lineSeparator(), "Процедура ВтораяПроцедура(1)",
+				"Процедура ПерваяПроцедура(2)", "Процедура ПятаяПроцедура(3)", "Процедура ТретьяПроцедура(4)",
+				"Процедура ЧетвертаяПроцедура(5)", "Процедура ШестаяПроцедура(6)");
 
 		BasicEList<CmAlgorithm> report2 = new BasicEList<CmAlgorithm>();
 
 		CmAlgorithm objectRule = cmFactory.eINSTANCE.createCmAlgorithm();
 		report2.add(objectRule);
-		objectRule.setName("ПервоеПравило");
+		objectRule.setName("ПерваяПроцедура");
+		objectRule.setParams("2");
 		objectRule = cmFactory.eINSTANCE.createCmAlgorithm();
 		report2.add(objectRule);
-		objectRule.setName("ВтороеПравило");
+		objectRule.setName("ВтораяПроцедура");
+		objectRule.setParams("1");
 		objectRule = cmFactory.eINSTANCE.createCmAlgorithm();
 		report2.add(objectRule);
-		objectRule.setName("ТретьеПравило");
+		objectRule.setName("ТретьяПроцедура");
+		objectRule.setParams("4");
 		objectRule = cmFactory.eINSTANCE.createCmAlgorithm();
 		report2.add(objectRule);
-		objectRule.setName("ПервоеПравило");
+		objectRule.setName("ЧетвертаяПроцедура");
+		objectRule.setParams("5");
 		objectRule = cmFactory.eINSTANCE.createCmAlgorithm();
 		report2.add(objectRule);
-		objectRule.setName("ВтороеПравило");
+		objectRule.setName("ПятаяПроцедура");
+		objectRule.setParams("3");
 		objectRule = cmFactory.eINSTANCE.createCmAlgorithm();
 		report2.add(objectRule);
-		objectRule.setName("ТретьеПравило");
+		objectRule.setName("ШестаяПроцедура");
+		objectRule.setParams("6");
 
 		ECollections.sort(report2, ConversionModuleAnalyzer.getAlgorithmComparator());
 

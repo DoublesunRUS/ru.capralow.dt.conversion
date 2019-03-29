@@ -293,7 +293,27 @@ class CmDataRule {
 	refers CmGroup group
 	
 	op String toString() {
-		return name + " " + configurationObjectName + " " + formatObject;
+		var nameString = name;
+		if (name.isEmpty())
+			nameString = "<Пустое>";
+
+		var configurationString = configurationObjectName;
+		if (configurationObjectName.isEmpty())
+			configurationString = "<Пустое>";
+		
+		var formatString = formatObject;
+		if (formatObject.isEmpty())
+			formatString = "<Пустое>";
+		
+		var routeString = "<НаправлениеНеЗадано>";
+		if (forSending)
+			routeString = "Отправка";
+		if (forReceiving)
+			routeString = "Получение";
+		if (forSending && forReceiving)
+			routeString = "ОтправкаИПолучение";
+		
+		return "name:" + nameString  + " md:" + configurationString + " xdto:" + formatString + " " + routeString;
 	}
 }
 
@@ -410,7 +430,27 @@ class CmObjectRule {
 	}
 	
 	op String toString() {
-		return name + " " + configurationObjectName + " " + formatObject;
+		var nameString = name;
+		if (name.isEmpty())
+			nameString = "<Пустое>";
+
+		var configurationString = configurationObjectName;
+		if (configurationObjectName.isEmpty())
+			configurationString = "<Пустое>";
+		
+		var formatString = formatObject;
+		if (formatObject.isEmpty())
+			formatString = "<Пустое>";
+		
+		var routeString = "<НаправлениеНеЗадано>";
+		if (forSending)
+			routeString = "Отправка";
+		if (forReceiving)
+			routeString = "Получение";
+		if (forSending && forReceiving)
+			routeString = "ОтправкаИПолучение";
+		
+		return "name:" + nameString  + " md:" + configurationString + " xdto:" + formatString + " " + routeString;
 	}
 }
 
@@ -491,6 +531,30 @@ class CmPredefined {
 		}
 		return false;
 	}
+	
+	op String toString() {
+		var nameString = name;
+		if (name.isEmpty())
+			nameString = "<Пустое>";
+
+		var configurationString = configurationObjectName;
+		if (configurationObjectName.isEmpty())
+			configurationString = "<Пустое>";
+		
+		var formatString = formatObject;
+		if (formatObject.isEmpty())
+			formatString = "<Пустое>";
+		
+		var routeString = "<НаправлениеНеЗадано>";
+		if (forSending)
+			routeString = "Отправка";
+		if (forReceiving)
+			routeString = "Получение";
+		if (forSending && forReceiving)
+			routeString = "ОтправкаИПолучение";
+		
+		return "name:" + nameString  + " md:" + configurationString + " xdto:" + formatString + " " + routeString;
+	}
 }
 
 class CmPredefinedMap {
@@ -556,6 +620,10 @@ class CmAlgorithm {
 			+ suffix + System.lineSeparator();
 		
 		return result;
+	}
+	
+	op String toString() {
+		return prefix;
 	}
 }
 
