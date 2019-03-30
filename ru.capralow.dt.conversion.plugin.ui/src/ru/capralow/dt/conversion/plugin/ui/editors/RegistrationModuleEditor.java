@@ -67,8 +67,6 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 		// editor.getDocumentProvider();
 		// IXtextDocument document = (IXtextDocument) provider.getDocument(editor);
 		//
-		// // ������� ������ ����������, � �������� ����������� ������, ��
-		// // �������� ���� ������� �������
 		// EObject moduleOwner = getModuleOwner(document);
 
 	}
@@ -155,7 +153,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 
 			Element documentElement = document.getDocumentElement();
 
-			if (documentElement.getNodeName() != "������������������") {
+			if (documentElement.getNodeName() != "") {
 				return;
 			}
 
@@ -164,38 +162,36 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 				Node node = nodeList.item(i);
 
 				String nodeName = node.getNodeName();
-				if (nodeName == "�������������") {
+				if (nodeName == "") {
 					registrationModule.setModuleVersion(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "��") {
+				} else if (nodeName == "") {
 					registrationModule.setModuleRef(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "������������") {
+				} else if (nodeName == "") {
 					registrationModule.setModuleName(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "�����������������") {
+				} else if (nodeName == "") {
 					// TODO: registrationModule.setModuleCreationDate(node.getNodeValue());
 
-				} else if (nodeName == "����������") {
-					registrationModule.setExchangePlanName(node.getAttributes().getNamedItem("���").getTextContent());
+				} else if (nodeName == "") {
+					registrationModule.setExchangePlanName(node.getAttributes().getNamedItem("").getTextContent());
 					registrationModule.setExchangePlanMdObject(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "������������") {
+				} else if (nodeName == "") {
 					NamedNodeMap attributes = node.getAttributes();
 					registrationModule.setConfigurationName(node.getFirstChild().getTextContent());
-					registrationModule
-							.setConfigurationSynonym(attributes.getNamedItem("�������������������").getTextContent());
-					registrationModule
-							.setConfigurationVersion(attributes.getNamedItem("������������������").getTextContent());
-					registrationModule.setRuntimeVersion(attributes.getNamedItem("���������������").getTextContent());
+					registrationModule.setConfigurationSynonym(attributes.getNamedItem("").getTextContent());
+					registrationModule.setConfigurationVersion(attributes.getNamedItem("").getTextContent());
+					registrationModule.setRuntimeVersion(attributes.getNamedItem("").getTextContent());
 
-				} else if (nodeName == "�����������������") {
+				} else if (nodeName == "") {
 					EList<ExchangePlanContent> exchangePlanContent = registrationModule.getExchangePlanContent();
 
 					NodeList childNodeList = node.getChildNodes();
 					for (int ci = 0; ci < childNodeList.getLength(); ci++) {
 						Node childNode = childNodeList.item(ci);
-						if (childNode.getNodeName() != "�������") {
+						if (childNode.getNodeName() != "") {
 							continue;
 						}
 
@@ -205,10 +201,10 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 						NodeList childChildNodeList = childNode.getChildNodes();
 						for (int cci = 0; cci < childChildNodeList.getLength(); cci++) {
 							Node childChildNode = childChildNodeList.item(cci);
-							if (childChildNode.getNodeName() == "���") {
+							if (childChildNode.getNodeName() == "") {
 								exchangePlanContentElement.setMdObject(childChildNode.getFirstChild().getTextContent());
 
-							} else if (childChildNode.getNodeName() == "���������������") {
+							} else if (childChildNode.getNodeName() == "") {
 								if (childChildNode.getFirstChild().getTextContent() == "true") {
 									exchangePlanContentElement.setAutoRecord(AutoRegistration.ALLOW);
 
@@ -222,7 +218,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 						exchangePlanContent.add(exchangePlanContentElement);
 					}
 
-				} else if (nodeName == "��������������������������") {
+				} else if (nodeName == "") {
 					registrationModule.setExchangePlanName(node.getFirstChild().getTextContent());
 
 				}
@@ -257,21 +253,14 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 	// }
 	//
 	// private EObject getModuleOwner(IXtextDocument doc) {
-	// // ������ � ������������� ������� ����������� ����� ����� �������� ��������
-	// // ������ ����� ����������� �����
-	// // ������������� ������ �������� �������� � �������
 	// return doc.readOnly(new IUnitOfWork<EObject, XtextResource>() {
 	// @Override
 	// public EObject exec(XtextResource res) throws Exception {
-	// // ������ ���������, ����������� ������������� ������ ����������� �����
 	// if (res.getContents() != null && !res.getContents().isEmpty()) {
 	// EObject obj = res.getContents().get(0);
-	// if (obj instanceof Module) // ���������, ��� �������� � ���������� ��������
-	// ������������� ������
+	// if (obj instanceof Module)
 	// {
-	// if (((Module) obj).getModuleType() != ModuleType.OBJECT_MODULE) // ����������
-	// ������ ���������
-	// // ������
+	// if (((Module) obj).getModuleType() != ModuleType.OBJECT_MODULE)
 	// return null;
 	// Module module = (Module) obj;
 	// return EcoreUtil.resolve(module.getOwner(), module);
