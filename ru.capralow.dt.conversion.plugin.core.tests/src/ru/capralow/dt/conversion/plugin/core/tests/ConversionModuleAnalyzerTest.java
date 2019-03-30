@@ -415,7 +415,6 @@ public class ConversionModuleAnalyzerTest {
 				report2.toString().replace(", ", System.lineSeparator()).replace("[", "").replace("]", ""));
 	}
 
-	@Test
 	public void testGetModuleText() {
 		String projectName = "ЗУПКОРП-3_1_9";
 		String moduleName = "МенеджерОбменаЧерезУниверсальныйФормат";
