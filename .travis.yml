@@ -10,7 +10,7 @@ addons:
 jdk:
   - oraclejdk8
 
-script: mvn clean verify -f build/pom.xml -s build/settings.xml org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -f build/pom.xml -s build/settings.xml
+script: mvn clean verify -f build/pom.xml -s build/settings.xml org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 cache:
   directories:
