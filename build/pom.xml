@@ -11,15 +11,14 @@
 
 	<name>Конвертация данных для EDT</name>
 
-	<prerequisites>
-		<maven>3.6.0</maven>
-	</prerequisites>
-
 	<properties>
 		<name>Конвертация данных для EDT</name>
+		
 		<tycho.version>1.3.0</tycho.version>
 		<tycho.extras.version>1.3.0</tycho.extras.version>
+		
 		<xtend.maven.plugin.version>2.17.0</xtend.maven.plugin.version>
+		<enforcer.maven.plugin.version>3.0.0-M2</enforcer.maven.plugin.version>
 		<clean.maven.plugin.version>3.1.0</clean.maven.plugin.version>
 		<jacoco.maven.plugin.version>0.8.3</jacoco.maven.plugin.version>
 		
@@ -30,10 +29,9 @@
 	</properties>
 
 	<modules>
-		<module>../ru.capralow.dt.conversion.plugin.core.tests</module>
-
 		<module>../target</module>
 		<module>../ru.capralow.dt.conversion.plugin.core</module>
+		<module>../ru.capralow.dt.conversion.plugin.core.tests</module>
 		<module>../ru.capralow.dt.conversion.plugin.ui</module>
 		<module>../ru.capralow.dt.conversion.plugin.feature</module>
 		<module>../repository</module>
@@ -47,6 +45,7 @@
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
@@ -79,6 +78,7 @@
 					</environments>
 				</configuration>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-source-plugin</artifactId>
@@ -96,6 +96,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${enforcer.maven.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>3.0</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -132,6 +154,7 @@
 						<verbose>true</verbose>
 					</configuration>
 				</plugin>
+				
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-surefire-plugin</artifactId>
@@ -140,6 +163,7 @@
 						<skip>${tycho.surefire.skipPluginTest}</skip>
 					</configuration>
 				</plugin>
+				
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-packaging-plugin</artifactId>
@@ -151,11 +175,13 @@
 						</archive>
 					</configuration>
 				</plugin>
+				
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-p2-plugin</artifactId>
 					<version>${tycho.version}</version>
 				</plugin>
+				
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-p2-repository-plugin</artifactId>
@@ -164,6 +190,7 @@
 						<repositoryName>Конвертация данных ${qualifier}</repositoryName>
 					</configuration>
 				</plugin>
+				
 				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
 					<artifactId>tycho-source-feature-plugin</artifactId>
@@ -175,6 +202,7 @@
 						</archive>
 					</configuration>
 				</plugin>
+				
 				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
 					<artifactId>tycho-eclipserun-plugin</artifactId>
