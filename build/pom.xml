@@ -113,6 +113,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -188,10 +189,21 @@
 							</goals>
 							<!-- optionally you can configure a different target folder -->
 							<configuration>
-								<outputDirectory>${basedir}/xtend-gen</outputDirectory>
+								<outputDirectory>${basedir}/src-gen</outputDirectory>
 							</configuration>
 						</execution>
 					</executions>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.9</version>
+					<configuration>
+						<excludes>
+							<exclude>*MdClassPackageImpl</exclude>
+						</excludes>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
