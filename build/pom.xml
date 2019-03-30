@@ -26,6 +26,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<qualifier>${maven.build.timestamp}</qualifier>
+		
+		<sonar.exclusions>**/src-gen/**/*</sonar.exclusions>
 	</properties>
 
 	<modules>
