@@ -1,5 +1,7 @@
 language: java
 
+sudo: false
+
 addons:
   sonarcloud:
     organization: "doublesunrus-github"
