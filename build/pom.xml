@@ -23,6 +23,7 @@
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<qualifier>${maven.build.timestamp}</qualifier>
 		
+		<sonar.projectKey>ru.capralow.dt.conversion</sonar.projectKey>
 		<sonar.exclusions>**/src-gen/**/*</sonar.exclusions>
 	</properties>
 
