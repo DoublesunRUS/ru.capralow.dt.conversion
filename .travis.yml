@@ -12,7 +12,7 @@ jdk:
 
 script: 
 - mvn clean test verify -f build/pom.xml -s build/settings.xml 
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -f build/pom.xml -s build/settings.xml
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -f build/pom.xml -s build/settings.xml -Dsonar.projectKey=DoublesunRUS_ru.capralow.dt.conversion
 
 cache:
   directories:
