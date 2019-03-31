@@ -15,10 +15,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
@@ -33,6 +29,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.xbase.lib.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
@@ -75,7 +73,7 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProjects;
 import ru.capralow.dt.conversion.plugin.core.ep.model.epFactory;
 
 public class ExchangeProjectsAnalyzer {
-	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeProjectsAnalyzer.class);
 
 	private static IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 			.getModuleExtensionService();
@@ -121,7 +119,7 @@ public class ExchangeProjectsAnalyzer {
 			return exchangeProject;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось загрузить вторичные данные для ExchangeProject. Перезапустите сборку проекта.", e);
 
 		}
 
@@ -138,7 +136,7 @@ public class ExchangeProjectsAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось сохранить вторичные данные для ExchangeProject. Перезапустите сборку проекта.", e);
 
 		}
 	}
@@ -303,8 +301,8 @@ public class ExchangeProjectsAnalyzer {
 			}
 
 			if (xdtoPackage == null) {
-				ILog pluginLog = Platform.getLog(Platform.getBundle(PLUGIN_ID));
-				pluginLog.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден Пакет XDTO: " + namespace));
+				String msg = String.format("Не найден Пакет XDTO: \"%1$s\"", namespace);
+				LOGGER.warn(msg);
 
 				continue;
 			}
@@ -426,7 +424,7 @@ public class ExchangeProjectsAnalyzer {
 			IProject mainProject, CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 		if (mdMethod.getFormalParams().isEmpty())
-			throw new RuntimeException("Список параметров у метода пустой: " + mdMethod.getName());
+			throw new NullPointerException("Список параметров у метода пустой: " + mdMethod.getName());
 
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
 

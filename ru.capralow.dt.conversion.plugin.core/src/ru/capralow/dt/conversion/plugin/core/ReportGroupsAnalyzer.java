@@ -8,10 +8,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 
 public class ReportGroupsAnalyzer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReportGroupsAnalyzer.class);
 
 	private ReportGroupsAnalyzer() {
 		throw new IllegalStateException("Вспомогательный класс");
@@ -35,7 +38,8 @@ public class ReportGroupsAnalyzer {
 			return (ReportGroups) xmiResource.getContents().get(0);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось загрузить вторичные данные для ReportGroups. Удалите группы и настройте заново.",
+					e);
 
 		}
 
@@ -52,7 +56,8 @@ public class ReportGroupsAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось сохранить вторичные данные для ReportGroups. Удалите группы и настройте заново.",
+					e);
 
 		}
 

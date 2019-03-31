@@ -63,6 +63,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com._1c.g5.ides.ui.texteditor.xtext.embedded.EmbeddedEditorBuffer;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
@@ -96,6 +98,8 @@ import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionModuleEditor.class);
+
 	public static final String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
 
 	private static final String COLUMNNAME_MDOBJECT = "Объект конфигурации";
@@ -831,15 +835,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			public void widgetSelected(SelectionEvent event) {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
 						((MenuItem) event.getSource()).getParent().getShell(), conversionModule, moduleURI, editable);
-				if (conversionModuleDialog.open() == Window.OK) {
-					try {
-						updateModule();
+				if (conversionModuleDialog.open() == Window.OK)
+					updateModule();
 
-					} catch (CoreException e) {
-						e.printStackTrace();
-
-					}
-				}
 			}
 
 			public void widgetDefaultSelected(SelectionEvent event) {
@@ -871,17 +869,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
 						event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
-				if (dataRuleDialog.open() == Window.OK) {
-					try {
-						updateModule();
+				if (dataRuleDialog.open() == Window.OK)
+					updateModule();
 
-					} catch (CoreException e) {
-						e.printStackTrace();
-
-					}
-				}
 			}
-
 		});
 
 		viewerSendingObjectRules.addDoubleClickListener(event -> {
@@ -898,15 +889,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
 						objectRule, conversionModule, moduleURI, editable);
-				if (objectRuleDialog.open() == Window.OK) {
-					try {
-						updateModule();
-
-					} catch (CoreException e) {
-						e.printStackTrace();
-
-					}
-				}
+				if (objectRuleDialog.open() == Window.OK)
+					updateModule();
 			}
 		});
 
@@ -923,13 +907,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
 						event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
-				if (dataRuleDialog.open() == Window.OK) {
-					try {
-						updateModule();
-					} catch (CoreException e) {
-						e.printStackTrace();
-					}
-				}
+				if (dataRuleDialog.open() == Window.OK)
+					updateModule();
 			}
 		});
 
@@ -947,13 +926,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
 						objectRule, conversionModule, moduleURI, editable);
-				if (objectRuleDialog.open() == Window.OK) {
-					try {
-						updateModule();
-					} catch (CoreException e) {
-						e.printStackTrace();
-					}
-				}
+				if (objectRuleDialog.open() == Window.OK)
+					updateModule();
 			}
 		});
 
@@ -971,15 +945,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
 						predefined, editable);
-				if (predefinedDialog.open() == Window.OK) {
-					try {
-						updateModule();
-
-					} catch (CoreException e) {
-						e.printStackTrace();
-
-					}
-				}
+				if (predefinedDialog.open() == Window.OK)
+					updateModule();
 			}
 		});
 
@@ -996,15 +963,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
 						algorithm, conversionModule, moduleURI, editable);
-				if (algorithmDialog.open() == Window.OK) {
-					try {
-						updateModule();
-
-					} catch (CoreException e) {
-						e.printStackTrace();
-
-					}
-				}
+				if (algorithmDialog.open() == Window.OK)
+					updateModule();
 			}
 		});
 	}
@@ -1122,27 +1082,21 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		return embeddedEditor;
 	}
 
-	private void updateModule() throws CoreException {
+	private void updateModule() {
 		String newModule = ConversionModuleAnalyzer.getModuleText(conversionModule, "", null);
 
 		XtextEditor embeddedEditor = getModuleEditor();
+		TextEdit change = new ReplaceEdit(0, embeddedEditor.getDocument().getLength(), newModule);
+		BufferChange bufferChange = new BufferChange(change);
 
-		EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument());
-		try {
+		try (EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument())) {
 			NonExpiringSnapshot snapshot = new NonExpiringSnapshot(buffer);
-			TextEdit change = new ReplaceEdit(0, embeddedEditor.getDocument().getLength(), newModule);
-			BufferChange bufferChange = new BufferChange(change);
 			bufferChange.setBase(snapshot);
-			try {
-				buffer.applyChange(bufferChange, null);
-
-			} catch (CoreException e) {
-				e.printStackTrace();
-
-			}
-
-		} finally {
+			buffer.applyChange(bufferChange, null);
 			buffer.release();
+
+		} catch (CoreException e) {
+			LOGGER.error("Не удалось обновить модуль конвертации.", e);
 
 		}
 	}
@@ -1257,7 +1211,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
 
 				} catch (PartInitException e) {
-					e.printStackTrace();
+					LOGGER.error("Не удалось создать описание формата.", e);
 
 				}
 			}

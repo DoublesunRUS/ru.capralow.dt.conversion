@@ -17,6 +17,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.part.FileEditorInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -28,12 +30,15 @@ import com._1c.g5.v8.dt.md.ui.editor.base.DtGranularEditorPage;
 import com._1c.g5.v8.dt.ui.editor.input.IDtEditorInput;
 import com.google.inject.Inject;
 
+import ru.capralow.dt.conversion.plugin.core.ConversionUtils;
 import ru.capralow.dt.conversion.plugin.core.rm.model.AutoRegistration;
 import ru.capralow.dt.conversion.plugin.core.rm.model.ExchangePlanContent;
 import ru.capralow.dt.conversion.plugin.core.rm.model.RegistrationModule;
 import ru.capralow.dt.conversion.plugin.core.rm.model.rmFactory;
 
 public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionUtils.class);
+
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.RegistrationModuleEditor";
 
 	// @Inject
@@ -221,7 +226,8 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 			// fileInput.close();
 
 		} catch (CoreException | ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
+			LOGGER.error("При чтении правил регистрации из макета что-то пошло не так", e);
+
 		}
 	}
 

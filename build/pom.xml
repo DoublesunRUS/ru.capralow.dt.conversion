@@ -30,6 +30,19 @@
 		<sonar.exclusions>**/src-gen/**/*</sonar.exclusions>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			 <artifactId>slf4j-api</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+	</dependencies>
+
 	<modules>
 		<module>../target</module>
 		<module>../ru.capralow.dt.conversion.plugin.core</module>

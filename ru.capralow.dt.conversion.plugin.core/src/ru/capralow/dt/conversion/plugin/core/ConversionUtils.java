@@ -9,23 +9,21 @@ import java.util.Iterator;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 
 public final class ConversionUtils {
-	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionUtils.class);
 
 	private ConversionUtils() {
 		throw new IllegalStateException("Вспомогательный класс");
@@ -87,15 +85,16 @@ public final class ConversionUtils {
 			object = (MdObject) objectItr.next().getEObjectOrProxy();
 
 		if (object == null) {
-			ILog pluginLog = Platform.getLog(Platform.getBundle(PLUGIN_ID));
-			pluginLog.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + objectFullName));
+			String msg = String.format("Не найден объект конфигурации: \"%1$s\"", objectFullName);
+			LOGGER.warn(msg);
 		}
 
 		return object;
 	}
 
 	public static URI getResourceURIforPlugin(String projectName, String fileName, AbstractUIPlugin plugin) {
-		URI uri = URI.createPlatformResourceURI(projectName + File.separator + fileName + ".xmi", false);
+		String projectFileName = projectName + File.separator + fileName + ".xmi";
+		URI uri = URI.createPlatformResourceURI(projectFileName, false);
 
 		try {
 			File file = ConversionUtils.getResourceFile(uri, plugin);
@@ -103,7 +102,8 @@ public final class ConversionUtils {
 			return URI.createFileURI(file.getPath());
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			String msg = String.format("Не найден файл по следующему платформенному пути: \"%1$s\"", projectFileName);
+			LOGGER.error(msg, e);
 
 		}
 
@@ -149,7 +149,8 @@ public final class ConversionUtils {
 					Files.delete(file.toPath());
 
 				} catch (IOException e) {
-					e.printStackTrace();
+					String msg = String.format("Не получилось удалить файл: \"%1$s\"", file.toPath());
+					LOGGER.error(msg, e);
 
 				}
 			} else if (!file.exists()) {

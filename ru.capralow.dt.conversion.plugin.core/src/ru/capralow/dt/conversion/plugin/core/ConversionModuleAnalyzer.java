@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
@@ -86,6 +88,8 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
 public class ConversionModuleAnalyzer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionModuleAnalyzer.class);
+
 	private static final String ADD_DATARULE = "ДобавитьПОД_";
 	private static final String ADD_OBJECTRULE = "ДобавитьПКО_";
 	private static final String PARAMS_FOR_OBJECTRULE = "(ПравилаКонвертации)";
@@ -141,7 +145,8 @@ public class ConversionModuleAnalyzer {
 			return conversionModule;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось загрузить вторичные данные для ConversionModule. Перезапустите сборку проекта.",
+					e);
 
 		}
 
@@ -158,7 +163,8 @@ public class ConversionModuleAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось сохранить вторичные данные для ConversionModule. Перезапустите сборку проекта.",
+					e);
 
 		}
 

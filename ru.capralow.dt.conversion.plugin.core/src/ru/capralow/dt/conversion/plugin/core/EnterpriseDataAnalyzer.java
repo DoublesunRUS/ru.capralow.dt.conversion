@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -17,6 +13,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com._1c.g5.v8.dt.mcore.QName;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
@@ -40,7 +38,7 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class EnterpriseDataAnalyzer {
-	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
+	private static final Logger LOGGER = LoggerFactory.getLogger(EnterpriseDataAnalyzer.class);
 
 	private static final String TABULAR_ID = "Строка";
 
@@ -85,7 +83,7 @@ public class EnterpriseDataAnalyzer {
 			return enterpriseDataPackage;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось загрузить вторичные данные для EnterpriseData. Перезапустите сборку проекта.", e);
 
 		}
 
@@ -102,7 +100,7 @@ public class EnterpriseDataAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Не удалось сохранить вторичные данные для EnterpriseData. Перезапустите сборку проекта.", e);
 
 		}
 	}
@@ -156,9 +154,7 @@ public class EnterpriseDataAnalyzer {
 							"У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип", objectName,
 							version);
 
-					ILog pluginLog = Platform.getLog(Platform.getBundle(PLUGIN_ID));
-					pluginLog.log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
-
+					LOGGER.warn(msg);
 				}
 
 			} else {
