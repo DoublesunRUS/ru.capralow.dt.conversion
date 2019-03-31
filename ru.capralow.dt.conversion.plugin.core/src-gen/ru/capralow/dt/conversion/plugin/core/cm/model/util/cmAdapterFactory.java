@@ -72,6 +72,10 @@ public class cmAdapterFactory extends AdapterFactoryImpl {
 				return createConversionModuleAdapter();
 			}
 			@Override
+			public Adapter caseCmObject(CmObject object) {
+				return createCmObjectAdapter();
+			}
+			@Override
 			public Adapter caseCmDataRule(CmDataRule object) {
 				return createCmDataRuleAdapter();
 			}
@@ -134,6 +138,20 @@ public class cmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConversionModuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject <em>Cm Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject
+	 * @generated
+	 */
+	public Adapter createCmObjectAdapter() {
 		return null;
 	}
 

@@ -32,6 +32,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmGroup;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmObject;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
@@ -55,6 +56,13 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	private EClass conversionModuleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cmObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -513,6 +521,78 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCmObject() {
+		return cmObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmObject_Name() {
+		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCmObject_ConfigurationObject() {
+		return (EReference)cmObjectEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmObject_ConfigurationObjectName() {
+		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmObject_ConfigurationObjectFormattedName() {
+		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmObject_FormatObject() {
+		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmObject_ForSending() {
+		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmObject_ForReceiving() {
+		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCmDataRule() {
 		return cmDataRuleEClass;
 	}
@@ -522,7 +602,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmDataRule_Name() {
+	public EAttribute getCmDataRule_IsDisabled() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -531,7 +611,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmDataRule_IsDisabled() {
+	public EAttribute getCmDataRule_SelectionVariant() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -540,71 +620,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCmDataRule_ConfigurationObject() {
-		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmDataRule_ConfigurationObjectName() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmDataRule_ConfigurationObjectFormattedName() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmDataRule_FormatObject() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmDataRule_ForSending() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmDataRule_ForReceiving() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmDataRule_SelectionVariant() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getCmDataRule_OnProcessingEvent() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -613,7 +630,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmDataRule_OnProcessingEventPrefix() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -622,7 +639,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmDataRule_OnProcessingEventSuffix() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(11);
+		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -631,7 +648,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmDataRule_DataSelectionEvent() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(12);
+		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -640,7 +657,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmDataRule_DataSelectionEventPrefix() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(13);
+		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -649,7 +666,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmDataRule_DataSelectionEventSuffix() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(14);
+		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -658,7 +675,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmDataRule_IsDataCleaning() {
-		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(15);
+		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -667,7 +684,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EReference getCmDataRule_ObjectRules() {
-		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(16);
+		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -676,7 +693,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EReference getCmDataRule_Subsystems() {
-		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(17);
+		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -685,7 +702,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EReference getCmDataRule_Group() {
-		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(18);
+		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -765,7 +782,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_Name() {
+	public EAttribute getCmObjectRule_IsDisabled() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -774,7 +791,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_IsDisabled() {
+	public EAttribute getCmObjectRule_ForGroup() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -783,7 +800,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCmObjectRule_ConfigurationObject() {
+	public EReference getCmObjectRule_AttributeRules() {
 		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -792,7 +809,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_ConfigurationObjectName() {
+	public EAttribute getCmObjectRule_OnSendingEvent() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -801,7 +818,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_ConfigurationObjectFormattedName() {
+	public EAttribute getCmObjectRule_OnSendingEventPrefix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -810,7 +827,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_FormatObject() {
+	public EAttribute getCmObjectRule_OnSendingEventSuffix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -819,7 +836,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_ForSending() {
+	public EAttribute getCmObjectRule_BeforeReceivingEvent() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -828,7 +845,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_ForReceiving() {
+	public EAttribute getCmObjectRule_BeforeReceivingEventPrefix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -837,7 +854,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmObjectRule_ForGroup() {
+	public EAttribute getCmObjectRule_BeforeReceivingEventSuffix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -846,71 +863,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCmObjectRule_AttributeRules() {
-		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(9);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmObjectRule_OnSendingEvent() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(10);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmObjectRule_OnSendingEventPrefix() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(11);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmObjectRule_OnSendingEventSuffix() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(12);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmObjectRule_BeforeReceivingEvent() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(13);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmObjectRule_BeforeReceivingEventPrefix() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(14);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmObjectRule_BeforeReceivingEventSuffix() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(15);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getCmObjectRule_OnReceivingEvent() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(16);
+		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -919,7 +873,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmObjectRule_OnReceivingEventPrefix() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(17);
+		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -928,7 +882,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmObjectRule_OnReceivingEventSuffix() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(18);
+		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -937,7 +891,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EReference getCmObjectRule_AfterReceivingAlgorithm() {
-		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(19);
+		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -946,7 +900,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmObjectRule_IdentificationVariant() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(20);
+		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -955,7 +909,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EAttribute getCmObjectRule_IdentificationFields() {
-		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(21);
+		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(14);
 	}
 
 	/**
@@ -964,7 +918,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	public EReference getCmObjectRule_Subsystems() {
-		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(22);
+		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(15);
 	}
 
 	/**
@@ -1125,71 +1079,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmPredefined_Name() {
-		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCmPredefined_ConfigurationObject() {
-		return (EReference)cmPredefinedEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmPredefined_ConfigurationObjectName() {
-		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmPredefined_ConfigurationObjectFormattedName() {
-		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmPredefined_FormatObject() {
-		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmPredefined_ForSending() {
-		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCmPredefined_ForReceiving() {
-		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getCmPredefined_PredefinedMaps() {
-		return (EReference)cmPredefinedEClass.getEStructuralFeatures().get(7);
+		return (EReference)cmPredefinedEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1497,15 +1388,17 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_ALGORITHM__STRING);
 		createEOperation(conversionModuleEClass, CONVERSION_MODULE___GET_ALL_ALGORITHMS_TEXT__STRING);
 
+		cmObjectEClass = createEClass(CM_OBJECT);
+		createEAttribute(cmObjectEClass, CM_OBJECT__NAME);
+		createEReference(cmObjectEClass, CM_OBJECT__CONFIGURATION_OBJECT);
+		createEAttribute(cmObjectEClass, CM_OBJECT__CONFIGURATION_OBJECT_NAME);
+		createEAttribute(cmObjectEClass, CM_OBJECT__CONFIGURATION_OBJECT_FORMATTED_NAME);
+		createEAttribute(cmObjectEClass, CM_OBJECT__FORMAT_OBJECT);
+		createEAttribute(cmObjectEClass, CM_OBJECT__FOR_SENDING);
+		createEAttribute(cmObjectEClass, CM_OBJECT__FOR_RECEIVING);
+
 		cmDataRuleEClass = createEClass(CM_DATA_RULE);
-		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__NAME);
 		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__IS_DISABLED);
-		createEReference(cmDataRuleEClass, CM_DATA_RULE__CONFIGURATION_OBJECT);
-		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__CONFIGURATION_OBJECT_NAME);
-		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME);
-		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__FORMAT_OBJECT);
-		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__FOR_SENDING);
-		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__FOR_RECEIVING);
 		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__SELECTION_VARIANT);
 		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__ON_PROCESSING_EVENT);
 		createEAttribute(cmDataRuleEClass, CM_DATA_RULE__ON_PROCESSING_EVENT_PREFIX);
@@ -1526,14 +1419,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		createEOperation(cmDataRuleEClass, CM_DATA_RULE___TO_STRING);
 
 		cmObjectRuleEClass = createEClass(CM_OBJECT_RULE);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__NAME);
 		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__IS_DISABLED);
-		createEReference(cmObjectRuleEClass, CM_OBJECT_RULE__CONFIGURATION_OBJECT);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__CONFIGURATION_OBJECT_NAME);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__FORMAT_OBJECT);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__FOR_SENDING);
-		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__FOR_RECEIVING);
 		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__FOR_GROUP);
 		createEReference(cmObjectRuleEClass, CM_OBJECT_RULE__ATTRIBUTE_RULES);
 		createEAttribute(cmObjectRuleEClass, CM_OBJECT_RULE__ON_SENDING_EVENT);
@@ -1568,13 +1454,6 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		createEOperation(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE___GET_FORMAT_ATTRIBUTE_FULL_NAME);
 
 		cmPredefinedEClass = createEClass(CM_PREDEFINED);
-		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__NAME);
-		createEReference(cmPredefinedEClass, CM_PREDEFINED__CONFIGURATION_OBJECT);
-		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__CONFIGURATION_OBJECT_NAME);
-		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__CONFIGURATION_OBJECT_FORMATTED_NAME);
-		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__FORMAT_OBJECT);
-		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__FOR_SENDING);
-		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__FOR_RECEIVING);
 		createEReference(cmPredefinedEClass, CM_PREDEFINED__PREDEFINED_MAPS);
 		createEOperation(cmPredefinedEClass, CM_PREDEFINED___PREDEFINED_MAP_EXISTS__STRING_STRING);
 		createEOperation(cmPredefinedEClass, CM_PREDEFINED___TO_STRING);
@@ -1643,6 +1522,9 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		cmDataRuleEClass.getESuperTypes().add(this.getCmObject());
+		cmObjectRuleEClass.getESuperTypes().add(this.getCmObject());
+		cmPredefinedEClass.getESuperTypes().add(this.getCmObject());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(conversionModuleEClass, ConversionModule.class, "ConversionModule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
@@ -1704,15 +1586,17 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		op = initEOperation(getConversionModule__GetAllAlgorithmsText__String(), theEcorePackage.getEString(), "getAllAlgorithmsText", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 		addEParameter(op, theEcorePackage.getEString(), "algorithmName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
+		initEClass(cmObjectEClass, CmObject.class, "CmObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(getCmObject_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference(getCmObject_ConfigurationObject(), theMdClassPackage.getMdObject(), null, "configurationObject", null, 0, 1, CmObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getCmObject_ConfigurationObjectName(), theEcorePackage.getEString(), "configurationObjectName", "", 0, 1, CmObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmObject_ConfigurationObjectFormattedName(), theEcorePackage.getEString(), "configurationObjectFormattedName", null, 0, 1, CmObject.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getCmObject_FormatObject(), theEcorePackage.getEString(), "formatObject", "", 0, 1, CmObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmObject_ForSending(), theEcorePackage.getEBooleanObject(), "forSending", "false", 0, 1, CmObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmObject_ForReceiving(), theEcorePackage.getEBooleanObject(), "forReceiving", "false", 0, 1, CmObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
 		initEClass(cmDataRuleEClass, CmDataRule.class, "CmDataRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getCmDataRule_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmDataRule_IsDisabled(), theEcorePackage.getEBooleanObject(), "isDisabled", "false", 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEReference(getCmDataRule_ConfigurationObject(), theMdClassPackage.getMdObject(), null, "configurationObject", null, 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmDataRule_ConfigurationObjectName(), theEcorePackage.getEString(), "configurationObjectName", "", 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmDataRule_ConfigurationObjectFormattedName(), theEcorePackage.getEString(), "configurationObjectFormattedName", null, 0, 1, CmDataRule.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmDataRule_FormatObject(), theEcorePackage.getEString(), "formatObject", "", 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmDataRule_ForSending(), theEcorePackage.getEBooleanObject(), "forSending", "false", 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmDataRule_ForReceiving(), theEcorePackage.getEBooleanObject(), "forReceiving", "false", 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmDataRule_SelectionVariant(), this.getCmSelectionVariant(), "selectionVariant", null, 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getCmDataRule_OnProcessingEvent(), theEcorePackage.getEString(), "onProcessingEvent", "", 0, 1, CmDataRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmDataRule_OnProcessingEventPrefix(), theEcorePackage.getEString(), "onProcessingEventPrefix", null, 0, 1, CmDataRule.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -1741,14 +1625,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		initEOperation(getCmDataRule__ToString(), theEcorePackage.getEString(), "toString", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmObjectRuleEClass, CmObjectRule.class, "CmObjectRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getCmObjectRule_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmObjectRule_IsDisabled(), theEcorePackage.getEBooleanObject(), "isDisabled", "false", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEReference(getCmObjectRule_ConfigurationObject(), theMdClassPackage.getMdObject(), null, "configurationObject", null, 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmObjectRule_ConfigurationObjectName(), theEcorePackage.getEString(), "configurationObjectName", "", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmObjectRule_ConfigurationObjectFormattedName(), theEcorePackage.getEString(), "configurationObjectFormattedName", null, 0, 1, CmObjectRule.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmObjectRule_FormatObject(), theEcorePackage.getEString(), "formatObject", "", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmObjectRule_ForSending(), theEcorePackage.getEBooleanObject(), "forSending", "false", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmObjectRule_ForReceiving(), theEcorePackage.getEBooleanObject(), "forReceiving", "false", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmObjectRule_ForGroup(), theEcorePackage.getEBooleanObject(), "forGroup", "false", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference(getCmObjectRule_AttributeRules(), this.getCmAttributeRule(), null, "attributeRules", null, 0, -1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getCmObjectRule_OnSendingEvent(), theEcorePackage.getEString(), "onSendingEvent", "", 0, 1, CmObjectRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1793,13 +1670,6 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		initEOperation(getCmAttributeRule__GetFormatAttributeFullName(), theEcorePackage.getEString(), "getFormatAttributeFullName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmPredefinedEClass, CmPredefined.class, "CmPredefined", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getCmPredefined_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEReference(getCmPredefined_ConfigurationObject(), theMdClassPackage.getMdObject(), null, "configurationObject", null, 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmPredefined_ConfigurationObjectName(), theEcorePackage.getEString(), "configurationObjectName", "", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmPredefined_ConfigurationObjectFormattedName(), theEcorePackage.getEString(), "configurationObjectFormattedName", null, 0, 1, CmPredefined.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmPredefined_FormatObject(), theEcorePackage.getEString(), "formatObject", "", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmPredefined_ForSending(), theEcorePackage.getEBooleanObject(), "forSending", "false", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute(getCmPredefined_ForReceiving(), theEcorePackage.getEBooleanObject(), "forReceiving", "false", 0, 1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference(getCmPredefined_PredefinedMaps(), this.getCmPredefinedMap(), null, "predefinedMaps", null, 0, -1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		op = initEOperation(getCmPredefined__PredefinedMapExists__String_String(), theEcorePackage.getEBooleanObject(), "predefinedMapExists", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$

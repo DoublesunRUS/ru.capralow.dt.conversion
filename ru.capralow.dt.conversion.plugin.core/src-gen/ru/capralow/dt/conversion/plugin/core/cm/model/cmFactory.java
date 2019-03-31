@@ -31,6 +31,15 @@ public interface cmFactory extends EFactory {
 	ConversionModule createConversionModule();
 
 	/**
+	 * Returns a new object of class '<em>Cm Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cm Object</em>'.
+	 * @generated
+	 */
+	CmObject createCmObject();
+
+	/**
 	 * Returns a new object of class '<em>Cm Data Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

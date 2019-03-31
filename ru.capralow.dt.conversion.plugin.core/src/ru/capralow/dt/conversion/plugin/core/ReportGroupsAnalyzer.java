@@ -8,13 +8,16 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 
 public class ReportGroupsAnalyzer {
 
-	public static URI getResourceURIforPlugin(String moduleName, IProject project, AbstractUIPlugin plugin) {
+	private ReportGroupsAnalyzer() {
+		throw new IllegalStateException("Вспомогательный класс");
+	}
+
+	public static URI getResourceURIforPlugin(String moduleName, IProject project) {
 		return URI.createFileURI(project.getLocation() + File.separator + "exchangeDataReport-" + moduleName + ".xmi");
 	}
 
@@ -29,9 +32,7 @@ public class ReportGroupsAnalyzer {
 			// TODO: Сделать пересборку вторичных данных если файла нет
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
-			ReportGroups reportGroups = (ReportGroups) xmiResource.getContents().get(0);
-
-			return reportGroups;
+			return (ReportGroups) xmiResource.getContents().get(0);
 
 		} catch (IOException e) {
 			e.printStackTrace();

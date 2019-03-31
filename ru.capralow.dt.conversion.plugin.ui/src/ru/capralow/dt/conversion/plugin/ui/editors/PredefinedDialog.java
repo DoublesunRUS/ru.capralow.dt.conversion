@@ -29,10 +29,6 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
 public class PredefinedDialog extends Dialog {
 
 	private CmPredefined predefined;
-	private Text txtpredefinedName;
-	private Text txtConfigurationObjectName, txtFormatObjectName;
-
-	private TableViewer viewerPredefinedMap;
 
 	private Boolean editable;
 
@@ -65,10 +61,10 @@ public class PredefinedDialog extends Dialog {
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
 
 		Composite compositeMain = new Composite(container, 0);
-		GridData gd_compositeMain = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		gd_compositeMain.heightHint = 597;
-		gd_compositeMain.widthHint = 1281;
-		compositeMain.setLayoutData(gd_compositeMain);
+		GridData gdCompositeMain = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
+		gdCompositeMain.heightHint = 597;
+		gdCompositeMain.widthHint = 1281;
+		compositeMain.setLayoutData(gdCompositeMain);
 		compositeMain.setLayout(new GridLayout(2, false));
 
 		// 1.1
@@ -77,7 +73,7 @@ public class PredefinedDialog extends Dialog {
 		lblRuleName.setText("Идентификатор правила");
 
 		// 1.2
-		txtpredefinedName = new Text(compositeMain, SWT.BORDER);
+		Text txtpredefinedName = new Text(compositeMain, SWT.BORDER);
 		txtpredefinedName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtpredefinedName.setText("<Идентификатор правила>");
 		txtpredefinedName.setEditable(editable);
@@ -88,7 +84,7 @@ public class PredefinedDialog extends Dialog {
 		lblConfigurationObjectName.setText("Объект конфигурации");
 
 		// 2.2
-		txtConfigurationObjectName = new Text(compositeMain, SWT.BORDER);
+		Text txtConfigurationObjectName = new Text(compositeMain, SWT.BORDER);
 		txtConfigurationObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtConfigurationObjectName.setText("<Объект конфигурации>");
 		txtConfigurationObjectName.setEditable(editable);
@@ -99,7 +95,7 @@ public class PredefinedDialog extends Dialog {
 		lblFormatObjectName.setText("Объект формата");
 
 		// 3.2
-		txtFormatObjectName = new Text(compositeMain, SWT.BORDER);
+		Text txtFormatObjectName = new Text(compositeMain, SWT.BORDER);
 		txtFormatObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtFormatObjectName.setText("<Объект формата>");
 		txtFormatObjectName.setEditable(editable);
@@ -130,14 +126,15 @@ public class PredefinedDialog extends Dialog {
 
 		// 5.1-2
 		Composite compositePredefinedMap = new Composite(compositeMain, SWT.BORDER);
-		GridData gd_compositePredefinedMap = new GridData(SWT.LEFT, SWT.CENTER, true, true, 2, 1);
-		gd_compositePredefinedMap.widthHint = 1272;
-		gd_compositePredefinedMap.heightHint = 485;
-		compositePredefinedMap.setLayoutData(gd_compositePredefinedMap);
+		GridData gdCompositePredefinedMap = new GridData(SWT.LEFT, SWT.CENTER, true, true, 2, 1);
+		gdCompositePredefinedMap.widthHint = 1272;
+		gdCompositePredefinedMap.heightHint = 485;
+		compositePredefinedMap.setLayoutData(gdCompositePredefinedMap);
 		TableColumnLayout tclPredefinedMap = new TableColumnLayout();
 		compositePredefinedMap.setLayout(tclPredefinedMap);
 
-		viewerPredefinedMap = new TableViewer(compositePredefinedMap, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		TableViewer viewerPredefinedMap = new TableViewer(compositePredefinedMap,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		Table tablePredefinedMap = viewerPredefinedMap.getTable();
 
@@ -200,11 +197,6 @@ public class PredefinedDialog extends Dialog {
 	@Override
 	protected Point getInitialSize() {
 		return new Point(1280, 668);
-	}
-
-	@Override
-	protected void okPressed() {
-		super.okPressed();
 	}
 
 }

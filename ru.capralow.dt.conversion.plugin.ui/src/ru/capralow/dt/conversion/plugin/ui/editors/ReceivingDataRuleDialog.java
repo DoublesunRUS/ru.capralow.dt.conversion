@@ -52,13 +52,8 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 	private ConversionModule conversionModule;
 	private URI moduleURI;
 
-	private Text txtDataRuleName, txtObjectRuleName;
-	private Text txtFormatObjectName;
-
 	private CustomEmbeddedEditor editorOnProcessing;
 	private CustomEmbeddedEditorModelAccess modelAccessOnProcessing;
-
-	private String algorithmsText;
 
 	private Boolean editable;
 
@@ -137,7 +132,7 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 		lblRuleName.setText("Идентификатор правила");
 
 		// 1.2
-		txtDataRuleName = new Text(tabComposite1, SWT.BORDER);
+		Text txtDataRuleName = new Text(tabComposite1, SWT.BORDER);
 		txtDataRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtDataRuleName.setText("<Идентификатор правила>");
 		txtDataRuleName.setEditable(editable);
@@ -174,7 +169,7 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 		lblFormatObjectName.setText("Объект формата");
 
 		// 3.2
-		txtFormatObjectName = new Text(tabComposite1, SWT.BORDER);
+		Text txtFormatObjectName = new Text(tabComposite1, SWT.BORDER);
 		txtFormatObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtFormatObjectName.setText("<Объект формата>");
 		txtFormatObjectName.setEditable(editable);
@@ -209,7 +204,7 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 		lblObjectRuleName.setText("Правило конвертации объекта");
 
 		// 5.2
-		txtObjectRuleName = new Text(tabComposite1, SWT.BORDER);
+		Text txtObjectRuleName = new Text(tabComposite1, SWT.BORDER);
 		txtObjectRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtObjectRuleName.setText("<Правило конвертации объекта>");
 		txtObjectRuleName.setEditable(editable);
@@ -284,12 +279,12 @@ public class ReceivingDataRuleDialog extends Dialog implements IAdaptable {
 		txtObjectRuleName.setVisible(objectRules.size() < 2);
 		table.setVisible(objectRules.size() > 1);
 
-		if (objectRules.size() != 0) {
+		if (!objectRules.isEmpty()) {
 			txtObjectRuleName.setText(objectRules.get(0).getName());
 			viewer.setInput(objectRules);
 		}
 
-		algorithmsText = conversionModule.getAllAlgorithmsText("");
+		String algorithmsText = conversionModule.getAllAlgorithmsText("");
 
 		txtOnProcessing.setText(dataRule.getOnProcessingEventPrefix());
 		getModelAccessOnProcessing().updateEditablePart(dataRule.getOnProcessingEventText());

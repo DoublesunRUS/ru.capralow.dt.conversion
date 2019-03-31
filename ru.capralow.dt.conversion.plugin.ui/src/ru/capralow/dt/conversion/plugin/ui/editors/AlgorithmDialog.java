@@ -38,8 +38,6 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 	private CustomEmbeddedEditor editorAlgorithm;
 	private CustomEmbeddedEditorModelAccess modelAccessAlgorithm;
 
-	private String algorithmsText;
-
 	private Boolean editable;
 
 	/**
@@ -115,7 +113,7 @@ public class AlgorithmDialog extends Dialog implements IAdaptable {
 
 		// Заполнение данными
 
-		algorithmsText = conversionModule.getAllAlgorithmsText(algorithm.getName());
+		String algorithmsText = conversionModule.getAllAlgorithmsText(algorithm.getName());
 
 		txtAlgorithm.setText(algorithm.getPrefix());
 		getModelAccess().updateEditablePart(algorithm.getAlgorithmText());

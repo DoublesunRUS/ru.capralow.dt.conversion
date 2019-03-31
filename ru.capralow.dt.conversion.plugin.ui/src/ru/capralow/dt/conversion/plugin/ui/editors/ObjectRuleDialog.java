@@ -53,19 +53,22 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	private ConversionModule conversionModule;
 	private URI moduleURI;
 
-	private Text txtObjectRuleName;
-	private Text txtConfigurationObjectName, txtFormatObjectName;
-
 	private CTabFolder tabFolder;
-	private TableViewer viewerAttributeRules, viewerIdentificationFields;
 
-	private CTabItem tabItemOnSendingEditor, tabItemBeforeReceivingEditor, tabItemOnReceivingEditor,
-			tabItemAfterReceivingEditor;
-	private CustomEmbeddedEditor editorOnSending, editorBeforeReceiving, editorOnReceiving, editorAfterReceiving;
-	private CustomEmbeddedEditorModelAccess modelAccessOnSending, modelAccessBeforeReceiving, modelAccessOnReceiving,
-			modelAccessAfterReceiving;
+	private CTabItem tabItemOnSendingEditor;
+	private CTabItem tabItemBeforeReceivingEditor;
+	private CTabItem tabItemOnReceivingEditor;
+	private CTabItem tabItemAfterReceivingEditor;
 
-	private String algorithmsText;
+	private CustomEmbeddedEditor editorOnSending;
+	private CustomEmbeddedEditor editorBeforeReceiving;
+	private CustomEmbeddedEditor editorOnReceiving;
+	private CustomEmbeddedEditor editorAfterReceiving;
+
+	private CustomEmbeddedEditorModelAccess modelAccessOnSending;
+	private CustomEmbeddedEditorModelAccess modelAccessBeforeReceiving;
+	private CustomEmbeddedEditorModelAccess modelAccessOnReceiving;
+	private CustomEmbeddedEditorModelAccess modelAccessAfterReceiving;
 
 	private Boolean editable;
 
@@ -124,6 +127,8 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		final String EMPTY_METHOD_NAME = "<Имя и параметры процедуры>";
+
 		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 
@@ -161,7 +166,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		lblRuleName.setText("Идентификатор правила");
 
 		// 1.2
-		txtObjectRuleName = new Text(compositeMain, SWT.BORDER);
+		Text txtObjectRuleName = new Text(compositeMain, SWT.BORDER);
 		txtObjectRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtObjectRuleName.setText("<Идентификатор правила>");
 		txtObjectRuleName.setEditable(editable);
@@ -177,7 +182,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		lblConfigurationObjectName.setText("Объект конфигурации");
 
 		// 2.2
-		txtConfigurationObjectName = new Text(compositeMain, SWT.BORDER);
+		Text txtConfigurationObjectName = new Text(compositeMain, SWT.BORDER);
 		txtConfigurationObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtConfigurationObjectName.setText("<Объект конфигурации>");
 		txtConfigurationObjectName.setEditable(editable);
@@ -191,7 +196,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		lblFormatObjectName.setText("Объект формата");
 
 		// 3.2
-		txtFormatObjectName = new Text(compositeMain, SWT.BORDER);
+		Text txtFormatObjectName = new Text(compositeMain, SWT.BORDER);
 		txtFormatObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtFormatObjectName.setText("<Объект формата>");
 		txtFormatObjectName.setEditable(editable);
@@ -238,7 +243,8 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		TableColumnLayout tclAttributeRules = new TableColumnLayout();
 		compositeAttributeRules.setLayout(tclAttributeRules);
 
-		viewerAttributeRules = new TableViewer(compositeAttributeRules, SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
+		TableViewer viewerAttributeRules = new TableViewer(compositeAttributeRules,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		Table tableAttributeRules = viewerAttributeRules.getTable();
 
@@ -298,7 +304,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		Text txtOnSendingDeclaration = new Text(compositeOnSendingEditor, SWT.BORDER | SWT.READ_ONLY);
 		txtOnSendingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtOnSendingDeclaration.setText("<Имя и параметры процедуры>");
+		txtOnSendingDeclaration.setText(EMPTY_METHOD_NAME);
 
 		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
@@ -322,7 +328,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		Text txtBeforeReceivingDeclaration = new Text(compositeBeforeReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
 		txtBeforeReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtBeforeReceivingDeclaration.setText("<Имя и параметры процедуры>");
+		txtBeforeReceivingDeclaration.setText(EMPTY_METHOD_NAME);
 
 		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
@@ -346,7 +352,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		Text txtOnReceivingDeclaration = new Text(compositeOnReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
 		txtOnReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtOnReceivingDeclaration.setText("<Имя и параметры процедуры>");
+		txtOnReceivingDeclaration.setText(EMPTY_METHOD_NAME);
 
 		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
@@ -370,7 +376,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		Text txtAfterReceivingDeclaration = new Text(compositeAfterReceivingEditor, SWT.BORDER | SWT.READ_ONLY);
 		txtAfterReceivingDeclaration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtAfterReceivingDeclaration.setText("<Имя и параметры процедуры>");
+		txtAfterReceivingDeclaration.setText(EMPTY_METHOD_NAME);
 
 		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
@@ -428,7 +434,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 		compositeIdentificationFields.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
 		compositeIdentificationFields.setLayout(tclIdentificationFields);
 
-		viewerIdentificationFields = new TableViewer(compositeIdentificationFields,
+		TableViewer viewerIdentificationFields = new TableViewer(compositeIdentificationFields,
 				SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL);
 
 		TableViewerColumn tblclmnIdentificationFieldsColumn1 = new TableViewerColumn(viewerIdentificationFields,
@@ -475,6 +481,7 @@ public class ObjectRuleDialog extends Dialog implements IAdaptable {
 
 		viewerAttributeRules.setInput(objectRule.getAttributeRules());
 
+		String algorithmsText = "";
 		if (objectRule.getAfterReceivingAlgorithm() != null)
 			algorithmsText = conversionModule.getAllAlgorithmsText(objectRule.getAfterReceivingAlgorithm().getName());
 		else

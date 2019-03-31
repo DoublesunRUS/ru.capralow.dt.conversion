@@ -10,8 +10,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -43,9 +41,6 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProjects;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionPanelView extends ViewPart {
-	public ConversionPanelView() {
-	}
-
 	@Inject
 	private IV8ProjectManager projectManager;
 
@@ -60,6 +55,10 @@ public class ConversionPanelView extends ViewPart {
 	private IProject[] projects;
 	private HashMap<IProject, Boolean> readyProjects;
 
+	public ConversionPanelView() {
+		// Нечего делать
+	}
+
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		setSite(site);
@@ -69,10 +68,9 @@ public class ConversionPanelView extends ViewPart {
 		servicesOrchestrator = provider.get(IServicesOrchestrator.class);
 
 		projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		readyProjects = new HashMap<IProject, Boolean>();
-		for (IProject project : projects) {
+		readyProjects = new HashMap<>();
+		for (IProject project : projects)
 			readyProjects.put(project, false);
-		}
 
 		for (int i = 0; i < projects.length; i++) {
 			IProject project = projects[i];
@@ -83,52 +81,37 @@ public class ConversionPanelView extends ViewPart {
 				// если нет - ждем, пока UI инициализировать не нужно.
 				// или опционально - инициализироватьк какой-то заглушкой, типа "загрузка
 				// содержания..."
-				servicesOrchestrator.addListener(this.projectContextListener = (context, state) -> {
+				projectContextListener = (context, state) -> {
 					if (context instanceof ProjectContext && ((ProjectContext) context).getProject().equals(project)
 							&& state == ServiceState.STARTED) {
-						Display.getDefault().asyncExec(new Runnable() {
-							public void run() {
-								updateTreeViewer(project);
-							}
-						});
+						Display.getDefault().asyncExec(() -> updateTreeViewer(project));
 
 					}
 					// где-то нужно не забыть удалить этот listener в зависимости от жизненного
 					// цикла вашего класса
-				});
+				};
+				servicesOrchestrator.addListener(projectContextListener);
 			} else {
 				// если инициализирован - сразу инициализируем UI
-				Display.getDefault().asyncExec(new Runnable() {
-					public void run() {
-						updateTreeViewer(project);
-					}
-				});
+				Display.getDefault().asyncExec(() -> updateTreeViewer(project));
 			}
 		}
 
-		objectsListener = new IResourceChangeListener() {
-			@Override
-			public void resourceChanged(IResourceChangeEvent event) {
-				IResourceDelta eventDelta = event.getDelta();
+		objectsListener = event -> {
+			IResourceDelta eventDelta = event.getDelta();
 
-				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-					if (!(projectManager.getProject(project) instanceof IConfigurationProject))
-						continue;
+			for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+				if (!(projectManager.getProject(project) instanceof IConfigurationProject))
+					continue;
 
-					IPath path = project.getFullPath();
+				IPath path = project.getFullPath();
 
-					IResourceDelta delta = eventDelta.findMember(path);
+				IResourceDelta delta = eventDelta.findMember(path);
 
-					if (delta != null) {
-						Display.getDefault().asyncExec(new Runnable() {
-							public void run() {
-								updateTreeViewer(project);
-							}
-						});
-					}
-				}
+				if (delta != null)
+					Display.getDefault().asyncExec(() -> updateTreeViewer(project));
+
 			}
-
 		};
 
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(objectsListener, IResourceChangeEvent.POST_CHANGE);
@@ -193,32 +176,27 @@ public class ConversionPanelView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+		// Нечего делать
 	}
 
 	private void hookListeners() {
-		treeViewer.addDoubleClickListener((new IDoubleClickListener() {
+		treeViewer.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
 
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
+			if (selection.isEmpty())
+				return;
 
-				if (selection.isEmpty()) {
-					return;
-				}
+			Object element = ((IStructuredSelection) selection).getFirstElement();
 
-				Object element = ((IStructuredSelection) selection).getFirstElement();
+			if (element instanceof EpFormatVersion) {
+				CommonModule commonModule = ((EpFormatVersion) element).getModule();
 
-				if (element instanceof EpFormatVersion) {
-					CommonModule commonModule = (CommonModule) ((EpFormatVersion) element).getModule();
+				URI uri = EcoreUtil.getURI(commonModule);
 
-					URI uri = EcoreUtil.getURI(commonModule);
-
-					OpenHelper openHelper = new OpenHelper();
-					openHelper.openEditor(uri, null);
-				}
-
+				OpenHelper openHelper = new OpenHelper();
+				openHelper.openEditor(uri, null);
 			}
-		}));
+		});
 	}
 
 }

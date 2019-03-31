@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com._1c.g5.v8.dt.mcore.QName;
+import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.XDTOPackage;
 import com._1c.g5.v8.dt.xdto.model.Enumeration;
@@ -40,7 +41,15 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class EnterpriseDataAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
-	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+	private static final ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+
+	private static final String TABULAR_ID = "Строка";
+
+	private static final String TYPE_STRING = "Строка";
+
+	private EnterpriseDataAnalyzer() {
+		throw new IllegalStateException("Вспомогательный класс");
+	}
 
 	public static URI getResourceURIforPlugin(String version, IProject project, AbstractUIPlugin plugin) {
 		return ConversionUtils.getResourceURIforPlugin(project.getName(),
@@ -67,7 +76,7 @@ public class EnterpriseDataAnalyzer {
 				edEnum.setObject((ValueType) EcoreUtil.resolve(edEnum.getObject(), configuration));
 
 				EList<Enumeration> oldList = edEnum.getEnumerations();
-				EList<Enumeration> newList = new BasicEList<Enumeration>();
+				EList<Enumeration> newList = new BasicEList<>();
 				for (Enumeration oldItem : oldList)
 					newList.add((Enumeration) EcoreUtil.resolve(oldItem, configuration));
 				oldList.clear();
@@ -116,13 +125,13 @@ public class EnterpriseDataAnalyzer {
 
 		Package dataPackage = xdtoPackage.getPackage();
 
-		HashMap<String, ObjectType> packageObjects = new HashMap<String, ObjectType>();
+		Map<String, ObjectType> packageObjects = new HashMap<>();
 		for (ObjectType object : dataPackage.getObjects()) {
 			String objectName = object.getName();
 			packageObjects.put(objectName, object);
 		}
 
-		HashMap<String, ValueType> packageValues = new HashMap<String, ValueType>();
+		Map<String, ValueType> packageValues = new HashMap<>();
 		for (ValueType type : dataPackage.getTypes()) {
 			String typeName = type.getName();
 			packageValues.put(typeName, type);
@@ -134,22 +143,21 @@ public class EnterpriseDataAnalyzer {
 			String objectName = xdtoObject.getName();
 			if (baseType != null && baseType.getName().equals("Object")) {
 				if (objectName.startsWith("Справочник.")) {
-					addCatalog(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
+					addCatalog(xdtoObject, enterpriseDataPackage, packageObjects);
 
 				} else if (objectName.startsWith("Документ.")) {
-					addDocument(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
+					addDocument(xdtoObject, enterpriseDataPackage, packageObjects);
 
 				} else if (objectName.startsWith("Регистр")) {
-					addRegister(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
+					addRegister(xdtoObject, enterpriseDataPackage, packageObjects);
 
 				} else {
-					addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects, packageValues);
+					addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
 					String msg = String.format(
 							"У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип", objectName,
 							version);
 
 					LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
-					continue;
 
 				}
 
@@ -178,7 +186,7 @@ public class EnterpriseDataAnalyzer {
 
 		for (ValueType type : dataPackage.getTypes()) {
 			EList<Enumeration> enums = type.getEnumerations();
-			if (enums.size() == 0)
+			if (enums.isEmpty())
 				continue;
 
 			EdEnum edEnum = edFactory.eINSTANCE.createEdEnum();
@@ -193,11 +201,14 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackage;
 	}
 
-	public static HashMap<String, EnterpriseData> loadPluginResources(ExchangeProject exchangeProject,
-			Configuration configuration, IProject project, AbstractUIPlugin plugin) {
-		HashMap<String, EnterpriseData> enterpriseDataPackages = new HashMap<String, EnterpriseData>();
+	public static Map<String, EnterpriseData> loadPluginResources(CommonModule commonModule,
+			ExchangeProject exchangeProject, Configuration configuration, IProject project, AbstractUIPlugin plugin) {
+		Map<String, EnterpriseData> enterpriseDataPackages = new HashMap<>();
 
 		for (EpFormatVersion epFormatVersion : exchangeProject.getFormatVersions()) {
+			if (!epFormatVersion.getModule().equals(commonModule))
+				continue;
+
 			URI edXmiURI = EnterpriseDataAnalyzer.getResourceURIforPlugin(epFormatVersion.getVersion(), project,
 					plugin);
 
@@ -209,8 +220,7 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackages;
 	}
 
-	private static EdObject addObject(ObjectType xdtoObject, HashMap<String, ObjectType> packageObjects,
-			HashMap<String, ValueType> packageValues) {
+	private static EdObject addObject(ObjectType xdtoObject, Map<String, ObjectType> packageObjects) {
 		EdObject edObject = edFactory.eINSTANCE.createEdObject();
 
 		edObject.setMainName(xdtoObject.getName());
@@ -245,7 +255,7 @@ public class EnterpriseDataAnalyzer {
 						EList<Property> xdtoTabularProperties = xdtoTabularObject.getProperties();
 						if (xdtoTabularProperties.size() == 1) {
 							Property xdtoTabularProperty = xdtoTabularObject.getProperties().get(0);
-							if (xdtoTabularProperty.getName().equals("Строка")) {
+							if (xdtoTabularProperty.getName().equals(TABULAR_ID)) {
 								xdtoTabularSectionName = xdtoTabularProperty.getType().getName();
 								tabularSection = true;
 							}
@@ -261,8 +271,10 @@ public class EnterpriseDataAnalyzer {
 								xdtoPropertyName.concat(".").concat(xdtoTabularProperty.getName()), false));
 					}
 
-				} else
+				} else {
 					edProperties.add(addProperty(xdtoProperty, xdtoProperty.getName(), false));
+
+				}
 
 			}
 		}
@@ -271,23 +283,23 @@ public class EnterpriseDataAnalyzer {
 	}
 
 	private static void addCatalog(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
-		enterpriseDataPackage.getCatalogs().add(addObject(xdtoObject, packageObjects, packageValues));
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getCatalogs().add(addObject(xdtoObject, packageObjects));
 	}
 
 	private static void addDocument(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
-		enterpriseDataPackage.getDocuments().add(addObject(xdtoObject, packageObjects, packageValues));
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getDocuments().add(addObject(xdtoObject, packageObjects));
 	}
 
 	private static void addRegister(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
-		enterpriseDataPackage.getRegisters().add(addObject(xdtoObject, packageObjects, packageValues));
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getRegisters().add(addObject(xdtoObject, packageObjects));
 	}
 
 	private static void addUnknownObject(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			HashMap<String, ObjectType> packageObjects, HashMap<String, ValueType> packageValues) {
-		enterpriseDataPackage.getUnknownObjects().add(addObject(xdtoObject, packageObjects, packageValues));
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getUnknownObjects().add(addObject(xdtoObject, packageObjects));
 	}
 
 	private static EdProperty addProperty(Property xdtoProperty, String xdtoPropertyName, Boolean isKey) {
@@ -325,11 +337,14 @@ public class EnterpriseDataAnalyzer {
 			} else if (propertyTypeDef instanceof ObjectType) {
 				ObjectType propertyObjectTypeDef = (ObjectType) propertyTypeDef;
 
+				StringBuilder multiPropertyTypeName = new StringBuilder();
 				for (Property typeProperty : propertyObjectTypeDef.getProperties()) {
-					if (!propertyTypeName.isEmpty())
-						propertyTypeName += ";";
-					propertyTypeName += typeProperty.getName().concat(":").concat(getPropertyType(typeProperty));
+					if (multiPropertyTypeName.length() != 0)
+						multiPropertyTypeName.append(";");
+					multiPropertyTypeName.append(typeProperty.getName()).append(":")
+							.append(getPropertyType(typeProperty));
 				}
+				propertyTypeName = multiPropertyTypeName.toString();
 
 			}
 
@@ -355,7 +370,7 @@ public class EnterpriseDataAnalyzer {
 				propertyTypeName = "ЦелоеЧисло";
 
 			else if (propertyTypeName.equals("string"))
-				propertyTypeName = "Строка";
+				propertyTypeName = TYPE_STRING;
 
 			else if (propertyTypeName.equals("time"))
 				propertyTypeName = "Время";
@@ -369,7 +384,7 @@ public class EnterpriseDataAnalyzer {
 		String propertyTypeName = propertyValueTypeDef.getBaseType().getName();
 
 		if (propertyTypeName.equals("string")) {
-			propertyTypeName = "Строка";
+			propertyTypeName = TYPE_STRING;
 
 			int maxLength = propertyValueTypeDef.getMaxLength();
 			if (maxLength != 0)

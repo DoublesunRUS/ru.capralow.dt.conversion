@@ -2,6 +2,9 @@ package ru.capralow.dt.conversion.plugin.core;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -23,7 +26,11 @@ import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 
 public final class ConversionUtils {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
-	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+	private static final ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+
+	private ConversionUtils() {
+		throw new IllegalStateException("Вспомогательный класс");
+	}
 
 	public static MdObject getConfigurationObject(String objectFullName, IBmEmfIndexProvider bmEmfIndexProvider) {
 		String[] objectArray = objectFullName.split("[.]");
@@ -35,39 +42,40 @@ public final class ConversionUtils {
 		EClass mdLiteral = MdClassPackage.Literals.CONFIGURATION;
 
 		if (objectType.equals("Подсистема")) {
-			if (objectArray.length == 2)
-				qnObjectName = QualifiedName.create("Subsystem", objectName);
-			else
-				qnObjectName = QualifiedName.create("Subsystem", objectName, "Subsystem", objectArray[2]);
 			mdLiteral = MdClassPackage.Literals.SUBSYSTEM;
+			if (objectArray.length == 2)
+				qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
+			else
+				qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName, mdLiteral.getName(),
+						objectArray[2]);
 
 		} else if (objectType.equals("ОбщийМодуль")) {
-			qnObjectName = QualifiedName.create("CommonModule", objectName);
 			mdLiteral = MdClassPackage.Literals.COMMON_MODULE;
+			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 
 		} else if (objectType.equals("Справочник")) {
-			qnObjectName = QualifiedName.create("Catalog", objectName);
 			mdLiteral = MdClassPackage.Literals.CATALOG;
+			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 
 		} else if (objectType.equals("Документ")) {
-			qnObjectName = QualifiedName.create("Document", objectName);
 			mdLiteral = MdClassPackage.Literals.DOCUMENT;
+			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 
 		} else if (objectType.equals("Перечисление")) {
-			qnObjectName = QualifiedName.create("Enum", objectName);
 			mdLiteral = MdClassPackage.Literals.ENUM;
+			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 
 		} else if (objectType.equals("ПланВидовХарактеристик")) {
-			qnObjectName = QualifiedName.create("ChartOfCharacteristicTypes", objectName);
 			mdLiteral = MdClassPackage.Literals.CHART_OF_CHARACTERISTIC_TYPES;
+			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 
 		} else if (objectType.equals("ПланВидовРасчета")) {
-			qnObjectName = QualifiedName.create("ChartOfCalculationTypes", objectName);
 			mdLiteral = MdClassPackage.Literals.CHART_OF_CALCULATION_TYPES;
+			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 
 		} else if (objectType.equals("РегистрСведений")) {
-			qnObjectName = QualifiedName.create("InformationRegister", objectName);
 			mdLiteral = MdClassPackage.Literals.INFORMATION_REGISTER;
+			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 
 		}
 
@@ -101,6 +109,30 @@ public final class ConversionUtils {
 		return null;
 	}
 
+	public static int compareArraysOfString(String[] str1, String[] str2) {
+		if (str1 == null || str2 == null)
+			return 0;
+
+		if (Arrays.equals(str1, str2))
+			return 0;
+
+		if (str1.length != str2.length)
+			return str1.length - str2.length;
+
+		for (int i = 0; i < str1.length; i++) {
+			if (str1[i] == null)
+				return -1;
+			if (str2[i] == null)
+				return 1;
+
+			int result = str1[i].compareToIgnoreCase(str2[i]);
+			if (result != 0)
+				return result;
+		}
+
+		return 0;
+	}
+
 	private static File getResourceFile(URI uri, AbstractUIPlugin plugin) throws FileNotFoundException {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		String[] segments = uri.segments();
@@ -112,14 +144,19 @@ public final class ConversionUtils {
 			resourcePath = resourcePath.append(segments[i]);
 			File file = resourcePath.toFile();
 			if (file.exists() && !file.isDirectory()) {
-				file.delete();
+				try {
+					Files.delete(file.toPath());
+
+				} catch (IOException e) {
+					e.printStackTrace();
+
+				}
 			} else if (!file.exists()) {
 				file.mkdir();
 			}
 		}
 		resourcePath = resourcePath.append(segments[segments.length - 1]);
-		File file = resourcePath.toFile();
-		return file;
+		return resourcePath.toFile();
 	}
 
 	private static Boolean foundProjectInWorkspace(IWorkspace workspace, String projectName) {

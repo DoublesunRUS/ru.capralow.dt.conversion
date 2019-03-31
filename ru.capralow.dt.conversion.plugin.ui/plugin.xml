@@ -65,24 +65,8 @@
 				style="push">
 			</command>
 		</menuContribution>
-		
-		<menuContribution
-			locationURI="popup:com._1c.g5.v8.dt.navigator.ui.navigator.popup">
-			<command commandId="ru.capralow.dt.conversion.plugin.ui.command.DataFormatToEMFGenerator"
-				style="push"
-				tooltip="Сгенерировать ECore по пакету XDTO">
-			</command>
-		</menuContribution>
 	</extension>
 	
-	<extension point="org.eclipse.ui.commands">
-		<command
-			defaultHandler="ru.capralow.dt.conversion.plugin.ui.DataFormatToEMFGeneratorHandler"
-			id="ru.capralow.dt.conversion.plugin.ui.command.DataFormatToEMFGenerator"
-			name="Сгенерировать ECore">
-		</command>
-	</extension>
-
 	<extension point="com._1c.g5.v8.dt.diagram.framework.core.objectsconverters">
 		<objectConverter
 			class="ru.capralow.dt.conversion.plugin.ui.XDTOPackageConverter"
@@ -99,7 +83,7 @@
 
 	<extension point="com._1c.g5.v8.dt.bsl.externalBslValidator">
 		<externalValidator
-			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.ConversionModuleExternalBslValidator">
+			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.ConversionValidator">
 		</externalValidator>
 	</extension>
 

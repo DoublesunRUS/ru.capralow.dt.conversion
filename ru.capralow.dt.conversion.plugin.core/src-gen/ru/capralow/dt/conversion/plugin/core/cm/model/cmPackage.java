@@ -376,14 +376,14 @@ public interface cmPackage extends EPackage {
 	int CONVERSION_MODULE_OPERATION_COUNT = 16;
 
 	/**
-	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmDataRuleImpl <em>Cm Data Rule</em>}' class.
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmObjectImpl <em>Cm Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmDataRuleImpl
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmDataRule()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmObjectImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmObject()
 	 * @generated
 	 */
-	int CM_DATA_RULE = 1;
+	int CM_OBJECT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -392,16 +392,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__NAME = 0;
-
-	/**
-	 * The feature id for the '<em><b>Is Disabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_DATA_RULE__IS_DISABLED = 1;
+	int CM_OBJECT__NAME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object</b></em>' reference.
@@ -410,7 +401,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__CONFIGURATION_OBJECT = 2;
+	int CM_OBJECT__CONFIGURATION_OBJECT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object Name</b></em>' attribute.
@@ -419,7 +410,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__CONFIGURATION_OBJECT_NAME = 3;
+	int CM_OBJECT__CONFIGURATION_OBJECT_NAME = 2;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object Formatted Name</b></em>' attribute.
@@ -428,7 +419,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME = 4;
+	int CM_OBJECT__CONFIGURATION_OBJECT_FORMATTED_NAME = 3;
 
 	/**
 	 * The feature id for the '<em><b>Format Object</b></em>' attribute.
@@ -437,7 +428,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__FORMAT_OBJECT = 5;
+	int CM_OBJECT__FORMAT_OBJECT = 4;
 
 	/**
 	 * The feature id for the '<em><b>For Sending</b></em>' attribute.
@@ -446,7 +437,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__FOR_SENDING = 6;
+	int CM_OBJECT__FOR_SENDING = 5;
 
 	/**
 	 * The feature id for the '<em><b>For Receiving</b></em>' attribute.
@@ -455,7 +446,107 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__FOR_RECEIVING = 7;
+	int CM_OBJECT__FOR_RECEIVING = 6;
+
+	/**
+	 * The number of structural features of the '<em>Cm Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_FEATURE_COUNT = 7;
+
+	/**
+	 * The number of operations of the '<em>Cm Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmDataRuleImpl <em>Cm Data Rule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmDataRuleImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmDataRule()
+	 * @generated
+	 */
+	int CM_DATA_RULE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__NAME = CM_OBJECT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__CONFIGURATION_OBJECT = CM_OBJECT__CONFIGURATION_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Object Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__CONFIGURATION_OBJECT_NAME = CM_OBJECT__CONFIGURATION_OBJECT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Object Formatted Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME = CM_OBJECT__CONFIGURATION_OBJECT_FORMATTED_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Format Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__FORMAT_OBJECT = CM_OBJECT__FORMAT_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>For Sending</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__FOR_SENDING = CM_OBJECT__FOR_SENDING;
+
+	/**
+	 * The feature id for the '<em><b>For Receiving</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__FOR_RECEIVING = CM_OBJECT__FOR_RECEIVING;
+
+	/**
+	 * The feature id for the '<em><b>Is Disabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_DATA_RULE__IS_DISABLED = CM_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Selection Variant</b></em>' attribute.
@@ -464,7 +555,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__SELECTION_VARIANT = 8;
+	int CM_DATA_RULE__SELECTION_VARIANT = CM_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>On Processing Event</b></em>' attribute.
@@ -473,7 +564,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__ON_PROCESSING_EVENT = 9;
+	int CM_DATA_RULE__ON_PROCESSING_EVENT = CM_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>On Processing Event Prefix</b></em>' attribute.
@@ -482,7 +573,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__ON_PROCESSING_EVENT_PREFIX = 10;
+	int CM_DATA_RULE__ON_PROCESSING_EVENT_PREFIX = CM_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>On Processing Event Suffix</b></em>' attribute.
@@ -491,7 +582,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__ON_PROCESSING_EVENT_SUFFIX = 11;
+	int CM_DATA_RULE__ON_PROCESSING_EVENT_SUFFIX = CM_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Data Selection Event</b></em>' attribute.
@@ -500,7 +591,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__DATA_SELECTION_EVENT = 12;
+	int CM_DATA_RULE__DATA_SELECTION_EVENT = CM_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Data Selection Event Prefix</b></em>' attribute.
@@ -509,7 +600,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__DATA_SELECTION_EVENT_PREFIX = 13;
+	int CM_DATA_RULE__DATA_SELECTION_EVENT_PREFIX = CM_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Data Selection Event Suffix</b></em>' attribute.
@@ -518,7 +609,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__DATA_SELECTION_EVENT_SUFFIX = 14;
+	int CM_DATA_RULE__DATA_SELECTION_EVENT_SUFFIX = CM_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Is Data Cleaning</b></em>' attribute.
@@ -527,7 +618,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__IS_DATA_CLEANING = 15;
+	int CM_DATA_RULE__IS_DATA_CLEANING = CM_OBJECT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Object Rules</b></em>' reference list.
@@ -536,7 +627,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__OBJECT_RULES = 16;
+	int CM_DATA_RULE__OBJECT_RULES = CM_OBJECT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Subsystems</b></em>' reference list.
@@ -545,7 +636,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__SUBSYSTEMS = 17;
+	int CM_DATA_RULE__SUBSYSTEMS = CM_OBJECT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Group</b></em>' reference.
@@ -554,7 +645,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE__GROUP = 18;
+	int CM_DATA_RULE__GROUP = CM_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the '<em>Cm Data Rule</em>' class.
@@ -563,7 +654,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE_FEATURE_COUNT = 19;
+	int CM_DATA_RULE_FEATURE_COUNT = CM_OBJECT_FEATURE_COUNT + 12;
 
 	/**
 	 * The operation id for the '<em>Get On Processing Event Text</em>' operation.
@@ -572,7 +663,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT = 0;
+	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The operation id for the '<em>Get On Processing Event Declaration</em>' operation.
@@ -581,7 +672,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION = 1;
+	int CM_DATA_RULE___GET_ON_PROCESSING_EVENT_DECLARATION = CM_OBJECT_OPERATION_COUNT + 1;
 
 	/**
 	 * The operation id for the '<em>Get Data Selection Event Text</em>' operation.
@@ -590,7 +681,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT = 2;
+	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 2;
 
 	/**
 	 * The operation id for the '<em>Get Data Selection Event Declaration</em>' operation.
@@ -599,7 +690,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_DECLARATION = 3;
+	int CM_DATA_RULE___GET_DATA_SELECTION_EVENT_DECLARATION = CM_OBJECT_OPERATION_COUNT + 3;
 
 	/**
 	 * The operation id for the '<em>Get Data Cleaning Declaration</em>' operation.
@@ -608,7 +699,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___GET_DATA_CLEANING_DECLARATION = 4;
+	int CM_DATA_RULE___GET_DATA_CLEANING_DECLARATION = CM_OBJECT_OPERATION_COUNT + 4;
 
 	/**
 	 * The operation id for the '<em>Included In Subsystem</em>' operation.
@@ -617,7 +708,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM = 5;
+	int CM_DATA_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM = CM_OBJECT_OPERATION_COUNT + 5;
 
 	/**
 	 * The operation id for the '<em>To String</em>' operation.
@@ -626,7 +717,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE___TO_STRING = 6;
+	int CM_DATA_RULE___TO_STRING = CM_OBJECT_OPERATION_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Cm Data Rule</em>' class.
@@ -635,7 +726,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_DATA_RULE_OPERATION_COUNT = 7;
+	int CM_DATA_RULE_OPERATION_COUNT = CM_OBJECT_OPERATION_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmObjectRuleImpl <em>Cm Object Rule</em>}' class.
@@ -645,7 +736,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmObjectRule()
 	 * @generated
 	 */
-	int CM_OBJECT_RULE = 2;
+	int CM_OBJECT_RULE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -654,16 +745,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__NAME = 0;
-
-	/**
-	 * The feature id for the '<em><b>Is Disabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CM_OBJECT_RULE__IS_DISABLED = 1;
+	int CM_OBJECT_RULE__NAME = CM_OBJECT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object</b></em>' reference.
@@ -672,7 +754,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__CONFIGURATION_OBJECT = 2;
+	int CM_OBJECT_RULE__CONFIGURATION_OBJECT = CM_OBJECT__CONFIGURATION_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object Name</b></em>' attribute.
@@ -681,7 +763,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__CONFIGURATION_OBJECT_NAME = 3;
+	int CM_OBJECT_RULE__CONFIGURATION_OBJECT_NAME = CM_OBJECT__CONFIGURATION_OBJECT_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object Formatted Name</b></em>' attribute.
@@ -690,7 +772,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME = 4;
+	int CM_OBJECT_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME = CM_OBJECT__CONFIGURATION_OBJECT_FORMATTED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Format Object</b></em>' attribute.
@@ -699,7 +781,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__FORMAT_OBJECT = 5;
+	int CM_OBJECT_RULE__FORMAT_OBJECT = CM_OBJECT__FORMAT_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>For Sending</b></em>' attribute.
@@ -708,7 +790,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__FOR_SENDING = 6;
+	int CM_OBJECT_RULE__FOR_SENDING = CM_OBJECT__FOR_SENDING;
 
 	/**
 	 * The feature id for the '<em><b>For Receiving</b></em>' attribute.
@@ -717,7 +799,16 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__FOR_RECEIVING = 7;
+	int CM_OBJECT_RULE__FOR_RECEIVING = CM_OBJECT__FOR_RECEIVING;
+
+	/**
+	 * The feature id for the '<em><b>Is Disabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE__IS_DISABLED = CM_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>For Group</b></em>' attribute.
@@ -726,7 +817,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__FOR_GROUP = 8;
+	int CM_OBJECT_RULE__FOR_GROUP = CM_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Attribute Rules</b></em>' containment reference list.
@@ -735,7 +826,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ATTRIBUTE_RULES = 9;
+	int CM_OBJECT_RULE__ATTRIBUTE_RULES = CM_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>On Sending Event</b></em>' attribute.
@@ -744,7 +835,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ON_SENDING_EVENT = 10;
+	int CM_OBJECT_RULE__ON_SENDING_EVENT = CM_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>On Sending Event Prefix</b></em>' attribute.
@@ -753,7 +844,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ON_SENDING_EVENT_PREFIX = 11;
+	int CM_OBJECT_RULE__ON_SENDING_EVENT_PREFIX = CM_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>On Sending Event Suffix</b></em>' attribute.
@@ -762,7 +853,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ON_SENDING_EVENT_SUFFIX = 12;
+	int CM_OBJECT_RULE__ON_SENDING_EVENT_SUFFIX = CM_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Before Receiving Event</b></em>' attribute.
@@ -771,7 +862,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT = 13;
+	int CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT = CM_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Before Receiving Event Prefix</b></em>' attribute.
@@ -780,7 +871,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT_PREFIX = 14;
+	int CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT_PREFIX = CM_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Before Receiving Event Suffix</b></em>' attribute.
@@ -789,7 +880,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT_SUFFIX = 15;
+	int CM_OBJECT_RULE__BEFORE_RECEIVING_EVENT_SUFFIX = CM_OBJECT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>On Receiving Event</b></em>' attribute.
@@ -798,7 +889,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ON_RECEIVING_EVENT = 16;
+	int CM_OBJECT_RULE__ON_RECEIVING_EVENT = CM_OBJECT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>On Receiving Event Prefix</b></em>' attribute.
@@ -807,7 +898,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ON_RECEIVING_EVENT_PREFIX = 17;
+	int CM_OBJECT_RULE__ON_RECEIVING_EVENT_PREFIX = CM_OBJECT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>On Receiving Event Suffix</b></em>' attribute.
@@ -816,7 +907,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__ON_RECEIVING_EVENT_SUFFIX = 18;
+	int CM_OBJECT_RULE__ON_RECEIVING_EVENT_SUFFIX = CM_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>After Receiving Algorithm</b></em>' reference.
@@ -825,7 +916,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = 19;
+	int CM_OBJECT_RULE__AFTER_RECEIVING_ALGORITHM = CM_OBJECT_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Identification Variant</b></em>' attribute.
@@ -834,7 +925,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__IDENTIFICATION_VARIANT = 20;
+	int CM_OBJECT_RULE__IDENTIFICATION_VARIANT = CM_OBJECT_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>Identification Fields</b></em>' attribute list.
@@ -843,7 +934,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__IDENTIFICATION_FIELDS = 21;
+	int CM_OBJECT_RULE__IDENTIFICATION_FIELDS = CM_OBJECT_FEATURE_COUNT + 14;
 
 	/**
 	 * The feature id for the '<em><b>Subsystems</b></em>' reference list.
@@ -852,7 +943,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE__SUBSYSTEMS = 22;
+	int CM_OBJECT_RULE__SUBSYSTEMS = CM_OBJECT_FEATURE_COUNT + 15;
 
 	/**
 	 * The number of structural features of the '<em>Cm Object Rule</em>' class.
@@ -861,7 +952,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE_FEATURE_COUNT = 23;
+	int CM_OBJECT_RULE_FEATURE_COUNT = CM_OBJECT_FEATURE_COUNT + 16;
 
 	/**
 	 * The operation id for the '<em>Get For Group Declaration</em>' operation.
@@ -870,7 +961,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_FOR_GROUP_DECLARATION = 0;
+	int CM_OBJECT_RULE___GET_FOR_GROUP_DECLARATION = CM_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The operation id for the '<em>Get On Sending Event Text</em>' operation.
@@ -879,7 +970,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_ON_SENDING_EVENT_TEXT = 1;
+	int CM_OBJECT_RULE___GET_ON_SENDING_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 1;
 
 	/**
 	 * The operation id for the '<em>Get On Sending Event Declaration</em>' operation.
@@ -888,7 +979,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_ON_SENDING_EVENT_DECLARATION = 2;
+	int CM_OBJECT_RULE___GET_ON_SENDING_EVENT_DECLARATION = CM_OBJECT_OPERATION_COUNT + 2;
 
 	/**
 	 * The operation id for the '<em>Get Before Receiving Event Text</em>' operation.
@@ -897,7 +988,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT = 3;
+	int CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 3;
 
 	/**
 	 * The operation id for the '<em>Get On Receiving Event Text</em>' operation.
@@ -906,7 +997,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT = 4;
+	int CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 4;
 
 	/**
 	 * The operation id for the '<em>Included In Subsystem</em>' operation.
@@ -915,7 +1006,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM = 5;
+	int CM_OBJECT_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM = CM_OBJECT_OPERATION_COUNT + 5;
 
 	/**
 	 * The operation id for the '<em>To String</em>' operation.
@@ -924,7 +1015,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___TO_STRING = 6;
+	int CM_OBJECT_RULE___TO_STRING = CM_OBJECT_OPERATION_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Cm Object Rule</em>' class.
@@ -933,7 +1024,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE_OPERATION_COUNT = 7;
+	int CM_OBJECT_RULE_OPERATION_COUNT = CM_OBJECT_OPERATION_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAttributeRuleImpl <em>Cm Attribute Rule</em>}' class.
@@ -943,7 +1034,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmAttributeRule()
 	 * @generated
 	 */
-	int CM_ATTRIBUTE_RULE = 3;
+	int CM_ATTRIBUTE_RULE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Tabular Section</b></em>' attribute.
@@ -1043,7 +1134,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefined()
 	 * @generated
 	 */
-	int CM_PREDEFINED = 4;
+	int CM_PREDEFINED = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1052,7 +1143,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__NAME = 0;
+	int CM_PREDEFINED__NAME = CM_OBJECT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object</b></em>' reference.
@@ -1061,7 +1152,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__CONFIGURATION_OBJECT = 1;
+	int CM_PREDEFINED__CONFIGURATION_OBJECT = CM_OBJECT__CONFIGURATION_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object Name</b></em>' attribute.
@@ -1070,7 +1161,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__CONFIGURATION_OBJECT_NAME = 2;
+	int CM_PREDEFINED__CONFIGURATION_OBJECT_NAME = CM_OBJECT__CONFIGURATION_OBJECT_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Object Formatted Name</b></em>' attribute.
@@ -1079,7 +1170,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__CONFIGURATION_OBJECT_FORMATTED_NAME = 3;
+	int CM_PREDEFINED__CONFIGURATION_OBJECT_FORMATTED_NAME = CM_OBJECT__CONFIGURATION_OBJECT_FORMATTED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Format Object</b></em>' attribute.
@@ -1088,7 +1179,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__FORMAT_OBJECT = 4;
+	int CM_PREDEFINED__FORMAT_OBJECT = CM_OBJECT__FORMAT_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>For Sending</b></em>' attribute.
@@ -1097,7 +1188,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__FOR_SENDING = 5;
+	int CM_PREDEFINED__FOR_SENDING = CM_OBJECT__FOR_SENDING;
 
 	/**
 	 * The feature id for the '<em><b>For Receiving</b></em>' attribute.
@@ -1106,7 +1197,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__FOR_RECEIVING = 6;
+	int CM_PREDEFINED__FOR_RECEIVING = CM_OBJECT__FOR_RECEIVING;
 
 	/**
 	 * The feature id for the '<em><b>Predefined Maps</b></em>' containment reference list.
@@ -1115,7 +1206,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__PREDEFINED_MAPS = 7;
+	int CM_PREDEFINED__PREDEFINED_MAPS = CM_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Cm Predefined</em>' class.
@@ -1124,7 +1215,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_FEATURE_COUNT = 8;
+	int CM_PREDEFINED_FEATURE_COUNT = CM_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The operation id for the '<em>Predefined Map Exists</em>' operation.
@@ -1133,7 +1224,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED___PREDEFINED_MAP_EXISTS__STRING_STRING = 0;
+	int CM_PREDEFINED___PREDEFINED_MAP_EXISTS__STRING_STRING = CM_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The operation id for the '<em>To String</em>' operation.
@@ -1142,7 +1233,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED___TO_STRING = 1;
+	int CM_PREDEFINED___TO_STRING = CM_OBJECT_OPERATION_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Cm Predefined</em>' class.
@@ -1151,7 +1242,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_OPERATION_COUNT = 2;
+	int CM_PREDEFINED_OPERATION_COUNT = CM_OBJECT_OPERATION_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedMapImpl <em>Cm Predefined Map</em>}' class.
@@ -1161,7 +1252,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedMap()
 	 * @generated
 	 */
-	int CM_PREDEFINED_MAP = 5;
+	int CM_PREDEFINED_MAP = 6;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Value</b></em>' attribute.
@@ -1225,7 +1316,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmAlgorithm()
 	 * @generated
 	 */
-	int CM_ALGORITHM = 6;
+	int CM_ALGORITHM = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1334,7 +1425,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSubsystem()
 	 * @generated
 	 */
-	int CM_SUBSYSTEM = 7;
+	int CM_SUBSYSTEM = 8;
 
 	/**
 	 * The feature id for the '<em><b>Subsystem</b></em>' reference.
@@ -1389,7 +1480,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmGroup()
 	 * @generated
 	 */
-	int CM_GROUP = 8;
+	int CM_GROUP = 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1426,7 +1517,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSelectionVariant()
 	 * @generated
 	 */
-	int CM_SELECTION_VARIANT = 9;
+	int CM_SELECTION_VARIANT = 10;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant <em>Cm Identification Variant</em>}' enum.
@@ -1436,7 +1527,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmIdentificationVariant()
 	 * @generated
 	 */
-	int CM_IDENTIFICATION_VARIANT = 10;
+	int CM_IDENTIFICATION_VARIANT = 11;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType <em>Cm Method Type</em>}' enum.
@@ -1446,7 +1537,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmMethodType()
 	 * @generated
 	 */
-	int CM_METHOD_TYPE = 11;
+	int CM_METHOD_TYPE = 12;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType <em>Cm Special Subsystem Type</em>}' enum.
@@ -1456,7 +1547,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSpecialSubsystemType()
 	 * @generated
 	 */
-	int CM_SPECIAL_SUBSYSTEM_TYPE = 12;
+	int CM_SPECIAL_SUBSYSTEM_TYPE = 13;
 
 
 	/**
@@ -1806,6 +1897,93 @@ public interface cmPackage extends EPackage {
 	EOperation getConversionModule__GetAllAlgorithmsText__String();
 
 	/**
+	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject <em>Cm Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cm Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject
+	 * @generated
+	 */
+	EClass getCmObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getName()
+	 * @see #getCmObject()
+	 * @generated
+	 */
+	EAttribute getCmObject_Name();
+
+	/**
+	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getConfigurationObject <em>Configuration Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Configuration Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getConfigurationObject()
+	 * @see #getCmObject()
+	 * @generated
+	 */
+	EReference getCmObject_ConfigurationObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getConfigurationObjectName <em>Configuration Object Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Configuration Object Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getConfigurationObjectName()
+	 * @see #getCmObject()
+	 * @generated
+	 */
+	EAttribute getCmObject_ConfigurationObjectName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getConfigurationObjectFormattedName <em>Configuration Object Formatted Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Configuration Object Formatted Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getConfigurationObjectFormattedName()
+	 * @see #getCmObject()
+	 * @generated
+	 */
+	EAttribute getCmObject_ConfigurationObjectFormattedName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getFormatObject <em>Format Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format Object</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getFormatObject()
+	 * @see #getCmObject()
+	 * @generated
+	 */
+	EAttribute getCmObject_FormatObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getForSending <em>For Sending</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>For Sending</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getForSending()
+	 * @see #getCmObject()
+	 * @generated
+	 */
+	EAttribute getCmObject_ForSending();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getForReceiving <em>For Receiving</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>For Receiving</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObject#getForReceiving()
+	 * @see #getCmObject()
+	 * @generated
+	 */
+	EAttribute getCmObject_ForReceiving();
+
+	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule <em>Cm Data Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1814,17 +1992,6 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getCmDataRule();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getName()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_Name();
 
 	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getIsDisabled <em>Is Disabled</em>}'.
@@ -1836,72 +2003,6 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCmDataRule_IsDisabled();
-
-	/**
-	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getConfigurationObject <em>Configuration Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Configuration Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getConfigurationObject()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EReference getCmDataRule_ConfigurationObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getConfigurationObjectName <em>Configuration Object Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Object Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getConfigurationObjectName()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_ConfigurationObjectName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getConfigurationObjectFormattedName <em>Configuration Object Formatted Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Object Formatted Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getConfigurationObjectFormattedName()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_ConfigurationObjectFormattedName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getFormatObject <em>Format Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Format Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getFormatObject()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_FormatObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getForSending <em>For Sending</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Sending</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getForSending()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_ForSending();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getForReceiving <em>For Receiving</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Receiving</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getForReceiving()
-	 * @see #getCmDataRule()
-	 * @generated
-	 */
-	EAttribute getCmDataRule_ForReceiving();
 
 	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule#getSelectionVariant <em>Selection Variant</em>}'.
@@ -2105,17 +2206,6 @@ public interface cmPackage extends EPackage {
 	EClass getCmObjectRule();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getName()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EAttribute getCmObjectRule_Name();
-
-	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getIsDisabled <em>Is Disabled</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2125,72 +2215,6 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCmObjectRule_IsDisabled();
-
-	/**
-	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getConfigurationObject <em>Configuration Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Configuration Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getConfigurationObject()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EReference getCmObjectRule_ConfigurationObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getConfigurationObjectName <em>Configuration Object Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Object Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getConfigurationObjectName()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EAttribute getCmObjectRule_ConfigurationObjectName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getConfigurationObjectFormattedName <em>Configuration Object Formatted Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Object Formatted Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getConfigurationObjectFormattedName()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EAttribute getCmObjectRule_ConfigurationObjectFormattedName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getFormatObject <em>Format Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Format Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getFormatObject()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EAttribute getCmObjectRule_FormatObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getForSending <em>For Sending</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Sending</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getForSending()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EAttribute getCmObjectRule_ForSending();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getForReceiving <em>For Receiving</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Receiving</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getForReceiving()
-	 * @see #getCmObjectRule()
-	 * @generated
-	 */
-	EAttribute getCmObjectRule_ForReceiving();
 
 	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getForGroup <em>For Group</em>}'.
@@ -2532,83 +2556,6 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getCmPredefined();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getName()
-	 * @see #getCmPredefined()
-	 * @generated
-	 */
-	EAttribute getCmPredefined_Name();
-
-	/**
-	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getConfigurationObject <em>Configuration Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Configuration Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getConfigurationObject()
-	 * @see #getCmPredefined()
-	 * @generated
-	 */
-	EReference getCmPredefined_ConfigurationObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getConfigurationObjectName <em>Configuration Object Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Object Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getConfigurationObjectName()
-	 * @see #getCmPredefined()
-	 * @generated
-	 */
-	EAttribute getCmPredefined_ConfigurationObjectName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getConfigurationObjectFormattedName <em>Configuration Object Formatted Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Object Formatted Name</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getConfigurationObjectFormattedName()
-	 * @see #getCmPredefined()
-	 * @generated
-	 */
-	EAttribute getCmPredefined_ConfigurationObjectFormattedName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getFormatObject <em>Format Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Format Object</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getFormatObject()
-	 * @see #getCmPredefined()
-	 * @generated
-	 */
-	EAttribute getCmPredefined_FormatObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getForSending <em>For Sending</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Sending</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getForSending()
-	 * @see #getCmPredefined()
-	 * @generated
-	 */
-	EAttribute getCmPredefined_ForSending();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getForReceiving <em>For Receiving</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>For Receiving</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getForReceiving()
-	 * @see #getCmPredefined()
-	 * @generated
-	 */
-	EAttribute getCmPredefined_ForReceiving();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedMaps <em>Predefined Maps</em>}'.
@@ -3194,6 +3141,72 @@ public interface cmPackage extends EPackage {
 		EOperation CONVERSION_MODULE___GET_ALL_ALGORITHMS_TEXT__STRING = eINSTANCE.getConversionModule__GetAllAlgorithmsText__String();
 
 		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmObjectImpl <em>Cm Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmObjectImpl
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmObject()
+		 * @generated
+		 */
+		EClass CM_OBJECT = eINSTANCE.getCmObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT__NAME = eINSTANCE.getCmObject_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Object</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CM_OBJECT__CONFIGURATION_OBJECT = eINSTANCE.getCmObject_ConfigurationObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Object Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT__CONFIGURATION_OBJECT_NAME = eINSTANCE.getCmObject_ConfigurationObjectName();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Object Formatted Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT__CONFIGURATION_OBJECT_FORMATTED_NAME = eINSTANCE.getCmObject_ConfigurationObjectFormattedName();
+
+		/**
+		 * The meta object literal for the '<em><b>Format Object</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT__FORMAT_OBJECT = eINSTANCE.getCmObject_FormatObject();
+
+		/**
+		 * The meta object literal for the '<em><b>For Sending</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT__FOR_SENDING = eINSTANCE.getCmObject_ForSending();
+
+		/**
+		 * The meta object literal for the '<em><b>For Receiving</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_OBJECT__FOR_RECEIVING = eINSTANCE.getCmObject_ForReceiving();
+
+		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmDataRuleImpl <em>Cm Data Rule</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3204,68 +3217,12 @@ public interface cmPackage extends EPackage {
 		EClass CM_DATA_RULE = eINSTANCE.getCmDataRule();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__NAME = eINSTANCE.getCmDataRule_Name();
-
-		/**
 		 * The meta object literal for the '<em><b>Is Disabled</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute CM_DATA_RULE__IS_DISABLED = eINSTANCE.getCmDataRule_IsDisabled();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CM_DATA_RULE__CONFIGURATION_OBJECT = eINSTANCE.getCmDataRule_ConfigurationObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__CONFIGURATION_OBJECT_NAME = eINSTANCE.getCmDataRule_ConfigurationObjectName();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object Formatted Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME = eINSTANCE.getCmDataRule_ConfigurationObjectFormattedName();
-
-		/**
-		 * The meta object literal for the '<em><b>Format Object</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__FORMAT_OBJECT = eINSTANCE.getCmDataRule_FormatObject();
-
-		/**
-		 * The meta object literal for the '<em><b>For Sending</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__FOR_SENDING = eINSTANCE.getCmDataRule_ForSending();
-
-		/**
-		 * The meta object literal for the '<em><b>For Receiving</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_DATA_RULE__FOR_RECEIVING = eINSTANCE.getCmDataRule_ForReceiving();
 
 		/**
 		 * The meta object literal for the '<em><b>Selection Variant</b></em>' attribute feature.
@@ -3422,68 +3379,12 @@ public interface cmPackage extends EPackage {
 		EClass CM_OBJECT_RULE = eINSTANCE.getCmObjectRule();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_OBJECT_RULE__NAME = eINSTANCE.getCmObjectRule_Name();
-
-		/**
 		 * The meta object literal for the '<em><b>Is Disabled</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute CM_OBJECT_RULE__IS_DISABLED = eINSTANCE.getCmObjectRule_IsDisabled();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CM_OBJECT_RULE__CONFIGURATION_OBJECT = eINSTANCE.getCmObjectRule_ConfigurationObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_OBJECT_RULE__CONFIGURATION_OBJECT_NAME = eINSTANCE.getCmObjectRule_ConfigurationObjectName();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object Formatted Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_OBJECT_RULE__CONFIGURATION_OBJECT_FORMATTED_NAME = eINSTANCE.getCmObjectRule_ConfigurationObjectFormattedName();
-
-		/**
-		 * The meta object literal for the '<em><b>Format Object</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_OBJECT_RULE__FORMAT_OBJECT = eINSTANCE.getCmObjectRule_FormatObject();
-
-		/**
-		 * The meta object literal for the '<em><b>For Sending</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_OBJECT_RULE__FOR_SENDING = eINSTANCE.getCmObjectRule_ForSending();
-
-		/**
-		 * The meta object literal for the '<em><b>For Receiving</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_OBJECT_RULE__FOR_RECEIVING = eINSTANCE.getCmObjectRule_ForReceiving();
 
 		/**
 		 * The meta object literal for the '<em><b>For Group</b></em>' attribute feature.
@@ -3744,62 +3645,6 @@ public interface cmPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CM_PREDEFINED = eINSTANCE.getCmPredefined();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_PREDEFINED__NAME = eINSTANCE.getCmPredefined_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CM_PREDEFINED__CONFIGURATION_OBJECT = eINSTANCE.getCmPredefined_ConfigurationObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_PREDEFINED__CONFIGURATION_OBJECT_NAME = eINSTANCE.getCmPredefined_ConfigurationObjectName();
-
-		/**
-		 * The meta object literal for the '<em><b>Configuration Object Formatted Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_PREDEFINED__CONFIGURATION_OBJECT_FORMATTED_NAME = eINSTANCE.getCmPredefined_ConfigurationObjectFormattedName();
-
-		/**
-		 * The meta object literal for the '<em><b>Format Object</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_PREDEFINED__FORMAT_OBJECT = eINSTANCE.getCmPredefined_FormatObject();
-
-		/**
-		 * The meta object literal for the '<em><b>For Sending</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_PREDEFINED__FOR_SENDING = eINSTANCE.getCmPredefined_ForSending();
-
-		/**
-		 * The meta object literal for the '<em><b>For Receiving</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CM_PREDEFINED__FOR_RECEIVING = eINSTANCE.getCmPredefined_ForReceiving();
 
 		/**
 		 * The meta object literal for the '<em><b>Predefined Maps</b></em>' containment reference list feature.

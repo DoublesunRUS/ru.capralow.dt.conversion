@@ -167,10 +167,8 @@ class ConversionModule {
 	
 }
 
-class CmDataRule {
+class CmObject {
 	String name = ""
-	
-	Boolean isDisabled = "false"
 	
 	refers MdObject configurationObject
 	String configurationObjectName = ""
@@ -204,6 +202,10 @@ class CmDataRule {
 	
 	Boolean forSending = "false"
 	Boolean forReceiving = "false"
+}
+
+class CmDataRule extends CmObject {
+	Boolean isDisabled = "false"
 	
 	CmSelectionVariant selectionVariant
 	
@@ -322,43 +324,8 @@ enum CmSelectionVariant {
 	Custom as "Произвольный алгоритм" = 1
 }
 
-class CmObjectRule {
-	String name = ""
-	
+class CmObjectRule extends CmObject {
 	Boolean isDisabled = "false"
-	
-	refers MdObject configurationObject
-	String configurationObjectName = ""
-	derived String configurationObjectFormattedName get {
-		var result = "";
-		
-		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
-			result = "Справочник." + configurationObjectName.split("[.]").get(2);
-		
-		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
-			result = "Документ." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
-			result = "Перечисление." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
-			result = "ПланВидовХарактеристик." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
-			result = "ПланВидовРасчета." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
-			result = "РегистрСведений." + configurationObjectName.split("[.]").get(2);
-			
-		}
-		
-		return result;
-	}
-
-	String formatObject = ""
-	
-	Boolean forSending = "false"
-	Boolean forReceiving = "false"
 	
 	Boolean forGroup = "false"
 	op String getForGroupDeclaration() {
@@ -497,42 +464,7 @@ class CmAttributeRule {
 	Boolean isCustomRule = "false"
 }
 
-class CmPredefined {
-	String name = ""
-	
-	refers MdObject configurationObject
-	String configurationObjectName = ""
-	derived String configurationObjectFormattedName get {
-		var result = "";
-		
-		if (configurationObjectName.startsWith("Метаданные.Справочники")) {
-			result = "Справочник." + configurationObjectName.split("[.]").get(2);
-		
-		} else if (configurationObjectName.startsWith("Метаданные.Документы")) {
-			result = "Документ." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
-			result = "Перечисление." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовХарактеристик")) {
-			result = "ПланВидовХарактеристик." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.ПланыВидовРасчета")) {
-			result = "ПланВидовРасчета." + configurationObjectName.split("[.]").get(2);
-			
-		} else if (configurationObjectName.startsWith("Метаданные.РегистрыСведений")) {
-			result = "РегистрСведений." + configurationObjectName.split("[.]").get(2);
-			
-		}
-		
-		return result;
-	}
-
-	String formatObject = ""
-	
-	Boolean forSending = "false"
-	Boolean forReceiving = "false"
-	
+class CmPredefined extends CmObject {
 	contains CmPredefinedMap[] predefinedMaps
 	
 	op Boolean predefinedMapExists(String configurationValue, String formatValue) {

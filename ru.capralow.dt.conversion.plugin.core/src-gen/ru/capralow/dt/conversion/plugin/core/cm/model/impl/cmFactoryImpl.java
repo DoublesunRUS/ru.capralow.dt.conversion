@@ -58,6 +58,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case cmPackage.CONVERSION_MODULE: return createConversionModule();
+			case cmPackage.CM_OBJECT: return createCmObject();
 			case cmPackage.CM_DATA_RULE: return createCmDataRule();
 			case cmPackage.CM_OBJECT_RULE: return createCmObjectRule();
 			case cmPackage.CM_ATTRIBUTE_RULE: return createCmAttributeRule();
@@ -121,6 +122,16 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	public ConversionModule createConversionModule() {
 		ConversionModuleImpl conversionModule = new ConversionModuleImpl();
 		return conversionModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmObject createCmObject() {
+		CmObjectImpl cmObject = new CmObjectImpl();
+		return cmObject;
 	}
 
 	/**

@@ -10,28 +10,28 @@ public class ConversionModuleTester extends AbstractDtPropertyTester {
 
 	@Override
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
-		if ("isAvailable".equals(property) && receiver instanceof CommonModule) {
-			CommonModule commonModule = (CommonModule) receiver;
-			if (!isAlive(commonModule))
-				return false;
+		if (!"isAvailable".equals(property) || !(receiver instanceof CommonModule))
+			return false;
 
-			Module module = commonModule.getModule();
-			if (module == null)
-				return false;
+		CommonModule commonModule = (CommonModule) receiver;
+		if (!isAlive(commonModule))
+			return false;
 
-			if (module.allMethods().size() == 0)
+		Module module = commonModule.getModule();
+		if (module == null)
+			return false;
+
+		if (module.allMethods().isEmpty())
+			return true;
+
+		for (DeclareStatement statement : module.getDeclareStatements()) {
+			if (!(statement instanceof RegionPreprocessorDeclareStatement))
+				continue;
+
+			if (((RegionPreprocessorDeclareStatement) statement).getName().equals("ПроцедурыКонвертации"))
 				return true;
-
-			for (DeclareStatement statement : module.getDeclareStatements()) {
-				if (!(statement instanceof RegionPreprocessorDeclareStatement))
-					continue;
-
-				RegionPreprocessorDeclareStatement regionStatement = (RegionPreprocessorDeclareStatement) statement;
-
-				if (regionStatement.getName().equals("ПроцедурыКонвертации"))
-					return true;
-			}
 		}
+
 		return false;
 	}
 

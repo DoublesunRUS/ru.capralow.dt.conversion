@@ -53,12 +53,12 @@ public class ConversionPanelLabelProvider implements ILabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-
+		// Нечего делать
 	}
 
 	@Override
 	public void dispose() {
-
+		// Нечего делать
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ConversionPanelLabelProvider implements ILabelProvider {
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-
+		// Нечего делать
 	}
 
 	@Override

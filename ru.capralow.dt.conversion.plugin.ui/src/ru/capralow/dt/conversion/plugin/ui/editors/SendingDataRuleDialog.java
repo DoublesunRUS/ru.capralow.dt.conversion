@@ -53,17 +53,16 @@ public class SendingDataRuleDialog extends Dialog implements IAdaptable {
 	private ConversionModule conversionModule;
 	private URI moduleURI;
 
-	private Text txtDataRuleName, txtObjectRuleName;
-	private Text txtConfigurationObjectName;
-
 	private CTabFolder tabFolder;
 
-	private CTabItem tabItemOnProcessing, tabItemDataSelection;
+	private CTabItem tabItemOnProcessing;
+	private CTabItem tabItemDataSelection;
 
-	private CustomEmbeddedEditor editorOnProcessing, editorDataSelection;
-	private CustomEmbeddedEditorModelAccess modelAccessOnProcessing, modelAccessDataSelection;
+	private CustomEmbeddedEditor editorOnProcessing;
+	private CustomEmbeddedEditor editorDataSelection;
 
-	private String algorithmsText;
+	private CustomEmbeddedEditorModelAccess modelAccessOnProcessing;
+	private CustomEmbeddedEditorModelAccess modelAccessDataSelection;
 
 	private Boolean editable;
 
@@ -152,7 +151,7 @@ public class SendingDataRuleDialog extends Dialog implements IAdaptable {
 		lblRuleName.setText("Идентификатор правила");
 
 		// 1.2
-		txtDataRuleName = new Text(tabCompositeMain, SWT.BORDER);
+		Text txtDataRuleName = new Text(tabCompositeMain, SWT.BORDER);
 		txtDataRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtDataRuleName.setText("<Идентификатор правила>");
 		txtDataRuleName.setEditable(editable);
@@ -189,7 +188,7 @@ public class SendingDataRuleDialog extends Dialog implements IAdaptable {
 		lblConfigurationObjectName.setText("Объект конфигурации");
 
 		// 3.2
-		txtConfigurationObjectName = new Text(tabCompositeMain, SWT.BORDER);
+		Text txtConfigurationObjectName = new Text(tabCompositeMain, SWT.BORDER);
 		txtConfigurationObjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtConfigurationObjectName.setText("<Объект конфигурации>");
 		txtConfigurationObjectName.setEditable(editable);
@@ -224,7 +223,7 @@ public class SendingDataRuleDialog extends Dialog implements IAdaptable {
 		lblObjectRuleName.setText("Правило конвертации объекта");
 
 		// 5.2
-		txtObjectRuleName = new Text(tabCompositeMain, SWT.BORDER);
+		Text txtObjectRuleName = new Text(tabCompositeMain, SWT.BORDER);
 		txtObjectRuleName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtObjectRuleName.setText("<Правило конвертации объекта>");
 		txtObjectRuleName.setEditable(editable);
@@ -330,7 +329,7 @@ public class SendingDataRuleDialog extends Dialog implements IAdaptable {
 		txtObjectRuleName.setText(objectRules.get(0).getName());
 		viewer.setInput(objectRules);
 
-		algorithmsText = conversionModule.getAllAlgorithmsText("");
+		String algorithmsText = conversionModule.getAllAlgorithmsText("");
 
 		txtOnProcessing.setText(dataRule.getOnProcessingEventPrefix());
 		getModelAccessOnProcessing().updateEditablePart(dataRule.getOnProcessingEventText());

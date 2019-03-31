@@ -52,73 +52,82 @@ import ru.capralow.dt.conversion.plugin.core.rg.model.RgRule;
 import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 
 public class ConversionModuleReport {
+	private static final String ATTRIBUTE_FORMATVERSION = "FormatVersion";
+	private static final String ATTRIBUTE_OBJECTRULES = "ObjectRules";
+	private static final String KEY_FIELD_REF = "Ссылка";
+	private static final String TABULAR_SECTION_REGISTER = "НаборЗаписей";
+
+	private ConversionModuleReport() {
+		throw new IllegalStateException("Вспомогательный класс");
+	}
 
 	public static String createFullReport(RgVariant rgVariant, EnterpriseData enterpriseDataPackage,
-			ConversionModule conversionModule) throws IOException {
+			ConversionModule conversionModule) {
 		final String TEMPLATE_NAME_MAIN = "ReceivingConversionReport.txt";
-		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
+		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN));
 
 		final String TEMPLATE_NAME_GROUP = "ReceivingGroup.txt";
-		String templateGroupContent = readContents(getFileInputSupplier(TEMPLATE_NAME_GROUP), TEMPLATE_NAME_GROUP);
+		String templateGroupContent = readContents(getFileInputSupplier(TEMPLATE_NAME_GROUP));
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
-		String groupObjects = "";
+		StringBuilder groupObjects = new StringBuilder();
 
-		EList<EdDefinedType> edDefinedTypes = new BasicEList<EdDefinedType>();
-		EList<EdEnum> edEnums = new BasicEList<EdEnum>();
+		EList<EdDefinedType> edDefinedTypes = new BasicEList<>();
+		EList<EdEnum> edEnums = new BasicEList<>();
 
-		HashMap<String, EList<EdProperty>> mapKeyProperties = getKeyProperties(conversionModule.getObjectRules(),
+		Map<String, EList<EdProperty>> mapKeyProperties = getKeyProperties(conversionModule.getObjectRules(),
 				enterpriseDataPackage);
 
 		if (rgVariant != null) {
-			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
+			templateMain.setAttribute(ATTRIBUTE_FORMATVERSION,
+					rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
 
 			for (RgGroup rgGroup : rgVariant.getGroups()) {
 				StringTemplate templateGroups = new StringTemplate(templateGroupContent);
 
 				templateGroups.setAttribute("GroupName", rgGroup.getName());
 
-				String objects = "";
+				StringBuilder objects = new StringBuilder();
 				for (RgRule rgRule : rgGroup.getRules()) {
 					CmDataRule dataRule = conversionModule.getDataRule(rgRule.getName());
 					if (dataRule == null)
 						continue;
 
-					for (Object objectRule : dataRule.getObjectRules())
-						objects += getFullObject((CmObjectRule) objectRule, mapKeyProperties, edDefinedTypes, edEnums,
-								enterpriseDataPackage);
+					for (CmObjectRule objectRule : dataRule.getObjectRules())
+						objects.append(getFullObject((CmObjectRule) objectRule, mapKeyProperties, edDefinedTypes,
+								edEnums, enterpriseDataPackage));
 				}
 
-				templateGroups.setAttribute("ObjectRules", objects);
+				templateGroups.setAttribute(ATTRIBUTE_OBJECTRULES, objects);
 
-				groupObjects += templateGroups.toString();
+				groupObjects.append(templateGroups.toString());
 
 			}
 
 		} else {
-			templateMain.setAttribute("FormatVersion", enterpriseDataPackage.getVersion());
+			templateMain.setAttribute(ATTRIBUTE_FORMATVERSION, enterpriseDataPackage.getVersion());
 
 			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
 				EList<CmObjectRule> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
-				if (receivingObjectRules.size() == 0)
+				if (receivingObjectRules.isEmpty())
 					continue;
 
 				StringTemplate templateGroups = new StringTemplate(templateGroupContent);
 
 				templateGroups.setAttribute("GroupName", cmSubsystem.getName());
 
-				String objects = "";
+				StringBuilder objects = new StringBuilder();
 				for (CmObjectRule objectRule : receivingObjectRules)
-					objects += getFullObject(objectRule, mapKeyProperties, edDefinedTypes, edEnums,
-							enterpriseDataPackage);
-				templateGroups.setAttribute("ObjectRules", objects);
+					objects.append(getFullObject(objectRule, mapKeyProperties, edDefinedTypes, edEnums,
+							enterpriseDataPackage));
+				templateGroups.setAttribute(ATTRIBUTE_OBJECTRULES, objects);
 
-				groupObjects += templateGroups.toString();
+				groupObjects.append(templateGroups.toString());
 			}
 		}
 
-		templateMain.setAttribute("ObjectRules", groupObjects);
+		templateMain.setAttribute(ATTRIBUTE_OBJECTRULES, groupObjects);
 
 		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(edDefinedTypes, mapKeyProperties));
 
@@ -127,21 +136,21 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	public static HashMap<String, EList<EdProperty>> getKeyProperties(EList<CmObjectRule> objectRules,
+	public static Map<String, EList<EdProperty>> getKeyProperties(EList<CmObjectRule> objectRules,
 			EnterpriseData enterpriseDataPackage) {
-		HashMap<String, EList<EdProperty>> mapKeyProperties = new HashMap<String, EList<EdProperty>>();
+		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 
 		for (CmObjectRule objectRule : objectRules) {
 			if (objectRule.getFormatObject().isEmpty())
 				continue;
 
 			EdObject formatObject = enterpriseDataPackage.getObject(objectRule.getFormatObject());
-			EList<EdProperty> edKeyProperties = new BasicEList<EdProperty>();
+			EList<EdProperty> edKeyProperties = new BasicEList<>();
 
-			ArrayList<String> listIdentificationFields = new ArrayList<String>();
+			ArrayList<String> listIdentificationFields = new ArrayList<>();
 			if (objectRule.getIdentificationVariant() != CmIdentificationVariant.SEARCH_FIELDS)
 				for (EdProperty edKeyProperty : formatObject.getKeyProperties()) {
-					if (edKeyProperty.getName().equals("Ссылка")) {
+					if (edKeyProperty.getName().equals(KEY_FIELD_REF)) {
 						edKeyProperties.add(edKeyProperty);
 						break;
 					}
@@ -171,12 +180,12 @@ public class ConversionModuleReport {
 	}
 
 	public static String createDefinedTypesReport(EList<EdDefinedType> edDefinedTypes,
-			HashMap<String, EList<EdProperty>> mapKeyProperties) {
-		if (edDefinedTypes.size() == 0)
+			Map<String, EList<EdProperty>> mapKeyProperties) {
+		if (edDefinedTypes.isEmpty())
 			return "";
 
 		final String TEMPLATE_NAME = "ReceivingDefinedTypes.txt";
-		String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME), TEMPLATE_NAME);
+		String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME));
 
 		StringTemplate template = new StringTemplate(templateContent);
 
@@ -185,14 +194,14 @@ public class ConversionModuleReport {
 		for (EdDefinedType edDefinedType : edDefinedTypes) {
 			EList<EdType> edTypes = edDefinedType.getTypes();
 
-			String definedTypesType = "";
+			StringBuilder definedTypesType = new StringBuilder();
 			for (EdType edType : edTypes) {
-				if (!definedTypesType.isEmpty())
-					definedTypesType += ";";
-				definedTypesType += edType.getName() + ":" + edType.getPropertyType();
+				if (definedTypesType.length() != 0)
+					definedTypesType.append(";");
+				definedTypesType.append(edType.getName()).append(":").append(edType.getPropertyType());
 			}
 
-			ArrayList<String> definedTypes = expandPropertyType(edDefinedType.getName(), definedTypesType, false,
+			List<String> definedTypes = expandPropertyType(edDefinedType.getName(), definedTypesType.toString(), false,
 					mapKeyProperties);
 			for (String definedType : definedTypes) {
 				String[] definedTypeArray = definedType.split("[,]", 3);
@@ -214,11 +223,11 @@ public class ConversionModuleReport {
 	}
 
 	public static String createEnumsReport(EList<EdEnum> edEnums) {
-		if (edEnums.size() == 0)
+		if (edEnums.isEmpty())
 			return "";
 
 		final String TEMPLATE_NAME = "ReceivingEnums.txt";
-		String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME), TEMPLATE_NAME);
+		String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME));
 
 		StringTemplate template = new StringTemplate(templateContent);
 
@@ -233,8 +242,10 @@ public class ConversionModuleReport {
 
 					firstRow = false;
 
-				} else
+				} else {
 					mdTable.addRow(1, new String[][] { { "", "0", "" }, { enumeration.getContent(), "0", "" } });
+
+				}
 			}
 		}
 
@@ -244,9 +255,9 @@ public class ConversionModuleReport {
 	}
 
 	public static String createObjectsReport(RgVariant rgVariant, EnterpriseData enterpriseDataPackage,
-			ConversionModule conversionModule) throws IOException {
+			ConversionModule conversionModule) {
 		final String TEMPLATE_NAME_MAIN = "ReceivingObjectsList.txt";
-		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN), TEMPLATE_NAME_MAIN);
+		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN));
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
@@ -254,7 +265,8 @@ public class ConversionModuleReport {
 				"Объект конфигурации", "Правила поиска", "Примечание" });
 
 		if (rgVariant != null) {
-			templateMain.setAttribute("FormatVersion", rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
+			templateMain.setAttribute(ATTRIBUTE_FORMATVERSION,
+					rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
 
 			for (RgGroup rgGroup : rgVariant.getGroups()) {
 				mdTable.addRow(1, new String[][] { { rgGroup.getName(), "0", "**" }, { "", "0", "" }, { "", "0", "" },
@@ -265,18 +277,18 @@ public class ConversionModuleReport {
 					if (dataRule == null)
 						continue;
 
-					for (Object objectRule : dataRule.getObjectRules())
+					for (CmObjectRule objectRule : dataRule.getObjectRules())
 						mdTable.addRow(1, getObjectRow((CmObjectRule) objectRule));
 				}
 
 			}
 
 		} else {
-			templateMain.setAttribute("FormatVersion", enterpriseDataPackage.getVersion());
+			templateMain.setAttribute(ATTRIBUTE_FORMATVERSION, enterpriseDataPackage.getVersion());
 
 			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
 				EList<CmObjectRule> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
-				if (receivingObjectRules.size() == 0)
+				if (receivingObjectRules.isEmpty())
 					continue;
 
 				for (CmObjectRule objectRule : receivingObjectRules)
@@ -289,14 +301,13 @@ public class ConversionModuleReport {
 		return templateMain.toString();
 	}
 
-	private static String getFullObject(CmObjectRule cmObjectRule, HashMap<String, EList<EdProperty>> mapKeyProperties,
+	private static String getFullObject(CmObjectRule cmObjectRule, Map<String, EList<EdProperty>> mapKeyProperties,
 			EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums, EnterpriseData enterpriseDataPackage) {
 		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
-		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT), TEMPLATE_NAME_OBJECT);
+		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT));
 
 		final String TEMPLATE_NAME_ATTRIBUTES = "ReceivingAttributes.txt";
-		String templateAttributesContent = readContents(getFileInputSupplier(TEMPLATE_NAME_ATTRIBUTES),
-				TEMPLATE_NAME_ATTRIBUTES);
+		String templateAttributesContent = readContents(getFileInputSupplier(TEMPLATE_NAME_ATTRIBUTES));
 
 		StringTemplate templateObject = new StringTemplate(templateObjectContent);
 
@@ -334,8 +345,8 @@ public class ConversionModuleReport {
 		templateObject.setAttribute("Identification", createIdentificationReport(
 				cmObjectRule.getIdentificationVariant(), cmObjectRule.getIdentificationFields()));
 
-		HashMap<String, String> tabularSectionSynonyms = new HashMap<String, String>();
-		HashMap<String, String> attributeSynonyms = new HashMap<String, String>();
+		Map<String, String> tabularSectionSynonyms = new HashMap<>();
+		Map<String, String> attributeSynonyms = new HashMap<>();
 
 		// TODO: Добавить синонимы для стандартных реквизитов
 		if (configurationObject instanceof Catalog) {
@@ -479,16 +490,16 @@ public class ConversionModuleReport {
 		} else if (configurationObject instanceof InformationRegister) {
 			InformationRegister typedObject = (InformationRegister) configurationObject;
 			for (StandardAttribute attribute : typedObject.getStandardAttributes())
-				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+				attributeSynonyms.put(TABULAR_SECTION_REGISTER.concat(".").concat(attribute.getName()),
 						attribute.getSynonym().get("ru"));
 			for (MdObject attribute : typedObject.getDimensions())
-				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+				attributeSynonyms.put(TABULAR_SECTION_REGISTER.concat(".").concat(attribute.getName()),
 						attribute.getSynonym().get("ru"));
 			for (MdObject attribute : typedObject.getResources())
-				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+				attributeSynonyms.put(TABULAR_SECTION_REGISTER.concat(".").concat(attribute.getName()),
 						attribute.getSynonym().get("ru"));
 			for (MdObject attribute : typedObject.getAttributes())
-				attributeSynonyms.put("НаборЗаписей".concat(".").concat(attribute.getName()),
+				attributeSynonyms.put(TABULAR_SECTION_REGISTER.concat(".").concat(attribute.getName()),
 						attribute.getSynonym().get("ru"));
 
 		}
@@ -498,21 +509,21 @@ public class ConversionModuleReport {
 		if (!(configurationObject instanceof InformationRegister)) {
 			CmAttributeRule refAttributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
 
-			refAttributeRule.setConfigurationAttribute("Ссылка");
+			refAttributeRule.setConfigurationAttribute(KEY_FIELD_REF);
 
 			if (!cmObjectRule.getFormatObject().isEmpty())
-				refAttributeRule.setFormatAttribute("Ссылка");
+				refAttributeRule.setFormatAttribute(KEY_FIELD_REF);
 
 			refAttributeRule.setObjectRule(cmObjectRule);
 
 			attributeRules.add(0, refAttributeRule);
 		}
 
-		HashMap<String, MarkdownTable> tabularSectionsRows = new HashMap<String, MarkdownTable>();
+		Map<String, MarkdownTable> tabularSectionsRows = new HashMap<>();
 
 		boolean hasRef = false;
 		for (CmAttributeRule attributeRule : attributeRules) {
-			if (attributeRule.getConfigurationAttribute().equals("Ссылка"))
+			if (attributeRule.getConfigurationAttribute().equals(KEY_FIELD_REF))
 				if (hasRef)
 					continue;
 				else
@@ -561,7 +572,7 @@ public class ConversionModuleReport {
 				if (attributeRule.getFormatAttribute().isEmpty())
 					comment = "<Заполняется алгоритмом>";
 
-				ArrayList<String> listPropertyTypes = expandPropertyType(formatAttribute, edProperty.getType(),
+				List<String> listPropertyTypes = expandPropertyType(formatAttribute, edProperty.getType(),
 						edProperty.getRequired(), mapKeyProperties);
 
 				boolean firstRow = true;
@@ -602,13 +613,13 @@ public class ConversionModuleReport {
 
 		}
 
-		String attributeRulesText = "";
+		StringBuilder attributeRulesText = new StringBuilder();
 		for (Map.Entry<String, MarkdownTable> tabularSectionRow : tabularSectionsRows.entrySet()) {
 			StringTemplate templateAttributes = new StringTemplate(templateAttributesContent);
 
 			String configurationTabularSectionName = tabularSectionRow.getKey();
 
-			if (configurationTabularSectionName.equals("")) {
+			if (configurationTabularSectionName.isEmpty()) {
 				templateAttributes.setAttribute("TabularSection", "Шапка");
 
 			} else {
@@ -622,7 +633,7 @@ public class ConversionModuleReport {
 
 			templateAttributes.setAttribute("TabularRows", tabularSectionRow.getValue().getTable());
 
-			attributeRulesText += templateAttributes.toString();
+			attributeRulesText.append(templateAttributes);
 		}
 
 		templateObject.setAttribute("AttributeRules", attributeRulesText);
@@ -630,9 +641,9 @@ public class ConversionModuleReport {
 		return templateObject.toString();
 	}
 
-	public static ArrayList<String> expandPropertyType(String propertyName, String propertyType,
-			Boolean propertyRequired, HashMap<String, EList<EdProperty>> mapKeyProperties) {
-		ArrayList<String> listProperties = new ArrayList<String>();
+	public static List<String> expandPropertyType(String propertyName, String propertyType, Boolean propertyRequired,
+			Map<String, EList<EdProperty>> mapKeyProperties) {
+		List<String> listProperties = new ArrayList<>();
 
 		if (propertyType.isEmpty()) {
 			if (!propertyName.isEmpty())
@@ -698,13 +709,13 @@ public class ConversionModuleReport {
 		if (identificationVariant == null)
 			return "**Вариант идентификации: Не определен**";
 
-		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS
-				&& identificationFields.size() == 0)
+		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS && identificationFields.isEmpty())
 			identificationVariant = CmIdentificationVariant.UUID;
 
-		String result = "**Вариант идентификации: " + identificationVariant + "**";
+		StringBuilder result = new StringBuilder();
+		result.append("**Вариант идентификации: " + identificationVariant + "**");
 
-		if (identificationVariant != CmIdentificationVariant.UUID && identificationFields.size() != 0) {
+		if (identificationVariant != CmIdentificationVariant.UUID && !identificationFields.isEmpty()) {
 			MarkdownTable mdTable = new MarkdownTable(
 					new String[] { "Порядок поиска по ключевым полям", "Реквизиты поиска" });
 
@@ -714,12 +725,14 @@ public class ConversionModuleReport {
 								{ Integer.toString(identificationFields.indexOf(identificationField) + 1), "0", "" },
 								{ identificationField, "0", "" } });
 
-			result += System.lineSeparator() + System.lineSeparator() + mdTable.getTable();
+			result.append(System.lineSeparator()).append(System.lineSeparator()).append(mdTable.getTable());
 
-		} else
-			result += System.lineSeparator();
+		} else {
+			result.append(System.lineSeparator());
 
-		return result;
+		}
+
+		return result.toString();
 	}
 
 	private static String[][] getObjectRow(CmObjectRule cmObjectRule) {
@@ -751,25 +764,22 @@ public class ConversionModuleReport {
 		EList<String> identificationFields = cmObjectRule.getIdentificationFields();
 
 		CmIdentificationVariant identificationVariant = cmObjectRule.getIdentificationVariant();
-		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS
-				&& identificationFields.size() == 0)
+		if (identificationVariant == CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS && identificationFields.isEmpty())
 			identificationVariant = CmIdentificationVariant.UUID;
 
-		String identificationFieldsTable = "";
-		if (identificationFields.size() != 0) {
+		StringBuilder identificationFieldsTable = new StringBuilder();
+		if (!identificationFields.isEmpty()) {
 			for (String identificationField : cmObjectRule.getIdentificationFields()) {
-				identificationFieldsTable += "<br>" + identificationField;
+				identificationFieldsTable.append("<br>").append(identificationField);
 			}
 		}
 
-		String[][] objectRow = new String[][] { { objectSynonym, "0", "" }, { cmObjectRule.getFormatObject(), "0", "" },
+		return new String[][] { { objectSynonym, "0", "" }, { cmObjectRule.getFormatObject(), "0", "" },
 				{ cmObjectRule.getConfigurationObjectFormattedName(), "0", "" },
 				{ identificationVariant.getLiteral() + identificationFieldsTable, "0", "" }, { "", "0", "" } };
-
-		return objectRow;
 	}
 
-	private static String readContents(CharSource source, String path) {
+	private static String readContents(CharSource source) {
 		try (Reader reader = source.openBufferedStream()) {
 			return CharStreams.toString(reader);
 		} catch (IOException | NullPointerException e) {

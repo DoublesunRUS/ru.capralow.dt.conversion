@@ -72,15 +72,23 @@ public class cmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case cmPackage.CM_OBJECT: {
+				CmObject cmObject = (CmObject)theEObject;
+				T result = caseCmObject(cmObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case cmPackage.CM_DATA_RULE: {
 				CmDataRule cmDataRule = (CmDataRule)theEObject;
 				T result = caseCmDataRule(cmDataRule);
+				if (result == null) result = caseCmObject(cmDataRule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case cmPackage.CM_OBJECT_RULE: {
 				CmObjectRule cmObjectRule = (CmObjectRule)theEObject;
 				T result = caseCmObjectRule(cmObjectRule);
+				if (result == null) result = caseCmObject(cmObjectRule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -93,6 +101,7 @@ public class cmSwitch<T> extends Switch<T> {
 			case cmPackage.CM_PREDEFINED: {
 				CmPredefined cmPredefined = (CmPredefined)theEObject;
 				T result = caseCmPredefined(cmPredefined);
+				if (result == null) result = caseCmObject(cmPredefined);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -136,6 +145,21 @@ public class cmSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConversionModule(ConversionModule object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cm Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cm Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmObject(CmObject object) {
 		return null;
 	}
 

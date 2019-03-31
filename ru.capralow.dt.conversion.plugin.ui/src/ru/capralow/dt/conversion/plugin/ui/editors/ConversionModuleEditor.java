@@ -2,9 +2,8 @@
 package ru.capralow.dt.conversion.plugin.ui.editors;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IStorage;
@@ -23,13 +22,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -101,7 +96,11 @@ import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
-	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
+	public static final String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
+
+	private static final String COLUMNNAME_MDOBJECT = "Объект конфигурации";
+	private static final String COLUMNNAME_XDTOOBJECT = "Объект формата";
+	private static final String COLUMNNAME_NAME = "Наименование";
 
 	private Boolean editable;
 
@@ -116,8 +115,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private ConversionModule conversionModule;
 
 	private TableViewer viewerSubsystems;
-	private TableViewer viewerSendingDataRules, viewerSendingObjectRules;
-	private TableViewer viewerReceivingDataRules, viewerReceivingObjectRules;
+	private TableViewer viewerSendingDataRules;
+	private TableViewer viewerSendingObjectRules;
+	private TableViewer viewerReceivingDataRules;
+	private TableViewer viewerReceivingObjectRules;
 	private TableViewer viewerPredefineds;
 	private TableViewer viewerAlgorithms;
 
@@ -190,6 +191,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			}
 
 			public void widgetDefaultSelected(SelectionEvent event) {
+				// Нечего делать
 			}
 		});
 
@@ -327,7 +329,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableViewerColumn tblclmnSendingDataRulesColumn2 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
 		tclSendingDataRules.setColumnData(tblclmnSendingDataRulesColumn2.getColumn(),
 				new ColumnWeightData(1, 100, true));
-		tblclmnSendingDataRulesColumn2.getColumn().setText("Объект конфигурации");
+		tblclmnSendingDataRulesColumn2.getColumn().setText(COLUMNNAME_MDOBJECT);
 		tblclmnSendingDataRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -339,7 +341,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableViewerColumn tblclmnSendingDataRulesColumn1 = new TableViewerColumn(viewerSendingDataRules, SWT.NONE);
 		tclSendingDataRules.setColumnData(tblclmnSendingDataRulesColumn1.getColumn(),
 				new ColumnWeightData(2, 100, true));
-		tblclmnSendingDataRulesColumn1.getColumn().setText("Наименование");
+		tblclmnSendingDataRulesColumn1.getColumn().setText(COLUMNNAME_NAME);
 		tblclmnSendingDataRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -407,7 +409,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableViewerColumn tblclmnSendingObjectRulesColumn2 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
 		tclSendingObjectRules.setColumnData(tblclmnSendingObjectRulesColumn2.getColumn(),
 				new ColumnWeightData(1, 100, true));
-		tblclmnSendingObjectRulesColumn2.getColumn().setText("Объект конфигурации");
+		tblclmnSendingObjectRulesColumn2.getColumn().setText(COLUMNNAME_MDOBJECT);
 		tblclmnSendingObjectRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -419,7 +421,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableViewerColumn tblclmnSendingObjectRulesColumn3 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
 		tclSendingObjectRules.setColumnData(tblclmnSendingObjectRulesColumn3.getColumn(),
 				new ColumnWeightData(1, 100, true));
-		tblclmnSendingObjectRulesColumn3.getColumn().setText("Объект формата");
+		tblclmnSendingObjectRulesColumn3.getColumn().setText(COLUMNNAME_XDTOOBJECT);
 		tblclmnSendingObjectRulesColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -431,7 +433,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableViewerColumn tblclmnSendingObjectRulesColumn1 = new TableViewerColumn(viewerSendingObjectRules, SWT.NONE);
 		tclSendingObjectRules.setColumnData(tblclmnSendingObjectRulesColumn1.getColumn(),
 				new ColumnWeightData(2, 100, true));
-		tblclmnSendingObjectRulesColumn1.getColumn().setText("Наименование");
+		tblclmnSendingObjectRulesColumn1.getColumn().setText(COLUMNNAME_NAME);
 		tblclmnSendingObjectRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -490,7 +492,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableViewerColumn tblclmnReceivingDataRulesColumn2 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
 		tclReceivingDataRules.setColumnData(tblclmnReceivingDataRulesColumn2.getColumn(),
 				new ColumnWeightData(1, 100, true));
-		tblclmnReceivingDataRulesColumn2.getColumn().setText("Объект формата");
+		tblclmnReceivingDataRulesColumn2.getColumn().setText(COLUMNNAME_XDTOOBJECT);
 		tblclmnReceivingDataRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -502,7 +504,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		TableViewerColumn tblclmnReceivingDataRulesColumn1 = new TableViewerColumn(viewerReceivingDataRules, SWT.NONE);
 		tclReceivingDataRules.setColumnData(tblclmnReceivingDataRulesColumn1.getColumn(),
 				new ColumnWeightData(2, 100, true));
-		tblclmnReceivingDataRulesColumn1.getColumn().setText("Наименование");
+		tblclmnReceivingDataRulesColumn1.getColumn().setText(COLUMNNAME_NAME);
 		tblclmnReceivingDataRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -562,7 +564,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				SWT.NONE);
 		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn3.getColumn(),
 				new ColumnWeightData(1, 100, true));
-		tblclmnReceivingObjectRulesColumn3.getColumn().setText("Объект формата");
+		tblclmnReceivingObjectRulesColumn3.getColumn().setText(COLUMNNAME_XDTOOBJECT);
 		tblclmnReceivingObjectRulesColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -575,7 +577,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				SWT.NONE);
 		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn2.getColumn(),
 				new ColumnWeightData(1, 100, true));
-		tblclmnReceivingObjectRulesColumn2.getColumn().setText("Объект конфигурации");
+		tblclmnReceivingObjectRulesColumn2.getColumn().setText(COLUMNNAME_MDOBJECT);
 		tblclmnReceivingObjectRulesColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -588,7 +590,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				SWT.NONE);
 		tclReceivingObjectRules.setColumnData(tblclmnReceivingObjectRulesColumn1.getColumn(),
 				new ColumnWeightData(2, 100, true));
-		tblclmnReceivingObjectRulesColumn1.getColumn().setText("Наименование");
+		tblclmnReceivingObjectRulesColumn1.getColumn().setText(COLUMNNAME_NAME);
 		tblclmnReceivingObjectRulesColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -666,7 +668,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		TableViewerColumn tblclmnPredefinedsColumn2 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
 		tclPredefineds.setColumnData(tblclmnPredefinedsColumn2.getColumn(), new ColumnWeightData(1, 100, true));
-		tblclmnPredefinedsColumn2.getColumn().setText("Объект конфигурации");
+		tblclmnPredefinedsColumn2.getColumn().setText(COLUMNNAME_MDOBJECT);
 		tblclmnPredefinedsColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -677,7 +679,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		});
 		TableViewerColumn tblclmnPredefinedsColumn3 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
 		tclPredefineds.setColumnData(tblclmnPredefinedsColumn3.getColumn(), new ColumnWeightData(1, 100, true));
-		tblclmnPredefinedsColumn3.getColumn().setText("Объект формата");
+		tblclmnPredefinedsColumn3.getColumn().setText(COLUMNNAME_XDTOOBJECT);
 		tblclmnPredefinedsColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -688,7 +690,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		});
 		TableViewerColumn tblclmnPredefinedsColumn1 = new TableViewerColumn(viewerPredefineds, SWT.NONE);
 		tclPredefineds.setColumnData(tblclmnPredefinedsColumn1.getColumn(), new ColumnWeightData(2, 100, true));
-		tblclmnPredefinedsColumn1.getColumn().setText("Наименование");
+		tblclmnPredefinedsColumn1.getColumn().setText(COLUMNNAME_NAME);
 		tblclmnPredefinedsColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -832,210 +834,179 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				if (conversionModuleDialog.open() == Window.OK) {
 					try {
 						updateModule();
+
+					} catch (CoreException e) {
+						e.printStackTrace();
+
+					}
+				}
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// Нечего делать
+			}
+		});
+
+		viewerSubsystems.addSelectionChangedListener(event -> {
+			CmSubsystem cmSubsystem = (CmSubsystem) ((StructuredSelection) ((TableViewer) event.getSource())
+					.getSelection()).getFirstElement();
+
+			viewerSendingDataRules.setInput(conversionModule.getSendingDataRules(cmSubsystem));
+			viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules(cmSubsystem));
+
+			viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules(cmSubsystem));
+			viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules(cmSubsystem));
+		});
+
+		viewerSendingDataRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty())
+				return;
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmDataRule) {
+				CmDataRule dataRule = ((CmDataRule) element);
+
+				SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
+						event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
+				if (dataRuleDialog.open() == Window.OK) {
+					try {
+						updateModule();
+
+					} catch (CoreException e) {
+						e.printStackTrace();
+
+					}
+				}
+			}
+
+		});
+
+		viewerSendingObjectRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty()) {
+				return;
+			}
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmObjectRule) {
+				CmObjectRule objectRule = ((CmObjectRule) element);
+
+				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
+						objectRule, conversionModule, moduleURI, editable);
+				if (objectRuleDialog.open() == Window.OK) {
+					try {
+						updateModule();
+
+					} catch (CoreException e) {
+						e.printStackTrace();
+
+					}
+				}
+			}
+		});
+
+		viewerReceivingDataRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty())
+				return;
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmDataRule) {
+				CmDataRule dataRule = ((CmDataRule) element);
+
+				ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
+						event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
+				if (dataRuleDialog.open() == Window.OK) {
+					try {
+						updateModule();
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
 				}
-				;
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
 			}
 		});
 
-		viewerSubsystems.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				CmSubsystem cmSubsystem = (CmSubsystem) ((StructuredSelection) ((TableViewer) event.getSource())
-						.getSelection()).getFirstElement();
+		viewerReceivingObjectRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
 
-				viewerSendingDataRules.setInput(conversionModule.getSendingDataRules(cmSubsystem));
-				viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules(cmSubsystem));
+			if (selection.isEmpty()) {
+				return;
+			}
 
-				viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules(cmSubsystem));
-				viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules(cmSubsystem));
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmObjectRule) {
+				CmObjectRule objectRule = ((CmObjectRule) element);
+
+				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
+						objectRule, conversionModule, moduleURI, editable);
+				if (objectRuleDialog.open() == Window.OK) {
+					try {
+						updateModule();
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		});
 
-		viewerSendingDataRules.addDoubleClickListener((new IDoubleClickListener() {
+		viewerPredefineds.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
 
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
-
-				if (selection.isEmpty()) {
-					return;
-				}
-
-				Object element = ((IStructuredSelection) selection).getFirstElement();
-
-				if (element instanceof CmDataRule) {
-					CmDataRule dataRule = ((CmDataRule) element);
-
-					SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
-					if (dataRuleDialog.open() == Window.OK) {
-						try {
-							updateModule();
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
-					}
-					;
-				}
-
+			if (selection.isEmpty()) {
+				return;
 			}
-		}));
 
-		viewerSendingObjectRules.addDoubleClickListener((new IDoubleClickListener() {
+			Object element = ((IStructuredSelection) selection).getFirstElement();
 
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
+			if (element instanceof CmPredefined) {
+				CmPredefined predefined = ((CmPredefined) element);
 
-				if (selection.isEmpty()) {
-					return;
-				}
+				PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
+						predefined, editable);
+				if (predefinedDialog.open() == Window.OK) {
+					try {
+						updateModule();
 
-				Object element = ((IStructuredSelection) selection).getFirstElement();
+					} catch (CoreException e) {
+						e.printStackTrace();
 
-				if (element instanceof CmObjectRule) {
-					CmObjectRule objectRule = ((CmObjectRule) element);
-
-					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule, conversionModule, moduleURI, editable);
-					if (objectRuleDialog.open() == Window.OK) {
-						try {
-							updateModule();
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
 					}
-					;
 				}
-
 			}
-		}));
+		});
 
-		viewerReceivingDataRules.addDoubleClickListener((new IDoubleClickListener() {
+		viewerAlgorithms.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
 
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
+			if (selection.isEmpty())
+				return;
 
-				if (selection.isEmpty()) {
-					return;
-				}
+			Object element = ((IStructuredSelection) selection).getFirstElement();
 
-				Object element = ((IStructuredSelection) selection).getFirstElement();
+			if (element instanceof CmAlgorithm) {
+				CmAlgorithm algorithm = ((CmAlgorithm) element);
 
-				if (element instanceof CmDataRule) {
-					CmDataRule dataRule = ((CmDataRule) element);
+				AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
+						algorithm, conversionModule, moduleURI, editable);
+				if (algorithmDialog.open() == Window.OK) {
+					try {
+						updateModule();
 
-					ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
-							event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
-					if (dataRuleDialog.open() == Window.OK) {
-						try {
-							updateModule();
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
+					} catch (CoreException e) {
+						e.printStackTrace();
+
 					}
-					;
 				}
-
 			}
-		}));
-
-		viewerReceivingObjectRules.addDoubleClickListener((new IDoubleClickListener() {
-
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
-
-				if (selection.isEmpty()) {
-					return;
-				}
-
-				Object element = ((IStructuredSelection) selection).getFirstElement();
-
-				if (element instanceof CmObjectRule) {
-					CmObjectRule objectRule = ((CmObjectRule) element);
-
-					ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-							objectRule, conversionModule, moduleURI, editable);
-					if (objectRuleDialog.open() == Window.OK) {
-						try {
-							updateModule();
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
-					}
-					;
-				}
-
-			}
-		}));
-
-		viewerPredefineds.addDoubleClickListener((new IDoubleClickListener() {
-
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
-
-				if (selection.isEmpty()) {
-					return;
-				}
-
-				Object element = ((IStructuredSelection) selection).getFirstElement();
-
-				if (element instanceof CmPredefined) {
-					CmPredefined predefined = ((CmPredefined) element);
-
-					PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
-							predefined, editable);
-					if (predefinedDialog.open() == Window.OK) {
-						try {
-							updateModule();
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
-					}
-					;
-				}
-
-			}
-		}));
-
-		viewerAlgorithms.addDoubleClickListener((new IDoubleClickListener() {
-
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
-
-				if (selection.isEmpty()) {
-					return;
-				}
-
-				Object element = ((IStructuredSelection) selection).getFirstElement();
-
-				if (element instanceof CmAlgorithm) {
-					CmAlgorithm algorithm = ((CmAlgorithm) element);
-
-					AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
-							algorithm, conversionModule, moduleURI, editable);
-					if (algorithmDialog.open() == Window.OK) {
-						try {
-							updateModule();
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
-					}
-					;
-				}
-
-			}
-		}));
+		});
 	}
 
 	private void updatePage() {
@@ -1043,7 +1014,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		IConfigurationProject configurationProject = (IConfigurationProject) projectManager.getProject(commonModule);
 
 		URI xmiURI = ReportGroupsAnalyzer.getResourceURIforPlugin(commonModule.getName(),
-				configurationProject.getProject(), Activator.getDefault());
+				configurationProject.getProject());
 		ReportGroups reportGroups = ReportGroupsAnalyzer.loadResource(xmiURI);
 
 		xmiURI = ExchangeProjectsAnalyzer.getResourceURIforPlugin(configurationProject.getProject(),
@@ -1051,14 +1022,13 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(xmiURI,
 				configurationProject.getConfiguration());
 
-		HashMap<String, EnterpriseData> enterpriseDataPackages = EnterpriseDataAnalyzer.loadPluginResources(
+		Map<String, EnterpriseData> enterpriseDataPackages = EnterpriseDataAnalyzer.loadPluginResources(commonModule,
 				exchangeProject, configurationProject.getConfiguration(), configurationProject.getProject(),
 				Activator.getDefault());
 
 		XtextEditor embeddedEditor = getModuleEditor();
 		if (embeddedEditor.isDirty()) {
-			conversionModule = ConversionModuleAnalyzer.analyze(commonModule, exchangeProject, enterpriseDataPackages,
-					projectManager, bmEmfIndexManager, Activator.getDefault());
+			conversionModule = ConversionModuleAnalyzer.analyze(commonModule, projectManager, bmEmfIndexManager);
 
 		} else {
 			xmiURI = ConversionModuleAnalyzer.getResourceURIforPlugin(commonModule.getName(),
@@ -1121,7 +1091,6 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				// com._1c.g5.v8.dt.core.filesystem.IQualifiedNameFilePathConverter
 
 				embeddedEditor = (XtextEditor) editor[0];
-				break;
 
 			} else if (editor[0] instanceof FormEditor) {
 				FormEditor formEditor = (FormEditor) editor[0];
@@ -1147,9 +1116,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		}
 
-		if (embeddedEditor == null) {
+		if (embeddedEditor == null)
 			throw new NullPointerException("Не удалось найти редактор для помещения изменений.");
-		}
 
 		return embeddedEditor;
 	}
@@ -1167,8 +1135,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			bufferChange.setBase(snapshot);
 			try {
 				buffer.applyChange(bufferChange, null);
+
 			} catch (CoreException e) {
 				e.printStackTrace();
+
 			}
 
 		} finally {
@@ -1286,13 +1256,14 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
 
-				} catch (IOException | PartInitException e) {
+				} catch (PartInitException e) {
 					e.printStackTrace();
 
 				}
 			}
 
 			public void widgetDefaultSelected(SelectionEvent event) {
+				// Нечего делать
 			}
 		});
 	}

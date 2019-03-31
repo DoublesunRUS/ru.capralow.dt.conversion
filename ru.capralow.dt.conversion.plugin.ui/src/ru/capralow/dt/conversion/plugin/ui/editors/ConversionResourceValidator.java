@@ -46,9 +46,8 @@ public class ConversionResourceValidator extends NotifyingResourceValidator {
 				? CheckMode.ALL
 				: mode;
 		try {
-			List<Issue> issues = super.validate(resource, newMode, indicator);
+			return super.validate(resource, newMode, indicator);
 
-			return issues;
 		} finally {
 			if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof Module) {
 				cacheScopeProvider.clearScopes((Module) resource.getContents().get(0));
@@ -60,11 +59,11 @@ public class ConversionResourceValidator extends NotifyingResourceValidator {
 
 	@Override
 	protected void resolveProxies(final Resource resource, final CancelIndicator monitor) {
-		// nothing to do
+		// Нечего делать
 	}
 
 	@Override
 	protected void notifyListeners(Resource resource, List<Issue> issues) {
-
+		// Нечего делать
 	}
 }

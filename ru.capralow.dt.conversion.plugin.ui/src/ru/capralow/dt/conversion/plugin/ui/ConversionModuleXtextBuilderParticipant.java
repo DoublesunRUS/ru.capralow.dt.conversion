@@ -1,7 +1,5 @@
 package ru.capralow.dt.conversion.plugin.ui;
 
-import java.util.HashMap;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -66,8 +64,6 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 
 		}
 
-		HashMap<String, EnterpriseData> enterpriseDataPackages = new HashMap<String, EnterpriseData>();
-
 		for (EpFormatVersion epFormatVersion : exchangeProject.getFormatVersions()) {
 			xmiURI = EnterpriseDataAnalyzer.getResourceURIforPlugin(epFormatVersion.getVersion(), project, plugin);
 
@@ -82,8 +78,6 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 				EnterpriseDataAnalyzer.saveResource(enterpriseDataPackage, xmiURI);
 
 			}
-
-			enterpriseDataPackages.put(epFormatVersion.getVersion(), enterpriseDataPackage);
 		}
 
 		for (CommonModule commonModule : exchangeProject.getFormatModules()) {
@@ -91,14 +85,12 @@ public class ConversionModuleXtextBuilderParticipant implements org.eclipse.xtex
 
 			ConversionModule conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configuration);
 			if (conversionModule == null) {
-				conversionModule = ConversionModuleAnalyzer.analyze(commonModule, exchangeProject,
-						enterpriseDataPackages, projectManager, bmEmfIndexManager, plugin);
+				conversionModule = ConversionModuleAnalyzer.analyze(commonModule, projectManager, bmEmfIndexManager);
 				ConversionModuleAnalyzer.saveResource(conversionModule, xmiURI);
 
 			} else {
 				// TODO: Сделать обновление только когда deltas соответствует пакетам
-				conversionModule = ConversionModuleAnalyzer.analyze(commonModule, exchangeProject,
-						enterpriseDataPackages, projectManager, bmEmfIndexManager, plugin);
+				conversionModule = ConversionModuleAnalyzer.analyze(commonModule, projectManager, bmEmfIndexManager);
 				ConversionModuleAnalyzer.saveResource(conversionModule, xmiURI);
 
 			}

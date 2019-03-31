@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IManagedForm;
@@ -71,11 +70,6 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 
 	}
 
-	@Override
-	protected Layout createPageLayout() {
-		return super.createPageLayout();
-	}
-
 	// @Override
 	// public void createPartControl(Composite parent) {
 	// super.createPartControl(parent);
@@ -120,10 +114,12 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+		// Нечего делать
 	}
 
 	@Override
 	public void doSaveAs() {
+		// Нечего делать
 	}
 
 	@Override
@@ -138,6 +134,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 
 	@Override
 	public void setFocus() {
+		// Нечего делать
 	}
 
 	private void readRegistrationModule(IFile file) {
@@ -153,47 +150,45 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 
 			Element documentElement = document.getDocumentElement();
 
-			if (documentElement.getNodeName() != "") {
+			if (!documentElement.getNodeName().isEmpty())
 				return;
-			}
 
 			NodeList nodeList = documentElement.getChildNodes();
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
 
 				String nodeName = node.getNodeName();
-				if (nodeName == "") {
+				if (nodeName.equals("Версия")) {
 					registrationModule.setModuleVersion(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "") {
+				} else if (nodeName.equals("Ссылка")) {
 					registrationModule.setModuleRef(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "") {
+				} else if (nodeName.equals("Имя")) {
 					registrationModule.setModuleName(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "") {
+				} else if (nodeName.equals("Дата")) {
 					// TODO: registrationModule.setModuleCreationDate(node.getNodeValue());
 
-				} else if (nodeName == "") {
+				} else if (nodeName.equals("ПланОбмена")) {
 					registrationModule.setExchangePlanName(node.getAttributes().getNamedItem("").getTextContent());
 					registrationModule.setExchangePlanMdObject(node.getFirstChild().getTextContent());
 
-				} else if (nodeName == "") {
+				} else if (nodeName.equals("Аттрибуты")) {
 					NamedNodeMap attributes = node.getAttributes();
 					registrationModule.setConfigurationName(node.getFirstChild().getTextContent());
 					registrationModule.setConfigurationSynonym(attributes.getNamedItem("").getTextContent());
 					registrationModule.setConfigurationVersion(attributes.getNamedItem("").getTextContent());
 					registrationModule.setRuntimeVersion(attributes.getNamedItem("").getTextContent());
 
-				} else if (nodeName == "") {
+				} else if (nodeName.equals("Содержимое")) {
 					EList<ExchangePlanContent> exchangePlanContent = registrationModule.getExchangePlanContent();
 
 					NodeList childNodeList = node.getChildNodes();
 					for (int ci = 0; ci < childNodeList.getLength(); ci++) {
 						Node childNode = childNodeList.item(ci);
-						if (childNode.getNodeName() != "") {
+						if (!childNode.getNodeName().isEmpty())
 							continue;
-						}
 
 						ExchangePlanContent exchangePlanContentElement = rmFactory.eINSTANCE
 								.createExchangePlanContent();
@@ -201,11 +196,11 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 						NodeList childChildNodeList = childNode.getChildNodes();
 						for (int cci = 0; cci < childChildNodeList.getLength(); cci++) {
 							Node childChildNode = childChildNodeList.item(cci);
-							if (childChildNode.getNodeName() == "") {
+							if (childChildNode.getNodeName().isEmpty()) {
 								exchangePlanContentElement.setMdObject(childChildNode.getFirstChild().getTextContent());
 
-							} else if (childChildNode.getNodeName() == "") {
-								if (childChildNode.getFirstChild().getTextContent() == "true") {
+							} else if (childChildNode.getNodeName().equals("Авторегистрация")) {
+								if (childChildNode.getFirstChild().getTextContent().equals("true")) {
 									exchangePlanContentElement.setAutoRecord(AutoRegistration.ALLOW);
 
 								} else {
@@ -218,7 +213,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 						exchangePlanContent.add(exchangePlanContentElement);
 					}
 
-				} else if (nodeName == "") {
+				} else if (nodeName.equals("ИмяПланаОбмена")) {
 					registrationModule.setExchangePlanName(node.getFirstChild().getTextContent());
 
 				}
@@ -232,6 +227,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 
 	@Override
 	protected void createPageControls(IManagedForm arg0) {
+		// Нечего делать
 	}
 
 	// private static class CustomLabelProvider extends LabelProvider implements

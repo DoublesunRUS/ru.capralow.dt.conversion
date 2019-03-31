@@ -48,7 +48,7 @@ public class Activator extends AbstractUIPlugin {
 		super.start(bundleContext);
 
 		this.bundleContext = bundleContext;
-		
+
 		plugin = this;
 	}
 
@@ -64,7 +64,8 @@ public class Activator extends AbstractUIPlugin {
 
 	public synchronized Injector getInjector() {
 		if (injector == null)
-			return injector = createInjector();
+			injector = createInjector();
+
 		return injector;
 	}
 

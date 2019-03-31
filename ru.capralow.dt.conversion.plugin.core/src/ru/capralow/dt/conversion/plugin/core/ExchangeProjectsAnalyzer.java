@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -77,12 +76,18 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.epFactory;
 
 public class ExchangeProjectsAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
-	private static ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+	private static final ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	private static IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 			.getModuleExtensionService();
 	private static DynamicFeatureAccessComputer dynamicFeatureAccessComputer = IResourceServiceProvider.Registry.INSTANCE
 			.getResourceServiceProvider(URI.createURI("foo.bsl")).get(DynamicFeatureAccessComputer.class);
+
+	private static final String MD_COMMONMODULE = "ОбщийМодуль";
+
+	private ExchangeProjectsAnalyzer() {
+		throw new IllegalStateException("Вспомогательный класс");
+	}
 
 	public static URI getResourceURIforPlugin(IProject project, AbstractUIPlugin plugin) {
 		return ConversionUtils.getResourceURIforPlugin(project.getName(), "exchangeProject", plugin);
@@ -108,7 +113,7 @@ public class ExchangeProjectsAnalyzer {
 			}
 
 			EList<CommonModule> oldList = exchangeProject.getSettingsModules();
-			EList<CommonModule> newList = new BasicEList<CommonModule>();
+			EList<CommonModule> newList = new BasicEList<>();
 			for (CommonModule oldItem : oldList)
 				newList.add((CommonModule) EcoreUtil.resolve(oldItem, configuration));
 			oldList.clear();
@@ -158,7 +163,7 @@ public class ExchangeProjectsAnalyzer {
 	}
 
 	public static ExchangeData analyzePairs(ExchangeProjects exchangeProjects) {
-		ArrayList<String> listProjects = new ArrayList<String>();
+		ArrayList<String> listProjects = new ArrayList<>();
 
 		EList<ExchangeProject> epProjects = exchangeProjects.getProjects();
 		for (ExchangeProject exchangeProject : epProjects) {
@@ -167,65 +172,58 @@ public class ExchangeProjectsAnalyzer {
 
 		List<Pair<String, String>> configurationPairs = getPairs(listProjects);
 
-		ECollections.sort(epProjects, new Comparator<ExchangeProject>() {
-			@Override
-			public int compare(ExchangeProject arg1, ExchangeProject arg2) {
-				String algorithm1 = arg1.getName().replaceAll("_", "");
-				String algorithm2 = arg2.getName().replaceAll("_", "");
+		ECollections.sort(epProjects, (ExchangeProject arg1, ExchangeProject arg2) -> {
 
-				if (algorithm1.equalsIgnoreCase(algorithm2))
-					return 0;
+			String algorithm1 = arg1.getName().replaceAll("_", "");
+			String algorithm2 = arg2.getName().replaceAll("_", "");
 
-				return algorithm1.compareToIgnoreCase(algorithm2);
-			}
+			if (algorithm1.equalsIgnoreCase(algorithm2))
+				return 0;
 
+			return algorithm1.compareToIgnoreCase(algorithm2);
 		});
 
 		ExchangeData exchangeData = epFactory.eINSTANCE.createExchangeData();
 		exchangeData.getProjects().addAll(epProjects);
 
-		if (configurationPairs.size() != 0) {
-			EList<EpExchangePair> epPairs = exchangeData.getPairs();
-			epPairs.clear();
+		if (configurationPairs.isEmpty())
+			return exchangeData;
 
-			for (Pair<String, String> configurationPair : configurationPairs) {
-				EpExchangePair epExchangePair = epFactory.eINSTANCE.createEpExchangePair();
+		EList<EpExchangePair> epPairs = exchangeData.getPairs();
+		epPairs.clear();
 
-				epExchangePair.setConfigurationName1(configurationPair.getKey());
-				epExchangePair.setConfigurationName2(configurationPair.getValue());
+		for (Pair<String, String> configurationPair : configurationPairs) {
+			EpExchangePair epExchangePair = epFactory.eINSTANCE.createEpExchangePair();
 
-				ExchangeProject project1 = exchangeProjects.getProject(configurationPair.getKey());
-				ExchangeProject project2 = exchangeProjects.getProject(configurationPair.getValue());
+			epExchangePair.setConfigurationName1(configurationPair.getKey());
+			epExchangePair.setConfigurationName2(configurationPair.getValue());
 
-				EList<String> exchangePairVersions = epExchangePair.getVersions();
+			ExchangeProject project1 = exchangeProjects.getProject(configurationPair.getKey());
+			ExchangeProject project2 = exchangeProjects.getProject(configurationPair.getValue());
 
-				Set<String> commonVersions = findCommons(project1.getVersions(), project2.getVersions());
+			EList<String> exchangePairVersions = epExchangePair.getVersions();
 
-				exchangePairVersions.addAll(commonVersions);
+			Set<String> commonVersions = findCommons(project1.getVersions(), project2.getVersions());
 
-				if (exchangePairVersions.size() == 0) {
-					epExchangePair.setStatus(EpExchangePairStatus.NO_SHARED_FORMAT_VERSIONS);
-				} else {
+			exchangePairVersions.addAll(commonVersions);
 
-					epExchangePair.setStatus(EpExchangePairStatus.READY);
-				}
-				epPairs.add(epExchangePair);
-			}
+			if (exchangePairVersions.isEmpty())
+				epExchangePair.setStatus(EpExchangePairStatus.NO_SHARED_FORMAT_VERSIONS);
+			else
+				epExchangePair.setStatus(EpExchangePairStatus.READY);
 
-			ECollections.sort(epPairs, new Comparator<EpExchangePair>() {
-				@Override
-				public int compare(EpExchangePair arg1, EpExchangePair arg2) {
-					String algorithm1 = arg1.getConfigurationName1().replaceAll("_", "");
-					String algorithm2 = arg2.getConfigurationName1().replaceAll("_", "");
-
-					if (algorithm1.equalsIgnoreCase(algorithm2))
-						return 0;
-
-					return algorithm1.compareToIgnoreCase(algorithm2);
-				}
-
-			});
+			epPairs.add(epExchangePair);
 		}
+
+		ECollections.sort(epPairs, (EpExchangePair arg1, EpExchangePair arg2) -> {
+			String algorithm1 = arg1.getConfigurationName1().replaceAll("_", "");
+			String algorithm2 = arg2.getConfigurationName1().replaceAll("_", "");
+
+			if (algorithm1.equalsIgnoreCase(algorithm2))
+				return 0;
+
+			return algorithm1.compareToIgnoreCase(algorithm2);
+		});
 
 		return exchangeData;
 	}
@@ -268,8 +266,8 @@ public class ExchangeProjectsAnalyzer {
 		else
 			exchangeProject.setStoreVersion("2");
 
-		CommonModule mdModule = (CommonModule) ConversionUtils
-				.getConfigurationObject("ОбщийМодуль.ОбменДаннымиПереопределяемый", bmEmfIndexProvider);
+		CommonModule mdModule = (CommonModule) ConversionUtils.getConfigurationObject(
+				MD_COMMONMODULE.concat(".").concat("ОбменДаннымиПереопределяемый"), bmEmfIndexProvider);
 		if (mdModule == null) {
 			exchangeProject.setStatus(EpProjectStatus.NO_COMMON_MODULE);
 			return exchangeProject;
@@ -281,14 +279,14 @@ public class ExchangeProjectsAnalyzer {
 			return exchangeProject;
 		}
 
-		HashMap<String, CommonModule> formatVersions = getProjectFormatVersions(exchangeProject, mainProject, mdModule,
+		Map<String, CommonModule> formatVersions = getProjectFormatVersions(exchangeProject, mainProject, mdModule,
 				mdMethod, projectManager, bmEmfIndexManager);
 		if (formatVersions.size() == 0) {
 			exchangeProject.setStatus(EpProjectStatus.EMPTY_METHOD);
 			return exchangeProject;
 		}
 
-		List<String> sortedVersions = new ArrayList<String>(formatVersions.keySet());
+		List<String> sortedVersions = new ArrayList<>(formatVersions.keySet());
 		Collections.sort(sortedVersions);
 		for (String version : sortedVersions) {
 			String namespace = "http://v8.1c.ru/edi/edi_stnd/EnterpriseData/" + version;
@@ -361,17 +359,14 @@ public class ExchangeProjectsAnalyzer {
 		return null;
 	}
 
-	private static HashMap<String, CommonModule> getProjectFormatVersions(ExchangeProject exchangeProject,
+	private static Map<String, CommonModule> getProjectFormatVersions(ExchangeProject exchangeProject,
 			IProject mainProject, CommonModule mdMainModule, Method mdMainMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 
-		HashMap<String, CommonModule> formatVersions = parseMethod(exchangeProject, mainProject, mdMainModule,
-				mdMainMethod, projectManager, bmEmfIndexManager);
-
-		return formatVersions;
+		return parseMethod(exchangeProject, mainProject, mdMainModule, mdMainMethod, projectManager, bmEmfIndexManager);
 	}
 
-	private static HashMap<String, CommonModule> parseMethod(ExchangeProject exchangeProject, IProject mainProject,
+	private static Map<String, CommonModule> parseMethod(ExchangeProject exchangeProject, IProject mainProject,
 			CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 
@@ -379,12 +374,12 @@ public class ExchangeProjectsAnalyzer {
 
 		settingsModules.add(mdCommonModule);
 
-		HashMap<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
+		Map<String, CommonModule> formatVersions = new HashMap<>();
 
-		HashMap<String, CommonModule> beforeFormatVersions = new HashMap<String, CommonModule>();
-		HashMap<String, CommonModule> insteadFormatVersions = getModuleFormatVersions(exchangeProject, mainProject,
+		Map<String, CommonModule> beforeFormatVersions = new HashMap<>();
+		Map<String, CommonModule> insteadFormatVersions = getModuleFormatVersions(exchangeProject, mainProject,
 				mdCommonModule, mdMethod, projectManager, bmEmfIndexManager);
-		HashMap<String, CommonModule> afterFormatVersions = new HashMap<String, CommonModule>();
+		Map<String, CommonModule> afterFormatVersions = new HashMap<>();
 
 		if (projectManager.getProject(mdCommonModule) instanceof IConfigurationProject) {
 			Collection<Module> extensionModules = moduleExtensionService
@@ -401,7 +396,7 @@ public class ExchangeProjectsAnalyzer {
 						mdMethod.getName());
 
 				for (Entry<Pragma, Method> extendedMethod : extensionMethods.entrySet()) {
-					HashMap<String, CommonModule> extensionFormatVersions = parseMethod(exchangeProject, mainProject,
+					Map<String, CommonModule> extensionFormatVersions = parseMethod(exchangeProject, mainProject,
 							(CommonModule) extensionModule.getOwner(), extendedMethod.getValue(), projectManager,
 							bmEmfIndexManager);
 
@@ -427,21 +422,20 @@ public class ExchangeProjectsAnalyzer {
 
 	}
 
-	private static HashMap<String, CommonModule> getModuleFormatVersions(ExchangeProject exchangeProject,
+	private static Map<String, CommonModule> getModuleFormatVersions(ExchangeProject exchangeProject,
 			IProject mainProject, CommonModule mdCommonModule, Method mdMethod, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
-		if (mdMethod.getFormalParams().size() == 0) {
+		if (mdMethod.getFormalParams().isEmpty())
 			throw new RuntimeException("Список параметров у метода пустой: " + mdMethod.getName());
-		}
 
 		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
 
 		FormalParam mdParam = mdMethod.getFormalParams().get(0);
 		String variableName = mdParam.getName();
 
-		HashMap<String, CommonModule> formatVersions = new HashMap<String, CommonModule>();
+		Map<String, CommonModule> formatVersions = new HashMap<>();
 
-		HashMap<String, String> modulesAliases = new HashMap<String, String>();
+		Map<String, String> modulesAliases = new HashMap<>();
 
 		for (Statement statement : mdMethod.getStatements()) {
 			if (statement instanceof IfStatement) {
@@ -458,13 +452,13 @@ public class ExchangeProjectsAnalyzer {
 				if (dynamicMethodAccess.getName().equals("ПодсистемаСуществует")) {
 					StringLiteral subsystemLiteral = (StringLiteral) predicate.getParams().get(0);
 
-					String subsystemName = "Подсистема";
+					StringBuilder subsystemName = new StringBuilder();
+					subsystemName.append("Подсистема");
 
-					for (String stringPart : subsystemLiteral.getLines().get(0).replace("\"", "").split("[.]")) {
-						subsystemName += "." + stringPart;
-					}
+					for (String stringPart : subsystemLiteral.getLines().get(0).replace("\"", "").split("[.]"))
+						subsystemName.append(".").append(stringPart);
 
-					Subsystem subsystem = (Subsystem) ConversionUtils.getConfigurationObject(subsystemName,
+					Subsystem subsystem = (Subsystem) ConversionUtils.getConfigurationObject(subsystemName.toString(),
 							bmEmfIndexProvider);
 
 					trueStatement = subsystem != null;
@@ -490,8 +484,8 @@ public class ExchangeProjectsAnalyzer {
 		return formatVersions;
 	}
 
-	private static void parseModuleStatement(HashMap<String, CommonModule> formatVersions, Statement statement,
-			String variableName, HashMap<String, String> modulesAliases, ExchangeProject exchangeProject,
+	private static void parseModuleStatement(Map<String, CommonModule> formatVersions, Statement statement,
+			String variableName, Map<String, String> modulesAliases, ExchangeProject exchangeProject,
 			IProject mainProject, CommonModule commonModule, Method method, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
 		if (statement instanceof EmptyStatement)
@@ -531,13 +525,13 @@ public class ExchangeProjectsAnalyzer {
 							moduleName = moduleAlias;
 
 						IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
-						CommonModule mdFormatModule = (CommonModule) ConversionUtils
-								.getConfigurationObject("ОбщийМодуль." + moduleName, bmEmfIndexProvider);
+						CommonModule mdFormatModule = (CommonModule) ConversionUtils.getConfigurationObject(
+								MD_COMMONMODULE.concat(".").concat(moduleName), bmEmfIndexProvider);
 						if (mdFormatModule == null) {
 							bmEmfIndexProvider = bmEmfIndexManager
 									.getEmfIndexProvider(projectManager.getProject(method).getProject());
-							mdFormatModule = (CommonModule) ConversionUtils
-									.getConfigurationObject("ОбщийМодуль." + moduleName, bmEmfIndexProvider);
+							mdFormatModule = (CommonModule) ConversionUtils.getConfigurationObject(
+									MD_COMMONMODULE.concat(".").concat(moduleName), bmEmfIndexProvider);
 						}
 
 						formatVersions.put(versionNumber, mdFormatModule);
@@ -545,9 +539,9 @@ public class ExchangeProjectsAnalyzer {
 				} else {
 					List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
 							EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
-					if (featureEntries.size() == 0) {
+					if (featureEntries.isEmpty())
 						return;
-					}
+
 					FeatureEntry featureEntry = featureEntries.get(0);
 					EObject feature = featureEntry.getFeature();
 
@@ -557,17 +551,17 @@ public class ExchangeProjectsAnalyzer {
 					Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, methodAccess);
 
 					IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
-					CommonModule subCommonModule = (CommonModule) ConversionUtils
-							.getConfigurationObject("ОбщийМодуль." + source.getName(), bmEmfIndexProvider);
+					CommonModule subCommonModule = (CommonModule) ConversionUtils.getConfigurationObject(
+							MD_COMMONMODULE.concat(".").concat(source.getName()), bmEmfIndexProvider);
 					if (subCommonModule == null) {
 						bmEmfIndexProvider = bmEmfIndexManager
 								.getEmfIndexProvider(projectManager.getProject(mdSubMethod).getProject());
-						subCommonModule = (CommonModule) ConversionUtils
-								.getConfigurationObject("ОбщийМодуль." + source.getName(), bmEmfIndexProvider);
+						subCommonModule = (CommonModule) ConversionUtils.getConfigurationObject(
+								MD_COMMONMODULE.concat(".").concat(source.getName()), bmEmfIndexProvider);
 					}
 					settingsModules.add(subCommonModule);
 
-					HashMap<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject,
+					Map<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject,
 							subCommonModule, mdSubMethod, projectManager, bmEmfIndexManager);
 
 					formatVersions.putAll(moduleFormatVersions);
@@ -577,9 +571,9 @@ public class ExchangeProjectsAnalyzer {
 
 				List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(staticMethodAccess,
 						EcoreUtil2.getContainerOfType(staticMethodAccess, Environmental.class).environments());
-				if (featureEntries.size() == 0) {
+				if (featureEntries.isEmpty())
 					return;
-				}
+
 				FeatureEntry featureEntry = featureEntries.get(0);
 				EObject feature = featureEntry.getFeature();
 
@@ -587,8 +581,8 @@ public class ExchangeProjectsAnalyzer {
 
 				settingsModules.add(commonModule);
 
-				HashMap<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject,
-						commonModule, mdSubMethod, projectManager, bmEmfIndexManager);
+				Map<String, CommonModule> moduleFormatVersions = parseMethod(exchangeProject, mainProject, commonModule,
+						mdSubMethod, projectManager, bmEmfIndexManager);
 
 				formatVersions.putAll(moduleFormatVersions);
 
@@ -599,8 +593,8 @@ public class ExchangeProjectsAnalyzer {
 	private static String getSSLVersion(IBmEmfIndexProvider bmEmfIndexProvider) {
 		String version = "";
 
-		CommonModule mdCommonModule = (CommonModule) ConversionUtils
-				.getConfigurationObject("ОбщийМодуль.ОбновлениеИнформационнойБазыБСП", bmEmfIndexProvider);
+		CommonModule mdCommonModule = (CommonModule) ConversionUtils.getConfigurationObject(
+				MD_COMMONMODULE.concat(".").concat("ОбновлениеИнформационнойБазыБСП"), bmEmfIndexProvider);
 		if (mdCommonModule == null)
 			return version;
 
@@ -632,7 +626,7 @@ public class ExchangeProjectsAnalyzer {
 	}
 
 	private static Set<String> findCommons(EList<String> a, EList<String> b) {
-		Set<String> set = new LinkedHashSet<String>(a);
+		Set<String> set = new LinkedHashSet<>(a);
 		set.retainAll(b);
 
 		return set;

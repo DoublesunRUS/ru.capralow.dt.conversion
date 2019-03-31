@@ -2,12 +2,13 @@ package ru.capralow.dt.conversion.plugin.core;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class MarkdownTable {
 
 	private String[] caption;
-	private HashMap<Integer, String[][][]> mapPriorities = new HashMap<Integer, String[][][]>();
+	private Map<Integer, String[][][]> mapPriorities = new HashMap<>();
 	private int numOfCols;
 
 	public MarkdownTable(String[] caption) {
@@ -51,15 +52,14 @@ public class MarkdownTable {
 	}
 
 	public String getTable() {
-		String table = "";
-		if (mapPriorities.size() == 0)
-			return table;
+		StringBuilder table = new StringBuilder();
+		if (mapPriorities.isEmpty())
+			return table.toString();
 
 		int[] colsMaxLength = new int[numOfCols];
 
-		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
+		for (int colIndex = 0; colIndex < numOfCols; colIndex++)
 			colsMaxLength[colIndex] = caption[colIndex].length();
-		}
 
 		int[] priorities = new int[mapPriorities.size()];
 		int priorityIndex = 0;
@@ -84,22 +84,22 @@ public class MarkdownTable {
 			}
 		}
 
-		table += addTableRow(caption, " ", colsMaxLength);
-		table += addTableRow(new String[5], "-", colsMaxLength);
+		table.append(addTableRow(caption, " ", colsMaxLength));
+		table.append(addTableRow(new String[5], "-", colsMaxLength));
 		for (priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
 			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
 			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++)
-				table += addTableRow(rows[rowIndex], " ", colsMaxLength);
+				table.append(addTableRow(rows[rowIndex], " ", colsMaxLength));
 		}
 
-		return table;
+		return table.toString();
 	}
 
 	private String addTableRow(String[] row, String postfixChar, int[] colsMaxLength) {
-		String tableRow = "";
+		StringBuilder tableRow = new StringBuilder();
 		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
-			if (!tableRow.isEmpty())
-				tableRow += " | ";
+			if (tableRow.length() != 0)
+				tableRow.append(" | ");
 
 			String rowValue = "";
 			int rowLength = 0;
@@ -108,20 +108,21 @@ public class MarkdownTable {
 				rowLength = rowValue.length();
 			}
 
-			String postfix = "";
+			StringBuilder postfix = new StringBuilder();
 			for (int postfixIndex = 1; postfixIndex <= colsMaxLength[colIndex] - rowLength; postfixIndex++)
-				postfix += postfixChar;
-			tableRow += rowValue.concat(postfix);
+				postfix.append(postfixChar);
+			tableRow.append(rowValue).append(postfix);
 		}
+		tableRow.append(System.lineSeparator());
 
-		return tableRow + System.lineSeparator();
+		return tableRow.toString();
 	}
 
 	private String addTableRow(String[][] row, String postfixChar, int[] colsMaxLength) {
-		String tableRow = "";
+		StringBuilder tableRow = new StringBuilder();
 		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
-			if (!tableRow.isEmpty())
-				tableRow += " | ";
+			if (tableRow.length() != 0)
+				tableRow.append(" | ");
 
 			String rowValue = "";
 			int rowLength = 0;
@@ -130,22 +131,23 @@ public class MarkdownTable {
 				rowLength = rowValue.length();
 			}
 
-			String postfix = "";
+			StringBuilder postfix = new StringBuilder();
 			for (int postfixIndex = 1; postfixIndex <= colsMaxLength[colIndex] - rowLength; postfixIndex++)
-				postfix += postfixChar;
-			tableRow += rowValue.concat(postfix);
+				postfix.append(postfixChar);
+			tableRow.append(rowValue).append(postfix);
 		}
+		tableRow.append(System.lineSeparator());
 
-		return tableRow + System.lineSeparator();
+		return tableRow.toString();
 	}
 
 	private String addTabs(int numOfTabs) {
-		String tabString = "&nbsp; &nbsp; ";
+		final String tabString = "&nbsp; &nbsp; ";
 
-		String tabs = "";
+		StringBuilder tabs = new StringBuilder();
 		for (int tabIndex = 1; tabIndex <= numOfTabs; tabIndex++)
-			tabs += tabString;
+			tabs.append(tabString);
 
-		return tabs;
+		return tabs.toString();
 	}
 }

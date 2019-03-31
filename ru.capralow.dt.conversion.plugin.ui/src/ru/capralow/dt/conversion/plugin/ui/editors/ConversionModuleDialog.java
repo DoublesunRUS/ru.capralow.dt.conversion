@@ -38,13 +38,16 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 
 	private CTabFolder tabFolder;
 
-	private CTabItem tabItemBeforeConvertation, tabItemBeforeFilling, tabItemAfterConvertation;
+	private CTabItem tabItemBeforeConvertation;
+	private CTabItem tabItemBeforeFilling;
+	private CTabItem tabItemAfterConvertation;
 
-	private CustomEmbeddedEditor editorBeforeConvertation, editorBeforeFilling, editorAfterConvertation;
-	private CustomEmbeddedEditorModelAccess modelAccessBeforeConvertation, modelAccessBeforeFilling,
-			modelAccessAfterConvertation;
-
-	private String algorithmsText;
+	private CustomEmbeddedEditor editorBeforeConvertation;
+	private CustomEmbeddedEditor editorBeforeFilling;
+	private CustomEmbeddedEditor editorAfterConvertation;
+	private CustomEmbeddedEditorModelAccess modelAccessBeforeConvertation;
+	private CustomEmbeddedEditorModelAccess modelAccessBeforeFilling;
+	private CustomEmbeddedEditorModelAccess modelAccessAfterConvertation;
 
 	private Boolean editable;
 
@@ -99,6 +102,8 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		final String EMPTY_EVENT = "<Описание процедуры>";
+
 		IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE
 				.getResourceServiceProvider(URI.createURI("foo.bsl"));
 
@@ -130,7 +135,7 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 
 		Text txtBeforeConvertation = new Text(compositeBeforeConvertationEditor, SWT.BORDER);
 		txtBeforeConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtBeforeConvertation.setText("<Описание процедуры>");
+		txtBeforeConvertation.setText(EMPTY_EVENT);
 
 		CustomModelAccessAwareEmbeddedEditorBuilder customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
@@ -153,7 +158,7 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 
 		Text txtBeforeFilling = new Text(compositeBeforeFillingEditor, SWT.BORDER);
 		txtBeforeFilling.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtBeforeFilling.setText("<Описание процедуры>");
+		txtBeforeFilling.setText(EMPTY_EVENT);
 
 		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
@@ -176,7 +181,7 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 
 		Text txtAfterConvertation = new Text(compositeAfterConvertationEditor, SWT.BORDER);
 		txtAfterConvertation.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtAfterConvertation.setText("<Описание процедуры>");
+		txtAfterConvertation.setText(EMPTY_EVENT);
 
 		customModelAccessAwareEmbeddedEditorBuilder = (CustomModelAccessAwareEmbeddedEditorBuilder) embeddedEditorFactory
 				.newEditor(resourceProvider).showErrorAndWarningAnnotations().withResourceValidator(resourceValidator);
@@ -190,7 +195,7 @@ public class ConversionModuleDialog extends Dialog implements IAdaptable {
 
 		// Заполнение данными
 
-		algorithmsText = conversionModule.getAllAlgorithmsText("");
+		String algorithmsText = conversionModule.getAllAlgorithmsText("");
 
 		txtBeforeConvertation.setText(conversionModule.getBeforeConvertationEventPrefix());
 		getModelAccessBeforeConvertation().updateEditablePart(conversionModule.getBeforeConvertationEventText());
