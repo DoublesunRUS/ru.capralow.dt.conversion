@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.junit.Test;
 
@@ -49,7 +50,7 @@ public class ConversionModuleAnalyzerTest {
 		String report1 = String.join(System.lineSeparator(), SECOND_RULE_MD, FIRST_RULE_MD, FIFTH_RULE_MD,
 				THIRD_RULE_MD, FOURTH_RULE_MD, SIXTH_RULE_MD);
 
-		BasicEList<CmDataRule> report2 = new BasicEList<>();
+		EList<CmDataRule> report2 = new BasicEList<>();
 
 		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
@@ -98,7 +99,7 @@ public class ConversionModuleAnalyzerTest {
 				"name:ПятоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ6 <НаправлениеНеЗадано>",
 				"name:ШестоеПравило md:Метаданные.Документы.Документ3 xdto:Документ.Документ2 <НаправлениеНеЗадано>");
 
-		BasicEList<CmDataRule> report2 = new BasicEList<>();
+		EList<CmDataRule> report2 = new BasicEList<>();
 
 		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
@@ -147,7 +148,7 @@ public class ConversionModuleAnalyzerTest {
 				"name:ПятоеПравило md:Метаданные.Документы.Документ6 xdto:Документ.Документ2 <НаправлениеНеЗадано>",
 				"name:ШестоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ3 <НаправлениеНеЗадано>");
 
-		BasicEList<CmDataRule> report2 = new BasicEList<>();
+		EList<CmDataRule> report2 = new BasicEList<>();
 
 		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		report2.add(dataRule);
@@ -192,7 +193,7 @@ public class ConversionModuleAnalyzerTest {
 		String report1 = String.join(System.lineSeparator(), SECOND_RULE_MD, FIRST_RULE_MD, FIFTH_RULE_MD,
 				THIRD_RULE_MD, FOURTH_RULE_MD, SIXTH_RULE_MD);
 
-		BasicEList<CmObjectRule> report2 = new BasicEList<>();
+		EList<CmObjectRule> report2 = new BasicEList<>();
 
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
@@ -241,7 +242,7 @@ public class ConversionModuleAnalyzerTest {
 				"name:ПятоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ6 <НаправлениеНеЗадано>",
 				"name:ШестоеПравило md:Метаданные.Документы.Документ3 xdto:Документ.Документ2 <НаправлениеНеЗадано>");
 
-		BasicEList<CmObjectRule> report2 = new BasicEList<>();
+		EList<CmObjectRule> report2 = new BasicEList<>();
 
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
@@ -291,7 +292,7 @@ public class ConversionModuleAnalyzerTest {
 				"name:ПятоеПравило md:Метаданные.Документы.Документ6 xdto:Документ.Документ2 <НаправлениеНеЗадано>",
 				"name:ШестоеПравило md:Метаданные.Документы.Документ2 xdto:Документ.Документ3 <НаправлениеНеЗадано>");
 
-		BasicEList<CmObjectRule> report2 = new BasicEList<>();
+		EList<CmObjectRule> report2 = new BasicEList<>();
 
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		report2.add(objectRule);
@@ -336,7 +337,7 @@ public class ConversionModuleAnalyzerTest {
 		String report1 = String.join(System.lineSeparator(), SECOND_RULE_MD, FIRST_RULE_MD, FIFTH_RULE_MD,
 				THIRD_RULE_MD, FOURTH_RULE_MD, SIXTH_RULE_MD);
 
-		BasicEList<CmPredefined> report2 = new BasicEList<>();
+		EList<CmPredefined> report2 = new BasicEList<>();
 
 		CmPredefined predefined = cmFactory.eINSTANCE.createCmPredefined();
 		report2.add(predefined);
@@ -381,7 +382,7 @@ public class ConversionModuleAnalyzerTest {
 				"Процедура ПерваяПроцедура(2)", "Процедура ПятаяПроцедура(3)", "Процедура ТретьяПроцедура(4)",
 				"Процедура ЧетвертаяПроцедура(5)", "Процедура ШестаяПроцедура(6)");
 
-		BasicEList<CmAlgorithm> report2 = new BasicEList<>();
+		EList<CmAlgorithm> report2 = new BasicEList<>();
 
 		CmAlgorithm objectRule = cmFactory.eINSTANCE.createCmAlgorithm();
 		report2.add(objectRule);

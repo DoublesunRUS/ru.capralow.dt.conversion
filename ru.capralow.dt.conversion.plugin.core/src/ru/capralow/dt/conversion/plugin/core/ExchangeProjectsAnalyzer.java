@@ -76,7 +76,6 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.epFactory;
 
 public class ExchangeProjectsAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
-	private static final ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	private static IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 			.getModuleExtensionService();
@@ -304,7 +303,8 @@ public class ExchangeProjectsAnalyzer {
 			}
 
 			if (xdtoPackage == null) {
-				LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден Пакет XDTO: " + namespace));
+				ILog pluginLog = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+				pluginLog.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден Пакет XDTO: " + namespace));
 
 				continue;
 			}

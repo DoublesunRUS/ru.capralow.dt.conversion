@@ -41,7 +41,6 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class EnterpriseDataAnalyzer {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
-	private static final ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	private static final String TABULAR_ID = "Строка";
 
@@ -157,7 +156,8 @@ public class EnterpriseDataAnalyzer {
 							"У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип", objectName,
 							version);
 
-					LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
+					ILog pluginLog = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+					pluginLog.log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
 
 				}
 

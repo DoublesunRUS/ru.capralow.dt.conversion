@@ -26,7 +26,6 @@ import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 
 public final class ConversionUtils {
 	private static final String PLUGIN_ID = "ru.capralow.dt.conversion.plugin.ui";
-	private static final ILog LOG = Platform.getLog(Platform.getBundle(PLUGIN_ID));
 
 	private ConversionUtils() {
 		throw new IllegalStateException("Вспомогательный класс");
@@ -87,8 +86,10 @@ public final class ConversionUtils {
 		if (objectItr.hasNext())
 			object = (MdObject) objectItr.next().getEObjectOrProxy();
 
-		if (object == null)
-			LOG.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + objectFullName));
+		if (object == null) {
+			ILog pluginLog = Platform.getLog(Platform.getBundle(PLUGIN_ID));
+			pluginLog.log(new Status(IStatus.WARNING, PLUGIN_ID, "Не найден объект конфигурации: " + objectFullName));
+		}
 
 		return object;
 	}
