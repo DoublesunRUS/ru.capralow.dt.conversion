@@ -26,4 +26,4 @@ env:
 
 after_success:
 - curl -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/ -X 'rmdir $FTP_VERSION'
-- find repository/target/repository/ -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://$FTP_ADDRESS/$FTP_VERSION/{} \;
+- find repository/target/repository/ -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://$FTP_ADDRESS/$FTP_VERSION/{%P} \;
