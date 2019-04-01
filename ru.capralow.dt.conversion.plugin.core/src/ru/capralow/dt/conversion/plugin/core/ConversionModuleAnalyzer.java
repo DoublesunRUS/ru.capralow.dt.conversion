@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -118,29 +119,7 @@ public class ConversionModuleAnalyzer {
 			xmiResource.load(loadOptions);
 			ConversionModule conversionModule = (ConversionModule) xmiResource.getContents().get(0);
 
-			for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
-				if (cmSubsystem.getSubsystem() == null)
-					continue;
-				cmSubsystem.setSubsystem((Subsystem) EcoreUtil.resolve(cmSubsystem.getSubsystem(), configuration));
-			}
-			for (CmObject cmObject : conversionModule.getDataRules()) {
-				if (cmObject.getConfigurationObject() == null)
-					continue;
-				cmObject.setConfigurationObject(
-						(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
-			}
-			for (CmObject cmObject : conversionModule.getObjectRules()) {
-				if (cmObject.getConfigurationObject() == null)
-					continue;
-				cmObject.setConfigurationObject(
-						(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
-			}
-			for (CmObject cmObject : conversionModule.getPredefineds()) {
-				if (cmObject.getConfigurationObject() == null)
-					continue;
-				cmObject.setConfigurationObject(
-						(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
-			}
+			resolveBmObjects(conversionModule, configuration);
 
 			return conversionModule;
 
@@ -151,6 +130,33 @@ public class ConversionModuleAnalyzer {
 		}
 
 		return null;
+	}
+
+	private static void resolveBmObjects(ConversionModule conversionModule, Configuration configuration) {
+		for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
+			if (cmSubsystem.getSubsystem() == null)
+				continue;
+			cmSubsystem.setSubsystem((Subsystem) EcoreUtil.resolve(cmSubsystem.getSubsystem(), configuration));
+		}
+		for (CmObject cmObject : conversionModule.getDataRules()) {
+			if (cmObject.getConfigurationObject() == null)
+				continue;
+			cmObject.setConfigurationObject(
+					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
+		}
+		for (CmObject cmObject : conversionModule.getObjectRules()) {
+			if (cmObject.getConfigurationObject() == null)
+				continue;
+			cmObject.setConfigurationObject(
+					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
+		}
+		for (CmObject cmObject : conversionModule.getPredefineds()) {
+			if (cmObject.getConfigurationObject() == null)
+				continue;
+			cmObject.setConfigurationObject(
+					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
+		}
+
 	}
 
 	public static void saveResource(ConversionModule conversionModule, URI xmiUri) {
@@ -287,6 +293,9 @@ public class ConversionModuleAnalyzer {
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
 		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
 
+		SubsystemsFiller subsystemsFiller = new SubsystemsFiller(conversionModule, mainCommandInterface,
+				cmMainSubsystem);
+
 		String methodName = method.getName();
 
 		if (methodName.equals("ЗаполнитьПравилаОбработкиДанных")) {
@@ -381,8 +390,7 @@ public class ConversionModuleAnalyzer {
 
 						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
 						dataRule.setConfigurationObject(configurationObject);
-						fillSubsystemsforObject(conversionModule, configurationObject, dataRule.getSubsystems(),
-								mainCommandInterface, cmMainSubsystem);
+						dataRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(configurationObject));
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -583,8 +591,7 @@ public class ConversionModuleAnalyzer {
 
 						objectRule.setConfigurationObject(configurationObject);
 
-						fillSubsystemsforObject(conversionModule, configurationObject, objectRule.getSubsystems(),
-								mainCommandInterface, cmMainSubsystem);
+						objectRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(configurationObject));
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -894,6 +901,9 @@ public class ConversionModuleAnalyzer {
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
 		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
 
+		SubsystemsFiller subsystemsFiller = new SubsystemsFiller(conversionModule, mainCommandInterface,
+				cmMainSubsystem);
+
 		String methodName = method.getName();
 
 		if (methodName.equals("ЗаполнитьПравилаОбработкиДанных")) {
@@ -984,8 +994,7 @@ public class ConversionModuleAnalyzer {
 
 						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
 						dataRule.setConfigurationObject(configurationObject);
-						fillSubsystemsforObject(conversionModule, configurationObject, dataRule.getSubsystems(),
-								mainCommandInterface, cmMainSubsystem);
+						dataRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(configurationObject));
 
 					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
 						StringLiteral stringLiteral = (StringLiteral) rightExpression;
@@ -1479,72 +1488,124 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private static void fillSubsystemsforObject(ConversionModule conversionModule, Object object,
-			EList<CmSubsystem> objectSubsystems, CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
+	private static class SubsystemsFiller {
+		private EList<CmSubsystem> cmSubsystems;
 
-		for (CommandsPlacementFragment placementFragment : mainCommandInterface.getCommandsPlacement()
-				.getPlacementFragments()) {
-			for (Command placementCommand : placementFragment.getCommands()) {
-				if (object instanceof Catalog && placementCommand instanceof CatalogCommand) {
-					CatalogCommand placementCatalogCommand = (CatalogCommand) placementCommand;
-					Catalog masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementCatalogCommand,
-							Catalog.class);
-					if (masterObject.equals((Catalog) object)) {
-						objectSubsystems.add(cmMainSubsystem);
-						return;
-					}
+		private ConversionModule conversionModule;
+		private CommandInterface mainCommandInterface;
+		private CmSubsystem cmMainSubsystem;
 
-				} else if (object instanceof Document && placementCommand instanceof DocumentCommand) {
-					DocumentCommand placementDocumentCommand = (DocumentCommand) placementCommand;
-					Document masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementDocumentCommand,
-							Document.class);
-					if (masterObject.equals((Document) object)) {
-						objectSubsystems.add(cmMainSubsystem);
-						return;
-					}
+		public SubsystemsFiller(ConversionModule conversionModule, CommandInterface mainCommandInterface,
+				CmSubsystem cmMainSubsystem) {
+			this.conversionModule = conversionModule;
+			this.mainCommandInterface = mainCommandInterface;
+			this.cmMainSubsystem = cmMainSubsystem;
+		}
 
-				} else if (placementCommand instanceof StandardCommand) {
-					StandardCommand placementStandardCommand = (StandardCommand) placementCommand;
-					MdObject masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementStandardCommand,
-							MdObject.class);
-					if (masterObject.equals(object)) {
-						objectSubsystems.add(cmMainSubsystem);
-						return;
-					}
+		EList<CmSubsystem> getSubsystems(Object mainObject) {
+			cmSubsystems = new BasicEList<>();
+
+			addSubsystemsFromObject(mainObject);
+
+			addSubsystemsFromRegisterDimensions(mainObject);
+
+			return cmSubsystems;
+		}
+
+		private void addSubsystemsFromObject(Object object) {
+			addSubsystemsFromMainInterface(object);
+
+			addSubsystemsFromCmSubsystems(object, conversionModule.getSubsystems());
+
+			addSubsystemsFromCatalogOwners(object);
+		}
+
+		private void addSubsystemsFromMainInterface(Object mainObject) {
+			for (CommandsPlacementFragment placementFragment : mainCommandInterface.getCommandsPlacement()
+					.getPlacementFragments()) {
+				for (Command placementCommand : placementFragment.getCommands()) {
+					if (mainObject instanceof Catalog && placementCommand instanceof CatalogCommand)
+						addSubsystemsFromCatalogCommand(mainObject, placementCommand);
+
+					else if (mainObject instanceof Document && placementCommand instanceof DocumentCommand)
+						addSubsystemsFromDocumentCommand(mainObject, placementCommand);
+
+					else if (placementCommand instanceof StandardCommand)
+						addSubsystemsFromStandardCommand(mainObject, placementCommand);
 
 				}
 			}
 		}
 
-		if (object instanceof Catalog) {
-			for (MdObject masterObject : ((Catalog) object).getOwners()) {
-				fillSubsystemsforObject(conversionModule, masterObject, objectSubsystems, mainCommandInterface,
-						cmMainSubsystem);
-			}
-		}
-
-		EList<CmSubsystem> interfaceSubsystems = conversionModule.getSubsystems();
-
-		for (CmSubsystem cmSubsystem : interfaceSubsystems) {
-			Subsystem interfaceSubsystem = cmSubsystem.getSubsystem();
-			if (interfaceSubsystem == null)
-				continue;
-
-			if (interfaceSubsystem.getContent().indexOf(object) != -1) {
-				objectSubsystems.add(cmSubsystem);
+		private void addSubsystemsFromCatalogCommand(Object object, Command placementCommand) {
+			CatalogCommand placementCatalogCommand = (CatalogCommand) placementCommand;
+			Catalog masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementCatalogCommand,
+					Catalog.class);
+			if (!masterObject.equals((Catalog) object))
 				return;
 
-			} else {
-				Boolean added = fillSubsystemsforObject(conversionModule, object, cmSubsystem, objectSubsystems,
-						interfaceSubsystem.getSubsystems());
+			cmSubsystems.add(cmMainSubsystem);
+		}
 
-				if (added)
-					return;
+		private void addSubsystemsFromDocumentCommand(Object object, Command placementCommand) {
+			DocumentCommand placementDocumentCommand = (DocumentCommand) placementCommand;
+			Document masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementDocumentCommand,
+					Document.class);
+			if (!masterObject.equals((Document) object))
+				return;
+
+			cmSubsystems.add(cmMainSubsystem);
+		}
+
+		private void addSubsystemsFromStandardCommand(Object object, Command placementCommand) {
+			StandardCommand placementStandardCommand = (StandardCommand) placementCommand;
+			MdObject masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementStandardCommand,
+					MdObject.class);
+			if (!masterObject.equals(object))
+				return;
+
+			cmSubsystems.add(cmMainSubsystem);
+		}
+
+		private void addSubsystemsFromCmSubsystems(Object object, EList<CmSubsystem> cmSubsystems) {
+			for (CmSubsystem cmSubsystem : cmSubsystems) {
+				Subsystem interfaceSubsystem = cmSubsystem.getSubsystem();
+				if (interfaceSubsystem == null)
+					continue;
+
+				if (interfaceSubsystem.getContent().indexOf(object) != -1)
+					cmSubsystems.add(cmSubsystem);
+
+				else
+					addSubsystemsFromInterface(object, cmSubsystem, interfaceSubsystem.getSubsystems());
 
 			}
 		}
 
-		if (object instanceof InformationRegister) {
+		private void addSubsystemsFromInterface(Object object, CmSubsystem cmSubsystem,
+				EList<Subsystem> interfaceSubsystems) {
+			for (Subsystem interfaceSubsystem : interfaceSubsystems) {
+				if (interfaceSubsystem.getContent().indexOf(object) != -1)
+					cmSubsystems.add(cmSubsystem);
+
+				else
+					addSubsystemsFromInterface(object, cmSubsystem, interfaceSubsystem.getSubsystems());
+
+			}
+		}
+
+		private void addSubsystemsFromCatalogOwners(Object object) {
+			if (!(object instanceof Catalog))
+				return;
+
+			for (MdObject masterObject : ((Catalog) object).getOwners())
+				addSubsystemsFromObject(masterObject);
+		}
+
+		private void addSubsystemsFromRegisterDimensions(Object object) {
+			if (!(object instanceof InformationRegister))
+				return;
+
 			for (InformationRegisterDimension dimension : ((InformationRegister) object).getDimensions()) {
 				if (!dimension.isMaster())
 					continue;
@@ -1553,39 +1614,17 @@ public class ConversionModuleAnalyzer {
 					if (type instanceof TypeSet) {
 						for (Type subType : ((TypeSet) type).getTypes()) {
 							MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(subType);
-							fillSubsystemsforObject(conversionModule, masterObject, objectSubsystems,
-									mainCommandInterface, cmMainSubsystem);
+							addSubsystemsFromObject(masterObject);
 						}
 
 					} else {
 						MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(type);
-						fillSubsystemsforObject(conversionModule, masterObject, objectSubsystems, mainCommandInterface,
-								cmMainSubsystem);
+						addSubsystemsFromObject(masterObject);
 
 					}
 				}
 			}
 		}
-	}
-
-	private static Boolean fillSubsystemsforObject(ConversionModule conversionModule, Object object,
-			CmSubsystem mainSubsystem, EList<CmSubsystem> objectSubsystems, EList<Subsystem> interfaceSubsystems) {
-		for (Subsystem interfaceSubsystem : interfaceSubsystems) {
-			if (interfaceSubsystem.getContent().indexOf(object) != -1) {
-				objectSubsystems.add(mainSubsystem);
-				return true;
-			} else {
-				Boolean added = fillSubsystemsforObject(conversionModule, object, mainSubsystem, objectSubsystems,
-						interfaceSubsystem.getSubsystems());
-
-				if (added)
-					return true;
-
-			}
-
-		}
-
-		return false;
 	}
 
 	public static String getModuleText(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
