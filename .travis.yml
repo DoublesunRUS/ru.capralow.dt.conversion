@@ -22,8 +22,8 @@ cache:
 language: node_js
 
 env:
-  - FTP_VERSION="1.0.0"
+  - PLUGIN_VERSION="1.0.0"
 
 after_success:
-- curl -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/ -X 'rmdir $FTP_VERSION'
-- find repository/target/repository/ -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://$FTP_ADDRESS/$FTP_VERSION/{%P} \;
+- curl -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/ -X 'rmdir -r $PLUGIN_VERSION'
+- find repository/target/repository/ -type f -execdir curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://$FTP_ADDRESS/$PLUGIN_VERSION/{} \;
