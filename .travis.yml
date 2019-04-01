@@ -21,5 +21,9 @@ cache:
 
 language: node_js
 
+env:
+  - FTP_VERSION="1.0.0"
+
 after_success:
-- find repository/target/repository/ -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://$FTP_ADDRESS/{} \;
+- curl -u $FTP_USER:$FTP_PASSWORD $FTP_ADDRESS/ 'rmdir $FTP_VERSION'
+- find repository/target/repository/ -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} $FTP_ADDRESS/$FTP_VERSION/{} \;
