@@ -23,8 +23,6 @@ import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage;
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 
 public final class ConversionUtils {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionUtils.class);
-
 	private ConversionUtils() {
 		throw new IllegalStateException("Вспомогательный класс");
 	}
@@ -86,7 +84,8 @@ public final class ConversionUtils {
 
 		if (object == null) {
 			String msg = String.format("Не найден объект конфигурации: \"%1$s\"", objectFullName);
-			LOGGER.warn(msg);
+			Logger logger = LoggerFactory.getLogger(ConversionUtils.class);
+			logger.warn(msg);
 		}
 
 		return object;
@@ -103,7 +102,8 @@ public final class ConversionUtils {
 
 		} catch (FileNotFoundException e) {
 			String msg = String.format("Не найден файл по следующему платформенному пути: \"%1$s\"", projectFileName);
-			LOGGER.error(msg, e);
+			Logger logger = LoggerFactory.getLogger(ConversionUtils.class);
+			logger.error(msg, e);
 
 		}
 
@@ -150,7 +150,8 @@ public final class ConversionUtils {
 
 				} catch (IOException e) {
 					String msg = String.format("Не получилось удалить файл: \"%1$s\"", file.toPath());
-					LOGGER.error(msg, e);
+					Logger logger = LoggerFactory.getLogger(ConversionUtils.class);
+					logger.error(msg, e);
 
 				}
 			} else if (!file.exists()) {

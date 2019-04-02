@@ -89,8 +89,6 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
 public class ConversionModuleAnalyzer {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionModuleAnalyzer.class);
-
 	private static final String ADD_DATARULE = "ДобавитьПОД_";
 	private static final String ADD_OBJECTRULE = "ДобавитьПКО_";
 	private static final String PARAMS_FOR_OBJECTRULE = "(ПравилаКонвертации)";
@@ -124,7 +122,8 @@ public class ConversionModuleAnalyzer {
 			return conversionModule;
 
 		} catch (IOException e) {
-			LOGGER.error("Не удалось загрузить вторичные данные для ConversionModule. Перезапустите сборку проекта.",
+			Logger logger = LoggerFactory.getLogger(ConversionModuleAnalyzer.class);
+			logger.error("Не удалось загрузить вторичные данные для ConversionModule. Перезапустите сборку проекта.",
 					e);
 
 		}
@@ -169,7 +168,8 @@ public class ConversionModuleAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			LOGGER.error("Не удалось сохранить вторичные данные для ConversionModule. Перезапустите сборку проекта.",
+			Logger logger = LoggerFactory.getLogger(ConversionModuleAnalyzer.class);
+			logger.error("Не удалось сохранить вторичные данные для ConversionModule. Перезапустите сборку проекта.",
 					e);
 
 		}

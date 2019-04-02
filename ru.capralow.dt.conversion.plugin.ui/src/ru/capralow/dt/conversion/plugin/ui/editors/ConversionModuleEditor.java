@@ -98,8 +98,6 @@ import ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant;
 import ru.capralow.dt.conversion.plugin.ui.Activator;
 
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionModuleEditor.class);
-
 	public static final String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
 
 	private static final String COLUMNNAME_MDOBJECT = "Объект конфигурации";
@@ -1096,7 +1094,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			buffer.release();
 
 		} catch (CoreException e) {
-			LOGGER.error("Не удалось обновить модуль конвертации.", e);
+			Logger logger = LoggerFactory.getLogger(ConversionModuleEditor.class);
+			logger.error("Не удалось обновить модуль конвертации.", e);
 
 		}
 	}
@@ -1211,7 +1210,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
 
 				} catch (PartInitException e) {
-					LOGGER.error("Не удалось создать описание формата.", e);
+					Logger logger = LoggerFactory.getLogger(ConversionModuleEditor.class);
+					logger.error("Не удалось создать описание формата.", e);
 
 				}
 			}

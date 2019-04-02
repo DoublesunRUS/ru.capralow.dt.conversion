@@ -73,8 +73,6 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProjects;
 import ru.capralow.dt.conversion.plugin.core.ep.model.epFactory;
 
 public class ExchangeProjectsAnalyzer {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeProjectsAnalyzer.class);
-
 	private static IModuleExtensionService moduleExtensionService = com._1c.g5.v8.dt.bsl.common.IModuleExtensionServiceProvider.INSTANCE
 			.getModuleExtensionService();
 	private static DynamicFeatureAccessComputer dynamicFeatureAccessComputer = IResourceServiceProvider.Registry.INSTANCE
@@ -119,7 +117,8 @@ public class ExchangeProjectsAnalyzer {
 			return exchangeProject;
 
 		} catch (IOException e) {
-			LOGGER.error("Не удалось загрузить вторичные данные для ExchangeProject. Перезапустите сборку проекта.", e);
+			Logger logger = LoggerFactory.getLogger(ExchangeProjectsAnalyzer.class);
+			logger.error("Не удалось загрузить вторичные данные для ExchangeProject. Перезапустите сборку проекта.", e);
 
 		}
 
@@ -136,7 +135,8 @@ public class ExchangeProjectsAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			LOGGER.error("Не удалось сохранить вторичные данные для ExchangeProject. Перезапустите сборку проекта.", e);
+			Logger logger = LoggerFactory.getLogger(ExchangeProjectsAnalyzer.class);
+			logger.error("Не удалось сохранить вторичные данные для ExchangeProject. Перезапустите сборку проекта.", e);
 
 		}
 	}
@@ -341,7 +341,8 @@ public class ExchangeProjectsAnalyzer {
 
 		if (xdtoPackage == null) {
 			String msg = String.format("Не найден Пакет XDTO: \"%1$s\"", namespace);
-			LOGGER.warn(msg);
+			Logger logger = LoggerFactory.getLogger(ExchangeProjectsAnalyzer.class);
+			logger.warn(msg);
 
 			return null;
 		}

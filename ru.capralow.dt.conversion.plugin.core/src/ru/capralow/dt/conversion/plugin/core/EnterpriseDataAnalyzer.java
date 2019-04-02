@@ -38,8 +38,6 @@ import ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion;
 import ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject;
 
 public class EnterpriseDataAnalyzer {
-	private static final Logger LOGGER = LoggerFactory.getLogger(EnterpriseDataAnalyzer.class);
-
 	private static final String TABULAR_ID = "Строка";
 
 	private static final String TYPE_STRING = "Строка";
@@ -83,7 +81,8 @@ public class EnterpriseDataAnalyzer {
 			return enterpriseDataPackage;
 
 		} catch (IOException e) {
-			LOGGER.error("Не удалось загрузить вторичные данные для EnterpriseData. Перезапустите сборку проекта.", e);
+			Logger logger = LoggerFactory.getLogger(EnterpriseDataAnalyzer.class);
+			logger.error("Не удалось загрузить вторичные данные для EnterpriseData. Перезапустите сборку проекта.", e);
 
 		}
 
@@ -100,7 +99,8 @@ public class EnterpriseDataAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			LOGGER.error("Не удалось сохранить вторичные данные для EnterpriseData. Перезапустите сборку проекта.", e);
+			Logger logger = LoggerFactory.getLogger(EnterpriseDataAnalyzer.class);
+			logger.error("Не удалось сохранить вторичные данные для EnterpriseData. Перезапустите сборку проекта.", e);
 
 		}
 	}
@@ -201,8 +201,8 @@ public class EnterpriseDataAnalyzer {
 			addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
 			String msg = String.format("У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип",
 					objectName, version);
-
-			LOGGER.warn(msg);
+			Logger logger = LoggerFactory.getLogger(EnterpriseDataAnalyzer.class);
+			logger.warn(msg);
 		}
 
 	}
