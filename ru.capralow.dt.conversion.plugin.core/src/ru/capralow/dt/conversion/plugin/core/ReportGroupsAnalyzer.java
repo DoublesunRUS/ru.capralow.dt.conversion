@@ -63,22 +63,4 @@ public class ReportGroupsAnalyzer {
 
 	}
 
-	// private RgGroup addRgGroup(RgVariant rgVariant, String groupName) {
-	// EList<RgGroup> rgGroups = rgVariant.getGroups();
-	//
-	// RgGroup rgGroup = new RgGroupImpl();
-	// rgGroup.setName(groupName);
-	// rgGroups.add(rgGroup);
-	//
-	// return rgGroup;
-	// }
-	//
-	// private void addRgRule(RgVariant rgVariant, RgGroup rgGroup, String ruleName)
-	// {
-	// EList<RgRule> rgGroupRules = rgGroup.getRules();
-	//
-	// RgRule rgRule = new RgRuleImpl();
-	// rgRule.setName(ruleName);
-	// rgGroupRules.add(rgRule);
-	// }
 }

@@ -56,11 +56,6 @@ public class MarkdownTable {
 		if (mapPriorities.isEmpty())
 			return table.toString();
 
-		int[] colsMaxLength = new int[numOfCols];
-
-		for (int colIndex = 0; colIndex < numOfCols; colIndex++)
-			colsMaxLength[colIndex] = caption[colIndex].length();
-
 		int[] priorities = new int[mapPriorities.size()];
 		int priorityIndex = 0;
 		for (Entry<Integer, String[][][]> priority : mapPriorities.entrySet()) {
@@ -69,7 +64,26 @@ public class MarkdownTable {
 		}
 		Arrays.sort(priorities);
 
+		int[] colsMaxLength = countColsMaxLength(priorities);
+
+		table.append(addCaptionRow(caption, " ", colsMaxLength));
+		table.append(addCaptionRow(new String[5], "-", colsMaxLength));
 		for (priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
+			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
+			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++)
+				table.append(addTableRow(rows[rowIndex], " ", colsMaxLength));
+		}
+
+		return table.toString();
+	}
+
+	private int[] countColsMaxLength(int[] priorities) {
+		int[] colsMaxLength = new int[numOfCols];
+
+		for (int colIndex = 0; colIndex < numOfCols; colIndex++)
+			colsMaxLength[colIndex] = caption[colIndex].length();
+
+		for (int priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
 			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
 			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
 				if (rows[rowIndex] == null)
@@ -84,18 +98,10 @@ public class MarkdownTable {
 			}
 		}
 
-		table.append(addTableRow(caption, " ", colsMaxLength));
-		table.append(addTableRow(new String[5], "-", colsMaxLength));
-		for (priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
-			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++)
-				table.append(addTableRow(rows[rowIndex], " ", colsMaxLength));
-		}
-
-		return table.toString();
+		return colsMaxLength;
 	}
 
-	private String addTableRow(String[] row, String postfixChar, int[] colsMaxLength) {
+	private String addCaptionRow(String[] row, String postfixChar, int[] colsMaxLength) {
 		StringBuilder tableRow = new StringBuilder();
 		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
 			if (tableRow.length() != 0)

@@ -139,43 +139,13 @@ public class EnterpriseDataAnalyzer {
 
 			String objectName = xdtoObject.getName();
 			if (baseType != null && baseType.getName().equals("Object")) {
-				if (objectName.startsWith("Справочник.")) {
-					addCatalog(xdtoObject, enterpriseDataPackage, packageObjects);
-
-				} else if (objectName.startsWith("Документ.")) {
-					addDocument(xdtoObject, enterpriseDataPackage, packageObjects);
-
-				} else if (objectName.startsWith("Регистр")) {
-					addRegister(xdtoObject, enterpriseDataPackage, packageObjects);
-
-				} else {
-					addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
-					String msg = String.format(
-							"У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип", objectName,
-							version);
-
-					LOGGER.warn(msg);
-				}
+				parseObject(objectName, xdtoObject, enterpriseDataPackage, packageObjects, version);
 
 			} else {
 				if (objectName.contains(".") || objectName.startsWith("КлючевыеСвойства"))
 					continue;
 
-				EdDefinedType edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
-				edDefinedTypes.add(edDefinedType);
-
-				EList<EdType> edTypes = edDefinedType.getTypes();
-
-				edDefinedType.setName(objectName);
-				for (Property property : xdtoObject.getProperties()) {
-					String propertyName = property.getName();
-
-					EdType edType = edFactory.eINSTANCE.createEdType();
-					edTypes.add(edType);
-
-					edType.setName(propertyName);
-					edType.setPropertyType(getPropertyType(property));
-				}
+				parseType(objectName, xdtoObject, edDefinedTypes);
 
 			}
 		}
@@ -216,6 +186,45 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackages;
 	}
 
+	private static void parseObject(String objectName, ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects, String version) {
+		if (objectName.startsWith("Справочник.")) {
+			addCatalog(xdtoObject, enterpriseDataPackage, packageObjects);
+
+		} else if (objectName.startsWith("Документ.")) {
+			addDocument(xdtoObject, enterpriseDataPackage, packageObjects);
+
+		} else if (objectName.startsWith("Регистр")) {
+			addRegister(xdtoObject, enterpriseDataPackage, packageObjects);
+
+		} else {
+			addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
+			String msg = String.format("У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип",
+					objectName, version);
+
+			LOGGER.warn(msg);
+		}
+
+	}
+
+	private static void parseType(String objectName, ObjectType xdtoObject, EList<EdDefinedType> edDefinedTypes) {
+		EdDefinedType edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
+		edDefinedTypes.add(edDefinedType);
+
+		EList<EdType> edTypes = edDefinedType.getTypes();
+
+		edDefinedType.setName(objectName);
+		for (Property property : xdtoObject.getProperties()) {
+			String propertyName = property.getName();
+
+			EdType edType = edFactory.eINSTANCE.createEdType();
+			edTypes.add(edType);
+
+			edType.setName(propertyName);
+			edType.setPropertyType(getPropertyType(property));
+		}
+	}
+
 	private static EdObject addObject(ObjectType xdtoObject, Map<String, ObjectType> packageObjects) {
 		EdObject edObject = edFactory.eINSTANCE.createEdObject();
 
@@ -223,59 +232,73 @@ public class EnterpriseDataAnalyzer {
 
 		edObject.setXdtoMainObject(xdtoObject);
 
-		EList<EdProperty> edProperties = edObject.getMainProperties();
-
 		for (Property xdtoProperty : xdtoObject.getProperties()) {
 			String xdtoPropertyName = xdtoProperty.getName();
 
-			if (xdtoPropertyName.equals("КлючевыеСвойства")) {
-				String xdtoKeyPropertyName = xdtoProperty.getType().getName();
-				ObjectType xdtoKeyObject = packageObjects.get(xdtoKeyPropertyName);
+			if (xdtoPropertyName.equals("КлючевыеСвойства"))
+				addKeysToObject(edObject, xdtoProperty, packageObjects);
 
-				edObject.setXdtoKeysObject(xdtoKeyObject);
-				edObject.setKeysName(xdtoKeyPropertyName);
+			else
+				addPropertiesToObject(edObject, xdtoProperty, packageObjects);
 
-				for (Property xdtoKeyProperty : xdtoKeyObject.getProperties()) {
-					edProperties.add(addProperty(xdtoKeyProperty, xdtoKeyProperty.getName(), true));
-				}
-
-			} else {
-				boolean tabularSection = false;
-
-				String xdtoTabularSectionName = "";
-				if (xdtoProperty.getType() != null) {
-					String xdtoTabularName = xdtoProperty.getType().getName();
-					ObjectType xdtoTabularObject = packageObjects.get(xdtoTabularName);
-
-					if (xdtoTabularObject != null) {
-						EList<Property> xdtoTabularProperties = xdtoTabularObject.getProperties();
-						if (xdtoTabularProperties.size() == 1) {
-							Property xdtoTabularProperty = xdtoTabularObject.getProperties().get(0);
-							if (xdtoTabularProperty.getName().equals(TABULAR_ID)) {
-								xdtoTabularSectionName = xdtoTabularProperty.getType().getName();
-								tabularSection = true;
-							}
-						}
-					}
-				}
-
-				if (tabularSection) {
-					ObjectType xdtoTabularObject = packageObjects.get(xdtoTabularSectionName);
-
-					for (Property xdtoTabularProperty : xdtoTabularObject.getProperties()) {
-						edProperties.add(addProperty(xdtoTabularProperty,
-								xdtoPropertyName.concat(".").concat(xdtoTabularProperty.getName()), false));
-					}
-
-				} else {
-					edProperties.add(addProperty(xdtoProperty, xdtoProperty.getName(), false));
-
-				}
-
-			}
 		}
 
 		return edObject;
+	}
+
+	private static void addKeysToObject(EdObject edObject, Property xdtoProperty,
+			Map<String, ObjectType> packageObjects) {
+		EList<EdProperty> edProperties = edObject.getMainProperties();
+
+		String xdtoKeyPropertyName = xdtoProperty.getType().getName();
+		ObjectType xdtoKeyObject = packageObjects.get(xdtoKeyPropertyName);
+
+		edObject.setXdtoKeysObject(xdtoKeyObject);
+		edObject.setKeysName(xdtoKeyPropertyName);
+
+		for (Property xdtoKeyProperty : xdtoKeyObject.getProperties()) {
+			edProperties.add(addProperty(xdtoKeyProperty, xdtoKeyProperty.getName(), true));
+		}
+
+	}
+
+	private static void addPropertiesToObject(EdObject edObject, Property xdtoProperty,
+			Map<String, ObjectType> packageObjects) {
+		EList<EdProperty> edProperties = edObject.getMainProperties();
+
+		boolean tabularSection = false;
+
+		String xdtoTabularSectionName = "";
+		if (xdtoProperty.getType() != null) {
+			String xdtoTabularName = xdtoProperty.getType().getName();
+			ObjectType xdtoTabularObject = packageObjects.get(xdtoTabularName);
+
+			if (xdtoTabularObject != null) {
+				EList<Property> xdtoTabularProperties = xdtoTabularObject.getProperties();
+				if (xdtoTabularProperties.size() == 1) {
+					Property xdtoTabularProperty = xdtoTabularObject.getProperties().get(0);
+					if (xdtoTabularProperty.getName().equals(TABULAR_ID)) {
+						xdtoTabularSectionName = xdtoTabularProperty.getType().getName();
+						tabularSection = true;
+					}
+				}
+			}
+		}
+
+		if (tabularSection) {
+			ObjectType xdtoTabularObject = packageObjects.get(xdtoTabularSectionName);
+			String xdtoPropertyName = xdtoProperty.getName();
+
+			for (Property xdtoTabularProperty : xdtoTabularObject.getProperties()) {
+				edProperties.add(addProperty(xdtoTabularProperty,
+						xdtoPropertyName.concat(".").concat(xdtoTabularProperty.getName()), false));
+			}
+
+		} else {
+			edProperties.add(addProperty(xdtoProperty, xdtoProperty.getName(), false));
+
+		}
+
 	}
 
 	private static void addCatalog(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
@@ -319,59 +342,72 @@ public class EnterpriseDataAnalyzer {
 
 		QName propertyType = property.getType();
 		if (propertyType == null) {
-			Type propertyTypeDef = property.getTypeDefs();
-
-			if (propertyTypeDef instanceof ValueType) {
-				ValueType propertyValueTypeDef = (ValueType) propertyTypeDef;
-
-				if (propertyValueTypeDef.getName() != null)
-					propertyTypeName = propertyValueTypeDef.getName();
-
-				else if (propertyValueTypeDef.getBaseType() != null)
-					propertyTypeName = getBasePropertyType(propertyValueTypeDef);
-
-			} else if (propertyTypeDef instanceof ObjectType) {
-				ObjectType propertyObjectTypeDef = (ObjectType) propertyTypeDef;
-
-				StringBuilder multiPropertyTypeName = new StringBuilder();
-				for (Property typeProperty : propertyObjectTypeDef.getProperties()) {
-					if (multiPropertyTypeName.length() != 0)
-						multiPropertyTypeName.append(";");
-					multiPropertyTypeName.append(typeProperty.getName()).append(":")
-							.append(getPropertyType(typeProperty));
-				}
-				propertyTypeName = multiPropertyTypeName.toString();
-
-			}
+			propertyTypeName = getPreportyTypeFromTypeDef(property);
 
 		} else {
-			propertyTypeName = propertyType.getName();
-
-			if (propertyTypeName.equals("anyType"))
-				propertyTypeName = "Произвольный";
-
-			else if (propertyTypeName.equals("boolean"))
-				propertyTypeName = "Булево";
-
-			else if (propertyTypeName.equals("date"))
-				propertyTypeName = "Дата";
-
-			else if (propertyTypeName.equals("dateTime"))
-				propertyTypeName = "ДатаВремя";
-
-			else if (propertyTypeName.equals("decimal"))
-				propertyTypeName = "ДробноеЧисло";
-
-			else if (propertyTypeName.equals("int"))
-				propertyTypeName = "ЦелоеЧисло";
-
-			else if (propertyTypeName.equals("string"))
-				propertyTypeName = TYPE_STRING;
-
-			else if (propertyTypeName.equals("time"))
-				propertyTypeName = "Время";
+			propertyTypeName = getPropertyTypeFromSimpleType(property);
 
 		}
+
+		return propertyTypeName;
+	}
+
+	private static String getPreportyTypeFromTypeDef(Property property) {
+		String propertyTypeName = "";
+
+		Type propertyTypeDef = property.getTypeDefs();
+
+		if (propertyTypeDef instanceof ValueType) {
+			ValueType propertyValueTypeDef = (ValueType) propertyTypeDef;
+
+			if (propertyValueTypeDef.getName() != null)
+				propertyTypeName = propertyValueTypeDef.getName();
+
+			else if (propertyValueTypeDef.getBaseType() != null)
+				propertyTypeName = getBasePropertyType(propertyValueTypeDef);
+
+		} else if (propertyTypeDef instanceof ObjectType) {
+			ObjectType propertyObjectTypeDef = (ObjectType) propertyTypeDef;
+
+			StringBuilder multiPropertyTypeName = new StringBuilder();
+			for (Property typeProperty : propertyObjectTypeDef.getProperties()) {
+				if (multiPropertyTypeName.length() != 0)
+					multiPropertyTypeName.append(";");
+				multiPropertyTypeName.append(typeProperty.getName()).append(":").append(getPropertyType(typeProperty));
+			}
+			propertyTypeName = multiPropertyTypeName.toString();
+
+		}
+
+		return propertyTypeName;
+	}
+
+	private static String getPropertyTypeFromSimpleType(Property property) {
+		String propertyTypeName = property.getType().getName();
+
+		if (propertyTypeName.equals("anyType"))
+			propertyTypeName = "Произвольный";
+
+		else if (propertyTypeName.equals("boolean"))
+			propertyTypeName = "Булево";
+
+		else if (propertyTypeName.equals("date"))
+			propertyTypeName = "Дата";
+
+		else if (propertyTypeName.equals("dateTime"))
+			propertyTypeName = "ДатаВремя";
+
+		else if (propertyTypeName.equals("decimal"))
+			propertyTypeName = "ДробноеЧисло";
+
+		else if (propertyTypeName.equals("int"))
+			propertyTypeName = "ЦелоеЧисло";
+
+		else if (propertyTypeName.equals("string"))
+			propertyTypeName = TYPE_STRING;
+
+		else if (propertyTypeName.equals("time"))
+			propertyTypeName = "Время";
 
 		return propertyTypeName;
 	}
