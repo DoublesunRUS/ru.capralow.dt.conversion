@@ -29,6 +29,8 @@ public final class ConversionUtils {
 
 	public static MdObject getConfigurationObject(String objectFullName, IBmEmfIndexProvider bmEmfIndexProvider) {
 		String[] objectArray = objectFullName.split("[.]");
+		if (objectArray.length != 2)
+			return null;
 
 		String objectType = objectArray[0];
 		String objectName = objectArray[1];
