@@ -25,5 +25,10 @@ env:
   - PLUGIN_VERSION="1.0.1"
 
 after_success:
-- curl -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/ -v -Q "-RMD $PLUGIN_VERSION"
+- curl -l -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/ | xargs -I{} -- curl -v -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/ -Q "-DELE {}"
+- curl -l -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/features/ | xargs -I{} -- curl -v -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/features/ -Q "-DELE {}"
+- curl -l -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/plugins/ | xargs -I{} -- curl -v -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/plugins/ -Q "-DELE {}"
+- curl -l -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/ -v -Q "-RMD features"
+- curl -l -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/ -v -Q "-RMD plugins"
+- curl -l -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/ -v -Q "-RMD $PLUGIN_VERSION"
 - find repository/target/repository/ -type f | xargs -L 1 bash -c 'curl --ftp-create-dirs -T $1 -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_ADDRESS/$PLUGIN_VERSION/${1##repository/target/repository/}' \;
