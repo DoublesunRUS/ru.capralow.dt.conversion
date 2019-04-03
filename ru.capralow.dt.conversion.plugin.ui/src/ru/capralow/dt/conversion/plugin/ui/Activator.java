@@ -2,7 +2,6 @@ package ru.capralow.dt.conversion.plugin.ui;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -72,14 +71,13 @@ public class Activator extends AbstractUIPlugin {
 	private Injector createInjector() {
 		try {
 			return Guice.createInjector(new ConversionExternalDependenciesModule(this));
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to create injector for " + getBundle().getSymbolicName(), e);
-		}
-	}
 
-	public static ImageDescriptor getImageDescriptor(String name) {
-		String iconPath = "icons/";
-		return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, iconPath + name);
+		} catch (Exception e) {
+			String msg = String.format("Не удалось создать injector для \"%1$s\"", getBundle().getSymbolicName());
+			log(createErrorStatus(msg, e));
+			return null;
+
+		}
 	}
 
 }

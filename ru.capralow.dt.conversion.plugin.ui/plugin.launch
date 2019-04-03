@@ -21,7 +21,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_201"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -nosplash"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms80m -Xmx8g -Dlog4j.configuration=platform:/plugin/com._1c.g5.v8.dt.logging/log4j.properties -Dosgi.framework.extensions=org.eclipse.fx.osgi -Dosgi.module.lock.timeout=240"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms80m&#13;&#10;-Dlog4j.configuration=platform:/plugin/com._1c.g5.v8.dt.logging/log4j.properties&#13;&#10;-Dosgi.framework.extensions=org.eclipse.fx.osgi&#13;&#10;-Dosgi.module.lock.timeout=240&#13;&#10;-Xmx8g"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="org.eclipse.platform.ide"/>
 <booleanAttribute key="show_selected_only" value="false"/>

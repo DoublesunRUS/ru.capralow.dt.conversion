@@ -100,6 +100,8 @@ import ru.capralow.dt.conversion.plugin.ui.Activator;
 public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	public static final String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor";
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionModuleEditor.class);
+
 	private static final String COLUMNNAME_MDOBJECT = "Объект конфигурации";
 	private static final String COLUMNNAME_XDTOOBJECT = "Объект формата";
 	private static final String COLUMNNAME_NAME = "Наименование";
@@ -1094,8 +1096,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			buffer.release();
 
 		} catch (CoreException e) {
-			Logger logger = LoggerFactory.getLogger(ConversionModuleEditor.class);
-			logger.error("Не удалось обновить модуль конвертации.", e);
+			String msg = "Не удалось обновить модуль конвертации.";
+			LOGGER.error(msg, e);
 
 		}
 	}
@@ -1210,8 +1212,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
 
 				} catch (PartInitException e) {
-					Logger logger = LoggerFactory.getLogger(ConversionModuleEditor.class);
-					logger.error("Не удалось создать описание формата.", e);
+					String msg = "Не удалось создать описание формата.";
+					LOGGER.error(msg, e);
 
 				}
 			}

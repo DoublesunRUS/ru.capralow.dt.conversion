@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 
 public class ReportGroupsAnalyzer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReportGroupsAnalyzer.class);
+
 	private ReportGroupsAnalyzer() {
 		throw new IllegalStateException("Вспомогательный класс");
 	}
@@ -36,9 +38,8 @@ public class ReportGroupsAnalyzer {
 			return (ReportGroups) xmiResource.getContents().get(0);
 
 		} catch (IOException e) {
-			Logger logger = LoggerFactory.getLogger(ReportGroupsAnalyzer.class);
-			logger.error("Не удалось загрузить вторичные данные для ReportGroups. Удалите группы и настройте заново.",
-					e);
+			String msg = "Не удалось загрузить вторичные данные для ReportGroups. Удалите группы и настройте заново.";
+			LOGGER.error(msg, e);
 
 		}
 
@@ -55,9 +56,8 @@ public class ReportGroupsAnalyzer {
 			xmiResource.save(saveOptions);
 
 		} catch (IOException e) {
-			Logger logger = LoggerFactory.getLogger(ReportGroupsAnalyzer.class);
-			logger.error("Не удалось сохранить вторичные данные для ReportGroups. Удалите группы и настройте заново.",
-					e);
+			String msg = "Не удалось сохранить вторичные данные для ReportGroups. Удалите группы и настройте заново.";
+			LOGGER.error(msg, e);
 
 		}
 

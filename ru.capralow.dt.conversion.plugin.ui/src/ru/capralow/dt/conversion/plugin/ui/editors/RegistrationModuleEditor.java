@@ -38,6 +38,8 @@ import ru.capralow.dt.conversion.plugin.core.rm.model.rmFactory;
 public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 	public static final java.lang.String PAGE_ID = "ru.capralow.dt.conversion.plugin.ui.editors.RegistrationModuleEditor";
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationModuleEditor.class);
+
 	// @Inject
 	// private IConfigurationProvider configurationProvider;
 
@@ -223,8 +225,8 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 			// fileInput.close();
 
 		} catch (CoreException | ParserConfigurationException | SAXException | IOException e) {
-			Logger logger = LoggerFactory.getLogger(RegistrationModuleEditor.class);
-			logger.error("При чтении правил регистрации из макета что-то пошло не так", e);
+			String msg = "При чтении правил регистрации из макета что-то пошло не так.";
+			LOGGER.error(msg, e);
 
 		}
 	}
