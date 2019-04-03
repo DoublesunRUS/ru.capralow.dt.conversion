@@ -44,69 +44,6 @@ public class EnterpriseDataAnalyzer {
 
 	private static final String TYPE_STRING = "Строка";
 
-	private EnterpriseDataAnalyzer() {
-		throw new IllegalStateException("Вспомогательный класс");
-	}
-
-	public static URI getResourceURIforPlugin(String version, IProject project, AbstractUIPlugin plugin) {
-		return ConversionUtils.getResourceURIforPlugin(project.getName(),
-				"enterpriseDataPackage-" + version.replace(".", "_"), plugin);
-	}
-
-	public static EnterpriseData loadResource(URI xmiUri, Configuration configuration) {
-		File file = new File(xmiUri.toFileString());
-		if (!file.exists())
-			return null;
-
-		try {
-			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
-
-			// TODO: Сделать пересборку вторичных данных если файла нет
-			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
-			xmiResource.load(loadOptions);
-			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
-
-			enterpriseDataPackage.setXdtoPackage(
-					(XDTOPackage) EcoreUtil.resolve(enterpriseDataPackage.getXdtoPackage(), configuration));
-
-			for (EdEnum edEnum : enterpriseDataPackage.getEnums()) {
-				edEnum.setObject((ValueType) EcoreUtil.resolve(edEnum.getObject(), configuration));
-
-				EList<Enumeration> oldList = edEnum.getEnumerations();
-				EList<Enumeration> newList = new BasicEList<>();
-				for (Enumeration oldItem : oldList)
-					newList.add((Enumeration) EcoreUtil.resolve(oldItem, configuration));
-				oldList.clear();
-				oldList.addAll(newList);
-			}
-
-			return enterpriseDataPackage;
-
-		} catch (IOException e) {
-			String msg = "Не удалось загрузить вторичные данные для EnterpriseData. Перезапустите сборку проекта.";
-			LOGGER.error(msg, e);
-
-		}
-
-		return null;
-	}
-
-	public static void saveResource(EnterpriseData enterpriseDataPackage, URI xmiUri) {
-		try {
-			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
-
-			xmiResource.getContents().add(enterpriseDataPackage);
-			final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
-			saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
-			xmiResource.save(saveOptions);
-
-		} catch (IOException e) {
-			String msg = "Не удалось сохранить вторичные данные для EnterpriseData. Перезапустите сборку проекта.";
-			LOGGER.error(msg, e);
-
-		}
-	}
-
 	public static EnterpriseData analyze(XDTOPackage xdtoPackage) {
 		String[] namespaceArray = xdtoPackage.getNamespace().split("[/]");
 		String version = namespaceArray[namespaceArray.length - 1];
@@ -169,6 +106,11 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackage;
 	}
 
+	public static URI getResourceURIforPlugin(String version, IProject project, AbstractUIPlugin plugin) {
+		return ConversionUtils.getResourceURIforPlugin(project.getName(),
+				"enterpriseDataPackage-" + version.replace(".", "_"), plugin);
+	}
+
 	public static Map<String, EnterpriseData> loadPluginResources(CommonModule commonModule,
 			ExchangeProject exchangeProject, Configuration configuration, IProject project, AbstractUIPlugin plugin) {
 		Map<String, EnterpriseData> enterpriseDataPackages = new HashMap<>();
@@ -188,42 +130,84 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackages;
 	}
 
-	private static void parseObject(String objectName, ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects, String version) {
-		if (objectName.startsWith("Справочник.")) {
-			addCatalog(xdtoObject, enterpriseDataPackage, packageObjects);
+	public static EnterpriseData loadResource(URI xmiUri, Configuration configuration) {
+		File file = new File(xmiUri.toFileString());
+		if (!file.exists())
+			return null;
 
-		} else if (objectName.startsWith("Документ.")) {
-			addDocument(xdtoObject, enterpriseDataPackage, packageObjects);
+		try {
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
-		} else if (objectName.startsWith("Регистр")) {
-			addRegister(xdtoObject, enterpriseDataPackage, packageObjects);
+			// TODO: Сделать пересборку вторичных данных если файла нет
+			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
+			xmiResource.load(loadOptions);
+			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
 
-		} else {
-			addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
-			String msg = String.format("У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип",
-					objectName, version);
-			LOGGER.warn(msg);
+			enterpriseDataPackage.setXdtoPackage(
+					(XDTOPackage) EcoreUtil.resolve(enterpriseDataPackage.getXdtoPackage(), configuration));
+
+			for (EdEnum edEnum : enterpriseDataPackage.getEnums()) {
+				edEnum.setObject((ValueType) EcoreUtil.resolve(edEnum.getObject(), configuration));
+
+				EList<Enumeration> oldList = edEnum.getEnumerations();
+				EList<Enumeration> newList = new BasicEList<>();
+				for (Enumeration oldItem : oldList)
+					newList.add((Enumeration) EcoreUtil.resolve(oldItem, configuration));
+				oldList.clear();
+				oldList.addAll(newList);
+			}
+
+			return enterpriseDataPackage;
+
+		} catch (IOException e) {
+			String msg = "Не удалось загрузить вторичные данные для EnterpriseData. Перезапустите сборку проекта.";
+			LOGGER.error(msg, e);
+
 		}
 
+		return null;
 	}
 
-	private static void parseType(String objectName, ObjectType xdtoObject, EList<EdDefinedType> edDefinedTypes) {
-		EdDefinedType edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
-		edDefinedTypes.add(edDefinedType);
+	public static void saveResource(EnterpriseData enterpriseDataPackage, URI xmiUri) {
+		try {
+			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
-		EList<EdType> edTypes = edDefinedType.getTypes();
+			xmiResource.getContents().add(enterpriseDataPackage);
+			final Map<Object, Object> saveOptions = xmiResource.getDefaultSaveOptions();
+			saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
+			xmiResource.save(saveOptions);
 
-		edDefinedType.setName(objectName);
-		for (Property property : xdtoObject.getProperties()) {
-			String propertyName = property.getName();
+		} catch (IOException e) {
+			String msg = "Не удалось сохранить вторичные данные для EnterpriseData. Перезапустите сборку проекта.";
+			LOGGER.error(msg, e);
 
-			EdType edType = edFactory.eINSTANCE.createEdType();
-			edTypes.add(edType);
-
-			edType.setName(propertyName);
-			edType.setPropertyType(getPropertyType(property));
 		}
+	}
+
+	private static void addCatalog(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getCatalogs().add(addObject(xdtoObject, packageObjects));
+	}
+
+	private static void addDocument(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getDocuments().add(addObject(xdtoObject, packageObjects));
+	}
+
+	private static void addKeysToObject(EdObject edObject, Property xdtoProperty,
+			Map<String, ObjectType> packageObjects) {
+		EList<EdProperty> edProperties = edObject.getMainProperties();
+
+		String xdtoKeyPropertyName = xdtoProperty.getType().getName();
+		ObjectType xdtoKeyObject = packageObjects.get(xdtoKeyPropertyName);
+
+		edObject.setXdtoKeysObject(xdtoKeyObject);
+		edObject.setKeysName(xdtoKeyPropertyName);
+
+		for (Property xdtoKeyProperty : xdtoKeyObject.getProperties()) {
+			edProperties.add(addProperty(xdtoKeyProperty, xdtoKeyProperty.getName(), true));
+		}
+
 	}
 
 	private static EdObject addObject(ObjectType xdtoObject, Map<String, ObjectType> packageObjects) {
@@ -245,22 +229,6 @@ public class EnterpriseDataAnalyzer {
 		}
 
 		return edObject;
-	}
-
-	private static void addKeysToObject(EdObject edObject, Property xdtoProperty,
-			Map<String, ObjectType> packageObjects) {
-		EList<EdProperty> edProperties = edObject.getMainProperties();
-
-		String xdtoKeyPropertyName = xdtoProperty.getType().getName();
-		ObjectType xdtoKeyObject = packageObjects.get(xdtoKeyPropertyName);
-
-		edObject.setXdtoKeysObject(xdtoKeyObject);
-		edObject.setKeysName(xdtoKeyPropertyName);
-
-		for (Property xdtoKeyProperty : xdtoKeyObject.getProperties()) {
-			edProperties.add(addProperty(xdtoKeyProperty, xdtoKeyProperty.getName(), true));
-		}
-
 	}
 
 	private static void addPropertiesToObject(EdObject edObject, Property xdtoProperty,
@@ -302,26 +270,6 @@ public class EnterpriseDataAnalyzer {
 
 	}
 
-	private static void addCatalog(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects) {
-		enterpriseDataPackage.getCatalogs().add(addObject(xdtoObject, packageObjects));
-	}
-
-	private static void addDocument(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects) {
-		enterpriseDataPackage.getDocuments().add(addObject(xdtoObject, packageObjects));
-	}
-
-	private static void addRegister(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects) {
-		enterpriseDataPackage.getRegisters().add(addObject(xdtoObject, packageObjects));
-	}
-
-	private static void addUnknownObject(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
-			Map<String, ObjectType> packageObjects) {
-		enterpriseDataPackage.getUnknownObjects().add(addObject(xdtoObject, packageObjects));
-	}
-
 	private static EdProperty addProperty(Property xdtoProperty, String xdtoPropertyName, Boolean isKey) {
 		EdProperty edProperty = edFactory.eINSTANCE.createEdProperty();
 
@@ -338,15 +286,41 @@ public class EnterpriseDataAnalyzer {
 		return edProperty;
 	}
 
-	private static String getPropertyType(Property property) {
-		String propertyTypeName = "";
+	private static void addRegister(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getRegisters().add(addObject(xdtoObject, packageObjects));
+	}
 
-		QName propertyType = property.getType();
-		if (propertyType == null) {
-			propertyTypeName = getPreportyTypeFromTypeDef(property);
+	private static void addUnknownObject(ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects) {
+		enterpriseDataPackage.getUnknownObjects().add(addObject(xdtoObject, packageObjects));
+	}
 
-		} else {
-			propertyTypeName = getPropertyTypeFromSimpleType(property);
+	private static String getBasePropertyType(ValueType propertyValueTypeDef) {
+		String propertyTypeName = propertyValueTypeDef.getBaseType().getName();
+
+		if (propertyTypeName.equals("string")) {
+			propertyTypeName = TYPE_STRING;
+
+			int maxLength = propertyValueTypeDef.getMaxLength();
+			if (maxLength != 0)
+				propertyTypeName = "Строка(".concat(Integer.toString(maxLength)).concat(")");
+
+		} else if (propertyTypeName.equals("decimal")) {
+			propertyTypeName = "ДробноеЧисло";
+
+			int totalDigits = propertyValueTypeDef.getTotalDigits();
+			int fractionDigits = propertyValueTypeDef.getFractionDigits();
+			if (totalDigits != 0)
+				propertyTypeName = "ДробноеЧисло(".concat(Integer.toString(totalDigits)).concat(".")
+						.concat(Integer.toString(fractionDigits)).concat(")");
+
+		} else if (propertyTypeName.equals("int")) {
+			propertyTypeName = "ЦелоеЧисло";
+
+			int totalDigits = propertyValueTypeDef.getTotalDigits();
+			if (totalDigits != 0)
+				propertyTypeName = "ЦелоеЧисло(".concat(Integer.toString(totalDigits)).concat(")");
 
 		}
 
@@ -383,6 +357,21 @@ public class EnterpriseDataAnalyzer {
 		return propertyTypeName;
 	}
 
+	private static String getPropertyType(Property property) {
+		String propertyTypeName = "";
+
+		QName propertyType = property.getType();
+		if (propertyType == null) {
+			propertyTypeName = getPreportyTypeFromTypeDef(property);
+
+		} else {
+			propertyTypeName = getPropertyTypeFromSimpleType(property);
+
+		}
+
+		return propertyTypeName;
+	}
+
 	private static String getPropertyTypeFromSimpleType(Property property) {
 		String propertyTypeName = property.getType().getName();
 
@@ -413,34 +402,45 @@ public class EnterpriseDataAnalyzer {
 		return propertyTypeName;
 	}
 
-	private static String getBasePropertyType(ValueType propertyValueTypeDef) {
-		String propertyTypeName = propertyValueTypeDef.getBaseType().getName();
+	private static void parseObject(String objectName, ObjectType xdtoObject, EnterpriseData enterpriseDataPackage,
+			Map<String, ObjectType> packageObjects, String version) {
+		if (objectName.startsWith("Справочник.")) {
+			addCatalog(xdtoObject, enterpriseDataPackage, packageObjects);
 
-		if (propertyTypeName.equals("string")) {
-			propertyTypeName = TYPE_STRING;
+		} else if (objectName.startsWith("Документ.")) {
+			addDocument(xdtoObject, enterpriseDataPackage, packageObjects);
 
-			int maxLength = propertyValueTypeDef.getMaxLength();
-			if (maxLength != 0)
-				propertyTypeName = "Строка(".concat(Integer.toString(maxLength)).concat(")");
+		} else if (objectName.startsWith("Регистр")) {
+			addRegister(xdtoObject, enterpriseDataPackage, packageObjects);
 
-		} else if (propertyTypeName.equals("decimal")) {
-			propertyTypeName = "ДробноеЧисло";
-
-			int totalDigits = propertyValueTypeDef.getTotalDigits();
-			int fractionDigits = propertyValueTypeDef.getFractionDigits();
-			if (totalDigits != 0)
-				propertyTypeName = "ДробноеЧисло(".concat(Integer.toString(totalDigits)).concat(".")
-						.concat(Integer.toString(fractionDigits)).concat(")");
-
-		} else if (propertyTypeName.equals("int")) {
-			propertyTypeName = "ЦелоеЧисло";
-
-			int totalDigits = propertyValueTypeDef.getTotalDigits();
-			if (totalDigits != 0)
-				propertyTypeName = "ЦелоеЧисло(".concat(Integer.toString(totalDigits)).concat(")");
-
+		} else {
+			addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
+			String msg = String.format("У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип",
+					objectName, version);
+			LOGGER.warn(msg);
 		}
 
-		return propertyTypeName;
+	}
+
+	private static void parseType(String objectName, ObjectType xdtoObject, EList<EdDefinedType> edDefinedTypes) {
+		EdDefinedType edDefinedType = edFactory.eINSTANCE.createEdDefinedType();
+		edDefinedTypes.add(edDefinedType);
+
+		EList<EdType> edTypes = edDefinedType.getTypes();
+
+		edDefinedType.setName(objectName);
+		for (Property property : xdtoObject.getProperties()) {
+			String propertyName = property.getName();
+
+			EdType edType = edFactory.eINSTANCE.createEdType();
+			edTypes.add(edType);
+
+			edType.setName(propertyName);
+			edType.setPropertyType(getPropertyType(property));
+		}
+	}
+
+	private EnterpriseDataAnalyzer() {
+		throw new IllegalStateException("Вспомогательный класс");
 	}
 }

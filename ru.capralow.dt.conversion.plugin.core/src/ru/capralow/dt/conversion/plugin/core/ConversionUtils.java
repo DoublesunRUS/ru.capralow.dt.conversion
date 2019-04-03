@@ -25,8 +25,28 @@ import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 public final class ConversionUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionUtils.class);
 
-	private ConversionUtils() {
-		throw new IllegalStateException("Вспомогательный класс");
+	public static int compareArraysOfString(String[] str1, String[] str2) {
+		if (str1 == null || str2 == null)
+			return 0;
+
+		if (Arrays.equals(str1, str2))
+			return 0;
+
+		if (str1.length != str2.length)
+			return str1.length - str2.length;
+
+		for (int i = 0; i < str1.length; i++) {
+			if (str1[i] == null)
+				return -1;
+			if (str2[i] == null)
+				return 1;
+
+			int result = str1[i].compareToIgnoreCase(str2[i]);
+			if (result != 0)
+				return result;
+		}
+
+		return 0;
 	}
 
 	public static MdObject getConfigurationObject(String objectFullName, IBmEmfIndexProvider bmEmfIndexProvider) {
@@ -112,28 +132,8 @@ public final class ConversionUtils {
 		return null;
 	}
 
-	public static int compareArraysOfString(String[] str1, String[] str2) {
-		if (str1 == null || str2 == null)
-			return 0;
-
-		if (Arrays.equals(str1, str2))
-			return 0;
-
-		if (str1.length != str2.length)
-			return str1.length - str2.length;
-
-		for (int i = 0; i < str1.length; i++) {
-			if (str1[i] == null)
-				return -1;
-			if (str2[i] == null)
-				return 1;
-
-			int result = str1[i].compareToIgnoreCase(str2[i]);
-			if (result != 0)
-				return result;
-		}
-
-		return 0;
+	private static Boolean foundProjectInWorkspace(IWorkspace workspace, String projectName) {
+		return workspace.getRoot().getProject(projectName) != null;
 	}
 
 	private static File getResourceFile(URI uri, AbstractUIPlugin plugin) throws FileNotFoundException {
@@ -163,8 +163,8 @@ public final class ConversionUtils {
 		return resourcePath.toFile();
 	}
 
-	private static Boolean foundProjectInWorkspace(IWorkspace workspace, String projectName) {
-		return workspace.getRoot().getProject(projectName) != null;
+	private ConversionUtils() {
+		throw new IllegalStateException("Вспомогательный класс");
 	}
 
 }

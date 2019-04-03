@@ -77,30 +77,6 @@ public class MarkdownTable {
 		return table.toString();
 	}
 
-	private int[] countColsMaxLength(int[] priorities) {
-		int[] colsMaxLength = new int[numOfCols];
-
-		for (int colIndex = 0; colIndex < numOfCols; colIndex++)
-			colsMaxLength[colIndex] = caption[colIndex].length();
-
-		for (int priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
-			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-				if (rows[rowIndex] == null)
-					throw new java.lang.StringIndexOutOfBoundsException(
-							"Markdown table: Количество строк в таблице меньше ожидаемого количества");
-
-				for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
-					int colLength = rows[rowIndex][colIndex][0].length();
-					if (colsMaxLength[colIndex] < colLength)
-						colsMaxLength[colIndex] = colLength;
-				}
-			}
-		}
-
-		return colsMaxLength;
-	}
-
 	private String addCaptionRow(String[] row, String postfixChar, int[] colsMaxLength) {
 		StringBuilder tableRow = new StringBuilder();
 		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
@@ -155,5 +131,29 @@ public class MarkdownTable {
 			tabs.append(tabString);
 
 		return tabs.toString();
+	}
+
+	private int[] countColsMaxLength(int[] priorities) {
+		int[] colsMaxLength = new int[numOfCols];
+
+		for (int colIndex = 0; colIndex < numOfCols; colIndex++)
+			colsMaxLength[colIndex] = caption[colIndex].length();
+
+		for (int priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
+			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
+			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+				if (rows[rowIndex] == null)
+					throw new java.lang.StringIndexOutOfBoundsException(
+							"Markdown table: Количество строк в таблице меньше ожидаемого количества");
+
+				for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
+					int colLength = rows[rowIndex][colIndex][0].length();
+					if (colsMaxLength[colIndex] < colLength)
+						colsMaxLength[colIndex] = colLength;
+				}
+			}
+		}
+
+		return colsMaxLength;
 	}
 }

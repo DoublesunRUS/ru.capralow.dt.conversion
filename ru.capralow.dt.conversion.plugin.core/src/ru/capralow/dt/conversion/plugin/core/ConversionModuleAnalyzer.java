@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.xbase.lib.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,16 +90,308 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
 public class ConversionModuleAnalyzer {
+	private static class SubsystemsFiller {
+		private EList<CmSubsystem> cmSubsystems;
+
+		private ConversionModule conversionModule;
+		private CommandInterface mainCommandInterface;
+		private CmSubsystem cmMainSubsystem;
+
+		public SubsystemsFiller(ConversionModule conversionModule, CommandInterface mainCommandInterface,
+				CmSubsystem cmMainSubsystem) {
+			this.conversionModule = conversionModule;
+			this.mainCommandInterface = mainCommandInterface;
+			this.cmMainSubsystem = cmMainSubsystem;
+		}
+
+		private void addSubsystemsFromCatalogCommand(Object object, Command placementCommand) {
+			CatalogCommand placementCatalogCommand = (CatalogCommand) placementCommand;
+			Catalog masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementCatalogCommand,
+					Catalog.class);
+			if (!masterObject.equals((Catalog) object))
+				return;
+
+			cmSubsystems.add(cmMainSubsystem);
+		}
+
+		private void addSubsystemsFromCatalogOwners(Object object) {
+			if (!(object instanceof Catalog))
+				return;
+
+			for (MdObject masterObject : ((Catalog) object).getOwners())
+				addSubsystemsFromObject(masterObject);
+		}
+
+		private void addSubsystemsFromCmSubsystems(Object object, EList<CmSubsystem> cmSubsystems) {
+			for (CmSubsystem cmSubsystem : cmSubsystems) {
+				Subsystem interfaceSubsystem = cmSubsystem.getSubsystem();
+				if (interfaceSubsystem == null)
+					continue;
+
+				if (interfaceSubsystem.getContent().indexOf(object) != -1)
+					cmSubsystems.add(cmSubsystem);
+
+				else
+					addSubsystemsFromInterface(object, cmSubsystem, interfaceSubsystem.getSubsystems());
+
+			}
+		}
+
+		private void addSubsystemsFromDocumentCommand(Object object, Command placementCommand) {
+			DocumentCommand placementDocumentCommand = (DocumentCommand) placementCommand;
+			Document masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementDocumentCommand,
+					Document.class);
+			if (!masterObject.equals((Document) object))
+				return;
+
+			cmSubsystems.add(cmMainSubsystem);
+		}
+
+		private void addSubsystemsFromInterface(Object object, CmSubsystem cmSubsystem,
+				EList<Subsystem> interfaceSubsystems) {
+			for (Subsystem interfaceSubsystem : interfaceSubsystems) {
+				if (interfaceSubsystem.getContent().indexOf(object) != -1)
+					cmSubsystems.add(cmSubsystem);
+
+				else
+					addSubsystemsFromInterface(object, cmSubsystem, interfaceSubsystem.getSubsystems());
+
+			}
+		}
+
+		private void addSubsystemsFromMainInterface(Object mainObject) {
+			for (CommandsPlacementFragment placementFragment : mainCommandInterface.getCommandsPlacement()
+					.getPlacementFragments()) {
+				for (Command placementCommand : placementFragment.getCommands()) {
+					if (mainObject instanceof Catalog && placementCommand instanceof CatalogCommand)
+						addSubsystemsFromCatalogCommand(mainObject, placementCommand);
+
+					else if (mainObject instanceof Document && placementCommand instanceof DocumentCommand)
+						addSubsystemsFromDocumentCommand(mainObject, placementCommand);
+
+					else if (placementCommand instanceof StandardCommand)
+						addSubsystemsFromStandardCommand(mainObject, placementCommand);
+
+				}
+			}
+		}
+
+		private void addSubsystemsFromObject(Object object) {
+			addSubsystemsFromMainInterface(object);
+
+			addSubsystemsFromCmSubsystems(object, conversionModule.getSubsystems());
+
+			addSubsystemsFromCatalogOwners(object);
+		}
+
+		private void addSubsystemsFromRegisterDimensions(Object object) {
+			if (!(object instanceof InformationRegister))
+				return;
+
+			for (InformationRegisterDimension dimension : ((InformationRegister) object).getDimensions()) {
+				if (!dimension.isMaster())
+					continue;
+
+				for (TypeItem type : dimension.getType().getTypes()) {
+					if (type instanceof TypeSet) {
+						for (Type subType : ((TypeSet) type).getTypes()) {
+							MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(subType);
+							addSubsystemsFromObject(masterObject);
+						}
+
+					} else {
+						MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(type);
+						addSubsystemsFromObject(masterObject);
+
+					}
+				}
+			}
+		}
+
+		private void addSubsystemsFromStandardCommand(Object object, Command placementCommand) {
+			StandardCommand placementStandardCommand = (StandardCommand) placementCommand;
+			MdObject masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementStandardCommand,
+					MdObject.class);
+			if (!masterObject.equals(object))
+				return;
+
+			cmSubsystems.add(cmMainSubsystem);
+		}
+
+		EList<CmSubsystem> getSubsystems(Object mainObject) {
+			cmSubsystems = new BasicEList<>();
+
+			addSubsystemsFromObject(mainObject);
+
+			addSubsystemsFromRegisterDimensions(mainObject);
+
+			return cmSubsystems;
+		}
+	}
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionModuleAnalyzer.class);
 
 	private static final String ADD_DATARULE = "ДобавитьПОД_";
 	private static final String ADD_OBJECTRULE = "ДобавитьПКО_";
+
 	private static final String PARAMS_FOR_OBJECTRULE = "(ПравилаКонвертации)";
 
 	private static final String UNKNOWN_VALUE = "Неопределено";
 
-	private ConversionModuleAnalyzer() {
-		throw new IllegalStateException("Вспомогательный класс");
+	public static final int COMPARATOR_ORDER_BY_NAME = 1;
+
+	public static final int COMPARATOR_ORDER_BY_SENDING = 2;
+
+	public static final int COMPARATOR_ORDER_BY_RECEIVING = 3;
+
+	public static ConversionModule analyze(CommonModule commonModule, IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager) {
+		ConversionModule conversionModule = cmFactory.eINSTANCE.createConversionModule();
+
+		conversionModule.setStoreVersion("1");
+
+		conversionModule.getDataRules().clear();
+		conversionModule.getObjectRules().clear();
+		conversionModule.getPredefineds().clear();
+		conversionModule.getAlgorithms().clear();
+
+		IV8Project configurationProject = projectManager.getProject(commonModule);
+		if (configurationProject instanceof IExtensionProject)
+			configurationProject = ((IExtensionProject) configurationProject).getParent();
+
+		Configuration configuration = ((IConfigurationProject) configurationProject).getConfiguration();
+
+		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager
+				.getEmfIndexProvider(configurationProject.getProject());
+
+		Module module = commonModule.getModule();
+
+		CmSubsystem cmMainSubsystem = addSubsystems(conversionModule.getSubsystems(),
+				(CommandInterface) configuration.getCommandInterface());
+
+		for (Method method : module.allMethods())
+			parseMethod(method, module, cmMainSubsystem, configuration, conversionModule, bmEmfIndexProvider);
+
+		return conversionModule;
+	}
+
+	public static Comparator<CmAlgorithm> getAlgorithmComparator() {
+		return (CmAlgorithm cmArg1, CmAlgorithm cmArg2) -> {
+			String[] str1 = new String[1];
+			String[] str2 = new String[1];
+
+			str1[0] = cmArg1.getName();
+
+			str2[0] = cmArg2.getName();
+
+			return ConversionUtils.compareArraysOfString(str1, str2);
+		};
+	}
+
+	public static Comparator<CmDataRule> getDataRuleComparator(int comparatorOrder) {
+		return (CmDataRule cmArg1, CmDataRule cmArg2) -> {
+			String[] str1;
+			String[] str2;
+
+			if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
+				str1 = new String[3];
+				str2 = new String[3];
+
+				str1[0] = cmArg1.getConfigurationObjectName();
+				str1[1] = cmArg1.getFormatObject();
+				str1[2] = cmArg1.getName();
+
+				str2[0] = cmArg2.getConfigurationObjectName();
+				str2[1] = cmArg2.getFormatObject();
+				str2[2] = cmArg2.getName();
+
+			} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
+				str1 = new String[3];
+				str2 = new String[3];
+
+				str1[0] = cmArg1.getFormatObject();
+				str1[1] = cmArg1.getConfigurationObjectName();
+				str1[2] = cmArg1.getName();
+
+				str2[0] = cmArg2.getFormatObject();
+				str2[1] = cmArg2.getConfigurationObjectName();
+				str2[2] = cmArg2.getName();
+
+			} else { // COMPARATOR_ORDER_BY_NAME
+				str1 = new String[1];
+				str2 = new String[1];
+
+				str1[0] = cmArg1.getName();
+
+				str2[0] = cmArg2.getName();
+
+			}
+
+			return ConversionUtils.compareArraysOfString(str1, str2);
+		};
+	}
+
+	public static String getModuleText(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
+		if (conversionModule.getStoreVersion().equals("2"))
+			return getModuleTextV2(conversionModule, name, localDateTime);
+		else
+			return getModuleTextV1(conversionModule, name, localDateTime);
+	}
+
+	public static Comparator<CmObjectRule> getObjectRuleComparator(int comparatorOrder) {
+		return (CmObjectRule cmArg1, CmObjectRule cmArg2) -> {
+			String[] str1;
+			String[] str2;
+
+			if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
+				str1 = new String[3];
+				str2 = new String[3];
+
+				str1[0] = cmArg1.getConfigurationObjectName();
+				str1[1] = cmArg1.getFormatObject();
+				str1[2] = cmArg1.getName();
+
+				str2[0] = cmArg2.getConfigurationObjectName();
+				str2[1] = cmArg2.getFormatObject();
+				str2[2] = cmArg2.getName();
+
+			} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
+				str1 = new String[3];
+				str2 = new String[3];
+
+				str1[0] = cmArg1.getFormatObject();
+				str1[1] = cmArg1.getConfigurationObjectName();
+				str1[2] = cmArg1.getName();
+
+				str2[0] = cmArg2.getFormatObject();
+				str2[1] = cmArg2.getConfigurationObjectName();
+				str2[2] = cmArg2.getName();
+
+			} else { // COMPARATOR_ORDER_BY_NAME
+				str1 = new String[1];
+				str2 = new String[1];
+
+				str1[0] = cmArg1.getName();
+
+				str2[0] = cmArg2.getName();
+
+			}
+
+			return ConversionUtils.compareArraysOfString(str1, str2);
+		};
+	}
+
+	public static Comparator<CmPredefined> getPredefinedComparator() {
+		return (CmPredefined cmArg1, CmPredefined cmArg2) -> {
+			String[] str1 = new String[1];
+			String[] str2 = new String[1];
+
+			str1[0] = cmArg1.getName();
+
+			str2[0] = cmArg2.getName();
+
+			return ConversionUtils.compareArraysOfString(str1, str2);
+		};
 	}
 
 	public static URI getResourceURIforPlugin(String moduleName, IProject project, AbstractUIPlugin plugin) {
@@ -132,33 +425,6 @@ public class ConversionModuleAnalyzer {
 		return null;
 	}
 
-	private static void resolveBmObjects(ConversionModule conversionModule, Configuration configuration) {
-		for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
-			if (cmSubsystem.getSubsystem() == null)
-				continue;
-			cmSubsystem.setSubsystem((Subsystem) EcoreUtil.resolve(cmSubsystem.getSubsystem(), configuration));
-		}
-		for (CmObject cmObject : conversionModule.getDataRules()) {
-			if (cmObject.getConfigurationObject() == null)
-				continue;
-			cmObject.setConfigurationObject(
-					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
-		}
-		for (CmObject cmObject : conversionModule.getObjectRules()) {
-			if (cmObject.getConfigurationObject() == null)
-				continue;
-			cmObject.setConfigurationObject(
-					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
-		}
-		for (CmObject cmObject : conversionModule.getPredefineds()) {
-			if (cmObject.getConfigurationObject() == null)
-				continue;
-			cmObject.setConfigurationObject(
-					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
-		}
-
-	}
-
 	public static void saveResource(ConversionModule conversionModule, URI xmiUri) {
 		try {
 			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
@@ -176,751 +442,7 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	public static CmSubsystem addSubsystems(EList<CmSubsystem> cmSubsystems, CommandInterface commandInterface) {
-		cmSubsystems.clear();
-
-		CmSubsystem cmMainSubsystem = cmFactory.eINSTANCE.createCmSubsystem();
-		cmMainSubsystem.setSpecialSubsystemType(CmSpecialSubsystemType.MAIN);
-		cmSubsystems.add(cmMainSubsystem);
-
-		SubsystemsOrder subsystemsOrder = commandInterface.getSubsystemsOrder();
-		if (subsystemsOrder != null)
-			for (Subsystem confSubsystem : subsystemsOrder.getSubsystems()) {
-				if (!confSubsystem.isIncludeInCommandInterface())
-					continue;
-
-				CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
-				subsystem.setSubsystem(confSubsystem);
-
-				cmSubsystems.add(subsystem);
-			}
-		CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
-		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
-		cmSubsystems.add(subsystem);
-
-		return cmMainSubsystem;
-	}
-
-	private static String getStoreVersion(Method method) {
-		EList<Statement> statements = method.allStatements();
-		if (statements.isEmpty())
-			throw new NullPointerException("Невозможно определить версию формата.");
-
-		Statement statement = statements.get(0);
-		ReturnStatement returnStatement = (ReturnStatement) statement;
-		Expression returnExpression = returnStatement.getExpression();
-		StringLiteral stringLiteral = (StringLiteral) returnExpression;
-
-		return stringLiteral.getLines().get(0).replace("\"", "");
-	}
-
-	public static ConversionModule analyze(CommonModule commonModule, IV8ProjectManager projectManager,
-			IBmEmfIndexManager bmEmfIndexManager) {
-		ConversionModule conversionModule = cmFactory.eINSTANCE.createConversionModule();
-
-		conversionModule.setStoreVersion("1");
-
-		conversionModule.getDataRules().clear();
-		conversionModule.getObjectRules().clear();
-		conversionModule.getPredefineds().clear();
-		conversionModule.getAlgorithms().clear();
-
-		IV8Project configurationProject = projectManager.getProject(commonModule);
-		if (configurationProject instanceof IExtensionProject)
-			configurationProject = ((IExtensionProject) configurationProject).getParent();
-
-		Configuration configuration = ((IConfigurationProject) configurationProject).getConfiguration();
-
-		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager
-				.getEmfIndexProvider(configurationProject.getProject());
-
-		Module module = commonModule.getModule();
-
-		CmSubsystem cmMainSubsystem = addSubsystems(conversionModule.getSubsystems(),
-				(CommandInterface) configuration.getCommandInterface());
-
-		for (Method method : module.allMethods())
-			parseMethod(method, module, cmMainSubsystem, configuration, conversionModule, bmEmfIndexProvider);
-
-		return conversionModule;
-	}
-
-	private static void parseMethod(Method method, Module module, CmSubsystem cmMainSubsystem,
-			Configuration configuration, ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
-		String methodName = method.getName();
-
-		if (methodName.equals("ПередКонвертацией")) {
-			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
-
-			conversionModule.setBeforeConvertationEvent(getMethodText(node.getText().trim()));
-
-		} else if (methodName.equals("ПередОтложеннымЗаполнением")) {
-			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
-
-			conversionModule.setBeforeFillingEvent(getMethodText(node.getText().trim()));
-
-		} else if (methodName.equals("ПослеКонвертации")) {
-			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
-
-			conversionModule.setAfterConvertationEvent(getMethodText(node.getText().trim()));
-
-		} else if (methodName.equals("ВерсияФорматаМенеджераОбмена")) {
-			String storeVersion = getStoreVersion(method);
-			if (storeVersion != null)
-				conversionModule.setStoreVersion(storeVersion);
-
-		} else {
-			String storeVersion = conversionModule.getStoreVersion();
-
-			CommandInterface mainCommandInterface = (CommandInterface) configuration.getMainSectionCommandInterface();
-
-			if (storeVersion.equals("1")) {
-				analyzeV1(conversionModule, method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
-
-			} else if (storeVersion.equals("2")) {
-				analyzeV2(conversionModule, method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
-
-			} else {
-				throw new NullPointerException("Неизвестная версия формата: " + storeVersion);
-
-			}
-
-		}
-	}
-
-	private static void parseDataRulesIfPartStatementV2(EList<Statement> ifPartStatements,
-			EList<CmDataRule> dataRules) {
-		for (Statement partStatement : ifPartStatements) {
-			if (partStatement instanceof SimpleStatement) {
-				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-				Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
-				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression.getMethodAccess();
-
-				CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
-
-				dataRule.setName(partMethodAccess.getName().substring(12));
-				dataRule.setForSending(true);
-				dataRule.setForReceiving(false);
-
-				dataRules.add(dataRule);
-			}
-		}
-	}
-
-	private static void parseDataRulesElseIfPartStatementV2(EList<Conditional> elseIfPartConditionals,
-			EList<CmDataRule> dataRules) {
-		EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-		for (Statement partStatement : elseIfPartStatements) {
-			if (partStatement instanceof SimpleStatement) {
-				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-				Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
-				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression.getMethodAccess();
-
-				CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
-
-				dataRule.setName(partMethodAccess.getName().substring(12));
-				dataRule.setForSending(false);
-				dataRule.setForReceiving(true);
-
-				dataRules.add(dataRule);
-			}
-		}
-	}
-
-	private static void addDataRulesV2(Method method, ConversionModule conversionModule) {
-		EList<CmDataRule> dataRules = conversionModule.getDataRules();
-
-		for (Statement statement : method.allStatements()) {
-			if (!(statement instanceof IfStatement))
-				throw new NullPointerException(
-						"В процедуре ЗаполнитьПравилаОбработкиДанных ожидалась конструкция Если, но что-то пошло не так.");
-
-			IfStatement ifStatement = (IfStatement) statement;
-			EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
-			EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
-
-			parseDataRulesIfPartStatementV2(ifPartStatements, dataRules);
-			parseDataRulesElseIfPartStatementV2(elseIfPartConditionals, dataRules);
-		}
-	}
-
-	private static CmDataRule parseDataRuleNameV2(Expression rightExpression, ConversionModule conversionModule) {
-		StringLiteral stringLiteral = (StringLiteral) rightExpression;
-		String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
-
-		return conversionModule.getDataRule(ruleName);
-	}
-
-	private static void parseDataRuleConfigurationObjectV2(Expression rightExpression, CmDataRule dataRule) {
-		if (rightExpression instanceof UndefinedLiteral) {
-			dataRule.setSelectionVariant(CmSelectionVariant.CUSTOM);
-			return;
-		}
-
-		DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
-		DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1.getSource();
-		StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-		String configurationObjectName = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName() + "."
-				+ rightFeatureAccess1.getName();
-
-		dataRule.setConfigurationObjectName(configurationObjectName);
-
-		dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
-	}
-
-	private static void parseDataRuleFormatObjectV2(Expression rightExpression, CmDataRule dataRule) {
-		StringLiteral stringLiteral = (StringLiteral) rightExpression;
-		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-		dataRule.setFormatObject(eventName);
-	}
-
-	private static void parseDataRuleIsDataCleaningV2(Expression rightExpression, CmDataRule dataRule) {
-		BooleanLiteral booleanLiteral = (BooleanLiteral) rightExpression;
-
-		dataRule.setIsDataCleaning(booleanLiteral.isIsTrue());
-	}
-
-	private static void parseDataRuleOnProcessingEventV2(Expression rightExpression, Module module,
-			CmDataRule dataRule) {
-		StringLiteral stringLiteral = (StringLiteral) rightExpression;
-		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-		Method eventMethod = getMethod(module, eventName);
-		ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-		dataRule.setOnProcessingEvent(getMethodText(node.getText().trim()));
-	}
-
-	private static void parseDataRuleDataSelectionEventtV2(Expression rightExpression, Module module,
-			CmDataRule dataRule) {
-		StringLiteral stringLiteral = (StringLiteral) rightExpression;
-		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-		Method eventMethod = getMethod(module, eventName);
-		ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-		dataRule.setDataSelectionEvent(getMethodText(node.getText().trim()));
-	}
-
-	private static void parseDataRuleNewObjectRuleV2(Expression leftExpression, CmDataRule dataRule,
-			ConversionModule conversionModule) {
-		Invocation leftInvocation = (Invocation) leftExpression;
-
-		String ruleName = ((StringLiteral) leftInvocation.getParams().get(0)).getLines().get(0).replace("\"", "");
-
-		CmObjectRule objectRule = conversionModule.getObjectRule(ruleName);
-		if (objectRule == null) {
-			objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-			objectRule.setName(ruleName);
-
-			conversionModule.getObjectRules().add(objectRule);
-		}
-
-		EList<CmObjectRule> dataObjectRules = dataRule.getObjectRules();
-		dataObjectRules.add(objectRule);
-	}
-
-	private static void parseDataRuleNewDataRuleV2(DynamicFeatureAccess leftFeatureAccess, Expression rightExpression,
-			Module module, CmDataRule dataRule) {
-		if (leftFeatureAccess.getName().equals("ОбъектВыборкиМетаданные")) {
-			parseDataRuleConfigurationObjectV2(rightExpression, dataRule);
-
-		} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
-			parseDataRuleFormatObjectV2(rightExpression, dataRule);
-
-		} else if (leftFeatureAccess.getName().equals("ОчисткаДанных")) {
-			parseDataRuleIsDataCleaningV2(rightExpression, dataRule);
-
-		} else if (leftFeatureAccess.getName().equals("ПриОбработке")) {
-			parseDataRuleOnProcessingEventV2(rightExpression, module, dataRule);
-
-		} else if (leftFeatureAccess.getName().equals("ВыборкаДанных")) {
-			parseDataRuleDataSelectionEventtV2(rightExpression, module, dataRule);
-
-		} else {
-			throw new NullPointerException("Добавить ПОД: неизвестное имя свойства: " + leftFeatureAccess.getName());
-
-		}
-	}
-
-	private static void parseDataRuleCheckMethod(Expression leftExpression) {
-		StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
-
-		if (!leftFeatureAccess.getName().equals("ПравилоОбработки"))
-			throw new NullPointerException(
-					"Добавить ПОД: неизвестный StaticFeatureAccess: " + leftFeatureAccess.getName());
-	}
-
-	private static CmDataRule parseDataRuleMethodV2(Method method, Module module, ConversionModule conversionModule) {
-		CmDataRule dataRule = null;
-
-		for (Statement statement : method.allStatements()) {
-			Expression leftExpression = ((SimpleStatement) statement).getLeft();
-
-			if (leftExpression instanceof StaticFeatureAccess) {
-				parseDataRuleCheckMethod(leftExpression);
-
-			} else if (leftExpression instanceof DynamicFeatureAccess) {
-				DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-				Expression rightExpression = ((SimpleStatement) statement).getRight();
-
-				if (leftFeatureAccess.getName().equals("Имя")) {
-					dataRule = parseDataRuleNameV2(rightExpression, conversionModule);
-
-				} else {
-					if (dataRule == null)
-						break;
-
-					parseDataRuleNewDataRuleV2(leftFeatureAccess, rightExpression, module, dataRule);
-
-				}
-
-			} else if (leftExpression instanceof Invocation) {
-				parseDataRuleNewObjectRuleV2(leftExpression, dataRule, conversionModule);
-
-			} else {
-				throw new NullPointerException("Добавить ПОД: необработанный Expression: " + leftExpression.getClass());
-
-			}
-		}
-
-		return dataRule;
-	}
-
-	private static void addDataRuleV2(Method method, Module module, SubsystemsFiller subsystemsFiller,
-			ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
-
-		CmDataRule dataRule = parseDataRuleMethodV2(method, module, conversionModule);
-
-		if (dataRule == null)
-			throw new NullPointerException("Добавить ПОД: В методе не обнаружено имя правила: " + method.getName());
-
-		MdObject configurationObject = ConversionUtils
-				.getConfigurationObject(dataRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
-		dataRule.setConfigurationObject(configurationObject);
-
-		dataRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(dataRule.getConfigurationObject()));
-	}
-
-	private static void parseObjectRulesIfStatementV2(IfStatement ifStatement, ConversionModule conversionModule) {
-		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
-
-		EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
-		EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
-
-		for (Statement partStatement : ifPartStatements) {
-			if (partStatement instanceof SimpleStatement) {
-				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-				Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
-				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression.getMethodAccess();
-
-				String objectRuleName = partMethodAccess.getName().substring(12);
-
-				CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
-				if (objectRule == null) {
-					objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-					objectRule.setName(objectRuleName);
-
-					objectRules.add(objectRule);
-				}
-
-				objectRule.setForSending(true);
-				objectRule.setForReceiving(false);
-			}
-
-		}
-
-		EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-		for (Statement partStatement : elseIfPartStatements) {
-			if (partStatement instanceof SimpleStatement) {
-				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-				Invocation partInvocation = (Invocation) partSimpleStatement.getLeft();
-				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partInvocation.getMethodAccess();
-
-				String objectRuleName = partMethodAccess.getName().substring(12);
-
-				CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
-				if (objectRule == null) {
-					objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-					objectRule.setName(objectRuleName);
-
-					objectRules.add(objectRule);
-				}
-
-				objectRule.setForSending(false);
-				objectRule.setForReceiving(true);
-			}
-
-		}
-	}
-
-	private static void addObjectRulesV2(Method method, ConversionModule conversionModule) {
-		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
-
-		for (Statement statement : method.allStatements()) {
-			if (statement instanceof IfStatement) {
-				parseObjectRulesIfStatementV2((IfStatement) statement, conversionModule);
-
-			} else if (statement instanceof SimpleStatement) {
-				SimpleStatement simpleStatement = (SimpleStatement) statement;
-				Invocation invocation = (Invocation) simpleStatement.getLeft();
-				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) invocation.getMethodAccess();
-
-				String objectRuleName = partMethodAccess.getName().substring(12);
-
-				CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
-				if (objectRule == null) {
-					objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-					objectRule.setName(objectRuleName);
-
-					objectRules.add(objectRule);
-				}
-
-				objectRule.setForSending(true);
-				objectRule.setForReceiving(true);
-			}
-		}
-	}
-
-	private static void addObjectRuleV2(Method method, Module module, SubsystemsFiller subsystemsFiller,
-			ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
-		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
-		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
-
-		CmObjectRule objectRule = null;
-
-		String configurationTabularSection = "";
-		String formatTabularSection = "";
-
-		for (Statement statement : method.allStatements()) {
-			Expression leftExpression = ((SimpleStatement) statement).getLeft();
-
-			if (leftExpression instanceof StaticFeatureAccess) {
-				StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
-
-				if (leftFeatureAccess.getName().equals("ПравилоКонвертации")) {
-					// Нечего делать
-
-				} else if (leftFeatureAccess.getName().equals("СвойстваШапки")) {
-					configurationTabularSection = "";
-					formatTabularSection = "";
-
-				} else if (leftFeatureAccess.getName().equals("СвойстваТЧ")) {
-					Invocation rightInvocation = (Invocation) ((SimpleStatement) statement).getRight();
-
-					EList<Expression> params = rightInvocation.getParams();
-
-					configurationTabularSection = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"", "");
-					formatTabularSection = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
-
-				} else {
-					throw new NullPointerException(
-							"Добавить ПКО: неизвестный StaticFeatureAccess: " + leftFeatureAccess.getName());
-				}
-
-			} else if (leftExpression instanceof DynamicFeatureAccess) {
-				DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-
-				Expression rightExpression = ((SimpleStatement) statement).getRight();
-				if (rightExpression instanceof UndefinedLiteral)
-					continue;
-
-				if (leftFeatureAccess.getName().equals("ИмяПКО")) {
-					StringLiteral stringLiteral = (StringLiteral) rightExpression;
-					String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
-
-					objectRule = conversionModule.getObjectRule(ruleName);
-
-				} else {
-					if (objectRule == null)
-						throw new NullPointerException(
-								"Добавить ПКО: В методе не обнаружено имя правила: " + method.getName());
-
-					if (leftFeatureAccess.getName().equals("ОбъектДанных")) {
-
-						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
-						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
-								.getSource();
-						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObjectName = rightFeatureAccess3.getName() + "."
-								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
-
-						objectRule.setConfigurationObjectName(configurationObjectName);
-
-						MdObject configurationObject = ConversionUtils.getConfigurationObject(
-								objectRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
-
-						objectRule.setConfigurationObject(configurationObject);
-
-						objectRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(configurationObject));
-
-					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
-
-						objectRule.setFormatObject(formatObject);
-
-					} else if (leftFeatureAccess.getName().equals("ПравилоДляГруппыСправочника")) {
-						BooleanLiteral booleanLiteral = (BooleanLiteral) rightExpression;
-
-						objectRule.setForGroup(booleanLiteral.isIsTrue());
-
-					} else if (leftFeatureAccess.getName().equals("ВариантИдентификации")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String identificationVariant = stringLiteral.getLines().get(0).replace("\"", "");
-
-						objectRule.setIdentificationVariant(CmIdentificationVariant.UUID);
-						if (identificationVariant.equals("ПоПолямПоиска"))
-							objectRule.setIdentificationVariant(CmIdentificationVariant.SEARCH_FIELDS);
-						else if (identificationVariant.equals("СначалаПоУникальномуИдентификаторуПотомПоПолямПоиска"))
-							objectRule.setIdentificationVariant(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS);
-
-					} else if (leftFeatureAccess.getName().equals("ПриОтправкеДанных")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						objectRule.setOnSendingEvent(getMethodText(node.getText().trim()));
-
-					} else if (leftFeatureAccess.getName().equals("ПриКонвертацииДанныхXDTO")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						objectRule.setBeforeReceivingEvent(getMethodText(node.getText().trim()));
-
-					} else if (leftFeatureAccess.getName().equals("ПередЗаписьюПолученныхДанных")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						objectRule.setOnReceivingEvent(getMethodText(node.getText().trim()));
-
-					} else if (leftFeatureAccess.getName().equals("ПослеЗагрузкиВсехДанных")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String algorithmName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						CmAlgorithm algorithm = conversionModule.getAlgorithm(algorithmName);
-						if (algorithm == null) {
-							algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
-
-							algorithm.setName(algorithmName);
-
-							algorithms.add(algorithm);
-						}
-
-						objectRule.setAfterReceivingAlgorithm(algorithm);
-
-					} else {
-						throw new NullPointerException(
-								"Добавить ПКО: неизвестное имя свойства: " + leftFeatureAccess.getName());
-
-					}
-				}
-
-			} else if (leftExpression instanceof Invocation) {
-				if (objectRule == null)
-					throw new NullPointerException(
-							"Добавить ПКО: В методе не обнаружено имя правила: " + method.getName());
-
-				Invocation leftInvocation = (Invocation) leftExpression;
-
-				EList<Expression> params = leftInvocation.getParams();
-
-				FeatureAccess leftMethodAccess = leftInvocation.getMethodAccess();
-				if (leftMethodAccess instanceof StaticFeatureAccess) {
-					String configurationAttribute = "";
-					String formatAttribute = "";
-					boolean isCustomRule = false;
-					CmObjectRule attributeObjectRule = null;
-
-					if (params.size() >= 2 && params.get(1) instanceof StringLiteral)
-						configurationAttribute = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"", "");
-
-					if (params.size() >= 3 && params.get(2) instanceof StringLiteral)
-						formatAttribute = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
-
-					if (params.size() >= 4 && params.get(3) instanceof NumberLiteral)
-						isCustomRule = !((NumberLiteral) params.get(3)).getValue().get(0).equals("0");
-
-					if (params.size() >= 5 && params.get(4) instanceof StringLiteral) {
-						String attributeRuleName = ((StringLiteral) params.get(4)).getLines().get(0).replace("\"", "");
-						attributeObjectRule = conversionModule.getObjectRule(attributeRuleName);
-
-						if (attributeObjectRule == null) {
-							attributeObjectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-							attributeObjectRule.setName(attributeRuleName);
-
-							objectRules.add(attributeObjectRule);
-						}
-					}
-
-					EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
-
-					CmAttributeRule attributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
-
-					attributeRule.setConfigurationTabularSection(configurationTabularSection);
-					attributeRule.setConfigurationAttribute(configurationAttribute);
-					if (configurationAttribute.length() == 0)
-						attributeRule.setConfigurationTabularSection("");
-
-					attributeRule.setFormatTabularSection(formatTabularSection);
-					attributeRule.setFormatAttribute(formatAttribute);
-					if (formatAttribute.length() == 0)
-						attributeRule.setFormatTabularSection("");
-
-					attributeRule.setIsCustomRule(isCustomRule);
-					attributeRule.setObjectRule(attributeObjectRule);
-
-					attributeRules.add(attributeRule);
-
-				} else if (leftMethodAccess instanceof DynamicFeatureAccess) {
-					DynamicFeatureAccess leftSource = (DynamicFeatureAccess) ((DynamicFeatureAccess) leftMethodAccess)
-							.getSource();
-
-					if (leftSource.getName().equals("ПоляПоиска")) {
-						EList<String> identificationFields = objectRule.getIdentificationFields();
-						identificationFields.add(((StringLiteral) params.get(0)).getLines().get(0).replace("\"", ""));
-
-					} else {
-						throw new NullPointerException("Добавить ПКО: необработанный Source: " + leftSource.getName());
-
-					}
-
-				}
-
-			} else {
-				throw new NullPointerException("Добавить ПКО: необработанный Expression: " + leftExpression.getClass());
-
-			}
-		}
-	}
-
-	private static void addPredefinedsV2(Method method, ConversionModule conversionModule,
-			IBmEmfIndexProvider bmEmfIndexProvider) {
-		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
-
-		CmPredefined predefined = null;
-
-		for (Statement statement : method.allStatements()) {
-			Expression leftExpression = ((SimpleStatement) statement).getLeft();
-
-			if (leftExpression instanceof StaticFeatureAccess) {
-				// Нечего делать
-
-			} else if (leftExpression instanceof Invocation) {
-				if (predefined == null)
-					throw new NullPointerException(
-							"Добавить ПКПД: В методе не обнаружено имя правила: " + method.getName());
-
-				Invocation leftInvocation = (Invocation) leftExpression;
-
-				EList<Expression> params = leftInvocation.getParams();
-
-				DynamicFeatureAccess configurationValueParam;
-				StringLiteral formatValueParam;
-				if (params.get(0) instanceof DynamicFeatureAccess) {
-					configurationValueParam = (DynamicFeatureAccess) params.get(0);
-					formatValueParam = (StringLiteral) params.get(1);
-
-				} else {
-					configurationValueParam = (DynamicFeatureAccess) params.get(1);
-					formatValueParam = (StringLiteral) params.get(0);
-
-				}
-
-				DynamicFeatureAccess configurationValueParam2 = (DynamicFeatureAccess) configurationValueParam
-						.getSource();
-				StaticFeatureAccess configurationValueParam3 = (StaticFeatureAccess) configurationValueParam2
-						.getSource();
-				String configurationValueName = configurationValueParam3.getName() + "."
-						+ configurationValueParam2.getName() + "." + configurationValueParam.getName();
-
-				String formatValueName = formatValueParam.getLines().get(0).replace("\"", "");
-
-				if (predefined.predefinedMapExists(configurationValueName, formatValueName))
-					continue;
-
-				CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
-
-				predefinedMap.setConfigurationValue(configurationValueName);
-				predefinedMap.setFormatValue(formatValueName);
-
-				predefined.getPredefinedMaps().add(predefinedMap);
-
-			} else if (leftExpression instanceof DynamicFeatureAccess) {
-				DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-				Expression rightExpression = ((SimpleStatement) statement).getRight();
-
-				if (leftFeatureAccess.getName().equals("ИмяПКПД")) {
-					StringLiteral stringLiteral = (StringLiteral) rightExpression;
-					String predefinedName = stringLiteral.getLines().get(0).replace("\"", "");
-
-					predefined = cmFactory.eINSTANCE.createCmPredefined();
-
-					predefined.setName(predefinedName);
-
-					predefined.setForSending(false);
-					predefined.setForReceiving(false);
-
-					predefineds.add(predefined);
-
-				} else {
-					if (predefined == null)
-						throw new NullPointerException(
-								"Добавить ПКПД: В методе не обнаружено имя правила: " + method.getName());
-
-					if (leftFeatureAccess.getName().equals("ТипДанных")) {
-						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
-						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
-								.getSource();
-						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObjectName = rightFeatureAccess3.getName() + "."
-								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
-
-						predefined.setConfigurationObjectName(configurationObjectName);
-
-						predefined.setConfigurationObject(ConversionUtils.getConfigurationObject(
-								predefined.getConfigurationObjectFormattedName(), bmEmfIndexProvider));
-
-					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
-
-						predefined.setFormatObject(formatObject);
-
-					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриОтправке")) {
-						predefined.setForSending(true);
-
-					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриПолучении")) {
-						predefined.setForReceiving(true);
-
-					} else {
-						throw new NullPointerException(
-								"Добавить ПКПД: необработанный DynamicFeatureAccess: " + leftFeatureAccess.getName());
-					}
-				}
-
-			} else {
-				throw new NullPointerException(
-						"Добавить ПКПД: необработанный Expression: " + leftExpression.getClass());
-			}
-		}
-	}
-
-	private static void addAlgorithmV2(Method method, ConversionModule conversionModule) {
+	private static void addAlgorithm(Method method, ConversionModule conversionModule) {
 		String methodName = method.getName();
 
 		CmAlgorithm algorithm = conversionModule.getAlgorithm(methodName);
@@ -968,29 +490,170 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private static void analyzeV2(ConversionModule conversionModule, Method method, Module module,
+	private static void addDataRules(Method method, ConversionModule conversionModule) {
+		EList<CmDataRule> dataRules = conversionModule.getDataRules();
+
+		for (Statement statement : method.allStatements()) {
+			if (!(statement instanceof IfStatement))
+				throw new NullPointerException(
+						"В процедуре ЗаполнитьПравилаОбработкиДанных ожидалась конструкция Если, но что-то пошло не так.");
+
+			IfStatement ifStatement = (IfStatement) statement;
+			EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
+			EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
+
+			parseDataRulesIfPartStatement(ifPartStatements, dataRules);
+			parseDataRulesElseIfPartStatement(elseIfPartConditionals, dataRules);
+		}
+	}
+
+	private static void addDataRule(Method method, Module module, SubsystemsFiller subsystemsFiller,
+			ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
+
+		CmDataRule dataRule = parseDataRuleMethod(method, module, conversionModule);
+
+		if (dataRule == null)
+			throw new NullPointerException("Добавить ПОД: В методе не обнаружено имя правила: " + method.getName());
+
+		MdObject configurationObject = ConversionUtils
+				.getConfigurationObject(dataRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
+		dataRule.setConfigurationObject(configurationObject);
+
+		dataRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(dataRule.getConfigurationObject()));
+	}
+
+	private static void addObjectRules(Method method, ConversionModule conversionModule) {
+		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+
+		for (Statement statement : method.allStatements()) {
+			if (statement instanceof IfStatement) {
+				parseObjectRulesIfStatement((IfStatement) statement, conversionModule);
+
+			} else if (statement instanceof SimpleStatement) {
+				SimpleStatement simpleStatement = (SimpleStatement) statement;
+				Invocation invocation = (Invocation) simpleStatement.getLeft();
+				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) invocation.getMethodAccess();
+
+				String objectRuleName = partMethodAccess.getName().substring(12);
+
+				CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
+				if (objectRule == null) {
+					objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+
+					objectRule.setName(objectRuleName);
+
+					objectRules.add(objectRule);
+				}
+
+				objectRule.setForSending(true);
+				objectRule.setForReceiving(true);
+			}
+		}
+	}
+
+	private static void addObjectRule(Method method, Module module, SubsystemsFiller subsystemsFiller,
+			ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
+
+		CmObjectRule objectRule = parseObjectRuleMethod(method, module, conversionModule);
+
+		if (objectRule == null)
+			throw new NullPointerException("Добавить ПКО: В методе не обнаружено имя правила: " + method.getName());
+
+		MdObject configurationObject = ConversionUtils
+				.getConfigurationObject(objectRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
+		objectRule.setConfigurationObject(configurationObject);
+
+		objectRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(configurationObject));
+	}
+
+	private static void addPredefineds(Method method, ConversionModule conversionModule,
+			IBmEmfIndexProvider bmEmfIndexProvider) {
+		CmPredefined cmPredefined = null;
+
+		for (Statement statement : method.allStatements()) {
+			Expression leftExpression = ((SimpleStatement) statement).getLeft();
+
+			if (leftExpression instanceof DynamicFeatureAccess) {
+				DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
+
+				if (leftFeatureAccess.getName().equals("ИмяПКПД"))
+					cmPredefined = createPredefined(statement, conversionModule);
+
+				else
+					parsePredefinedNewPredefined(statement, cmPredefined);
+
+			} else if (leftExpression instanceof Invocation) {
+
+				parsePredefinedValue(leftExpression, cmPredefined);
+
+			} else if (leftExpression instanceof StaticFeatureAccess) {
+				// Нечего делать
+
+			} else {
+				throw new NullPointerException(
+						"Добавить ПКПД: необработанный Expression: " + leftExpression.getClass());
+			}
+		}
+
+		for (CmPredefined predefined : conversionModule.getPredefineds())
+			predefined.setConfigurationObject(ConversionUtils
+					.getConfigurationObject(predefined.getConfigurationObjectFormattedName(), bmEmfIndexProvider));
+
+	}
+
+	private static CmSubsystem addSubsystems(EList<CmSubsystem> cmSubsystems, CommandInterface commandInterface) {
+		cmSubsystems.clear();
+
+		CmSubsystem cmMainSubsystem = cmFactory.eINSTANCE.createCmSubsystem();
+		cmMainSubsystem.setSpecialSubsystemType(CmSpecialSubsystemType.MAIN);
+		cmSubsystems.add(cmMainSubsystem);
+
+		SubsystemsOrder subsystemsOrder = commandInterface.getSubsystemsOrder();
+		if (subsystemsOrder != null)
+			for (Subsystem confSubsystem : subsystemsOrder.getSubsystems()) {
+				if (!confSubsystem.isIncludeInCommandInterface())
+					continue;
+
+				CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
+				subsystem.setSubsystem(confSubsystem);
+
+				cmSubsystems.add(subsystem);
+			}
+		CmSubsystem subsystem = cmFactory.eINSTANCE.createCmSubsystem();
+		subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.EMPTY);
+		cmSubsystems.add(subsystem);
+
+		return cmMainSubsystem;
+	}
+
+	private static void analyzeRules(ConversionModule conversionModule, Method method, Module module,
 			IBmEmfIndexProvider bmEmfIndexProvider, CommandInterface mainCommandInterface,
 			CmSubsystem cmMainSubsystem) {
+
+		String storeVersion = conversionModule.getStoreVersion();
+		if (!storeVersion.equals("1") && !storeVersion.equals("2"))
+			throw new NullPointerException("Неизвестная версия формата: " + storeVersion);
 
 		SubsystemsFiller subsystemsFiller = new SubsystemsFiller(conversionModule, mainCommandInterface,
 				cmMainSubsystem);
 
 		String methodName = method.getName();
 
+		// TODO: Реализовать чтение из первого формата
 		if (methodName.equals("ЗаполнитьПравилаОбработкиДанных")) {
-			addDataRulesV2(method, conversionModule);
+			addDataRules(method, conversionModule);
 
 		} else if (methodName.startsWith(ADD_DATARULE)) {
-			addDataRuleV2(method, module, subsystemsFiller, conversionModule, bmEmfIndexProvider);
+			addDataRule(method, module, subsystemsFiller, conversionModule, bmEmfIndexProvider);
 
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииОбъектов")) {
-			addObjectRulesV2(method, conversionModule);
+			addObjectRules(method, conversionModule);
 
 		} else if (methodName.startsWith(ADD_OBJECTRULE)) {
-			addObjectRuleV2(method, module, subsystemsFiller, conversionModule, bmEmfIndexProvider);
+			addObjectRule(method, module, subsystemsFiller, conversionModule, bmEmfIndexProvider);
 
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииПредопределенныхДанных")) {
-			addPredefinedsV2(method, conversionModule, bmEmfIndexProvider);
+			addPredefineds(method, conversionModule, bmEmfIndexProvider);
 
 		} else {
 			EObject region = method.eContainer().eContainer();
@@ -1000,578 +663,64 @@ public class ConversionModuleAnalyzer {
 			if (!regionName.equals("Алгоритмы"))
 				return;
 
-			addAlgorithmV2(method, conversionModule);
+			addAlgorithm(method, conversionModule);
 
 		}
 	}
 
-	private static void analyzeV1(ConversionModule conversionModule, Method method, Module module,
-			IBmEmfIndexProvider bmEmfIndexProvider, CommandInterface mainCommandInterface,
-			CmSubsystem cmMainSubsystem) {
-		EList<CmDataRule> dataRules = conversionModule.getDataRules();
-		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
-		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
-		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
-
-		SubsystemsFiller subsystemsFiller = new SubsystemsFiller(conversionModule, mainCommandInterface,
-				cmMainSubsystem);
-
-		String methodName = method.getName();
-
-		if (methodName.equals("ЗаполнитьПравилаОбработкиДанных")) {
-			for (Statement statement : method.allStatements()) {
-				if (statement instanceof IfStatement) {
-					IfStatement ifStatement = (IfStatement) statement;
-					EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
-					EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
-
-					for (Statement partStatement : ifPartStatements) {
-						if (partStatement instanceof SimpleStatement) {
-							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
-							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression
-									.getMethodAccess();
-
-							CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
-
-							dataRule.setName(partMethodAccess.getName().substring(12));
-							dataRule.setForSending(true);
-							dataRule.setForReceiving(false);
-
-							dataRules.add(dataRule);
-						}
-
-					}
-
-					EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-					for (Statement partStatement : elseIfPartStatements) {
-						if (partStatement instanceof SimpleStatement) {
-							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
-							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression
-									.getMethodAccess();
-
-							CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
-
-							dataRule.setName(partMethodAccess.getName().substring(12));
-							dataRule.setForSending(false);
-							dataRule.setForReceiving(true);
-
-							dataRules.add(dataRule);
-						}
-
-					}
-				}
-			}
-
-		} else if (methodName.startsWith(ADD_DATARULE)) {
-			CmDataRule dataRule = null;
-
-			for (Statement statement : method.allStatements()) {
-				Expression leftExpression = ((SimpleStatement) statement).getLeft();
-
-				if (leftExpression instanceof StaticFeatureAccess) {
-					StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
-
-					if (!leftFeatureAccess.getName().equals("ПравилоОбработки"))
-						throw new NullPointerException(
-								"Добавить ПОД: неизвестный StaticFeatureAccess: " + leftFeatureAccess.getName());
-
-				} else if (leftExpression instanceof DynamicFeatureAccess) {
-					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-
-					Expression rightExpression = ((SimpleStatement) statement).getRight();
-
-					if (leftFeatureAccess.getName().equals("Имя")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						dataRule = conversionModule.getDataRule(ruleName);
-
-					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиМетаданные")) {
-						if (rightExpression instanceof UndefinedLiteral)
-							continue;
-
-						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
-						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
-								.getSource();
-						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObjectName = rightFeatureAccess3.getName() + "."
-								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
-
-						dataRule.setConfigurationObjectName(configurationObjectName);
-
-						MdObject configurationObject = ConversionUtils.getConfigurationObject(
-								dataRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
-
-						dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
-						dataRule.setConfigurationObject(configurationObject);
-						dataRule.getSubsystems().addAll(subsystemsFiller.getSubsystems(configurationObject));
-
-					} else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						dataRule.setFormatObject(eventName);
-
-					} else if (leftFeatureAccess.getName().equals("ОчисткаДанных")) {
-						BooleanLiteral booleanLiteral = (BooleanLiteral) rightExpression;
-
-						dataRule.setIsDataCleaning(booleanLiteral.isIsTrue());
-
-					} else if (leftFeatureAccess.getName().equals("ПриОбработке")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						dataRule.setOnProcessingEvent(getMethodText(node.getText().trim()));
-
-					} else if (leftFeatureAccess.getName().equals("ВыборкаДанных")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						dataRule.setDataSelectionEvent(getMethodText(node.getText().trim()));
-
-					} else {
-						throw new NullPointerException(
-								"Добавить ПОД: неизвестное имя свойства: " + leftFeatureAccess.getName());
-
-					}
-
-				} else if (leftExpression instanceof Invocation) {
-					Invocation leftInvocation = (Invocation) leftExpression;
-
-					String ruleName = ((StringLiteral) leftInvocation.getParams().get(0)).getLines().get(0)
-							.replace("\"", "");
-
-					CmObjectRule objectRule = conversionModule.getObjectRule(ruleName);
-					if (objectRule == null) {
-						objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-						objectRule.setName(ruleName);
-
-						objectRules.add(objectRule);
-					}
-
-					EList<CmObjectRule> dataObjectRules = dataRule.getObjectRules();
-					dataObjectRules.add(objectRule);
-
-				} else {
-					throw new NullPointerException(
-							"Добавить ПОД: необработанный Expression: " + leftExpression.getClass());
-
-				}
-			}
-
-		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииОбъектов")) {
-			for (Statement statement : method.allStatements()) {
-				if (statement instanceof IfStatement) {
-					IfStatement ifStatement = (IfStatement) statement;
-					EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
-					EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
-
-					for (Statement partStatement : ifPartStatements) {
-						if (partStatement instanceof SimpleStatement) {
-							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-							Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
-							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression
-									.getMethodAccess();
-
-							String objectRuleName = partMethodAccess.getName().substring(12);
-
-							CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
-							if (objectRule == null) {
-								objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-								objectRule.setName(objectRuleName);
-
-								objectRules.add(objectRule);
-							}
-
-							objectRule.setForSending(true);
-							objectRule.setForReceiving(false);
-						}
-
-					}
-
-					EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
-					for (Statement partStatement : elseIfPartStatements) {
-						if (partStatement instanceof SimpleStatement) {
-							SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
-							Invocation partInvocation = (Invocation) partSimpleStatement.getLeft();
-							StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partInvocation
-									.getMethodAccess();
-
-							String objectRuleName = partMethodAccess.getName().substring(12);
-
-							CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
-							if (objectRule == null) {
-								objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-								objectRule.setName(objectRuleName);
-
-								objectRules.add(objectRule);
-							}
-
-							objectRule.setForSending(false);
-							objectRule.setForReceiving(true);
-						}
-
-					}
-				} else if (statement instanceof SimpleStatement) {
-					SimpleStatement simpleStatement = (SimpleStatement) statement;
-					Invocation invocation = (Invocation) simpleStatement.getLeft();
-					StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) invocation.getMethodAccess();
-
-					String objectRuleName = partMethodAccess.getName().substring(12);
-
-					CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
-					if (objectRule == null) {
-						objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-						objectRule.setName(objectRuleName);
-
-						objectRules.add(objectRule);
-					}
-
-					objectRule.setForSending(true);
-					objectRule.setForReceiving(true);
-				}
-			}
-
-		} else if (methodName.startsWith(ADD_OBJECTRULE)) {
-			CmObjectRule objectRule = null;
-
-			String configurationTabularSection = "";
-			String formatTabularSectionName = "";
-
-			for (Statement statement : method.allStatements()) {
-				Expression leftExpression = ((SimpleStatement) statement).getLeft();
-
-				if (leftExpression instanceof StaticFeatureAccess) {
-					StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
-
-					if (leftFeatureAccess.getName().equals("НоваяСтрока")) {
-						Invocation rightInvocation = (Invocation) ((SimpleStatement) statement).getRight();
-						DynamicFeatureAccess rightFeatureAccess = (DynamicFeatureAccess) rightInvocation
-								.getMethodAccess();
-
-						DynamicFeatureAccess source = (DynamicFeatureAccess) rightFeatureAccess.getSource();
-						if (source.getName().equals("Свойства")) {
-							configurationTabularSection = "";
-							formatTabularSectionName = "";
-						}
-
-					} else {
-						throw new NullPointerException(
-								"Добавить ПКО: неизвестный StaticFeatureAccess: " + leftFeatureAccess.getName());
-					}
-
-				} else if (leftExpression instanceof DynamicFeatureAccess) {
-					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-
-					Expression rightExpression = ((SimpleStatement) statement).getRight();
-					if (rightExpression instanceof UndefinedLiteral)
-						continue;
-
-					if (leftFeatureAccess.getName().equals("ИмяПКО")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						objectRule = conversionModule.getObjectRule(ruleName);
-
-					} else if (leftFeatureAccess.getName().equals("ОбъектДанных")) {
-						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
-						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
-								.getSource();
-						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObjectName = rightFeatureAccess3.getName() + "."
-								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
-
-						objectRule.setConfigurationObjectName(configurationObjectName);
-
-						objectRule.setConfigurationObject(ConversionUtils.getConfigurationObject(
-								objectRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider));
-
-					} else if (leftFeatureAccess.getName().equals("ОбъектФормата")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
-
-						objectRule.setFormatObject(formatObject);
-
-					} else if (leftFeatureAccess.getName().equals("ПравилоДляГруппыСправочника")) {
-						BooleanLiteral booleanLiteral = (BooleanLiteral) rightExpression;
-
-						objectRule.setForGroup(booleanLiteral.isIsTrue());
-
-					} else if (leftFeatureAccess.getName().equals("ВариантИдентификации")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String identificationVariant = stringLiteral.getLines().get(0).replace("\"", "");
-
-						objectRule.setIdentificationVariant(CmIdentificationVariant.UUID);
-						if (identificationVariant.equals("ПоПолямПоиска"))
-							objectRule.setIdentificationVariant(CmIdentificationVariant.SEARCH_FIELDS);
-						else if (identificationVariant.equals("СначалаПоУникальномуИдентификаторуПотомПоПолямПоиска"))
-							objectRule.setIdentificationVariant(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS);
-
-					} else if (leftFeatureAccess.getName().equals("ПриОтправкеДанных")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						objectRule.setOnSendingEvent(getMethodText(node.getText().trim()));
-
-					} else if (leftFeatureAccess.getName().equals("ПриКонвертацииДанныхXDTO")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						objectRule.setBeforeReceivingEvent(getMethodText(node.getText().trim()));
-
-					} else if (leftFeatureAccess.getName().equals("ПередЗаписьюПолученныхДанных")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String eventName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						Method eventMethod = getMethod(module, eventName);
-						ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
-
-						objectRule.setOnReceivingEvent(getMethodText(node.getText().trim()));
-
-					} else if (leftFeatureAccess.getName().equals("ПослеЗагрузкиВсехДанных")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String algorithmName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						CmAlgorithm algorithm = conversionModule.getAlgorithm(algorithmName);
-						if (algorithm == null) {
-							algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
-
-							algorithm.setName(algorithmName);
-
-							algorithms.add(algorithm);
-						}
-
-						objectRule.setAfterReceivingAlgorithm(algorithm);
-
-					} else {
-						throw new NullPointerException(
-								"Добавить ПКО: неизвестное имя свойства: " + leftFeatureAccess.getName());
-
-					}
-
-				} else if (leftExpression instanceof Invocation) {
-					Invocation leftInvocation = (Invocation) leftExpression;
-
-					EList<Expression> params = leftInvocation.getParams();
-
-					FeatureAccess leftMethodAccess = leftInvocation.getMethodAccess();
-					if (leftMethodAccess instanceof StaticFeatureAccess) {
-						String configurationAttribute = "";
-						String formatAttribute = "";
-						boolean isCustomRule = false;
-						CmObjectRule attributeObjectRule = null;
-
-						if (params.size() >= 2 && params.get(1) instanceof StringLiteral)
-							configurationAttribute = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"",
-									"");
-
-						if (params.size() >= 3 && params.get(2) instanceof StringLiteral)
-							formatAttribute = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
-
-						if (params.size() >= 4 && params.get(3) instanceof NumberLiteral)
-							isCustomRule = !((NumberLiteral) params.get(3)).getValue().get(0).equals("0");
-
-						if (params.size() >= 5 && params.get(4) instanceof StringLiteral) {
-							String attributeRuleName = ((StringLiteral) params.get(4)).getLines().get(0).replace("\"",
-									"");
-							attributeObjectRule = conversionModule.getObjectRule(attributeRuleName);
-
-							if (attributeObjectRule == null) {
-								attributeObjectRule = cmFactory.eINSTANCE.createCmObjectRule();
-
-								attributeObjectRule.setName(attributeRuleName);
-
-								objectRules.add(attributeObjectRule);
-							}
-						}
-
-						EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
-
-						CmAttributeRule attributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
-
-						attributeRule.setConfigurationTabularSection(configurationTabularSection);
-						attributeRule.setConfigurationAttribute(configurationAttribute);
-						if (configurationAttribute.length() == 0)
-							attributeRule.setConfigurationTabularSection("");
-
-						attributeRule.setFormatTabularSection(formatTabularSectionName);
-						attributeRule.setFormatAttribute(formatAttribute);
-						if (formatAttribute.length() == 0)
-							attributeRule.setFormatTabularSection("");
-
-						attributeRule.setIsCustomRule(isCustomRule);
-						attributeRule.setObjectRule(attributeObjectRule);
-
-						attributeRules.add(attributeRule);
-
-					} else if (leftMethodAccess instanceof DynamicFeatureAccess) {
-						DynamicFeatureAccess leftSource = (DynamicFeatureAccess) ((DynamicFeatureAccess) leftMethodAccess)
-								.getSource();
-
-						if (leftSource.getName().equals("ПоляПоиска")) {
-							EList<String> identificationFields = objectRule.getIdentificationFields();
-							identificationFields
-									.add(((StringLiteral) params.get(0)).getLines().get(0).replace("\"", ""));
-
-						} else {
-							throw new NullPointerException(
-									"Добавить ПКО: необработанный Source: " + leftSource.getName());
-						}
-
-					}
-
-				} else {
-					throw new NullPointerException(
-							"Добавить ПКО: необработанный Expression: " + leftExpression.getClass());
-
-				}
-			}
-
-		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииПредопределенныхДанных")) {
-			CmPredefined predefined = null;
-
-			for (Statement statement : method.allStatements()) {
-				Expression leftExpression = ((SimpleStatement) statement).getLeft();
-
-				if (leftExpression instanceof StaticFeatureAccess) {
-					// Нечего делать
-
-				} else if (leftExpression instanceof Invocation) {
-					Invocation leftInvocation = (Invocation) leftExpression;
-
-					EList<Expression> params = leftInvocation.getParams();
-
-					DynamicFeatureAccess configurationValueParam;
-					StringLiteral formatValueParam;
-					if (params.get(0) instanceof DynamicFeatureAccess) {
-						configurationValueParam = (DynamicFeatureAccess) params.get(0);
-						formatValueParam = (StringLiteral) params.get(1);
-
-					} else {
-						configurationValueParam = (DynamicFeatureAccess) params.get(1);
-						formatValueParam = (StringLiteral) params.get(0);
-
-					}
-
-					DynamicFeatureAccess configurationValueParam2 = (DynamicFeatureAccess) configurationValueParam
-							.getSource();
-					StaticFeatureAccess configurationValueParam3 = (StaticFeatureAccess) configurationValueParam2
-							.getSource();
-					String configurationValueName = configurationValueParam3.getName() + "."
-							+ configurationValueParam2.getName() + "." + configurationValueParam.getName();
-
-					String formatValueName = formatValueParam.getLines().get(0).replace("\"", "");
-
-					if (predefined.predefinedMapExists(configurationValueName, formatValueName))
-						continue;
-
-					CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
-
-					predefinedMap.setConfigurationValue(configurationValueName);
-					predefinedMap.setFormatValue(formatValueName);
-
-					predefined.getPredefinedMaps().add(predefinedMap);
-
-				} else if (leftExpression instanceof DynamicFeatureAccess) {
-					DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-					Expression rightExpression = ((SimpleStatement) statement).getRight();
-
-					if (leftFeatureAccess.getName().equals("ИмяПКПД")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String predefinedName = stringLiteral.getLines().get(0).replace("\"", "");
-
-						predefined = cmFactory.eINSTANCE.createCmPredefined();
-
-						predefined.setName(predefinedName);
-
-						predefineds.add(predefined);
-
-					} else if (leftFeatureAccess.getName().equals("ТипДанных")) {
-						DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
-						DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1
-								.getSource();
-						StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
-						String configurationObjectName = rightFeatureAccess3.getName() + "."
-								+ rightFeatureAccess2.getName() + "." + rightFeatureAccess1.getName();
-
-						predefined.setConfigurationObjectName(configurationObjectName);
-
-						predefined.setConfigurationObject(ConversionUtils.getConfigurationObject(
-								predefined.getConfigurationObjectFormattedName(), bmEmfIndexProvider));
-
-					} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
-						StringLiteral stringLiteral = (StringLiteral) rightExpression;
-						String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
-
-						predefined.setFormatObject(formatObject);
-
-					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриОтправке")) {
-						predefined.setForSending(true);
-
-					} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриПолучении")) {
-						predefined.setForReceiving(true);
-
-					} else {
-						throw new NullPointerException(
-								"Добавить ПКПД: необработанный DynamicFeatureAccess: " + leftFeatureAccess.getName());
-					}
-
-				} else {
-					throw new NullPointerException(
-							"Добавить ПКПД: необработанный Expression: " + leftExpression.getClass());
-				}
-			}
-
-		} else {
-			EObject region = method.eContainer().eContainer();
-			if (!(region instanceof RegionPreprocessorDeclareStatement))
-				return;
-			String regionName = ((RegionPreprocessorDeclareStatement) method.eContainer().eContainer()).getName();
-			if (!regionName.equals("Алгоритмы"))
-				return;
-
-			CmAlgorithm algorithm = conversionModule.getAlgorithm(methodName);
-			if (algorithm == null) {
-				algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
-
-				algorithm.setName(methodName);
-
-				algorithms.add(algorithm);
-			}
-			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
-
-			StringBuilder params = new StringBuilder();
-
-			for (FormalParam param : method.getFormalParams()) {
-				if (params.length() != 0)
-					params.append(", ");
-				params.append(param.getName());
-			}
-
-			algorithm.setMethodType(method instanceof Function ? CmMethodType.FUNCTION : CmMethodType.PROCEDURE);
-			algorithm.setParams(params.toString());
-			algorithm.setIsExport(method.isExport());
-			algorithm.setBody(getMethodText(node.getText().trim()));
-
+	private static CmDataRule createDataRule(EList<Statement> allStatements, ConversionModule conversionModule) {
+		for (Statement statement : allStatements) {
+			Expression leftExpression = ((SimpleStatement) statement).getLeft();
+
+			if (!(leftExpression instanceof DynamicFeatureAccess)
+					|| !((DynamicFeatureAccess) leftExpression).getName().equals("Имя"))
+				continue;
+
+			Expression rightExpression = ((SimpleStatement) statement).getRight();
+			StringLiteral stringLiteral = (StringLiteral) rightExpression;
+			String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
+
+			return conversionModule.getDataRule(ruleName);
 		}
+
+		return null;
+	}
+
+	private static CmObjectRule createObjectRule(EList<Statement> allStatements, ConversionModule conversionModule) {
+		for (Statement statement : allStatements) {
+			Expression leftExpression = ((SimpleStatement) statement).getLeft();
+
+			if (!(leftExpression instanceof DynamicFeatureAccess)
+					|| !((DynamicFeatureAccess) leftExpression).getName().equals("ИмяПКО"))
+				continue;
+
+			Expression rightExpression = ((SimpleStatement) statement).getRight();
+			StringLiteral stringLiteral = (StringLiteral) rightExpression;
+			String ruleName = stringLiteral.getLines().get(0).replace("\"", "");
+
+			return conversionModule.getObjectRule(ruleName);
+		}
+
+		return null;
+	}
+
+	private static CmPredefined createPredefined(Statement statement, ConversionModule conversionModule) {
+		Expression rightExpression = ((SimpleStatement) statement).getRight();
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String predefinedName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		CmPredefined cmPredefined = cmFactory.eINSTANCE.createCmPredefined();
+
+		cmPredefined.setName(predefinedName);
+
+		conversionModule.getPredefineds().add(cmPredefined);
+
+		return cmPredefined;
+	}
+
+	private static CharSource getFileInputSupplier(String partName) {
+		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/module/" + partName),
+				StandardCharsets.UTF_8);
 	}
 
 	private static Method getMethod(Module mdModule, String methodName) {
@@ -1600,150 +749,9 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private static class SubsystemsFiller {
-		private EList<CmSubsystem> cmSubsystems;
-
-		private ConversionModule conversionModule;
-		private CommandInterface mainCommandInterface;
-		private CmSubsystem cmMainSubsystem;
-
-		public SubsystemsFiller(ConversionModule conversionModule, CommandInterface mainCommandInterface,
-				CmSubsystem cmMainSubsystem) {
-			this.conversionModule = conversionModule;
-			this.mainCommandInterface = mainCommandInterface;
-			this.cmMainSubsystem = cmMainSubsystem;
-		}
-
-		EList<CmSubsystem> getSubsystems(Object mainObject) {
-			cmSubsystems = new BasicEList<>();
-
-			addSubsystemsFromObject(mainObject);
-
-			addSubsystemsFromRegisterDimensions(mainObject);
-
-			return cmSubsystems;
-		}
-
-		private void addSubsystemsFromObject(Object object) {
-			addSubsystemsFromMainInterface(object);
-
-			addSubsystemsFromCmSubsystems(object, conversionModule.getSubsystems());
-
-			addSubsystemsFromCatalogOwners(object);
-		}
-
-		private void addSubsystemsFromMainInterface(Object mainObject) {
-			for (CommandsPlacementFragment placementFragment : mainCommandInterface.getCommandsPlacement()
-					.getPlacementFragments()) {
-				for (Command placementCommand : placementFragment.getCommands()) {
-					if (mainObject instanceof Catalog && placementCommand instanceof CatalogCommand)
-						addSubsystemsFromCatalogCommand(mainObject, placementCommand);
-
-					else if (mainObject instanceof Document && placementCommand instanceof DocumentCommand)
-						addSubsystemsFromDocumentCommand(mainObject, placementCommand);
-
-					else if (placementCommand instanceof StandardCommand)
-						addSubsystemsFromStandardCommand(mainObject, placementCommand);
-
-				}
-			}
-		}
-
-		private void addSubsystemsFromCatalogCommand(Object object, Command placementCommand) {
-			CatalogCommand placementCatalogCommand = (CatalogCommand) placementCommand;
-			Catalog masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementCatalogCommand,
-					Catalog.class);
-			if (!masterObject.equals((Catalog) object))
-				return;
-
-			cmSubsystems.add(cmMainSubsystem);
-		}
-
-		private void addSubsystemsFromDocumentCommand(Object object, Command placementCommand) {
-			DocumentCommand placementDocumentCommand = (DocumentCommand) placementCommand;
-			Document masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementDocumentCommand,
-					Document.class);
-			if (!masterObject.equals((Document) object))
-				return;
-
-			cmSubsystems.add(cmMainSubsystem);
-		}
-
-		private void addSubsystemsFromStandardCommand(Object object, Command placementCommand) {
-			StandardCommand placementStandardCommand = (StandardCommand) placementCommand;
-			MdObject masterObject = org.eclipse.xtext.EcoreUtil2.getContainerOfType(placementStandardCommand,
-					MdObject.class);
-			if (!masterObject.equals(object))
-				return;
-
-			cmSubsystems.add(cmMainSubsystem);
-		}
-
-		private void addSubsystemsFromCmSubsystems(Object object, EList<CmSubsystem> cmSubsystems) {
-			for (CmSubsystem cmSubsystem : cmSubsystems) {
-				Subsystem interfaceSubsystem = cmSubsystem.getSubsystem();
-				if (interfaceSubsystem == null)
-					continue;
-
-				if (interfaceSubsystem.getContent().indexOf(object) != -1)
-					cmSubsystems.add(cmSubsystem);
-
-				else
-					addSubsystemsFromInterface(object, cmSubsystem, interfaceSubsystem.getSubsystems());
-
-			}
-		}
-
-		private void addSubsystemsFromInterface(Object object, CmSubsystem cmSubsystem,
-				EList<Subsystem> interfaceSubsystems) {
-			for (Subsystem interfaceSubsystem : interfaceSubsystems) {
-				if (interfaceSubsystem.getContent().indexOf(object) != -1)
-					cmSubsystems.add(cmSubsystem);
-
-				else
-					addSubsystemsFromInterface(object, cmSubsystem, interfaceSubsystem.getSubsystems());
-
-			}
-		}
-
-		private void addSubsystemsFromCatalogOwners(Object object) {
-			if (!(object instanceof Catalog))
-				return;
-
-			for (MdObject masterObject : ((Catalog) object).getOwners())
-				addSubsystemsFromObject(masterObject);
-		}
-
-		private void addSubsystemsFromRegisterDimensions(Object object) {
-			if (!(object instanceof InformationRegister))
-				return;
-
-			for (InformationRegisterDimension dimension : ((InformationRegister) object).getDimensions()) {
-				if (!dimension.isMaster())
-					continue;
-
-				for (TypeItem type : dimension.getType().getTypes()) {
-					if (type instanceof TypeSet) {
-						for (Type subType : ((TypeSet) type).getTypes()) {
-							MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(subType);
-							addSubsystemsFromObject(masterObject);
-						}
-
-					} else {
-						MdObject masterObject = com._1c.g5.v8.dt.md.resource.MdTypeUtil.getTypeProducer(type);
-						addSubsystemsFromObject(masterObject);
-
-					}
-				}
-			}
-		}
-	}
-
-	public static String getModuleText(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
-		if (conversionModule.getStoreVersion().equals("2"))
-			return getModuleTextV2(conversionModule, name, localDateTime);
-		else
-			return getModuleTextV1(conversionModule, name, localDateTime);
+	private static String getModuleTextV1(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
+		// TODO: Реализовать сохранение в первом формате
+		return getModuleTextV2(conversionModule, name, localDateTime);
 	}
 
 	private static String getModuleTextV2(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
@@ -1955,9 +963,622 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	private static String getModuleTextV1(ConversionModule conversionModule, String name, LocalDateTime localDateTime) {
-		// TODO: Реализовать сохранение в первом формате
-		return getModuleTextV2(conversionModule, name, localDateTime);
+	private static String getStoreVersion(Method method) {
+		EList<Statement> statements = method.allStatements();
+		if (statements.isEmpty())
+			throw new NullPointerException("Невозможно определить версию формата.");
+
+		Statement statement = statements.get(0);
+		ReturnStatement returnStatement = (ReturnStatement) statement;
+		Expression returnExpression = returnStatement.getExpression();
+		StringLiteral stringLiteral = (StringLiteral) returnExpression;
+
+		return stringLiteral.getLines().get(0).replace("\"", "");
+	}
+
+	private static void parseAfterReceivingAlgorithm(Expression rightExpression, CmObjectRule objectRule,
+			ConversionModule conversionModule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String algorithmName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		CmAlgorithm algorithm = conversionModule.getAlgorithm(algorithmName);
+		if (algorithm == null) {
+			algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
+
+			algorithm.setName(algorithmName);
+
+			conversionModule.getAlgorithms().add(algorithm);
+		}
+
+		objectRule.setAfterReceivingAlgorithm(algorithm);
+	}
+
+	private static void parseDataRuleCheckMethod(Statement statement) {
+		Expression leftExpression = ((SimpleStatement) statement).getLeft();
+		StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
+
+		if (!leftFeatureAccess.getName().equals("ПравилоОбработки"))
+			throw new NullPointerException(
+					"Добавить ПОД: неизвестный StaticFeatureAccess: " + leftFeatureAccess.getName());
+	}
+
+	private static void parseDataRuleConfigurationObject(Expression rightExpression, CmDataRule dataRule) {
+		if (rightExpression instanceof UndefinedLiteral) {
+			dataRule.setSelectionVariant(CmSelectionVariant.CUSTOM);
+			return;
+		}
+
+		DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
+		DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1.getSource();
+		StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
+		String configurationObjectName = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName() + "."
+				+ rightFeatureAccess1.getName();
+
+		dataRule.setConfigurationObjectName(configurationObjectName);
+
+		dataRule.setSelectionVariant(CmSelectionVariant.STANDART);
+	}
+
+	private static void parseDataRuleDataSelectionEvent(Expression rightExpression, Module module,
+			CmDataRule dataRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		Method eventMethod = getMethod(module, eventName);
+		ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+		dataRule.setDataSelectionEvent(getMethodText(node.getText().trim()));
+	}
+
+	private static void parseDataRuleFormatObject(Expression rightExpression, CmDataRule dataRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		dataRule.setFormatObject(eventName);
+	}
+
+	private static void parseDataRuleIsDataCleaning(Expression rightExpression, CmDataRule dataRule) {
+		BooleanLiteral booleanLiteral = (BooleanLiteral) rightExpression;
+
+		dataRule.setIsDataCleaning(booleanLiteral.isIsTrue());
+	}
+
+	private static CmDataRule parseDataRuleMethod(Method method, Module module, ConversionModule conversionModule) {
+		CmDataRule dataRule = createDataRule(method.allStatements(), conversionModule);
+		if (dataRule == null)
+			return null;
+
+		for (Statement statement : method.allStatements()) {
+			Expression leftExpression = ((SimpleStatement) statement).getLeft();
+
+			if (leftExpression instanceof DynamicFeatureAccess) {
+				parseDataRuleNewDataRule(statement, module, dataRule);
+
+			} else if (leftExpression instanceof StaticFeatureAccess) {
+				parseDataRuleCheckMethod(statement);
+
+			} else if (leftExpression instanceof Invocation) {
+				parseDataRuleNewObjectRule(statement, dataRule, conversionModule);
+
+			} else {
+				throw new NullPointerException("Добавить ПОД: необработанный Expression: " + leftExpression.getClass());
+
+			}
+		}
+
+		return dataRule;
+	}
+
+	private static void parseDataRuleNewDataRule(Statement statement, Module module, CmDataRule dataRule) {
+		Expression leftExpression = ((SimpleStatement) statement).getLeft();
+		DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
+		if (leftFeatureAccess.getName().equals("Имя"))
+			// Обработали при создании нового правила
+			return;
+
+		Expression rightExpression = ((SimpleStatement) statement).getRight();
+
+		if (leftFeatureAccess.getName().equals("ОбъектВыборкиМетаданные"))
+			parseDataRuleConfigurationObject(rightExpression, dataRule);
+
+		else if (leftFeatureAccess.getName().equals("ОбъектВыборкиФормат"))
+			parseDataRuleFormatObject(rightExpression, dataRule);
+
+		else if (leftFeatureAccess.getName().equals("ОчисткаДанных"))
+			parseDataRuleIsDataCleaning(rightExpression, dataRule);
+
+		else if (leftFeatureAccess.getName().equals("ПриОбработке"))
+			parseDataRuleOnProcessingEvent(rightExpression, module, dataRule);
+
+		else if (leftFeatureAccess.getName().equals("ВыборкаДанных"))
+			parseDataRuleDataSelectionEvent(rightExpression, module, dataRule);
+
+		else
+			throw new NullPointerException("Добавить ПОД: неизвестное имя свойства: " + leftFeatureAccess.getName());
+
+	}
+
+	private static void parseDataRuleNewObjectRule(Statement statement, CmDataRule dataRule,
+			ConversionModule conversionModule) {
+		Expression leftExpression = ((SimpleStatement) statement).getLeft();
+		Invocation leftInvocation = (Invocation) leftExpression;
+
+		String ruleName = ((StringLiteral) leftInvocation.getParams().get(0)).getLines().get(0).replace("\"", "");
+
+		CmObjectRule objectRule = conversionModule.getObjectRule(ruleName);
+		if (objectRule == null) {
+			objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+
+			objectRule.setName(ruleName);
+
+			conversionModule.getObjectRules().add(objectRule);
+		}
+
+		EList<CmObjectRule> dataObjectRules = dataRule.getObjectRules();
+		dataObjectRules.add(objectRule);
+	}
+
+	private static void parseDataRuleOnProcessingEvent(Expression rightExpression, Module module,
+			CmDataRule dataRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		Method eventMethod = getMethod(module, eventName);
+		ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+		dataRule.setOnProcessingEvent(getMethodText(node.getText().trim()));
+	}
+
+	private static void parseDataRulesElseIfPartStatement(EList<Conditional> elseIfPartConditionals,
+			EList<CmDataRule> dataRules) {
+		EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
+		for (Statement partStatement : elseIfPartStatements) {
+			if (partStatement instanceof SimpleStatement) {
+				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
+				Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
+				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression.getMethodAccess();
+
+				CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
+
+				dataRule.setName(partMethodAccess.getName().substring(12));
+				dataRule.setForSending(false);
+				dataRule.setForReceiving(true);
+
+				dataRules.add(dataRule);
+			}
+		}
+	}
+
+	private static void parseDataRulesIfPartStatement(EList<Statement> ifPartStatements,
+			EList<CmDataRule> dataRules) {
+		for (Statement partStatement : ifPartStatements) {
+			if (partStatement instanceof SimpleStatement) {
+				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
+				Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
+				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression.getMethodAccess();
+
+				CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
+
+				dataRule.setName(partMethodAccess.getName().substring(12));
+				dataRule.setForSending(true);
+				dataRule.setForReceiving(false);
+
+				dataRules.add(dataRule);
+			}
+		}
+	}
+
+	private static void parseMethod(Method method, Module module, CmSubsystem cmMainSubsystem,
+			Configuration configuration, ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
+		String methodName = method.getName();
+
+		if (methodName.equals("ПередКонвертацией")) {
+			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
+
+			conversionModule.setBeforeConvertationEvent(getMethodText(node.getText().trim()));
+
+		} else if (methodName.equals("ПередОтложеннымЗаполнением")) {
+			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
+
+			conversionModule.setBeforeFillingEvent(getMethodText(node.getText().trim()));
+
+		} else if (methodName.equals("ПослеКонвертации")) {
+			ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
+
+			conversionModule.setAfterConvertationEvent(getMethodText(node.getText().trim()));
+
+		} else if (methodName.equals("ВерсияФорматаМенеджераОбмена")) {
+			String storeVersion = getStoreVersion(method);
+			if (storeVersion != null)
+				conversionModule.setStoreVersion(storeVersion);
+
+		} else {
+			CommandInterface mainCommandInterface = (CommandInterface) configuration.getMainSectionCommandInterface();
+
+			analyzeRules(conversionModule, method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
+
+		}
+	}
+
+	private static void parseObjectBeforeReceivingEvent(Expression rightExpression, Module module,
+			CmObjectRule objectRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		Method eventMethod = getMethod(module, eventName);
+		ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+		objectRule.setBeforeReceivingEvent(getMethodText(node.getText().trim()));
+	}
+
+	private static void parseObjectOnReceivingEvent(Expression rightExpression, Module module,
+			CmObjectRule objectRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		Method eventMethod = getMethod(module, eventName);
+		ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+		objectRule.setOnReceivingEvent(getMethodText(node.getText().trim()));
+	}
+
+	private static void parseObjectRuleAttribute(EList<Expression> params, String configurationTabularSection,
+			String formatTabularSection, CmObjectRule objectRule, ConversionModule conversionModule) {
+		String configurationAttribute = "";
+		String formatAttribute = "";
+		boolean isCustomRule = false;
+
+		CmObjectRule attributeObjectRule = null;
+
+		if (params.size() >= 2 && params.get(1) instanceof StringLiteral)
+			configurationAttribute = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"", "");
+
+		if (params.size() >= 3 && params.get(2) instanceof StringLiteral)
+			formatAttribute = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
+
+		if (params.size() >= 4 && params.get(3) instanceof NumberLiteral)
+			isCustomRule = !((NumberLiteral) params.get(3)).getValue().get(0).equals("0");
+
+		if (params.size() >= 5 && params.get(4) instanceof StringLiteral) {
+			String attributeRuleName = ((StringLiteral) params.get(4)).getLines().get(0).replace("\"", "");
+			attributeObjectRule = conversionModule.getObjectRule(attributeRuleName);
+
+			if (attributeObjectRule == null) {
+				attributeObjectRule = cmFactory.eINSTANCE.createCmObjectRule();
+
+				attributeObjectRule.setName(attributeRuleName);
+
+				conversionModule.getObjectRules().add(attributeObjectRule);
+			}
+		}
+
+		EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
+
+		CmAttributeRule attributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
+
+		attributeRule.setConfigurationTabularSection(configurationTabularSection);
+		attributeRule.setConfigurationAttribute(configurationAttribute);
+		if (configurationAttribute.length() == 0)
+			attributeRule.setConfigurationTabularSection("");
+
+		attributeRule.setFormatTabularSection(formatTabularSection);
+		attributeRule.setFormatAttribute(formatAttribute);
+		if (formatAttribute.isEmpty())
+			attributeRule.setFormatTabularSection("");
+
+		attributeRule.setIsCustomRule(isCustomRule);
+		attributeRule.setObjectRule(attributeObjectRule);
+
+		attributeRules.add(attributeRule);
+	}
+
+	private static void parseObjectRuleConfigurationObject(Expression rightExpression, CmObjectRule objectRule) {
+		DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
+		DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1.getSource();
+		StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
+		String configurationObjectName = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName() + "."
+				+ rightFeatureAccess1.getName();
+
+		objectRule.setConfigurationObjectName(configurationObjectName);
+	}
+
+	private static void parseObjectRuleForGroup(Expression rightExpression, CmObjectRule objectRule) {
+		BooleanLiteral booleanLiteral = (BooleanLiteral) rightExpression;
+
+		objectRule.setForGroup(booleanLiteral.isIsTrue());
+	}
+
+	private static void parseObjectRuleFormatObject(Expression rightExpression, CmObjectRule objectRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
+
+		objectRule.setFormatObject(formatObject);
+	}
+
+	private static void parseObjectRuleIdentificationField(FeatureAccess leftMethodAccess, EList<Expression> params,
+			CmObjectRule objectRule) {
+		DynamicFeatureAccess leftSource = (DynamicFeatureAccess) ((DynamicFeatureAccess) leftMethodAccess).getSource();
+
+		if (leftSource.getName().equals("ПоляПоиска")) {
+			EList<String> identificationFields = objectRule.getIdentificationFields();
+			identificationFields.add(((StringLiteral) params.get(0)).getLines().get(0).replace("\"", ""));
+
+		} else {
+			throw new NullPointerException("Добавить ПКО: необработанный Source: " + leftSource.getName());
+
+		}
+	}
+
+	private static void parseObjectRuleIdentificationVariant(Expression rightExpression, CmObjectRule objectRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String identificationVariant = stringLiteral.getLines().get(0).replace("\"", "");
+
+		objectRule.setIdentificationVariant(CmIdentificationVariant.UUID);
+		if (identificationVariant.equals("ПоПолямПоиска"))
+			objectRule.setIdentificationVariant(CmIdentificationVariant.SEARCH_FIELDS);
+		else if (identificationVariant.equals("СначалаПоУникальномуИдентификаторуПотомПоПолямПоиска"))
+			objectRule.setIdentificationVariant(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS);
+	}
+
+	private static CmObjectRule parseObjectRuleMethod(Method method, Module module,
+			ConversionModule conversionModule) {
+		CmObjectRule objectRule = createObjectRule(method.allStatements(), conversionModule);
+
+		if (objectRule == null)
+			return null;
+
+		String configurationTabularSection = "";
+		String formatTabularSection = "";
+
+		for (Statement statement : method.allStatements()) {
+			Expression leftExpression = ((SimpleStatement) statement).getLeft();
+
+			if (leftExpression instanceof DynamicFeatureAccess) {
+				parseObjectRuleNewObjectRule(statement, module, objectRule, conversionModule);
+
+			} else if (leftExpression instanceof StaticFeatureAccess) {
+				Pair<String, String> tabularSection = parseTabularSection(statement, leftExpression);
+				if (tabularSection != null) {
+					configurationTabularSection = tabularSection.getKey();
+					formatTabularSection = tabularSection.getValue();
+				}
+
+			} else if (leftExpression instanceof Invocation) {
+				parseObjectRuleMiscFields(statement, configurationTabularSection, formatTabularSection, objectRule,
+						conversionModule);
+
+			} else {
+				throw new NullPointerException("Добавить ПКО: необработанный Expression: " + leftExpression.getClass());
+
+			}
+		}
+
+		return objectRule;
+
+	}
+
+	private static void parseObjectRuleMiscFields(Statement statement, String configurationTabularSection,
+			String formatTabularSection, CmObjectRule objectRule, ConversionModule conversionModule) {
+		Expression leftExpression = ((SimpleStatement) statement).getLeft();
+		Invocation leftInvocation = (Invocation) leftExpression;
+		EList<Expression> params = leftInvocation.getParams();
+
+		FeatureAccess leftMethodAccess = leftInvocation.getMethodAccess();
+		if (leftMethodAccess instanceof StaticFeatureAccess)
+			parseObjectRuleAttribute(params, configurationTabularSection, formatTabularSection, objectRule,
+					conversionModule);
+
+		else if (leftMethodAccess instanceof DynamicFeatureAccess)
+			parseObjectRuleIdentificationField(leftMethodAccess, params, objectRule);
+	}
+
+	private static void parseObjectRuleNewObjectRule(Statement statement, Module module, CmObjectRule objectRule,
+			ConversionModule conversionModule) {
+		Expression leftExpression = ((SimpleStatement) statement).getLeft();
+		DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
+
+		if (leftFeatureAccess.getName().equals("ИмяПКО"))
+			// Обработали при создании правила
+			return;
+
+		Expression rightExpression = ((SimpleStatement) statement).getRight();
+		if (rightExpression instanceof UndefinedLiteral)
+			return;
+
+		if (leftFeatureAccess.getName().equals("ОбъектДанных"))
+			parseObjectRuleConfigurationObject(rightExpression, objectRule);
+
+		else if (leftFeatureAccess.getName().equals("ОбъектФормата"))
+			parseObjectRuleFormatObject(rightExpression, objectRule);
+
+		else if (leftFeatureAccess.getName().equals("ПравилоДляГруппыСправочника"))
+			parseObjectRuleForGroup(rightExpression, objectRule);
+
+		else if (leftFeatureAccess.getName().equals("ВариантИдентификации"))
+			parseObjectRuleIdentificationVariant(rightExpression, objectRule);
+
+		else if (leftFeatureAccess.getName().equals("ПриОтправкеДанных"))
+			parseObjectRuleOnSendingEvent(rightExpression, module, objectRule);
+
+		else if (leftFeatureAccess.getName().equals("ПриКонвертацииДанныхXDTO"))
+			parseObjectBeforeReceivingEvent(rightExpression, module, objectRule);
+
+		else if (leftFeatureAccess.getName().equals("ПередЗаписьюПолученныхДанных"))
+			parseObjectOnReceivingEvent(rightExpression, module, objectRule);
+
+		else if (leftFeatureAccess.getName().equals("ПослеЗагрузкиВсехДанных"))
+			parseAfterReceivingAlgorithm(rightExpression, objectRule, conversionModule);
+
+		else
+			throw new NullPointerException("Добавить ПКО: неизвестное имя свойства: " + leftFeatureAccess.getName());
+
+	}
+
+	private static void parseObjectRuleOnSendingEvent(Expression rightExpression, Module module,
+			CmObjectRule objectRule) {
+		StringLiteral stringLiteral = (StringLiteral) rightExpression;
+		String eventName = stringLiteral.getLines().get(0).replace("\"", "");
+
+		Method eventMethod = getMethod(module, eventName);
+		ICompositeNode node = NodeModelUtils.findActualNodeFor(eventMethod);
+
+		objectRule.setOnSendingEvent(getMethodText(node.getText().trim()));
+	}
+
+	private static void parseObjectRulesIfStatement(IfStatement ifStatement, ConversionModule conversionModule) {
+		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+
+		EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
+		EList<Conditional> elseIfPartConditionals = ifStatement.getElsIfParts();
+
+		for (Statement partStatement : ifPartStatements) {
+			if (partStatement instanceof SimpleStatement) {
+				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
+				Invocation partExpression = (Invocation) partSimpleStatement.getLeft();
+				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partExpression.getMethodAccess();
+
+				String objectRuleName = partMethodAccess.getName().substring(12);
+
+				CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
+				if (objectRule == null) {
+					objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+
+					objectRule.setName(objectRuleName);
+
+					objectRules.add(objectRule);
+				}
+
+				objectRule.setForSending(true);
+				objectRule.setForReceiving(false);
+			}
+
+		}
+
+		EList<Statement> elseIfPartStatements = elseIfPartConditionals.get(0).getStatements();
+		for (Statement partStatement : elseIfPartStatements) {
+			if (partStatement instanceof SimpleStatement) {
+				SimpleStatement partSimpleStatement = (SimpleStatement) partStatement;
+				Invocation partInvocation = (Invocation) partSimpleStatement.getLeft();
+				StaticFeatureAccess partMethodAccess = (StaticFeatureAccess) partInvocation.getMethodAccess();
+
+				String objectRuleName = partMethodAccess.getName().substring(12);
+
+				CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
+				if (objectRule == null) {
+					objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+
+					objectRule.setName(objectRuleName);
+
+					objectRules.add(objectRule);
+				}
+
+				objectRule.setForSending(false);
+				objectRule.setForReceiving(true);
+			}
+
+		}
+	}
+
+	private static void parsePredefinedNewPredefined(Statement statement, CmPredefined cmPredefined) {
+		if (cmPredefined == null)
+			return;
+
+		Expression leftExpression = ((SimpleStatement) statement).getLeft();
+		DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
+		Expression rightExpression = ((SimpleStatement) statement).getRight();
+
+		if (leftFeatureAccess.getName().equals("ТипДанных")) {
+			DynamicFeatureAccess rightFeatureAccess1 = (DynamicFeatureAccess) rightExpression;
+			DynamicFeatureAccess rightFeatureAccess2 = (DynamicFeatureAccess) rightFeatureAccess1.getSource();
+			StaticFeatureAccess rightFeatureAccess3 = (StaticFeatureAccess) rightFeatureAccess2.getSource();
+			String configurationObjectName = rightFeatureAccess3.getName() + "." + rightFeatureAccess2.getName() + "."
+					+ rightFeatureAccess1.getName();
+
+			cmPredefined.setConfigurationObjectName(configurationObjectName);
+
+		} else if (leftFeatureAccess.getName().equals("ТипXDTO")) {
+			StringLiteral stringLiteral = (StringLiteral) rightExpression;
+			String formatObject = stringLiteral.getLines().get(0).replace("\"", "");
+
+			cmPredefined.setFormatObject(formatObject);
+
+		} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриОтправке")) {
+			cmPredefined.setForSending(true);
+
+		} else if (leftFeatureAccess.getName().equals("КонвертацииЗначенийПриПолучении")) {
+			cmPredefined.setForReceiving(true);
+
+		} else {
+			throw new NullPointerException(
+					"Добавить ПКПД: необработанный DynamicFeatureAccess: " + leftFeatureAccess.getName());
+		}
+	}
+
+	private static void parsePredefinedValue(Expression leftExpression, CmPredefined cmPredefined) {
+		if (cmPredefined == null)
+			return;
+
+		Invocation leftInvocation = (Invocation) leftExpression;
+
+		EList<Expression> params = leftInvocation.getParams();
+
+		DynamicFeatureAccess configurationValueParam;
+		StringLiteral formatValueParam;
+		if (params.get(0) instanceof DynamicFeatureAccess) {
+			configurationValueParam = (DynamicFeatureAccess) params.get(0);
+			formatValueParam = (StringLiteral) params.get(1);
+
+		} else {
+			configurationValueParam = (DynamicFeatureAccess) params.get(1);
+			formatValueParam = (StringLiteral) params.get(0);
+
+		}
+
+		DynamicFeatureAccess configurationValueParam2 = (DynamicFeatureAccess) configurationValueParam.getSource();
+		StaticFeatureAccess configurationValueParam3 = (StaticFeatureAccess) configurationValueParam2.getSource();
+		String configurationValueName = configurationValueParam3.getName() + "." + configurationValueParam2.getName()
+				+ "." + configurationValueParam.getName();
+
+		String formatValueName = formatValueParam.getLines().get(0).replace("\"", "");
+
+		if (cmPredefined.predefinedMapExists(configurationValueName, formatValueName))
+			return;
+
+		CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
+
+		predefinedMap.setConfigurationValue(configurationValueName);
+		predefinedMap.setFormatValue(formatValueName);
+
+		cmPredefined.getPredefinedMaps().add(predefinedMap);
+	}
+
+	private static Pair<String, String> parseTabularSection(Statement statement, Expression leftExpression) {
+		String configurationTabularSection = "";
+		String formatTabularSection = "";
+
+		StaticFeatureAccess leftFeatureAccess = (StaticFeatureAccess) leftExpression;
+
+		if (leftFeatureAccess.getName().equals("ПравилоКонвертации")) {
+			return null;
+
+		} else if (leftFeatureAccess.getName().equals("СвойстваШапки")) {
+			configurationTabularSection = "";
+			formatTabularSection = "";
+
+		} else if (leftFeatureAccess.getName().equals("СвойстваТЧ")) {
+			Invocation rightInvocation = (Invocation) ((SimpleStatement) statement).getRight();
+
+			EList<Expression> params = rightInvocation.getParams();
+
+			configurationTabularSection = ((StringLiteral) params.get(1)).getLines().get(0).replace("\"", "");
+			formatTabularSection = ((StringLiteral) params.get(2)).getLines().get(0).replace("\"", "");
+
+		} else {
+			throw new NullPointerException(
+					"Добавить ПКО: неизвестный StaticFeatureAccess: " + leftFeatureAccess.getName());
+		}
+
+		return new Pair<>(configurationTabularSection, formatTabularSection);
 	}
 
 	private static String readContents(CharSource source) {
@@ -1970,125 +1591,35 @@ public class ConversionModuleAnalyzer {
 		}
 	}
 
-	private static CharSource getFileInputSupplier(String partName) {
-		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/module/" + partName),
-				StandardCharsets.UTF_8);
+	private static void resolveBmObjects(ConversionModule conversionModule, Configuration configuration) {
+		for (CmSubsystem cmSubsystem : conversionModule.getSubsystems()) {
+			if (cmSubsystem.getSubsystem() == null)
+				continue;
+			cmSubsystem.setSubsystem((Subsystem) EcoreUtil.resolve(cmSubsystem.getSubsystem(), configuration));
+		}
+		for (CmObject cmObject : conversionModule.getDataRules()) {
+			if (cmObject.getConfigurationObject() == null)
+				continue;
+			cmObject.setConfigurationObject(
+					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
+		}
+		for (CmObject cmObject : conversionModule.getObjectRules()) {
+			if (cmObject.getConfigurationObject() == null)
+				continue;
+			cmObject.setConfigurationObject(
+					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
+		}
+		for (CmObject cmObject : conversionModule.getPredefineds()) {
+			if (cmObject.getConfigurationObject() == null)
+				continue;
+			cmObject.setConfigurationObject(
+					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
+		}
+
 	}
 
-	public static final int COMPARATOR_ORDER_BY_NAME = 1;
-	public static final int COMPARATOR_ORDER_BY_SENDING = 2;
-	public static final int COMPARATOR_ORDER_BY_RECEIVING = 3;
-
-	public static Comparator<CmDataRule> getDataRuleComparator(int comparatorOrder) {
-		return (CmDataRule cmArg1, CmDataRule cmArg2) -> {
-			String[] str1;
-			String[] str2;
-
-			if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
-				str1 = new String[3];
-				str2 = new String[3];
-
-				str1[0] = cmArg1.getConfigurationObjectName();
-				str1[1] = cmArg1.getFormatObject();
-				str1[2] = cmArg1.getName();
-
-				str2[0] = cmArg2.getConfigurationObjectName();
-				str2[1] = cmArg2.getFormatObject();
-				str2[2] = cmArg2.getName();
-
-			} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
-				str1 = new String[3];
-				str2 = new String[3];
-
-				str1[0] = cmArg1.getFormatObject();
-				str1[1] = cmArg1.getConfigurationObjectName();
-				str1[2] = cmArg1.getName();
-
-				str2[0] = cmArg2.getFormatObject();
-				str2[1] = cmArg2.getConfigurationObjectName();
-				str2[2] = cmArg2.getName();
-
-			} else { // COMPARATOR_ORDER_BY_NAME
-				str1 = new String[1];
-				str2 = new String[1];
-
-				str1[0] = cmArg1.getName();
-
-				str2[0] = cmArg2.getName();
-
-			}
-
-			return ConversionUtils.compareArraysOfString(str1, str2);
-		};
-	}
-
-	public static Comparator<CmObjectRule> getObjectRuleComparator(int comparatorOrder) {
-		return (CmObjectRule cmArg1, CmObjectRule cmArg2) -> {
-			String[] str1;
-			String[] str2;
-
-			if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
-				str1 = new String[3];
-				str2 = new String[3];
-
-				str1[0] = cmArg1.getConfigurationObjectName();
-				str1[1] = cmArg1.getFormatObject();
-				str1[2] = cmArg1.getName();
-
-				str2[0] = cmArg2.getConfigurationObjectName();
-				str2[1] = cmArg2.getFormatObject();
-				str2[2] = cmArg2.getName();
-
-			} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
-				str1 = new String[3];
-				str2 = new String[3];
-
-				str1[0] = cmArg1.getFormatObject();
-				str1[1] = cmArg1.getConfigurationObjectName();
-				str1[2] = cmArg1.getName();
-
-				str2[0] = cmArg2.getFormatObject();
-				str2[1] = cmArg2.getConfigurationObjectName();
-				str2[2] = cmArg2.getName();
-
-			} else { // COMPARATOR_ORDER_BY_NAME
-				str1 = new String[1];
-				str2 = new String[1];
-
-				str1[0] = cmArg1.getName();
-
-				str2[0] = cmArg2.getName();
-
-			}
-
-			return ConversionUtils.compareArraysOfString(str1, str2);
-		};
-	}
-
-	public static Comparator<CmPredefined> getPredefinedComparator() {
-		return (CmPredefined cmArg1, CmPredefined cmArg2) -> {
-			String[] str1 = new String[1];
-			String[] str2 = new String[1];
-
-			str1[0] = cmArg1.getName();
-
-			str2[0] = cmArg2.getName();
-
-			return ConversionUtils.compareArraysOfString(str1, str2);
-		};
-	}
-
-	public static Comparator<CmAlgorithm> getAlgorithmComparator() {
-		return (CmAlgorithm cmArg1, CmAlgorithm cmArg2) -> {
-			String[] str1 = new String[1];
-			String[] str2 = new String[1];
-
-			str1[0] = cmArg1.getName();
-
-			str2[0] = cmArg2.getName();
-
-			return ConversionUtils.compareArraysOfString(str1, str2);
-		};
+	private ConversionModuleAnalyzer() {
+		throw new IllegalStateException("Вспомогательный класс");
 	}
 
 }

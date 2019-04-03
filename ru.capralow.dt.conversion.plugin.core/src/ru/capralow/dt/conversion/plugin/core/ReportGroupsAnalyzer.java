@@ -16,10 +16,6 @@ import ru.capralow.dt.conversion.plugin.core.rg.model.ReportGroups;
 public class ReportGroupsAnalyzer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReportGroupsAnalyzer.class);
 
-	private ReportGroupsAnalyzer() {
-		throw new IllegalStateException("Вспомогательный класс");
-	}
-
 	public static URI getResourceURIforPlugin(String moduleName, IProject project) {
 		return URI.createFileURI(project.getLocation() + File.separator + "exchangeDataReport-" + moduleName + ".xmi");
 	}
@@ -61,6 +57,10 @@ public class ReportGroupsAnalyzer {
 
 		}
 
+	}
+
+	private ReportGroupsAnalyzer() {
+		throw new IllegalStateException("Вспомогательный класс");
 	}
 
 }
