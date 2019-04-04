@@ -25,7 +25,7 @@ import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
 public final class ConversionUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionUtils.class);
 
-	public static int compareArraysOfString(String[] str1, String[] str2) {
+	public static Integer compareArraysOfString(String[] str1, String[] str2) {
 		if (str1 == null || str2 == null)
 			return 0;
 
@@ -35,13 +35,13 @@ public final class ConversionUtils {
 		if (str1.length != str2.length)
 			return str1.length - str2.length;
 
-		for (int i = 0; i < str1.length; i++) {
+		for (Integer i = 0; i < str1.length; i++) {
 			if (str1[i] == null)
 				return -1;
 			if (str2[i] == null)
 				return 1;
 
-			int result = str1[i].compareToIgnoreCase(str2[i]);
+			Integer result = str1[i].compareToIgnoreCase(str2[i]);
 			if (result != 0)
 				return result;
 		}
@@ -108,7 +108,7 @@ public final class ConversionUtils {
 
 		if (object == null) {
 			String msg = String.format("Не найден объект конфигурации: \"%1$s\"", objectFullName);
-			LOGGER.warn(msg);
+			LOGGER.error(msg);
 		}
 
 		return object;
@@ -143,7 +143,7 @@ public final class ConversionUtils {
 			throw new FileNotFoundException("Не найден проект с именем: " + segments[1]);
 		}
 		IPath resourcePath = plugin.getStateLocation();
-		for (int i = 1; i < segments.length - 1; ++i) {
+		for (Integer i = 1; i < segments.length - 1; ++i) {
 			resourcePath = resourcePath.append(segments[i]);
 			File file = resourcePath.toFile();
 			if (file.exists() && !file.isDirectory()) {

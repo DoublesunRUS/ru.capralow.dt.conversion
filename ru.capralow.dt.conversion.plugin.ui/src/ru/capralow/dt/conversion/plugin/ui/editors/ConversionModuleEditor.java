@@ -231,7 +231,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				subsystem.setSpecialSubsystemType(CmSpecialSubsystemType.ALL);
 				viewerContent[0] = subsystem;
 
-				int i = 1;
+				Integer i = 1;
 				for (Object object : listObjects) {
 					viewerContent[i] = object;
 					i++;
@@ -382,7 +382,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object[] viewerContent = new Object[listElements.size()];
 
-				int i = 0;
+				Integer i = 0;
 				for (CmDataRule cmElement : listElements) {
 					viewerContent[i] = cmElement;
 					i++;
@@ -465,7 +465,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object[] viewerContent = new Object[listElements.size()];
 
-				int i = 0;
+				Integer i = 0;
 				for (CmObjectRule cmElement : listElements) {
 					viewerContent[i] = cmElement;
 					i++;
@@ -536,7 +536,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object[] viewerContent = new Object[listElements.size()];
 
-				int i = 0;
+				Integer i = 0;
 				for (CmDataRule cmElement : listElements) {
 					viewerContent[i] = cmElement;
 					i++;
@@ -643,7 +643,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object[] viewerContent = new Object[listElements.size()];
 
-				int i = 0;
+				Integer i = 0;
 				for (CmObjectRule cmElement : listElements) {
 					viewerContent[i] = cmElement;
 					i++;
@@ -730,7 +730,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object[] viewerContent = new Object[listElements.size()];
 
-				int i = 0;
+				Integer i = 0;
 				for (CmPredefined cmElement : listElements) {
 					viewerContent[i] = cmElement;
 					i++;
@@ -804,7 +804,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				Object[] viewerContent = new Object[listElements.size()];
 
-				int i = 0;
+				Integer i = 0;
 				for (CmAlgorithm cmElement : listElements) {
 					viewerContent[i] = cmElement;
 					i++;
@@ -1127,7 +1127,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 					@Override
 					public String getName() {
-						int len = string.indexOf(System.lineSeparator());
+						Integer len = string.indexOf(System.lineSeparator());
 						return string.substring(0, len).replace(".", "_").concat(".md"); // $NON-NLS-1$
 					}
 

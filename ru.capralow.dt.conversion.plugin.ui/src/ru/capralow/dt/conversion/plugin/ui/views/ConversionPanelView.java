@@ -72,7 +72,7 @@ public class ConversionPanelView extends ViewPart {
 		for (IProject project : projects)
 			readyProjects.put(project, false);
 
-		for (int i = 0; i < projects.length; i++) {
+		for (Integer i = 0; i < projects.length; i++) {
 			IProject project = projects[i];
 
 			// проверяем инициализирован ли контекст

@@ -11,7 +11,7 @@ public class ConversionModuleContentProvider implements IStructuredContentProvid
 
 		Object[] viewerContent = new Object[listElements.size()];
 
-		int i = 0;
+		Integer i = 0;
 		for (Object object : listElements) {
 			viewerContent[i] = object;
 			i++;

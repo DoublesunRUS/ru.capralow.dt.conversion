@@ -158,7 +158,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 				return;
 
 			NodeList nodeList = documentElement.getChildNodes();
-			for (int i = 0; i < nodeList.getLength(); i++) {
+			for (Integer i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
 
 				String nodeName = node.getNodeName();
@@ -189,7 +189,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 					EList<ExchangePlanContent> exchangePlanContent = registrationModule.getExchangePlanContent();
 
 					NodeList childNodeList = node.getChildNodes();
-					for (int ci = 0; ci < childNodeList.getLength(); ci++) {
+					for (Integer ci = 0; ci < childNodeList.getLength(); ci++) {
 						Node childNode = childNodeList.item(ci);
 						if (!childNode.getNodeName().isEmpty())
 							continue;
@@ -198,7 +198,7 @@ public class RegistrationModuleEditor extends DtGranularEditorPage<EObject> {
 								.createExchangePlanContent();
 
 						NodeList childChildNodeList = childNode.getChildNodes();
-						for (int cci = 0; cci < childChildNodeList.getLength(); cci++) {
+						for (Integer cci = 0; cci < childChildNodeList.getLength(); cci++) {
 							Node childChildNode = childChildNodeList.item(cci);
 							if (childChildNode.getNodeName().isEmpty()) {
 								exchangePlanContentElement.setMdObject(childChildNode.getFirstChild().getTextContent());

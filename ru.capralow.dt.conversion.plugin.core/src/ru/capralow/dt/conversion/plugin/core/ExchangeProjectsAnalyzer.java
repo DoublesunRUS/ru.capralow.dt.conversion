@@ -588,16 +588,16 @@ public class ExchangeProjectsAnalyzer {
 
 	}
 
-	private static int compareVersions(String version1, String version2) {
+	private static Integer compareVersions(String version1, String version2) {
 
 		String[] levels1 = version1.split("\\.");
 		String[] levels2 = version2.split("\\.");
 
-		int length = Math.max(levels1.length, levels2.length);
-		for (int i = 0; i < length; i++) {
+		Integer length = Math.max(levels1.length, levels2.length);
+		for (Integer i = 0; i < length; i++) {
 			Integer v1 = i < levels1.length ? Integer.parseInt(levels1[i]) : 0;
 			Integer v2 = i < levels2.length ? Integer.parseInt(levels2[i]) : 0;
-			int compare = v1.compareTo(v2);
+			Integer compare = v1.compareTo(v2);
 			if (compare != 0) {
 				return compare;
 			}
@@ -630,7 +630,7 @@ public class ExchangeProjectsAnalyzer {
 
 		if (xdtoPackage == null) {
 			String msg = String.format("Не найден Пакет XDTO: \"%1$s\"", namespace);
-			LOGGER.warn(msg);
+			LOGGER.error(msg);
 
 			return null;
 		}
@@ -650,8 +650,8 @@ public class ExchangeProjectsAnalyzer {
 	private static <T> List<Pair<T, T>> getPairs(List<T> list) {
 		List<Pair<T, T>> pairs = new LinkedList<>();
 
-		for (int i = 0; i < list.size() - 1; i++)
-			for (int j = i + 1; j < list.size(); j++)
+		for (Integer i = 0; i < list.size() - 1; i++)
+			for (Integer j = i + 1; j < list.size(); j++)
 				pairs.add(new Pair<>(list.get(i), list.get(j)));
 
 		return pairs;

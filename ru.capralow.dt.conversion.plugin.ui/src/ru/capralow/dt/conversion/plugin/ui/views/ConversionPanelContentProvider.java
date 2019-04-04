@@ -20,7 +20,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 		Object[] treeContent = new Object[exchangePairs.size() + exchangeProjects.size()];
 
-		int i = 0;
+		Integer i = 0;
 
 		for (EpExchangePair epExchangePair : exchangePairs) {
 			treeContent[i] = epExchangePair;
@@ -40,7 +40,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 		if (object instanceof EpExchangePair) {
 			EList<String> availableFormatVersions = ((EpExchangePair) object).getVersions();
 
-			int treeSize = 1;
+			Integer treeSize = 1;
 			if (!availableFormatVersions.isEmpty())
 				treeSize++;
 
@@ -57,7 +57,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 			EList<EpFormatVersion> formatVersions = ((ExchangeProject) object).getFormatVersions();
 			String storeVersion = ((ExchangeProject) object).getStoreVersion();
 
-			int treeSize = 1;
+			Integer treeSize = 1;
 			if (!storeVersion.isEmpty())
 				treeSize++;
 
@@ -68,7 +68,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 			treeContent[0] = ((ExchangeProject) object).getStatus();
 
-			int i = 0;
+			Integer i = 0;
 			if (!storeVersion.isEmpty()) {
 				i++;
 				treeContent[i] = "Версия модуля обмена данными: " + storeVersion;
@@ -86,7 +86,7 @@ public class ConversionPanelContentProvider implements ITreeContentProvider {
 
 			Object[] treeContent = new Object[formatVersions.size()];
 
-			int i = 0;
+			Integer i = 0;
 			for (Object formatVersion : formatVersions) {
 				treeContent[i] = formatVersion;
 				i++;

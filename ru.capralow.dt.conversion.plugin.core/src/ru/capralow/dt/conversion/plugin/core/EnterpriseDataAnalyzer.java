@@ -302,15 +302,15 @@ public class EnterpriseDataAnalyzer {
 		if (propertyTypeName.equals("string")) {
 			propertyTypeName = TYPE_STRING;
 
-			int maxLength = propertyValueTypeDef.getMaxLength();
+			Integer maxLength = propertyValueTypeDef.getMaxLength();
 			if (maxLength != 0)
 				propertyTypeName = "Строка(".concat(Integer.toString(maxLength)).concat(")");
 
 		} else if (propertyTypeName.equals("decimal")) {
 			propertyTypeName = "ДробноеЧисло";
 
-			int totalDigits = propertyValueTypeDef.getTotalDigits();
-			int fractionDigits = propertyValueTypeDef.getFractionDigits();
+			Integer totalDigits = propertyValueTypeDef.getTotalDigits();
+			Integer fractionDigits = propertyValueTypeDef.getFractionDigits();
 			if (totalDigits != 0)
 				propertyTypeName = "ДробноеЧисло(".concat(Integer.toString(totalDigits)).concat(".")
 						.concat(Integer.toString(fractionDigits)).concat(")");
@@ -318,7 +318,7 @@ public class EnterpriseDataAnalyzer {
 		} else if (propertyTypeName.equals("int")) {
 			propertyTypeName = "ЦелоеЧисло";
 
-			int totalDigits = propertyValueTypeDef.getTotalDigits();
+			Integer totalDigits = propertyValueTypeDef.getTotalDigits();
 			if (totalDigits != 0)
 				propertyTypeName = "ЦелоеЧисло(".concat(Integer.toString(totalDigits)).concat(")");
 
@@ -417,7 +417,7 @@ public class EnterpriseDataAnalyzer {
 			addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
 			String msg = String.format("У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип",
 					objectName, version);
-			LOGGER.warn(msg);
+			LOGGER.error(msg);
 		}
 
 	}

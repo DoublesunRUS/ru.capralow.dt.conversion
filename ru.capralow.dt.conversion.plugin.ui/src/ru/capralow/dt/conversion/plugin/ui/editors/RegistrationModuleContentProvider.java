@@ -21,7 +21,7 @@ public class RegistrationModuleContentProvider implements ITreeContentProvider {
 				.getExchangePlanContent();
 
 		String[] treeContents = new String[exchangePlanContents.size()];
-		for (int i = 0; i < exchangePlanContents.size(); i++) {
+		for (Integer i = 0; i < exchangePlanContents.size(); i++) {
 			ExchangePlanContent exchangePlanContent = exchangePlanContents.get(i);
 
 			treeContents[i] = exchangePlanContent.getMdObject();

@@ -9,7 +9,7 @@ public class MarkdownTable {
 
 	private String[] caption;
 	private Map<Integer, String[][][]> mapPriorities = new HashMap<>();
-	private int numOfCols;
+	private Integer numOfCols;
 
 	public MarkdownTable(String[] caption) {
 		this.caption = caption;
@@ -17,7 +17,7 @@ public class MarkdownTable {
 		this.numOfCols = caption.length;
 	}
 
-	public void addRow(int priority, String[][] row) {
+	public void addRow(Integer priority, String[][] row) {
 		if (row.length != numOfCols)
 			throw new java.lang.StringIndexOutOfBoundsException(
 					"Markdown table: Количество колонок в строке не соответствует количеству колонок в заголовке");
@@ -28,21 +28,21 @@ public class MarkdownTable {
 
 		} else {
 			String[][][] tempRows = new String[rows.length + 1][][];
-			for (int i = 0; i < rows.length; i++)
+			for (Integer i = 0; i < rows.length; i++)
 				tempRows[i] = rows[i];
 			rows = tempRows;
 
 		}
 
 		rows[rows.length - 1] = row;
-		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
+		for (Integer colIndex = 0; colIndex < numOfCols; colIndex++) {
 			String[] cell = row[colIndex];
 			if (cell.length != 3)
 				throw new java.lang.StringIndexOutOfBoundsException(
 						"Markdown table: Количество значений в ячейке должно быть равно 3");
 
 			if (!cell[0].isEmpty()) {
-				int numOfTabs = Integer.parseInt(cell[1]);
+				Integer numOfTabs = Integer.parseInt(cell[1]);
 				String cellStyle = cell[2];
 				cell[0] = addTabs(numOfTabs) + cellStyle + cell[0] + cellStyle;
 			}
@@ -56,42 +56,42 @@ public class MarkdownTable {
 		if (mapPriorities.isEmpty())
 			return table.toString();
 
-		int[] priorities = new int[mapPriorities.size()];
-		int priorityIndex = 0;
+		Integer[] priorities = new Integer[mapPriorities.size()];
+		Integer priorityIndex = 0;
 		for (Entry<Integer, String[][][]> priority : mapPriorities.entrySet()) {
 			priorities[priorityIndex] = priority.getKey();
 			priorityIndex++;
 		}
 		Arrays.sort(priorities);
 
-		int[] colsMaxLength = countColsMaxLength(priorities);
+		Integer[] colsMaxLength = countColsMaxLength(priorities);
 
 		table.append(addCaptionRow(caption, " ", colsMaxLength));
 		table.append(addCaptionRow(new String[5], "-", colsMaxLength));
 		for (priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
 			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++)
+			for (Integer rowIndex = 0; rowIndex < rows.length; rowIndex++)
 				table.append(addTableRow(rows[rowIndex], " ", colsMaxLength));
 		}
 
 		return table.toString();
 	}
 
-	private String addCaptionRow(String[] row, String postfixChar, int[] colsMaxLength) {
+	private String addCaptionRow(String[] row, String postfixChar, Integer[] colsMaxLength) {
 		StringBuilder tableRow = new StringBuilder();
-		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
+		for (Integer colIndex = 0; colIndex < numOfCols; colIndex++) {
 			if (tableRow.length() != 0)
 				tableRow.append(" | ");
 
 			String rowValue = "";
-			int rowLength = 0;
+			Integer rowLength = 0;
 			if (row[colIndex] != null) {
 				rowValue = row[colIndex];
 				rowLength = rowValue.length();
 			}
 
 			StringBuilder postfix = new StringBuilder();
-			for (int postfixIndex = 1; postfixIndex <= colsMaxLength[colIndex] - rowLength; postfixIndex++)
+			for (Integer postfixIndex = 1; postfixIndex <= colsMaxLength[colIndex] - rowLength; postfixIndex++)
 				postfix.append(postfixChar);
 			tableRow.append(rowValue).append(postfix);
 		}
@@ -100,21 +100,21 @@ public class MarkdownTable {
 		return tableRow.toString();
 	}
 
-	private String addTableRow(String[][] row, String postfixChar, int[] colsMaxLength) {
+	private String addTableRow(String[][] row, String postfixChar, Integer[] colsMaxLength) {
 		StringBuilder tableRow = new StringBuilder();
-		for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
+		for (Integer colIndex = 0; colIndex < numOfCols; colIndex++) {
 			if (tableRow.length() != 0)
 				tableRow.append(" | ");
 
 			String rowValue = "";
-			int rowLength = 0;
+			Integer rowLength = 0;
 			if (row[colIndex] != null) {
 				rowValue = row[colIndex][0];
 				rowLength = rowValue.length();
 			}
 
 			StringBuilder postfix = new StringBuilder();
-			for (int postfixIndex = 1; postfixIndex <= colsMaxLength[colIndex] - rowLength; postfixIndex++)
+			for (Integer postfixIndex = 1; postfixIndex <= colsMaxLength[colIndex] - rowLength; postfixIndex++)
 				postfix.append(postfixChar);
 			tableRow.append(rowValue).append(postfix);
 		}
@@ -123,31 +123,31 @@ public class MarkdownTable {
 		return tableRow.toString();
 	}
 
-	private String addTabs(int numOfTabs) {
+	private String addTabs(Integer numOfTabs) {
 		final String tabString = "&nbsp; &nbsp; ";
 
 		StringBuilder tabs = new StringBuilder();
-		for (int tabIndex = 1; tabIndex <= numOfTabs; tabIndex++)
+		for (Integer tabIndex = 1; tabIndex <= numOfTabs; tabIndex++)
 			tabs.append(tabString);
 
 		return tabs.toString();
 	}
 
-	private int[] countColsMaxLength(int[] priorities) {
-		int[] colsMaxLength = new int[numOfCols];
+	private Integer[] countColsMaxLength(Integer[] priorities) {
+		Integer[] colsMaxLength = new Integer[numOfCols];
 
-		for (int colIndex = 0; colIndex < numOfCols; colIndex++)
+		for (Integer colIndex = 0; colIndex < numOfCols; colIndex++)
 			colsMaxLength[colIndex] = caption[colIndex].length();
 
-		for (int priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
+		for (Integer priorityIndex = 0; priorityIndex < priorities.length; priorityIndex++) {
 			String[][][] rows = mapPriorities.get(priorities[priorityIndex]);
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+			for (Integer rowIndex = 0; rowIndex < rows.length; rowIndex++) {
 				if (rows[rowIndex] == null)
 					throw new java.lang.StringIndexOutOfBoundsException(
 							"Markdown table: Количество строк в таблице меньше ожидаемого количества");
 
-				for (int colIndex = 0; colIndex < numOfCols; colIndex++) {
-					int colLength = rows[rowIndex][colIndex][0].length();
+				for (Integer colIndex = 0; colIndex < numOfCols; colIndex++) {
+					Integer colLength = rows[rowIndex][colIndex][0].length();
 					if (colsMaxLength[colIndex] < colLength)
 						colsMaxLength[colIndex] = colLength;
 				}
