@@ -443,10 +443,37 @@ public interface CmObjectRule extends CmObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getBeforeReceivingEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041A\\u041E_&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E_\\u041F\\u0440\\u0438\\u041A\\u043E\\u043D\\u0432\\u0435\\u0440\\u0442\\u0430\\u0446\\u0438\\u0438\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445XDTO\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E\", this.getName());\n}'"
+	 * @generated
+	 */
+	String getBeforeReceivingEventDeclaration();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; _onReceivingEventPrefix = this.getOnReceivingEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_onReceivingEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _onReceivingEvent = this.getOnReceivingEvent();\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + _onReceivingEvent);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _onReceivingEventSuffix = this.getOnReceivingEventSuffix();\n&lt;%java.lang.String%&gt; _plus_3 = (_plus_2 + _onReceivingEventSuffix);\n&lt;%java.lang.String%&gt; _lineSeparator_2 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; result = (_plus_3 + _lineSeparator_2);\nreturn result;'"
 	 * @generated
 	 */
 	String getOnReceivingEventText();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='int _length = this.getOnReceivingEvent().length();\nboolean _equals = (_length == 0);\nif (_equals)\n{\n\treturn \"\";\n}\nelse\n{\n\treturn \"\\u041F\\u041A\\u041E_&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E_\\u041F\\u0435\\u0440\\u0435\\u0434\\u0417\\u0430\\u043F\\u0438\\u0441\\u044C\\u044E\\u041F\\u043E\\u043B\\u0443\\u0447\\u0435\\u043D\\u043D\\u044B\\u0445\\u0414\\u0430\\u043D\\u043D\\u044B\\u0445\".replace(\"&amp;\\u0418\\u043C\\u044F\\u041F\\u041A\\u041E\", this.getName());\n}'"
+	 * @generated
+	 */
+	String getOnReceivingEventDeclaration();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if (((this.getAfterReceivingAlgorithm() == null) || (this.getAfterReceivingAlgorithm().getAlgorithmText().length() == 0)))\n{\n\treturn \"\";\n}\nelse\n{\n\treturn this.getAfterReceivingAlgorithm().getName();\n}'"
+	 * @generated
+	 */
+	String getAfterReceivingAlgorithmDeclaration();
 
 	/**
 	 * <!-- begin-user-doc -->

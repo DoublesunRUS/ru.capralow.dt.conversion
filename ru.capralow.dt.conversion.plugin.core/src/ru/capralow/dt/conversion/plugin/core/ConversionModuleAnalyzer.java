@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplate;
@@ -237,6 +238,9 @@ public class ConversionModuleAnalyzer {
 	private static final String ADD_OBJECTRULE = "ДобавитьПКО_";
 
 	private static final String OBJECT_RULE_NAME_PARAM = "ObjectRuleName";
+	private static final String CONFIGURATION_OBJECT_PARAM = "ConfigurationObject";
+	private static final String FORMAT_OBJECT_PARAM = "FormatObject";
+	private static final String EVENTS_PARAM = "Events";
 
 	private static final String PARAMS_FOR_OBJECTRULE = "(ПравилаКонвертации)";
 
@@ -244,9 +248,9 @@ public class ConversionModuleAnalyzer {
 
 	private static final String REPLACE_EMPTY_PROPERTIES = "---\\r\\n|---\\r|---\\n";
 
-	public static final int COMPARATOR_ORDER_BY_NAME = 1;
-	public static final int COMPARATOR_ORDER_BY_SENDING = 2;
-	public static final int COMPARATOR_ORDER_BY_RECEIVING = 3;
+	public static final Integer COMPARATOR_ORDER_BY_NAME = 1;
+	public static final Integer COMPARATOR_ORDER_BY_SENDING = 2;
+	public static final Integer COMPARATOR_ORDER_BY_RECEIVING = 3;
 
 	public static ConversionModule analyze(CommonModule commonModule, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
@@ -279,6 +283,78 @@ public class ConversionModuleAnalyzer {
 		return conversionModule;
 	}
 
+	public static void createReceivingObjectRuleText(CmObjectRule objectRule,
+			StringBuilder objectRulesDeclarationReceivingText, StringBuilder receivingObjectRules) {
+		if (objectRule.getName().isEmpty())
+			return;
+
+		final String TEMPLATE_NAME_RECEIVINGOBJECTRULE = "ReceivingObjectRuleV2.txt";
+		String templateReceivingObjectRuleContent = readContents(
+				getFileInputSupplier(TEMPLATE_NAME_RECEIVINGOBJECTRULE));
+
+		if (objectRulesDeclarationReceivingText.length() != 0)
+			objectRulesDeclarationReceivingText.append(LS);
+		objectRulesDeclarationReceivingText.append(ADD_OBJECTRULE).append(objectRule.getName())
+				.append("(ПравилаКонвертации);");
+
+		if (receivingObjectRules.length() != 0)
+			receivingObjectRules.append(LS);
+		StringTemplate templateReceivingObjectRule = new StringTemplate(templateReceivingObjectRuleContent);
+
+		templateReceivingObjectRule.setAttribute(OBJECT_RULE_NAME_PARAM, objectRule.getName());
+
+		templateReceivingObjectRule.setAttribute(CONFIGURATION_OBJECT_PARAM,
+				objectRule.getConfigurationObjectName().isEmpty() ? UNKNOWN_VALUE
+						: objectRule.getConfigurationObjectName());
+		templateReceivingObjectRule.setAttribute(FORMAT_OBJECT_PARAM, objectRule.getFormatObject());
+		templateReceivingObjectRule.setAttribute("ForGroup", objectRule.getForGroupDeclaration());
+
+		createObjectRuleAttributeRulesText(objectRule, templateReceivingObjectRule);
+
+		createReceivingObjectRuleEventsText(objectRule, templateReceivingObjectRule);
+
+		createReceivingObjectRuleIdentificationText(objectRule, templateReceivingObjectRule);
+
+		String receivingObjectRule = replaceEmptyObjectRulePropertiesText(templateReceivingObjectRule.toString());
+
+		receivingObjectRules.append(receivingObjectRule);
+	}
+
+	public static void createSendingObjectRuleText(CmObjectRule objectRule,
+			StringBuilder objectRulesDeclarationSendingText, StringBuilder sendingObjectRules) {
+		if (objectRule.getName().isEmpty())
+			return;
+
+		final String TEMPLATE_NAME_SENDINGOBJECTRULE = "SendingObjectRuleV2.txt";
+		String templateSendingObjectRuleContent = readContents(getFileInputSupplier(TEMPLATE_NAME_SENDINGOBJECTRULE));
+
+		if (objectRulesDeclarationSendingText.length() != 0)
+			objectRulesDeclarationSendingText.append(LS);
+		objectRulesDeclarationSendingText.append(ADD_OBJECTRULE).append(objectRule.getName())
+				.append(PARAMS_FOR_OBJECTRULE).append(";");
+
+		if (sendingObjectRules.length() != 0)
+			sendingObjectRules.append(LS);
+		StringTemplate templateSendingObjectRule = new StringTemplate(templateSendingObjectRuleContent);
+
+		templateSendingObjectRule.setAttribute(OBJECT_RULE_NAME_PARAM, objectRule.getName());
+
+		templateSendingObjectRule.setAttribute(CONFIGURATION_OBJECT_PARAM,
+				objectRule.getConfigurationObjectName().isEmpty() ? UNKNOWN_VALUE
+						: objectRule.getConfigurationObjectName());
+		templateSendingObjectRule.setAttribute(FORMAT_OBJECT_PARAM, objectRule.getFormatObject());
+		templateSendingObjectRule.setAttribute("ForGroup", objectRule.getForGroupDeclaration());
+
+		createObjectRuleAttributeRulesText(objectRule, templateSendingObjectRule);
+
+		createSendingObjectRuleEventsText(objectRule, templateSendingObjectRule);
+
+		String sendingObjectRule = replaceEmptyObjectRulePropertiesText(templateSendingObjectRule.toString());
+
+		sendingObjectRules.append(sendingObjectRule);
+
+	}
+
 	public static Comparator<CmAlgorithm> getAlgorithmComparator() {
 		return (CmAlgorithm cmArg1, CmAlgorithm cmArg2) -> {
 			String[] str1 = new String[1];
@@ -292,12 +368,12 @@ public class ConversionModuleAnalyzer {
 		};
 	}
 
-	public static Comparator<CmDataRule> getDataRuleComparator(int comparatorOrder) {
+	public static Comparator<CmDataRule> getDataRuleComparator(Integer comparatorOrder) {
 		return (CmDataRule cmArg1, CmDataRule cmArg2) -> {
 			String[] str1;
 			String[] str2;
 
-			if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
+			if (comparatorOrder.equals(COMPARATOR_ORDER_BY_SENDING)) {
 				str1 = new String[3];
 				str2 = new String[3];
 
@@ -309,7 +385,7 @@ public class ConversionModuleAnalyzer {
 				str2[1] = cmArg2.getFormatObject();
 				str2[2] = cmArg2.getName();
 
-			} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
+			} else if (comparatorOrder.equals(COMPARATOR_ORDER_BY_RECEIVING)) {
 				str1 = new String[3];
 				str2 = new String[3];
 
@@ -342,12 +418,12 @@ public class ConversionModuleAnalyzer {
 			return getModuleTextV1(conversionModule, name, localDateTime);
 	}
 
-	public static Comparator<CmObjectRule> getObjectRuleComparator(int comparatorOrder) {
+	public static Comparator<CmObjectRule> getObjectRuleComparator(Integer comparatorOrder) {
 		return (CmObjectRule cmArg1, CmObjectRule cmArg2) -> {
 			String[] str1;
 			String[] str2;
 
-			if (comparatorOrder == COMPARATOR_ORDER_BY_SENDING) {
+			if (comparatorOrder.equals(COMPARATOR_ORDER_BY_SENDING)) {
 				str1 = new String[3];
 				str2 = new String[3];
 
@@ -359,7 +435,7 @@ public class ConversionModuleAnalyzer {
 				str2[1] = cmArg2.getFormatObject();
 				str2[2] = cmArg2.getName();
 
-			} else if (comparatorOrder == COMPARATOR_ORDER_BY_RECEIVING) {
+			} else if (comparatorOrder.equals(COMPARATOR_ORDER_BY_RECEIVING)) {
 				str1 = new String[3];
 				str2 = new String[3];
 
@@ -676,7 +752,7 @@ public class ConversionModuleAnalyzer {
 		templateMain.setAttribute("Algorithms", conversionModule.getAllAlgorithmsText(""));
 	}
 
-	private static void createBothObjectRulesText(CmObjectRule objectRule, StringBuilder objectRulesDeclarationBothText,
+	private static void createBothObjectRuleText(CmObjectRule objectRule, StringBuilder objectRulesDeclarationBothText,
 			StringBuilder bothObjectRules) {
 		final String TEMPLATE_NAME_RECEIVINGOBJECTRULE = "ReceivingObjectRuleV2.txt";
 		String templateReceivingObjectRuleContent = readContents(
@@ -763,6 +839,107 @@ public class ConversionModuleAnalyzer {
 		return null;
 	}
 
+	private static void createObjectRuleAttributeRow(CmAttributeRule attributeRule, StringBuilder attributeRulesText,
+			String variableName, Integer formatAttributeMaxLength) {
+		StringBuilder formatAttributePrefix = new StringBuilder();
+		for (Integer prefixLength = 0; prefixLength < formatAttributeMaxLength
+				- attributeRule.getConfigurationAttribute().length(); prefixLength++)
+			formatAttributePrefix.append(" ");
+
+		attributeRulesText.append(LS);
+		attributeRulesText.append("	ДобавитьПКС(").append(variableName).append(", ").append("\"")
+				.append(attributeRule.getConfigurationAttribute()).append("\",").append(formatAttributePrefix)
+				.append(" \"").append(attributeRule.getFormatAttribute()).append("\"");
+
+		if (attributeRule.getIsCustomRule() || attributeRule.getObjectRule() != null) {
+			attributeRulesText.append(", ").append((attributeRule.getIsCustomRule() ? "1" : ""));
+			if (attributeRule.getObjectRule() != null)
+				attributeRulesText.append(",")
+						.append((attributeRule.getConfigurationTabularSection().isEmpty()
+								&& attributeRule.getFormatTabularSection().isEmpty() ? " " : ""))
+						.append("\"").append(attributeRule.getObjectRule().getName()).append("\"");
+
+		}
+
+		attributeRulesText.append(");");
+	}
+
+	private static void createObjectRuleAttributeRulesText(CmObjectRule objectRule,
+			StringTemplate templateSendingObjectRule) {
+		EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
+
+		if (attributeRules.isEmpty()) {
+			templateSendingObjectRule.setAttribute("AttributeRules", "	");
+			return;
+		}
+
+		Map<String, Integer> mapFormatAttributeMaxLength = new HashMap<>();
+		for (CmAttributeRule attributeRule : attributeRules) {
+			Integer formatAttributeMaxLength = 0;
+
+			String mapKey = attributeRule.getConfigurationTabularSection()
+					.concat(attributeRule.getFormatTabularSection());
+			formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
+			if (attributeRule.getConfigurationAttribute().length() > formatAttributeMaxLength)
+				mapFormatAttributeMaxLength.put(mapKey, attributeRule.getConfigurationAttribute().length());
+
+			formatAttributeMaxLength = getMaxLengthForTabularSection("-", mapFormatAttributeMaxLength);
+			if (attributeRule.getConfigurationTabularSection().length() > formatAttributeMaxLength)
+				mapFormatAttributeMaxLength.put("-", attributeRule.getConfigurationTabularSection().length());
+		}
+
+		StringBuilder attributeRulesText = new StringBuilder();
+		StringBuilder tabularSectionText = new StringBuilder();
+
+		String configurationTabularSection = "-";
+		String formatTabularSection = "-";
+		for (CmAttributeRule attributeRule : attributeRules) {
+			if (!attributeRule.getConfigurationTabularSection().isEmpty()
+					&& attributeRule.getFormatAttribute().isEmpty())
+				continue;
+
+			if (!configurationTabularSection.equals(attributeRule.getConfigurationTabularSection())
+					|| !formatTabularSection.equals(attributeRule.getFormatTabularSection())) {
+				configurationTabularSection = attributeRule.getConfigurationTabularSection();
+				formatTabularSection = attributeRule.getFormatTabularSection();
+
+				if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty()) {
+					attributeRulesText.append("	").append(LS);
+					attributeRulesText.append("	СвойстваШапки = ПравилоКонвертации.Свойства;");
+
+				} else {
+					Integer formatAttributeMaxLength = getMaxLengthForTabularSection("-", mapFormatAttributeMaxLength);
+					StringBuilder formatAttributePrefix = new StringBuilder();
+					for (Integer prefixLength = 0; prefixLength < formatAttributeMaxLength
+							- attributeRule.getConfigurationTabularSection().length(); prefixLength++)
+						formatAttributePrefix.append(" ");
+
+					if (tabularSectionText.length() != 0)
+						tabularSectionText.append(LS);
+					tabularSectionText.append("	").append(LS);
+					tabularSectionText.append("	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, ").append("\"")
+							.append(configurationTabularSection).append("\",").append(formatAttributePrefix)
+							.append(" \"").append(formatTabularSection).append("\");");
+
+				}
+			}
+
+			String mapKey = attributeRule.getConfigurationTabularSection()
+					.concat(attributeRule.getFormatTabularSection());
+			Integer formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
+
+			if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty())
+				createObjectRuleAttributeRow(attributeRule, attributeRulesText, "СвойстваШапки",
+						formatAttributeMaxLength);
+			else
+				createObjectRuleAttributeRow(attributeRule, tabularSectionText, "СвойстваТЧ", formatAttributeMaxLength);
+		}
+		if (attributeRulesText.length() == 0)
+			attributeRulesText.append("	");
+		templateSendingObjectRule.setAttribute("AttributeRules", attributeRulesText);
+		templateSendingObjectRule.setAttribute("TabularSectionRules", tabularSectionText);
+	}
+
 	private static void createObjectRulesText(StringTemplate templateMain, ConversionModule conversionModule) {
 		StringBuilder objectRulesDeclarationSendingText = new StringBuilder();
 		StringBuilder objectRulesDeclarationReceivingText = new StringBuilder();
@@ -777,13 +954,13 @@ public class ConversionModuleAnalyzer {
 
 		for (CmObjectRule objectRule : objectRules) {
 			if (objectRule.getForSending() && objectRule.getForReceiving())
-				createBothObjectRulesText(objectRule, objectRulesDeclarationBothText, bothObjectRules);
+				createBothObjectRuleText(objectRule, objectRulesDeclarationBothText, bothObjectRules);
 
 			else if (objectRule.getForSending())
-				createSendingObjectRulesText(objectRule, objectRulesDeclarationSendingText, sendingObjectRules);
+				createSendingObjectRuleText(objectRule, objectRulesDeclarationSendingText, sendingObjectRules);
 
 			else if (objectRule.getForReceiving())
-				createReceivingObjectRulesText(objectRule, objectRulesDeclarationReceivingText, receivingObjectRules);
+				createReceivingObjectRuleText(objectRule, objectRulesDeclarationReceivingText, receivingObjectRules);
 
 		}
 
@@ -825,7 +1002,7 @@ public class ConversionModuleAnalyzer {
 
 		templateReceivingDataRule.setAttribute("DataRuleName", dataRule.getName());
 
-		templateReceivingDataRule.setAttribute("FormatObject", dataRule.getFormatObject());
+		templateReceivingDataRule.setAttribute(FORMAT_OBJECT_PARAM, dataRule.getFormatObject());
 		templateReceivingDataRule.setAttribute("OnProcessingEvent", dataRule.getOnProcessingEventDeclaration());
 
 		StringBuilder objectRulesText = new StringBuilder();
@@ -842,33 +1019,47 @@ public class ConversionModuleAnalyzer {
 		if (!dataRule.getOnProcessingEvent().isEmpty())
 			dataRuleEventsText.append(LS).append(dataRule.getOnProcessingEventText());
 
-		templateReceivingDataRule.setAttribute("Events", dataRuleEventsText);
+		templateReceivingDataRule.setAttribute(EVENTS_PARAM, dataRuleEventsText);
 
 		String receivingDataRule = replaceEmptyDataRulePropertiesText(templateReceivingDataRule.toString());
 
 		receivingDataRules.append(receivingDataRule);
 	}
 
-	private static void createReceivingObjectRulesText(CmObjectRule objectRule,
-			StringBuilder objectRulesDeclarationReceivingText, StringBuilder receivingObjectRules) {
-		final String TEMPLATE_NAME_RECEIVINGOBJECTRULE = "ReceivingObjectRuleV2.txt";
-		String templateReceivingObjectRuleContent = readContents(
-				getFileInputSupplier(TEMPLATE_NAME_RECEIVINGOBJECTRULE));
+	private static void createReceivingObjectRuleEventsText(CmObjectRule objectRule,
+			StringTemplate templateReceivingObjectRule) {
+		templateReceivingObjectRule.setAttribute("OnSendingEvent", objectRule.getOnSendingEventDeclaration());
+		templateReceivingObjectRule.setAttribute("BeforeReceivingEvent",
+				objectRule.getBeforeReceivingEventDeclaration());
+		templateReceivingObjectRule.setAttribute("OnReceivingEvent", objectRule.getOnReceivingEventDeclaration());
+		templateReceivingObjectRule.setAttribute("AfterReceivingAlgorithm",
+				objectRule.getAfterReceivingAlgorithmDeclaration());
 
-		if (objectRulesDeclarationReceivingText.length() != 0)
-			objectRulesDeclarationReceivingText.append(LS);
-		objectRulesDeclarationReceivingText.append(ADD_OBJECTRULE).append(objectRule.getName())
-				.append("(ПравилаКонвертации);");
+		StringBuilder objectRuleEventsText = new StringBuilder();
+		if (!objectRule.getOnSendingEvent().isEmpty())
+			objectRuleEventsText.append(LS).append(objectRule.getOnSendingEventText());
+		if (!objectRule.getBeforeReceivingEvent().isEmpty())
+			objectRuleEventsText.append(LS).append(objectRule.getBeforeReceivingEventText());
+		if (!objectRule.getOnReceivingEvent().isEmpty())
+			objectRuleEventsText.append(LS).append(objectRule.getOnReceivingEventText());
 
-		if (receivingObjectRules.length() != 0)
-			receivingObjectRules.append(LS);
-		StringTemplate templateReceivingObjectRule = new StringTemplate(templateReceivingObjectRuleContent);
+		templateReceivingObjectRule.setAttribute(EVENTS_PARAM, objectRuleEventsText);
 
-		templateReceivingObjectRule.setAttribute(OBJECT_RULE_NAME_PARAM, objectRule.getName());
+	}
 
-		String receivingObjectRule = replaceEmptyObjectRulePropertiesText(templateReceivingObjectRule.toString());
+	private static void createReceivingObjectRuleIdentificationText(CmObjectRule objectRule,
+			StringTemplate templateReceivingObjectRule) {
+		if (objectRule.getIdentificationVariant() == CmIdentificationVariant.UUID)
+			templateReceivingObjectRule.setAttribute("IdentificationVariant", "ПоУникальномуИдентификатору");
 
-		receivingObjectRules.append(receivingObjectRule);
+		StringBuilder identificationFields = new StringBuilder();
+		for (String identificationField : objectRule.getIdentificationFields()) {
+			if (identificationFields.length() != 0)
+				identificationFields.append(LS);
+
+			identificationFields.append("	ПравилоКонвертации.ПоляПоиска.Добавить(\"" + identificationField + "\");");
+		}
+		templateReceivingObjectRule.setAttribute("IdentificationFields", identificationFields);
 	}
 
 	private static void createSendingDataRuleText(CmDataRule dataRule, StringBuilder dataRulesDeclarationSendingText,
@@ -887,7 +1078,7 @@ public class ConversionModuleAnalyzer {
 
 		templateSendingDataRule.setAttribute("DataRuleName", dataRule.getName());
 
-		templateSendingDataRule.setAttribute("ConfigurationObject",
+		templateSendingDataRule.setAttribute(CONFIGURATION_OBJECT_PARAM,
 				dataRule.getConfigurationObjectName().isEmpty() ? UNKNOWN_VALUE
 						: dataRule.getConfigurationObjectName());
 		templateSendingDataRule.setAttribute("OnProcessingEvent", dataRule.getOnProcessingEventDeclaration());
@@ -910,45 +1101,36 @@ public class ConversionModuleAnalyzer {
 		if (!dataRule.getDataSelectionEvent().isEmpty())
 			dataRuleEventsText.append(LS).append(dataRule.getDataSelectionEventText());
 
-		templateSendingDataRule.setAttribute("Events", dataRuleEventsText);
+		templateSendingDataRule.setAttribute(EVENTS_PARAM, dataRuleEventsText);
 
 		String sendingDataRule = replaceEmptyDataRulePropertiesText(templateSendingDataRule.toString());
 
 		sendingDataRules.append(sendingDataRule);
 	}
 
-	private static void createSendingObjectRulesText(CmObjectRule objectRule,
-			StringBuilder objectRulesDeclarationSendingText, StringBuilder sendingObjectRules) {
-		final String TEMPLATE_NAME_SENDINGOBJECTRULE = "SendingObjectRuleV2.txt";
-		String templateSendingObjectRuleContent = readContents(getFileInputSupplier(TEMPLATE_NAME_SENDINGOBJECTRULE));
-
-		if (objectRulesDeclarationSendingText.length() != 0)
-			objectRulesDeclarationSendingText.append(LS);
-		objectRulesDeclarationSendingText.append(ADD_OBJECTRULE).append(objectRule.getName())
-				.append(PARAMS_FOR_OBJECTRULE).append(";");
-
-		if (sendingObjectRules.length() != 0)
-			sendingObjectRules.append(LS);
-		StringTemplate templateSendingObjectRule = new StringTemplate(templateSendingObjectRuleContent);
-
-		templateSendingObjectRule.setAttribute(OBJECT_RULE_NAME_PARAM, objectRule.getName());
-
-		templateSendingObjectRule.setAttribute("ConfigurationObject",
-				objectRule.getConfigurationObjectName().isEmpty() ? UNKNOWN_VALUE
-						: objectRule.getConfigurationObjectName());
-		templateSendingObjectRule.setAttribute("FormatObject", objectRule.getFormatObject());
-		templateSendingObjectRule.setAttribute("ForGroup", objectRule.getForGroupDeclaration());
+	private static void createSendingObjectRuleEventsText(CmObjectRule objectRule,
+			StringTemplate templateSendingObjectRule) {
 		templateSendingObjectRule.setAttribute("OnSendingEvent", objectRule.getOnSendingEventDeclaration());
 
-		String sendingObjectRule = replaceEmptyObjectRulePropertiesText(templateSendingObjectRule.toString());
+		StringBuilder objectRuleEventsText = new StringBuilder();
+		if (!objectRule.getOnSendingEvent().isEmpty())
+			objectRuleEventsText.append(LS).append(objectRule.getOnSendingEventText());
 
-		sendingObjectRules.append(sendingObjectRule);
-
+		templateSendingObjectRule.setAttribute(EVENTS_PARAM, objectRuleEventsText);
 	}
 
 	private static CharSource getFileInputSupplier(String partName) {
 		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/module/" + partName),
 				StandardCharsets.UTF_8);
+	}
+
+	private static Integer getMaxLengthForTabularSection(String mapKey,
+			Map<String, Integer> mapFormatAttributeMaxLength) {
+		Integer formatAttributeMaxLength = 0;
+		if (mapFormatAttributeMaxLength.containsKey(mapKey))
+			formatAttributeMaxLength = mapFormatAttributeMaxLength.get(mapKey);
+
+		return formatAttributeMaxLength;
 	}
 
 	private static Method getMethod(Module mdModule, String methodName) {
@@ -1639,6 +1821,10 @@ public class ConversionModuleAnalyzer {
 	private static String replaceEmptyObjectRulePropertiesText(String objectRuleText) {
 		return objectRuleText.replace("	ПравилоКонвертации.ПравилоДляГруппыСправочника  = Ложь;", "---")
 				.replace("	ПравилоКонвертации.ПриОтправкеДанных = \"\";", "---")
+				.replace("	ПравилоКонвертации.ПриОтправкеДанных            = \"\";", "---")
+				.replace("	ПравилоКонвертации.ПриКонвертацииДанныхXDTO     = \"\";", "---")
+				.replace("	ПравилоКонвертации.ПередЗаписьюПолученныхДанных = \"\";", "---")
+				.replace("	ПравилоКонвертации.ПослеЗагрузкиВсехДанных      = \"\";", "---")
 				.replaceAll(REPLACE_EMPTY_PROPERTIES, "");
 	}
 

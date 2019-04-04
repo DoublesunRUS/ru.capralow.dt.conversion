@@ -19,6 +19,7 @@ import com.google.common.io.Resources;
 
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
@@ -26,6 +27,8 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
 public class ConversionModuleAnalyzerTest {
+	private static final String LS = System.lineSeparator();
+
 	private static final String FIRST_RULE_MD = "name:ПервоеПравило md:Метаданные.Документы.Документ2 xdto:<Пустое> <НаправлениеНеЗадано>";
 	private static final String SECOND_RULE_MD = "name:ВтороеПравило md:Метаданные.Документы.Документ1 xdto:<Пустое> <НаправлениеНеЗадано>";
 	private static final String THIRD_RULE_MD = "name:ТретьеПравило md:Метаданные.Документы.Документ4 xdto:<Пустое> <НаправлениеНеЗадано>";
@@ -415,6 +418,456 @@ public class ConversionModuleAnalyzerTest {
 				report2.toString().replace(", ", System.lineSeparator()).replace("[", "").replace("]", ""));
 	}
 
+	@Test
+	public void testCreateSendingObjectRuleTextEmpty() {
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить пустое ПКО для отправки", "", report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextNameOnly() {
+		String report1 = "#Область МинимальноеПКООтправки\r\n"
+				+ "Процедура ДобавитьПКО_МинимальноеПКООтправки(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"МинимальноеПКООтправки\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Неопределено;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"\";\r\n" + "	\r\n" + "\r\n" + "КонецПроцедуры\r\n"
+				+ "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("МинимальноеПКООтправки");
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки с минимумом данных", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextTwoTabularSections() {
+		String report1 = "#Область ПКООтправкиДвеТЧ\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиДвеТЧ(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиДвеТЧ\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n" + "	\r\n" + "	\r\n"
+				+ "	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"ДополнительныеРеквизиты\", \"ДополнительныеРеквизиты\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"Значение\", \"ЗначениеСвойства\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"\",         \"ЗначениеСвойства\", 1,\"НесуществующееПравило\");\r\n"
+				+ "	\r\n"
+				+ "	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"КонтактнаяИнформация\",    \"КонтактнаяИнформация\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"Вид\", \"ВидКонтактнойИнформации\", ,\"ВидыКонтактнойИнформации\");\r\n"
+				+ "\r\n" + "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиДвеТЧ");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+		objectRule.setFormatObject("Справочник.Организации");
+
+		addAttribute("ДополнительныеРеквизиты.Значение", "ДополнительныеРеквизиты.", false, "НесуществующееПравило",
+				objectRule);
+		addAttribute("ДополнительныеРеквизиты.Значение", "ДополнительныеРеквизиты.ЗначениеСвойства", false, "",
+				objectRule);
+		addAttribute("ДополнительныеРеквизиты.", "ДополнительныеРеквизиты.ЗначениеСвойства", true,
+				"НесуществующееПравило", objectRule);
+
+		addAttribute("КонтактнаяИнформация.Вид", "КонтактнаяИнформация.ВидКонтактнойИнформации", false,
+				"ВидыКонтактнойИнформации", objectRule);
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки с двумя ТЧ", report1, report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextConfigurationObject() {
+		String report1 = "#Область ПКООтправкиОбъектКонфигурации\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиОбъектКонфигурации(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиОбъектКонфигурации\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"\";\r\n" + "	\r\n" + "\r\n" + "КонецПроцедуры\r\n"
+				+ "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиОбъектКонфигурации");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом конфигурации", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextConfigurationObjectWithFields() {
+		String report1 = "#Область ПКООтправкиОбъектКонфигурацииСПолями\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиОбъектКонфигурацииСПолями(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиОбъектКонфигурацииСПолями\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"\";\r\n" + "	\r\n"
+				+ "	СвойстваШапки = ПравилоКонвертации.Свойства;\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"Наименование\", \"\");\r\n" + "\r\n" + "КонецПроцедуры\r\n"
+				+ "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиОбъектКонфигурацииСПолями");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+		addAttribute("Наименование", "", false, "", objectRule);
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом конфигурации и полями", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextConfigurationFormatObject() {
+		String report1 = "#Область ПКООтправкиОбъектКонфигурацииФормата\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиОбъектКонфигурацииФормата(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиОбъектКонфигурацииФормата\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n" + "	\r\n" + "\r\n"
+				+ "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиОбъектКонфигурацииФормата");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+		objectRule.setFormatObject("Справочник.Организации");
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектами конфигурации и формата",
+				report1, report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextConfigurationFormatObjectWithFields() {
+		String report1 = "#Область ПКООтправкиОбъектКонфигурацииФорматаСПолями\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиОбъектКонфигурацииФорматаСПолями(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиОбъектКонфигурацииФорматаСПолями\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n" + "	\r\n"
+				+ "	СвойстваШапки = ПравилоКонвертации.Свойства;\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"\",                    \"КПП\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"ГоловнаяОрганизация\", \"\", , \"ПКООтправкиОбъектКонфигурации\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"ИНН\",                 \"\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"Наименование\",        \"Наименование\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"\",                    \"ГоловнаяОрганизация\", 1, \"ПКООтправкиОбъектФорматаСПолями\");\r\n"
+				+ "\r\n" + "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиОбъектКонфигурацииФорматаСПолями");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+		objectRule.setFormatObject("Справочник.Организации");
+		addAttribute("", "КПП", false, "", objectRule);
+		addAttribute("ГоловнаяОрганизация", "", false, "ПКООтправкиОбъектКонфигурации", objectRule);
+		addAttribute("ИНН", "", false, "", objectRule);
+		addAttribute("Наименование", "Наименование", false, "", objectRule);
+		addAttribute("", "ГоловнаяОрганизация", true, "ПКООтправкиОбъектФорматаСПолями", objectRule);
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals(
+				"Формирование модуля обмена: Добавить ПКО для отправки c объектами конфигурации и формата и полями",
+				report1, report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextFormatObject() {
+		String report1 = "#Область ПКООтправкиОбъектФормата\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиОбъектФормата(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиОбъектФормата\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Неопределено;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n" + "	\r\n" + "\r\n"
+				+ "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиОбъектФормата");
+		objectRule.setFormatObject("Справочник.Организации");
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом формата", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextFormatObjectWithFields() {
+		String report1 = "#Область ПКООтправкиОбъектФорматаСПолями\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиОбъектФорматаСПолями(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиОбъектФорматаСПолями\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Неопределено;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n" + "	\r\n"
+				+ "	СвойстваШапки = ПравилоКонвертации.Свойства;\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"\", \"Наименование\");\r\n" + "\r\n" + "КонецПроцедуры\r\n"
+				+ "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиОбъектФорматаСПолями");
+		objectRule.setFormatObject("Справочник.Организации");
+		addAttribute("", "Наименование", false, "", objectRule);
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом формата", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextFull() {
+		String report1 = "#Область ПКООтправкиПолное\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиПолное(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиПолное\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n"
+				+ "	ПравилоКонвертации.ПриОтправкеДанных = \"ПКО_ПКООтправкиПолное_ПриОтправкеДанных\";\r\n"
+				+ "	\r\n" + "	СвойстваШапки = ПравилоКонвертации.Свойства;\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"\",             \"КПП\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"ИНН\",          \"\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"Наименование\", \"Наименование\");\r\n" + "	\r\n"
+				+ "	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"ДополнительныеРеквизиты\", \"ДополнительныеРеквизиты\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"Значение\", \"ЗначениеСвойства\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"\",         \"ЗначениеСвойства\", 1,\"НесуществующееПравило\");\r\n"
+				+ "	\r\n"
+				+ "	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"КонтактнаяИнформация\",    \"КонтактнаяИнформация\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"Вид\", \"ВидКонтактнойИнформации\", ,\"ВидыКонтактнойИнформации\");\r\n"
+				+ "\r\n" + "КонецПроцедуры\r\n" + "\r\n"
+				+ "Процедура ПКО_ПКООтправкиПолное_ПриОтправкеДанных(ДанныеИБ, ДанныеXDTO, КомпонентыОбмена, СтекВыгрузки)\r\n"
+				+ "	Сообщить(\"ПриОтправкеДанных\");\r\n" + "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиПолное");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+		objectRule.setFormatObject("Справочник.Организации");
+		objectRule.setOnSendingEvent("	Сообщить(\"ПриОтправкеДанных\");");
+
+		addAttribute("", "КПП", false, "", objectRule);
+		addAttribute("ИНН", "", false, "", objectRule);
+		addAttribute("Наименование", "Наименование", false, "", objectRule);
+
+		addAttribute("ДополнительныеРеквизиты.Значение", "ДополнительныеРеквизиты.", false, "НесуществующееПравило",
+				objectRule);
+		addAttribute("ДополнительныеРеквизиты.Значение", "ДополнительныеРеквизиты.ЗначениеСвойства", false, "",
+				objectRule);
+		addAttribute("ДополнительныеРеквизиты.", "ДополнительныеРеквизиты.ЗначениеСвойства", true,
+				"НесуществующееПравило", objectRule);
+
+		addAttribute("КонтактнаяИнформация.Вид", "КонтактнаяИнформация.ВидКонтактнойИнформации", false,
+				"ВидыКонтактнойИнформации", objectRule);
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки полное", report1, report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextWithEvent() {
+		String report1 = "#Область ПКООтправкиСобытие1\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиСобытие1(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиСобытие1\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Неопределено;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"\";\r\n"
+				+ "	ПравилоКонвертации.ПриОтправкеДанных = \"ПКО_ПКООтправкиСобытие1_ПриОтправкеДанных\";\r\n"
+				+ "	\r\n" + "\r\n" + "КонецПроцедуры\r\n" + "\r\n"
+				+ "Процедура ПКО_ПКООтправкиСобытие1_ПриОтправкеДанных(ДанныеИБ, ДанныеXDTO, КомпонентыОбмена, СтекВыгрузки)\r\n"
+				+ "	Сообщить(\"ПриОтправкеДанных\");\r\n" + "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиСобытие1");
+		objectRule.setOnSendingEvent("	Сообщить(\"ПриОтправкеДанных\");");
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c событием", report1, report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextWithTabularSection() {
+		String report1 = "#Область ПКООтправкиТЧ\r\n" + "Процедура ДобавитьПКО_ПКООтправкиТЧ(ПравилаКонвертации)\r\n"
+				+ "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиТЧ\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n" + "	\r\n" + "	\r\n"
+				+ "	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"ДополнительныеРеквизиты\", \"ДополнительныеРеквизиты\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"Значение\", \"ЗначениеСвойства\");\r\n"
+				+ "	ДобавитьПКС(СвойстваТЧ, \"\",         \"ЗначениеСвойства\", 1,\"НесуществующееПравило\");\r\n"
+				+ "\r\n" + "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиТЧ");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+		objectRule.setFormatObject("Справочник.Организации");
+
+		addAttribute("ДополнительныеРеквизиты.Значение", "ДополнительныеРеквизиты.", false, "НесуществующееПравило",
+				objectRule);
+		addAttribute("ДополнительныеРеквизиты.Значение", "ДополнительныеРеквизиты.ЗначениеСвойства", false, "",
+				objectRule);
+		addAttribute("ДополнительныеРеквизиты.", "ДополнительныеРеквизиты.ЗначениеСвойства", true,
+				"НесуществующееПравило", objectRule);
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c табличной частью", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testCreateSendingObjectRuleTextWithAttributes() {
+		String report1 = "#Область ПКООтправкиШапка\r\n"
+				+ "Процедура ДобавитьПКО_ПКООтправкиШапка(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиШапка\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных      = Метаданные.Справочники.Организации;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата     = \"Справочник.Организации\";\r\n" + "	\r\n"
+				+ "	СвойстваШапки = ПравилоКонвертации.Свойства;\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"\",             \"КПП\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"ИНН\",          \"\");\r\n"
+				+ "	ДобавитьПКС(СвойстваШапки, \"Наименование\", \"Наименование\");\r\n" + "\r\n" + "КонецПроцедуры\r\n"
+				+ "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setName("ПКООтправкиШапка");
+		objectRule.setConfigurationObjectName("Метаданные.Справочники.Организации");
+		objectRule.setFormatObject("Справочник.Организации");
+		addAttribute("", "КПП", false, "", objectRule);
+		addAttribute("ИНН", "", false, "", objectRule);
+		addAttribute("Наименование", "Наименование", false, "", objectRule);
+
+		ConversionModuleAnalyzer.createSendingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c шапкой", report1, report2.toString());
+	}
+
+	@Test
+	public void testCreateReceivingObjectRuleTextEmpty() {
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+
+		ConversionModuleAnalyzer.createReceivingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить пустое ПКО для получения", "", report2.toString());
+	}
+
+	@Test
+	public void testCreateReceivingObjectRuleTextNameOnly() {
+		String report1 = "#Область МинимальноеПКОПолучения\r\n"
+				+ "Процедура ДобавитьПКО_МинимальноеПКОПолучения(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО                       = \"МинимальноеПКОПолучения\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных                 = Неопределено;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата                = \"\";\r\n"
+				+ "	ПравилоКонвертации.ВариантИдентификации         = \"ПоУникальномуИдентификатору\";\r\n" + "	\r\n"
+				+ "\r\n" + "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForReceiving(true);
+		objectRule.setName("МинимальноеПКОПолучения");
+
+		ConversionModuleAnalyzer.createReceivingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для получения с минимумом данных", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testCreateBothObjectRuleTextNameOnly() {
+		String report1 = "#Область МинимальноеПКООтправкиПолучения\r\n"
+				+ "Процедура ДобавитьПКО_МинимальноеПКООтправкиПолучения(ПравилаКонвертации)\r\n" + "\r\n"
+				+ "	ПравилоКонвертации = ОбменДаннымиXDTOСервер.ИнициализироватьПравилоКонвертацииОбъекта(ПравилаКонвертации);\r\n"
+				+ "	ПравилоКонвертации.ИмяПКО                       = \"МинимальноеПКООтправкиПолучения\";\r\n"
+				+ "	ПравилоКонвертации.ОбъектДанных                 = Неопределено;\r\n"
+				+ "	ПравилоКонвертации.ОбъектФормата                = \"\";\r\n"
+				+ "	ПравилоКонвертации.ВариантИдентификации         = \"ПоУникальномуИдентификатору\";\r\n" + "	\r\n"
+				+ "\r\n" + "КонецПроцедуры\r\n" + "#КонецОбласти";
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+		objectRule.setForSending(true);
+		objectRule.setForReceiving(true);
+		objectRule.setName("МинимальноеПКООтправкиПолучения");
+
+		ConversionModuleAnalyzer.createReceivingObjectRuleText(objectRule, new StringBuilder(), report2);
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки и получения с минимумом данных", report1,
+				report2.toString());
+	}
+
+	private void addAttribute(String configurationFullAttribute, String formatFullAttribute, Boolean isCustom,
+			String attributeObjectRuleName, CmObjectRule objectRule) {
+		CmAttributeRule attributeRule = cmFactory.eINSTANCE.createCmAttributeRule();
+		objectRule.getAttributeRules().add(attributeRule);
+		attributeRule.setIsCustomRule(isCustom);
+
+		if (!configurationFullAttribute.isEmpty()) {
+			String[] arrayConfigurationFullAttribute = configurationFullAttribute.split("[.]", 2);
+			if (arrayConfigurationFullAttribute.length == 2) {
+				attributeRule.setConfigurationTabularSection(arrayConfigurationFullAttribute[0]);
+				attributeRule.setConfigurationAttribute(arrayConfigurationFullAttribute[1]);
+
+			} else {
+				attributeRule.setConfigurationAttribute(arrayConfigurationFullAttribute[0]);
+
+			}
+		}
+
+		if (!formatFullAttribute.isEmpty()) {
+			String[] arrayFormatFullAttribute = formatFullAttribute.split("[.]", 2);
+			if (arrayFormatFullAttribute.length == 2) {
+				attributeRule.setFormatTabularSection(arrayFormatFullAttribute[0]);
+				attributeRule.setFormatAttribute(arrayFormatFullAttribute[1]);
+
+			} else {
+				attributeRule.setFormatAttribute(arrayFormatFullAttribute[0]);
+
+			}
+		}
+
+		if (!attributeObjectRuleName.isEmpty()) {
+			CmObjectRule attributeObjectRule = cmFactory.eINSTANCE.createCmObjectRule();
+			attributeObjectRule.setName(attributeObjectRuleName);
+			attributeRule.setObjectRule(attributeObjectRule);
+		}
+	}
+
+	// @Test
 	public void testGetModuleText() {
 		String projectName = "ЗУПКОРП-3_1_9";
 		String moduleName = "МенеджерОбменаЧерезУниверсальныйФормат";

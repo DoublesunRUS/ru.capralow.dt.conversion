@@ -962,7 +962,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getCmObjectRule__GetOnReceivingEventText() {
+	public EOperation getCmObjectRule__GetBeforeReceivingEventDeclaration() {
 		return cmObjectRuleEClass.getEOperations().get(4);
 	}
 
@@ -971,7 +971,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getCmObjectRule__IncludedInSubsystem__CmSubsystem() {
+	public EOperation getCmObjectRule__GetOnReceivingEventText() {
 		return cmObjectRuleEClass.getEOperations().get(5);
 	}
 
@@ -980,8 +980,35 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getCmObjectRule__ToString() {
+	public EOperation getCmObjectRule__GetOnReceivingEventDeclaration() {
 		return cmObjectRuleEClass.getEOperations().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getCmObjectRule__GetAfterReceivingAlgorithmDeclaration() {
+		return cmObjectRuleEClass.getEOperations().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getCmObjectRule__IncludedInSubsystem__CmSubsystem() {
+		return cmObjectRuleEClass.getEOperations().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getCmObjectRule__ToString() {
+		return cmObjectRuleEClass.getEOperations().get(9);
 	}
 
 	/**
@@ -1439,7 +1466,10 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___GET_ON_SENDING_EVENT_TEXT);
 		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___GET_ON_SENDING_EVENT_DECLARATION);
 		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT);
+		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_DECLARATION);
 		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT);
+		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_DECLARATION);
+		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___GET_AFTER_RECEIVING_ALGORITHM_DECLARATION);
 		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM);
 		createEOperation(cmObjectRuleEClass, CM_OBJECT_RULE___TO_STRING);
 
@@ -1650,7 +1680,13 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 
 		initEOperation(getCmObjectRule__GetBeforeReceivingEventText(), theEcorePackage.getEString(), "getBeforeReceivingEventText", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
+		initEOperation(getCmObjectRule__GetBeforeReceivingEventDeclaration(), theEcorePackage.getEString(), "getBeforeReceivingEventDeclaration", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
 		initEOperation(getCmObjectRule__GetOnReceivingEventText(), theEcorePackage.getEString(), "getOnReceivingEventText", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+		initEOperation(getCmObjectRule__GetOnReceivingEventDeclaration(), theEcorePackage.getEString(), "getOnReceivingEventDeclaration", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+		initEOperation(getCmObjectRule__GetAfterReceivingAlgorithmDeclaration(), theEcorePackage.getEString(), "getAfterReceivingAlgorithmDeclaration", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		op = initEOperation(getCmObjectRule__IncludedInSubsystem__CmSubsystem(), theEcorePackage.getEBooleanObject(), "includedInSubsystem", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 		addEParameter(op, this.getCmSubsystem(), "cmSubsystem", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$

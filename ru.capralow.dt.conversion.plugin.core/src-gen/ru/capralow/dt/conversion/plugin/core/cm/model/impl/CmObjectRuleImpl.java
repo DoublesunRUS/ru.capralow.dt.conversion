@@ -695,6 +695,22 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getBeforeReceivingEventDeclaration() {
+		int _length = this.getBeforeReceivingEvent().length();
+		boolean _equals = (_length == 0);
+		if (_equals) {
+			return "";
+		}
+		else {
+			return "\u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0440\u0438\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u0438\u0414\u0430\u043D\u043D\u044B\u0445XDTO".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getOnReceivingEventText() {
 		String _onReceivingEventPrefix = this.getOnReceivingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -708,6 +724,36 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 		String _lineSeparator_2 = System.lineSeparator();
 		String result = (_plus_3 + _lineSeparator_2);
 		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getOnReceivingEventDeclaration() {
+		int _length = this.getOnReceivingEvent().length();
+		boolean _equals = (_length == 0);
+		if (_equals) {
+			return "";
+		}
+		else {
+			return "\u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0435\u0440\u0435\u0434\u0417\u0430\u043F\u0438\u0441\u044C\u044E\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0445\u0414\u0430\u043D\u043D\u044B\u0445".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAfterReceivingAlgorithmDeclaration() {
+		if (((this.getAfterReceivingAlgorithm() == null) || (this.getAfterReceivingAlgorithm().getAlgorithmText().length() == 0))) {
+			return "";
+		}
+		else {
+			return this.getAfterReceivingAlgorithm().getName();
+		}
 	}
 
 	/**
@@ -1000,8 +1046,14 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 				return getOnSendingEventDeclaration();
 			case cmPackage.CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT:
 				return getBeforeReceivingEventText();
+			case cmPackage.CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_DECLARATION:
+				return getBeforeReceivingEventDeclaration();
 			case cmPackage.CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT:
 				return getOnReceivingEventText();
+			case cmPackage.CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_DECLARATION:
+				return getOnReceivingEventDeclaration();
+			case cmPackage.CM_OBJECT_RULE___GET_AFTER_RECEIVING_ALGORITHM_DECLARATION:
+				return getAfterReceivingAlgorithmDeclaration();
 			case cmPackage.CM_OBJECT_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM:
 				return includedInSubsystem((CmSubsystem)arguments.get(0));
 			case cmPackage.CM_OBJECT_RULE___TO_STRING:

@@ -991,13 +991,40 @@ public interface cmPackage extends EPackage {
 	int CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 3;
 
 	/**
+	 * The operation id for the '<em>Get Before Receiving Event Declaration</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_DECLARATION = CM_OBJECT_OPERATION_COUNT + 4;
+
+	/**
 	 * The operation id for the '<em>Get On Receiving Event Text</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 4;
+	int CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT = CM_OBJECT_OPERATION_COUNT + 5;
+
+	/**
+	 * The operation id for the '<em>Get On Receiving Event Declaration</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_DECLARATION = CM_OBJECT_OPERATION_COUNT + 6;
+
+	/**
+	 * The operation id for the '<em>Get After Receiving Algorithm Declaration</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_OBJECT_RULE___GET_AFTER_RECEIVING_ALGORITHM_DECLARATION = CM_OBJECT_OPERATION_COUNT + 7;
 
 	/**
 	 * The operation id for the '<em>Included In Subsystem</em>' operation.
@@ -1006,7 +1033,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM = CM_OBJECT_OPERATION_COUNT + 5;
+	int CM_OBJECT_RULE___INCLUDED_IN_SUBSYSTEM__CMSUBSYSTEM = CM_OBJECT_OPERATION_COUNT + 8;
 
 	/**
 	 * The operation id for the '<em>To String</em>' operation.
@@ -1015,7 +1042,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE___TO_STRING = CM_OBJECT_OPERATION_COUNT + 6;
+	int CM_OBJECT_RULE___TO_STRING = CM_OBJECT_OPERATION_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>Cm Object Rule</em>' class.
@@ -1024,7 +1051,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_OBJECT_RULE_OPERATION_COUNT = CM_OBJECT_OPERATION_COUNT + 7;
+	int CM_OBJECT_RULE_OPERATION_COUNT = CM_OBJECT_OPERATION_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAttributeRuleImpl <em>Cm Attribute Rule</em>}' class.
@@ -2422,6 +2449,16 @@ public interface cmPackage extends EPackage {
 	EOperation getCmObjectRule__GetBeforeReceivingEventText();
 
 	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getBeforeReceivingEventDeclaration() <em>Get Before Receiving Event Declaration</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Before Receiving Event Declaration</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getBeforeReceivingEventDeclaration()
+	 * @generated
+	 */
+	EOperation getCmObjectRule__GetBeforeReceivingEventDeclaration();
+
+	/**
 	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getOnReceivingEventText() <em>Get On Receiving Event Text</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2430,6 +2467,26 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getCmObjectRule__GetOnReceivingEventText();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getOnReceivingEventDeclaration() <em>Get On Receiving Event Declaration</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get On Receiving Event Declaration</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getOnReceivingEventDeclaration()
+	 * @generated
+	 */
+	EOperation getCmObjectRule__GetOnReceivingEventDeclaration();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getAfterReceivingAlgorithmDeclaration() <em>Get After Receiving Algorithm Declaration</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get After Receiving Algorithm Declaration</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getAfterReceivingAlgorithmDeclaration()
+	 * @generated
+	 */
+	EOperation getCmObjectRule__GetAfterReceivingAlgorithmDeclaration();
 
 	/**
 	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#includedInSubsystem(ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem) <em>Included In Subsystem</em>}' operation.
@@ -3539,12 +3596,36 @@ public interface cmPackage extends EPackage {
 		EOperation CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_TEXT = eINSTANCE.getCmObjectRule__GetBeforeReceivingEventText();
 
 		/**
+		 * The meta object literal for the '<em><b>Get Before Receiving Event Declaration</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_OBJECT_RULE___GET_BEFORE_RECEIVING_EVENT_DECLARATION = eINSTANCE.getCmObjectRule__GetBeforeReceivingEventDeclaration();
+
+		/**
 		 * The meta object literal for the '<em><b>Get On Receiving Event Text</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EOperation CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_TEXT = eINSTANCE.getCmObjectRule__GetOnReceivingEventText();
+
+		/**
+		 * The meta object literal for the '<em><b>Get On Receiving Event Declaration</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_OBJECT_RULE___GET_ON_RECEIVING_EVENT_DECLARATION = eINSTANCE.getCmObjectRule__GetOnReceivingEventDeclaration();
+
+		/**
+		 * The meta object literal for the '<em><b>Get After Receiving Algorithm Declaration</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_OBJECT_RULE___GET_AFTER_RECEIVING_ALGORITHM_DECLARATION = eINSTANCE.getCmObjectRule__GetAfterReceivingAlgorithmDeclaration();
 
 		/**
 		 * The meta object literal for the '<em><b>Included In Subsystem</b></em>' operation.

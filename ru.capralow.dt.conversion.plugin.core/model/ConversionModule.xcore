@@ -368,6 +368,12 @@ class CmObjectRule extends CmObject {
 			+ beforeReceivingEventSuffix + System.lineSeparator();
 		return result;
 	}
+	op String getBeforeReceivingEventDeclaration() {
+		if (beforeReceivingEvent.length == 0)
+			return ""
+		else
+			return "ПКО_&ИмяПКО_ПриКонвертацииДанныхXDTO".replace("&ИмяПКО", name);
+	}
 	
 	String onReceivingEvent = ""
 	derived String onReceivingEventPrefix get {
@@ -381,8 +387,20 @@ class CmObjectRule extends CmObject {
 			+ onReceivingEventSuffix + System.lineSeparator();
 		return result;
 	}
+	op String getOnReceivingEventDeclaration() {
+		if (onReceivingEvent.length == 0)
+			return ""
+		else
+			return "ПКО_&ИмяПКО_ПередЗаписьюПолученныхДанных".replace("&ИмяПКО", name);
+	}
 
 	refers CmAlgorithm afterReceivingAlgorithm
+	op String getAfterReceivingAlgorithmDeclaration() {
+		if (afterReceivingAlgorithm === null || afterReceivingAlgorithm.getAlgorithmText.length == 0)
+			return ""
+		else
+			return afterReceivingAlgorithm.name;
+	}
 
 	CmIdentificationVariant identificationVariant
 	
