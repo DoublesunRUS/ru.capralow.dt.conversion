@@ -20,32 +20,14 @@ public class MarkdownTableTest {
 	private static final String VALUE_3_LONG = "Значение 3 длинное";
 
 	@Test
-	public void testGetTableEmpty() {
+	public void testEmpty() {
 		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
 
 		assertEquals("Markdown table: Пустая таблица", "", mdTable.getTable());
 	}
 
-	@Test(expected = StringIndexOutOfBoundsException.class)
-	public void testGetTableWithWrongAmountOfColumns() {
-		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
-		mdTable.addRow(1, new String[][] { { VALUE_1, "0", "" }, { VALUE_2, "0", "" } });
-		mdTable.addRow(1, new String[][] { { VALUE_1, "0", "" }, { VALUE_2, "0", "" }, { VALUE_3_LONG, "0", "" },
-				{ VALUE_4, "0", "" } });
-
-		mdTable.getTable();
-	}
-
-	@Test(expected = StringIndexOutOfBoundsException.class)
-	public void testGetTableWithWrongCell() {
-		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
-		mdTable.addRow(1, new String[][] { { VALUE_1 }, { VALUE_2, "0" }, { VALUE_3, "0", "", VALUE_4 } });
-
-		mdTable.getTable();
-	}
-
 	@Test
-	public void testGetTableForAlignment() {
+	public void testForAlignment() {
 		String report1 = String.join(System.lineSeparator(),
 				"Заголовок 1        | Заголовок 2 длинный | Заголовок 3       ",
 				"------------------ | ------------------- | ------------------",
@@ -61,7 +43,7 @@ public class MarkdownTableTest {
 	}
 
 	@Test
-	public void testGetTableWithBoldItalic() {
+	public void testWithBoldItalic() {
 		String report1 = String.join(System.lineSeparator(),
 				"Заголовок 1          | Заголовок 2 длинный | Заголовок 3         ",
 				"-------------------- | ------------------- | --------------------",
@@ -80,26 +62,7 @@ public class MarkdownTableTest {
 	}
 
 	@Test
-	public void testGetTableWithTabs() {
-		String report1 = String.join(System.lineSeparator(),
-				"Заголовок 1                            | Заголовок 2 длинный                    | Заголовок 3       ",
-				"-------------------------------------- | -------------------------------------- | ------------------",
-				"Значение 1 длинное                     | Значение 2                             | Значение 3        ",
-				"&nbsp; &nbsp; Значение 1               | &nbsp; &nbsp; Значение 2               | Значение 3 длинное",
-				"&nbsp; &nbsp; &nbsp; &nbsp; Значение 1 | &nbsp; &nbsp; &nbsp; &nbsp; Значение 2 |                   ",
-				"");
-
-		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
-		mdTable.addRow(1, new String[][] { { VALUE_1_LONG, "0", "" }, { VALUE_2, "0", "" }, { VALUE_3, "0", "" } });
-		mdTable.addRow(1, new String[][] { { VALUE_1, "1", "" }, { VALUE_2, "1", "" }, { VALUE_3_LONG, "0", "" } });
-		mdTable.addRow(1, new String[][] { { VALUE_1, "2", "" }, { VALUE_2, "2", "" }, { "", "2", "" } });
-		String report2 = mdTable.getTable();
-
-		assertEquals("Markdown таблица: Проверка ", report1, report2);
-	}
-
-	@Test
-	public void testGetTableWithPriority() {
+	public void testWithPriority() {
 		String report1 = String.join(System.lineSeparator(),
 				"Заголовок 1        | Заголовок 2 длинный | Заголовок 3       ",
 				"------------------ | ------------------- | ------------------",
@@ -118,6 +81,43 @@ public class MarkdownTableTest {
 		String report2 = mdTable.getTable();
 
 		assertEquals("Markdown таблица: Проверка выравнивания", report1, report2);
+	}
+
+	@Test
+	public void testWithTabs() {
+		String report1 = String.join(System.lineSeparator(),
+				"Заголовок 1                            | Заголовок 2 длинный                    | Заголовок 3       ",
+				"-------------------------------------- | -------------------------------------- | ------------------",
+				"Значение 1 длинное                     | Значение 2                             | Значение 3        ",
+				"&nbsp; &nbsp; Значение 1               | &nbsp; &nbsp; Значение 2               | Значение 3 длинное",
+				"&nbsp; &nbsp; &nbsp; &nbsp; Значение 1 | &nbsp; &nbsp; &nbsp; &nbsp; Значение 2 |                   ",
+				"");
+
+		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
+		mdTable.addRow(1, new String[][] { { VALUE_1_LONG, "0", "" }, { VALUE_2, "0", "" }, { VALUE_3, "0", "" } });
+		mdTable.addRow(1, new String[][] { { VALUE_1, "1", "" }, { VALUE_2, "1", "" }, { VALUE_3_LONG, "0", "" } });
+		mdTable.addRow(1, new String[][] { { VALUE_1, "2", "" }, { VALUE_2, "2", "" }, { "", "2", "" } });
+		String report2 = mdTable.getTable();
+
+		assertEquals("Markdown таблица: Проверка ", report1, report2);
+	}
+
+	@Test(expected = StringIndexOutOfBoundsException.class)
+	public void testWithWrongAmountOfColumns() {
+		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
+		mdTable.addRow(1, new String[][] { { VALUE_1, "0", "" }, { VALUE_2, "0", "" } });
+		mdTable.addRow(1, new String[][] { { VALUE_1, "0", "" }, { VALUE_2, "0", "" }, { VALUE_3_LONG, "0", "" },
+				{ VALUE_4, "0", "" } });
+
+		mdTable.getTable();
+	}
+
+	@Test(expected = StringIndexOutOfBoundsException.class)
+	public void testWithWrongCell() {
+		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
+		mdTable.addRow(1, new String[][] { { VALUE_1 }, { VALUE_2, "0" }, { VALUE_3, "0", "", VALUE_4 } });
+
+		mdTable.getTable();
 	}
 
 }

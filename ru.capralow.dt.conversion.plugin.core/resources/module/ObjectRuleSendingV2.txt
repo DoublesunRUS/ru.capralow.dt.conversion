@@ -5,7 +5,6 @@
 	ПравилоКонвертации.ИмяПКО            = "$ObjectRuleName$";
 	ПравилоКонвертации.ОбъектДанных      = $ConfigurationObject$;
 	ПравилоКонвертации.ОбъектФормата     = "$FormatObject$";
-	ПравилоКонвертации.ПравилоДляГруппыСправочника  = $ForGroup$;
 	ПравилоКонвертации.ПриОтправкеДанных = "$OnSendingEvent$";
 $AttributeRules$
 $TabularSectionRules$

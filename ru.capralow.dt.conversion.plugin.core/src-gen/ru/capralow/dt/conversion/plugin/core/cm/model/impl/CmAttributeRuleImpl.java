@@ -350,6 +350,30 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String toString() {
+		String customRuleString = "";
+		Boolean _isCustomRule = this.getIsCustomRule();
+		if ((_isCustomRule).booleanValue()) {
+			customRuleString = " <\u0410\u043B\u0433\u043E\u0440\u0438\u0442\u043C>";
+		}
+		String configurationString = this.getConfigurationAttributeFullName();
+		boolean _isEmpty = this.getConfigurationAttributeFullName().isEmpty();
+		if (_isEmpty) {
+			configurationString = "<\u041F\u0443\u0441\u0442\u043E\u0435>";
+		}
+		String formatString = this.getFormatAttributeFullName();
+		boolean _isEmpty_1 = this.getFormatAttributeFullName().isEmpty();
+		if (_isEmpty_1) {
+			formatString = "<\u041F\u0443\u0441\u0442\u043E\u0435>";
+		}
+		return (((("md:" + configurationString) + " xdto:") + formatString) + customRuleString);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -466,32 +490,10 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 				return getConfigurationAttributeFullName();
 			case cmPackage.CM_ATTRIBUTE_RULE___GET_FORMAT_ATTRIBUTE_FULL_NAME:
 				return getFormatAttributeFullName();
+			case cmPackage.CM_ATTRIBUTE_RULE___TO_STRING:
+				return toString();
 		}
 		return super.eInvoke(operationID, arguments);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (configurationTabularSection: "); //$NON-NLS-1$
-		result.append(configurationTabularSection);
-		result.append(", configurationAttribute: "); //$NON-NLS-1$
-		result.append(configurationAttribute);
-		result.append(", formatTabularSection: "); //$NON-NLS-1$
-		result.append(formatTabularSection);
-		result.append(", formatAttribute: "); //$NON-NLS-1$
-		result.append(formatAttribute);
-		result.append(", isCustomRule: "); //$NON-NLS-1$
-		result.append(isCustomRule);
-		result.append(')');
-		return result.toString();
 	}
 
 } //CmAttributeRuleImpl

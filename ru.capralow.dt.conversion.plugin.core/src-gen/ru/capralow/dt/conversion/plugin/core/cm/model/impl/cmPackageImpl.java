@@ -1097,6 +1097,15 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getCmAttributeRule__ToString() {
+		return cmAttributeRuleEClass.getEOperations().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCmPredefined() {
 		return cmPredefinedEClass;
 	}
@@ -1482,6 +1491,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		createEAttribute(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE);
 		createEOperation(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE___GET_CONFIGURATION_ATTRIBUTE_FULL_NAME);
 		createEOperation(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE___GET_FORMAT_ATTRIBUTE_FULL_NAME);
+		createEOperation(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE___TO_STRING);
 
 		cmPredefinedEClass = createEClass(CM_PREDEFINED);
 		createEReference(cmPredefinedEClass, CM_PREDEFINED__PREDEFINED_MAPS);
@@ -1704,6 +1714,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		initEOperation(getCmAttributeRule__GetConfigurationAttributeFullName(), theEcorePackage.getEString(), "getConfigurationAttributeFullName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEOperation(getCmAttributeRule__GetFormatAttributeFullName(), theEcorePackage.getEString(), "getFormatAttributeFullName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+		initEOperation(getCmAttributeRule__ToString(), theEcorePackage.getEString(), "toString", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmPredefinedEClass, CmPredefined.class, "CmPredefined", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEReference(getCmPredefined_PredefinedMaps(), this.getCmPredefinedMap(), null, "predefinedMaps", null, 0, -1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

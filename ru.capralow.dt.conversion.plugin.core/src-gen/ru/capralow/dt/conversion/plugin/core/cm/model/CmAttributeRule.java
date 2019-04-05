@@ -205,4 +205,13 @@ public interface CmAttributeRule extends EObject {
 	 */
 	String getFormatAttributeFullName();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; customRuleString = \"\";\n&lt;%java.lang.Boolean%&gt; _isCustomRule = this.getIsCustomRule();\nif ((_isCustomRule).booleanValue())\n{\n\tcustomRuleString = \" &lt;\\u0410\\u043B\\u0433\\u043E\\u0440\\u0438\\u0442\\u043C&gt;\";\n}\n&lt;%java.lang.String%&gt; configurationString = this.getConfigurationAttributeFullName();\nboolean _isEmpty = this.getConfigurationAttributeFullName().isEmpty();\nif (_isEmpty)\n{\n\tconfigurationString = \"&lt;\\u041F\\u0443\\u0441\\u0442\\u043E\\u0435&gt;\";\n}\n&lt;%java.lang.String%&gt; formatString = this.getFormatAttributeFullName();\nboolean _isEmpty_1 = this.getFormatAttributeFullName().isEmpty();\nif (_isEmpty_1)\n{\n\tformatString = \"&lt;\\u041F\\u0443\\u0441\\u0442\\u043E\\u0435&gt;\";\n}\nreturn ((((\"md:\" + configurationString) + \" xdto:\") + formatString) + customRuleString);'"
+	 * @generated
+	 */
+	String toString();
+
 } // CmAttributeRule

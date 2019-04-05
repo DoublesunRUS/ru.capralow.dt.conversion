@@ -666,11 +666,15 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 */
 	public String getBeforeConvertationEventText() {
+		String beforeConvertationEventText = this.getBeforeConvertationEvent();
+		boolean _isEmpty = this.getBeforeConvertationEvent().isEmpty();
+		if (_isEmpty) {
+			beforeConvertationEventText = "\t";
+		}
 		String _beforeConvertationEventPrefix = this.getBeforeConvertationEventPrefix();
 		String _lineSeparator = System.lineSeparator();
 		String _plus = (_beforeConvertationEventPrefix + _lineSeparator);
-		String _beforeConvertationEvent = this.getBeforeConvertationEvent();
-		String _plus_1 = (_plus + _beforeConvertationEvent);
+		String _plus_1 = (_plus + beforeConvertationEventText);
 		String _lineSeparator_1 = System.lineSeparator();
 		String _plus_2 = (_plus_1 + _lineSeparator_1);
 		String _beforeConvertationEventSuffix = this.getBeforeConvertationEventSuffix();
@@ -686,11 +690,15 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 */
 	public String getAfterConvertationEventText() {
+		String afterConvertationEventText = this.getAfterConvertationEvent();
+		boolean _isEmpty = this.getAfterConvertationEvent().isEmpty();
+		if (_isEmpty) {
+			afterConvertationEventText = "\t";
+		}
 		String _afterConvertationEventPrefix = this.getAfterConvertationEventPrefix();
 		String _lineSeparator = System.lineSeparator();
 		String _plus = (_afterConvertationEventPrefix + _lineSeparator);
-		String _afterConvertationEvent = this.getAfterConvertationEvent();
-		String _plus_1 = (_plus + _afterConvertationEvent);
+		String _plus_1 = (_plus + afterConvertationEventText);
 		String _lineSeparator_1 = System.lineSeparator();
 		String _plus_2 = (_plus_1 + _lineSeparator_1);
 		String _afterConvertationEventSuffix = this.getAfterConvertationEventSuffix();
@@ -706,11 +714,15 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 */
 	public String getBeforeFillingEventText() {
+		String beforeFillingEventText = this.getBeforeFillingEvent();
+		boolean _isEmpty = this.getBeforeFillingEvent().isEmpty();
+		if (_isEmpty) {
+			beforeFillingEventText = "\t";
+		}
 		String _beforeFillingEventPrefix = this.getBeforeFillingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
 		String _plus = (_beforeFillingEventPrefix + _lineSeparator);
-		String _beforeFillingEvent = this.getBeforeFillingEvent();
-		String _plus_1 = (_plus + _beforeFillingEvent);
+		String _plus_1 = (_plus + beforeFillingEventText);
 		String _lineSeparator_1 = System.lineSeparator();
 		String _plus_2 = (_plus_1 + _lineSeparator_1);
 		String _beforeFillingEventSuffix = this.getBeforeFillingEventSuffix();

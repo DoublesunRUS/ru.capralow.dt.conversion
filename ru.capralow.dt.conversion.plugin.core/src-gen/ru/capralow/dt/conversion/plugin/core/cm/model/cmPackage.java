@@ -1145,13 +1145,22 @@ public interface cmPackage extends EPackage {
 	int CM_ATTRIBUTE_RULE___GET_FORMAT_ATTRIBUTE_FULL_NAME = 1;
 
 	/**
+	 * The operation id for the '<em>To String</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE___TO_STRING = 2;
+
+	/**
 	 * The number of operations of the '<em>Cm Attribute Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE_OPERATION_COUNT = 2;
+	int CM_ATTRIBUTE_RULE_OPERATION_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedImpl <em>Cm Predefined</em>}' class.
@@ -2605,6 +2614,16 @@ public interface cmPackage extends EPackage {
 	EOperation getCmAttributeRule__GetFormatAttributeFullName();
 
 	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#toString() <em>To String</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>To String</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#toString()
+	 * @generated
+	 */
+	EOperation getCmAttributeRule__ToString();
+
+	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined <em>Cm Predefined</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3716,6 +3735,14 @@ public interface cmPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation CM_ATTRIBUTE_RULE___GET_FORMAT_ATTRIBUTE_FULL_NAME = eINSTANCE.getCmAttributeRule__GetFormatAttributeFullName();
+
+		/**
+		 * The meta object literal for the '<em><b>To String</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_ATTRIBUTE_RULE___TO_STRING = eINSTANCE.getCmAttributeRule__ToString();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedImpl <em>Cm Predefined</em>}' class.

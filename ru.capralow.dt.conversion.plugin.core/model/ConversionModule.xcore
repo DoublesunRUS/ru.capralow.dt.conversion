@@ -24,8 +24,12 @@ class ConversionModule {
 	 beforeConvertationEventPrefix = "Процедура ПередКонвертацией(КомпонентыОбмена) Экспорт"
 	String beforeConvertationEventSuffix = "КонецПроцедуры"
 	op String getBeforeConvertationEventText() {
+		var beforeConvertationEventText = beforeConvertationEvent;
+		if (beforeConvertationEvent.isEmpty())
+			beforeConvertationEventText = "	";
+		
 		var result = beforeConvertationEventPrefix + System.lineSeparator()
-			+ beforeConvertationEvent + System.lineSeparator()
+			+ beforeConvertationEventText + System.lineSeparator()
 			+ beforeConvertationEventSuffix + System.lineSeparator();
 		return result;
 	}
@@ -34,8 +38,12 @@ class ConversionModule {
 	String afterConvertationEventPrefix = "Процедура ПослеКонвертации(КомпонентыОбмена) Экспорт"
 	String afterConvertationEventSuffix = "КонецПроцедуры"
 	op String getAfterConvertationEventText() {
+		var afterConvertationEventText = afterConvertationEvent;
+		if (afterConvertationEvent.isEmpty())
+			afterConvertationEventText = "	";
+		
 		var result = afterConvertationEventPrefix + System.lineSeparator()
-			+ afterConvertationEvent + System.lineSeparator()
+			+ afterConvertationEventText + System.lineSeparator()
 			+ afterConvertationEventSuffix + System.lineSeparator();
 		return result;
 	}
@@ -44,8 +52,12 @@ class ConversionModule {
 	String beforeFillingEventPrefix = "Процедура ПередОтложеннымЗаполнением(КомпонентыОбмена) Экспорт"
 	String beforeFillingEventSuffix = "КонецПроцедуры"
 	op String getBeforeFillingEventText() {
+		var beforeFillingEventText = beforeFillingEvent;
+		if (beforeFillingEvent.isEmpty())
+			beforeFillingEventText = "	";
+		
 		var result = beforeFillingEventPrefix + System.lineSeparator()
-			+ beforeFillingEvent + System.lineSeparator()
+			+ beforeFillingEventText + System.lineSeparator()
 			+ beforeFillingEventSuffix + System.lineSeparator();
 		return result;
 	}
@@ -480,6 +492,22 @@ class CmAttributeRule {
 	refers CmObjectRule objectRule
 	
 	Boolean isCustomRule = "false"
+	
+	op String toString() {
+		var customRuleString = "";
+		if (isCustomRule)
+			customRuleString = " <Алгоритм>";
+
+		var configurationString = getConfigurationAttributeFullName;
+		if (getConfigurationAttributeFullName.isEmpty())
+			configurationString = "<Пустое>";
+		
+		var formatString = getFormatAttributeFullName;
+		if (getFormatAttributeFullName.isEmpty())
+			formatString = "<Пустое>";
+		
+		return "md:" + configurationString + " xdto:" + formatString  + customRuleString;
+	}
 }
 
 class CmPredefined extends CmObject {
