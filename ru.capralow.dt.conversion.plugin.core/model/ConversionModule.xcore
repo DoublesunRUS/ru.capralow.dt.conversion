@@ -170,7 +170,7 @@ class ConversionModule {
 
 		for (CmAlgorithm algorithm : algorithms) {
 			if (algorithmName != algorithm.name)
-				result += algorithm.getAlgorithmText() + System.lineSeparator();
+				result += algorithm.getAlgorithmText();
 
 		}
 

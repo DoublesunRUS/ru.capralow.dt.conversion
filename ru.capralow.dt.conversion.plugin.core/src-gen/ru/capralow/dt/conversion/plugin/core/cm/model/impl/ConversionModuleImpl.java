@@ -926,9 +926,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 			if (_notEquals) {
 				String _result = result;
 				String _algorithmText = algorithm.getAlgorithmText();
-				String _lineSeparator = System.lineSeparator();
-				String _plus = (_algorithmText + _lineSeparator);
-				result = (_result + _plus);
+				result = (_result + _algorithmText);
 			}
 		}
 		return result;

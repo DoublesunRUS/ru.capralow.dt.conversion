@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDateTime;
 
 import org.eclipse.emf.common.util.URI;
-import org.junit.Test;
 
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
@@ -23,7 +22,7 @@ public class ConversionModuleAnalyzerConfigurationsGetTextTest {
 				true);
 	}
 
-	@Test
+	// @Test
 	public void testHrmCorp319() {
 		String projectName = "ЗУПКОРП-3_1_9";
 		String moduleName = "МенеджерОбменаЧерезУниверсальныйФормат";

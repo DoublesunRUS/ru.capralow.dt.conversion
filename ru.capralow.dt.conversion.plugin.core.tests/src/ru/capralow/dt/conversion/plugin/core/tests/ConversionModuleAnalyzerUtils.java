@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
@@ -20,6 +22,39 @@ public final class ConversionModuleAnalyzerUtils {
 	private static final String BEFORE_RECEIVING_EVENT_TEXT = "	Сообщить(\"ПриКонвертацииДанныхXDTO\");";
 	private static final String ON_RECEIVING_EVENT_TEXT = "	Сообщить(\"ПередЗаписьюПолученныхДанных\");";
 
+	private static final String HEAD_ORGANIZATION = "ГоловнаяОрганизация";
+
+	public static CmAlgorithm addAlgorithm(String name, String params, String body, EList<CmAlgorithm> algorithms) {
+		if (algorithms != null)
+			for (CmAlgorithm algorithm : algorithms)
+				if (algorithm.getName().equals(name))
+					return algorithm;
+
+		CmAlgorithm algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
+		algorithm.setName(name);
+		algorithm.setParams(params);
+		algorithm.setBody(body);
+
+		return algorithm;
+	}
+
+	public static void addEvents(Boolean onSendingEvent, Boolean beforeReceivingEvent, Boolean onReceivingEvent,
+			Boolean afterReceivingAlgorithm, CmObjectRule objectRule, EList<CmAlgorithm> algorithms) {
+		if (onSendingEvent)
+			objectRule.setOnSendingEvent(ON_SENDING_EVENT_TEXT);
+		if (beforeReceivingEvent)
+			objectRule.setBeforeReceivingEvent(BEFORE_RECEIVING_EVENT_TEXT);
+		if (onReceivingEvent)
+			objectRule.setOnReceivingEvent(ON_RECEIVING_EVENT_TEXT);
+		if (afterReceivingAlgorithm) {
+			CmAlgorithm algorithm = addAlgorithm("АлгоритмПослеЗагрузкиВсехДанных",
+					"Объект, КомпонентыОбмена, ОбъектМодифицирован", "	Сообщить(\"АлгоритмПослеЗагрузкиВсехДанных\");",
+					algorithms);
+			objectRule.setAfterReceivingAlgorithm(algorithm);
+
+		}
+	}
+
 	public static CmObjectRule addFilledObjectRule(String name, Boolean withConfiguration, Boolean withFormat,
 			Boolean forSending, Boolean forReceiving, Boolean forGroup) {
 		return addObjectRule(name, withConfiguration ? "Метаданные.Справочники.Организации" : "",
@@ -28,26 +63,19 @@ public final class ConversionModuleAnalyzerUtils {
 
 	public static void addHeader(CmObjectRule objectRule) {
 		addAttribute("", "КПП", false, "", objectRule);
-		addAttribute("ГоловнаяОрганизация", "", false, "ПКООтправкиОбъектКонфигурации", objectRule);
+		addAttribute(HEAD_ORGANIZATION, "", false, "ПКООтправкиОбъектКонфигурации", objectRule);
 		addAttribute("ИНН", "", false, "", objectRule);
 		addAttribute("Наименование", "Наименование", false, "", objectRule);
-		addAttribute("", "ГоловнаяОрганизация", true, "ПКООтправкиОбъектФорматаСПолями", objectRule);
+		addAttribute("", HEAD_ORGANIZATION, true, "ПКООтправкиОбъектФорматаСПолями", objectRule);
 	}
 
-	public static void addEvents(Boolean onSendingEvent, Boolean beforeReceivingEvent, Boolean onReceivingEvent,
-			Boolean afterReceivingAlgorithm, CmObjectRule objectRule) {
-		if (onSendingEvent)
-			objectRule.setOnSendingEvent(ON_SENDING_EVENT_TEXT);
-		if (beforeReceivingEvent)
-			objectRule.setBeforeReceivingEvent(BEFORE_RECEIVING_EVENT_TEXT);
-		if (onReceivingEvent)
-			objectRule.setOnReceivingEvent(ON_RECEIVING_EVENT_TEXT);
-		if (afterReceivingAlgorithm) {
-			CmAlgorithm algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
-			algorithm.setName("АлгоритмПослеЗагрузкиВсехДанных");
-			algorithm.setBody("	Сообщить(\"АлгоритмПослеЗагрузкиВсехДанных\");");
-			objectRule.setAfterReceivingAlgorithm(algorithm);
-		}
+	public static void addIdentificationFields1(CmObjectRule objectRule) {
+		objectRule.getIdentificationFields().add("Ссылка");
+	}
+
+	public static void addIdentificationFields2(CmObjectRule objectRule) {
+		objectRule.getIdentificationFields().add(HEAD_ORGANIZATION);
+		objectRule.getIdentificationFields().add("ИНН,Префикс");
 	}
 
 	public static void addTabularSection1(CmObjectRule objectRule) {

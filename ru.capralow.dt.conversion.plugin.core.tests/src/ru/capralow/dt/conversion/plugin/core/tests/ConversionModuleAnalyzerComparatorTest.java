@@ -37,20 +37,19 @@ public class ConversionModuleAnalyzerComparatorTest {
 	private static final String MD_DOCUMENT = "Метаданные.Документы.Документ";
 	private static final String XDTO_DOCUMENT = "Документ.Документ";
 
+	private static final String FIRST_TABULAR = "ПерваяТЧ";
+	private static final String SECOND_TABULAR = "ВтораяТЧ";
+
+	private static final String FIRST_ATTRIBUTE = "ПервыйАтрибут";
+	private static final String SECOND_ATTRIBUTE = "ВторойАтрибут";
+	private static final String THIRD_ATTRIBUTE = "ТретийАтрибут";
+	private static final String FOURTH_ATTRIBUTE = "ЧетвертыйАтрибут";
+
 	private static void addAlgorithm(String name, String params, EList<CmAlgorithm> algorithms) {
 		CmAlgorithm algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
 		algorithms.add(algorithm);
 		algorithm.setName(name);
 		algorithm.setParams(params);
-	}
-
-	private static void addDataRule(String name, String configurationObject, String formatObject,
-			EList<CmDataRule> dataRules) {
-		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
-		dataRules.add(dataRule);
-		dataRule.setName(name);
-		dataRule.setConfigurationObjectName(configurationObject);
-		dataRule.setFormatObject(formatObject);
 	}
 
 	private static void addAttributeRule(String configurationTabularSection, String configurationAttribute,
@@ -63,6 +62,15 @@ public class ConversionModuleAnalyzerComparatorTest {
 		dataRule.setFormatTabularSection(formatTabularSection);
 		dataRule.setFormatAttribute(formatAttribute);
 		dataRule.setIsCustomRule(isCustomRule);
+	}
+
+	private static void addDataRule(String name, String configurationObject, String formatObject,
+			EList<CmDataRule> dataRules) {
+		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
+		dataRules.add(dataRule);
+		dataRule.setName(name);
+		dataRule.setConfigurationObjectName(configurationObject);
+		dataRule.setFormatObject(formatObject);
 	}
 
 	private static void addObjectRule(String name, String configurationObject, String formatObject,
@@ -111,26 +119,26 @@ public class ConversionModuleAnalyzerComparatorTest {
 				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ВторойАтрибут",
 				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ТретийАтрибут",
 				"md:ВтораяТЧ.ПервыйАтрибут xdto:ВтораяТЧ.ПервыйАтрибут <Алгоритм>",
-				"md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
-				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>",
-				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут", "md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>");
+				"md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>", "md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
+				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
+				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>");
 
 		EList<CmAttributeRule> report2 = new BasicEList<>();
-		addAttributeRule("ПерваяТЧ", "ПервыйАтрибут", "ПерваяТЧ", "ПервыйАтрибут", true, report2);
-		addAttributeRule("ПерваяТЧ", "ВторойАтрибут", "ПерваяТЧ", "ВторойАтрибут", false, report2);
-		addAttributeRule("ПерваяТЧ", "ТретийАтрибут", "ПерваяТЧ", "ВторойАтрибут", false, report2);
-		addAttributeRule("ВтораяТЧ", "ПервыйАтрибут", "ВтораяТЧ", "ПервыйАтрибут", true, report2);
-		addAttributeRule("ВтораяТЧ", "ВторойАтрибут", "ВтораяТЧ", "ВторойАтрибут", false, report2);
-		addAttributeRule("ВтораяТЧ", "ВторойАтрибут", "ВтораяТЧ", "ТретийАтрибут", false, report2);
-		addAttributeRule("ПерваяТЧ", "ЧетвертыйАтрибут", "", "", false, report2);
-		addAttributeRule("", "", "ВтораяТЧ", "ЧетвертыйАтрибут", false, report2);
-		addAttributeRule("", "ПервыйАтрибут", "", "ПервыйАтрибут", true, report2);
-		addAttributeRule("", "ВторойАтрибут", "", "ВторойАтрибут", false, report2);
-		addAttributeRule("", "ТретийАтрибут", "", "ВторойАтрибут", false, report2);
-		addAttributeRule("", "ЧетвертыйАтрибут", "", "", false, report2);
-		addAttributeRule("", "", "", "ЧетвертыйАтрибут", false, report2);
+		addAttributeRule(FIRST_TABULAR, FIRST_ATTRIBUTE, FIRST_TABULAR, FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule(FIRST_TABULAR, SECOND_ATTRIBUTE, FIRST_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, THIRD_ATTRIBUTE, FIRST_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(SECOND_TABULAR, FIRST_ATTRIBUTE, SECOND_TABULAR, FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule(SECOND_TABULAR, SECOND_ATTRIBUTE, SECOND_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(SECOND_TABULAR, SECOND_ATTRIBUTE, SECOND_TABULAR, THIRD_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, FOURTH_ATTRIBUTE, "", "", false, report2);
+		addAttributeRule("", "", SECOND_TABULAR, FOURTH_ATTRIBUTE, false, report2);
+		addAttributeRule("", FIRST_ATTRIBUTE, "", FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule("", SECOND_ATTRIBUTE, "", SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule("", THIRD_ATTRIBUTE, "", SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule("", FOURTH_ATTRIBUTE, "", "", false, report2);
+		addAttributeRule("", "", "", FOURTH_ATTRIBUTE, false, report2);
 
-		ECollections.sort(report2, ConversionModuleAnalyzer.getAttributeRuleComparator(null));
+		ECollections.sort(report2, ConversionModuleAnalyzer.getAttributeRuleComparator());
 
 		assertEquals("Модуль обмена: сортировка Атрибутов", report1.replace(", ", LS),
 				report2.toString().replace(", ", LS).replace("[", "").replace("]", ""));

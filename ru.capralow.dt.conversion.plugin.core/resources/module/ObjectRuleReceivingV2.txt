@@ -13,7 +13,7 @@
 	ПравилоКонвертации.ВариантИдентификации         = "$IdentificationVariant$";
 $AttributeRules$
 $TabularSectionRules$
-$IdentificationFields$
 
+$IdentificationFields$
 КонецПроцедуры
 $Events$#КонецОбласти
