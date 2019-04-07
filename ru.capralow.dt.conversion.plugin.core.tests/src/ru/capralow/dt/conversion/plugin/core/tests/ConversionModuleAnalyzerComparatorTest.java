@@ -112,14 +112,51 @@ public class ConversionModuleAnalyzerComparatorTest {
 	}
 
 	@Test
-	public void testAttributeRuleComparator() {
+	public void testAttributeRuleComparatorReceiving() {
 		String report1 = String.join(LS, "md:<Пустое> xdto:ЧетвертыйАтрибут", "md:ВторойАтрибут xdto:ВторойАтрибут",
 				"md:ТретийАтрибут xdto:ВторойАтрибут", "md:ЧетвертыйАтрибут xdto:<Пустое>",
-				"md:ПервыйАтрибут xdto:ПервыйАтрибут <Алгоритм>", "md:<Пустое> xdto:ВтораяТЧ.ЧетвертыйАтрибут",
+				"md:ПервыйАтрибут xdto:ПервыйАтрибут <Алгоритм>", "md:ВтораяТЧ. xdto:ВтораяТЧ.ТретийАтрибут",
+				"md:<Пустое> xdto:ВтораяТЧ.ЧетвертыйАтрибут", "md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ВторойАтрибут",
+				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ТретийАтрибут",
+				"md:ВтораяТЧ.ПервыйАтрибут xdto:ВтораяТЧ.ПервыйАтрибут <Алгоритм>",
+				"md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут", "md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.",
+				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут", "md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>",
+				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>");
+
+		EList<CmAttributeRule> report2 = new BasicEList<>();
+		addAttributeRule(FIRST_TABULAR, FIRST_ATTRIBUTE, FIRST_TABULAR, FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule(FIRST_TABULAR, SECOND_ATTRIBUTE, FIRST_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, THIRD_ATTRIBUTE, FIRST_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(SECOND_TABULAR, FIRST_ATTRIBUTE, SECOND_TABULAR, FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule(SECOND_TABULAR, SECOND_ATTRIBUTE, SECOND_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(SECOND_TABULAR, SECOND_ATTRIBUTE, SECOND_TABULAR, THIRD_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, FOURTH_ATTRIBUTE, "", "", false, report2);
+		addAttributeRule("", "", SECOND_TABULAR, FOURTH_ATTRIBUTE, false, report2);
+		addAttributeRule("", FIRST_ATTRIBUTE, "", FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule("", SECOND_ATTRIBUTE, "", SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule("", THIRD_ATTRIBUTE, "", SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule("", FOURTH_ATTRIBUTE, "", "", false, report2);
+		addAttributeRule("", "", "", FOURTH_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, THIRD_ATTRIBUTE, FIRST_TABULAR, "", false, report2);
+		addAttributeRule(SECOND_TABULAR, "", SECOND_TABULAR, THIRD_ATTRIBUTE, false, report2);
+
+		ECollections.sort(report2, ConversionModuleAnalyzer
+				.getAttributeRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
+
+		assertEquals("Модуль обмена: сортировка Атрибутов", report1.replace(", ", LS),
+				report2.toString().replace(", ", LS).replace("[", "").replace("]", ""));
+	}
+
+	@Test
+	public void testAttributeRuleComparatorSending() {
+		String report1 = String.join(LS, "md:<Пустое> xdto:ЧетвертыйАтрибут", "md:ВторойАтрибут xdto:ВторойАтрибут",
+				"md:ТретийАтрибут xdto:ВторойАтрибут", "md:ЧетвертыйАтрибут xdto:<Пустое>",
+				"md:ПервыйАтрибут xdto:ПервыйАтрибут <Алгоритм>", "md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>",
+				"md:ВтораяТЧ. xdto:ВтораяТЧ.ТретийАтрибут", "md:<Пустое> xdto:ВтораяТЧ.ЧетвертыйАтрибут",
 				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ВторойАтрибут",
 				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ТретийАтрибут",
 				"md:ВтораяТЧ.ПервыйАтрибут xdto:ВтораяТЧ.ПервыйАтрибут <Алгоритм>",
-				"md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>", "md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
+				"md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут", "md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.",
 				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
 				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>");
 
@@ -137,8 +174,48 @@ public class ConversionModuleAnalyzerComparatorTest {
 		addAttributeRule("", THIRD_ATTRIBUTE, "", SECOND_ATTRIBUTE, false, report2);
 		addAttributeRule("", FOURTH_ATTRIBUTE, "", "", false, report2);
 		addAttributeRule("", "", "", FOURTH_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, THIRD_ATTRIBUTE, FIRST_TABULAR, "", false, report2);
+		addAttributeRule(SECOND_TABULAR, "", SECOND_TABULAR, THIRD_ATTRIBUTE, false, report2);
 
-		ECollections.sort(report2, ConversionModuleAnalyzer.getAttributeRuleComparator());
+		ECollections.sort(report2, ConversionModuleAnalyzer
+				.getAttributeRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
+
+		assertEquals("Модуль обмена: сортировка Атрибутов", report1.replace(", ", LS),
+				report2.toString().replace(", ", LS).replace("[", "").replace("]", ""));
+	}
+
+	@Test
+	public void testAttributeRuleComparatorSendingAndReceiving() {
+		String report1 = String.join(LS, "md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ВторойАтрибут",
+				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ТретийАтрибут",
+				"md:ВтораяТЧ.ПервыйАтрибут xdto:ВтораяТЧ.ПервыйАтрибут <Алгоритм>",
+				"md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
+				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
+				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>", "md:<Пустое> xdto:ЧетвертыйАтрибут",
+				"md:ВторойАтрибут xdto:ВторойАтрибут", "md:ТретийАтрибут xdto:ВторойАтрибут",
+				"md:ЧетвертыйАтрибут xdto:<Пустое>", "md:ПервыйАтрибут xdto:ПервыйАтрибут <Алгоритм>",
+				"md:ВтораяТЧ. xdto:ВтораяТЧ.ТретийАтрибут", "md:<Пустое> xdto:ВтораяТЧ.ЧетвертыйАтрибут",
+				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.", "md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>");
+
+		EList<CmAttributeRule> report2 = new BasicEList<>();
+		addAttributeRule(FIRST_TABULAR, FIRST_ATTRIBUTE, FIRST_TABULAR, FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule(FIRST_TABULAR, SECOND_ATTRIBUTE, FIRST_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, THIRD_ATTRIBUTE, FIRST_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(SECOND_TABULAR, FIRST_ATTRIBUTE, SECOND_TABULAR, FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule(SECOND_TABULAR, SECOND_ATTRIBUTE, SECOND_TABULAR, SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule(SECOND_TABULAR, SECOND_ATTRIBUTE, SECOND_TABULAR, THIRD_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, FOURTH_ATTRIBUTE, "", "", false, report2);
+		addAttributeRule("", "", SECOND_TABULAR, FOURTH_ATTRIBUTE, false, report2);
+		addAttributeRule("", FIRST_ATTRIBUTE, "", FIRST_ATTRIBUTE, true, report2);
+		addAttributeRule("", SECOND_ATTRIBUTE, "", SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule("", THIRD_ATTRIBUTE, "", SECOND_ATTRIBUTE, false, report2);
+		addAttributeRule("", FOURTH_ATTRIBUTE, "", "", false, report2);
+		addAttributeRule("", "", "", FOURTH_ATTRIBUTE, false, report2);
+		addAttributeRule(FIRST_TABULAR, THIRD_ATTRIBUTE, FIRST_TABULAR, "", false, report2);
+		addAttributeRule(SECOND_TABULAR, "", SECOND_TABULAR, THIRD_ATTRIBUTE, false, report2);
+
+		ECollections.sort(report2, ConversionModuleAnalyzer
+				.getAttributeRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING_RECEIVING));
 
 		assertEquals("Модуль обмена: сортировка Атрибутов", report1.replace(", ", LS),
 				report2.toString().replace(", ", LS).replace("[", "").replace("]", ""));

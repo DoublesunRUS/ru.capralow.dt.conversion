@@ -255,6 +255,7 @@ public class ConversionModuleAnalyzer {
 	public static final Integer COMPARATOR_ORDER_BY_NAME = 1;
 	public static final Integer COMPARATOR_ORDER_BY_SENDING = 2;
 	public static final Integer COMPARATOR_ORDER_BY_RECEIVING = 3;
+	public static final Integer COMPARATOR_ORDER_BY_SENDING_RECEIVING = 4;
 
 	public static ConversionModule analyze(CommonModule commonModule, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
@@ -373,31 +374,76 @@ public class ConversionModuleAnalyzer {
 		};
 	}
 
-	public static Comparator<CmAttributeRule> getAttributeRuleComparator() {
+	public static Comparator<CmAttributeRule> getAttributeRuleComparator(Integer comparatorOrder) {
 		return (CmAttributeRule cmArg1, CmAttributeRule cmArg2) -> {
 			String[] str1;
 			String[] str2;
 
-			str1 = new String[6];
-			str2 = new String[6];
+			if (comparatorOrder.equals(COMPARATOR_ORDER_BY_SENDING)) {
+				str1 = new String[5];
+				str2 = new String[5];
 
-			str1[0] = cmArg1.getConfigurationTabularSection().isEmpty() && cmArg1.getFormatTabularSection().isEmpty()
-					? "0"
-					: "1";
-			str1[1] = cmArg1.getConfigurationTabularSection();
-			str1[2] = cmArg1.getFormatTabularSection();
-			str1[3] = cmArg1.getIsCustomRule() ? "1" : "0";
-			str1[4] = cmArg1.getConfigurationAttribute();
-			str1[5] = cmArg1.getFormatAttribute();
+				str1[0] = cmArg1.getFormatTabularSection();
+				str1[1] = cmArg1.getConfigurationTabularSection().isEmpty()
+						&& cmArg1.getFormatTabularSection().isEmpty() ? "0" : "1";
+				str1[2] = cmArg1.getIsCustomRule() ? "1" : "0";
+				str1[3] = cmArg1.getConfigurationAttribute();
+				str1[4] = cmArg1.getFormatAttribute();
 
-			str2[0] = cmArg2.getConfigurationTabularSection().isEmpty() && cmArg2.getFormatTabularSection().isEmpty()
-					? "0"
-					: "1";
-			str2[1] = cmArg2.getConfigurationTabularSection();
-			str2[2] = cmArg2.getFormatTabularSection();
-			str2[3] = cmArg2.getIsCustomRule() ? "1" : "0";
-			str2[4] = cmArg2.getConfigurationAttribute();
-			str2[5] = cmArg2.getFormatAttribute();
+				str2[0] = cmArg2.getFormatTabularSection();
+				str2[1] = cmArg2.getConfigurationTabularSection().isEmpty()
+						&& cmArg2.getFormatTabularSection().isEmpty() ? "0" : "1";
+				str2[2] = cmArg2.getIsCustomRule() ? "1" : "0";
+				str2[3] = cmArg2.getConfigurationAttribute();
+				str2[4] = cmArg2.getFormatAttribute();
+
+			} else if (comparatorOrder.equals(COMPARATOR_ORDER_BY_RECEIVING)) {
+				str1 = new String[6];
+				str2 = new String[6];
+
+				str1[0] = cmArg1.getConfigurationTabularSection();
+				str1[1] = cmArg1.getConfigurationTabularSection().isEmpty()
+						&& cmArg1.getFormatTabularSection().isEmpty() ? "0" : "1";
+				str1[2] = cmArg1.getIsCustomRule() ? "1" : "0";
+				str1[3] = cmArg1.getConfigurationAttribute();
+				str1[4] = cmArg1.getFormatAttribute();
+
+				str2[0] = cmArg2.getFormatTabularSection();
+				str2[1] = cmArg2.getConfigurationTabularSection().isEmpty()
+						&& cmArg2.getFormatTabularSection().isEmpty() ? "0" : "1";
+				str2[2] = cmArg2.getIsCustomRule() ? "1" : "0";
+				str2[3] = cmArg2.getConfigurationAttribute();
+				str2[4] = cmArg2.getFormatAttribute();
+
+			} else { // SENDING AND RECEIVING
+				str1 = new String[6];
+				str2 = new String[6];
+
+				String configurationTabularSection1 = cmArg1.getConfigurationAttribute().isEmpty() ? ""
+						: cmArg1.getConfigurationTabularSection();
+				String formatTabularSection1 = cmArg1.getFormatAttribute().isEmpty() ? ""
+						: cmArg1.getFormatTabularSection();
+
+				str1[0] = !configurationTabularSection1.isEmpty() && !formatTabularSection1.isEmpty() ? "0" : "1";
+				str1[1] = configurationTabularSection1;
+				str1[2] = formatTabularSection1;
+				str1[3] = cmArg1.getIsCustomRule() ? "1" : "0";
+				str1[4] = cmArg1.getConfigurationAttribute();
+				str1[5] = cmArg1.getFormatAttribute();
+
+				String configurationTabularSection2 = cmArg2.getConfigurationAttribute().isEmpty() ? ""
+						: cmArg2.getConfigurationTabularSection();
+				String formatTabularSection2 = cmArg2.getFormatAttribute().isEmpty() ? ""
+						: cmArg2.getFormatTabularSection();
+
+				str2[0] = !configurationTabularSection2.isEmpty() && !formatTabularSection2.isEmpty() ? "0" : "1";
+				str2[1] = configurationTabularSection2;
+				str2[2] = formatTabularSection2;
+				str2[3] = cmArg2.getIsCustomRule() ? "1" : "0";
+				str2[4] = cmArg2.getConfigurationAttribute();
+				str2[5] = cmArg2.getFormatAttribute();
+
+			}
 
 			return ConversionUtils.compareArraysOfString(str1, str2);
 		};
@@ -459,36 +505,96 @@ public class ConversionModuleAnalyzer {
 			String[] str2;
 
 			if (comparatorOrder.equals(COMPARATOR_ORDER_BY_SENDING)) {
-				str1 = new String[3];
-				str2 = new String[3];
+				str1 = new String[4];
+				str2 = new String[4];
 
-				str1[0] = cmArg1.getConfigurationObjectName();
-				str1[1] = cmArg1.getFormatObject();
-				str1[2] = cmArg1.getName();
+				str1[0] = "-1";
+				if (cmArg1.getForSending() && cmArg1.getForReceiving())
+					str1[0] = "2";
 
-				str2[0] = cmArg2.getConfigurationObjectName();
-				str2[1] = cmArg2.getFormatObject();
-				str2[2] = cmArg2.getName();
+				else if (cmArg1.getForSending())
+					str1[0] = "0";
+
+				else if (cmArg1.getForReceiving())
+					str1[0] = "1";
+
+				str1[1] = cmArg1.getConfigurationObjectName();
+				str1[2] = cmArg1.getFormatObject();
+				str1[3] = cmArg1.getName();
+
+				str2[0] = "-1";
+				if (cmArg2.getForSending() && cmArg2.getForReceiving())
+					str2[0] = "2";
+
+				else if (cmArg2.getForSending())
+					str2[0] = "0";
+
+				else if (cmArg2.getForReceiving())
+					str2[0] = "1";
+
+				str2[1] = cmArg2.getConfigurationObjectName();
+				str2[2] = cmArg2.getFormatObject();
+				str2[3] = cmArg2.getName();
 
 			} else if (comparatorOrder.equals(COMPARATOR_ORDER_BY_RECEIVING)) {
-				str1 = new String[3];
-				str2 = new String[3];
+				str1 = new String[4];
+				str2 = new String[4];
 
-				str1[0] = cmArg1.getFormatObject();
-				str1[1] = cmArg1.getConfigurationObjectName();
-				str1[2] = cmArg1.getName();
+				str1[0] = "-1";
+				if (cmArg1.getForSending() && cmArg1.getForReceiving())
+					str1[0] = "2";
 
-				str2[0] = cmArg2.getFormatObject();
-				str2[1] = cmArg2.getConfigurationObjectName();
-				str2[2] = cmArg2.getName();
+				else if (cmArg1.getForSending())
+					str1[0] = "0";
+
+				else if (cmArg1.getForReceiving())
+					str1[0] = "1";
+
+				str1[1] = cmArg1.getFormatObject();
+				str1[2] = cmArg1.getConfigurationObjectName();
+				str1[3] = cmArg1.getName();
+
+				str2[0] = "-1";
+				if (cmArg2.getForSending() && cmArg2.getForReceiving())
+					str2[0] = "2";
+
+				else if (cmArg2.getForSending())
+					str2[0] = "0";
+
+				else if (cmArg2.getForReceiving())
+					str2[0] = "1";
+
+				str2[1] = cmArg2.getFormatObject();
+				str2[2] = cmArg2.getConfigurationObjectName();
+				str2[3] = cmArg2.getName();
 
 			} else { // COMPARATOR_ORDER_BY_NAME
-				str1 = new String[1];
-				str2 = new String[1];
+				str1 = new String[2];
+				str2 = new String[2];
 
-				str1[0] = cmArg1.getName();
+				str1[0] = "-1";
+				if (cmArg1.getForSending() && cmArg1.getForReceiving())
+					str1[0] = "2";
 
-				str2[0] = cmArg2.getName();
+				else if (cmArg1.getForSending())
+					str1[0] = "0";
+
+				else if (cmArg1.getForReceiving())
+					str1[0] = "1";
+
+				str1[1] = cmArg1.getName();
+
+				str2[0] = "-1";
+				if (cmArg2.getForSending() && cmArg2.getForReceiving())
+					str2[0] = "2";
+
+				else if (cmArg2.getForSending())
+					str2[0] = "0";
+
+				else if (cmArg2.getForReceiving())
+					str2[0] = "1";
+
+				str2[1] = cmArg2.getName();
 
 			}
 
@@ -993,21 +1099,26 @@ public class ConversionModuleAnalyzer {
 			return;
 		}
 
-		ECollections.sort(attributeRules, ConversionModuleAnalyzer.getAttributeRuleComparator());
+		Integer route = (objectRule.getForSending() && objectRule.getForReceiving())
+				? COMPARATOR_ORDER_BY_SENDING_RECEIVING
+				: COMPARATOR_ORDER_BY_RECEIVING;
+		ECollections.sort(attributeRules, ConversionModuleAnalyzer.getAttributeRuleComparator(route));
 
 		Map<String, Integer> mapFormatAttributeMaxLength = new HashMap<>();
 		for (CmAttributeRule attributeRule : attributeRules) {
+			String realConfigurationTabularSection = getConfigurationTabularSection(attributeRule, objectRule);
+			String realFormatTabularSection = getFormatTabularSection(attributeRule, objectRule);
+
 			Integer formatAttributeMaxLength = 0;
 
-			String mapKey = attributeRule.getConfigurationTabularSection()
-					.concat(attributeRule.getFormatTabularSection());
+			String mapKey = "-".concat(realConfigurationTabularSection).concat("-").concat(realFormatTabularSection);
 			formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
 			if (attributeRule.getConfigurationAttribute().length() > formatAttributeMaxLength)
 				mapFormatAttributeMaxLength.put(mapKey, attributeRule.getConfigurationAttribute().length());
 
-			formatAttributeMaxLength = getMaxLengthForTabularSection("-", mapFormatAttributeMaxLength);
+			formatAttributeMaxLength = getMaxLengthForTabularSection("---", mapFormatAttributeMaxLength);
 			if (attributeRule.getConfigurationTabularSection().length() > formatAttributeMaxLength)
-				mapFormatAttributeMaxLength.put("-", attributeRule.getConfigurationTabularSection().length());
+				mapFormatAttributeMaxLength.put("---", realConfigurationTabularSection.length());
 		}
 
 		StringBuilder attributeRulesText = new StringBuilder();
@@ -1016,24 +1127,27 @@ public class ConversionModuleAnalyzer {
 		String configurationTabularSection = "-";
 		String formatTabularSection = "-";
 		for (CmAttributeRule attributeRule : attributeRules) {
-			if (!attributeRule.getFormatTabularSection().isEmpty()
+			if (!objectRule.getForSending() && !attributeRule.getFormatTabularSection().isEmpty()
 					&& attributeRule.getConfigurationAttribute().isEmpty())
 				continue;
 
-			if (!configurationTabularSection.equals(attributeRule.getConfigurationTabularSection())
-					|| !formatTabularSection.equals(attributeRule.getFormatTabularSection())) {
-				configurationTabularSection = attributeRule.getConfigurationTabularSection();
-				formatTabularSection = attributeRule.getFormatTabularSection();
+			String realConfigurationTabularSection = getConfigurationTabularSection(attributeRule, objectRule);
+			String realFormatTabularSection = getFormatTabularSection(attributeRule, objectRule);
+			if (!configurationTabularSection.equals(realConfigurationTabularSection)
+					|| !formatTabularSection.equals(realFormatTabularSection)) {
+				configurationTabularSection = realConfigurationTabularSection;
+				formatTabularSection = realFormatTabularSection;
 
 				if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty()) {
 					attributeRulesText.append("	").append(LS);
 					attributeRulesText.append("	СвойстваШапки = ПравилоКонвертации.Свойства;");
 
 				} else {
-					Integer formatAttributeMaxLength = getMaxLengthForTabularSection("-", mapFormatAttributeMaxLength);
+					Integer formatAttributeMaxLength = getMaxLengthForTabularSection("---",
+							mapFormatAttributeMaxLength);
 					StringBuilder formatAttributePrefix = new StringBuilder();
 					for (Integer prefixLength = 0; prefixLength < formatAttributeMaxLength
-							- attributeRule.getConfigurationTabularSection().length(); prefixLength++)
+							- realConfigurationTabularSection.length(); prefixLength++)
 						formatAttributePrefix.append(" ");
 
 					if (tabularSectionText.length() != 0)
@@ -1046,8 +1160,7 @@ public class ConversionModuleAnalyzer {
 				}
 			}
 
-			String mapKey = attributeRule.getConfigurationTabularSection()
-					.concat(attributeRule.getFormatTabularSection());
+			String mapKey = "-".concat(realConfigurationTabularSection).concat("-").concat(realFormatTabularSection);
 			Integer formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
 
 			if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty())
@@ -1151,7 +1264,8 @@ public class ConversionModuleAnalyzer {
 			return;
 		}
 
-		ECollections.sort(attributeRules, ConversionModuleAnalyzer.getAttributeRuleComparator());
+		ECollections.sort(attributeRules,
+				ConversionModuleAnalyzer.getAttributeRuleComparator(COMPARATOR_ORDER_BY_SENDING));
 
 		Map<String, Integer> mapFormatAttributeMaxLength = new HashMap<>();
 		for (CmAttributeRule attributeRule : attributeRules) {
@@ -1313,9 +1427,26 @@ public class ConversionModuleAnalyzer {
 		return cmPredefined;
 	}
 
+	private static String getConfigurationTabularSection(CmAttributeRule attributeRule, CmObjectRule objectRule) {
+		String configurationTabularSection = attributeRule.getConfigurationTabularSection();
+		if (objectRule.getForSending() && objectRule.getForReceiving()
+				&& attributeRule.getConfigurationAttribute().isEmpty())
+			configurationTabularSection = "";
+
+		return configurationTabularSection;
+	}
+
 	private static CharSource getFileInputSupplier(String partName) {
 		return Resources.asCharSource(ConversionModuleAnalyzer.class.getResource("/resources/module/" + partName),
 				StandardCharsets.UTF_8);
+	}
+
+	private static String getFormatTabularSection(CmAttributeRule attributeRule, CmObjectRule objectRule) {
+		String formatTabularSection = attributeRule.getFormatTabularSection();
+		if (objectRule.getForSending() && objectRule.getForReceiving() && attributeRule.getFormatAttribute().isEmpty())
+			formatTabularSection = "";
+
+		return formatTabularSection;
 	}
 
 	private static Integer getMaxLengthForTabularSection(String mapKey,

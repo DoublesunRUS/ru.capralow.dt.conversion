@@ -21,6 +21,8 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 	private static final String EMPTY_CONFIGURATION_OBJECT = "	ПравилоКонвертации.ОбъектДанных                 = Неопределено;";
 	private static final String EMPTY_FORMAT_OBJECT = "	ПравилоКонвертации.ОбъектФормата                = \"\";";
 
+	private static final String FOR_GROUP = "	ПравилоКонвертации.ПравилоДляГруппыСправочника  = Истина;";
+
 	private static final String IDENTIFICATION_UUID = "	ПравилоКонвертации.ВариантИдентификации         = \"ПоУникальномуИдентификатору\";";
 	private static final String IDENTIFICATION_SEARCH_FIELDS = "	ПравилоКонвертации.ВариантИдентификации         = \"ПоПолямПоиска\";";
 	private static final String IDENTIFICATION_UUID_THEN_SEARCH_FIELDS = "	ПравилоКонвертации.ВариантИдентификации         = \"СначалаПоУникальномуИдентификаторуПотомПоПолямПоиска\";";
@@ -151,6 +153,116 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 	}
 
 	@Test
+	public void testEvent1() {
+		String report1 = String.join(LS, "#Область ПКОПолученияСобытие1",
+				"Процедура ДобавитьПКО_ПКОПолученияСобытие1(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие1\";",
+				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
+				"	ПравилоКонвертации.ПриКонвертацииДанныхXDTO     = \"ПКО_ПКОПолученияСобытие1_ПриКонвертацииДанныхXDTO\";",
+				IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
+				"Процедура ПКО_ПКОПолученияСобытие1".concat(BEFORE_RECEIVING_EVENT_SECTION), END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие1", false,
+				false, false, true, false);
+		ConversionModuleAnalyzerUtils.addEvents(false, true, false, false, objectRule, null);
+
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПриКонвертацииДанныхXDTO",
+				report1, report2.toString());
+	}
+
+	@Test
+	public void testEvent13() {
+		String report1 = String.join(LS, "#Область ПКОПолученияСобытие13",
+				"Процедура ДобавитьПКО_ПКОПолученияСобытие13(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие13\";",
+				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
+				"	ПравилоКонвертации.ПриКонвертацииДанныхXDTO     = \"ПКО_ПКОПолученияСобытие13_ПриКонвертацииДанныхXDTO\";",
+				AFTER_RECEIVING_ALGORITHM_DECLARATION, IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
+				"Процедура ПКО_ПКОПолученияСобытие13".concat(BEFORE_RECEIVING_EVENT_SECTION), END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие13", false,
+				false, false, true, false);
+		ConversionModuleAnalyzerUtils.addEvents(false, true, false, true, objectRule, null);
+
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals(
+				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПриКонвертацииДанныхXDTO и ПослеЗагрузкиВсехДанных",
+				report1, report2.toString());
+	}
+
+	@Test
+	public void testEvent2() {
+		String report1 = String.join(LS, "#Область ПКОПолученияСобытие2",
+				"Процедура ДобавитьПКО_ПКОПолученияСобытие2(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие2\";",
+				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
+				"	ПравилоКонвертации.ПередЗаписьюПолученныхДанных = \"ПКО_ПКОПолученияСобытие2_ПередЗаписьюПолученныхДанных\";",
+				IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
+				"Процедура ПКО_ПКОПолученияСобытие2".concat(ON_RECEIVING_EVENT_SECTION), END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие2", false,
+				false, false, true, false);
+		ConversionModuleAnalyzerUtils.addEvents(false, false, true, false, objectRule, null);
+
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПередЗаписьюПолученныхДанных",
+				report1, report2.toString());
+	}
+
+	@Test
+	public void testEvent23() {
+		String report1 = String.join(LS, "#Область ПКОПолученияСобытие23",
+				"Процедура ДобавитьПКО_ПКОПолученияСобытие23(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие23\";",
+				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
+				"	ПравилоКонвертации.ПередЗаписьюПолученныхДанных = \"ПКО_ПКОПолученияСобытие23_ПередЗаписьюПолученныхДанных\";",
+				AFTER_RECEIVING_ALGORITHM_DECLARATION, IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
+				"Процедура ПКО_ПКОПолученияСобытие23".concat(ON_RECEIVING_EVENT_SECTION), END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие23", false,
+				false, false, true, false);
+		ConversionModuleAnalyzerUtils.addEvents(false, false, true, true, objectRule, null);
+
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals(
+				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПередЗаписьюПолученныхДанных и ПослеЗагрузкиВсехДанных",
+				report1, report2.toString());
+	}
+
+	@Test
+	public void testEvent3() {
+		String report1 = String.join(LS, "#Область ПКОПолученияСобытие3",
+				"Процедура ДобавитьПКО_ПКОПолученияСобытие3(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие3\";",
+				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT, AFTER_RECEIVING_ALGORITHM_DECLARATION,
+				IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие3", false,
+				false, false, true, false);
+		ConversionModuleAnalyzerUtils.addEvents(false, false, false, true, objectRule, null);
+
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПослеЗагрузкиВсехДанных",
+				report1, report2.toString());
+	}
+
+	@Test
 	public void testFormatObject() {
 		String report1 = String.join(LS, "#Область ПКОПолученияОбъектФормата",
 				"Процедура ДобавитьПКО_ПКОПолученияОбъектФормата(ПравилаКонвертации)", "", NEW_RULE,
@@ -194,26 +306,46 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		String report1 = String.join(LS, "#Область ПКОПолученияПолное",
 				"Процедура ДобавитьПКО_ПКОПолученияПолное(ПравилаКонвертации)", "", NEW_RULE,
 				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияПолное\";",
-				FILLED_CONFIGURATION_OBJECT, FILLED_FORMAT_OBJECT,
+				FILLED_CONFIGURATION_OBJECT, FILLED_FORMAT_OBJECT, FOR_GROUP,
 				"	ПравилоКонвертации.ПриКонвертацииДанныхXDTO     = \"ПКО_ПКОПолученияПолное_ПриКонвертацииДанныхXDTO\";",
 				"	ПравилоКонвертации.ПередЗаписьюПолученныхДанных = \"ПКО_ПКОПолученияПолное_ПередЗаписьюПолученныхДанных\";",
 				AFTER_RECEIVING_ALGORITHM_DECLARATION, IDENTIFICATION_UUID, "	", NEW_HEADER, HEADER_SECTION, "	",
-				FIRST_TABULAR_SECTION, "	", SECOND_TABULAR_SECTION, "", END_OF_PROCEDURE, "",
+				FIRST_TABULAR_SECTION, "	", SECOND_TABULAR_SECTION, "", IDENTIFICATION_FIELDS2, END_OF_PROCEDURE, "",
 				"Процедура ПКО_ПКОПолученияПолное".concat(BEFORE_RECEIVING_EVENT_SECTION), "",
 				"Процедура ПКО_ПКОПолученияПолное".concat(ON_RECEIVING_EVENT_SECTION), END_OF_REGION);
 
 		StringBuilder report2 = new StringBuilder();
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияПолное", true, true,
-				false, true, false);
+				false, true, true);
 		ConversionModuleAnalyzerUtils.addEvents(false, true, true, true, objectRule, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
+		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
 				new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения полное", report1, report2.toString());
+	}
+
+	@Test
+	public void testHeader() {
+		String report1 = String.join(LS, "#Область ПКОПолученияШапка",
+				"Процедура ДобавитьПКО_ПКОПолученияШапка(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияШапка\";",
+				FILLED_CONFIGURATION_OBJECT, FILLED_FORMAT_OBJECT, IDENTIFICATION_UUID, "	", NEW_HEADER,
+				HEADER_SECTION, "", END_OF_PROCEDURE, END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияШапка", true, true,
+				false, true, false);
+		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c шапкой", report1, report2.toString());
 	}
 
 	@Test
@@ -363,8 +495,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		String report1 = String.join(LS, "#Область МинимальноеПКОПолученияДляГруппы",
 				"Процедура ДобавитьПКО_МинимальноеПКОПолученияДляГруппы(ПравилаКонвертации)", "", NEW_RULE,
 				"	ПравилоКонвертации.ИмяПКО                       = \"МинимальноеПКОПолученияДляГруппы\";",
-				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
-				"	ПравилоКонвертации.ПравилоДляГруппыСправочника  = Истина;", IDENTIFICATION_UUID, "	", "",
+				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT, FOR_GROUP, IDENTIFICATION_UUID, "	", "",
 				END_OF_PROCEDURE, END_OF_REGION);
 
 		StringBuilder report2 = new StringBuilder();
@@ -375,6 +506,26 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения с минимумом данных для группы", report1,
+				report2.toString());
+	}
+
+	@Test
+	public void testTabularSection() {
+		String report1 = String.join(LS, "#Область ПКОПолученияТЧ",
+				"Процедура ДобавитьПКО_ПКОПолученияТЧ(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияТЧ\";", FILLED_CONFIGURATION_OBJECT,
+				FILLED_FORMAT_OBJECT, IDENTIFICATION_UUID, "	", "	", FIRST_TABULAR_SECTION, "", END_OF_PROCEDURE,
+				END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияТЧ", true, true, false,
+				true, false);
+		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c табличной частью", report1,
 				report2.toString());
 	}
 
@@ -399,48 +550,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 	}
 
 	@Test
-	public void testWithAttributes() {
-		String report1 = String.join(LS, "#Область ПКОПолученияШапка",
-				"Процедура ДобавитьПКО_ПКОПолученияШапка(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияШапка\";",
-				FILLED_CONFIGURATION_OBJECT, FILLED_FORMAT_OBJECT, IDENTIFICATION_UUID, "	", NEW_HEADER,
-				HEADER_SECTION, "", END_OF_PROCEDURE, END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияШапка", true, true,
-				false, true, false);
-		ConversionModuleAnalyzerUtils.addHeader(objectRule);
-
-		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c шапкой", report1, report2.toString());
-	}
-
-	@Test
-	public void testWithEvent1() {
-		String report1 = String.join(LS, "#Область ПКОПолученияСобытие1",
-				"Процедура ДобавитьПКО_ПКОПолученияСобытие1(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие1\";",
-				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
-				"	ПравилоКонвертации.ПриКонвертацииДанныхXDTO     = \"ПКО_ПКОПолученияСобытие1_ПриКонвертацииДанныхXDTO\";",
-				IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
-				"Процедура ПКО_ПКОПолученияСобытие1".concat(BEFORE_RECEIVING_EVENT_SECTION), END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие1", false,
-				false, false, true, false);
-		ConversionModuleAnalyzerUtils.addEvents(false, true, false, false, objectRule, null);
-
-		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПриКонвертацииДанныхXDTO",
-				report1, report2.toString());
-	}
-
-	@Test
-	public void testWithEvent12() {
+	public void testWEvent12() {
 		String report1 = String.join(LS, "#Область ПКОПолученияСобытие12",
 				"Процедура ДобавитьПКО_ПКОПолученияСобытие12(ПравилаКонвертации)", "", NEW_RULE,
 				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие12\";",
@@ -462,114 +572,6 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		assertEquals(
 				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПриКонвертацииДанныхXDTO и ПередЗаписьюПолученныхДанных",
 				report1, report2.toString());
-	}
-
-	@Test
-	public void testWithEvent13() {
-		String report1 = String.join(LS, "#Область ПКОПолученияСобытие13",
-				"Процедура ДобавитьПКО_ПКОПолученияСобытие13(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие13\";",
-				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
-				"	ПравилоКонвертации.ПриКонвертацииДанныхXDTO     = \"ПКО_ПКОПолученияСобытие13_ПриКонвертацииДанныхXDTO\";",
-				AFTER_RECEIVING_ALGORITHM_DECLARATION, IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
-				"Процедура ПКО_ПКОПолученияСобытие13".concat(BEFORE_RECEIVING_EVENT_SECTION), END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие13", false,
-				false, false, true, false);
-		ConversionModuleAnalyzerUtils.addEvents(false, true, false, true, objectRule, null);
-
-		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals(
-				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПриКонвертацииДанныхXDTO и ПослеЗагрузкиВсехДанных",
-				report1, report2.toString());
-	}
-
-	@Test
-	public void testWithEvent2() {
-		String report1 = String.join(LS, "#Область ПКОПолученияСобытие2",
-				"Процедура ДобавитьПКО_ПКОПолученияСобытие2(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие2\";",
-				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
-				"	ПравилоКонвертации.ПередЗаписьюПолученныхДанных = \"ПКО_ПКОПолученияСобытие2_ПередЗаписьюПолученныхДанных\";",
-				IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
-				"Процедура ПКО_ПКОПолученияСобытие2".concat(ON_RECEIVING_EVENT_SECTION), END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие2", false,
-				false, false, true, false);
-		ConversionModuleAnalyzerUtils.addEvents(false, false, true, false, objectRule, null);
-
-		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПередЗаписьюПолученныхДанных",
-				report1, report2.toString());
-	}
-
-	@Test
-	public void testWithEvent23() {
-		String report1 = String.join(LS, "#Область ПКОПолученияСобытие23",
-				"Процедура ДобавитьПКО_ПКОПолученияСобытие23(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие23\";",
-				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT,
-				"	ПравилоКонвертации.ПередЗаписьюПолученныхДанных = \"ПКО_ПКОПолученияСобытие23_ПередЗаписьюПолученныхДанных\";",
-				AFTER_RECEIVING_ALGORITHM_DECLARATION, IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, "",
-				"Процедура ПКО_ПКОПолученияСобытие23".concat(ON_RECEIVING_EVENT_SECTION), END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие23", false,
-				false, false, true, false);
-		ConversionModuleAnalyzerUtils.addEvents(false, false, true, true, objectRule, null);
-
-		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals(
-				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПередЗаписьюПолученныхДанных и ПослеЗагрузкиВсехДанных",
-				report1, report2.toString());
-	}
-
-	@Test
-	public void testWithEvent3() {
-		String report1 = String.join(LS, "#Область ПКОПолученияСобытие3",
-				"Процедура ДобавитьПКО_ПКОПолученияСобытие3(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияСобытие3\";",
-				EMPTY_CONFIGURATION_OBJECT, EMPTY_FORMAT_OBJECT, AFTER_RECEIVING_ALGORITHM_DECLARATION,
-				IDENTIFICATION_UUID, "	", "", END_OF_PROCEDURE, END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытие3", false,
-				false, false, true, false);
-		ConversionModuleAnalyzerUtils.addEvents(false, false, false, true, objectRule, null);
-
-		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПослеЗагрузкиВсехДанных",
-				report1, report2.toString());
-	}
-
-	@Test
-	public void testWithTabularSection() {
-		String report1 = String.join(LS, "#Область ПКОПолученияТЧ",
-				"Процедура ДобавитьПКО_ПКОПолученияТЧ(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО                       = \"ПКОПолученияТЧ\";", FILLED_CONFIGURATION_OBJECT,
-				FILLED_FORMAT_OBJECT, IDENTIFICATION_UUID, "	", "	", FIRST_TABULAR_SECTION, "", END_OF_PROCEDURE,
-				END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияТЧ", true, true, true,
-				false, false);
-		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
-
-		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c табличной частью", report1,
-				report2.toString());
 	}
 
 }

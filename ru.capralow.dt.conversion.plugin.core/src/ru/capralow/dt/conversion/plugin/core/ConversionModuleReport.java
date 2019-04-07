@@ -493,7 +493,7 @@ public class ConversionModuleReport {
 		EList<EdProperty> subPropertyKeys = mapKeyProperties.get(subPropertyTypeType);
 		if (subPropertyKeys == null) {
 			listProperties.add(String.join(",", propertyName.concat(subPropertyTypeName),
-					"**Не найдены ".concat(subPropertyTypeType).concat("**"), propertyRequired ? "true" : ""));
+					String.format("**Не найдены %1$s**", subPropertyTypeType), propertyRequired ? "true" : ""));
 			return;
 		}
 

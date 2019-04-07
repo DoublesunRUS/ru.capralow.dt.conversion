@@ -304,7 +304,7 @@ public class EnterpriseDataAnalyzer {
 
 			Integer maxLength = propertyValueTypeDef.getMaxLength();
 			if (maxLength != 0)
-				propertyTypeName = "Строка(".concat(Integer.toString(maxLength)).concat(")");
+				propertyTypeName = String.format("Строка(%1$s)", Integer.toString(maxLength));
 
 		} else if (propertyTypeName.equals("decimal")) {
 			propertyTypeName = "ДробноеЧисло";
@@ -312,15 +312,15 @@ public class EnterpriseDataAnalyzer {
 			Integer totalDigits = propertyValueTypeDef.getTotalDigits();
 			Integer fractionDigits = propertyValueTypeDef.getFractionDigits();
 			if (totalDigits != 0)
-				propertyTypeName = "ДробноеЧисло(".concat(Integer.toString(totalDigits)).concat(".")
-						.concat(Integer.toString(fractionDigits)).concat(")");
+				propertyTypeName = String.format("ДробноеЧисло(%1$s.%2$s)", Integer.toString(totalDigits),
+						Integer.toString(fractionDigits));
 
 		} else if (propertyTypeName.equals("int")) {
 			propertyTypeName = "ЦелоеЧисло";
 
 			Integer totalDigits = propertyValueTypeDef.getTotalDigits();
 			if (totalDigits != 0)
-				propertyTypeName = "ЦелоеЧисло(".concat(Integer.toString(totalDigits)).concat(")");
+				propertyTypeName = String.format("ЦелоеЧисло(%1$s)", Integer.toString(totalDigits));
 
 		}
 

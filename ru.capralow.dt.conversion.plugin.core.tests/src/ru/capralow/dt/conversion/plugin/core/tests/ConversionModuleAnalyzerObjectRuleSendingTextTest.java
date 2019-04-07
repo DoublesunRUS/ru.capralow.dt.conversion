@@ -132,6 +132,28 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 	}
 
 	@Test
+	public void testEvent() {
+		String report1 = String.join(LS, "#Область ПКООтправкиСобытие1",
+				"Процедура ДобавитьПКО_ПКООтправкиСобытие1(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиСобытие1\";", EMPTY_CONFIGURATION_OBJECT,
+				EMPTY_FORMAT_OBJECT,
+				"	ПравилоКонвертации.ПриОтправкеДанных = \"ПКО_ПКООтправкиСобытие1_ПриОтправкеДанных\";", "	", "",
+				END_OF_PROCEDURE, "", "Процедура ПКО_ПКООтправкиСобытие1".concat(ON_SENDING_EVENT_SECTION),
+				END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиСобытие1", false, false,
+				true, false, false);
+		ConversionModuleAnalyzerUtils.addEvents(true, false, false, false, objectRule, null);
+
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c событием ПриОтправкеДанных", report1,
+				report2.toString());
+	}
+
+	@Test
 	public void testFormatObject() {
 		String report1 = String.join(LS, "#Область ПКООтправкиОбъектФормата",
 				"Процедура ДобавитьПКО_ПКООтправкиОбъектФормата(ПравилаКонвертации)", "", NEW_RULE,
@@ -195,6 +217,24 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 	}
 
 	@Test
+	public void testHeader() {
+		String report1 = String.join(LS, "#Область ПКООтправкиШапка",
+				"Процедура ДобавитьПКО_ПКООтправкиШапка(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиШапка\";", FILLED_CONFIGURATION_OBJECT,
+				FILLED_FORMAT_OBJECT, "	", NEW_HEADER, HEADER_SECTION, "", END_OF_PROCEDURE, END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиШапка", true, true,
+				true, false, false);
+		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c шапкой", report1, report2.toString());
+	}
+
+	@Test
 	public void testHeaderAndTabularSection() {
 		String report1 = String.join(LS, "#Область ПКООтправкиШапкаТЧ",
 				"Процедура ДобавитьПКО_ПКООтправкиШапкаТЧ(ПравилаКонвертации)", "", NEW_RULE,
@@ -235,6 +275,25 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 	}
 
 	@Test
+	public void testTabularSection() {
+		String report1 = String.join(LS, "#Область ПКООтправкиТЧ",
+				"Процедура ДобавитьПКО_ПКООтправкиТЧ(ПравилаКонвертации)", "", NEW_RULE,
+				"	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиТЧ\";", FILLED_CONFIGURATION_OBJECT,
+				FILLED_FORMAT_OBJECT, "	", "	", FIRST_TABULAR_SECTION, "", END_OF_PROCEDURE, END_OF_REGION);
+
+		StringBuilder report2 = new StringBuilder();
+		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиТЧ", true, true, true,
+				false, false);
+		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, new StringBuilder(), report2,
+				new StringBuilder());
+
+		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c табличной частью", report1,
+				report2.toString());
+	}
+
+	@Test
 	public void testTwoTabularSections() {
 		String report1 = String.join(LS, "#Область ПКООтправкиДвеТЧ",
 				"Процедура ДобавитьПКО_ПКООтправкиДвеТЧ(ПравилаКонвертации)", "", NEW_RULE,
@@ -252,65 +311,6 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 				new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки с двумя ТЧ", report1, report2.toString());
-	}
-
-	@Test
-	public void testWithAttributes() {
-		String report1 = String.join(LS, "#Область ПКООтправкиШапка",
-				"Процедура ДобавитьПКО_ПКООтправкиШапка(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиШапка\";", FILLED_CONFIGURATION_OBJECT,
-				FILLED_FORMAT_OBJECT, "	", NEW_HEADER, HEADER_SECTION, "", END_OF_PROCEDURE, END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиШапка", true, true,
-				true, false, false);
-		ConversionModuleAnalyzerUtils.addHeader(objectRule);
-
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c шапкой", report1, report2.toString());
-	}
-
-	@Test
-	public void testWithEvent() {
-		String report1 = String.join(LS, "#Область ПКООтправкиСобытие1",
-				"Процедура ДобавитьПКО_ПКООтправкиСобытие1(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиСобытие1\";", EMPTY_CONFIGURATION_OBJECT,
-				EMPTY_FORMAT_OBJECT,
-				"	ПравилоКонвертации.ПриОтправкеДанных = \"ПКО_ПКООтправкиСобытие1_ПриОтправкеДанных\";", "	", "",
-				END_OF_PROCEDURE, "", "Процедура ПКО_ПКООтправкиСобытие1".concat(ON_SENDING_EVENT_SECTION),
-				END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиСобытие1", false, false,
-				true, false, false);
-		ConversionModuleAnalyzerUtils.addEvents(true, false, false, false, objectRule, null);
-
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c событием ПриОтправкеДанных", report1,
-				report2.toString());
-	}
-
-	@Test
-	public void testWithTabularSection() {
-		String report1 = String.join(LS, "#Область ПКООтправкиТЧ",
-				"Процедура ДобавитьПКО_ПКООтправкиТЧ(ПравилаКонвертации)", "", NEW_RULE,
-				"	ПравилоКонвертации.ИмяПКО            = \"ПКООтправкиТЧ\";", FILLED_CONFIGURATION_OBJECT,
-				FILLED_FORMAT_OBJECT, "	", "	", FIRST_TABULAR_SECTION, "", END_OF_PROCEDURE, END_OF_REGION);
-
-		StringBuilder report2 = new StringBuilder();
-		CmObjectRule objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиТЧ", true, true, true,
-				false, false);
-		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
-
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, new StringBuilder(), report2,
-				new StringBuilder());
-
-		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c табличной частью", report1,
-				report2.toString());
 	}
 
 }
