@@ -16,10 +16,12 @@ public class ConversionModuleAnalyzerConfigurationsGetTextTest {
 	}
 
 	private static URI getResourceURI(String partName) {
-		return URI.createPlatformPluginURI(
-				"ru.capralow.dt.conversion.plugin.core.tests" + ConversionModuleAnalyzerObjectRuleSendingTextTest.class
-						.getResource("/resources/" + partName).getFile(),
-				true);
+		return URI
+				.createPlatformPluginURI(
+						"ru.capralow.dt.conversion.plugin.core.tests"
+								+ ConversionModuleAnalyzerObjectRuleSendingTextTest.class
+										.getResource("/resources/" + partName).getFile(),
+						true);
 	}
 
 	// @Test
@@ -31,8 +33,8 @@ public class ConversionModuleAnalyzerConfigurationsGetTextTest {
 
 		ConversionModule conversionModule = getConversionModule(projectName, moduleName);
 
-		String report2 = ConversionModuleAnalyzer.getModuleText(conversionModule, "ЗУП3.1.3",
-				LocalDateTime.of(2017, 8, 21, 13, 5, 35));
+		String report2 = ConversionModuleAnalyzer
+				.getModuleText(conversionModule, "ЗУП3.1.3", LocalDateTime.of(2017, 8, 21, 13, 5, 35));
 
 		assertEquals("Модуль обмена: " + projectName + " запись модуля", report1, report2);
 	}

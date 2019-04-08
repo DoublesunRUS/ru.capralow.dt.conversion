@@ -32,7 +32,8 @@ public class MarkdownTableTest {
 				"Заголовок 1        | Заголовок 2 длинный | Заголовок 3       ",
 				"------------------ | ------------------- | ------------------",
 				"Значение 1 длинное | Значение 2          | Значение 3        ",
-				"Значение 1         | Значение 2          | Значение 3 длинное", "");
+				"Значение 1         | Значение 2          | Значение 3 длинное",
+				"");
 
 		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
 		mdTable.addRow(1, new String[][] { { VALUE_1_LONG, "0", "" }, { VALUE_2, "0", "" }, { VALUE_3, "0", "" } });
@@ -49,7 +50,8 @@ public class MarkdownTableTest {
 				"-------------------- | ------------------- | --------------------",
 				"_Значение 1 длинное_ | _Значение 2_        | _Значение 3_        ",
 				"**Значение 1**       | **Значение 2**      | _Значение 3 длинное_",
-				"Значение 1           | **Значение 2**      |                     ", "");
+				"Значение 1           | **Значение 2**      |                     ",
+				"");
 
 		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
 		mdTable.addRow(1, new String[][] { { VALUE_1_LONG, "0", "_" }, { VALUE_2, "0", "_" }, { VALUE_3, "0", "_" } });
@@ -69,7 +71,8 @@ public class MarkdownTableTest {
 				"Значение 1         | Значение 2          | Значение 3 длинное",
 				"Значение 1 длинное | Значение 2          | Значение 3        ",
 				"Значение 4         | Значение 5          | Значение 6        ",
-				"Значение 7         | Значение 8          | Значение 9        ", "");
+				"Значение 7         | Значение 8          | Значение 9        ",
+				"");
 
 		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
 		mdTable.addRow(3,
@@ -106,8 +109,11 @@ public class MarkdownTableTest {
 	public void testWithWrongAmountOfColumns() {
 		MarkdownTable mdTable = new MarkdownTable(new String[] { CAPTION_1, CAPTION_2, CAPTION_3 });
 		mdTable.addRow(1, new String[][] { { VALUE_1, "0", "" }, { VALUE_2, "0", "" } });
-		mdTable.addRow(1, new String[][] { { VALUE_1, "0", "" }, { VALUE_2, "0", "" }, { VALUE_3_LONG, "0", "" },
-				{ VALUE_4, "0", "" } });
+		mdTable.addRow(1,
+				new String[][] { { VALUE_1, "0", "" },
+						{ VALUE_2, "0", "" },
+						{ VALUE_3_LONG, "0", "" },
+						{ VALUE_4, "0", "" } });
 
 		mdTable.getTable();
 	}

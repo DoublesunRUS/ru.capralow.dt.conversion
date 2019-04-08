@@ -167,8 +167,8 @@ public class ConversionModuleReportExpandPropertyTest {
 	public void testNameEmpty() {
 		List<String> report1 = new ArrayList<>();
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType("", "", false,
-				new HashMap<String, EList<EdProperty>>());
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType("", "", false, new HashMap<String, EList<EdProperty>>());
 
 		assertEquals("Описание формата: КлючевыеСвойства пустая строка", report1.toString(), report2.toString());
 	}
@@ -180,8 +180,8 @@ public class ConversionModuleReportExpandPropertyTest {
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_VALUE,
-				"ЗначениеДополнительногоРеквизита", false, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_VALUE, "ЗначениеДополнительногоРеквизита", false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнен предопределенный элемент",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -193,8 +193,8 @@ public class ConversionModuleReportExpandPropertyTest {
 		List<String> report1 = new ArrayList<>();
 		report1.add(String.join(",", FIELD_NAME_OWNER, "**Не указан тип**", ""));
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_OWNER, "", false,
-				new HashMap<String, EList<EdProperty>>());
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_OWNER, "", false, new HashMap<String, EList<EdProperty>>());
 
 		assertEquals("Описание формата: КлючевыеСвойства отсутствует тип", report1.toString(), report2.toString());
 	}
@@ -206,8 +206,8 @@ public class ConversionModuleReportExpandPropertyTest {
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType("Вид", "ВидыКонтактнойИнформации", true,
-				mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType("Вид", "ВидыКонтактнойИнформации", true, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнен предопределенный элемент",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -270,8 +270,8 @@ public class ConversionModuleReportExpandPropertyTest {
 		edProperty.setType(KEY_FIELDS_DIVISIONS);
 		mapKeyProperties.put(KEY_FIELDS_MY_DOCUMENT, edProperties);
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_MY_DOCUMENT,
-				false, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_MY_DOCUMENT, false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнена группа с родителем",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -283,73 +283,101 @@ public class ConversionModuleReportExpandPropertyTest {
 		List<String> report1 = new ArrayList<>();
 		report1.add(String.join(",", FIELD_NAME_VALUE, "", ""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка"), KEY_FIELDS, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Ссылка"),
-				REF_FIELD_MY_DOCUMENT.concat("1"), ""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Ссылка"),
+				REF_FIELD_MY_DOCUMENT.concat("1"),
+				""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Номер"), FIELD_TYPE_STRING11, ""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Дата"), FIELD_TYPE_DATETIME, ""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация"), "", "true"));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка"),
-				KEY_FIELDS, ""));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка_Ссылка"),
-						REF_FIELD_ORGANIZATION, ""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка"),
+				KEY_FIELDS,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка_Ссылка"),
+				REF_FIELD_ORGANIZATION,
+				""));
 		report1.add(String.join(",",
 				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка_Наименование"),
-				FIELD_TYPE_STRING150, "true"));
+				FIELD_TYPE_STRING150,
+				"true"));
 		report1.add(String.join(",",
 				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка_РегистрационныйНомерПФР"),
-				FIELD_TYPE_STRING14, ""));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка_Префикс"),
-						FIELD_TYPE_STRING2, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка"),
-				KEY_FIELDS, ""));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка_Ссылка"),
-						REF_FIELD_PERSON, ""));
+				FIELD_TYPE_STRING14,
+				""));
 		report1.add(String.join(",",
-				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка_ДатаРождения"), "Дата",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ОрганизацииСсылка_Префикс"),
+				FIELD_TYPE_STRING2,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка"),
+				KEY_FIELDS,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка_Ссылка"),
+				REF_FIELD_PERSON,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка_ДатаРождения"),
+				"Дата",
 				""));
 		report1.add(String.join(",",
 				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка_Наименование"),
-				FIELD_TYPE_STRING100, "true"));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка_Код"),
-						FIELD_TYPE_STRING10, ""));
+				FIELD_TYPE_STRING100,
+				"true"));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент1Ссылка_Организация_ФизическиеЛицаСсылка_Код"),
+				FIELD_TYPE_STRING10,
+				""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка"), KEY_FIELDS, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Ссылка"),
-				REF_FIELD_MY_DOCUMENT.concat("2"), ""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Ссылка"),
+				REF_FIELD_MY_DOCUMENT.concat("2"),
+				""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Номер"), FIELD_TYPE_STRING11, ""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Дата"), FIELD_TYPE_DATETIME, ""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация"), "", "true"));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка"),
-				KEY_FIELDS, ""));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка_Ссылка"),
-						REF_FIELD_ORGANIZATION, ""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка"),
+				KEY_FIELDS,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка_Ссылка"),
+				REF_FIELD_ORGANIZATION,
+				""));
 		report1.add(String.join(",",
 				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка_Наименование"),
-				FIELD_TYPE_STRING150, "true"));
+				FIELD_TYPE_STRING150,
+				"true"));
 		report1.add(String.join(",",
 				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка_РегистрационныйНомерПФР"),
-				FIELD_TYPE_STRING14, ""));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка_Префикс"),
-						FIELD_TYPE_STRING2, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка"),
-				KEY_FIELDS, ""));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_Ссылка"),
-						REF_FIELD_PERSON, ""));
+				FIELD_TYPE_STRING14,
+				""));
 		report1.add(String.join(",",
-				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_ДатаРождения"), "Дата",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ОрганизацииСсылка_Префикс"),
+				FIELD_TYPE_STRING2,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка"),
+				KEY_FIELDS,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_Ссылка"),
+				REF_FIELD_PERSON,
+				""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_ДатаРождения"),
+				"Дата",
 				""));
 		report1.add(String.join(",",
 				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_Наименование"),
-				FIELD_TYPE_STRING100, "true"));
-		report1.add(
-				String.join(",", FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_Код"),
-						FIELD_TYPE_STRING10, ""));
+				FIELD_TYPE_STRING100,
+				"true"));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_МойДокумент2Ссылка_Организация_ФизическиеЛицаСсылка_Код"),
+				FIELD_TYPE_STRING10,
+				""));
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 
@@ -379,8 +407,8 @@ public class ConversionModuleReportExpandPropertyTest {
 
 		mapKeyProperties.put(KEY_FIELDS_MY_DOCUMENT.concat("2"), getKeyPropertiesMyDocumentMultiType("2"));
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_TWO_DOCUMENTS,
-				false, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_TWO_DOCUMENTS, false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнено несколько ключевых типов внутри несколько типов",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -400,8 +428,8 @@ public class ConversionModuleReportExpandPropertyTest {
 		mapKeyProperties.put(KEY_FIELDS_MY_DOCUMENT.concat("1"), getKeyPropertiesMyDocumentSingleType("1"));
 		mapKeyProperties.put(KEY_FIELDS_MY_DOCUMENT.concat("2"), getKeyPropertiesMyDocumentSingleType("2"));
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_TWO_DOCUMENTS,
-				false, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_TWO_DOCUMENTS, false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнено несколько ключевых типов",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -420,8 +448,8 @@ public class ConversionModuleReportExpandPropertyTest {
 		mapKeyProperties.put(KEY_FIELDS_ORGANIZATIONS, getKeyPropertiesOrganization());
 		mapKeyProperties.put(KEY_FIELDS_MY_DOCUMENT.concat("1"), getKeyPropertiesMyDocumentSingleType("1"));
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_TWO_DOCUMENTS,
-				true, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_TWO_DOCUMENTS, true, mapKeyProperties);
 
 		assertEquals(
 				"Описание формата: КлючевыеСвойства заполнено несколько ключевых типов и несуществующий ключевой тип",
@@ -436,8 +464,8 @@ public class ConversionModuleReportExpandPropertyTest {
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_MAIN_DOCUMENT,
-				KEY_FIELDS_MY_DOCUMENT, false, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_MAIN_DOCUMENT, KEY_FIELDS_MY_DOCUMENT, false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнен несуществующий ключевой тип",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -453,23 +481,31 @@ public class ConversionModuleReportExpandPropertyTest {
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Дата"), FIELD_TYPE_DATETIME, ""));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация"), "", "true"));
 		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка"), KEY_FIELDS, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_Ссылка"),
-				REF_FIELD_ORGANIZATION, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_Наименование"),
-				FIELD_TYPE_STRING150, "true"));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_РегистрационныйНомерПФР"),
-				FIELD_TYPE_STRING14, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_Префикс"),
-				FIELD_TYPE_STRING2, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка"), KEY_FIELDS, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_Ссылка"),
-				REF_FIELD_PERSON, ""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_ДатаРождения"), "Дата",
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_Ссылка"),
+				REF_FIELD_ORGANIZATION,
 				""));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_Наименование"),
-				FIELD_TYPE_STRING100, "true"));
-		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_Код"),
-				FIELD_TYPE_STRING10, ""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_Наименование"),
+				FIELD_TYPE_STRING150,
+				"true"));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_РегистрационныйНомерПФР"),
+				FIELD_TYPE_STRING14,
+				""));
+		report1.add(String
+				.join(",", FIELD_NAME_VALUE.concat("_Организация_ОрганизацииСсылка_Префикс"), FIELD_TYPE_STRING2, ""));
+		report1.add(String.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка"), KEY_FIELDS, ""));
+		report1.add(String
+				.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_Ссылка"), REF_FIELD_PERSON, ""));
+		report1.add(String
+				.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_ДатаРождения"), "Дата", ""));
+		report1.add(String.join(",",
+				FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_Наименование"),
+				FIELD_TYPE_STRING100,
+				"true"));
+		report1.add(String
+				.join(",", FIELD_NAME_VALUE.concat("_Организация_ФизическиеЛицаСсылка_Код"), FIELD_TYPE_STRING10, ""));
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 
@@ -497,8 +533,8 @@ public class ConversionModuleReportExpandPropertyTest {
 
 		mapKeyProperties.put(KEY_FIELDS_MY_DOCUMENT, getKeyPropertiesMyDocumentMultiType(""));
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_MY_DOCUMENT,
-				false, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_VALUE, KEY_FIELDS_MY_DOCUMENT, false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнен ключевой тип внутри несколько типов",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -509,18 +545,18 @@ public class ConversionModuleReportExpandPropertyTest {
 	public void testTypeSingleKeyType() {
 		List<String> report1 = new ArrayList<>();
 		report1.add(String.join(",", FIELD_NAME_MAIN_DOCUMENT, KEY_FIELDS, ""));
-		report1.add(String.join(",", FIELD_NAME_MAIN_DOCUMENT.concat("_").concat(FIELD_NAME_REF), REF_FIELD_MY_DOCUMENT,
-				"true"));
-		report1.add(String.join(",", FIELD_NAME_MAIN_DOCUMENT.concat("_").concat(FIELD_NAME_NUMBER),
-				FIELD_TYPE_STRING11, ""));
-		report1.add(String.join(",", FIELD_NAME_MAIN_DOCUMENT.concat("_").concat(FIELD_NAME_DATE), FIELD_TYPE_DATETIME,
-				""));
+		report1.add(String
+				.join(",", FIELD_NAME_MAIN_DOCUMENT.concat("_").concat(FIELD_NAME_REF), REF_FIELD_MY_DOCUMENT, "true"));
+		report1.add(String
+				.join(",", FIELD_NAME_MAIN_DOCUMENT.concat("_").concat(FIELD_NAME_NUMBER), FIELD_TYPE_STRING11, ""));
+		report1.add(String
+				.join(",", FIELD_NAME_MAIN_DOCUMENT.concat("_").concat(FIELD_NAME_DATE), FIELD_TYPE_DATETIME, ""));
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 		mapKeyProperties.put(KEY_FIELDS_MY_DOCUMENT, getKeyPropertiesMyDocumentSingleType(""));
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType(FIELD_NAME_MAIN_DOCUMENT,
-				KEY_FIELDS_MY_DOCUMENT, false, mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType(FIELD_NAME_MAIN_DOCUMENT, KEY_FIELDS_MY_DOCUMENT, false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнен ключевой тип",
 				report1.toString().replace(" ", System.lineSeparator()),
@@ -534,8 +570,8 @@ public class ConversionModuleReportExpandPropertyTest {
 
 		Map<String, EList<EdProperty>> mapKeyProperties = new HashMap<>();
 
-		List<String> report2 = ConversionModuleReport.expandPropertyType("Комментарий", "Строка", false,
-				mapKeyProperties);
+		List<String> report2 = ConversionModuleReport
+				.expandPropertyType("Комментарий", "Строка", false, mapKeyProperties);
 
 		assertEquals("Описание формата: КлючевыеСвойства заполнен простой тип",
 				report1.toString().replace(" ", System.lineSeparator()),

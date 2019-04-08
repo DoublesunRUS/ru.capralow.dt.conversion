@@ -377,8 +377,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmDataRule> listElements = (EList<CmDataRule>) elements;
 
-				ECollections.sort(listElements, ConversionModuleAnalyzer
-						.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
+				ECollections.sort(listElements,
+						ConversionModuleAnalyzer
+								.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -460,8 +461,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmObjectRule> listElements = (EList<CmObjectRule>) elements;
 
-				ECollections.sort(listElements, ConversionModuleAnalyzer
-						.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
+				ECollections.sort(listElements,
+						ConversionModuleAnalyzer
+								.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -531,8 +533,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmDataRule> listElements = (EList<CmDataRule>) elements;
 
-				ECollections.sort(listElements, ConversionModuleAnalyzer
-						.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
+				ECollections.sort(listElements,
+						ConversionModuleAnalyzer
+								.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -638,8 +641,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmObjectRule> listElements = (EList<CmObjectRule>) elements;
 
-				ECollections.sort(listElements, ConversionModuleAnalyzer
-						.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
+				ECollections.sort(listElements,
+						ConversionModuleAnalyzer
+								.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -726,7 +730,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				@SuppressWarnings("unchecked")
 				EList<CmPredefined> listElements = (EList<CmPredefined>) elements;
 
-				ECollections.sort(listElements, ConversionModuleAnalyzer.getPredefinedComparator());
+				ECollections.sort(listElements,
+						ConversionModuleAnalyzer
+								.getPredefinedComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
 
 				Object[] viewerContent = new Object[listElements.size()];
 
@@ -834,7 +840,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 			public void widgetSelected(SelectionEvent event) {
 				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
-						((MenuItem) event.getSource()).getParent().getShell(), conversionModule, moduleURI, editable);
+						((MenuItem) event.getSource()).getParent().getShell(),
+						conversionModule,
+						moduleURI,
+						editable);
 				if (conversionModuleDialog.open() == Window.OK)
 					updateModule();
 
@@ -867,8 +876,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			if (element instanceof CmDataRule) {
 				CmDataRule dataRule = ((CmDataRule) element);
 
-				SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(
-						event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
+				SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(event.getViewer().getControl()
+						.getShell(), dataRule, conversionModule, moduleURI, editable);
 				if (dataRuleDialog.open() == Window.OK)
 					updateModule();
 
@@ -887,8 +896,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			if (element instanceof CmObjectRule) {
 				CmObjectRule objectRule = ((CmObjectRule) element);
 
-				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-						objectRule, conversionModule, moduleURI, editable);
+				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl()
+						.getShell(), objectRule, conversionModule, moduleURI, editable);
 				if (objectRuleDialog.open() == Window.OK)
 					updateModule();
 			}
@@ -905,8 +914,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			if (element instanceof CmDataRule) {
 				CmDataRule dataRule = ((CmDataRule) element);
 
-				ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(
-						event.getViewer().getControl().getShell(), dataRule, conversionModule, moduleURI, editable);
+				ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(event.getViewer().getControl()
+						.getShell(), dataRule, conversionModule, moduleURI, editable);
 				if (dataRuleDialog.open() == Window.OK)
 					updateModule();
 			}
@@ -924,8 +933,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			if (element instanceof CmObjectRule) {
 				CmObjectRule objectRule = ((CmObjectRule) element);
 
-				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl().getShell(),
-						objectRule, conversionModule, moduleURI, editable);
+				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl()
+						.getShell(), objectRule, conversionModule, moduleURI, editable);
 				if (objectRuleDialog.open() == Window.OK)
 					updateModule();
 			}
@@ -944,7 +953,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				CmPredefined predefined = ((CmPredefined) element);
 
 				PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
-						predefined, editable);
+						predefined,
+						editable);
 				if (predefinedDialog.open() == Window.OK)
 					updateModule();
 			}
@@ -961,8 +971,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			if (element instanceof CmAlgorithm) {
 				CmAlgorithm algorithm = ((CmAlgorithm) element);
 
-				AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl().getShell(),
-						algorithm, conversionModule, moduleURI, editable);
+				AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl()
+						.getShell(), algorithm, conversionModule, moduleURI, editable);
 				if (algorithmDialog.open() == Window.OK)
 					updateModule();
 			}
@@ -983,7 +993,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				configurationProject.getConfiguration());
 
 		Map<String, EnterpriseData> enterpriseDataPackages = EnterpriseDataAnalyzer.loadPluginResources(commonModule,
-				exchangeProject, configurationProject.getConfiguration(), configurationProject.getProject(),
+				exchangeProject,
+				configurationProject.getConfiguration(),
+				configurationProject.getProject(),
 				Activator.getDefault());
 
 		XtextEditor embeddedEditor = getModuleEditor();
@@ -992,7 +1004,8 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 		} else {
 			xmiURI = ConversionModuleAnalyzer.getResourceURIforPlugin(commonModule.getName(),
-					configurationProject.getProject(), Activator.getDefault());
+					configurationProject.getProject(),
+					Activator.getDefault());
 			conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configurationProject.getConfiguration());
 
 		}
@@ -1008,9 +1021,13 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				for (RgVariant rgVariant : rgVariants) {
 					if (reportGroups.getAddObjectsList())
 						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
-								enterpriseDataPackage.getValue(), rgVariant, true);
+								enterpriseDataPackage.getValue(),
+								rgVariant,
+								true);
 					addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
-							enterpriseDataPackage.getValue(), rgVariant, false);
+							enterpriseDataPackage.getValue(),
+							rgVariant,
+							false);
 				}
 
 			}
@@ -1193,10 +1210,10 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 				try {
 					String stringReport = objectsOnly
-							? ConversionModuleReport.createObjectsReport(rgVariant, enterpriseDataPackage,
-									conversionModule)
-							: ConversionModuleReport.createFullReport(rgVariant, enterpriseDataPackage,
-									conversionModule);
+							? ConversionModuleReport
+									.createObjectsReport(rgVariant, enterpriseDataPackage, conversionModule)
+							: ConversionModuleReport
+									.createFullReport(rgVariant, enterpriseDataPackage, conversionModule);
 
 					IStorage storage = new StringStorage(stringReport);
 					IStorageEditorInput input = new StringInput(storage);
