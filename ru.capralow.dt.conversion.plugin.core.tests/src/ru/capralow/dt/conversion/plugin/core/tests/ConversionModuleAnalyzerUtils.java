@@ -37,6 +37,7 @@ public final class ConversionModuleAnalyzerUtils {
 		algorithm.setName(name);
 		algorithm.setParams(params);
 		algorithm.setBody(body);
+		algorithm.setExists(true);
 		if (algorithms != null)
 			algorithms.add(algorithm);
 

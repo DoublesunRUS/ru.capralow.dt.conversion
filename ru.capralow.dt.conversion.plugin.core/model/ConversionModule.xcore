@@ -169,7 +169,7 @@ class ConversionModule {
 		var result = ""
 
 		for (CmAlgorithm algorithm : algorithms) {
-			if (algorithmName != algorithm.name)
+			if (algorithmName != algorithm.name && algorithm.exists)
 				result += algorithm.getAlgorithmText();
 
 		}
@@ -571,6 +571,8 @@ class CmPredefinedMap {
 
 class CmAlgorithm {
 	String name = ""
+	
+	Boolean exists = "false"
 	
 	CmMethodType methodType
 	String params = ""

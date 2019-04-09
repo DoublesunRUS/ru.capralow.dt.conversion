@@ -290,6 +290,14 @@ public class ConversionModuleAnalyzer {
 		return conversionModule;
 	}
 
+	public static ConversionModule analyzeAndSave(CommonModule commonModule, URI xmiURI,
+			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
+		ConversionModule conversionModule = analyze(commonModule, projectManager, bmEmfIndexManager);
+		saveResource(conversionModule, xmiURI);
+
+		return conversionModule;
+	}
+
 	public static void createObjectRuleReceivingText(CmObjectRule objectRule,
 			StringBuilder objectRulesDeclarationReceivingText, StringBuilder objectRulesReceiving,
 			StringBuilder objectRulesEventsText) {
@@ -590,7 +598,6 @@ public class ConversionModuleAnalyzer {
 		try {
 			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
-			// TODO: Сделать пересборку вторичных данных если файла нет
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
 			ConversionModule conversionModule = (ConversionModule) xmiResource.getContents().get(0);
@@ -636,6 +643,7 @@ public class ConversionModuleAnalyzer {
 
 			conversionModule.getAlgorithms().add(algorithm);
 		}
+		algorithm.setExists(true);
 
 		ICompositeNode node = NodeModelUtils.findActualNodeFor(method);
 
@@ -852,11 +860,17 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static void createAlgorithmsText(StringTemplate templateMain, ConversionModule conversionModule) {
-		String algorithms = conversionModule.getAllAlgorithmsText("");
-		if (algorithms.isEmpty())
-			algorithms = "---";
+		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
+		if (algorithms.isEmpty()) {
+			templateMain.setAttribute("Algorithms", "---");
+			return;
+		}
 
-		templateMain.setAttribute("Algorithms", algorithms);
+		ECollections.sort(algorithms, ConversionModuleAnalyzer.getAlgorithmComparator());
+
+		String algorithmsText = conversionModule.getAllAlgorithmsText("");
+
+		templateMain.setAttribute("Algorithms", algorithmsText);
 	}
 
 	private static CmDataRule createDataRule(EList<Statement> allStatements, ConversionModule conversionModule) {
@@ -1007,6 +1021,33 @@ public class ConversionModuleAnalyzer {
 		templateMain.setAttribute("DataRulesDeclaration", templateDataRulesDeclaration);
 		templateMain.setAttribute("DataRulesSending", dataRulesSending);
 		templateMain.setAttribute("DataRulesReceiving", dataRulesReceiving);
+	}
+
+	private static void createEventsText(StringTemplate templateMain, StringBuilder objectRulesEventsText,
+			ConversionModule conversionModule) {
+		EList<CmAlgorithm> afterReceivingAlgorithms = new BasicEList<>();
+		for (CmObjectRule objectRule : conversionModule.getObjectRules())
+			if (objectRule.getAfterReceivingAlgorithm() != null
+					&& !afterReceivingAlgorithms.contains(objectRule.getAfterReceivingAlgorithm()))
+				afterReceivingAlgorithms.add(objectRule.getAfterReceivingAlgorithm());
+		ECollections.sort(afterReceivingAlgorithms, ConversionModuleAnalyzer.getAlgorithmComparator());
+
+		for (CmAlgorithm algorithm : afterReceivingAlgorithms) {
+			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
+			objectRulesEventsText
+					.append(String
+							.format("	%1$s ИмяПроцедуры = \"%2$s\" Тогда ", objectRulesPrefix, algorithm.getName()))
+					.append(LS);
+			objectRulesEventsText.append(String.format("		%1$s(", algorithm.getName())).append(LS);
+			objectRulesEventsText
+					.append("			Параметры.Объект, Параметры.КомпонентыОбмена, Параметры.ОбъектМодифицирован);")
+					.append(LS);
+		}
+
+		if (objectRulesEventsText.length() != 0)
+			objectRulesEventsText.append("	КонецЕсли;");
+
+		templateMain.setAttribute(EVENTS_PARAM, objectRulesEventsText);
 	}
 
 	private static CmObjectRule createObjectRule(EList<Statement> allStatements, ConversionModule conversionModule) {
@@ -1533,33 +1574,6 @@ public class ConversionModuleAnalyzer {
 
 		return templateMain.toString().replaceAll(REPLACE_EMPTY_PROPERTIES, LS);
 
-	}
-
-	private static void createEventsText(StringTemplate templateMain, StringBuilder objectRulesEventsText,
-			ConversionModule conversionModule) {
-		EList<CmAlgorithm> afterReceivingAlgorithms = new BasicEList<>();
-		for (CmObjectRule objectRule : conversionModule.getObjectRules())
-			if (objectRule.getAfterReceivingAlgorithm() != null
-					&& !afterReceivingAlgorithms.contains(objectRule.getAfterReceivingAlgorithm()))
-				afterReceivingAlgorithms.add(objectRule.getAfterReceivingAlgorithm());
-		ECollections.sort(afterReceivingAlgorithms, ConversionModuleAnalyzer.getAlgorithmComparator());
-
-		for (CmAlgorithm algorithm : afterReceivingAlgorithms) {
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
-			objectRulesEventsText
-					.append(String
-							.format("	%1$s ИмяПроцедуры = \"%2$s\" Тогда ", objectRulesPrefix, algorithm.getName()))
-					.append(LS);
-			objectRulesEventsText.append(String.format("		%1$s(", algorithm.getName())).append(LS);
-			objectRulesEventsText
-					.append("			Параметры.Объект, Параметры.КомпонентыОбмена, Параметры.ОбъектМодифицирован);")
-					.append(LS);
-		}
-
-		if (objectRulesEventsText.length() != 0)
-			objectRulesEventsText.append("	КонецЕсли;");
-
-		templateMain.setAttribute(EVENTS_PARAM, objectRulesEventsText);
 	}
 
 	private static String getSendingReceivingPriority(CmObject cmObject) {

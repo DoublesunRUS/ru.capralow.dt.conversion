@@ -991,6 +991,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 				Activator.getDefault());
 		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer.loadResource(xmiURI,
 				configurationProject.getConfiguration());
+		if (exchangeProject == null)
+			exchangeProject = ExchangeProjectsAnalyzer
+					.analyzeProjectAndSave(configurationProject, xmiURI, projectManager, bmEmfIndexManager);
 
 		Map<String, EnterpriseData> enterpriseDataPackages = EnterpriseDataAnalyzer.loadPluginResources(commonModule,
 				exchangeProject,
@@ -1007,6 +1010,9 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 					configurationProject.getProject(),
 					Activator.getDefault());
 			conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configurationProject.getConfiguration());
+			if (conversionModule == null)
+				conversionModule = ConversionModuleAnalyzer
+						.analyzeAndSave(commonModule, xmiURI, projectManager, bmEmfIndexManager);
 
 		}
 

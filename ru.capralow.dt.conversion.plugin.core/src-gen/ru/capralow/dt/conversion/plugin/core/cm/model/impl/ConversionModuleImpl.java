@@ -921,9 +921,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 		String result = "";
 		EList<CmAlgorithm> _algorithms = this.getAlgorithms();
 		for (final CmAlgorithm algorithm : _algorithms) {
-			String _name = algorithm.getName();
-			boolean _notEquals = (!Objects.equal(algorithmName, _name));
-			if (_notEquals) {
+			if (((!Objects.equal(algorithmName, algorithm.getName())) && (algorithm.getExists()).booleanValue())) {
 				String _result = result;
 				String _algorithmText = algorithm.getAlgorithmText();
 				result = (_result + _algorithmText);

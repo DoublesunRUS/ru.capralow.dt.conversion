@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getName <em>Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getExists <em>Exists</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getMethodType <em>Method Type</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getParams <em>Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getIsExport <em>Is Export</em>}</li>
@@ -53,6 +54,33 @@ public interface CmAlgorithm extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Exists</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Exists</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Exists</em>' attribute.
+	 * @see #setExists(Boolean)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmAlgorithm_Exists()
+	 * @model default="false" unique="false"
+	 * @generated
+	 */
+	Boolean getExists();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getExists <em>Exists</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Exists</em>' attribute.
+	 * @see #getExists()
+	 * @generated
+	 */
+	void setExists(Boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Method Type</b></em>' attribute.

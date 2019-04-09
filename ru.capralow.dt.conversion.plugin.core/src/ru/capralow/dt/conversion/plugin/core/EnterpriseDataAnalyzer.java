@@ -108,7 +108,8 @@ public class EnterpriseDataAnalyzer {
 
 	public static URI getResourceURIforPlugin(String version, IProject project, AbstractUIPlugin plugin) {
 		return ConversionUtils.getResourceURIforPlugin(project.getName(),
-				"enterpriseDataPackage-" + version.replace(".", "_"), plugin);
+				"enterpriseDataPackage-" + version.replace(".", "_"),
+				plugin);
 	}
 
 	public static Map<String, EnterpriseData> loadPluginResources(CommonModule commonModule,
@@ -119,8 +120,8 @@ public class EnterpriseDataAnalyzer {
 			if (!epFormatVersion.getModule().equals(commonModule))
 				continue;
 
-			URI edXmiURI = EnterpriseDataAnalyzer.getResourceURIforPlugin(epFormatVersion.getVersion(), project,
-					plugin);
+			URI edXmiURI = EnterpriseDataAnalyzer
+					.getResourceURIforPlugin(epFormatVersion.getVersion(), project, plugin);
 
 			EnterpriseData enterpriseDataPackage = loadResource(edXmiURI, configuration);
 
@@ -138,7 +139,6 @@ public class EnterpriseDataAnalyzer {
 		try {
 			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
-			// TODO: Сделать пересборку вторичных данных если файла нет
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
 			EnterpriseData enterpriseDataPackage = (EnterpriseData) xmiResource.getContents().get(0);
@@ -260,7 +260,8 @@ public class EnterpriseDataAnalyzer {
 
 			for (Property xdtoTabularProperty : xdtoTabularObject.getProperties()) {
 				edProperties.add(addProperty(xdtoTabularProperty,
-						xdtoPropertyName.concat(".").concat(xdtoTabularProperty.getName()), false));
+						xdtoPropertyName.concat(".").concat(xdtoTabularProperty.getName()),
+						false));
 			}
 
 		} else {
@@ -312,7 +313,8 @@ public class EnterpriseDataAnalyzer {
 			Integer totalDigits = propertyValueTypeDef.getTotalDigits();
 			Integer fractionDigits = propertyValueTypeDef.getFractionDigits();
 			if (totalDigits != 0)
-				propertyTypeName = String.format("ДробноеЧисло(%1$s.%2$s)", Integer.toString(totalDigits),
+				propertyTypeName = String.format("ДробноеЧисло(%1$s.%2$s)",
+						Integer.toString(totalDigits),
 						Integer.toString(fractionDigits));
 
 		} else if (propertyTypeName.equals("int")) {
@@ -416,7 +418,8 @@ public class EnterpriseDataAnalyzer {
 		} else {
 			addUnknownObject(xdtoObject, enterpriseDataPackage, packageObjects);
 			String msg = String.format("У типа объекта \"%1$s\" версии формата \"%2$s\" ошибочно заполнен базовый тип",
-					objectName, version);
+					objectName,
+					version);
 			LOGGER.error(msg);
 		}
 
@@ -442,5 +445,12 @@ public class EnterpriseDataAnalyzer {
 
 	private EnterpriseDataAnalyzer() {
 		throw new IllegalStateException("Вспомогательный класс");
+	}
+
+	public static EnterpriseData analyzeAndSave(XDTOPackage xdtoPackage, URI xmiURI) {
+		EnterpriseData enterpriseData = analyze(xdtoPackage);
+		saveResource(enterpriseData, xmiURI);
+
+		return enterpriseData;
 	}
 }

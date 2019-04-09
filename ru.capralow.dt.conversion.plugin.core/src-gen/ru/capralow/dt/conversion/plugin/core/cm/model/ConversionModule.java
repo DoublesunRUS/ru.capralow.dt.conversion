@@ -556,7 +556,7 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" algorithmNameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; result = \"\";\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt;&gt; _algorithms = this.getAlgorithms();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt; algorithm : _algorithms)\n{\n\t&lt;%java.lang.String%&gt; _name = algorithm.getName();\n\tboolean _notEquals = (!&lt;%com.google.common.base.Objects%&gt;.equal(algorithmName, _name));\n\tif (_notEquals)\n\t{\n\t\t&lt;%java.lang.String%&gt; _result = result;\n\t\t&lt;%java.lang.String%&gt; _algorithmText = algorithm.getAlgorithmText();\n\t\tresult = (_result + _algorithmText);\n\t}\n}\nreturn result;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; result = \"\";\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt;&gt; _algorithms = this.getAlgorithms();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt; algorithm : _algorithms)\n{\n\tif (((!&lt;%com.google.common.base.Objects%&gt;.equal(algorithmName, algorithm.getName())) &amp;&amp; (algorithm.getExists()).booleanValue()))\n\t{\n\t\t&lt;%java.lang.String%&gt; _result = result;\n\t\t&lt;%java.lang.String%&gt; _algorithmText = algorithm.getAlgorithmText();\n\t\tresult = (_result + _algorithmText);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	String getAllAlgorithmsText(String algorithmName);

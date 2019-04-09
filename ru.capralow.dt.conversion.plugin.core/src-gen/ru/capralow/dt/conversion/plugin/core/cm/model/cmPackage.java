@@ -1364,13 +1364,22 @@ public interface cmPackage extends EPackage {
 	int CM_ALGORITHM__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Exists</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__EXISTS = 1;
+
+	/**
 	 * The feature id for the '<em><b>Method Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__METHOD_TYPE = 1;
+	int CM_ALGORITHM__METHOD_TYPE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Params</b></em>' attribute.
@@ -1379,7 +1388,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__PARAMS = 2;
+	int CM_ALGORITHM__PARAMS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Is Export</b></em>' attribute.
@@ -1388,7 +1397,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__IS_EXPORT = 3;
+	int CM_ALGORITHM__IS_EXPORT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Body</b></em>' attribute.
@@ -1397,7 +1406,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__BODY = 4;
+	int CM_ALGORITHM__BODY = 5;
 
 	/**
 	 * The feature id for the '<em><b>Prefix</b></em>' attribute.
@@ -1406,7 +1415,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__PREFIX = 5;
+	int CM_ALGORITHM__PREFIX = 6;
 
 	/**
 	 * The feature id for the '<em><b>Suffix</b></em>' attribute.
@@ -1415,7 +1424,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__SUFFIX = 6;
+	int CM_ALGORITHM__SUFFIX = 7;
 
 	/**
 	 * The number of structural features of the '<em>Cm Algorithm</em>' class.
@@ -1424,7 +1433,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM_FEATURE_COUNT = 7;
+	int CM_ALGORITHM_FEATURE_COUNT = 8;
 
 	/**
 	 * The operation id for the '<em>Get Algorithm Text</em>' operation.
@@ -2738,6 +2747,17 @@ public interface cmPackage extends EPackage {
 	EAttribute getCmAlgorithm_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getExists <em>Exists</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Exists</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getExists()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_Exists();
+
+	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getMethodType <em>Method Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3837,6 +3857,14 @@ public interface cmPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CM_ALGORITHM__NAME = eINSTANCE.getCmAlgorithm_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Exists</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__EXISTS = eINSTANCE.getCmAlgorithm_Exists();
 
 		/**
 		 * The meta object literal for the '<em><b>Method Type</b></em>' attribute feature.

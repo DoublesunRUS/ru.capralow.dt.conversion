@@ -140,13 +140,21 @@ public class ExchangeProjectsAnalyzer {
 
 					Conditional ifPart = ifStatement.getIfPart();
 					for (Statement ifPartStatement : ifPart.getStatements()) {
-						parseModuleStatement(formatVersions, ifPartStatement, variableName, modulesAliases,
-								mdCommonModule, mdMethod);
+						parseModuleStatement(formatVersions,
+								ifPartStatement,
+								variableName,
+								modulesAliases,
+								mdCommonModule,
+								mdMethod);
 
 					}
 
 				} else {
-					parseModuleStatement(formatVersions, statement, variableName, modulesAliases, mdCommonModule,
+					parseModuleStatement(formatVersions,
+							statement,
+							variableName,
+							modulesAliases,
+							mdCommonModule,
 							mdMethod);
 
 				}
@@ -189,7 +197,8 @@ public class ExchangeProjectsAnalyzer {
 
 					for (Entry<Pragma, Method> extendedMethod : extensionMethods.entrySet()) {
 						Map<String, CommonModule> extensionFormatVersions = parseMethod(
-								(CommonModule) extensionModule.getOwner(), extendedMethod.getValue());
+								(CommonModule) extensionModule.getOwner(),
+								extendedMethod.getValue());
 
 						if (extendedMethod.getKey().getSymbol().equalsIgnoreCase("До")) {
 							beforeFormatVersions.putAll(extensionFormatVersions);
@@ -241,11 +250,16 @@ public class ExchangeProjectsAnalyzer {
 					StaticFeatureAccess source = (StaticFeatureAccess) dynamicMethodAccess.getSource();
 
 					if (source.getName().equalsIgnoreCase(variableName))
-						parseStatementWithFormatString(formatVersions, leftInvocation, dynamicMethodAccess, method,
+						parseStatementWithFormatString(formatVersions,
+								leftInvocation,
+								dynamicMethodAccess,
+								method,
 								modulesAliases);
 
 					else
-						parseStatementMethodInAnotherModule(formatVersions, settingsModules, dynamicMethodAccess,
+						parseStatementMethodInAnotherModule(formatVersions,
+								settingsModules,
+								dynamicMethodAccess,
 								source);
 
 				} else {
@@ -280,7 +294,8 @@ public class ExchangeProjectsAnalyzer {
 				bmEmfIndexProvider = bmEmfIndexManager
 						.getEmfIndexProvider(projectManager.getProject(mdSubMethod).getProject());
 				subCommonModule = (CommonModule) ConversionUtils.getConfigurationObject(
-						MD_COMMONMODULE.concat(".").concat(source.getName()), bmEmfIndexProvider);
+						MD_COMMONMODULE.concat(".").concat(source.getName()),
+						bmEmfIndexProvider);
 			}
 			settingsModules.add(subCommonModule);
 
@@ -414,69 +429,10 @@ public class ExchangeProjectsAnalyzer {
 		return exchangeData;
 	}
 
-	public static ExchangeProject analyzeProject(IConfigurationProject configurationProject,
+	public static ExchangeProject analyzeProjectAndSave(IConfigurationProject configurationProject, URI xmiURI,
 			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
-		ExchangeProject exchangeProject = epFactory.eINSTANCE.createExchangeProject();
-
-		IProject mainProject = configurationProject.getProject();
-
-		exchangeProject.setName(mainProject.getName());
-
-		EList<CommonModule> settingsModules = exchangeProject.getSettingsModules();
-		settingsModules.clear();
-		EList<EpFormatVersion> epFormatVersions = exchangeProject.getFormatVersions();
-		epFormatVersions.clear();
-
-		Configuration mdConfiguration = configurationProject.getConfiguration();
-		if (mdConfiguration == null) {
-			exchangeProject.setStatus(EpProjectStatus.NO_CONFIGURATION);
-			return exchangeProject;
-		}
-
-		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
-		Subsystem mdSubsystem = (Subsystem) ConversionUtils
-				.getConfigurationObject("Подсистема.СтандартныеПодсистемы.ОбменДанными", bmEmfIndexProvider);
-		if (mdSubsystem == null) {
-			exchangeProject.setStatus(EpProjectStatus.NO_SUBSYSTEM);
-			return exchangeProject;
-		}
-
-		String sslVersion = getSSLVersion(bmEmfIndexProvider);
-		if (sslVersion.isEmpty()) {
-			exchangeProject.setStatus(EpProjectStatus.NO_SSL_VERSION);
-			return exchangeProject;
-		}
-
-		if (compareVersions(sslVersion, "2.4.1") == -1)
-			exchangeProject.setStoreVersion("1");
-		else
-			exchangeProject.setStoreVersion("2");
-
-		CommonModule mdModule = (CommonModule) ConversionUtils.getConfigurationObject(
-				MD_COMMONMODULE.concat(".").concat("ОбменДаннымиПереопределяемый"), bmEmfIndexProvider);
-		if (mdModule == null) {
-			exchangeProject.setStatus(EpProjectStatus.NO_COMMON_MODULE);
-			return exchangeProject;
-		}
-
-		Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
-		if (mdMethod == null) {
-			exchangeProject.setStatus(EpProjectStatus.NO_METHOD);
-			return exchangeProject;
-		}
-
-		ProjectFormatVersions projectFormatVersions = new ProjectFormatVersions(exchangeProject, mainProject,
-				projectManager, bmEmfIndexManager);
-
-		Map<String, CommonModule> formatVersions = projectFormatVersions.getProjectFormatVersions(mdModule, mdMethod);
-		if (formatVersions.size() == 0) {
-			exchangeProject.setStatus(EpProjectStatus.EMPTY_METHOD);
-			return exchangeProject;
-		}
-
-		addFormatVersion(formatVersions, exchangeProject, mainProject, projectManager);
-
-		exchangeProject.setStatus(EpProjectStatus.READY);
+		ExchangeProject exchangeProject = analyzeProject(configurationProject, projectManager, bmEmfIndexManager);
+		saveResource(exchangeProject, xmiURI);
 
 		return exchangeProject;
 	}
@@ -485,7 +441,8 @@ public class ExchangeProjectsAnalyzer {
 		return ConversionUtils.getResourceURIforPlugin(project.getName(), "exchangeProject", plugin);
 	}
 
-	public static ExchangeProjects loadPluginResources(IV8ProjectManager projectManager, AbstractUIPlugin plugin) {
+	public static ExchangeProjects loadPluginResources(IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager, AbstractUIPlugin plugin) {
 		ExchangeProjects exchangeProjects = epFactory.eINSTANCE.createExchangeProjects();
 
 		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
@@ -497,6 +454,12 @@ public class ExchangeProjectsAnalyzer {
 
 			ExchangeProject exchangeProject = loadResource(xmiURI,
 					((IConfigurationProject) configurationProject).getConfiguration());
+			if (exchangeProject == null)
+				analyzeProjectAndSave((IConfigurationProject) configurationProject,
+						xmiURI,
+						projectManager,
+						bmEmfIndexManager);
+
 			exchangeProjects.getProjects().add(exchangeProject);
 		}
 
@@ -588,6 +551,76 @@ public class ExchangeProjectsAnalyzer {
 
 	}
 
+	private static ExchangeProject analyzeProject(IConfigurationProject configurationProject,
+			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
+		ExchangeProject exchangeProject = epFactory.eINSTANCE.createExchangeProject();
+
+		IProject mainProject = configurationProject.getProject();
+
+		exchangeProject.setName(mainProject.getName());
+
+		EList<CommonModule> settingsModules = exchangeProject.getSettingsModules();
+		settingsModules.clear();
+		EList<EpFormatVersion> epFormatVersions = exchangeProject.getFormatVersions();
+		epFormatVersions.clear();
+
+		Configuration mdConfiguration = configurationProject.getConfiguration();
+		if (mdConfiguration == null) {
+			exchangeProject.setStatus(EpProjectStatus.NO_CONFIGURATION);
+			return exchangeProject;
+		}
+
+		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
+		Subsystem mdSubsystem = (Subsystem) ConversionUtils
+				.getConfigurationObject("Подсистема.СтандартныеПодсистемы.ОбменДанными", bmEmfIndexProvider);
+		if (mdSubsystem == null) {
+			exchangeProject.setStatus(EpProjectStatus.NO_SUBSYSTEM);
+			return exchangeProject;
+		}
+
+		String sslVersion = getSSLVersion(bmEmfIndexProvider);
+		if (sslVersion.isEmpty()) {
+			exchangeProject.setStatus(EpProjectStatus.NO_SSL_VERSION);
+			return exchangeProject;
+		}
+
+		if (compareVersions(sslVersion, "2.4.1") == -1)
+			exchangeProject.setStoreVersion("1");
+		else
+			exchangeProject.setStoreVersion("2");
+
+		CommonModule mdModule = (CommonModule) ConversionUtils.getConfigurationObject(
+				MD_COMMONMODULE.concat(".").concat("ОбменДаннымиПереопределяемый"),
+				bmEmfIndexProvider);
+		if (mdModule == null) {
+			exchangeProject.setStatus(EpProjectStatus.NO_COMMON_MODULE);
+			return exchangeProject;
+		}
+
+		Method mdMethod = getMethod(mdModule.getModule(), "ПриПолученииДоступныхВерсийФормата");
+		if (mdMethod == null) {
+			exchangeProject.setStatus(EpProjectStatus.NO_METHOD);
+			return exchangeProject;
+		}
+
+		ProjectFormatVersions projectFormatVersions = new ProjectFormatVersions(exchangeProject,
+				mainProject,
+				projectManager,
+				bmEmfIndexManager);
+
+		Map<String, CommonModule> formatVersions = projectFormatVersions.getProjectFormatVersions(mdModule, mdMethod);
+		if (formatVersions.size() == 0) {
+			exchangeProject.setStatus(EpProjectStatus.EMPTY_METHOD);
+			return exchangeProject;
+		}
+
+		addFormatVersion(formatVersions, exchangeProject, mainProject, projectManager);
+
+		exchangeProject.setStatus(EpProjectStatus.READY);
+
+		return exchangeProject;
+	}
+
 	private static Integer compareVersions(String version1, String version2) {
 
 		String[] levels1 = version1.split("\\.");
@@ -661,7 +694,8 @@ public class ExchangeProjectsAnalyzer {
 		String version = "";
 
 		CommonModule mdCommonModule = (CommonModule) ConversionUtils.getConfigurationObject(
-				MD_COMMONMODULE.concat(".").concat("ОбновлениеИнформационнойБазыБСП"), bmEmfIndexProvider);
+				MD_COMMONMODULE.concat(".").concat("ОбновлениеИнформационнойБазыБСП"),
+				bmEmfIndexProvider);
 		if (mdCommonModule == null)
 			return version;
 

@@ -28,6 +28,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage;
  * </p>
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getExists <em>Exists</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getMethodType <em>Method Type</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getParams <em>Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getIsExport <em>Is Export</em>}</li>
@@ -58,6 +59,26 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getExists() <em>Exists</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExists()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean EXISTS_EDEFAULT = Boolean.FALSE;
+
+	/**
+	 * The cached value of the '{@link #getExists() <em>Exists</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExists()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean exists = EXISTS_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getMethodType() <em>Method Type</em>}' attribute.
@@ -197,6 +218,27 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_ALGORITHM__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getExists() {
+		return exists;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExists(Boolean newExists) {
+		Boolean oldExists = exists;
+		exists = newExists;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_ALGORITHM__EXISTS, oldExists, exists));
 	}
 
 	/**
@@ -369,6 +411,8 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 		switch (featureID) {
 			case cmPackage.CM_ALGORITHM__NAME:
 				return getName();
+			case cmPackage.CM_ALGORITHM__EXISTS:
+				return getExists();
 			case cmPackage.CM_ALGORITHM__METHOD_TYPE:
 				return getMethodType();
 			case cmPackage.CM_ALGORITHM__PARAMS:
@@ -395,6 +439,9 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 		switch (featureID) {
 			case cmPackage.CM_ALGORITHM__NAME:
 				setName((String)newValue);
+				return;
+			case cmPackage.CM_ALGORITHM__EXISTS:
+				setExists((Boolean)newValue);
 				return;
 			case cmPackage.CM_ALGORITHM__METHOD_TYPE:
 				setMethodType((CmMethodType)newValue);
@@ -423,6 +470,9 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 			case cmPackage.CM_ALGORITHM__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case cmPackage.CM_ALGORITHM__EXISTS:
+				setExists(EXISTS_EDEFAULT);
+				return;
 			case cmPackage.CM_ALGORITHM__METHOD_TYPE:
 				setMethodType(METHOD_TYPE_EDEFAULT);
 				return;
@@ -449,6 +499,8 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 		switch (featureID) {
 			case cmPackage.CM_ALGORITHM__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case cmPackage.CM_ALGORITHM__EXISTS:
+				return EXISTS_EDEFAULT == null ? exists != null : !EXISTS_EDEFAULT.equals(exists);
 			case cmPackage.CM_ALGORITHM__METHOD_TYPE:
 				return methodType != METHOD_TYPE_EDEFAULT;
 			case cmPackage.CM_ALGORITHM__PARAMS:

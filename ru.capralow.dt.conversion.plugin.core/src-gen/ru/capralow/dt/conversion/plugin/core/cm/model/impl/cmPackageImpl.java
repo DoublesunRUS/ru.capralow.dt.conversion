@@ -1205,7 +1205,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmAlgorithm_MethodType() {
+	public EAttribute getCmAlgorithm_Exists() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1214,7 +1214,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmAlgorithm_Params() {
+	public EAttribute getCmAlgorithm_MethodType() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1223,7 +1223,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmAlgorithm_IsExport() {
+	public EAttribute getCmAlgorithm_Params() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -1232,7 +1232,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmAlgorithm_Body() {
+	public EAttribute getCmAlgorithm_IsExport() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -1241,7 +1241,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmAlgorithm_Prefix() {
+	public EAttribute getCmAlgorithm_Body() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -1250,8 +1250,17 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmAlgorithm_Suffix() {
+	public EAttribute getCmAlgorithm_Prefix() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCmAlgorithm_Suffix() {
+		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -1506,6 +1515,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 
 		cmAlgorithmEClass = createEClass(CM_ALGORITHM);
 		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__NAME);
+		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__EXISTS);
 		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__METHOD_TYPE);
 		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__PARAMS);
 		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__IS_EXPORT);
@@ -1736,6 +1746,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 
 		initEClass(cmAlgorithmEClass, CmAlgorithm.class, "CmAlgorithm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(getCmAlgorithm_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmAlgorithm_Exists(), theEcorePackage.getEBooleanObject(), "exists", "false", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmAlgorithm_MethodType(), this.getCmMethodType(), "methodType", null, 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEAttribute(getCmAlgorithm_Params(), theEcorePackage.getEString(), "params", "", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute(getCmAlgorithm_IsExport(), theEcorePackage.getEBooleanObject(), "isExport", "false", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
