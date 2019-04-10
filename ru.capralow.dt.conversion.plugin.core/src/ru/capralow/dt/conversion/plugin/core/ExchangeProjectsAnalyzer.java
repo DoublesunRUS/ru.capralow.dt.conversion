@@ -277,14 +277,15 @@ public class ExchangeProjectsAnalyzer {
 			List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
 					EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
 			if (featureEntries.isEmpty())
-				return;
+				throw new NullPointerException(
+						"При рекурсивном разборе процедуры ПриПолученииДоступныхВерсийФормата не удалось получить FeatureEntry для очередой вложенной процедуры.");
 
 			FeatureEntry featureEntry = featureEntries.get(0);
 			EObject feature = featureEntry.getFeature();
 
 			BslContextDefMethod bslMethod = (BslContextDefMethod) feature;
 			EObject newObject = EcoreFactory.eINSTANCE.createEObject();
-			((InternalEObject) newObject).eSetProxyURI((bslMethod).getSourceUri());
+			((InternalEObject) newObject).eSetProxyURI(bslMethod.getSourceUri());
 			Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, dynamicMethodAccess);
 
 			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
@@ -455,7 +456,7 @@ public class ExchangeProjectsAnalyzer {
 			ExchangeProject exchangeProject = loadResource(xmiURI,
 					((IConfigurationProject) configurationProject).getConfiguration());
 			if (exchangeProject == null)
-				analyzeProjectAndSave((IConfigurationProject) configurationProject,
+				exchangeProject = analyzeProjectAndSave((IConfigurationProject) configurationProject,
 						xmiURI,
 						projectManager,
 						bmEmfIndexManager);
@@ -558,11 +559,6 @@ public class ExchangeProjectsAnalyzer {
 		IProject mainProject = configurationProject.getProject();
 
 		exchangeProject.setName(mainProject.getName());
-
-		EList<CommonModule> settingsModules = exchangeProject.getSettingsModules();
-		settingsModules.clear();
-		EList<EpFormatVersion> epFormatVersions = exchangeProject.getFormatVersions();
-		epFormatVersions.clear();
 
 		Configuration mdConfiguration = configurationProject.getConfiguration();
 		if (mdConfiguration == null) {
