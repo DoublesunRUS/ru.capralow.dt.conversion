@@ -84,31 +84,20 @@ public interface ConversionModule extends EObject {
 	EList<CmSubsystem> getSubsystems();
 
 	/**
-	 * Returns the value of the '<em><b>Params</b></em>' attribute.
-	 * The default value is <code>""</code>.
+	 * Returns the value of the '<em><b>Params</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Params</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Params</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Params</em>' attribute.
-	 * @see #setParams(String)
+	 * @return the value of the '<em>Params</em>' attribute list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getConversionModule_Params()
-	 * @model default="" unique="false"
+	 * @model unique="false"
 	 * @generated
 	 */
-	String getParams();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule#getParams <em>Params</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Params</em>' attribute.
-	 * @see #getParams()
-	 * @generated
-	 */
-	void setParams(String value);
+	EList<String> getParams();
 
 	/**
 	 * Returns the value of the '<em><b>Before Convertation Event</b></em>' attribute.

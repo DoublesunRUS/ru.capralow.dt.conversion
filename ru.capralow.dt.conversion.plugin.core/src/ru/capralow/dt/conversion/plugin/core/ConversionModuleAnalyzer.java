@@ -393,8 +393,7 @@ public class ConversionModuleAnalyzer {
 			for (CmPredefinedMap predefinedMap : predefined.getPredefinedMaps())
 				predefinedsText.append(LS).append(prefix)
 						.append(String.format("	ЗначенияДляОтправки.Вставить(%1$s, \"%2$s\");",
-								predefinedMap.getConfigurationValue(),
-								predefinedMap.getFormatValue()));
+								predefinedMap.getConfigurationValue(), predefinedMap.getFormatValue()));
 			predefinedsText.append(LS).append(prefix)
 					.append("	ПравилоКонвертации.КонвертацииЗначенийПриОтправке = ЗначенияДляОтправки;");
 		}
@@ -403,8 +402,7 @@ public class ConversionModuleAnalyzer {
 			for (CmPredefinedMap predefinedMap : predefined.getPredefinedMaps())
 				predefinedsText.append(LS).append(prefix)
 						.append(String.format("	ЗначенияДляПолучения.Вставить(\"%1$s\", %2$s);",
-								predefinedMap.getFormatValue(),
-								predefinedMap.getConfigurationValue()));
+								predefinedMap.getFormatValue(), predefinedMap.getConfigurationValue()));
 			predefinedsText.append(LS).append(prefix)
 					.append("	ПравилоКонвертации.КонвертацииЗначенийПриПолучении = ЗначенияДляПолучения;");
 		}
@@ -429,39 +427,31 @@ public class ConversionModuleAnalyzer {
 			String[] str2;
 
 			if (comparatorOrder.equals(COMPARATOR_ORDER_BY_SENDING)) {
-				str1 = new String[] {
-						cmArg1.getFormatTabularSection(),
+				str1 = new String[] { cmArg1.getFormatTabularSection(),
 						cmArg1.getConfigurationTabularSection().isEmpty() && cmArg1.getFormatTabularSection().isEmpty()
 								? "0"
 								: "1",
-						cmArg1.getIsCustomRule() ? "1" : "0",
-						cmArg1.getConfigurationAttribute(),
+						cmArg1.getIsCustomRule() ? "1" : "0", cmArg1.getConfigurationAttribute(),
 						cmArg1.getFormatAttribute() };
-				str2 = new String[] {
-						cmArg2.getFormatTabularSection(),
+				str2 = new String[] { cmArg2.getFormatTabularSection(),
 						cmArg2.getConfigurationTabularSection().isEmpty() && cmArg2.getFormatTabularSection().isEmpty()
 								? "0"
 								: "1",
-						cmArg2.getIsCustomRule() ? "1" : "0",
-						cmArg2.getConfigurationAttribute(),
+						cmArg2.getIsCustomRule() ? "1" : "0", cmArg2.getConfigurationAttribute(),
 						cmArg2.getFormatAttribute() };
 
 			} else if (comparatorOrder.equals(COMPARATOR_ORDER_BY_RECEIVING)) {
-				str1 = new String[] {
-						cmArg1.getConfigurationTabularSection(),
+				str1 = new String[] { cmArg1.getConfigurationTabularSection(),
 						cmArg1.getConfigurationTabularSection().isEmpty() && cmArg1.getFormatTabularSection().isEmpty()
 								? "0"
 								: "1",
-						cmArg1.getIsCustomRule() ? "1" : "0",
-						cmArg1.getConfigurationAttribute(),
+						cmArg1.getIsCustomRule() ? "1" : "0", cmArg1.getConfigurationAttribute(),
 						cmArg1.getFormatAttribute() };
-				str2 = new String[] {
-						cmArg2.getFormatTabularSection(),
+				str2 = new String[] { cmArg2.getFormatTabularSection(),
 						cmArg2.getConfigurationTabularSection().isEmpty() && cmArg2.getFormatTabularSection().isEmpty()
 								? "0"
 								: "1",
-						cmArg2.getIsCustomRule() ? "1" : "0",
-						cmArg2.getConfigurationAttribute(),
+						cmArg2.getIsCustomRule() ? "1" : "0", cmArg2.getConfigurationAttribute(),
 						cmArg2.getFormatAttribute() };
 
 			} else { // SENDING AND RECEIVING
@@ -472,11 +462,8 @@ public class ConversionModuleAnalyzer {
 
 				str1 = new String[] {
 						!configurationTabularSection1.isEmpty() && !formatTabularSection1.isEmpty() ? "0" : "1",
-						configurationTabularSection1,
-						formatTabularSection1,
-						cmArg1.getIsCustomRule() ? "1" : "0",
-						cmArg1.getConfigurationAttribute(),
-						cmArg1.getFormatAttribute() };
+						configurationTabularSection1, formatTabularSection1, cmArg1.getIsCustomRule() ? "1" : "0",
+						cmArg1.getConfigurationAttribute(), cmArg1.getFormatAttribute() };
 
 				String configurationTabularSection2 = cmArg2.getConfigurationAttribute().isEmpty() ? ""
 						: cmArg2.getConfigurationTabularSection();
@@ -485,11 +472,8 @@ public class ConversionModuleAnalyzer {
 
 				str2 = new String[] {
 						!configurationTabularSection2.isEmpty() && !formatTabularSection2.isEmpty() ? "0" : "1",
-						configurationTabularSection2,
-						formatTabularSection2,
-						cmArg2.getIsCustomRule() ? "1" : "0",
-						cmArg2.getConfigurationAttribute(),
-						cmArg2.getFormatAttribute() };
+						configurationTabularSection2, formatTabularSection2, cmArg2.getIsCustomRule() ? "1" : "0",
+						cmArg2.getConfigurationAttribute(), cmArg2.getFormatAttribute() };
 
 			}
 
@@ -533,28 +517,16 @@ public class ConversionModuleAnalyzer {
 			String[] str2;
 
 			if (comparatorOrder.equals(COMPARATOR_ORDER_BY_SENDING)) {
-				str1 = new String[] {
-						getSendingReceivingPriority(cmArg1),
-						cmArg1.getConfigurationObjectName(),
-						cmArg1.getFormatObject(),
-						cmArg1.getName() };
-				str2 = new String[] {
-						getSendingReceivingPriority(cmArg2),
-						cmArg2.getConfigurationObjectName(),
-						cmArg2.getFormatObject(),
-						cmArg2.getName() };
+				str1 = new String[] { getSendingReceivingPriority(cmArg1), cmArg1.getConfigurationObjectName(),
+						cmArg1.getFormatObject(), cmArg1.getName() };
+				str2 = new String[] { getSendingReceivingPriority(cmArg2), cmArg2.getConfigurationObjectName(),
+						cmArg2.getFormatObject(), cmArg2.getName() };
 
 			} else if (comparatorOrder.equals(COMPARATOR_ORDER_BY_RECEIVING)) {
-				str1 = new String[] {
-						getSendingReceivingPriority(cmArg1),
-						cmArg1.getFormatObject(),
-						cmArg1.getConfigurationObjectName(),
-						cmArg1.getName() };
-				str2 = new String[] {
-						getSendingReceivingPriority(cmArg2),
-						cmArg2.getFormatObject(),
-						cmArg2.getConfigurationObjectName(),
-						cmArg2.getName() };
+				str1 = new String[] { getSendingReceivingPriority(cmArg1), cmArg1.getFormatObject(),
+						cmArg1.getConfigurationObjectName(), cmArg1.getName() };
+				str2 = new String[] { getSendingReceivingPriority(cmArg2), cmArg2.getFormatObject(),
+						cmArg2.getConfigurationObjectName(), cmArg2.getName() };
 
 			} else { // COMPARATOR_ORDER_BY_NAME
 				str1 = new String[] { getSendingReceivingPriority(cmArg1), cmArg1.getName() };
@@ -757,6 +729,11 @@ public class ConversionModuleAnalyzer {
 		}
 	}
 
+	private static void addParams(Method method, ConversionModule conversionModule) {
+		// TODO Автоматически созданная заглушка метода
+
+	}
+
 	private static void addPredefineds(Method method, ConversionModule conversionModule,
 			IBmEmfIndexProvider bmEmfIndexProvider) {
 		CmPredefined cmPredefined = null;
@@ -824,8 +801,7 @@ public class ConversionModuleAnalyzer {
 		if (!storeVersion.equals("1") && !storeVersion.equals("2"))
 			throw new NullPointerException("Неизвестная версия формата: " + storeVersion);
 
-		SubsystemsFiller subsystemsFiller = new SubsystemsFiller(conversionModule,
-				mainCommandInterface,
+		SubsystemsFiller subsystemsFiller = new SubsystemsFiller(conversionModule, mainCommandInterface,
 				cmMainSubsystem);
 
 		String methodName = method.getName();
@@ -1034,9 +1010,8 @@ public class ConversionModuleAnalyzer {
 
 		for (CmAlgorithm algorithm : afterReceivingAlgorithms) {
 			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
-			objectRulesEventsText
-					.append(String
-							.format("	%1$s ИмяПроцедуры = \"%2$s\" Тогда ", objectRulesPrefix, algorithm.getName()))
+			objectRulesEventsText.append(
+					String.format("	%1$s ИмяПроцедуры = \"%2$s\" Тогда ", objectRulesPrefix, algorithm.getName()))
 					.append(LS);
 			objectRulesEventsText.append(String.format("		%1$s(", algorithm.getName())).append(LS);
 			objectRulesEventsText
@@ -1167,9 +1142,7 @@ public class ConversionModuleAnalyzer {
 			Integer formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
 
 			if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty())
-				createObjectRuleAttributeRow(attributeRule,
-						attributeRulesText,
-						"СвойстваШапки",
+				createObjectRuleAttributeRow(attributeRule, attributeRulesText, "СвойстваШапки",
 						formatAttributeMaxLength);
 			else
 				createObjectRuleAttributeRow(attributeRule, tabularSectionText, "СвойстваТЧ", formatAttributeMaxLength);
@@ -1195,8 +1168,7 @@ public class ConversionModuleAnalyzer {
 
 			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
 			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
-					objectRulesPrefix,
-					objectRule.getName())).append(LS);
+					objectRulesPrefix, objectRule.getName())).append(LS);
 			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
 					.append(LS);
 			objectRulesEventsText.append(
@@ -1209,8 +1181,7 @@ public class ConversionModuleAnalyzer {
 			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
 			objectRulesEventsText
 					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриКонвертацииДанныхXDTO\" Тогда ",
-							objectRulesPrefix,
-							objectRule.getName()))
+							objectRulesPrefix, objectRule.getName()))
 					.append(LS);
 			objectRulesEventsText
 					.append(String.format("		ПКО_%1$s_ПриКонвертацииДанныхXDTO(", objectRule.getName())).append(LS);
@@ -1224,8 +1195,7 @@ public class ConversionModuleAnalyzer {
 			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
 			objectRulesEventsText
 					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПередЗаписьюПолученныхДанных\" Тогда ",
-							objectRulesPrefix,
-							objectRule.getName()))
+							objectRulesPrefix, objectRule.getName()))
 					.append(LS);
 			objectRulesEventsText
 					.append(String.format("		ПКО_%1$s_ПередЗаписьюПолученныхДанных(", objectRule.getName()))
@@ -1328,9 +1298,7 @@ public class ConversionModuleAnalyzer {
 			Integer formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
 
 			if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty())
-				createObjectRuleAttributeRow(attributeRule,
-						attributeRulesText,
-						"СвойстваШапки",
+				createObjectRuleAttributeRow(attributeRule, attributeRulesText, "СвойстваШапки",
 						formatAttributeMaxLength);
 			else
 				createObjectRuleAttributeRow(attributeRule, tabularSectionText, "СвойстваТЧ", formatAttributeMaxLength);
@@ -1351,8 +1319,7 @@ public class ConversionModuleAnalyzer {
 
 			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
 			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
-					objectRulesPrefix,
-					objectRule.getName())).append(LS);
+					objectRulesPrefix, objectRule.getName())).append(LS);
 			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
 					.append(LS);
 			objectRulesEventsText.append(
@@ -1389,21 +1356,15 @@ public class ConversionModuleAnalyzer {
 
 		for (CmObjectRule objectRule : objectRules) {
 			if (objectRule.getForSending() && objectRule.getForReceiving())
-				createObjectRuleReceivingText(objectRule,
-						objectRulesDeclarationBothText,
-						objectRulesBoth,
+				createObjectRuleReceivingText(objectRule, objectRulesDeclarationBothText, objectRulesBoth,
 						objectRulesEventsText);
 
 			else if (objectRule.getForSending())
-				createObjectRuleSendingText(objectRule,
-						objectRulesDeclarationSendingText,
-						objectRulesSending,
+				createObjectRuleSendingText(objectRule, objectRulesDeclarationSendingText, objectRulesSending,
 						objectRulesEventsText);
 
 			else if (objectRule.getForReceiving())
-				createObjectRuleReceivingText(objectRule,
-						objectRulesDeclarationReceivingText,
-						objectRulesReceiving,
+				createObjectRuleReceivingText(objectRule, objectRulesDeclarationReceivingText, objectRulesReceiving,
 						objectRulesEventsText);
 
 		}
@@ -1423,6 +1384,18 @@ public class ConversionModuleAnalyzer {
 		templateMain.setAttribute("ObjectRulesSending", objectRulesSending);
 		templateMain.setAttribute("ObjectRulesReceiving", objectRulesReceiving);
 		templateMain.setAttribute("ObjectRulesBoth", objectRulesBoth);
+	}
+
+	private static void createParamsText(StringTemplate templateMain, ConversionModule conversionModule) {
+		StringBuilder paramsText = new StringBuilder();
+
+		for (String param : conversionModule.getParams()) {
+			if (paramsText.length() != 0)
+				paramsText.append(LS);
+			paramsText.append(String.format("	ПараметрыКонвертации.Вставить(\"%1$s\");", param));
+		}
+
+		templateMain.setAttribute("Params", paramsText);
 	}
 
 	private static CmPredefined createPredefined(Statement statement, ConversionModule conversionModule) {
@@ -1554,9 +1527,8 @@ public class ConversionModuleAnalyzer {
 
 		StringTemplate templateMain = new StringTemplate(templateMainContent);
 
-		templateMain.setAttribute("ConvertationName",
-				"// Конвертация " + name + " от "
-						+ localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + "");
+		templateMain.setAttribute("ConvertationName", "// Конвертация " + name + " от "
+				+ localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + "");
 
 		templateMain.setAttribute("BeforeConvertationEvent", conversionModule.getBeforeConvertationEventText());
 		templateMain.setAttribute("AfterConvertationEvent", conversionModule.getAfterConvertationEventText());
@@ -1570,6 +1542,7 @@ public class ConversionModuleAnalyzer {
 		createObjectRulesText(templateMain, objectRulesEventsText, conversionModule);
 		createPredefinedsText(templateMain, conversionModule);
 		createAlgorithmsText(templateMain, conversionModule);
+		createParamsText(templateMain, conversionModule);
 		createEventsText(templateMain, objectRulesEventsText, conversionModule);
 
 		return templateMain.toString().replaceAll(REPLACE_EMPTY_PROPERTIES, LS);
@@ -1817,6 +1790,9 @@ public class ConversionModuleAnalyzer {
 			if (storeVersion != null)
 				conversionModule.setStoreVersion(storeVersion);
 
+		} else if (methodName.equals("ЗаполнитьПараметрыКонвертации")) {
+			addParams(method, conversionModule);
+
 		} else {
 			CommandInterface mainCommandInterface = (CommandInterface) configuration.getMainSectionCommandInterface();
 
@@ -1968,10 +1944,7 @@ public class ConversionModuleAnalyzer {
 				}
 
 			} else if (leftExpression instanceof Invocation) {
-				parseObjectRuleMiscFields(statement,
-						configurationTabularSection,
-						formatTabularSection,
-						objectRule,
+				parseObjectRuleMiscFields(statement, configurationTabularSection, formatTabularSection, objectRule,
 						conversionModule);
 
 			} else {
@@ -1992,10 +1965,7 @@ public class ConversionModuleAnalyzer {
 
 		FeatureAccess leftMethodAccess = leftInvocation.getMethodAccess();
 		if (leftMethodAccess instanceof StaticFeatureAccess)
-			parseObjectRuleAttribute(params,
-					configurationTabularSection,
-					formatTabularSection,
-					objectRule,
+			parseObjectRuleAttribute(params, configurationTabularSection, formatTabularSection, objectRule,
 					conversionModule);
 
 		else if (leftMethodAccess instanceof DynamicFeatureAccess)

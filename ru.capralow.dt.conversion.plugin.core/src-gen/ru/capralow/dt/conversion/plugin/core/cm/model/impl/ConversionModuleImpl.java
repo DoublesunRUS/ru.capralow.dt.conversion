@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -95,24 +96,14 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	protected EList<CmSubsystem> subsystems;
 
 	/**
-	 * The default value of the '{@link #getParams() <em>Params</em>}' attribute.
+	 * The cached value of the '{@link #getParams() <em>Params</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getParams()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PARAMS_EDEFAULT = ""; //$NON-NLS-1$
-
-	/**
-	 * The cached value of the '{@link #getParams() <em>Params</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getParams()
-	 * @generated
-	 * @ordered
-	 */
-	protected String params = PARAMS_EDEFAULT;
+	protected EList<String> params;
 
 	/**
 	 * The default value of the '{@link #getBeforeConvertationEvent() <em>Before Convertation Event</em>}' attribute.
@@ -391,20 +382,11 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getParams() {
+	public EList<String> getParams() {
+		if (params == null) {
+			params = new EDataTypeEList<String>(String.class, this, cmPackage.CONVERSION_MODULE__PARAMS);
+		}
 		return params;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParams(String newParams) {
-		String oldParams = params;
-		params = newParams;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CONVERSION_MODULE__PARAMS, oldParams, params));
 	}
 
 	/**
@@ -1013,7 +995,8 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 				getSubsystems().addAll((Collection<? extends CmSubsystem>)newValue);
 				return;
 			case cmPackage.CONVERSION_MODULE__PARAMS:
-				setParams((String)newValue);
+				getParams().clear();
+				getParams().addAll((Collection<? extends String>)newValue);
 				return;
 			case cmPackage.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT:
 				setBeforeConvertationEvent((String)newValue);
@@ -1077,7 +1060,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 				getSubsystems().clear();
 				return;
 			case cmPackage.CONVERSION_MODULE__PARAMS:
-				setParams(PARAMS_EDEFAULT);
+				getParams().clear();
 				return;
 			case cmPackage.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT:
 				setBeforeConvertationEvent(BEFORE_CONVERTATION_EVENT_EDEFAULT);
@@ -1135,7 +1118,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 			case cmPackage.CONVERSION_MODULE__SUBSYSTEMS:
 				return subsystems != null && !subsystems.isEmpty();
 			case cmPackage.CONVERSION_MODULE__PARAMS:
-				return PARAMS_EDEFAULT == null ? params != null : !PARAMS_EDEFAULT.equals(params);
+				return params != null && !params.isEmpty();
 			case cmPackage.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT:
 				return BEFORE_CONVERTATION_EVENT_EDEFAULT == null ? beforeConvertationEvent != null : !BEFORE_CONVERTATION_EVENT_EDEFAULT.equals(beforeConvertationEvent);
 			case cmPackage.CONVERSION_MODULE__BEFORE_CONVERTATION_EVENT_PREFIX:

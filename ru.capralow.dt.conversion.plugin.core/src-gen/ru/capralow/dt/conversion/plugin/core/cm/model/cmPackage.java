@@ -88,7 +88,7 @@ public interface cmPackage extends EPackage {
 	int CONVERSION_MODULE__SUBSYSTEMS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Params</b></em>' attribute.
+	 * The feature id for the '<em><b>Params</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1628,10 +1628,10 @@ public interface cmPackage extends EPackage {
 	EReference getConversionModule_Subsystems();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule#getParams <em>Params</em>}'.
+	 * Returns the meta object for the attribute list '{@link ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule#getParams <em>Params</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Params</em>'.
+	 * @return the meta object for the attribute list '<em>Params</em>'.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule#getParams()
 	 * @see #getConversionModule()
 	 * @generated
@@ -2997,7 +2997,7 @@ public interface cmPackage extends EPackage {
 		EReference CONVERSION_MODULE__SUBSYSTEMS = eINSTANCE.getConversionModule_Subsystems();
 
 		/**
-		 * The meta object literal for the '<em><b>Params</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Params</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

@@ -17,7 +17,7 @@ class ConversionModule {
 		return null;
 	}
 	
-	String params = ""
+	String[] params
 	
 	String beforeConvertationEvent = ""
 	String
