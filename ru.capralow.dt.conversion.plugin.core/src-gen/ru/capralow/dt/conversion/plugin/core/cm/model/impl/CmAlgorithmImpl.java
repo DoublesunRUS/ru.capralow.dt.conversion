@@ -6,17 +6,25 @@ import com.google.common.base.Objects;
 
 import java.lang.reflect.InvocationTargetException;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmParam;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage;
 
 /**
@@ -33,6 +41,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getParams <em>Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getIsExport <em>Is Export</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getBody <em>Body</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getMethodParams <em>Method Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl#getSuffix <em>Suffix</em>}</li>
  * </ul>
@@ -101,24 +110,14 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	protected CmMethodType methodType = METHOD_TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getParams() <em>Params</em>}' attribute.
+	 * The cached value of the '{@link #getParams() <em>Params</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getParams()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PARAMS_EDEFAULT = ""; //$NON-NLS-1$
-
-	/**
-	 * The cached value of the '{@link #getParams() <em>Params</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getParams()
-	 * @generated
-	 * @ordered
-	 */
-	protected String params = PARAMS_EDEFAULT;
+	protected EList<CmParam> params;
 
 	/**
 	 * The default value of the '{@link #getIsExport() <em>Is Export</em>}' attribute.
@@ -159,6 +158,16 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * @ordered
 	 */
 	protected String body = BODY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getMethodParams() <em>Method Params</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMethodParams()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String METHOD_PARAMS_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
@@ -267,20 +276,11 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getParams() {
+	public EList<CmParam> getParams() {
+		if (params == null) {
+			params = new EObjectContainmentEList<CmParam>(CmParam.class, this, cmPackage.CM_ALGORITHM__PARAMS);
+		}
 		return params;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParams(String newParams) {
-		String oldParams = params;
-		params = newParams;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_ALGORITHM__PARAMS, oldParams, params));
 	}
 
 	/**
@@ -330,6 +330,38 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getMethodParams() {
+		String methodParams = "";
+		EList<CmParam> _params = this.getParams();
+		for (final CmParam param : _params) {
+			{
+				boolean _isEmpty = methodParams.isEmpty();
+				boolean _not = (!_isEmpty);
+				if (_not) {
+					String _methodParams = methodParams;
+					methodParams = (_methodParams + ", ");
+				}
+				String _methodParams_1 = methodParams;
+				String _trim = param.getName().trim();
+				methodParams = (_methodParams_1 + _trim);
+				boolean _isEmpty_1 = param.getDefaultValue().isEmpty();
+				boolean _not_1 = (!_isEmpty_1);
+				if (_not_1) {
+					String _methodParams_2 = methodParams;
+					String _defaultValue = param.getDefaultValue();
+					String _plus = (" = " + _defaultValue);
+					methodParams = (_methodParams_2 + _plus);
+				}
+			}
+		}
+		return methodParams;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getPrefix() {
 		String prefix = "";
 		CmMethodType _methodType = this.getMethodType();
@@ -348,8 +380,8 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 		String _name = this.getName();
 		String _plus = ((prefix + " ") + _name);
 		String _plus_1 = (_plus + "(");
-		String _params = this.getParams();
-		String _plus_2 = (_plus_1 + _params);
+		String _methodParams = this.getMethodParams();
+		String _plus_2 = (_plus_1 + _methodParams);
 		String _plus_3 = (_plus_2 + ")");
 		return (_plus_3 + export);
 	}
@@ -407,6 +439,20 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case cmPackage.CM_ALGORITHM__PARAMS:
+				return ((InternalEList<?>)getParams()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case cmPackage.CM_ALGORITHM__NAME:
@@ -421,6 +467,8 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 				return getIsExport();
 			case cmPackage.CM_ALGORITHM__BODY:
 				return getBody();
+			case cmPackage.CM_ALGORITHM__METHOD_PARAMS:
+				return getMethodParams();
 			case cmPackage.CM_ALGORITHM__PREFIX:
 				return getPrefix();
 			case cmPackage.CM_ALGORITHM__SUFFIX:
@@ -434,6 +482,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -447,7 +496,8 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 				setMethodType((CmMethodType)newValue);
 				return;
 			case cmPackage.CM_ALGORITHM__PARAMS:
-				setParams((String)newValue);
+				getParams().clear();
+				getParams().addAll((Collection<? extends CmParam>)newValue);
 				return;
 			case cmPackage.CM_ALGORITHM__IS_EXPORT:
 				setIsExport((Boolean)newValue);
@@ -477,7 +527,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 				setMethodType(METHOD_TYPE_EDEFAULT);
 				return;
 			case cmPackage.CM_ALGORITHM__PARAMS:
-				setParams(PARAMS_EDEFAULT);
+				getParams().clear();
 				return;
 			case cmPackage.CM_ALGORITHM__IS_EXPORT:
 				setIsExport(IS_EXPORT_EDEFAULT);
@@ -504,11 +554,13 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 			case cmPackage.CM_ALGORITHM__METHOD_TYPE:
 				return methodType != METHOD_TYPE_EDEFAULT;
 			case cmPackage.CM_ALGORITHM__PARAMS:
-				return PARAMS_EDEFAULT == null ? params != null : !PARAMS_EDEFAULT.equals(params);
+				return params != null && !params.isEmpty();
 			case cmPackage.CM_ALGORITHM__IS_EXPORT:
 				return IS_EXPORT_EDEFAULT == null ? isExport != null : !IS_EXPORT_EDEFAULT.equals(isExport);
 			case cmPackage.CM_ALGORITHM__BODY:
 				return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
+			case cmPackage.CM_ALGORITHM__METHOD_PARAMS:
+				return METHOD_PARAMS_EDEFAULT == null ? getMethodParams() != null : !METHOD_PARAMS_EDEFAULT.equals(getMethodParams());
 			case cmPackage.CM_ALGORITHM__PREFIX:
 				return PREFIX_EDEFAULT == null ? getPrefix() != null : !PREFIX_EDEFAULT.equals(getPrefix());
 			case cmPackage.CM_ALGORITHM__SUFFIX:

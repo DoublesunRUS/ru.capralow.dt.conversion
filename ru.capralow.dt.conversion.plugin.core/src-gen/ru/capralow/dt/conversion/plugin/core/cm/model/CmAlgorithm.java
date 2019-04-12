@@ -2,6 +2,8 @@
  */
 package ru.capralow.dt.conversion.plugin.core.cm.model;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -19,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getParams <em>Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getIsExport <em>Is Export</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getBody <em>Body</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getMethodParams <em>Method Params</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getSuffix <em>Suffix</em>}</li>
  * </ul>
@@ -112,31 +115,20 @@ public interface CmAlgorithm extends EObject {
 	void setMethodType(CmMethodType value);
 
 	/**
-	 * Returns the value of the '<em><b>Params</b></em>' attribute.
-	 * The default value is <code>""</code>.
+	 * Returns the value of the '<em><b>Params</b></em>' containment reference list.
+	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Params</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Params</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Params</em>' attribute.
-	 * @see #setParams(String)
+	 * @return the value of the '<em>Params</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmAlgorithm_Params()
-	 * @model default="" unique="false"
+	 * @model containment="true"
 	 * @generated
 	 */
-	String getParams();
-
-	/**
-	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getParams <em>Params</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Params</em>' attribute.
-	 * @see #getParams()
-	 * @generated
-	 */
-	void setParams(String value);
+	EList<CmParam> getParams();
 
 	/**
 	 * Returns the value of the '<em><b>Is Export</b></em>' attribute.
@@ -193,6 +185,22 @@ public interface CmAlgorithm extends EObject {
 	void setBody(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Method Params</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Method Params</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Method Params</em>' attribute.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmAlgorithm_MethodParams()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='&lt;%java.lang.String%&gt; methodParams = \"\";\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmParam%&gt;&gt; _params = this.getParams();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmParam%&gt; param : _params)\n{\n\t{\n\t\tboolean _isEmpty = methodParams.isEmpty();\n\t\tboolean _not = (!_isEmpty);\n\t\tif (_not)\n\t\t{\n\t\t\t&lt;%java.lang.String%&gt; _methodParams = methodParams;\n\t\t\tmethodParams = (_methodParams + \", \");\n\t\t}\n\t\t&lt;%java.lang.String%&gt; _methodParams_1 = methodParams;\n\t\t&lt;%java.lang.String%&gt; _trim = param.getName().trim();\n\t\tmethodParams = (_methodParams_1 + _trim);\n\t\tboolean _isEmpty_1 = param.getDefaultValue().isEmpty();\n\t\tboolean _not_1 = (!_isEmpty_1);\n\t\tif (_not_1)\n\t\t{\n\t\t\t&lt;%java.lang.String%&gt; _methodParams_2 = methodParams;\n\t\t\t&lt;%java.lang.String%&gt; _defaultValue = param.getDefaultValue();\n\t\t\t&lt;%java.lang.String%&gt; _plus = (\" = \" + _defaultValue);\n\t\t\tmethodParams = (_methodParams_2 + _plus);\n\t\t}\n\t}\n}\nreturn methodParams;'"
+	 * @generated
+	 */
+	String getMethodParams();
+
+	/**
 	 * Returns the value of the '<em><b>Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -203,7 +211,7 @@ public interface CmAlgorithm extends EObject {
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmAlgorithm_Prefix()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='&lt;%java.lang.String%&gt; prefix = \"\";\n&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType%&gt; _methodType = this.getMethodType();\nboolean _equals = &lt;%com.google.common.base.Objects%&gt;.equal(_methodType, &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType%&gt;.PROCEDURE);\nif (_equals)\n{\n\tprefix = \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430\";\n}\nelse\n{\n\tprefix = \"\\u0424\\u0443\\u043D\\u043A\\u0446\\u0438\\u044F\";\n}\n&lt;%java.lang.String%&gt; export = \"\";\n&lt;%java.lang.Boolean%&gt; _isExport = this.getIsExport();\nif ((_isExport).booleanValue())\n{\n\texport = \" \\u042D\\u043A\\u0441\\u043F\\u043E\\u0440\\u0442\";\n}\n&lt;%java.lang.String%&gt; _name = this.getName();\n&lt;%java.lang.String%&gt; _plus = ((prefix + \" \") + _name);\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + \"(\");\n&lt;%java.lang.String%&gt; _params = this.getParams();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _params);\n&lt;%java.lang.String%&gt; _plus_3 = (_plus_2 + \")\");\nreturn (_plus_3 + export);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='&lt;%java.lang.String%&gt; prefix = \"\";\n&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType%&gt; _methodType = this.getMethodType();\nboolean _equals = &lt;%com.google.common.base.Objects%&gt;.equal(_methodType, &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType%&gt;.PROCEDURE);\nif (_equals)\n{\n\tprefix = \"\\u041F\\u0440\\u043E\\u0446\\u0435\\u0434\\u0443\\u0440\\u0430\";\n}\nelse\n{\n\tprefix = \"\\u0424\\u0443\\u043D\\u043A\\u0446\\u0438\\u044F\";\n}\n&lt;%java.lang.String%&gt; export = \"\";\n&lt;%java.lang.Boolean%&gt; _isExport = this.getIsExport();\nif ((_isExport).booleanValue())\n{\n\texport = \" \\u042D\\u043A\\u0441\\u043F\\u043E\\u0440\\u0442\";\n}\n&lt;%java.lang.String%&gt; _name = this.getName();\n&lt;%java.lang.String%&gt; _plus = ((prefix + \" \") + _name);\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + \"(\");\n&lt;%java.lang.String%&gt; _methodParams = this.getMethodParams();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _methodParams);\n&lt;%java.lang.String%&gt; _plus_3 = (_plus_2 + \")\");\nreturn (_plus_3 + export);'"
 	 * @generated
 	 */
 	String getPrefix();

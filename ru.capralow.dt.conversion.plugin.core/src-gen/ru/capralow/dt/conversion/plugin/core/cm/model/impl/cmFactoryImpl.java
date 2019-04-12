@@ -65,6 +65,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 			case cmPackage.CM_PREDEFINED: return createCmPredefined();
 			case cmPackage.CM_PREDEFINED_MAP: return createCmPredefinedMap();
 			case cmPackage.CM_ALGORITHM: return createCmAlgorithm();
+			case cmPackage.CM_PARAM: return createCmParam();
 			case cmPackage.CM_SUBSYSTEM: return createCmSubsystem();
 			case cmPackage.CM_GROUP: return createCmGroup();
 			default:
@@ -192,6 +193,16 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	public CmAlgorithm createCmAlgorithm() {
 		CmAlgorithmImpl cmAlgorithm = new CmAlgorithmImpl();
 		return cmAlgorithm;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmParam createCmParam() {
+		CmParamImpl cmParam = new CmParamImpl();
+		return cmParam;
 	}
 
 	/**

@@ -117,6 +117,12 @@ public class cmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case cmPackage.CM_PARAM: {
+				CmParam cmParam = (CmParam)theEObject;
+				T result = caseCmParam(cmParam);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case cmPackage.CM_SUBSYSTEM: {
 				CmSubsystem cmSubsystem = (CmSubsystem)theEObject;
 				T result = caseCmSubsystem(cmSubsystem);
@@ -250,6 +256,21 @@ public class cmSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCmAlgorithm(CmAlgorithm object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cm Param</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cm Param</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmParam(CmParam object) {
 		return null;
 	}
 

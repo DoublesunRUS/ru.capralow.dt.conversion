@@ -100,6 +100,10 @@ public class cmAdapterFactory extends AdapterFactoryImpl {
 				return createCmAlgorithmAdapter();
 			}
 			@Override
+			public Adapter caseCmParam(CmParam object) {
+				return createCmParamAdapter();
+			}
+			@Override
 			public Adapter caseCmSubsystem(CmSubsystem object) {
 				return createCmSubsystemAdapter();
 			}
@@ -236,6 +240,20 @@ public class cmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCmAlgorithmAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam <em>Cm Param</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmParam
+	 * @generated
+	 */
+	public Adapter createCmParamAdapter() {
 		return null;
 	}
 

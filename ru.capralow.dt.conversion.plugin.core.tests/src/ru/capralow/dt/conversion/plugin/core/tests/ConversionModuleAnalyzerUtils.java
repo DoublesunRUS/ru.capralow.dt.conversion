@@ -14,6 +14,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmParam;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
@@ -35,7 +36,16 @@ public final class ConversionModuleAnalyzerUtils {
 
 		CmAlgorithm algorithm = cmFactory.eINSTANCE.createCmAlgorithm();
 		algorithm.setName(name);
-		algorithm.setParams(params);
+		String[] methodParams = params.split("[,]");
+		for (String methodParam : methodParams) {
+			CmParam cmParam = cmFactory.eINSTANCE.createCmParam();
+			algorithm.getParams().add(cmParam);
+
+			String[] paramAndValue = methodParam.split("[=]", 2);
+			cmParam.setName(paramAndValue[0].trim());
+			if (paramAndValue.length == 2)
+				cmParam.setDefaultValue(paramAndValue[1].trim());
+		}
 		algorithm.setBody(body);
 		algorithm.setExists(true);
 		if (algorithms != null)

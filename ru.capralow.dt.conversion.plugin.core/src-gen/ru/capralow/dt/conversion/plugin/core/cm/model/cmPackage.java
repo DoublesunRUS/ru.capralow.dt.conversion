@@ -1382,7 +1382,7 @@ public interface cmPackage extends EPackage {
 	int CM_ALGORITHM__METHOD_TYPE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Params</b></em>' attribute.
+	 * The feature id for the '<em><b>Params</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1409,13 +1409,22 @@ public interface cmPackage extends EPackage {
 	int CM_ALGORITHM__BODY = 5;
 
 	/**
+	 * The feature id for the '<em><b>Method Params</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ALGORITHM__METHOD_PARAMS = 6;
+
+	/**
 	 * The feature id for the '<em><b>Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__PREFIX = 6;
+	int CM_ALGORITHM__PREFIX = 7;
 
 	/**
 	 * The feature id for the '<em><b>Suffix</b></em>' attribute.
@@ -1424,7 +1433,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM__SUFFIX = 7;
+	int CM_ALGORITHM__SUFFIX = 8;
 
 	/**
 	 * The number of structural features of the '<em>Cm Algorithm</em>' class.
@@ -1433,7 +1442,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ALGORITHM_FEATURE_COUNT = 8;
+	int CM_ALGORITHM_FEATURE_COUNT = 9;
 
 	/**
 	 * The operation id for the '<em>Get Algorithm Text</em>' operation.
@@ -1463,6 +1472,52 @@ public interface cmPackage extends EPackage {
 	int CM_ALGORITHM_OPERATION_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmParamImpl <em>Cm Param</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmParamImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmParam()
+	 * @generated
+	 */
+	int CM_PARAM = 8;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PARAM__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PARAM__DEFAULT_VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Cm Param</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PARAM_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Cm Param</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PARAM_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmSubsystemImpl <em>Cm Subsystem</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1470,7 +1525,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSubsystem()
 	 * @generated
 	 */
-	int CM_SUBSYSTEM = 8;
+	int CM_SUBSYSTEM = 9;
 
 	/**
 	 * The feature id for the '<em><b>Subsystem</b></em>' reference.
@@ -1525,7 +1580,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmGroup()
 	 * @generated
 	 */
-	int CM_GROUP = 9;
+	int CM_GROUP = 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1562,7 +1617,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSelectionVariant()
 	 * @generated
 	 */
-	int CM_SELECTION_VARIANT = 10;
+	int CM_SELECTION_VARIANT = 11;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant <em>Cm Identification Variant</em>}' enum.
@@ -1572,7 +1627,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmIdentificationVariant()
 	 * @generated
 	 */
-	int CM_IDENTIFICATION_VARIANT = 11;
+	int CM_IDENTIFICATION_VARIANT = 12;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType <em>Cm Method Type</em>}' enum.
@@ -1582,7 +1637,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmMethodType()
 	 * @generated
 	 */
-	int CM_METHOD_TYPE = 12;
+	int CM_METHOD_TYPE = 13;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType <em>Cm Special Subsystem Type</em>}' enum.
@@ -1592,7 +1647,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSpecialSubsystemType()
 	 * @generated
 	 */
-	int CM_SPECIAL_SUBSYSTEM_TYPE = 13;
+	int CM_SPECIAL_SUBSYSTEM_TYPE = 14;
 
 
 	/**
@@ -2769,15 +2824,15 @@ public interface cmPackage extends EPackage {
 	EAttribute getCmAlgorithm_MethodType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getParams <em>Params</em>}'.
+	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getParams <em>Params</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Params</em>'.
+	 * @return the meta object for the containment reference list '<em>Params</em>'.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getParams()
 	 * @see #getCmAlgorithm()
 	 * @generated
 	 */
-	EAttribute getCmAlgorithm_Params();
+	EReference getCmAlgorithm_Params();
 
 	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getIsExport <em>Is Export</em>}'.
@@ -2800,6 +2855,17 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCmAlgorithm_Body();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getMethodParams <em>Method Params</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Method Params</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getMethodParams()
+	 * @see #getCmAlgorithm()
+	 * @generated
+	 */
+	EAttribute getCmAlgorithm_MethodParams();
 
 	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm#getPrefix <em>Prefix</em>}'.
@@ -2842,6 +2908,38 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getCmAlgorithm__ToString();
+
+	/**
+	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam <em>Cm Param</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cm Param</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmParam
+	 * @generated
+	 */
+	EClass getCmParam();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getName()
+	 * @see #getCmParam()
+	 * @generated
+	 */
+	EAttribute getCmParam_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getDefaultValue <em>Default Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Default Value</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getDefaultValue()
+	 * @see #getCmParam()
+	 * @generated
+	 */
+	EAttribute getCmParam_DefaultValue();
 
 	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem <em>Cm Subsystem</em>}'.
@@ -3875,12 +3973,12 @@ public interface cmPackage extends EPackage {
 		EAttribute CM_ALGORITHM__METHOD_TYPE = eINSTANCE.getCmAlgorithm_MethodType();
 
 		/**
-		 * The meta object literal for the '<em><b>Params</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Params</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CM_ALGORITHM__PARAMS = eINSTANCE.getCmAlgorithm_Params();
+		EReference CM_ALGORITHM__PARAMS = eINSTANCE.getCmAlgorithm_Params();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Export</b></em>' attribute feature.
@@ -3897,6 +3995,14 @@ public interface cmPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CM_ALGORITHM__BODY = eINSTANCE.getCmAlgorithm_Body();
+
+		/**
+		 * The meta object literal for the '<em><b>Method Params</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_ALGORITHM__METHOD_PARAMS = eINSTANCE.getCmAlgorithm_MethodParams();
 
 		/**
 		 * The meta object literal for the '<em><b>Prefix</b></em>' attribute feature.
@@ -3929,6 +4035,32 @@ public interface cmPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation CM_ALGORITHM___TO_STRING = eINSTANCE.getCmAlgorithm__ToString();
+
+		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmParamImpl <em>Cm Param</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmParamImpl
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmParam()
+		 * @generated
+		 */
+		EClass CM_PARAM = eINSTANCE.getCmParam();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_PARAM__NAME = eINSTANCE.getCmParam_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Default Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_PARAM__DEFAULT_VALUE = eINSTANCE.getCmParam_DefaultValue();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmSubsystemImpl <em>Cm Subsystem</em>}' class.

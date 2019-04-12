@@ -787,7 +787,7 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		tblclmnAlgorithmsColumn3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((CmAlgorithm) element).getParams();
+				return ((CmAlgorithm) element).getMethodParams();
 			}
 		});
 		TableViewerColumn tblclmnAlgorithmsColumn4 = new TableViewerColumn(viewerAlgorithms, SWT.NONE);

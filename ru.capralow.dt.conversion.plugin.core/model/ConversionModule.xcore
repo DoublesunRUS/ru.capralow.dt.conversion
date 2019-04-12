@@ -575,9 +575,22 @@ class CmAlgorithm {
 	Boolean exists = "false"
 	
 	CmMethodType methodType
-	String params = ""
+	contains CmParam[] params
 	Boolean isExport = "false"
 	String body = ""
+	derived String methodParams get {
+		var methodParams = "";
+		for (CmParam param : params) {
+			if (!methodParams.isEmpty())
+				methodParams += ", ";
+			
+			methodParams += param.name.trim();
+			if (!param.defaultValue.isEmpty())
+				methodParams += " = " + param.defaultValue;
+		}
+		
+		return methodParams;
+	}
 	derived String prefix get {
 		var prefix = "";
 		
@@ -592,7 +605,7 @@ class CmAlgorithm {
 		if (isExport)
 			export = " Экспорт";
 		
-		return prefix + " " + name + "(" + params + ")" + export;
+		return prefix + " " + name + "(" + methodParams + ")" + export;
 	}
 	derived String suffix get {
 		var result = "";
@@ -622,6 +635,11 @@ class CmAlgorithm {
 enum CmMethodType {
 	Procedure as "Процедура" = 0
 	Function as "Функция" = 1
+}
+
+class CmParam {
+	String name = ""
+	String defaultValue = ""
 }
 
 class CmSubsystem {

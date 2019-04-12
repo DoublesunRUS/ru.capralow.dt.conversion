@@ -94,6 +94,15 @@ public interface cmFactory extends EFactory {
 	CmAlgorithm createCmAlgorithm();
 
 	/**
+	 * Returns a new object of class '<em>Cm Param</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cm Param</em>'.
+	 * @generated
+	 */
+	CmParam createCmParam();
+
+	/**
 	 * Returns a new object of class '<em>Cm Subsystem</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
