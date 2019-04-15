@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexManager;
 import com._1c.g5.v8.dt.bm.index.emf.IBmEmfIndexProvider;
 import com._1c.g5.v8.dt.bsl.common.IModuleExtensionService;
-import com._1c.g5.v8.dt.bsl.model.BslContextDefMethod;
 import com._1c.g5.v8.dt.bsl.model.Conditional;
 import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.EmptyStatement;
@@ -49,6 +48,7 @@ import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.bsl.model.Pragma;
 import com._1c.g5.v8.dt.bsl.model.SimpleStatement;
+import com._1c.g5.v8.dt.bsl.model.SourceObjectLinkProvider;
 import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
@@ -260,7 +260,8 @@ public class ExchangeProjectsAnalyzer {
 						parseStatementMethodInAnotherModule(formatVersions,
 								settingsModules,
 								dynamicMethodAccess,
-								source);
+								source,
+								commonModule);
 
 				} else {
 					StaticFeatureAccess staticMethodAccess = (StaticFeatureAccess) methodAccess;
@@ -273,7 +274,7 @@ public class ExchangeProjectsAnalyzer {
 
 		private void parseStatementMethodInAnotherModule(Map<String, CommonModule> formatVersions,
 				EList<CommonModule> settingsModules, DynamicFeatureAccess dynamicMethodAccess,
-				StaticFeatureAccess source) {
+				StaticFeatureAccess source, CommonModule commonModule) {
 			List<FeatureEntry> featureEntries = dynamicFeatureAccessComputer.resolveObject(dynamicMethodAccess,
 					EcoreUtil2.getContainerOfType(dynamicMethodAccess, Environmental.class).environments());
 			if (featureEntries.isEmpty())
@@ -283,10 +284,9 @@ public class ExchangeProjectsAnalyzer {
 			FeatureEntry featureEntry = featureEntries.get(0);
 			EObject feature = featureEntry.getFeature();
 
-			BslContextDefMethod bslMethod = (BslContextDefMethod) feature;
 			EObject newObject = EcoreFactory.eINSTANCE.createEObject();
-			((InternalEObject) newObject).eSetProxyURI(bslMethod.getSourceUri());
-			Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, dynamicMethodAccess);
+			((InternalEObject) newObject).eSetProxyURI(((SourceObjectLinkProvider) feature).getSourceUri());
+			Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, commonModule);
 
 			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
 			CommonModule subCommonModule = (CommonModule) ConversionUtils
