@@ -40,8 +40,8 @@ public class ConversionModuleAnalyzerComparatorTest {
 	private static final String EMPTY = "<Пустое>";
 
 	private static final String NO_ROUTE = "<НаправлениеНеЗадано>";
-	private static final String SENDING = "Отправка";
-	private static final String RECEIVING = "Получение";
+	private static final String SENDING_ROUTE = "Отправка";
+	private static final String RECEIVING_ROUTE = "Получение";
 
 	@Test
 	public void testAlgorithmComparator() {
@@ -305,23 +305,39 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testDataRuleComparatorByMd() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, NO_ROUTE),
-				String.format(RULE, SECOND_RULE, EMPTY, XDTO_DOCUMENT.concat("5"), NO_ROUTE),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("1"), XDTO_DOCUMENT.concat("4"), NO_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("6"), NO_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), XDTO_DOCUMENT.concat("2"), NO_ROUTE));
+				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, SENDING_ROUTE),
+				String.format(RULE, SECOND_RULE, EMPTY, XDTO_DOCUMENT.concat("5"), SENDING_ROUTE),
+				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("1"), EMPTY, SENDING_ROUTE),
+				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("1"), XDTO_DOCUMENT.concat("4"), SENDING_ROUTE),
+				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("6"), SENDING_ROUTE),
+				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), XDTO_DOCUMENT.concat("2"), SENDING_ROUTE));
 
 		EList<CmDataRule> report2 = new BasicEList<>();
+		ConversionModuleAnalyzerUtils.addDataRule(FIFTH_RULE,
+				MD_DOCUMENT.concat("2"),
+				XDTO_DOCUMENT.concat("6"),
+				true,
+				false,
+				false,
+				report2);
+		ConversionModuleAnalyzerUtils.addDataRule(SIXTH_RULE,
+				MD_DOCUMENT.concat("3"),
+				XDTO_DOCUMENT.concat("2"),
+				true,
+				false,
+				false,
+				report2);
+		ConversionModuleAnalyzerUtils.addDataRule(FOURTH_RULE,
+				MD_DOCUMENT.concat("1"),
+				XDTO_DOCUMENT.concat("4"),
+				true,
+				false,
+				false,
+				report2);
+		ConversionModuleAnalyzerUtils.addDataRule(THIRD_RULE, MD_DOCUMENT.concat("1"), "", true, false, false, report2);
 		ConversionModuleAnalyzerUtils
-				.addDataRule(FIFTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("6"), report2);
-		ConversionModuleAnalyzerUtils
-				.addDataRule(SIXTH_RULE, MD_DOCUMENT.concat("3"), XDTO_DOCUMENT.concat("2"), report2);
-		ConversionModuleAnalyzerUtils
-				.addDataRule(FOURTH_RULE, MD_DOCUMENT.concat("1"), XDTO_DOCUMENT.concat("4"), report2);
-		ConversionModuleAnalyzerUtils.addDataRule(THIRD_RULE, MD_DOCUMENT.concat("1"), "", report2);
-		ConversionModuleAnalyzerUtils.addDataRule(SECOND_RULE, "", XDTO_DOCUMENT.concat("5"), report2);
-		ConversionModuleAnalyzerUtils.addDataRule(FIRST_RULE, "", "", report2);
+				.addDataRule(SECOND_RULE, "", XDTO_DOCUMENT.concat("5"), true, false, false, report2);
+		ConversionModuleAnalyzerUtils.addDataRule(FIRST_RULE, "", "", true, false, false, report2);
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
@@ -342,12 +358,18 @@ public class ConversionModuleAnalyzerComparatorTest {
 				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, NO_ROUTE));
 
 		EList<CmDataRule> report2 = new BasicEList<>();
-		ConversionModuleAnalyzerUtils.addDataRule(FIRST_RULE, MD_DOCUMENT.concat("2"), "", report2);
-		ConversionModuleAnalyzerUtils.addDataRule(SECOND_RULE, MD_DOCUMENT.concat("1"), "", report2);
-		ConversionModuleAnalyzerUtils.addDataRule(THIRD_RULE, MD_DOCUMENT.concat("4"), "", report2);
-		ConversionModuleAnalyzerUtils.addDataRule(FOURTH_RULE, MD_DOCUMENT.concat("5"), "", report2);
-		ConversionModuleAnalyzerUtils.addDataRule(FIFTH_RULE, MD_DOCUMENT.concat("3"), "", report2);
-		ConversionModuleAnalyzerUtils.addDataRule(SIXTH_RULE, MD_DOCUMENT.concat("6"), "", report2);
+		ConversionModuleAnalyzerUtils
+				.addDataRule(FIRST_RULE, MD_DOCUMENT.concat("2"), "", false, false, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addDataRule(SECOND_RULE, MD_DOCUMENT.concat("1"), "", false, false, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addDataRule(THIRD_RULE, MD_DOCUMENT.concat("4"), "", false, false, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addDataRule(FOURTH_RULE, MD_DOCUMENT.concat("5"), "", false, false, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addDataRule(FIFTH_RULE, MD_DOCUMENT.concat("3"), "", false, false, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addDataRule(SIXTH_RULE, MD_DOCUMENT.concat("6"), "", false, false, false, report2);
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
@@ -360,23 +382,40 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testDataRuleComparatorByXdto() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, NO_ROUTE),
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
-				String.format(RULE, THIRD_RULE, EMPTY, XDTO_DOCUMENT.concat("1"), NO_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("4"), XDTO_DOCUMENT.concat("1"), NO_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("6"), XDTO_DOCUMENT.concat("2"), NO_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("3"), NO_ROUTE));
+				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, RECEIVING_ROUTE),
+				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("5"), EMPTY, RECEIVING_ROUTE),
+				String.format(RULE, THIRD_RULE, EMPTY, XDTO_DOCUMENT.concat("1"), RECEIVING_ROUTE),
+				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("4"), XDTO_DOCUMENT.concat("1"), RECEIVING_ROUTE),
+				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("6"), XDTO_DOCUMENT.concat("2"), RECEIVING_ROUTE),
+				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("3"), RECEIVING_ROUTE));
 
 		EList<CmDataRule> report2 = new BasicEList<>();
+		ConversionModuleAnalyzerUtils.addDataRule(FIFTH_RULE,
+				MD_DOCUMENT.concat("6"),
+				XDTO_DOCUMENT.concat("2"),
+				false,
+				true,
+				false,
+				report2);
+		ConversionModuleAnalyzerUtils.addDataRule(SIXTH_RULE,
+				MD_DOCUMENT.concat("2"),
+				XDTO_DOCUMENT.concat("3"),
+				false,
+				true,
+				false,
+				report2);
+		ConversionModuleAnalyzerUtils.addDataRule(FOURTH_RULE,
+				MD_DOCUMENT.concat("4"),
+				XDTO_DOCUMENT.concat("1"),
+				false,
+				true,
+				false,
+				report2);
 		ConversionModuleAnalyzerUtils
-				.addDataRule(FIFTH_RULE, MD_DOCUMENT.concat("6"), XDTO_DOCUMENT.concat("2"), report2);
+				.addDataRule(THIRD_RULE, "", XDTO_DOCUMENT.concat("1"), false, true, false, report2);
 		ConversionModuleAnalyzerUtils
-				.addDataRule(SIXTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("3"), report2);
-		ConversionModuleAnalyzerUtils
-				.addDataRule(FOURTH_RULE, MD_DOCUMENT.concat("4"), XDTO_DOCUMENT.concat("1"), report2);
-		ConversionModuleAnalyzerUtils.addDataRule(THIRD_RULE, "", XDTO_DOCUMENT.concat("1"), report2);
-		ConversionModuleAnalyzerUtils.addDataRule(SECOND_RULE, MD_DOCUMENT.concat("5"), "", report2);
-		ConversionModuleAnalyzerUtils.addDataRule(FIRST_RULE, "", "", report2);
+				.addDataRule(SECOND_RULE, MD_DOCUMENT.concat("5"), "", false, true, false, report2);
+		ConversionModuleAnalyzerUtils.addDataRule(FIRST_RULE, "", "", false, true, false, report2);
 
 		ECollections.sort(report2,
 				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
@@ -514,12 +553,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testPredefinedComparatorByName() {
 		String report1 = String.join(LS,
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, RECEIVING),
-				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, RECEIVING),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, RECEIVING),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, SENDING),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, SENDING),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, SENDING));
+				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, RECEIVING_ROUTE),
+				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, RECEIVING_ROUTE),
+				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, RECEIVING_ROUTE),
+				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, SENDING_ROUTE),
+				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, SENDING_ROUTE),
+				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, SENDING_ROUTE));
 
 		EList<CmPredefined> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addPredefined(FIRST_RULE, MD_DOCUMENT.concat("2"), "", false, true, report2);
@@ -540,12 +579,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testPredefinedComparatorByRouteName() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("1"), EMPTY, SENDING),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("2"), EMPTY, SENDING),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, SENDING),
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("4"), EMPTY, RECEIVING),
-				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("5"), EMPTY, RECEIVING),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("6"), EMPTY, RECEIVING));
+				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("1"), EMPTY, SENDING_ROUTE),
+				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("2"), EMPTY, SENDING_ROUTE),
+				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, SENDING_ROUTE),
+				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("4"), EMPTY, RECEIVING_ROUTE),
+				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("5"), EMPTY, RECEIVING_ROUTE),
+				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("6"), EMPTY, RECEIVING_ROUTE));
 
 		EList<CmPredefined> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addPredefined(FIRST_RULE, MD_DOCUMENT.concat("5"), "", false, true, report2);

@@ -1,6 +1,0 @@
-	Если НаправлениеОбмена = "Отправка" Тогда
-		$ObjectRulesDeclarationSending$
-	ИначеЕсли НаправлениеОбмена = "Получение" Тогда
-		$ObjectRulesDeclarationReceiving$
-	КонецЕсли;
-	$ObjectRulesDeclarationBoth$

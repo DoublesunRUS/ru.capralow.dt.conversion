@@ -93,14 +93,19 @@ public final class ConversionModuleAnalyzerUtils {
 		}
 	}
 
-	public static void addDataRule(String name, String configurationObject, String formatObject,
-			EList<CmDataRule> dataRules) {
+	public static CmDataRule addDataRule(String name, String configurationObject, String formatObject,
+			Boolean forSending, Boolean forReceiving, Boolean isDataCleaning, EList<CmDataRule> dataRules) {
 		CmDataRule dataRule = cmFactory.eINSTANCE.createCmDataRule();
 		dataRule.setName(name);
 		dataRule.setConfigurationObjectName(configurationObject);
 		dataRule.setFormatObject(formatObject);
+		dataRule.setForSending(forSending);
+		dataRule.setForReceiving(forReceiving);
+		dataRule.setIsDataCleaning(isDataCleaning);
 		if (dataRules != null)
 			dataRules.add(dataRule);
+
+		return dataRule;
 	}
 
 	public static void addEvents(Boolean onSendingEvent, Boolean beforeReceivingEvent, Boolean onReceivingEvent,
@@ -130,6 +135,17 @@ public final class ConversionModuleAnalyzerUtils {
 				forReceiving,
 				forGroup,
 				objectRules);
+	}
+
+	public static CmDataRule addFilledDataRule(String name, Boolean withConfiguration, Boolean withFormat,
+			Boolean forSending, Boolean forReceiving, Boolean isDataCleaning, EList<CmDataRule> dataRules) {
+		return addDataRule(name,
+				withConfiguration ? "Метаданные.Справочники.Организации" : "",
+				withFormat ? "Справочник.Организации" : "",
+				forSending,
+				forReceiving,
+				isDataCleaning,
+				dataRules);
 	}
 
 	public static CmPredefined addFilledPredefined(String name, Boolean withConfigurationFormat, Boolean forSending,

@@ -84,8 +84,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияОбъектКонфигурацииФормата", true, true, false, true, false, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c объектами конфигурации и формата",
 				report1,
@@ -121,8 +120,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals(
 				"Формирование модуля обмена: Добавить ПКО для получения c объектами конфигурации и формата и полями",
@@ -150,8 +148,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияОбъектКонфигурации", true, false, false, true, false, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c объектом конфигурации",
 				report1,
@@ -181,8 +178,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияОбъектКонфигурацииСПолями", true, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c объектом конфигурации и полями",
 				report1,
@@ -195,8 +191,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		objectRule.setForReceiving(true);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить пустое ПКО для получения", "", report2.toString());
 	}
@@ -225,8 +220,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияСобытие1", false, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addEvents(false, true, false, false, objectRule, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПриКонвертацииДанныхXDTO",
 				report1,
@@ -258,8 +252,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияСобытие13", false, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addEvents(false, true, false, true, objectRule, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals(
 				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПриКонвертацииДанныхXDTO и ПослеЗагрузкиВсехДанных",
@@ -291,8 +284,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияСобытие2", false, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addEvents(false, false, true, false, objectRule, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПередЗаписьюПолученныхДанных",
 				report1,
@@ -324,8 +316,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияСобытие23", false, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addEvents(false, false, true, true, objectRule, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals(
 				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПередЗаписьюПолученныхДанных и ПослеЗагрузкиВсехДанных",
@@ -355,8 +346,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияСобытие3", false, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addEvents(false, false, false, true, objectRule, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c событием ПослеЗагрузкиВсехДанных",
 				report1,
@@ -383,8 +373,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияОбъектФормата", false, true, false, true, false, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c объектом формата",
 				report1,
@@ -414,8 +403,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияОбъектФорматаСПолями", false, true, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c объектом формата и полями",
 				report1,
@@ -462,8 +450,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения полное", report1, report2.toString());
 	}
@@ -491,8 +478,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияШапка", true, true, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c шапкой", report1, report2.toString());
 	}
@@ -523,8 +509,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения шапки и табличной части",
 				report1,
@@ -553,8 +538,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияИдентификация1СПолями", true, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения по УУИД с полями",
 				report1,
@@ -582,8 +566,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияИдентификация2", false, false, false, true, false, null);
 		objectRule.setIdentificationVariant(CmIdentificationVariant.SEARCH_FIELDS);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения по Полям поиска без полей",
 				report1,
@@ -613,8 +596,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		objectRule.setIdentificationVariant(CmIdentificationVariant.SEARCH_FIELDS);
 		ConversionModuleAnalyzerUtils.addIdentificationFields1(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения по Полям поиска с полями",
 				report1,
@@ -642,8 +624,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияИдентификация3", false, false, false, true, false, null);
 		objectRule.setIdentificationVariant(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения по УУИД и Полям поиска без полей",
 				report1,
@@ -673,8 +654,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		objectRule.setIdentificationVariant(CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS);
 		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения по УУИД и Полям поиска с полями",
 				report1,
@@ -701,8 +681,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("МинимальноеПКОПолучения", false, false, false, true, false, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения с минимумом данных",
 				report1,
@@ -730,8 +709,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("МинимальноеПКОПолученияДляГруппы", false, false, false, true, true, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения с минимумом данных для группы",
 				report1,
@@ -761,8 +739,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияТЧ", true, true, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения c табличной частью",
 				report1,
@@ -795,8 +772,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для получения с двумя ТЧ", report1, report2.toString());
 	}
@@ -828,8 +804,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияСобытие12", false, false, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addEvents(false, true, true, false, objectRule, null);
 
-		ConversionModuleAnalyzer
-				.createObjectRuleReceivingText(objectRule, new StringBuilder(), report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2, new StringBuilder());
 
 		assertEquals(
 				"Формирование модуля обмена: Добавить ПКО для получения c событиями ПриКонвертацииДанныхXDTO и ПередЗаписьюПолученныхДанных",
