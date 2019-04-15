@@ -8,14 +8,21 @@ import org.eclipse.emf.common.util.EList;
 import org.junit.Test;
 
 import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
 public class ConversionModuleAnalyzerSimpleGetTextTest {
+	private static final String ALGORITHM_BODY_TEXT = "	Сообщить(\"%1$s\");";
+
+	private static final String ALGORITHM_NAME_3PARAMS_DIRECT = "ПослеЗагрузкиВсехДанныхТриПараметраПрямойПорядок";
+	private static final String ALGORITHM_3PARAMS_DIRECT = "Объект, КомпонентыОбмена, ОбъектМодифицирован";
+
 	@Test
 	public void testBothV2() {
 		testBoth("2");
@@ -49,6 +56,11 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 	@Test
 	public void testReceivingV2() {
 		testReceiving("2");
+	}
+
+	@Test
+	public void testSendingOrReceivingV2() {
+		testSendingOrReceiving("2");
 	}
 
 	@Test
@@ -227,91 +239,149 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		addMinimalBothRules(conversionModule);
 
 		EList<CmDataRule> dataRules = conversionModule.getDataRules();
+		EList<CmAlgorithm> algorithms = conversionModule.getAlgorithms();
 		CmDataRule dataRule;
+
+		final String sendingObjectRuleName = "ПКООтправкиПолное";
+		final String[] sendingObjectRule = new String[] {
+				sendingObjectRuleName,
+				"ПКООтправкиОбъектКонфигурацииФорматаСПолями" };
+
+		final String receivingObjectRuleName = "ПКОПолученияПолное";
+		final String[] receivingObjectRule = new String[] { receivingObjectRuleName, "ПКООтправкиПолученияПолное" };
 
 		ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДОтправкиПроизвольноеБезПравил", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДОтправкиПроизвольноеНесколькоПравил",
+
+		dataRule = ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДОтправкиПроизвольноеНесколькоПравил",
 				false,
 				false,
 				true,
 				false,
 				false,
 				dataRules);
-		ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДОтправкиПроизвольноеНесколькоПравилИОчистка",
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, sendingObjectRule);
+
+		dataRule = ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДОтправкиПроизвольноеНесколькоПравилИОчистка",
 				false,
 				false,
 				true,
 				false,
-				false,
+				true,
 				dataRules);
-		ConversionModuleAnalyzerUtils
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, sendingObjectRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДОтправкиПроизвольноеОдноПравило", false, false, true, false, false, dataRules);
 		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДОтправкиПроизвольноеПолное", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils
+				.addObjectRulesToDataRule(dataRule, conversionModule, new String[] { sendingObjectRuleName });
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДОтправкиПроизвольноеПолное", false, false, true, false, true, dataRules);
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, sendingObjectRule);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, true, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДОтправкиПроизвольноеСобытие1", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, false, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДОтправкиПроизвольноеСобытие12", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, true, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДОтправкиПроизвольноеСобытие2", false, false, true, false, false, dataRules);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(false, true, dataRule);
+
 		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДОтправкиСтандартноеБезПравил", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДОтправкиСтандартноеНесколькоПравил",
-				false,
+				.addFilledDataRule("ПОДОтправкиСтандартноеБезПравил", true, false, true, false, false, dataRules);
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДОтправкиСтандартноеНесколькоПравил", true, false, true, false, false, dataRules);
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, sendingObjectRule);
+
+		dataRule = ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДОтправкиСтандартноеНесколькоПравилИОчистка",
+				true,
 				false,
 				true,
 				false,
-				false,
-				dataRules);
-		ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДОтправкиСтандартноеНесколькоПравилИОчистка",
-				false,
-				false,
 				true,
-				false,
-				false,
 				dataRules);
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, sendingObjectRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДОтправкиСтандартноеОдноПравило", true, false, true, false, false, dataRules);
 		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДОтправкиСтандартноеОдноПравило", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДОтправкиСтандартноеПолное", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДОтправкиСтандартноеСобытие1", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДОтправкиСтандартноеСобытие12", false, false, true, false, false, dataRules);
-		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДОтправкиСтандартноеСобытие2", false, false, true, false, false, dataRules);
+				.addObjectRulesToDataRule(dataRule, conversionModule, new String[] { sendingObjectRuleName });
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДОтправкиСтандартноеПолное", true, false, true, false, true, dataRules);
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, sendingObjectRule);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, true, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДОтправкиСтандартноеСобытие1", true, false, true, false, false, dataRules);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, false, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДОтправкиСтандартноеСобытие12", true, false, true, false, false, dataRules);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, true, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДОтправкиСтандартноеСобытие2", true, false, true, false, false, dataRules);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(false, true, dataRule);
 
 		ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДПолученияПроизвольноеБезПравил", false, false, false, true, false, dataRules);
-		ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДПолученияПроизвольноеНесколькоПравил",
+
+		dataRule = ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДПолученияПроизвольноеНесколькоПравил",
 				false,
 				false,
 				false,
 				true,
 				false,
 				dataRules);
-		ConversionModuleAnalyzerUtils
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, receivingObjectRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДПолученияПроизвольноеОдноПравило", false, false, false, true, false, dataRules);
 		ConversionModuleAnalyzerUtils
+				.addObjectRulesToDataRule(dataRule, conversionModule, new String[] { receivingObjectRuleName });
+
+		dataRule = ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДПолученияПроизвольноеПолное", false, false, false, true, false, dataRules);
-		ConversionModuleAnalyzerUtils
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, receivingObjectRule);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, false, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
 				.addFilledDataRule("ПОДПолученияПроизвольноеСобытие1", false, false, false, true, false, dataRules);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, false, dataRule);
+
 		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДПолученияСтандартноеБезПравил", false, false, false, true, false, dataRules);
-		ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДПолученияСтандартноеНесколькоПравил",
+				.addFilledDataRule("ПОДПолученияСтандартноеБезПравил", false, true, false, true, false, dataRules);
+
+		dataRule = ConversionModuleAnalyzerUtils.addFilledDataRule("ПОДПолученияСтандартноеНесколькоПравил",
 				false,
-				false,
+				true,
 				false,
 				true,
 				false,
 				dataRules);
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, receivingObjectRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДПолученияСтандартноеОдноПравило", false, true, false, true, false, dataRules);
 		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДПолученияСтандартноеОдноПравило", false, false, false, true, false, dataRules);
-		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДПолученияСтандартноеПолное", false, false, false, true, false, dataRules);
-		ConversionModuleAnalyzerUtils
-				.addFilledDataRule("ПОДПолученияСтандартноеСобытие1", false, false, false, true, false, dataRules);
+				.addObjectRulesToDataRule(dataRule, conversionModule, new String[] { receivingObjectRuleName });
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДПолученияСтандартноеПолное", false, true, false, true, false, dataRules);
+		ConversionModuleAnalyzerUtils.addObjectRulesToDataRule(dataRule, conversionModule, receivingObjectRule);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, false, dataRule);
+
+		dataRule = ConversionModuleAnalyzerUtils
+				.addFilledDataRule("ПОДПолученияСтандартноеСобытие1", false, true, false, true, false, dataRules);
+		ConversionModuleAnalyzerUtils.addODataRuleEvents(true, false, dataRule);
 
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		CmObjectRule objectRule;
@@ -358,17 +428,15 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
-				.addFilledObjectRule("ПКООтправкиПолное", true, true, true, false, false, objectRules);
-		ConversionModuleAnalyzerUtils
-				.addEvents(true, false, false, false, objectRule, conversionModule.getAlgorithms());
+				.addFilledObjectRule(sendingObjectRuleName, true, true, true, false, false, objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, false, false, "", "", objectRule, algorithms);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиСобытие1", false, false, true, false, false, objectRules);
-		ConversionModuleAnalyzerUtils
-				.addEvents(true, false, false, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, false, false, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиТЧ", true, true, true, false, false, objectRules);
@@ -452,9 +520,14 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
-				.addFilledObjectRule("ПКОПолученияПолное", true, true, false, true, true, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(false, true, true, true, objectRule, conversionModule.getAlgorithms());
-		conversionModule.getAlgorithms().add(objectRule.getAfterReceivingAlgorithm());
+				.addFilledObjectRule(receivingObjectRuleName, true, true, false, true, true, objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				true,
+				true,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
@@ -462,30 +535,105 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияСобытие1", false, false, false, true, false, objectRules);
-		ConversionModuleAnalyzerUtils
-				.addEvents(false, true, false, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false, true, false, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияСобытие12", false, false, false, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(false, true, true, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false, true, true, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияСобытие13", false, false, false, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(false, true, false, true, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				true,
+				false,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияСобытие2", false, false, false, true, false, objectRules);
-		ConversionModuleAnalyzerUtils
-				.addEvents(false, false, true, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false, false, true, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияСобытие23", false, false, false, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(false, false, true, true, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				true,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
 
-		objectRule = ConversionModuleAnalyzerUtils
-				.addFilledObjectRule("ПКОПолученияСобытие3", false, false, false, true, false, objectRules);
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытиеАлгоритмДваОбратный",
+				false,
+				false,
+				false,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				false,
+				"ПослеЗагрузкиВсехДанныхДваПараметраОбратныйПорядок",
+				"КомпонентыОбмена, Объект",
+				objectRule,
+				algorithms);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытиеАлгоритмДваПрямой",
+				false,
+				false,
+				false,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				false,
+				"ПослеЗагрузкиВсехДанныхДваПараметраПрямойПорядок",
+				"Объект, КомпонентыОбмена",
+				objectRule,
+				algorithms);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытиеАлгоритмНесуществующий",
+				false,
+				false,
+				false,
+				true,
+				false,
+				objectRules);
 		ConversionModuleAnalyzerUtils
-				.addEvents(false, false, false, true, objectRule, conversionModule.getAlgorithms());
+				.addObjectRuleEvents(false, false, false, "НесуществующийАлгоритм", "", objectRule, null);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытиеАлгоритмТриОбратный",
+				false,
+				false,
+				false,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				false,
+				"ПослеЗагрузкиВсехДанныхТриПараметраОбратныйПорядок",
+				"ОбъектМодифицирован, КомпонентыОбмена, Объект",
+				objectRule,
+				algorithms);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияСобытиеАлгоритмТриПрямой",
+				false,
+				false,
+				false,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				false,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияТЧ", true, true, false, true, false, objectRules);
@@ -507,7 +655,13 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияПолное", true, true, true, true, true, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(true, true, true, true, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true,
+				true,
+				true,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
@@ -515,32 +669,115 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие1", false, false, true, true, false, objectRules);
-		ConversionModuleAnalyzerUtils
-				.addEvents(true, false, false, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, false, false, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие12", false, false, true, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(true, true, false, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, true, false, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие123", false, false, true, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(true, true, true, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, true, true, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие124", false, false, true, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(true, true, false, true, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true,
+				true,
+				false,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие13", false, false, true, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(true, false, true, false, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, false, true, "", "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие134", false, false, true, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(true, false, true, true, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true,
+				false,
+				true,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие14", false, false, true, true, false, objectRules);
-		ConversionModuleAnalyzerUtils.addEvents(true, false, false, true, objectRule, conversionModule.getAlgorithms());
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true,
+				false,
+				false,
+				ALGORITHM_NAME_3PARAMS_DIRECT,
+				ALGORITHM_3PARAMS_DIRECT,
+				objectRule,
+				algorithms);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиПолученияСобытиеАлгоритмДваОбратный",
+				false,
+				false,
+				true,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				false,
+				"ПослеЗагрузкиВсехДанныхДваПараметраОбратныйПорядок",
+				"КомпонентыОбмена, Объект",
+				objectRule,
+				algorithms);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиПолученияСобытиеАлгоритмДваПрямой",
+				false,
+				false,
+				true,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				false,
+				"ПослеЗагрузкиВсехДанныхДваПараметраПрямойПорядок",
+				"Объект, КомпонентыОбмена",
+				objectRule,
+				algorithms);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule(
+				"ПКООтправкиПолученияСобытиеАлгоритмНесуществующий",
+				false,
+				false,
+				true,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils
+				.addObjectRuleEvents(false, false, false, "НесуществующийАлгоритм", "", objectRule, null);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиПолученияСобытиеАлгоритмТриОбратный",
+				false,
+				false,
+				true,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(false,
+				false,
+				false,
+				"ПослеЗагрузкиВсехДанныхТриПараметраОбратныйПорядок",
+				"",
+				objectRule,
+				algorithms);
+
+		objectRule = ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиПолученияСобытиеАлгоритмТриПрямой",
+				false,
+				false,
+				true,
+				true,
+				false,
+				objectRules);
+		ConversionModuleAnalyzerUtils
+				.addObjectRuleEvents(false, false, false, ALGORITHM_NAME_3PARAMS_DIRECT, "", objectRule, algorithms);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияТЧ", true, true, true, true, false, objectRules);
@@ -585,9 +822,72 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				.addFilledPredefined("ПКПДОтправкиПолученияОдноПоле", true, true, true, predefineds);
 		ConversionModuleAnalyzerUtils.addPredefinedValue1(predefined);
 
-		conversionModule.getParams().add("Параметр1");
+		final String param1 = "Параметр1";
+
+		conversionModule.getParams().add(param1);
 		conversionModule.getParams().add("Параметр2");
 		conversionModule.getParams().add("Параметр3");
+
+		ConversionModuleAnalyzerUtils.addAlgorithm("ПроцедураБезПараметров",
+				"",
+				String.format(ALGORITHM_BODY_TEXT, "ПроцедураБезПараметров"),
+				CmMethodType.PROCEDURE,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ПроцедураНесколькоПараметров",
+				"Параметр1, Параметр2, Параметр3",
+				String.format(ALGORITHM_BODY_TEXT, "ПроцедураНесколькоПараметров"),
+				CmMethodType.PROCEDURE,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ПроцедураНесколькоПараметровСоЗначениями",
+				"Параметр1 = Неопределено, Параметр2 = \"2\", Параметр3 = 3",
+				String.format(ALGORITHM_BODY_TEXT, "ПроцедураНесколькоПараметровСоЗначениями"),
+				CmMethodType.PROCEDURE,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ПроцедураОдинПараметр",
+				param1,
+				String.format(ALGORITHM_BODY_TEXT, "ПроцедураОдинПараметр"),
+				CmMethodType.PROCEDURE,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ФункцияБезПараметров",
+				"",
+				String.format(ALGORITHM_BODY_TEXT, "ФункцияБезПараметров"),
+				CmMethodType.FUNCTION,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ФункцияНесколькоПараметров",
+				"Параметр1, Параметр2, Параметр3",
+				String.format(ALGORITHM_BODY_TEXT, "ФункцияНесколькоПараметров"),
+				CmMethodType.FUNCTION,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ФункцияНесколькоПараметровСоЗначениями",
+				"Параметр1 = Неопределено, Параметр2 = \"2\", Параметр3 = 3",
+				String.format(ALGORITHM_BODY_TEXT, "ФункцияНесколькоПараметровСоЗначениями"),
+				CmMethodType.FUNCTION,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ФункцияОдинПараметр",
+				param1,
+				String.format(ALGORITHM_BODY_TEXT, "ФункцияОдинПараметр"),
+				CmMethodType.FUNCTION,
+				false,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ЭкспортнаяПроцедураБезПараметров",
+				"",
+				String.format(ALGORITHM_BODY_TEXT, "ЭкспортнаяПроцедураБезПараметров"),
+				CmMethodType.PROCEDURE,
+				true,
+				algorithms);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ЭкспортнаяФункцияБезПараметров",
+				"",
+				String.format(ALGORITHM_BODY_TEXT, "ЭкспортнаяФункцияБезПараметров"),
+				CmMethodType.FUNCTION,
+				true,
+				algorithms);
 
 		String report2 = ConversionModuleAnalyzer
 				.getModuleText(conversionModule, "Тестирование", LocalDateTime.of(1, 1, 1, 0, 0, 0));
@@ -627,6 +927,25 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				.getModuleText(conversionModule, "ТолькоОтправка", LocalDateTime.of(1, 1, 1, 0, 0, 0));
 
 		assertEquals(String.format("Модуль обмена V%1$s: запись минимального модуля отправки", version),
+				report1,
+				report2);
+	}
+
+	private void testSendingOrReceiving(String version) {
+		String moduleName = "ОтправкаИлиПолучение".concat(version);
+
+		String report1 = ConversionModuleAnalyzerUtils.getModuleText("", moduleName);
+
+		ConversionModule conversionModule = cmFactory.eINSTANCE.createConversionModule();
+		conversionModule.setStoreVersion(version);
+
+		addMinimalSendingRules(conversionModule);
+		addMinimalReceivingRules(conversionModule);
+
+		String report2 = ConversionModuleAnalyzer
+				.getModuleText(conversionModule, "ОтправкаИлиПолучение", LocalDateTime.of(1, 1, 1, 0, 0, 0));
+
+		assertEquals(String.format("Модуль обмена V%1$s: запись минимального модуля отправки или получения", version),
 				report1,
 				report2);
 	}

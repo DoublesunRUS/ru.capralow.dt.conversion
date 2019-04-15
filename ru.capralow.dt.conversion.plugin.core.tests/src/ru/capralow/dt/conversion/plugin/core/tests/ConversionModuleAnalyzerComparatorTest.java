@@ -11,13 +11,16 @@ import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
 
 public class ConversionModuleAnalyzerComparatorTest {
 	private static final String LS = System.lineSeparator();
 
-	private static final String RULE = "name:%1$s md:%2$s xdto:%3$s %4$s";
+	private static final String OBJECT_RULE = "name:%1$s md:%2$s xdto:%3$s %4$s";
+	private static final String ATTRIBUTE_RULE = "md:%1$s xdto:%2$s";
+	private static final String ATTRIBUTE_RULE_CUSTOM = "md:%1$s xdto:%2$s <Алгоритм>";
 
 	private static final String FIRST_RULE = "ПервоеПравило";
 	private static final String SECOND_RULE = "ВтороеПравило";
@@ -54,12 +57,13 @@ public class ConversionModuleAnalyzerComparatorTest {
 				"Процедура ШестаяПроцедура(6)");
 
 		EList<CmAlgorithm> report2 = new BasicEList<>();
-		ConversionModuleAnalyzerUtils.addAlgorithm("ПерваяПроцедура", "2", "", report2);
-		ConversionModuleAnalyzerUtils.addAlgorithm("ВтораяПроцедура", "1", "", report2);
-		ConversionModuleAnalyzerUtils.addAlgorithm("ТретьяПроцедура", "4", "", report2);
-		ConversionModuleAnalyzerUtils.addAlgorithm("ЧетвертаяПроцедура", "5", "", report2);
-		ConversionModuleAnalyzerUtils.addAlgorithm("ПятаяПроцедура", "3", "", report2);
-		ConversionModuleAnalyzerUtils.addAlgorithm("ШестаяПроцедура", "6", "", report2);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ПерваяПроцедура", "2", "", CmMethodType.PROCEDURE, false, report2);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ВтораяПроцедура", "1", "", CmMethodType.PROCEDURE, false, report2);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ТретьяПроцедура", "4", "", CmMethodType.PROCEDURE, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addAlgorithm("ЧетвертаяПроцедура", "5", "", CmMethodType.PROCEDURE, false, report2);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ПятаяПроцедура", "3", "", CmMethodType.PROCEDURE, false, report2);
+		ConversionModuleAnalyzerUtils.addAlgorithm("ШестаяПроцедура", "6", "", CmMethodType.PROCEDURE, false, report2);
 
 		ECollections.sort(report2, ConversionModuleAnalyzer.getAlgorithmComparator());
 
@@ -71,21 +75,37 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testAttributeRuleComparatorReceiving() {
 		String report1 = String.join(LS,
-				"md:<Пустое> xdto:ЧетвертыйАтрибут",
-				"md:ВторойАтрибут xdto:ВторойАтрибут",
-				"md:ТретийАтрибут xdto:ВторойАтрибут",
-				"md:ЧетвертыйАтрибут xdto:<Пустое>",
-				"md:ПервыйАтрибут xdto:ПервыйАтрибут <Алгоритм>",
-				"md:ВтораяТЧ. xdto:ВтораяТЧ.ТретийАтрибут",
-				"md:<Пустое> xdto:ВтораяТЧ.ЧетвертыйАтрибут",
-				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ВторойАтрибут",
-				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ТретийАтрибут",
-				"md:ВтораяТЧ.ПервыйАтрибут xdto:ВтораяТЧ.ПервыйАтрибут <Алгоритм>",
-				"md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
-				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.",
-				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
-				"md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>",
-				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>");
+				String.format(ATTRIBUTE_RULE, EMPTY, FOURTH_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, SECOND_ATTRIBUTE, SECOND_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, THIRD_ATTRIBUTE, SECOND_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, FOURTH_ATTRIBUTE, EMPTY),
+				String.format(ATTRIBUTE_RULE_CUSTOM, FIRST_ATTRIBUTE, FIRST_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat("."),
+						SECOND_TABULAR.concat(".").concat(THIRD_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE, EMPTY, SECOND_TABULAR.concat(".").concat(FOURTH_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(THIRD_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE_CUSTOM,
+						SECOND_TABULAR.concat(".").concat(FIRST_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(FIRST_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(THIRD_ATTRIBUTE),
+						FIRST_TABULAR.concat(".")),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(THIRD_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE, FIRST_TABULAR.concat(".").concat(FOURTH_ATTRIBUTE), EMPTY),
+				String.format(ATTRIBUTE_RULE_CUSTOM,
+						FIRST_TABULAR.concat(".").concat(FIRST_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(FIRST_ATTRIBUTE)));
 
 		EList<CmAttributeRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addAttributeRule(String.join(".", FIRST_TABULAR, FIRST_ATTRIBUTE),
@@ -141,7 +161,7 @@ public class ConversionModuleAnalyzerComparatorTest {
 				ConversionModuleAnalyzer
 						.getAttributeRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING));
 
-		assertEquals("Модуль обмена: сортировка Атрибутов",
+		assertEquals("Модуль обмена: сортировка Атрибутов для получения",
 				report1.replace(", ", LS),
 				report2.toString().replace(", ", LS).replace("[", "").replace("]", ""));
 	}
@@ -149,21 +169,37 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testAttributeRuleComparatorSending() {
 		String report1 = String.join(LS,
-				"md:<Пустое> xdto:ЧетвертыйАтрибут",
-				"md:ВторойАтрибут xdto:ВторойАтрибут",
-				"md:ТретийАтрибут xdto:ВторойАтрибут",
-				"md:ЧетвертыйАтрибут xdto:<Пустое>",
-				"md:ПервыйАтрибут xdto:ПервыйАтрибут <Алгоритм>",
-				"md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>",
-				"md:ВтораяТЧ. xdto:ВтораяТЧ.ТретийАтрибут",
-				"md:<Пустое> xdto:ВтораяТЧ.ЧетвертыйАтрибут",
-				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ВторойАтрибут",
-				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ТретийАтрибут",
-				"md:ВтораяТЧ.ПервыйАтрибут xdto:ВтораяТЧ.ПервыйАтрибут <Алгоритм>",
-				"md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
-				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.",
-				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
-				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>");
+				String.format(ATTRIBUTE_RULE, EMPTY, FOURTH_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, SECOND_ATTRIBUTE, SECOND_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, THIRD_ATTRIBUTE, SECOND_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, FOURTH_ATTRIBUTE, EMPTY),
+				String.format(ATTRIBUTE_RULE_CUSTOM, FIRST_ATTRIBUTE, FIRST_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, FIRST_TABULAR.concat(".").concat(FOURTH_ATTRIBUTE), EMPTY),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat("."),
+						SECOND_TABULAR.concat(".").concat(THIRD_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE, EMPTY, SECOND_TABULAR.concat(".").concat(FOURTH_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(THIRD_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE_CUSTOM,
+						SECOND_TABULAR.concat(".").concat(FIRST_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(FIRST_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(THIRD_ATTRIBUTE),
+						FIRST_TABULAR.concat(".")),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(THIRD_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE_CUSTOM,
+						FIRST_TABULAR.concat(".").concat(FIRST_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(FIRST_ATTRIBUTE)));
 
 		EList<CmAttributeRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addAttributeRule(String.join(".", FIRST_TABULAR, FIRST_ATTRIBUTE),
@@ -219,7 +255,7 @@ public class ConversionModuleAnalyzerComparatorTest {
 				ConversionModuleAnalyzer
 						.getAttributeRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING));
 
-		assertEquals("Модуль обмена: сортировка Атрибутов",
+		assertEquals("Модуль обмена: сортировка Атрибутов для отправки",
 				report1.replace(", ", LS),
 				report2.toString().replace(", ", LS).replace("[", "").replace("]", ""));
 	}
@@ -227,21 +263,37 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testAttributeRuleComparatorSendingAndReceiving() {
 		String report1 = String.join(LS,
-				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ВторойАтрибут",
-				"md:ВтораяТЧ.ВторойАтрибут xdto:ВтораяТЧ.ТретийАтрибут",
-				"md:ВтораяТЧ.ПервыйАтрибут xdto:ВтораяТЧ.ПервыйАтрибут <Алгоритм>",
-				"md:ПерваяТЧ.ВторойАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
-				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.ВторойАтрибут",
-				"md:ПерваяТЧ.ПервыйАтрибут xdto:ПерваяТЧ.ПервыйАтрибут <Алгоритм>",
-				"md:<Пустое> xdto:ЧетвертыйАтрибут",
-				"md:ВторойАтрибут xdto:ВторойАтрибут",
-				"md:ТретийАтрибут xdto:ВторойАтрибут",
-				"md:ЧетвертыйАтрибут xdto:<Пустое>",
-				"md:ПервыйАтрибут xdto:ПервыйАтрибут <Алгоритм>",
-				"md:ВтораяТЧ. xdto:ВтораяТЧ.ТретийАтрибут",
-				"md:<Пустое> xdto:ВтораяТЧ.ЧетвертыйАтрибут",
-				"md:ПерваяТЧ.ТретийАтрибут xdto:ПерваяТЧ.",
-				"md:ПерваяТЧ.ЧетвертыйАтрибут xdto:<Пустое>");
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(THIRD_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE_CUSTOM,
+						SECOND_TABULAR.concat(".").concat(FIRST_ATTRIBUTE),
+						SECOND_TABULAR.concat(".").concat(FIRST_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(THIRD_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(SECOND_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE_CUSTOM,
+						FIRST_TABULAR.concat(".").concat(FIRST_ATTRIBUTE),
+						FIRST_TABULAR.concat(".").concat(FIRST_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE, EMPTY, FOURTH_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, SECOND_ATTRIBUTE, SECOND_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, THIRD_ATTRIBUTE, SECOND_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE, FOURTH_ATTRIBUTE, EMPTY),
+				String.format(ATTRIBUTE_RULE_CUSTOM, FIRST_ATTRIBUTE, FIRST_ATTRIBUTE),
+				String.format(ATTRIBUTE_RULE,
+						SECOND_TABULAR.concat("."),
+						SECOND_TABULAR.concat(".").concat(THIRD_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE, EMPTY, SECOND_TABULAR.concat(".").concat(FOURTH_ATTRIBUTE)),
+				String.format(ATTRIBUTE_RULE,
+						FIRST_TABULAR.concat(".").concat(THIRD_ATTRIBUTE),
+						FIRST_TABULAR.concat(".")),
+				String.format(ATTRIBUTE_RULE, FIRST_TABULAR.concat(".").concat(FOURTH_ATTRIBUTE), EMPTY));
 
 		EList<CmAttributeRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addAttributeRule(String.join(".", FIRST_TABULAR, FIRST_ATTRIBUTE),
@@ -297,7 +349,7 @@ public class ConversionModuleAnalyzerComparatorTest {
 				ConversionModuleAnalyzer
 						.getAttributeRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING_RECEIVING));
 
-		assertEquals("Модуль обмена: сортировка Атрибутов",
+		assertEquals("Модуль обмена: сортировка Атрибутов для отправки и получения",
 				report1.replace(", ", LS),
 				report2.toString().replace(", ", LS).replace("[", "").replace("]", ""));
 	}
@@ -305,12 +357,24 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testDataRuleComparatorByMd() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, SENDING_ROUTE),
-				String.format(RULE, SECOND_RULE, EMPTY, XDTO_DOCUMENT.concat("5"), SENDING_ROUTE),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("1"), EMPTY, SENDING_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("1"), XDTO_DOCUMENT.concat("4"), SENDING_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("6"), SENDING_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), XDTO_DOCUMENT.concat("2"), SENDING_ROUTE));
+				String.format(OBJECT_RULE, FIRST_RULE, EMPTY, EMPTY, SENDING_ROUTE),
+				String.format(OBJECT_RULE, SECOND_RULE, EMPTY, XDTO_DOCUMENT.concat("5"), SENDING_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("1"), EMPTY, SENDING_ROUTE),
+				String.format(OBJECT_RULE,
+						FOURTH_RULE,
+						MD_DOCUMENT.concat("1"),
+						XDTO_DOCUMENT.concat("4"),
+						SENDING_ROUTE),
+				String.format(OBJECT_RULE,
+						FIFTH_RULE,
+						MD_DOCUMENT.concat("2"),
+						XDTO_DOCUMENT.concat("6"),
+						SENDING_ROUTE),
+				String.format(OBJECT_RULE,
+						SIXTH_RULE,
+						MD_DOCUMENT.concat("3"),
+						XDTO_DOCUMENT.concat("2"),
+						SENDING_ROUTE));
 
 		EList<CmDataRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addDataRule(FIFTH_RULE,
@@ -350,12 +414,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testDataRuleComparatorByName() {
 		String report1 = String.join(LS,
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
-				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, NO_ROUTE),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, NO_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, NO_ROUTE));
+				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, NO_ROUTE));
 
 		EList<CmDataRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils
@@ -382,12 +446,24 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testDataRuleComparatorByXdto() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, RECEIVING_ROUTE),
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("5"), EMPTY, RECEIVING_ROUTE),
-				String.format(RULE, THIRD_RULE, EMPTY, XDTO_DOCUMENT.concat("1"), RECEIVING_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("4"), XDTO_DOCUMENT.concat("1"), RECEIVING_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("6"), XDTO_DOCUMENT.concat("2"), RECEIVING_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("3"), RECEIVING_ROUTE));
+				String.format(OBJECT_RULE, FIRST_RULE, EMPTY, EMPTY, RECEIVING_ROUTE),
+				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("5"), EMPTY, RECEIVING_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, EMPTY, XDTO_DOCUMENT.concat("1"), RECEIVING_ROUTE),
+				String.format(OBJECT_RULE,
+						FOURTH_RULE,
+						MD_DOCUMENT.concat("4"),
+						XDTO_DOCUMENT.concat("1"),
+						RECEIVING_ROUTE),
+				String.format(OBJECT_RULE,
+						FIFTH_RULE,
+						MD_DOCUMENT.concat("6"),
+						XDTO_DOCUMENT.concat("2"),
+						RECEIVING_ROUTE),
+				String.format(OBJECT_RULE,
+						SIXTH_RULE,
+						MD_DOCUMENT.concat("2"),
+						XDTO_DOCUMENT.concat("3"),
+						RECEIVING_ROUTE));
 
 		EList<CmDataRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addDataRule(FIFTH_RULE,
@@ -428,12 +504,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testObjectRuleComparatorByMd() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, NO_ROUTE),
-				String.format(RULE, SECOND_RULE, EMPTY, XDTO_DOCUMENT.concat("5"), NO_ROUTE),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("1"), XDTO_DOCUMENT.concat("4"), NO_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("6"), NO_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), XDTO_DOCUMENT.concat("2"), NO_ROUTE));
+				String.format(OBJECT_RULE, FIRST_RULE, EMPTY, EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, SECOND_RULE, EMPTY, XDTO_DOCUMENT.concat("5"), NO_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("1"), XDTO_DOCUMENT.concat("4"), NO_ROUTE),
+				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("6"), NO_ROUTE),
+				String.format(OBJECT_RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), XDTO_DOCUMENT.concat("2"), NO_ROUTE));
 
 		EList<CmObjectRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addObjectRule(FIFTH_RULE,
@@ -474,12 +550,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testObjectRuleComparatorByName() {
 		String report1 = String.join(LS,
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
-				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, NO_ROUTE),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, NO_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, NO_ROUTE));
+				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, NO_ROUTE));
 
 		EList<CmObjectRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils
@@ -506,12 +582,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testObjectRuleComparatorByXdto() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIRST_RULE, EMPTY, EMPTY, NO_ROUTE),
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
-				String.format(RULE, THIRD_RULE, EMPTY, XDTO_DOCUMENT.concat("1"), NO_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("4"), XDTO_DOCUMENT.concat("1"), NO_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("6"), XDTO_DOCUMENT.concat("2"), NO_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("3"), NO_ROUTE));
+				String.format(OBJECT_RULE, FIRST_RULE, EMPTY, EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, EMPTY, XDTO_DOCUMENT.concat("1"), NO_ROUTE),
+				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("4"), XDTO_DOCUMENT.concat("1"), NO_ROUTE),
+				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("6"), XDTO_DOCUMENT.concat("2"), NO_ROUTE),
+				String.format(OBJECT_RULE, SIXTH_RULE, MD_DOCUMENT.concat("2"), XDTO_DOCUMENT.concat("3"), NO_ROUTE));
 
 		EList<CmObjectRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addObjectRule(FIFTH_RULE,
@@ -553,12 +629,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testPredefinedComparatorByName() {
 		String report1 = String.join(LS,
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, RECEIVING_ROUTE),
-				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, RECEIVING_ROUTE),
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, RECEIVING_ROUTE),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, SENDING_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, SENDING_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, SENDING_ROUTE));
+				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, RECEIVING_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, RECEIVING_ROUTE),
+				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, RECEIVING_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, SENDING_ROUTE),
+				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, SENDING_ROUTE),
+				String.format(OBJECT_RULE, SIXTH_RULE, MD_DOCUMENT.concat("6"), EMPTY, SENDING_ROUTE));
 
 		EList<CmPredefined> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addPredefined(FIRST_RULE, MD_DOCUMENT.concat("2"), "", false, true, report2);
@@ -579,12 +655,12 @@ public class ConversionModuleAnalyzerComparatorTest {
 	@Test
 	public void testPredefinedComparatorByRouteName() {
 		String report1 = String.join(LS,
-				String.format(RULE, FIFTH_RULE, MD_DOCUMENT.concat("1"), EMPTY, SENDING_ROUTE),
-				String.format(RULE, FOURTH_RULE, MD_DOCUMENT.concat("2"), EMPTY, SENDING_ROUTE),
-				String.format(RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, SENDING_ROUTE),
-				String.format(RULE, SECOND_RULE, MD_DOCUMENT.concat("4"), EMPTY, RECEIVING_ROUTE),
-				String.format(RULE, FIRST_RULE, MD_DOCUMENT.concat("5"), EMPTY, RECEIVING_ROUTE),
-				String.format(RULE, THIRD_RULE, MD_DOCUMENT.concat("6"), EMPTY, RECEIVING_ROUTE));
+				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("1"), EMPTY, SENDING_ROUTE),
+				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("2"), EMPTY, SENDING_ROUTE),
+				String.format(OBJECT_RULE, SIXTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, SENDING_ROUTE),
+				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("4"), EMPTY, RECEIVING_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE, MD_DOCUMENT.concat("5"), EMPTY, RECEIVING_ROUTE),
+				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("6"), EMPTY, RECEIVING_ROUTE));
 
 		EList<CmPredefined> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils.addPredefined(FIRST_RULE, MD_DOCUMENT.concat("5"), "", false, true, report2);

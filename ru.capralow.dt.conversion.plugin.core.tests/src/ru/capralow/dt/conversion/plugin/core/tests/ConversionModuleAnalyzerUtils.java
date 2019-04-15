@@ -13,14 +13,19 @@ import com.google.common.io.Resources;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmParam;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
 public final class ConversionModuleAnalyzerUtils {
 	private static final String LS = System.lineSeparator();
+
+	private static final String ON_PROCESSING_EVENT_TEXT = "	Сообщить(\"ПриОбработке\");";
+	private static final String DATA_SELECTION_EVENT_TEXT = "	Сообщить(\"ВыборкаДанных\");";
 
 	private static final String ON_SENDING_EVENT_TEXT = "	Сообщить(\"ПриОтправкеДанных\");";
 	private static final String BEFORE_RECEIVING_EVENT_TEXT = "	Сообщить(\"ПриКонвертацииДанныхXDTO\");";
@@ -28,7 +33,8 @@ public final class ConversionModuleAnalyzerUtils {
 
 	private static final String HEAD_ORGANIZATION = "ГоловнаяОрганизация";
 
-	public static CmAlgorithm addAlgorithm(String name, String params, String body, EList<CmAlgorithm> algorithms) {
+	public static CmAlgorithm addAlgorithm(String name, String params, String body, CmMethodType methodType,
+			Boolean isExport, EList<CmAlgorithm> algorithms) {
 		if (algorithms != null)
 			for (CmAlgorithm algorithm : algorithms)
 				if (algorithm.getName().equals(name))
@@ -47,9 +53,12 @@ public final class ConversionModuleAnalyzerUtils {
 				cmParam.setDefaultValue(paramAndValue[1].trim());
 		}
 		algorithm.setBody(body);
-		algorithm.setExists(true);
-		if (algorithms != null)
+		algorithm.setMethodType(methodType);
+		algorithm.setIsExport(isExport);
+		if (algorithms != null) {
+			algorithm.setExists(true);
 			algorithms.add(algorithm);
+		}
 
 		return algorithm;
 	}
@@ -108,22 +117,31 @@ public final class ConversionModuleAnalyzerUtils {
 		return dataRule;
 	}
 
-	public static void addEvents(Boolean onSendingEvent, Boolean beforeReceivingEvent, Boolean onReceivingEvent,
-			Boolean afterReceivingAlgorithm, CmObjectRule objectRule, EList<CmAlgorithm> algorithms) {
+	public static void addObjectRuleEvents(Boolean onSendingEvent, Boolean beforeReceivingEvent,
+			Boolean onReceivingEvent, String afterReceivingAlgorithmName, String afterReceivingAlgorithmParams,
+			CmObjectRule objectRule, EList<CmAlgorithm> algorithms) {
 		if (onSendingEvent)
 			objectRule.setOnSendingEvent(ON_SENDING_EVENT_TEXT);
 		if (beforeReceivingEvent)
 			objectRule.setBeforeReceivingEvent(BEFORE_RECEIVING_EVENT_TEXT);
 		if (onReceivingEvent)
 			objectRule.setOnReceivingEvent(ON_RECEIVING_EVENT_TEXT);
-		if (afterReceivingAlgorithm) {
-			CmAlgorithm algorithm = addAlgorithm("АлгоритмПослеЗагрузкиВсехДанных",
-					"Объект, КомпонентыОбмена, ОбъектМодифицирован",
-					"	Сообщить(\"АлгоритмПослеЗагрузкиВсехДанных\");",
+		if (!afterReceivingAlgorithmName.isEmpty()) {
+			CmAlgorithm algorithm = addAlgorithm(afterReceivingAlgorithmName,
+					afterReceivingAlgorithmParams,
+					"	Сообщить(\"" + afterReceivingAlgorithmName + "\");",
+					CmMethodType.PROCEDURE,
+					false,
 					algorithms);
 			objectRule.setAfterReceivingAlgorithm(algorithm);
-
 		}
+	}
+
+	public static void addODataRuleEvents(Boolean onProcessingEvent, Boolean dataSelectionEvent, CmDataRule dataRule) {
+		if (onProcessingEvent)
+			dataRule.setOnProcessingEvent(ON_PROCESSING_EVENT_TEXT);
+		if (dataSelectionEvent)
+			dataRule.setDataSelectionEvent(DATA_SELECTION_EVENT_TEXT);
 	}
 
 	public static CmObjectRule addFilledObjectRule(String name, Boolean withConfiguration, Boolean withFormat,
@@ -178,15 +196,28 @@ public final class ConversionModuleAnalyzerUtils {
 
 	public static CmObjectRule addObjectRule(String name, String configurationObject, String formatObject,
 			Boolean forSending, Boolean forReceiving, Boolean forGroup, EList<CmObjectRule> objectRules) {
-		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-		objectRule.setName(name);
+		CmObjectRule objectRule = null;
+
+		if (objectRules != null)
+			for (CmObjectRule cmObjectRule : objectRules)
+				if (cmObjectRule.getName().equals(name)) {
+					objectRule = cmObjectRule;
+					break;
+				}
+
+		if (objectRule == null) {
+			objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+			objectRule.setName(name);
+
+			if (objectRules != null)
+				objectRules.add(objectRule);
+		}
+
 		objectRule.setConfigurationObjectName(configurationObject);
 		objectRule.setFormatObject(formatObject);
 		objectRule.setForSending(forSending);
 		objectRule.setForReceiving(forReceiving);
 		objectRule.setForGroup(forGroup);
-		if (objectRules != null)
-			objectRules.add(objectRule);
 
 		return objectRule;
 	}
@@ -270,6 +301,18 @@ public final class ConversionModuleAnalyzerUtils {
 
 	private ConversionModuleAnalyzerUtils() {
 		throw new IllegalStateException("Вспомогательный класс");
+	}
+
+	public static void addObjectRulesToDataRule(CmDataRule dataRule, ConversionModule conversionModule,
+			String[] objectRulesNames) {
+		for (String objectRuleName : objectRulesNames) {
+			CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
+			if (objectRule == null) {
+				objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+				objectRule.setName(objectRuleName);
+			}
+			dataRule.getObjectRules().add(objectRule);
+		}
 	}
 
 }

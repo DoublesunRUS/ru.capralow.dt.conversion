@@ -63,7 +63,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиОбъектКонфигурацииФормата", true, true, true, false, false, null);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектами конфигурации и формата",
 				report1,
@@ -98,7 +98,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 				null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals(
 				"Формирование модуля обмена: Добавить ПКО для отправки c объектами конфигурации и формата и полями",
@@ -125,7 +125,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиОбъектКонфигурации", true, false, true, false, false, null);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом конфигурации",
 				report1,
@@ -154,7 +154,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 				.addFilledObjectRule("ПКООтправкиОбъектКонфигурацииСПолями", true, false, true, false, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом конфигурации и полями",
 				report1,
@@ -167,7 +167,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		CmObjectRule objectRule = cmFactory.eINSTANCE.createCmObjectRule();
 		objectRule.setForSending(true);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить пустое ПКО для отправки", "", report2.toString());
 	}
@@ -193,9 +193,9 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		StringBuilder report2 = new StringBuilder();
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиСобытие1", false, false, true, false, false, null);
-		ConversionModuleAnalyzerUtils.addEvents(true, false, false, false, objectRule, null);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, false, false, "", "", objectRule, null);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c событием ПриОтправкеДанных",
 				report1,
@@ -221,7 +221,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиОбъектФормата", false, true, true, false, false, null);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом формата",
 				report1,
@@ -250,7 +250,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 				.addFilledObjectRule("ПКООтправкиОбъектФорматаСПолями", false, true, true, false, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c объектом формата и полями",
 				report1,
@@ -284,12 +284,12 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		StringBuilder report2 = new StringBuilder();
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолное", true, true, true, false, false, null);
-		ConversionModuleAnalyzerUtils.addEvents(true, false, false, false, objectRule, null);
+		ConversionModuleAnalyzerUtils.addObjectRuleEvents(true, false, false, "", "", objectRule, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки полное", report1, report2.toString());
 	}
@@ -316,7 +316,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 				.addFilledObjectRule("ПКООтправкиШапка", true, true, true, false, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c шапкой", report1, report2.toString());
 	}
@@ -346,7 +346,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки шапка и табличная часть",
 				report1,
@@ -373,7 +373,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 				.addFilledObjectRule("МинимальноеПКООтправки", false, false, true, false, true, null);
 		objectRule.setIdentificationVariant(CmIdentificationVariant.UUID);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки с минимумом данных",
 				report1,
@@ -402,7 +402,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 				.addFilledObjectRule("ПКООтправкиТЧ", true, true, true, false, false, null);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки c табличной частью",
 				report1,
@@ -434,7 +434,7 @@ public class ConversionModuleAnalyzerObjectRuleSendingTextTest {
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 
-		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2, new StringBuilder());
+		ConversionModuleAnalyzer.createObjectRuleSendingText(objectRule, report2);
 
 		assertEquals("Формирование модуля обмена: Добавить ПКО для отправки с двумя ТЧ", report1, report2.toString());
 	}

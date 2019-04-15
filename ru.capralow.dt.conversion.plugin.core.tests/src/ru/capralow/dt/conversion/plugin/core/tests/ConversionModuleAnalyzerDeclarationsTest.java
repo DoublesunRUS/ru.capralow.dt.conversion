@@ -10,6 +10,7 @@ import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
+import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
 public class ConversionModuleAnalyzerDeclarationsTest {
 	private static final String LS = System.lineSeparator();
@@ -22,6 +23,7 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 	private static final String ADD_DATARULE = "		ДобавитьПОД_%1$s(ПравилаОбработкиДанных);";
 	private static final String ADD_OBJECTRULE1 = "	ДобавитьПКО_%1$s(ПравилаКонвертации);";
 	private static final String ADD_OBJECTRULE2 = "		ДобавитьПКО_%1$s(ПравилаКонвертации);";
+	private static final String ELSE = "Иначе";
 	private static final String ENDIF = "	КонецЕсли;";
 
 	private static final String SENDING_ROUTE = "Отправка";
@@ -31,6 +33,24 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 	private static final String RECEIVING_NAME = "ПравилоПолучения";
 	private static final String BOTH_NAME = "ПравилоОтправкиПолучения";
 
+	private static final String BEGIN_OF_PREDEFINED = "	// %1$s.";
+
+	private static final String NEW_PREDEFINED = "	ПравилоКонвертации           = ПравилаКонвертации.Добавить();";
+
+	private static final String PREDEFINED_NAME = "	ПравилоКонвертации.ИмяПКПД   = \"%1$s\";";
+
+	private static final String EMPTY_CONFIGURATION_OBJECT = "	ПравилоКонвертации.ТипДанных = Неопределено;";
+
+	private static final String EMPTY_FORMAT_OBJECT = "	ПравилоКонвертации.ТипXDTO   = \"\";";
+
+	private static final String BEGIN_OF_SENDING_VALUES_SECTION = "	ЗначенияДляОтправки = Новый Соответствие;";
+
+	private static final String END_OF_SENDING_VALUES_SECTION = "	ПравилоКонвертации.КонвертацииЗначенийПриОтправке = ЗначенияДляОтправки;";
+
+	private static final String BEGIN_OF_RECEIVING_VALUES_SECTION = "	ЗначенияДляПолучения = Новый Соответствие;";
+
+	private static final String END_OF_RECEIVING_VALUES_SECTION = "	ПравилоКонвертации.КонвертацииЗначенийПриПолучении = ЗначенияДляПолучения;";
+
 	@Test
 	public void testDataRulesAll() {
 		String report1 = String.join(LS,
@@ -38,7 +58,7 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 				ADD_COLUMN,
 				String.format(ADD_DATARULE, SENDING_NAME.concat("1")),
 				String.format(ADD_DATARULE, SENDING_NAME.concat("2")),
-				String.format(ROUTE_IF_ELSEIF, "Иначе", RECEIVING_ROUTE),
+				String.format(ROUTE_IF_ELSEIF, ELSE, RECEIVING_ROUTE),
 				String.format(ADD_DATARULE, RECEIVING_NAME.concat("1")),
 				String.format(ADD_DATARULE, RECEIVING_NAME.concat("2")),
 				ENDIF);
@@ -107,12 +127,20 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 	}
 
 	@Test
+	public void testEventsEmpty() {
+		String report2 = ConversionModuleAnalyzer
+				.createEventsDeclarationText(cmFactory.eINSTANCE.createConversionModule());
+
+		assertEquals("Формирование модуля обмена: Добавить пустую процедуру описания процедур", "", report2);
+	}
+
+	@Test
 	public void testObjectRulesAll() {
 		String report1 = String.join(LS,
 				String.format(ROUTE_IF_ELSEIF, "", SENDING_ROUTE),
 				String.format(ADD_OBJECTRULE2, SENDING_NAME.concat("1")),
 				String.format(ADD_OBJECTRULE2, SENDING_NAME.concat("2")),
-				String.format(ROUTE_IF_ELSEIF, "Иначе", RECEIVING_ROUTE),
+				String.format(ROUTE_IF_ELSEIF, ELSE, RECEIVING_ROUTE),
 				String.format(ADD_OBJECTRULE2, RECEIVING_NAME.concat("1")),
 				String.format(ADD_OBJECTRULE2, RECEIVING_NAME.concat("2")),
 				ENDIF,
@@ -259,18 +287,33 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 		assertEquals("Формирование модуля обмена: Добавить процедуру описания ПКО событий отправки", report1, report2);
 	}
 
-	private static final String BEGIN_OF_PREDEFINED = "	// %1$s.";
-	private static final String NEW_PREDEFINED = "	ПравилоКонвертации           = ПравилаКонвертации.Добавить();";
-	private static final String PREDEFINED_NAME = "	ПравилоКонвертации.ИмяПКПД   = \"%1$s\";";
+	@Test
+	public void testObjectRulesSendingOrReceiving() {
+		String report1 = String.join(LS,
+				String.format(ROUTE_IF_ELSEIF, "", SENDING_ROUTE),
+				String.format(ADD_OBJECTRULE2, SENDING_NAME.concat("1")),
+				String.format(ADD_OBJECTRULE2, SENDING_NAME.concat("2")),
+				String.format(ROUTE_IF_ELSEIF, ELSE, RECEIVING_ROUTE),
+				String.format(ADD_OBJECTRULE2, RECEIVING_NAME.concat("1")),
+				String.format(ADD_OBJECTRULE2, RECEIVING_NAME.concat("2")),
+				ENDIF);
 
-	private static final String EMPTY_CONFIGURATION_OBJECT = "	ПравилоКонвертации.ТипДанных = Неопределено;";
-	private static final String EMPTY_FORMAT_OBJECT = "	ПравилоКонвертации.ТипXDTO   = \"\";";
+		EList<CmObjectRule> objectRules = new BasicEList<>();
+		ConversionModuleAnalyzerUtils
+				.addFilledObjectRule(SENDING_NAME.concat("1"), false, false, true, false, false, objectRules);
+		ConversionModuleAnalyzerUtils
+				.addFilledObjectRule(RECEIVING_NAME.concat("1"), false, false, false, true, false, objectRules);
+		ConversionModuleAnalyzerUtils
+				.addFilledObjectRule(SENDING_NAME.concat("2"), false, false, true, false, false, objectRules);
+		ConversionModuleAnalyzerUtils
+				.addFilledObjectRule(RECEIVING_NAME.concat("2"), false, false, false, true, false, objectRules);
 
-	private static final String BEGIN_OF_SENDING_VALUES_SECTION = "	ЗначенияДляОтправки = Новый Соответствие;";
-	private static final String END_OF_SENDING_VALUES_SECTION = "	ПравилоКонвертации.КонвертацииЗначенийПриОтправке = ЗначенияДляОтправки;";
+		String report2 = ConversionModuleAnalyzer.createObjectRulesDeclarationText(objectRules);
 
-	private static final String BEGIN_OF_RECEIVING_VALUES_SECTION = "	ЗначенияДляПолучения = Новый Соответствие;";
-	private static final String END_OF_RECEIVING_VALUES_SECTION = "	ПравилоКонвертации.КонвертацииЗначенийПриПолучении = ЗначенияДляПолучения;";
+		assertEquals("Формирование модуля обмена: Добавить процедуру описания ПОД событий отправки или получения",
+				report1,
+				report2);
+	}
 
 	@Test
 	public void testPredefinedsAll() {
@@ -349,6 +392,61 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 
 		assertEquals(
 				"Формирование модуля обмена: Добавить процедуру описания ПКПД событий отправки и получения с отправкой и получением",
+				report1,
+				report2);
+	}
+
+	@Test
+	public void testPredefinedsBoth() {
+		String report1 = String.join(LS,
+				String.format(ROUTE_IF_ELSEIF, "", SENDING_ROUTE),
+				"	" + String.format(BEGIN_OF_PREDEFINED, SENDING_NAME.concat("1")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, SENDING_NAME.concat("1")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_SENDING_VALUES_SECTION,
+				"	" + END_OF_SENDING_VALUES_SECTION,
+				"	" + "",
+				"	" + String.format(BEGIN_OF_PREDEFINED, SENDING_NAME.concat("2")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, SENDING_NAME.concat("2")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_SENDING_VALUES_SECTION,
+				"	" + END_OF_SENDING_VALUES_SECTION,
+				ENDIF,
+				String.format(ROUTE_IF_ELSEIF, "", RECEIVING_ROUTE),
+				"	" + String.format(BEGIN_OF_PREDEFINED, RECEIVING_NAME.concat("1")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, RECEIVING_NAME.concat("1")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_RECEIVING_VALUES_SECTION,
+				"	" + END_OF_RECEIVING_VALUES_SECTION,
+				"	" + "",
+				"	" + String.format(BEGIN_OF_PREDEFINED, RECEIVING_NAME.concat("2")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, RECEIVING_NAME.concat("2")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_RECEIVING_VALUES_SECTION,
+				"	" + END_OF_RECEIVING_VALUES_SECTION,
+				ENDIF);
+
+		EList<CmPredefined> predefineds = new BasicEList<>();
+		ConversionModuleAnalyzerUtils.addFilledPredefined(SENDING_NAME.concat("1"), false, true, false, predefineds);
+		ConversionModuleAnalyzerUtils.addFilledPredefined(RECEIVING_NAME.concat("1"), false, false, true, predefineds);
+		ConversionModuleAnalyzerUtils.addFilledPredefined(SENDING_NAME.concat("2"), false, true, false, predefineds);
+		ConversionModuleAnalyzerUtils.addFilledPredefined(RECEIVING_NAME.concat("2"), false, false, true, predefineds);
+
+		String report2 = ConversionModuleAnalyzer.createPredefinedsDeclarationText(predefineds);
+
+		assertEquals("Формирование модуля обмена: Добавить процедуру описания ПКПД событий отправки и получения",
 				report1,
 				report2);
 	}
@@ -472,61 +570,6 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 	}
 
 	@Test
-	public void testPredefinedsBoth() {
-		String report1 = String.join(LS,
-				String.format(ROUTE_IF_ELSEIF, "", SENDING_ROUTE),
-				"	" + String.format(BEGIN_OF_PREDEFINED, SENDING_NAME.concat("1")),
-				"	" + NEW_PREDEFINED,
-				"	" + String.format(PREDEFINED_NAME, SENDING_NAME.concat("1")),
-				"	" + EMPTY_CONFIGURATION_OBJECT,
-				"	" + EMPTY_FORMAT_OBJECT,
-				"	" + "",
-				"	" + BEGIN_OF_SENDING_VALUES_SECTION,
-				"	" + END_OF_SENDING_VALUES_SECTION,
-				"	" + "",
-				"	" + String.format(BEGIN_OF_PREDEFINED, SENDING_NAME.concat("2")),
-				"	" + NEW_PREDEFINED,
-				"	" + String.format(PREDEFINED_NAME, SENDING_NAME.concat("2")),
-				"	" + EMPTY_CONFIGURATION_OBJECT,
-				"	" + EMPTY_FORMAT_OBJECT,
-				"	" + "",
-				"	" + BEGIN_OF_SENDING_VALUES_SECTION,
-				"	" + END_OF_SENDING_VALUES_SECTION,
-				ENDIF,
-				String.format(ROUTE_IF_ELSEIF, "", RECEIVING_ROUTE),
-				"	" + String.format(BEGIN_OF_PREDEFINED, RECEIVING_NAME.concat("1")),
-				"	" + NEW_PREDEFINED,
-				"	" + String.format(PREDEFINED_NAME, RECEIVING_NAME.concat("1")),
-				"	" + EMPTY_CONFIGURATION_OBJECT,
-				"	" + EMPTY_FORMAT_OBJECT,
-				"	" + "",
-				"	" + BEGIN_OF_RECEIVING_VALUES_SECTION,
-				"	" + END_OF_RECEIVING_VALUES_SECTION,
-				"	" + "",
-				"	" + String.format(BEGIN_OF_PREDEFINED, RECEIVING_NAME.concat("2")),
-				"	" + NEW_PREDEFINED,
-				"	" + String.format(PREDEFINED_NAME, RECEIVING_NAME.concat("2")),
-				"	" + EMPTY_CONFIGURATION_OBJECT,
-				"	" + EMPTY_FORMAT_OBJECT,
-				"	" + "",
-				"	" + BEGIN_OF_RECEIVING_VALUES_SECTION,
-				"	" + END_OF_RECEIVING_VALUES_SECTION,
-				ENDIF);
-
-		EList<CmPredefined> predefineds = new BasicEList<>();
-		ConversionModuleAnalyzerUtils.addFilledPredefined(SENDING_NAME.concat("1"), false, true, false, predefineds);
-		ConversionModuleAnalyzerUtils.addFilledPredefined(RECEIVING_NAME.concat("1"), false, false, true, predefineds);
-		ConversionModuleAnalyzerUtils.addFilledPredefined(SENDING_NAME.concat("2"), false, true, false, predefineds);
-		ConversionModuleAnalyzerUtils.addFilledPredefined(RECEIVING_NAME.concat("2"), false, false, true, predefineds);
-
-		String report2 = ConversionModuleAnalyzer.createPredefinedsDeclarationText(predefineds);
-
-		assertEquals("Формирование модуля обмена: Добавить процедуру описания ПКПД событий отправки и получения",
-				report1,
-				report2);
-	}
-
-	@Test
 	public void testPredefinedsEmpty() {
 		String report2 = ConversionModuleAnalyzer.createPredefinedsDeclarationText(new BasicEList<CmPredefined>());
 
@@ -597,6 +640,61 @@ public class ConversionModuleAnalyzerDeclarationsTest {
 		String report2 = ConversionModuleAnalyzer.createPredefinedsDeclarationText(predefineds);
 
 		assertEquals("Формирование модуля обмена: Добавить процедуру описания ПКПД событий отправки", report1, report2);
+	}
+
+	@Test
+	public void testPredefinedsSendingOrReceiving() {
+		String report1 = String.join(LS,
+				String.format(ROUTE_IF_ELSEIF, "", SENDING_ROUTE),
+				"	" + String.format(BEGIN_OF_PREDEFINED, SENDING_NAME.concat("1")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, SENDING_NAME.concat("1")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_SENDING_VALUES_SECTION,
+				"	" + END_OF_SENDING_VALUES_SECTION,
+				"	" + "",
+				"	" + String.format(BEGIN_OF_PREDEFINED, SENDING_NAME.concat("2")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, SENDING_NAME.concat("2")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_SENDING_VALUES_SECTION,
+				"	" + END_OF_SENDING_VALUES_SECTION,
+				ENDIF,
+				String.format(ROUTE_IF_ELSEIF, "", RECEIVING_ROUTE),
+				"	" + String.format(BEGIN_OF_PREDEFINED, RECEIVING_NAME.concat("1")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, RECEIVING_NAME.concat("1")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_RECEIVING_VALUES_SECTION,
+				"	" + END_OF_RECEIVING_VALUES_SECTION,
+				"	" + "",
+				"	" + String.format(BEGIN_OF_PREDEFINED, RECEIVING_NAME.concat("2")),
+				"	" + NEW_PREDEFINED,
+				"	" + String.format(PREDEFINED_NAME, RECEIVING_NAME.concat("2")),
+				"	" + EMPTY_CONFIGURATION_OBJECT,
+				"	" + EMPTY_FORMAT_OBJECT,
+				"	" + "",
+				"	" + BEGIN_OF_RECEIVING_VALUES_SECTION,
+				"	" + END_OF_RECEIVING_VALUES_SECTION,
+				ENDIF);
+
+		EList<CmPredefined> predefineds = new BasicEList<>();
+		ConversionModuleAnalyzerUtils.addFilledPredefined(SENDING_NAME.concat("1"), false, true, false, predefineds);
+		ConversionModuleAnalyzerUtils.addFilledPredefined(RECEIVING_NAME.concat("1"), false, false, true, predefineds);
+		ConversionModuleAnalyzerUtils.addFilledPredefined(SENDING_NAME.concat("2"), false, true, false, predefineds);
+		ConversionModuleAnalyzerUtils.addFilledPredefined(RECEIVING_NAME.concat("2"), false, false, true, predefineds);
+
+		String report2 = ConversionModuleAnalyzer.createPredefinedsDeclarationText(predefineds);
+
+		assertEquals("Формирование модуля обмена: Добавить процедуру описания ПКПД событий отправки или получения",
+				report1,
+				report2);
 	}
 
 }

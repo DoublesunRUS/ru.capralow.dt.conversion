@@ -262,11 +262,15 @@ public class ConversionModuleAnalyzer {
 
 	private static final String ROUTE_IF_ELSEIF = "	%1$sЕсли НаправлениеОбмена = \"%2$s\" Тогда";
 
+	private static final String IF = "Если";
+	private static final String ELSEIF = "ИначеЕсли";
 	private static final String ENDIF = "	КонецЕсли;";
 
 	private static final String SENDING_ROUTE = "Отправка";
-
 	private static final String RECEIVING_ROUTE = "Получение";
+
+	private static final String HEADER_ATTRIBUTES = "СвойстваШапки";
+	private static final String TABULAR_ATTRIBUTES = "СвойстваТЧ";
 
 	public static ConversionModule analyze(CommonModule commonModule, IV8ProjectManager projectManager,
 			IBmEmfIndexManager bmEmfIndexManager) {
@@ -431,8 +435,54 @@ public class ConversionModuleAnalyzer {
 		dataRulesSending.append(dataRuleSending);
 	}
 
-	public static void createObjectRuleReceivingText(CmObjectRule objectRule, StringBuilder objectRulesReceiving,
-			StringBuilder objectRulesEventsText) {
+	public static String createEventsDeclarationText(ConversionModule conversionModule) {
+		StringBuilder objectRulesEventsText = new StringBuilder();
+
+		EList<CmAlgorithm> afterReceivingAlgorithms = new BasicEList<>();
+		for (CmObjectRule objectRule : conversionModule.getObjectRules()) {
+			if (objectRule.getForSending() && objectRule.getForReceiving())
+				createEventsDeclarationObjectRuleReceivingText(objectRule, objectRulesEventsText);
+
+			else if (objectRule.getForSending())
+				createEventsDeclarationObjectRuleSendingText(objectRule, objectRulesEventsText);
+
+			else if (objectRule.getForReceiving())
+				createEventsDeclarationObjectRuleReceivingText(objectRule, objectRulesEventsText);
+
+			if (objectRule.getAfterReceivingAlgorithm() != null
+					&& !afterReceivingAlgorithms.contains(objectRule.getAfterReceivingAlgorithm()))
+				afterReceivingAlgorithms.add(objectRule.getAfterReceivingAlgorithm());
+		}
+		ECollections.sort(afterReceivingAlgorithms, ConversionModuleAnalyzer.getAlgorithmComparator());
+
+		for (CmAlgorithm algorithm : afterReceivingAlgorithms) {
+			if (!algorithm.getExists())
+				continue;
+			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
+			objectRulesEventsText
+					.append(String
+							.format("	%1$s ИмяПроцедуры = \"%2$s\" Тогда ", objectRulesPrefix, algorithm.getName()))
+					.append(LS);
+			objectRulesEventsText.append(String.format("		%1$s(", algorithm.getName())).append(LS);
+			StringBuilder methodParams = new StringBuilder();
+			for (CmParam cmParam : algorithm.getParams()) {
+				if (methodParams.length() != 0)
+					methodParams.append(", ");
+
+				methodParams.append("Параметры.").append(cmParam.getName());
+				if (!cmParam.getDefaultValue().isEmpty())
+					methodParams.append(" = ").append(cmParam.getDefaultValue());
+			}
+			objectRulesEventsText.append(String.format("			%1$s);", methodParams)).append(LS);
+		}
+
+		if (objectRulesEventsText.length() != 0)
+			objectRulesEventsText.append(ENDIF);
+
+		return objectRulesEventsText.toString();
+	}
+
+	public static void createObjectRuleReceivingText(CmObjectRule objectRule, StringBuilder objectRulesReceiving) {
 		if (objectRule.getName().isEmpty())
 			return;
 
@@ -454,7 +504,7 @@ public class ConversionModuleAnalyzer {
 
 		createObjectRuleReceivingAttributeRulesText(objectRule, templateObjectRuleReceiving);
 
-		createObjectRuleReceivingEventsText(objectRule, templateObjectRuleReceiving, objectRulesEventsText);
+		createObjectRuleReceivingEventsText(objectRule, templateObjectRuleReceiving);
 
 		createObjectRuleReceivingIdentificationText(objectRule, templateObjectRuleReceiving);
 
@@ -518,8 +568,7 @@ public class ConversionModuleAnalyzer {
 
 	}
 
-	public static void createObjectRuleSendingText(CmObjectRule objectRule, StringBuilder objectRulesSending,
-			StringBuilder objectRulesEventsText) {
+	public static void createObjectRuleSendingText(CmObjectRule objectRule, StringBuilder objectRulesSending) {
 		if (objectRule.getName().isEmpty())
 			return;
 
@@ -539,7 +588,7 @@ public class ConversionModuleAnalyzer {
 
 		createObjectRuleSendingAttributeRulesText(objectRule, templateObjectRuleSending);
 
-		createObjectRuleSendingEventsText(objectRule, templateObjectRuleSending, objectRulesEventsText);
+		createObjectRuleSendingEventsText(objectRule, templateObjectRuleSending);
 
 		String objectRuleSending = replaceEmptyObjectRulePropertiesText(templateObjectRuleSending.toString());
 
@@ -582,11 +631,11 @@ public class ConversionModuleAnalyzer {
 		}
 		if (predefinedsSendingText.length() != 0) {
 			predefinedsSendingText.insert(0, "	Если НаправлениеОбмена = \"Отправка\" Тогда".concat(LS));
-			predefinedsSendingText.append("	КонецЕсли;");
+			predefinedsSendingText.append(ENDIF);
 		}
 		if (predefinedsReceivingText.length() != 0) {
 			predefinedsReceivingText.insert(0, "	Если НаправлениеОбмена = \"Получение\" Тогда".concat(LS));
-			predefinedsReceivingText.append("	КонецЕсли;");
+			predefinedsReceivingText.append(ENDIF);
 			if (predefinedsSendingText.length() != 0)
 				predefinedsReceivingText.insert(0, LS);
 		}
@@ -985,6 +1034,10 @@ public class ConversionModuleAnalyzer {
 
 				objectRule.setForSending(true);
 				objectRule.setForReceiving(true);
+
+			} else {
+				throw new NullPointerException("Добавить ПКО: необработанный Statement: " + statement.getClass());
+
 			}
 		}
 	}
@@ -994,26 +1047,15 @@ public class ConversionModuleAnalyzer {
 		CmPredefined cmPredefined = null;
 
 		for (Statement statement : method.allStatements()) {
-			Expression leftExpression = ((SimpleStatement) statement).getLeft();
+			if (statement instanceof IfStatement) {
+				parsePredefinedsIfStatement((IfStatement) statement, conversionModule);
 
-			if (leftExpression instanceof DynamicFeatureAccess) {
-				DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
-
-				if (leftFeatureAccess.getName().equals("ИмяПКПД"))
-					cmPredefined = createPredefined(statement, conversionModule);
-
-				else
-					parsePredefinedNewPredefined(statement, cmPredefined);
-
-			} else if (leftExpression instanceof Invocation) {
-				parsePredefinedValue(leftExpression, cmPredefined);
-
-			} else if (leftExpression instanceof StaticFeatureAccess) {
-				// Нечего делать
+			} else if (statement instanceof SimpleStatement) {
+				cmPredefined = parsePredefined(cmPredefined, (SimpleStatement) statement, conversionModule);
 
 			} else {
-				throw new NullPointerException(
-						"Добавить ПКПД: необработанный Expression: " + leftExpression.getClass());
+				throw new NullPointerException("Добавить ПКПД: необработанный Statement: " + statement.getClass());
+
 			}
 		}
 
@@ -1160,40 +1202,70 @@ public class ConversionModuleAnalyzer {
 		templateMain.setAttribute("DataRulesReceiving", dataRulesReceiving);
 	}
 
-	private static void createEventsText(StringTemplate templateMain, StringBuilder objectRulesEventsText,
-			ConversionModule conversionModule) {
-		EList<CmAlgorithm> afterReceivingAlgorithms = new BasicEList<>();
-		for (CmObjectRule objectRule : conversionModule.getObjectRules())
-			if (objectRule.getAfterReceivingAlgorithm() != null
-					&& !afterReceivingAlgorithms.contains(objectRule.getAfterReceivingAlgorithm()))
-				afterReceivingAlgorithms.add(objectRule.getAfterReceivingAlgorithm());
-		ECollections.sort(afterReceivingAlgorithms, ConversionModuleAnalyzer.getAlgorithmComparator());
-
-		for (CmAlgorithm algorithm : afterReceivingAlgorithms) {
-			if (!algorithm.getExists())
-				continue;
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
-			objectRulesEventsText
-					.append(String
-							.format("	%1$s ИмяПроцедуры = \"%2$s\" Тогда ", objectRulesPrefix, algorithm.getName()))
+	private static void createEventsDeclarationObjectRuleReceivingText(CmObjectRule objectRule,
+			StringBuilder objectRulesEventsText) {
+		if (!objectRule.getOnSendingEvent().isEmpty()) {
+			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
+			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
+					objectRulesPrefix,
+					objectRule.getName())).append(LS);
+			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
 					.append(LS);
-			objectRulesEventsText.append(String.format("		%1$s(", algorithm.getName())).append(LS);
-			StringBuilder methodParams = new StringBuilder();
-			for (CmParam cmParam : algorithm.getParams()) {
-				if (methodParams.length() != 0)
-					methodParams.append(", ");
-
-				methodParams.append("Параметры.").append(cmParam.getName());
-				if (!cmParam.getDefaultValue().isEmpty())
-					methodParams.append(" = ").append(cmParam.getDefaultValue());
-			}
-			objectRulesEventsText.append(String.format("			%1$s);", methodParams)).append(LS);
+			objectRulesEventsText.append(
+					"			Параметры.ДанныеИБ, Параметры.ДанныеXDTO, Параметры.КомпонентыОбмена, Параметры.СтекВыгрузки);")
+					.append(LS);
+		}
+		if (!objectRule.getBeforeReceivingEvent().isEmpty()) {
+			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
+			objectRulesEventsText
+					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриКонвертацииДанныхXDTO\" Тогда ",
+							objectRulesPrefix,
+							objectRule.getName()))
+					.append(LS);
+			objectRulesEventsText
+					.append(String.format("		ПКО_%1$s_ПриКонвертацииДанныхXDTO(", objectRule.getName())).append(LS);
+			objectRulesEventsText
+					.append("			Параметры.ДанныеXDTO, Параметры.ПолученныеДанные, Параметры.КомпонентыОбмена);")
+					.append(LS);
+		}
+		if (!objectRule.getOnReceivingEvent().isEmpty()) {
+			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
+			objectRulesEventsText
+					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПередЗаписьюПолученныхДанных\" Тогда ",
+							objectRulesPrefix,
+							objectRule.getName()))
+					.append(LS);
+			objectRulesEventsText
+					.append(String.format("		ПКО_%1$s_ПередЗаписьюПолученныхДанных(", objectRule.getName()))
+					.append(LS);
+			objectRulesEventsText.append(
+					"			Параметры.ПолученныеДанные, Параметры.ДанныеИБ, Параметры.КонвертацияСвойств, Параметры.КомпонентыОбмена);")
+					.append(LS);
 		}
 
-		if (objectRulesEventsText.length() != 0)
-			objectRulesEventsText.append("	КонецЕсли;");
+	}
 
-		templateMain.setAttribute(EVENTS_PARAM, objectRulesEventsText);
+	private static void createEventsDeclarationObjectRuleSendingText(CmObjectRule objectRule,
+			StringBuilder objectRulesEventsText) {
+		StringBuilder objectRuleEventsText = new StringBuilder();
+		if (!objectRule.getOnSendingEvent().isEmpty()) {
+			objectRuleEventsText.append(LS).append(objectRule.getOnSendingEventText());
+
+			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
+			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
+					objectRulesPrefix,
+					objectRule.getName())).append(LS);
+			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
+					.append(LS);
+			objectRulesEventsText.append(
+					"			Параметры.ДанныеИБ, Параметры.ДанныеXDTO, Параметры.КомпонентыОбмена, Параметры.СтекВыгрузки);")
+					.append(LS);
+		}
+	}
+
+	private static void createEventsText(StringTemplate templateMain, ConversionModule conversionModule) {
+
+		templateMain.setAttribute(EVENTS_PARAM, createEventsDeclarationText(conversionModule));
 	}
 
 	private static CmObjectRule createObjectRule(EList<Statement> allStatements, ConversionModule conversionModule) {
@@ -1315,10 +1387,13 @@ public class ConversionModuleAnalyzer {
 			if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty())
 				createObjectRuleAttributeRow(attributeRule,
 						attributeRulesText,
-						"СвойстваШапки",
+						HEADER_ATTRIBUTES,
 						formatAttributeMaxLength);
 			else
-				createObjectRuleAttributeRow(attributeRule, tabularSectionText, "СвойстваТЧ", formatAttributeMaxLength);
+				createObjectRuleAttributeRow(attributeRule,
+						tabularSectionText,
+						TABULAR_ATTRIBUTES,
+						formatAttributeMaxLength);
 		}
 		if (attributeRulesText.length() == 0)
 			attributeRulesText.append("	");
@@ -1327,7 +1402,7 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static void createObjectRuleReceivingEventsText(CmObjectRule objectRule,
-			StringTemplate templateObjectRuleReceiving, StringBuilder objectRulesEventsText) {
+			StringTemplate templateObjectRuleReceiving) {
 		templateObjectRuleReceiving.setAttribute("OnSendingEvent", objectRule.getOnSendingEventDeclaration());
 		templateObjectRuleReceiving.setAttribute("BeforeReceivingEvent",
 				objectRule.getBeforeReceivingEventDeclaration());
@@ -1336,50 +1411,14 @@ public class ConversionModuleAnalyzer {
 				objectRule.getAfterReceivingAlgorithmDeclaration());
 
 		StringBuilder objectRuleEventsText = new StringBuilder();
-		if (!objectRule.getOnSendingEvent().isEmpty()) {
+		if (!objectRule.getOnSendingEvent().isEmpty())
 			objectRuleEventsText.append(LS).append(objectRule.getOnSendingEventText());
 
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
-			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
-					objectRulesPrefix,
-					objectRule.getName())).append(LS);
-			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText.append(
-					"			Параметры.ДанныеИБ, Параметры.ДанныеXDTO, Параметры.КомпонентыОбмена, Параметры.СтекВыгрузки);")
-					.append(LS);
-		}
-		if (!objectRule.getBeforeReceivingEvent().isEmpty()) {
+		if (!objectRule.getBeforeReceivingEvent().isEmpty())
 			objectRuleEventsText.append(LS).append(objectRule.getBeforeReceivingEventText());
 
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
-			objectRulesEventsText
-					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриКонвертацииДанныхXDTO\" Тогда ",
-							objectRulesPrefix,
-							objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText
-					.append(String.format("		ПКО_%1$s_ПриКонвертацииДанныхXDTO(", objectRule.getName())).append(LS);
-			objectRulesEventsText
-					.append("			Параметры.ДанныеXDTO, Параметры.ПолученныеДанные, Параметры.КомпонентыОбмена);")
-					.append(LS);
-		}
-		if (!objectRule.getOnReceivingEvent().isEmpty()) {
+		if (!objectRule.getOnReceivingEvent().isEmpty())
 			objectRuleEventsText.append(LS).append(objectRule.getOnReceivingEventText());
-
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
-			objectRulesEventsText
-					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПередЗаписьюПолученныхДанных\" Тогда ",
-							objectRulesPrefix,
-							objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText
-					.append(String.format("		ПКО_%1$s_ПередЗаписьюПолученныхДанных(", objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText.append(
-					"			Параметры.ПолученныеДанные, Параметры.ДанныеИБ, Параметры.КонвертацияСвойств, Параметры.КомпонентыОбмена);")
-					.append(LS);
-		}
 
 		templateObjectRuleReceiving.setAttribute(EVENTS_PARAM, objectRuleEventsText);
 
@@ -1476,10 +1515,13 @@ public class ConversionModuleAnalyzer {
 			if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty())
 				createObjectRuleAttributeRow(attributeRule,
 						attributeRulesText,
-						"СвойстваШапки",
+						HEADER_ATTRIBUTES,
 						formatAttributeMaxLength);
 			else
-				createObjectRuleAttributeRow(attributeRule, tabularSectionText, "СвойстваТЧ", formatAttributeMaxLength);
+				createObjectRuleAttributeRow(attributeRule,
+						tabularSectionText,
+						TABULAR_ATTRIBUTES,
+						formatAttributeMaxLength);
 		}
 		if (attributeRulesText.length() == 0)
 			attributeRulesText.append("	");
@@ -1488,29 +1530,17 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static void createObjectRuleSendingEventsText(CmObjectRule objectRule,
-			StringTemplate templateObjectRuleSending, StringBuilder objectRulesEventsText) {
+			StringTemplate templateObjectRuleSending) {
 		templateObjectRuleSending.setAttribute("OnSendingEvent", objectRule.getOnSendingEventDeclaration());
 
 		StringBuilder objectRuleEventsText = new StringBuilder();
-		if (!objectRule.getOnSendingEvent().isEmpty()) {
+		if (!objectRule.getOnSendingEvent().isEmpty())
 			objectRuleEventsText.append(LS).append(objectRule.getOnSendingEventText());
-
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? "Если" : "ИначеЕсли";
-			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
-					objectRulesPrefix,
-					objectRule.getName())).append(LS);
-			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText.append(
-					"			Параметры.ДанныеИБ, Параметры.ДанныеXDTO, Параметры.КомпонентыОбмена, Параметры.СтекВыгрузки);")
-					.append(LS);
-		}
 
 		templateObjectRuleSending.setAttribute(EVENTS_PARAM, objectRuleEventsText);
 	}
 
-	private static void createObjectRulesText(StringTemplate templateMain, StringBuilder objectRulesEventsText,
-			ConversionModule conversionModule) {
+	private static void createObjectRulesText(StringTemplate templateMain, ConversionModule conversionModule) {
 		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
 		if (objectRules.isEmpty()) {
 			templateMain.setAttribute("ObjectRulesDeclaration", "	");
@@ -1527,13 +1557,13 @@ public class ConversionModuleAnalyzer {
 
 		for (CmObjectRule objectRule : objectRules) {
 			if (objectRule.getForSending() && objectRule.getForReceiving())
-				createObjectRuleReceivingText(objectRule, objectRulesBoth, objectRulesEventsText);
+				createObjectRuleReceivingText(objectRule, objectRulesBoth);
 
 			else if (objectRule.getForSending())
-				createObjectRuleSendingText(objectRule, objectRulesSending, objectRulesEventsText);
+				createObjectRuleSendingText(objectRule, objectRulesSending);
 
 			else if (objectRule.getForReceiving())
-				createObjectRuleReceivingText(objectRule, objectRulesReceiving, objectRulesEventsText);
+				createObjectRuleReceivingText(objectRule, objectRulesReceiving);
 
 		}
 
@@ -1574,6 +1604,11 @@ public class ConversionModuleAnalyzer {
 		conversionModule.getPredefineds().add(cmPredefined);
 
 		return cmPredefined;
+	}
+
+	private static void createPredefinedsText(StringTemplate templateMain, ConversionModule conversionModule) {
+		templateMain.setAttribute(PREDEFINEDS_PARAM,
+				createPredefinedsDeclarationText(conversionModule.getPredefineds()));
 	}
 
 	private static String getConfigurationTabularSection(CmAttributeRule attributeRule, CmObjectRule objectRule) {
@@ -1654,22 +1689,15 @@ public class ConversionModuleAnalyzer {
 
 		templateMain.setAttribute("StoreVersion", conversionModule.getStoreVersion());
 
-		StringBuilder objectRulesEventsText = new StringBuilder();
-
 		createDataRulesText(templateMain, conversionModule);
-		createObjectRulesText(templateMain, objectRulesEventsText, conversionModule);
+		createObjectRulesText(templateMain, conversionModule);
 		createPredefinedsText(templateMain, conversionModule);
 		createAlgorithmsText(templateMain, conversionModule);
 		createParamsText(templateMain, conversionModule);
-		createEventsText(templateMain, objectRulesEventsText, conversionModule);
+		createEventsText(templateMain, conversionModule);
 
 		return templateMain.toString().replaceAll(REPLACE_EMPTY_PROPERTIES, LS);
 
-	}
-
-	private static void createPredefinedsText(StringTemplate templateMain, ConversionModule conversionModule) {
-		templateMain.setAttribute(PREDEFINEDS_PARAM,
-				createPredefinedsDeclarationText(conversionModule.getPredefineds()));
 	}
 
 	private static String getSendingReceivingPriority(CmObject cmObject) {
@@ -2218,6 +2246,33 @@ public class ConversionModuleAnalyzer {
 		conversionModule.getParams().addAll(params);
 	}
 
+	private static CmPredefined parsePredefined(CmPredefined cmPredefined, SimpleStatement statement,
+			ConversionModule conversionModule) {
+		Expression leftExpression = statement.getLeft();
+
+		if (leftExpression instanceof DynamicFeatureAccess) {
+			DynamicFeatureAccess leftFeatureAccess = (DynamicFeatureAccess) leftExpression;
+
+			if (leftFeatureAccess.getName().equals("ИмяПКПД"))
+				return createPredefined(statement, conversionModule);
+
+			else
+				parsePredefinedNewPredefined(statement, cmPredefined);
+
+		} else if (leftExpression instanceof Invocation) {
+			parsePredefinedValue(leftExpression, cmPredefined);
+
+		} else if (leftExpression instanceof StaticFeatureAccess) {
+			// Нечего делать
+
+		} else {
+			throw new NullPointerException("Добавить ПКПД: необработанный Expression: " + leftExpression.getClass());
+
+		}
+
+		return cmPredefined;
+	}
+
 	private static void parsePredefinedNewPredefined(Statement statement, CmPredefined cmPredefined) {
 		if (cmPredefined == null)
 			return;
@@ -2251,6 +2306,15 @@ public class ConversionModuleAnalyzer {
 			throw new NullPointerException(
 					"Добавить ПКПД: необработанный DynamicFeatureAccess: " + leftFeatureAccess.getName());
 		}
+	}
+
+	private static void parsePredefinedsIfStatement(IfStatement ifStatement, ConversionModule conversionModule) {
+		CmPredefined cmPredefined = null;
+
+		EList<Statement> ifPartStatements = ifStatement.getIfPart().getStatements();
+		for (Statement partStatement : ifPartStatements)
+			if (partStatement instanceof SimpleStatement)
+				cmPredefined = parsePredefined(cmPredefined, (SimpleStatement) partStatement, conversionModule);
 	}
 
 	private static void parsePredefinedValue(Expression leftExpression, CmPredefined cmPredefined) {
@@ -2300,11 +2364,11 @@ public class ConversionModuleAnalyzer {
 		if (leftFeatureAccess.getName().equals("ПравилоКонвертации")) {
 			return null;
 
-		} else if (leftFeatureAccess.getName().equals("СвойстваШапки")) {
+		} else if (leftFeatureAccess.getName().equals(HEADER_ATTRIBUTES)) {
 			configurationTabularSection = "";
 			formatTabularSection = "";
 
-		} else if (leftFeatureAccess.getName().equals("СвойстваТЧ")) {
+		} else if (leftFeatureAccess.getName().equals(TABULAR_ATTRIBUTES)) {
 			Invocation rightInvocation = (Invocation) ((SimpleStatement) statement).getRight();
 
 			EList<Expression> params = rightInvocation.getParams();

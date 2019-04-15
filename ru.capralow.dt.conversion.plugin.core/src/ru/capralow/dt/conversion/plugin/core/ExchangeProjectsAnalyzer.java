@@ -300,6 +300,13 @@ public class ExchangeProjectsAnalyzer {
 			}
 			settingsModules.add(subCommonModule);
 
+			mdSubMethod = getMethod(subCommonModule.getModule(), dynamicMethodAccess.getName());
+			if (mdSubMethod == null)
+				throw new NullPointerException(String.format(
+						"При рекурсивном разборе процедуры ПриПолученииДоступныхВерсийФормата не удалось получить метод %1$s.%2$s",
+						subCommonModule.getModule(),
+						dynamicMethodAccess.getName()));
+
 			Map<String, CommonModule> moduleFormatVersions = parseMethod(subCommonModule, mdSubMethod);
 
 			formatVersions.putAll(moduleFormatVersions);
