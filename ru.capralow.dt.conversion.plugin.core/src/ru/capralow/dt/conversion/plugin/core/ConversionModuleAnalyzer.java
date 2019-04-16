@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -396,8 +397,8 @@ public class ConversionModuleAnalyzer {
 	}
 
 	public static void createDataRuleSendingText(CmDataRule dataRule, StringBuilder dataRulesSending) {
-		final String TEMPLATE_NAME_DataRuleSending = "DataRuleSendingV2.txt";
-		String templateDataRuleSendingContent = readContents(getFileInputSupplier(TEMPLATE_NAME_DataRuleSending));
+		final String TEMPLATE_NAME_DATA_RULE_SENDING = "DataRuleSendingV2.txt";
+		String templateDataRuleSendingContent = readContents(getFileInputSupplier(TEMPLATE_NAME_DATA_RULE_SENDING));
 
 		if (dataRulesSending.length() != 0)
 			dataRulesSending.append(LS);
@@ -435,51 +436,72 @@ public class ConversionModuleAnalyzer {
 		dataRulesSending.append(dataRuleSending);
 	}
 
-	public static String createEventsDeclarationText(ConversionModule conversionModule) {
-		StringBuilder objectRulesEventsText = new StringBuilder();
+	public static void createEventsDeclaratioAlgorithmText(CmAlgorithm algorithm, StringBuilder proceduresText,
+			StringBuilder functionsText) {
+		if (!algorithm.getExists())
+			return;
+
+		final String afterReceivingAlgorithm = String
+				.join(LS, "	%3$s ИмяПроцедуры = \"%1$s\" Тогда ", "		%1$s(", "			%2$s);", "");
+
+		StringBuilder methodParams = new StringBuilder();
+		for (CmParam cmParam : algorithm.getParams()) {
+			if (methodParams.length() != 0)
+				methodParams.append(", ");
+
+			methodParams.append("Параметры.").append(cmParam.getName());
+			if (!cmParam.getDefaultValue().isEmpty())
+				methodParams.append(" = ").append(cmParam.getDefaultValue());
+		}
+
+		if (algorithm.getMethodType() == CmMethodType.PROCEDURE) {
+			String objectRulesPrefix = proceduresText.length() == 0 ? IF : ELSEIF;
+			proceduresText.append(
+					String.format(afterReceivingAlgorithm, algorithm.getName(), methodParams, objectRulesPrefix));
+
+		} else if (algorithm.getMethodType() == CmMethodType.FUNCTION) {
+			String objectRulesPrefix = functionsText.length() == 0 ? IF : ELSEIF;
+			functionsText.append(
+					String.format(afterReceivingAlgorithm, algorithm.getName(), methodParams, objectRulesPrefix));
+
+		}
+	}
+
+	public static Map<CmMethodType, StringBuilder> createEventsDeclarationText(ConversionModule conversionModule) {
+		StringBuilder proceduresText = new StringBuilder();
+		StringBuilder functionsText = new StringBuilder();
 
 		EList<CmAlgorithm> afterReceivingAlgorithms = new BasicEList<>();
-		for (CmObjectRule objectRule : conversionModule.getObjectRules()) {
-			if (objectRule.getForSending() && objectRule.getForReceiving())
-				createEventsDeclarationObjectRuleReceivingText(objectRule, objectRulesEventsText);
 
-			else if (objectRule.getForSending())
-				createEventsDeclarationObjectRuleSendingText(objectRule, objectRulesEventsText);
+		EList<CmDataRule> dataRules = conversionModule.getDataRules();
+		ECollections.sort(dataRules, getDataRuleComparator(COMPARATOR_ORDER_BY_NAME));
+		for (CmDataRule dataRule : dataRules)
+			createEventsDeclarationDataRuleText(dataRule, proceduresText, functionsText);
 
-			else if (objectRule.getForReceiving())
-				createEventsDeclarationObjectRuleReceivingText(objectRule, objectRulesEventsText);
+		EList<CmObjectRule> objectRules = conversionModule.getObjectRules();
+		ECollections.sort(objectRules, getObjectRuleComparator(COMPARATOR_ORDER_BY_NAME));
+		for (CmObjectRule objectRule : objectRules) {
+			createEventsDeclarationObjectRuleText(objectRule, proceduresText);
 
 			if (objectRule.getAfterReceivingAlgorithm() != null
 					&& !afterReceivingAlgorithms.contains(objectRule.getAfterReceivingAlgorithm()))
 				afterReceivingAlgorithms.add(objectRule.getAfterReceivingAlgorithm());
 		}
-		ECollections.sort(afterReceivingAlgorithms, ConversionModuleAnalyzer.getAlgorithmComparator());
 
-		for (CmAlgorithm algorithm : afterReceivingAlgorithms) {
-			if (!algorithm.getExists())
-				continue;
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
-			objectRulesEventsText
-					.append(String
-							.format("	%1$s ИмяПроцедуры = \"%2$s\" Тогда ", objectRulesPrefix, algorithm.getName()))
-					.append(LS);
-			objectRulesEventsText.append(String.format("		%1$s(", algorithm.getName())).append(LS);
-			StringBuilder methodParams = new StringBuilder();
-			for (CmParam cmParam : algorithm.getParams()) {
-				if (methodParams.length() != 0)
-					methodParams.append(", ");
+		ECollections.sort(afterReceivingAlgorithms, getAlgorithmComparator());
+		for (CmAlgorithm algorithm : afterReceivingAlgorithms)
+			createEventsDeclaratioAlgorithmText(algorithm, proceduresText, functionsText);
 
-				methodParams.append("Параметры.").append(cmParam.getName());
-				if (!cmParam.getDefaultValue().isEmpty())
-					methodParams.append(" = ").append(cmParam.getDefaultValue());
-			}
-			objectRulesEventsText.append(String.format("			%1$s);", methodParams)).append(LS);
-		}
+		if (proceduresText.length() != 0)
+			proceduresText.append(ENDIF);
+		if (functionsText.length() != 0)
+			functionsText.append(ENDIF);
 
-		if (objectRulesEventsText.length() != 0)
-			objectRulesEventsText.append(ENDIF);
+		Map<CmMethodType, StringBuilder> events = new EnumMap<>(CmMethodType.class);
+		events.put(CmMethodType.PROCEDURE, proceduresText);
+		events.put(CmMethodType.FUNCTION, functionsText);
 
-		return objectRulesEventsText.toString();
+		return events;
 	}
 
 	public static void createObjectRuleReceivingText(CmObjectRule objectRule, StringBuilder objectRulesReceiving) {
@@ -605,8 +627,7 @@ public class ConversionModuleAnalyzer {
 		StringBuilder predefinedsReceivingText = new StringBuilder();
 		StringBuilder predefinedsBothText = new StringBuilder();
 
-		ECollections.sort(predefineds,
-				ConversionModuleAnalyzer.getPredefinedComparator(COMPARATOR_ORDER_BY_ROUTE_NAME));
+		ECollections.sort(predefineds, getPredefinedComparator(COMPARATOR_ORDER_BY_ROUTE_NAME));
 
 		for (CmPredefined predefined : predefineds) {
 			if (predefined.getForSending() && predefined.getForReceiving()) {
@@ -792,8 +813,8 @@ public class ConversionModuleAnalyzer {
 				str2 = new String[] { cmArg2.getFormatObject(), cmArg2.getConfigurationObjectName(), cmArg2.getName() };
 
 			} else { // COMPARATOR_ORDER_BY_NAME
-				str1 = new String[] { cmArg1.getName() };
-				str2 = new String[] { cmArg2.getName() };
+				str1 = new String[] { getSendingReceivingPriority(cmArg1), cmArg1.getName() };
+				str2 = new String[] { getSendingReceivingPriority(cmArg2), cmArg2.getName() };
 
 			}
 
@@ -1140,7 +1161,7 @@ public class ConversionModuleAnalyzer {
 			return;
 		}
 
-		ECollections.sort(algorithms, ConversionModuleAnalyzer.getAlgorithmComparator());
+		ECollections.sort(algorithms, getAlgorithmComparator());
 
 		String algorithmsText = conversionModule.getAllAlgorithmsText("");
 
@@ -1176,8 +1197,7 @@ public class ConversionModuleAnalyzer {
 		StringBuilder dataRulesSending = new StringBuilder();
 		StringBuilder dataRulesReceiving = new StringBuilder();
 
-		ECollections.sort(dataRules,
-				ConversionModuleAnalyzer.getDataRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
+		ECollections.sort(dataRules, getDataRuleComparator(COMPARATOR_ORDER_BY_NAME));
 
 		for (CmDataRule dataRule : dataRules) {
 			if (dataRule.getForSending() && dataRule.getForReceiving())
@@ -1202,70 +1222,79 @@ public class ConversionModuleAnalyzer {
 		templateMain.setAttribute("DataRulesReceiving", dataRulesReceiving);
 	}
 
-	private static void createEventsDeclarationObjectRuleReceivingText(CmObjectRule objectRule,
-			StringBuilder objectRulesEventsText) {
-		if (!objectRule.getOnSendingEvent().isEmpty()) {
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
-			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
-					objectRulesPrefix,
-					objectRule.getName())).append(LS);
-			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText.append(
-					"			Параметры.ДанныеИБ, Параметры.ДанныеXDTO, Параметры.КомпонентыОбмена, Параметры.СтекВыгрузки);")
-					.append(LS);
+	private static void createEventsDeclarationDataRuleText(CmDataRule dataRule, StringBuilder proceduresText,
+			StringBuilder functionsText) {
+		final String onProcessingEvent = String.join(LS,
+				"	%2$s ИмяПроцедуры = \"ПОД_%1$s_ПриОбработке\" Тогда ",
+				"		ПОД_%1$s_ПриОбработке(",
+				"			Параметры.ОбъектОбработки, Параметры.ИспользованиеПКО, Параметры.КомпонентыОбмена);",
+				"");
+		final String dataSelectionEvent = String.join(LS,
+				"	%2$s ИмяФункции = \"ПОД_%1$s_ВыборкаДанных\" Тогда ",
+				"		Возврат ПОД_%1$s_ВыборкаДанных(",
+				"			Параметры.КомпонентыОбмена);",
+				"");
+
+		if (!dataRule.getOnProcessingEvent().isEmpty()) {
+			String prefix = proceduresText.length() == 0 ? IF : ELSEIF;
+			proceduresText.append(String.format(onProcessingEvent, dataRule.getName(), prefix));
 		}
-		if (!objectRule.getBeforeReceivingEvent().isEmpty()) {
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
-			objectRulesEventsText
-					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриКонвертацииДанныхXDTO\" Тогда ",
-							objectRulesPrefix,
-							objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText
-					.append(String.format("		ПКО_%1$s_ПриКонвертацииДанныхXDTO(", objectRule.getName())).append(LS);
-			objectRulesEventsText
-					.append("			Параметры.ДанныеXDTO, Параметры.ПолученныеДанные, Параметры.КомпонентыОбмена);")
-					.append(LS);
-		}
-		if (!objectRule.getOnReceivingEvent().isEmpty()) {
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
-			objectRulesEventsText
-					.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПередЗаписьюПолученныхДанных\" Тогда ",
-							objectRulesPrefix,
-							objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText
-					.append(String.format("		ПКО_%1$s_ПередЗаписьюПолученныхДанных(", objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText.append(
-					"			Параметры.ПолученныеДанные, Параметры.ДанныеИБ, Параметры.КонвертацияСвойств, Параметры.КомпонентыОбмена);")
-					.append(LS);
+		if (dataRule.getForSending() && !dataRule.getDataSelectionEvent().isEmpty()) {
+			String prefix = functionsText.length() == 0 ? IF : ELSEIF;
+			functionsText.append(String.format(dataSelectionEvent, dataRule.getName(), prefix));
 		}
 
 	}
 
-	private static void createEventsDeclarationObjectRuleSendingText(CmObjectRule objectRule,
-			StringBuilder objectRulesEventsText) {
-		StringBuilder objectRuleEventsText = new StringBuilder();
-		if (!objectRule.getOnSendingEvent().isEmpty()) {
-			objectRuleEventsText.append(LS).append(objectRule.getOnSendingEventText());
+	private static void createEventsDeclarationObjectRuleText(CmObjectRule objectRule, StringBuilder proceduresText) {
+		final String onSendingEvent = String.join(LS,
+				"	%2$s ИмяПроцедуры = \"ПКО_%1$s_ПриОтправкеДанных\" Тогда ",
+				"		ПКО_%1$s_ПриОтправкеДанных(",
+				"			Параметры.ДанныеИБ, Параметры.ДанныеXDTO, Параметры.КомпонентыОбмена, Параметры.СтекВыгрузки);",
+				"");
+		final String beforeReceivingEvent = String.join(LS,
+				"	%2$s ИмяПроцедуры = \"ПКО_%1$s_ПриКонвертацииДанныхXDTO\" Тогда ",
+				"		ПКО_%1$s_ПриКонвертацииДанныхXDTO(",
+				"			Параметры.ДанныеXDTO, Параметры.ПолученныеДанные, Параметры.КомпонентыОбмена);",
+				"");
+		final String onReceivingEvent = String.join(LS,
+				"	%2$s ИмяПроцедуры = \"ПКО_%1$s_ПередЗаписьюПолученныхДанных\" Тогда ",
+				"		ПКО_%1$s_ПередЗаписьюПолученныхДанных(",
+				"			Параметры.ПолученныеДанные, Параметры.ДанныеИБ, Параметры.КонвертацияСвойств, Параметры.КомпонентыОбмена);",
+				"");
 
-			String objectRulesPrefix = objectRulesEventsText.length() == 0 ? IF : ELSEIF;
-			objectRulesEventsText.append(String.format("	%1$s ИмяПроцедуры = \"ПКО_%2$s_ПриОтправкеДанных\" Тогда ",
-					objectRulesPrefix,
-					objectRule.getName())).append(LS);
-			objectRulesEventsText.append(String.format("		ПКО_%1$s_ПриОтправкеДанных(", objectRule.getName()))
-					.append(LS);
-			objectRulesEventsText.append(
-					"			Параметры.ДанныеИБ, Параметры.ДанныеXDTO, Параметры.КомпонентыОбмена, Параметры.СтекВыгрузки);")
-					.append(LS);
+		if (objectRule.getForSending() && !objectRule.getOnSendingEvent().isEmpty()) {
+			String prefix = proceduresText.length() == 0 ? IF : ELSEIF;
+			proceduresText.append(String.format(onSendingEvent, objectRule.getName(), prefix));
 		}
+		if (objectRule.getForReceiving()) {
+			if (!objectRule.getBeforeReceivingEvent().isEmpty()) {
+				String prefix = proceduresText.length() == 0 ? IF : ELSEIF;
+				proceduresText.append(String.format(beforeReceivingEvent, objectRule.getName(), prefix));
+			}
+			if (!objectRule.getOnReceivingEvent().isEmpty()) {
+				String prefix = proceduresText.length() == 0 ? IF : ELSEIF;
+				proceduresText.append(String.format(onReceivingEvent, objectRule.getName(), prefix));
+			}
+		}
+
 	}
 
 	private static void createEventsText(StringTemplate templateMain, ConversionModule conversionModule) {
+		Map<CmMethodType, StringBuilder> events = createEventsDeclarationText(conversionModule);
 
-		templateMain.setAttribute(EVENTS_PARAM, createEventsDeclarationText(conversionModule));
+		StringBuilder proceduresText = events.get(CmMethodType.PROCEDURE);
+		StringBuilder functionsText = events.get(CmMethodType.FUNCTION);
+
+		final String TEMPLATE_NAME = functionsText.length() == 0 ? "EventsNoFunctionsV2.txt" : "EventsFullV2.txt";
+		String templateContent = readContents(getFileInputSupplier(TEMPLATE_NAME));
+
+		StringTemplate template = new StringTemplate(templateContent);
+
+		template.setAttribute("Procedures", proceduresText);
+		template.setAttribute("Functions", functionsText);
+
+		templateMain.setAttribute(EVENTS_PARAM, template);
 	}
 
 	private static CmObjectRule createObjectRule(EList<Statement> allStatements, ConversionModule conversionModule) {
@@ -1323,7 +1352,7 @@ public class ConversionModuleAnalyzer {
 		Integer route = (objectRule.getForSending() && objectRule.getForReceiving())
 				? COMPARATOR_ORDER_BY_SENDING_RECEIVING
 				: COMPARATOR_ORDER_BY_RECEIVING;
-		ECollections.sort(attributeRules, ConversionModuleAnalyzer.getAttributeRuleComparator(route));
+		ECollections.sort(attributeRules, getAttributeRuleComparator(route));
 
 		Map<String, Integer> mapFormatAttributeMaxLength = new HashMap<>();
 		for (CmAttributeRule attributeRule : attributeRules) {
@@ -1453,8 +1482,7 @@ public class ConversionModuleAnalyzer {
 			return;
 		}
 
-		ECollections.sort(attributeRules,
-				ConversionModuleAnalyzer.getAttributeRuleComparator(COMPARATOR_ORDER_BY_SENDING));
+		ECollections.sort(attributeRules, getAttributeRuleComparator(COMPARATOR_ORDER_BY_SENDING));
 
 		Map<String, Integer> mapFormatAttributeMaxLength = new HashMap<>();
 		for (CmAttributeRule attributeRule : attributeRules) {
@@ -1552,8 +1580,7 @@ public class ConversionModuleAnalyzer {
 		StringBuilder objectRulesReceiving = new StringBuilder();
 		StringBuilder objectRulesBoth = new StringBuilder();
 
-		ECollections.sort(objectRules,
-				ConversionModuleAnalyzer.getObjectRuleComparator(ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_NAME));
+		ECollections.sort(objectRules, getObjectRuleComparator(COMPARATOR_ORDER_BY_NAME));
 
 		for (CmObjectRule objectRule : objectRules) {
 			if (objectRule.getForSending() && objectRule.getForReceiving())

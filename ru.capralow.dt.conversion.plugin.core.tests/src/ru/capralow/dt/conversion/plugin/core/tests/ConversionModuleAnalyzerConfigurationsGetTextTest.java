@@ -34,13 +34,14 @@ public class ConversionModuleAnalyzerConfigurationsGetTextTest {
 
 		ConversionModule conversionModule = getConversionModule(projectName, moduleName);
 
+		// Конвертация ЗУП3.1.3 от 21.08.2017 13:05:35
 		String report2 = ConversionModuleAnalyzer
 				.getModuleText(conversionModule, "ЗУП3.1.3", LocalDateTime.of(2017, 8, 21, 13, 5, 35));
 
 		assertEquals("Модуль обмена: " + projectName + " запись модуля", report1, report2);
 	}
 
-	// @Test
+	@Test
 	public void testErp247() {
 		String projectName = "УП-2_4_7";
 		String moduleName = "МенеджерОбменаЧерезУниверсальныйФормат";
@@ -49,6 +50,7 @@ public class ConversionModuleAnalyzerConfigurationsGetTextTest {
 
 		ConversionModule conversionModule = getConversionModule(projectName, moduleName);
 
+		// Конвертация УП2.4.7 от 28.02.2019 16:35:46
 		String report2 = ConversionModuleAnalyzer
 				.getModuleText(conversionModule, "УП2.4.7", LocalDateTime.of(2019, 2, 28, 16, 35, 46));
 

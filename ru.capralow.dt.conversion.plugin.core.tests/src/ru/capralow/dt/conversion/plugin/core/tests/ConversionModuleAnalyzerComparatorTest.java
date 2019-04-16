@@ -415,7 +415,8 @@ public class ConversionModuleAnalyzerComparatorTest {
 	public void testDataRuleComparatorByName() {
 		String report1 = String.join(LS,
 				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
-				String.format(OBJECT_RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE.concat("_О"), MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE.concat("2_4_О"), MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
 				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, NO_ROUTE),
 				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, NO_ROUTE),
 				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
@@ -423,7 +424,9 @@ public class ConversionModuleAnalyzerComparatorTest {
 
 		EList<CmDataRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils
-				.addDataRule(FIRST_RULE, MD_DOCUMENT.concat("2"), "", false, false, false, report2);
+				.addDataRule(FIRST_RULE.concat("2_4_О"), MD_DOCUMENT.concat("2"), "", false, false, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addDataRule(FIRST_RULE.concat("_О"), MD_DOCUMENT.concat("2"), "", false, false, false, report2);
 		ConversionModuleAnalyzerUtils
 				.addDataRule(SECOND_RULE, MD_DOCUMENT.concat("1"), "", false, false, false, report2);
 		ConversionModuleAnalyzerUtils
@@ -551,7 +554,8 @@ public class ConversionModuleAnalyzerComparatorTest {
 	public void testObjectRuleComparatorByName() {
 		String report1 = String.join(LS,
 				String.format(OBJECT_RULE, SECOND_RULE, MD_DOCUMENT.concat("1"), EMPTY, NO_ROUTE),
-				String.format(OBJECT_RULE, FIRST_RULE, MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE.concat("_О"), MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
+				String.format(OBJECT_RULE, FIRST_RULE.concat("1_4_О"), MD_DOCUMENT.concat("2"), EMPTY, NO_ROUTE),
 				String.format(OBJECT_RULE, FIFTH_RULE, MD_DOCUMENT.concat("3"), EMPTY, NO_ROUTE),
 				String.format(OBJECT_RULE, THIRD_RULE, MD_DOCUMENT.concat("4"), EMPTY, NO_ROUTE),
 				String.format(OBJECT_RULE, FOURTH_RULE, MD_DOCUMENT.concat("5"), EMPTY, NO_ROUTE),
@@ -559,7 +563,9 @@ public class ConversionModuleAnalyzerComparatorTest {
 
 		EList<CmObjectRule> report2 = new BasicEList<>();
 		ConversionModuleAnalyzerUtils
-				.addObjectRule(FIRST_RULE, MD_DOCUMENT.concat("2"), "", false, false, false, report2);
+				.addObjectRule(FIRST_RULE.concat("1_4_О"), MD_DOCUMENT.concat("2"), "", false, false, false, report2);
+		ConversionModuleAnalyzerUtils
+				.addObjectRule(FIRST_RULE.concat("_О"), MD_DOCUMENT.concat("2"), "", false, false, false, report2);
 		ConversionModuleAnalyzerUtils
 				.addObjectRule(SECOND_RULE, MD_DOCUMENT.concat("1"), "", false, false, false, report2);
 		ConversionModuleAnalyzerUtils

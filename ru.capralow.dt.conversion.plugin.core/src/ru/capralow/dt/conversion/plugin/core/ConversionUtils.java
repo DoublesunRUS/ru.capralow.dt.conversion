@@ -41,7 +41,7 @@ public final class ConversionUtils {
 			if (str2[i] == null)
 				return 1;
 
-			Integer result = str1[i].compareToIgnoreCase(str2[i]);
+			Integer result = str1[i].replace("_", "0").compareToIgnoreCase(str2[i].replace("_", "0"));
 			if (result != 0)
 				return result;
 		}
@@ -65,8 +65,8 @@ public final class ConversionUtils {
 			if (objectArray.length == 2)
 				qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
 			else
-				qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName, mdLiteral.getName(),
-						objectArray[2]);
+				qnObjectName = QualifiedName
+						.create(mdLiteral.getName(), objectName, mdLiteral.getName(), objectArray[2]);
 
 		} else if (objectType.equals("ОбщийМодуль")) {
 			mdLiteral = MdClassPackage.Literals.COMMON_MODULE;
@@ -100,8 +100,8 @@ public final class ConversionUtils {
 
 		MdObject object = null;
 
-		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider.getEObjectIndexByType(mdLiteral, qnObjectName,
-				true);
+		Iterable<IEObjectDescription> objectIndex = bmEmfIndexProvider
+				.getEObjectIndexByType(mdLiteral, qnObjectName, true);
 		Iterator<IEObjectDescription> objectItr = objectIndex.iterator();
 		if (objectItr.hasNext())
 			object = (MdObject) objectItr.next().getEObjectOrProxy();
