@@ -284,6 +284,7 @@ public class ExchangeProjectsAnalyzer {
 			FeatureEntry featureEntry = featureEntries.get(0);
 			EObject feature = featureEntry.getFeature();
 
+			// FIXME: Вот этот код не возвращает метод правильно для УП 2
 			EObject newObject = EcoreFactory.eINSTANCE.createEObject();
 			((InternalEObject) newObject).eSetProxyURI(((SourceObjectLinkProvider) feature).getSourceUri());
 			Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, commonModule);
@@ -300,12 +301,15 @@ public class ExchangeProjectsAnalyzer {
 			}
 			settingsModules.add(subCommonModule);
 
-			mdSubMethod = getMethod(subCommonModule.getModule(), dynamicMethodAccess.getName());
-			if (mdSubMethod == null)
-				throw new NullPointerException(String.format(
-						"При рекурсивном разборе процедуры ПриПолученииДоступныхВерсийФормата не удалось получить метод %1$s.%2$s",
-						subCommonModule.getModule(),
-						dynamicMethodAccess.getName()));
+			// Альтернатива поиску через resolve
+			// mdSubMethod = getMethod(subCommonModule.getModule(),
+			// dynamicMethodAccess.getName());
+			// if (mdSubMethod == null)
+			// throw new NullPointerException(String.format(
+			// "При рекурсивном разборе процедуры ПриПолученииДоступныхВерсийФормата не
+			// удалось получить метод %1$s.%2$s",
+			// subCommonModule.getModule(),
+			// dynamicMethodAccess.getName()));
 
 			Map<String, CommonModule> moduleFormatVersions = parseMethod(subCommonModule, mdSubMethod);
 
