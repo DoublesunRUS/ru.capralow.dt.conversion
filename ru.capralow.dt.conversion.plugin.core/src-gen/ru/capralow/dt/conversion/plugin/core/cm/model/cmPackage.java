@@ -1064,13 +1064,22 @@ public interface cmPackage extends EPackage {
 	int CM_ATTRIBUTE_RULE = 4;
 
 	/**
+	 * The feature id for the '<em><b>Owner</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_ATTRIBUTE_RULE__OWNER = 0;
+
+	/**
 	 * The feature id for the '<em><b>Configuration Tabular Section</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION = 0;
+	int CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION = 1;
 
 	/**
 	 * The feature id for the '<em><b>Configuration Attribute</b></em>' attribute.
@@ -1079,7 +1088,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE__CONFIGURATION_ATTRIBUTE = 1;
+	int CM_ATTRIBUTE_RULE__CONFIGURATION_ATTRIBUTE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Format Tabular Section</b></em>' attribute.
@@ -1088,7 +1097,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE__FORMAT_TABULAR_SECTION = 2;
+	int CM_ATTRIBUTE_RULE__FORMAT_TABULAR_SECTION = 3;
 
 	/**
 	 * The feature id for the '<em><b>Format Attribute</b></em>' attribute.
@@ -1097,7 +1106,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE__FORMAT_ATTRIBUTE = 3;
+	int CM_ATTRIBUTE_RULE__FORMAT_ATTRIBUTE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Object Rule</b></em>' reference.
@@ -1106,7 +1115,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE__OBJECT_RULE = 4;
+	int CM_ATTRIBUTE_RULE__OBJECT_RULE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Is Custom Rule</b></em>' attribute.
@@ -1115,7 +1124,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE = 5;
+	int CM_ATTRIBUTE_RULE__IS_CUSTOM_RULE = 6;
 
 	/**
 	 * The number of structural features of the '<em>Cm Attribute Rule</em>' class.
@@ -1124,7 +1133,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_ATTRIBUTE_RULE_FEATURE_COUNT = 6;
+	int CM_ATTRIBUTE_RULE_FEATURE_COUNT = 7;
 
 	/**
 	 * The operation id for the '<em>Get Configuration Attribute Full Name</em>' operation.
@@ -1500,13 +1509,22 @@ public interface cmPackage extends EPackage {
 	int CM_PARAM__DEFAULT_VALUE = 1;
 
 	/**
+	 * The feature id for the '<em><b>By Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PARAM__BY_VALUE = 2;
+
+	/**
 	 * The number of structural features of the '<em>Cm Param</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PARAM_FEATURE_COUNT = 2;
+	int CM_PARAM_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Cm Param</em>' class.
@@ -2592,6 +2610,17 @@ public interface cmPackage extends EPackage {
 	EClass getCmAttributeRule();
 
 	/**
+	 * Returns the meta object for the container reference '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getOwner <em>Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Owner</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getOwner()
+	 * @see #getCmAttributeRule()
+	 * @generated
+	 */
+	EReference getCmAttributeRule_Owner();
+
+	/**
 	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getConfigurationTabularSection <em>Configuration Tabular Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2940,6 +2969,17 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCmParam_DefaultValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getByValue <em>By Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>By Value</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getByValue()
+	 * @see #getCmParam()
+	 * @generated
+	 */
+	EAttribute getCmParam_ByValue();
 
 	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem <em>Cm Subsystem</em>}'.
@@ -3791,6 +3831,14 @@ public interface cmPackage extends EPackage {
 		EClass CM_ATTRIBUTE_RULE = eINSTANCE.getCmAttributeRule();
 
 		/**
+		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CM_ATTRIBUTE_RULE__OWNER = eINSTANCE.getCmAttributeRule_Owner();
+
+		/**
 		 * The meta object literal for the '<em><b>Configuration Tabular Section</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4061,6 +4109,14 @@ public interface cmPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CM_PARAM__DEFAULT_VALUE = eINSTANCE.getCmParam_DefaultValue();
+
+		/**
+		 * The meta object literal for the '<em><b>By Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CM_PARAM__BY_VALUE = eINSTANCE.getCmParam_ByValue();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmSubsystemImpl <em>Cm Subsystem</em>}' class.

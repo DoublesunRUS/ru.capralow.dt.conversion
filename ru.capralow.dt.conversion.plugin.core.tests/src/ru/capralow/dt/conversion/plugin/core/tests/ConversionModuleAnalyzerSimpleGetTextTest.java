@@ -402,6 +402,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				false,
 				objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКООтправкиОбъектКонфигурацииФормата",
 				true,
@@ -419,6 +420,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				false,
 				objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиОбъектФормата", false, true, true, false, false, objectRules);
@@ -426,6 +428,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиОбъектФорматаСПолями", false, true, true, false, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule(sendingObjectRuleName, true, true, true, false, false, objectRules);
@@ -433,6 +436,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиСобытие1", false, false, true, false, false, objectRules);
@@ -441,20 +445,24 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиТЧ", true, true, true, false, false, objectRules);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиШапка", true, true, true, false, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиШапкаТЧ", true, true, true, false, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияДвеТЧ", true, true, false, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияИдентификация1СПолями", true, false, false, true, false, objectRules);
@@ -494,6 +502,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				false,
 				objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzerUtils.addFilledObjectRule("ПКОПолученияОбъектКонфигурацииФормата",
 				true,
@@ -511,6 +520,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				false,
 				objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияОбъектФормата", false, true, false, true, false, objectRules);
@@ -518,6 +528,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияОбъектФорматаСПолями", false, true, false, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule(receivingObjectRuleName, true, true, false, true, true, objectRules);
@@ -532,6 +543,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияСобытие1", false, false, false, true, false, objectRules);
@@ -638,20 +650,24 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияТЧ", true, true, false, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияШапка", true, true, false, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияШапкаТЧ", true, true, false, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияДвеТЧ", true, true, true, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияПолное", true, true, true, true, true, objectRules);
@@ -666,6 +682,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияСобытие1", false, false, true, true, false, objectRules);
@@ -782,15 +799,18 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияТЧ", true, true, true, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияШапка", true, true, true, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияШапкаТЧ", true, true, true, true, false, objectRules);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		EList<CmPredefined> predefineds = conversionModule.getPredefineds();
 		CmPredefined predefined;
@@ -835,7 +855,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				false,
 				algorithms);
 		ConversionModuleAnalyzerUtils.addAlgorithm("ПроцедураНесколькоПараметров",
-				"Параметр1, Параметр2, Параметр3",
+				"Параметр1, Знач Параметр2, Параметр3",
 				String.format(ALGORITHM_BODY_TEXT, "ПроцедураНесколькоПараметров"),
 				CmMethodType.PROCEDURE,
 				false,
@@ -859,7 +879,7 @@ public class ConversionModuleAnalyzerSimpleGetTextTest {
 				false,
 				algorithms);
 		ConversionModuleAnalyzerUtils.addAlgorithm("ФункцияНесколькоПараметров",
-				"Параметр1, Параметр2, Параметр3",
+				"Параметр1, Знач Параметр2, Параметр3",
 				String.format(ALGORITHM_BODY_TEXT, "ФункцияНесколькоПараметров"),
 				CmMethodType.FUNCTION,
 				false,

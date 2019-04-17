@@ -341,16 +341,21 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 					String _methodParams = methodParams;
 					methodParams = (_methodParams + ", ");
 				}
-				String _methodParams_1 = methodParams;
+				Boolean _byValue = param.getByValue();
+				if ((_byValue).booleanValue()) {
+					String _methodParams_1 = methodParams;
+					methodParams = (_methodParams_1 + "\u0417\u043D\u0430\u0447 ");
+				}
+				String _methodParams_2 = methodParams;
 				String _trim = param.getName().trim();
-				methodParams = (_methodParams_1 + _trim);
+				methodParams = (_methodParams_2 + _trim);
 				boolean _isEmpty_1 = param.getDefaultValue().isEmpty();
 				boolean _not_1 = (!_isEmpty_1);
 				if (_not_1) {
-					String _methodParams_2 = methodParams;
+					String _methodParams_3 = methodParams;
 					String _defaultValue = param.getDefaultValue();
 					String _plus = (" = " + _defaultValue);
-					methodParams = (_methodParams_2 + _plus);
+					methodParams = (_methodParams_3 + _plus);
 				}
 			}
 		}

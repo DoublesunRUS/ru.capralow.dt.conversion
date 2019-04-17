@@ -731,46 +731,50 @@ public class ConversionModuleAnalyzer {
 			String[] str2;
 
 			if (comparatorOrder.equals(COMPARATOR_ORDER_BY_SENDING)) {
+				String configurationTabularSection1 = getConfigurationTabularSection(cmArg1, cmArg1.getOwner());
+				String formatTabularSection1 = getFormatTabularSection(cmArg1, cmArg1.getOwner());
+
 				str1 = new String[] {
-						cmArg1.getFormatTabularSection(),
-						cmArg1.getConfigurationTabularSection().isEmpty() && cmArg1.getFormatTabularSection().isEmpty()
-								? "0"
-								: "1",
+						formatTabularSection1,
+						configurationTabularSection1.isEmpty() && formatTabularSection1.isEmpty() ? "0" : "1",
 						cmArg1.getIsCustomRule() ? "1" : "0",
 						cmArg1.getConfigurationAttribute(),
 						cmArg1.getFormatAttribute() };
+
+				String configurationTabularSection2 = getConfigurationTabularSection(cmArg2, cmArg2.getOwner());
+				String formatTabularSection2 = getFormatTabularSection(cmArg2, cmArg2.getOwner());
+
 				str2 = new String[] {
-						cmArg2.getFormatTabularSection(),
-						cmArg2.getConfigurationTabularSection().isEmpty() && cmArg2.getFormatTabularSection().isEmpty()
-								? "0"
-								: "1",
+						formatTabularSection2,
+						configurationTabularSection2.isEmpty() && formatTabularSection2.isEmpty() ? "0" : "1",
 						cmArg2.getIsCustomRule() ? "1" : "0",
 						cmArg2.getConfigurationAttribute(),
 						cmArg2.getFormatAttribute() };
 
 			} else if (comparatorOrder.equals(COMPARATOR_ORDER_BY_RECEIVING)) {
+				String configurationTabularSection1 = getConfigurationTabularSection(cmArg1, cmArg1.getOwner());
+				String formatTabularSection1 = getFormatTabularSection(cmArg1, cmArg1.getOwner());
+
 				str1 = new String[] {
-						cmArg1.getConfigurationTabularSection(),
-						cmArg1.getConfigurationTabularSection().isEmpty() && cmArg1.getFormatTabularSection().isEmpty()
-								? "0"
-								: "1",
+						configurationTabularSection1,
+						configurationTabularSection1.isEmpty() && formatTabularSection1.isEmpty() ? "0" : "1",
 						cmArg1.getIsCustomRule() ? "1" : "0",
 						cmArg1.getConfigurationAttribute(),
 						cmArg1.getFormatAttribute() };
+
+				String configurationTabularSection2 = getConfigurationTabularSection(cmArg2, cmArg2.getOwner());
+				String formatTabularSection2 = getFormatTabularSection(cmArg2, cmArg2.getOwner());
+
 				str2 = new String[] {
-						cmArg2.getFormatTabularSection(),
-						cmArg2.getConfigurationTabularSection().isEmpty() && cmArg2.getFormatTabularSection().isEmpty()
-								? "0"
-								: "1",
+						configurationTabularSection2,
+						configurationTabularSection2.isEmpty() && formatTabularSection2.isEmpty() ? "0" : "1",
 						cmArg2.getIsCustomRule() ? "1" : "0",
 						cmArg2.getConfigurationAttribute(),
 						cmArg2.getFormatAttribute() };
 
 			} else { // SENDING AND RECEIVING
-				String configurationTabularSection1 = cmArg1.getConfigurationAttribute().isEmpty() ? ""
-						: cmArg1.getConfigurationTabularSection();
-				String formatTabularSection1 = cmArg1.getFormatAttribute().isEmpty() ? ""
-						: cmArg1.getFormatTabularSection();
+				String configurationTabularSection1 = getConfigurationTabularSection(cmArg1, cmArg1.getOwner());
+				String formatTabularSection1 = getFormatTabularSection(cmArg1, cmArg1.getOwner());
 
 				str1 = new String[] {
 						!configurationTabularSection1.isEmpty() && !formatTabularSection1.isEmpty() ? "0" : "1",
@@ -780,10 +784,8 @@ public class ConversionModuleAnalyzer {
 						cmArg1.getConfigurationAttribute(),
 						cmArg1.getFormatAttribute() };
 
-				String configurationTabularSection2 = cmArg2.getConfigurationAttribute().isEmpty() ? ""
-						: cmArg2.getConfigurationTabularSection();
-				String formatTabularSection2 = cmArg2.getFormatAttribute().isEmpty() ? ""
-						: cmArg2.getFormatTabularSection();
+				String configurationTabularSection2 = getConfigurationTabularSection(cmArg2, cmArg2.getOwner());
+				String formatTabularSection2 = getFormatTabularSection(cmArg2, cmArg2.getOwner());
 
 				str2 = new String[] {
 						!configurationTabularSection2.isEmpty() && !formatTabularSection2.isEmpty() ? "0" : "1",
@@ -955,6 +957,7 @@ public class ConversionModuleAnalyzer {
 			CmParam cmParam = cmFactory.eINSTANCE.createCmParam();
 			cmParams.add(cmParam);
 			cmParam.setName(param.getName());
+			cmParam.setByValue(param.isByValue());
 
 			Literal defaultValue = param.getDefaultValue();
 			if (defaultValue == null)
@@ -1323,21 +1326,26 @@ public class ConversionModuleAnalyzer {
 			formatAttributePrefix.append(" ");
 
 		attributeRulesText.append(LS);
-		attributeRulesText.append("	ДобавитьПКС(").append(variableName).append(", ").append("\"")
-				.append(attributeRule.getConfigurationAttribute()).append("\",").append(formatAttributePrefix)
-				.append(" \"").append(attributeRule.getFormatAttribute()).append("\"");
 
+		String customRuleText = "";
+		String objectRuleText = "";
 		if (attributeRule.getIsCustomRule() || attributeRule.getObjectRule() != null) {
-			attributeRulesText.append(", ").append((attributeRule.getIsCustomRule() ? "1" : ""));
+			customRuleText = ", ".concat(attributeRule.getIsCustomRule() ? "1" : "");
 			if (attributeRule.getObjectRule() != null)
-				attributeRulesText.append(",")
-						.append((attributeRule.getConfigurationTabularSection().isEmpty()
+				objectRuleText = ","
+						.concat((attributeRule.getConfigurationTabularSection().isEmpty()
 								&& attributeRule.getFormatTabularSection().isEmpty() ? " " : ""))
-						.append("\"").append(attributeRule.getObjectRule().getName()).append("\"");
-
+						.concat("\"").concat(attributeRule.getObjectRule().getName()).concat("\"");
 		}
 
-		attributeRulesText.append(");");
+		String attributeText = "	ДобавитьПКС(%1$s, \"%2$s\", %3$s\"%4$s\"%5$s%6$s);";
+		attributeRulesText.append(String.format(attributeText,
+				variableName,
+				attributeRule.getConfigurationAttribute(),
+				formatAttributePrefix,
+				attributeRule.getFormatAttribute(),
+				customRuleText,
+				objectRuleText));
 	}
 
 	private static void createObjectRuleReceivingAttributeRulesText(CmObjectRule objectRule,
@@ -1348,11 +1356,6 @@ public class ConversionModuleAnalyzer {
 			templateObjectRuleSending.setAttribute(ATTRIBUTERULES_PARAM, "	");
 			return;
 		}
-
-		Integer route = (objectRule.getForSending() && objectRule.getForReceiving())
-				? COMPARATOR_ORDER_BY_SENDING_RECEIVING
-				: COMPARATOR_ORDER_BY_RECEIVING;
-		ECollections.sort(attributeRules, getAttributeRuleComparator(route));
 
 		Map<String, Integer> mapFormatAttributeMaxLength = new HashMap<>();
 		for (CmAttributeRule attributeRule : attributeRules) {
@@ -1367,7 +1370,7 @@ public class ConversionModuleAnalyzer {
 				mapFormatAttributeMaxLength.put(mapKey, attributeRule.getConfigurationAttribute().length());
 
 			formatAttributeMaxLength = getMaxLengthForTabularSection("---", mapFormatAttributeMaxLength);
-			if (attributeRule.getConfigurationTabularSection().length() > formatAttributeMaxLength)
+			if (realConfigurationTabularSection.length() > formatAttributeMaxLength)
 				mapFormatAttributeMaxLength.put("---", realConfigurationTabularSection.length());
 		}
 
@@ -1482,21 +1485,21 @@ public class ConversionModuleAnalyzer {
 			return;
 		}
 
-		ECollections.sort(attributeRules, getAttributeRuleComparator(COMPARATOR_ORDER_BY_SENDING));
-
 		Map<String, Integer> mapFormatAttributeMaxLength = new HashMap<>();
 		for (CmAttributeRule attributeRule : attributeRules) {
+			String realConfigurationTabularSection = getConfigurationTabularSection(attributeRule, objectRule);
+			String realFormatTabularSection = getFormatTabularSection(attributeRule, objectRule);
+
 			Integer formatAttributeMaxLength = 0;
 
-			String mapKey = "-".concat(attributeRule.getConfigurationTabularSection()).concat("-")
-					.concat(attributeRule.getFormatTabularSection());
+			String mapKey = "-".concat(realConfigurationTabularSection).concat("-").concat(realFormatTabularSection);
 			formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
 			if (attributeRule.getConfigurationAttribute().length() > formatAttributeMaxLength)
 				mapFormatAttributeMaxLength.put(mapKey, attributeRule.getConfigurationAttribute().length());
 
 			formatAttributeMaxLength = getMaxLengthForTabularSection("---", mapFormatAttributeMaxLength);
-			if (attributeRule.getConfigurationTabularSection().length() > formatAttributeMaxLength)
-				mapFormatAttributeMaxLength.put("---", attributeRule.getConfigurationTabularSection().length());
+			if (realConfigurationTabularSection.length() > formatAttributeMaxLength)
+				mapFormatAttributeMaxLength.put("---", realConfigurationTabularSection.length());
 		}
 
 		StringBuilder attributeRulesText = new StringBuilder();
@@ -1509,10 +1512,12 @@ public class ConversionModuleAnalyzer {
 					&& attributeRule.getFormatAttribute().isEmpty())
 				continue;
 
-			if (!configurationTabularSection.equals(attributeRule.getConfigurationTabularSection())
-					|| !formatTabularSection.equals(attributeRule.getFormatTabularSection())) {
-				configurationTabularSection = attributeRule.getConfigurationTabularSection();
-				formatTabularSection = attributeRule.getFormatTabularSection();
+			String realConfigurationTabularSection = getConfigurationTabularSection(attributeRule, objectRule);
+			String realFormatTabularSection = getFormatTabularSection(attributeRule, objectRule);
+			if (!configurationTabularSection.equals(realConfigurationTabularSection)
+					|| !formatTabularSection.equals(realFormatTabularSection)) {
+				configurationTabularSection = realConfigurationTabularSection;
+				formatTabularSection = realFormatTabularSection;
 
 				if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty()) {
 					attributeRulesText.append("	").append(LS);
@@ -1536,8 +1541,7 @@ public class ConversionModuleAnalyzer {
 				}
 			}
 
-			String mapKey = "-".concat(attributeRule.getConfigurationTabularSection()).concat("-")
-					.concat(attributeRule.getFormatTabularSection());
+			String mapKey = "-".concat(configurationTabularSection).concat("-").concat(formatTabularSection);
 			Integer formatAttributeMaxLength = getMaxLengthForTabularSection(mapKey, mapFormatAttributeMaxLength);
 
 			if (configurationTabularSection.isEmpty() && formatTabularSection.isEmpty())
@@ -1640,9 +1644,18 @@ public class ConversionModuleAnalyzer {
 
 	private static String getConfigurationTabularSection(CmAttributeRule attributeRule, CmObjectRule objectRule) {
 		String configurationTabularSection = attributeRule.getConfigurationTabularSection();
+		if (objectRule == null)
+			return configurationTabularSection;
+
 		if (objectRule.getForSending() && objectRule.getForReceiving()
 				&& attributeRule.getConfigurationAttribute().isEmpty())
 			configurationTabularSection = "";
+
+		if (configurationTabularSection.isEmpty() && !attributeRule.getFormatTabularSection().isEmpty())
+			for (CmAttributeRule attributeRuleForTabular : objectRule.getAttributeRules())
+				if (attributeRuleForTabular.getFormatTabularSection().equals(attributeRule.getFormatTabularSection())
+						&& !attributeRuleForTabular.getConfigurationTabularSection().isEmpty())
+					return attributeRuleForTabular.getConfigurationTabularSection();
 
 		return configurationTabularSection;
 	}
@@ -1654,8 +1667,18 @@ public class ConversionModuleAnalyzer {
 
 	private static String getFormatTabularSection(CmAttributeRule attributeRule, CmObjectRule objectRule) {
 		String formatTabularSection = attributeRule.getFormatTabularSection();
+		if (objectRule == null)
+			return formatTabularSection;
+
 		if (objectRule.getForSending() && objectRule.getForReceiving() && attributeRule.getFormatAttribute().isEmpty())
 			formatTabularSection = "";
+
+		if (formatTabularSection.isEmpty() && !attributeRule.getConfigurationTabularSection().isEmpty())
+			for (CmAttributeRule attributeRuleForTabular : objectRule.getAttributeRules())
+				if (attributeRuleForTabular.getConfigurationTabularSection()
+						.equals(attributeRule.getConfigurationTabularSection())
+						&& !attributeRuleForTabular.getFormatTabularSection().isEmpty())
+					return attributeRuleForTabular.getFormatTabularSection();
 
 		return formatTabularSection;
 	}

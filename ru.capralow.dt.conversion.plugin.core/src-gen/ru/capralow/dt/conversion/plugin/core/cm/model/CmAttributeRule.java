@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getOwner <em>Owner</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getConfigurationTabularSection <em>Configuration Tabular Section</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getConfigurationAttribute <em>Configuration Attribute</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getFormatTabularSection <em>Format Tabular Section</em>}</li>
@@ -26,6 +27,34 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface CmAttributeRule extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Owner</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getAttributeRules <em>Attribute Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Owner</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Owner</em>' container reference.
+	 * @see #setOwner(CmObjectRule)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmAttributeRule_Owner()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule#getAttributeRules
+	 * @model opposite="attributeRules" transient="false"
+	 * @generated
+	 */
+	CmObjectRule getOwner();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getOwner <em>Owner</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Owner</em>' container reference.
+	 * @see #getOwner()
+	 * @generated
+	 */
+	void setOwner(CmObjectRule value);
+
 	/**
 	 * Returns the value of the '<em><b>Configuration Tabular Section</b></em>' attribute.
 	 * The default value is <code>""</code>.

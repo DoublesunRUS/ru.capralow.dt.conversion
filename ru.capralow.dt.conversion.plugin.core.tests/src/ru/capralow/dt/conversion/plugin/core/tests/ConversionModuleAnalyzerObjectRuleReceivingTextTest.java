@@ -475,6 +475,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 
@@ -534,6 +535,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияШапкаТЧ", true, true, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 
@@ -764,6 +766,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКОПолученияТЧ", true, true, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 
@@ -797,6 +800,7 @@ public class ConversionModuleAnalyzerObjectRuleReceivingTextTest {
 				.addFilledObjectRule("ПКОПолученияДвеТЧ", true, true, false, true, false, null);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 

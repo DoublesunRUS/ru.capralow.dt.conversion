@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 
+import ru.capralow.dt.conversion.plugin.core.ConversionModuleAnalyzer;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule;
@@ -48,6 +50,10 @@ public final class ConversionModuleAnalyzerUtils {
 			algorithm.getParams().add(cmParam);
 
 			String[] paramAndValue = methodParam.split("[=]", 2);
+			if (paramAndValue[0].startsWith("Знач")) {
+				cmParam.setByValue(true);
+				paramAndValue[0] = paramAndValue[0].substring(6);
+			}
 			cmParam.setName(paramAndValue[0].trim());
 			if (paramAndValue.length == 2)
 				cmParam.setDefaultValue(paramAndValue[1].trim());
@@ -117,31 +123,15 @@ public final class ConversionModuleAnalyzerUtils {
 		return dataRule;
 	}
 
-	public static void addObjectRuleEvents(Boolean onSendingEvent, Boolean beforeReceivingEvent,
-			Boolean onReceivingEvent, String afterReceivingAlgorithmName, String afterReceivingAlgorithmParams,
-			CmObjectRule objectRule, EList<CmAlgorithm> algorithms) {
-		if (onSendingEvent)
-			objectRule.setOnSendingEvent(ON_SENDING_EVENT_TEXT);
-		if (beforeReceivingEvent)
-			objectRule.setBeforeReceivingEvent(BEFORE_RECEIVING_EVENT_TEXT);
-		if (onReceivingEvent)
-			objectRule.setOnReceivingEvent(ON_RECEIVING_EVENT_TEXT);
-		if (!afterReceivingAlgorithmName.isEmpty()) {
-			CmAlgorithm algorithm = addAlgorithm(afterReceivingAlgorithmName,
-					afterReceivingAlgorithmParams,
-					"	Сообщить(\"" + afterReceivingAlgorithmName + "\");",
-					CmMethodType.PROCEDURE,
-					false,
-					algorithms);
-			objectRule.setAfterReceivingAlgorithm(algorithm);
-		}
-	}
-
-	public static void addODataRuleEvents(Boolean onProcessingEvent, Boolean dataSelectionEvent, CmDataRule dataRule) {
-		if (onProcessingEvent)
-			dataRule.setOnProcessingEvent(ON_PROCESSING_EVENT_TEXT);
-		if (dataSelectionEvent)
-			dataRule.setDataSelectionEvent(DATA_SELECTION_EVENT_TEXT);
+	public static CmDataRule addFilledDataRule(String name, Boolean withConfiguration, Boolean withFormat,
+			Boolean forSending, Boolean forReceiving, Boolean isDataCleaning, EList<CmDataRule> dataRules) {
+		return addDataRule(name,
+				withConfiguration ? "Метаданные.Справочники.Организации" : "",
+				withFormat ? "Справочник.Организации" : "",
+				forSending,
+				forReceiving,
+				isDataCleaning,
+				dataRules);
 	}
 
 	public static CmObjectRule addFilledObjectRule(String name, Boolean withConfiguration, Boolean withFormat,
@@ -153,17 +143,6 @@ public final class ConversionModuleAnalyzerUtils {
 				forReceiving,
 				forGroup,
 				objectRules);
-	}
-
-	public static CmDataRule addFilledDataRule(String name, Boolean withConfiguration, Boolean withFormat,
-			Boolean forSending, Boolean forReceiving, Boolean isDataCleaning, EList<CmDataRule> dataRules) {
-		return addDataRule(name,
-				withConfiguration ? "Метаданные.Справочники.Организации" : "",
-				withFormat ? "Справочник.Организации" : "",
-				forSending,
-				forReceiving,
-				isDataCleaning,
-				dataRules);
 	}
 
 	public static CmPredefined addFilledPredefined(String name, Boolean withConfigurationFormat, Boolean forSending,
@@ -222,6 +201,45 @@ public final class ConversionModuleAnalyzerUtils {
 		return objectRule;
 	}
 
+	public static void addObjectRuleEvents(Boolean onSendingEvent, Boolean beforeReceivingEvent,
+			Boolean onReceivingEvent, String afterReceivingAlgorithmName, String afterReceivingAlgorithmParams,
+			CmObjectRule objectRule, EList<CmAlgorithm> algorithms) {
+		if (onSendingEvent)
+			objectRule.setOnSendingEvent(ON_SENDING_EVENT_TEXT);
+		if (beforeReceivingEvent)
+			objectRule.setBeforeReceivingEvent(BEFORE_RECEIVING_EVENT_TEXT);
+		if (onReceivingEvent)
+			objectRule.setOnReceivingEvent(ON_RECEIVING_EVENT_TEXT);
+		if (!afterReceivingAlgorithmName.isEmpty()) {
+			CmAlgorithm algorithm = addAlgorithm(afterReceivingAlgorithmName,
+					afterReceivingAlgorithmParams,
+					"	Сообщить(\"" + afterReceivingAlgorithmName + "\");",
+					CmMethodType.PROCEDURE,
+					false,
+					algorithms);
+			objectRule.setAfterReceivingAlgorithm(algorithm);
+		}
+	}
+
+	public static void addObjectRulesToDataRule(CmDataRule dataRule, ConversionModule conversionModule,
+			String[] objectRulesNames) {
+		for (String objectRuleName : objectRulesNames) {
+			CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
+			if (objectRule == null) {
+				objectRule = cmFactory.eINSTANCE.createCmObjectRule();
+				objectRule.setName(objectRuleName);
+			}
+			dataRule.getObjectRules().add(objectRule);
+		}
+	}
+
+	public static void addODataRuleEvents(Boolean onProcessingEvent, Boolean dataSelectionEvent, CmDataRule dataRule) {
+		if (onProcessingEvent)
+			dataRule.setOnProcessingEvent(ON_PROCESSING_EVENT_TEXT);
+		if (dataSelectionEvent)
+			dataRule.setDataSelectionEvent(DATA_SELECTION_EVENT_TEXT);
+	}
+
 	public static CmPredefined addPredefined(String name, String configurationObject, String formatObject,
 			Boolean forSending, Boolean forReceiving, EList<CmPredefined> predefineds) {
 		CmPredefined predefined = cmFactory.eINSTANCE.createCmPredefined();
@@ -252,21 +270,12 @@ public final class ConversionModuleAnalyzerUtils {
 
 	public static void addTabularSection1(CmObjectRule objectRule) {
 		EList<CmAttributeRule> attributeRules = objectRule.getAttributeRules();
-		addAttributeRule("ДополнительныеРеквизиты.Свойство",
-				"ДополнительныеРеквизиты.",
-				false,
-				"НесуществующееПравило",
-				attributeRules);
 		addAttributeRule("ДополнительныеРеквизиты.Значение",
 				"ДополнительныеРеквизиты.ЗначениеСвойства",
 				false,
 				"",
 				attributeRules);
-		addAttributeRule("ДополнительныеРеквизиты.",
-				"ДополнительныеРеквизиты.ЗначениеСвойства",
-				true,
-				"НесуществующееПравило",
-				attributeRules);
+		addAttributeRule("", "ДополнительныеРеквизиты.Свойство", true, "НесуществующееПравило", attributeRules);
 	}
 
 	public static void addTabularSection2(CmObjectRule objectRule) {
@@ -281,6 +290,18 @@ public final class ConversionModuleAnalyzerUtils {
 	public static String getModuleText(String projectName, String moduleName) {
 		final String NAME = projectName + "/" + moduleName + ".txt";
 		return readContents(getFileInputSupplier(NAME)).replace("\r\n", LS);
+	}
+
+	public static void sortAttributes(CmObjectRule objectRule) {
+		Integer route = 0;
+		if (objectRule.getForSending() && objectRule.getForReceiving())
+			route = ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING_RECEIVING;
+		else if (objectRule.getForSending())
+			route = ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING;
+		else if (objectRule.getForSending())
+			route = ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING;
+
+		ECollections.sort(objectRule.getAttributeRules(), ConversionModuleAnalyzer.getAttributeRuleComparator(route));
 	}
 
 	private static CharSource getFileInputSupplier(String partName) {
@@ -301,18 +322,6 @@ public final class ConversionModuleAnalyzerUtils {
 
 	private ConversionModuleAnalyzerUtils() {
 		throw new IllegalStateException("Вспомогательный класс");
-	}
-
-	public static void addObjectRulesToDataRule(CmDataRule dataRule, ConversionModule conversionModule,
-			String[] objectRulesNames) {
-		for (String objectRuleName : objectRulesNames) {
-			CmObjectRule objectRule = conversionModule.getObjectRule(objectRuleName);
-			if (objectRule == null) {
-				objectRule = cmFactory.eINSTANCE.createCmObjectRule();
-				objectRule.setName(objectRuleName);
-			}
-			dataRule.getObjectRules().add(objectRule);
-		}
 	}
 
 }

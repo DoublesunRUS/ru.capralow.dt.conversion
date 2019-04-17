@@ -93,6 +93,7 @@ public interface CmObjectRule extends CmObject {
 	/**
 	 * Returns the value of the '<em><b>Attribute Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule}.
+	 * It is bidirectional and its opposite is '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Attribute Rules</em>' containment reference list isn't clear,
@@ -101,7 +102,8 @@ public interface CmObjectRule extends CmObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attribute Rules</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmObjectRule_AttributeRules()
-	 * @model containment="true"
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule#getOwner
+	 * @model opposite="owner" containment="true"
 	 * @generated
 	 */
 	EList<CmAttributeRule> getAttributeRules();

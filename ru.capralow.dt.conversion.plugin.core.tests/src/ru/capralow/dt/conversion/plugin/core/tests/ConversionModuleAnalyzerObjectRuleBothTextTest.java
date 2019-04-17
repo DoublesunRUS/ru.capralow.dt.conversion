@@ -39,25 +39,17 @@ public class ConversionModuleAnalyzerObjectRuleBothTextTest {
 	private static final String FIRST_TABULAR_SECTION = String.join(LS,
 			"	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"ДополнительныеРеквизиты\", \"ДополнительныеРеквизиты\");",
 			"	ДобавитьПКС(СвойстваТЧ, \"Значение\", \"ЗначениеСвойства\");",
-			"	",
-			"	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"\",                        \"ДополнительныеРеквизиты\");",
-			"	ДобавитьПКС(СвойстваТЧ, \"\", \"ЗначениеСвойства\", 1,\"НесуществующееПравило\");",
-			"	",
-			"	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"ДополнительныеРеквизиты\", \"\");",
-			"	ДобавитьПКС(СвойстваТЧ, \"Свойство\", \"\", ,\"НесуществующееПравило\");");
+			"	ДобавитьПКС(СвойстваТЧ, \"Свойство\", \"\", ,\"НесуществующееПравило\");",
+			"	ДобавитьПКС(СвойстваТЧ, \"\",         \"ЗначениеСвойства\", 1,\"НесуществующееПравило\");");
 
 	private static final String TWO_TABULAR_SECTIONS = String.join(LS,
 			"	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"ДополнительныеРеквизиты\", \"ДополнительныеРеквизиты\");",
 			"	ДобавитьПКС(СвойстваТЧ, \"Значение\", \"ЗначениеСвойства\");",
+			"	ДобавитьПКС(СвойстваТЧ, \"Свойство\", \"\", ,\"НесуществующееПравило\");",
+			"	ДобавитьПКС(СвойстваТЧ, \"\",         \"ЗначениеСвойства\", 1,\"НесуществующееПравило\");",
 			"	",
 			"	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"КонтактнаяИнформация\",    \"КонтактнаяИнформация\");",
-			"	ДобавитьПКС(СвойстваТЧ, \"Вид\", \"ВидКонтактнойИнформации\", ,\"ВидыКонтактнойИнформации\");",
-			"	",
-			"	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"\",                        \"ДополнительныеРеквизиты\");",
-			"	ДобавитьПКС(СвойстваТЧ, \"\", \"ЗначениеСвойства\", 1,\"НесуществующееПравило\");",
-			"	",
-			"	СвойстваТЧ = ДобавитьПКТЧ(ПравилоКонвертации, \"ДополнительныеРеквизиты\", \"\");",
-			"	ДобавитьПКС(СвойстваТЧ, \"Свойство\", \"\", ,\"НесуществующееПравило\");");
+			"	ДобавитьПКС(СвойстваТЧ, \"Вид\", \"ВидКонтактнойИнформации\", ,\"ВидыКонтактнойИнформации\");");
 
 	private static final String IDENTIFICATION_FIELDS2 = String.join(LS,
 			"	ПравилоКонвертации.ПоляПоиска.Добавить(\"ГоловнаяОрганизация\");",
@@ -431,6 +423,7 @@ public class ConversionModuleAnalyzerObjectRuleBothTextTest {
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
 		ConversionModuleAnalyzerUtils.addIdentificationFields2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 
@@ -498,6 +491,7 @@ public class ConversionModuleAnalyzerObjectRuleBothTextTest {
 				.addFilledObjectRule("ПКООтправкиПолученияШапкаТЧ", true, true, true, true, false, null);
 		ConversionModuleAnalyzerUtils.addHeader(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 
@@ -559,6 +553,7 @@ public class ConversionModuleAnalyzerObjectRuleBothTextTest {
 		CmObjectRule objectRule = ConversionModuleAnalyzerUtils
 				.addFilledObjectRule("ПКООтправкиПолученияТЧ", true, true, true, true, false, null);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 
@@ -592,6 +587,7 @@ public class ConversionModuleAnalyzerObjectRuleBothTextTest {
 				.addFilledObjectRule("ПКООтправкиПолученияДвеТЧ", true, true, true, true, false, null);
 		ConversionModuleAnalyzerUtils.addTabularSection1(objectRule);
 		ConversionModuleAnalyzerUtils.addTabularSection2(objectRule);
+		ConversionModuleAnalyzerUtils.sortAttributes(objectRule);
 
 		ConversionModuleAnalyzer.createObjectRuleReceivingText(objectRule, report2);
 

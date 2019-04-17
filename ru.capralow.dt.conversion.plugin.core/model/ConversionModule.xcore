@@ -347,7 +347,7 @@ class CmObjectRule extends CmObject {
 			return "Ложь";
 	}
 	
-	contains CmAttributeRule[] attributeRules
+	contains CmAttributeRule[] attributeRules opposite owner
 
 	String onSendingEvent = ""
 	derived String onSendingEventPrefix get {
@@ -470,6 +470,8 @@ enum CmIdentificationVariant {
 }
 
 class CmAttributeRule {
+	container CmObjectRule owner opposite attributeRules
+
 	String configurationTabularSection = ""
 	String configurationAttribute = ""
 	
@@ -584,6 +586,8 @@ class CmAlgorithm {
 			if (!methodParams.isEmpty())
 				methodParams += ", ";
 			
+			if (param.byValue)
+				methodParams += "Знач ";
 			methodParams += param.name.trim();
 			if (!param.defaultValue.isEmpty())
 				methodParams += " = " + param.defaultValue;
@@ -640,6 +644,7 @@ enum CmMethodType {
 class CmParam {
 	String name = ""
 	String defaultValue = ""
+	Boolean byValue = "false"
 }
 
 class CmSubsystem {

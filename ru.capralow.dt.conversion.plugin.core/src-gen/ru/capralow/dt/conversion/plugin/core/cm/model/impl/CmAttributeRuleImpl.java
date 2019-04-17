@@ -5,6 +5,7 @@ package ru.capralow.dt.conversion.plugin.core.cm.model.impl;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -13,6 +14,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmAttributeRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
@@ -26,6 +29,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAttributeRuleImpl#getOwner <em>Owner</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAttributeRuleImpl#getConfigurationTabularSection <em>Configuration Tabular Section</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAttributeRuleImpl#getConfigurationAttribute <em>Configuration Attribute</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAttributeRuleImpl#getFormatTabularSection <em>Format Tabular Section</em>}</li>
@@ -164,6 +168,57 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	protected EClass eStaticClass() {
 		return cmPackage.Literals.CM_ATTRIBUTE_RULE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmObjectRule getOwner() {
+		if (eContainerFeatureID() != cmPackage.CM_ATTRIBUTE_RULE__OWNER) return null;
+		return (CmObjectRule)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmObjectRule basicGetOwner() {
+		if (eContainerFeatureID() != cmPackage.CM_ATTRIBUTE_RULE__OWNER) return null;
+		return (CmObjectRule)eInternalContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetOwner(CmObjectRule newOwner, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newOwner, cmPackage.CM_ATTRIBUTE_RULE__OWNER, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOwner(CmObjectRule newOwner) {
+		if (newOwner != eInternalContainer() || (eContainerFeatureID() != cmPackage.CM_ATTRIBUTE_RULE__OWNER && newOwner != null)) {
+			if (EcoreUtil.isAncestor(this, newOwner))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString()); //$NON-NLS-1$
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newOwner != null)
+				msgs = ((InternalEObject)newOwner).eInverseAdd(this, cmPackage.CM_OBJECT_RULE__ATTRIBUTE_RULES, CmObjectRule.class, msgs);
+			msgs = basicSetOwner(newOwner, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_ATTRIBUTE_RULE__OWNER, newOwner, newOwner));
 	}
 
 	/**
@@ -375,8 +430,55 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case cmPackage.CM_ATTRIBUTE_RULE__OWNER:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetOwner((CmObjectRule)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case cmPackage.CM_ATTRIBUTE_RULE__OWNER:
+				return basicSetOwner(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case cmPackage.CM_ATTRIBUTE_RULE__OWNER:
+				return eInternalContainer().eInverseRemove(this, cmPackage.CM_OBJECT_RULE__ATTRIBUTE_RULES, CmObjectRule.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case cmPackage.CM_ATTRIBUTE_RULE__OWNER:
+				if (resolve) return getOwner();
+				return basicGetOwner();
 			case cmPackage.CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION:
 				return getConfigurationTabularSection();
 			case cmPackage.CM_ATTRIBUTE_RULE__CONFIGURATION_ATTRIBUTE:
@@ -402,6 +504,9 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case cmPackage.CM_ATTRIBUTE_RULE__OWNER:
+				setOwner((CmObjectRule)newValue);
+				return;
 			case cmPackage.CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION:
 				setConfigurationTabularSection((String)newValue);
 				return;
@@ -432,6 +537,9 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case cmPackage.CM_ATTRIBUTE_RULE__OWNER:
+				setOwner((CmObjectRule)null);
+				return;
 			case cmPackage.CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION:
 				setConfigurationTabularSection(CONFIGURATION_TABULAR_SECTION_EDEFAULT);
 				return;
@@ -462,6 +570,8 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case cmPackage.CM_ATTRIBUTE_RULE__OWNER:
+				return basicGetOwner() != null;
 			case cmPackage.CM_ATTRIBUTE_RULE__CONFIGURATION_TABULAR_SECTION:
 				return CONFIGURATION_TABULAR_SECTION_EDEFAULT == null ? configurationTabularSection != null : !CONFIGURATION_TABULAR_SECTION_EDEFAULT.equals(configurationTabularSection);
 			case cmPackage.CM_ATTRIBUTE_RULE__CONFIGURATION_ATTRIBUTE:

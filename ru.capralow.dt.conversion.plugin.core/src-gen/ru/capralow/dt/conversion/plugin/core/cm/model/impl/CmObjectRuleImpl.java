@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -378,7 +378,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 */
 	public EList<CmAttributeRule> getAttributeRules() {
 		if (attributeRules == null) {
-			attributeRules = new EObjectContainmentEList<CmAttributeRule>(CmAttributeRule.class, this, cmPackage.CM_OBJECT_RULE__ATTRIBUTE_RULES);
+			attributeRules = new EObjectContainmentWithInverseEList<CmAttributeRule>(CmAttributeRule.class, this, cmPackage.CM_OBJECT_RULE__ATTRIBUTE_RULES, cmPackage.CM_ATTRIBUTE_RULE__OWNER);
 		}
 		return attributeRules;
 	}
@@ -819,6 +819,21 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 			routeString = "\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0430\u0418\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435";
 		}
 		return ((((((("name:" + nameString) + " md:") + configurationString) + " xdto:") + formatString) + " ") + routeString);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case cmPackage.CM_OBJECT_RULE__ATTRIBUTE_RULES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeRules()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**

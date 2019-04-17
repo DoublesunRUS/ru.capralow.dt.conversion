@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getName <em>Name</em>}</li>
  *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getDefaultValue <em>Default Value</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getByValue <em>By Value</em>}</li>
  * </ul>
  *
  * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmParam()
@@ -75,5 +76,32 @@ public interface CmParam extends EObject {
 	 * @generated
 	 */
 	void setDefaultValue(String value);
+
+	/**
+	 * Returns the value of the '<em><b>By Value</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>By Value</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>By Value</em>' attribute.
+	 * @see #setByValue(Boolean)
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getCmParam_ByValue()
+	 * @model default="false" unique="false"
+	 * @generated
+	 */
+	Boolean getByValue();
+
+	/**
+	 * Sets the value of the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmParam#getByValue <em>By Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>By Value</em>' attribute.
+	 * @see #getByValue()
+	 * @generated
+	 */
+	void setByValue(Boolean value);
 
 } // CmParam
