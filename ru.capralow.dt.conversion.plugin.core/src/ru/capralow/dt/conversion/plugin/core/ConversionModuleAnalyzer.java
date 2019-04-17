@@ -1649,7 +1649,7 @@ public class ConversionModuleAnalyzer {
 
 		if (objectRule.getForSending() && objectRule.getForReceiving()
 				&& attributeRule.getConfigurationAttribute().isEmpty())
-			configurationTabularSection = "";
+			return "";
 
 		if (configurationTabularSection.isEmpty() && !attributeRule.getFormatTabularSection().isEmpty())
 			for (CmAttributeRule attributeRuleForTabular : objectRule.getAttributeRules())
@@ -1671,7 +1671,7 @@ public class ConversionModuleAnalyzer {
 			return formatTabularSection;
 
 		if (objectRule.getForSending() && objectRule.getForReceiving() && attributeRule.getFormatAttribute().isEmpty())
-			formatTabularSection = "";
+			return "";
 
 		if (formatTabularSection.isEmpty() && !attributeRule.getConfigurationTabularSection().isEmpty())
 			for (CmAttributeRule attributeRuleForTabular : objectRule.getAttributeRules())

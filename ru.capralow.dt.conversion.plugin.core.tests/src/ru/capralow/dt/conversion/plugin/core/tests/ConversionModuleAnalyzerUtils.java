@@ -298,7 +298,7 @@ public final class ConversionModuleAnalyzerUtils {
 			route = ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING_RECEIVING;
 		else if (objectRule.getForSending())
 			route = ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_SENDING;
-		else if (objectRule.getForSending())
+		else if (objectRule.getForReceiving())
 			route = ConversionModuleAnalyzer.COMPARATOR_ORDER_BY_RECEIVING;
 
 		ECollections.sort(objectRule.getAttributeRules(), ConversionModuleAnalyzer.getAttributeRuleComparator(route));
