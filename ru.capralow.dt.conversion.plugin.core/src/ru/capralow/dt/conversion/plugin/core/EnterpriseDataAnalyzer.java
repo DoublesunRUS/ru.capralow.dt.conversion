@@ -106,6 +106,13 @@ public class EnterpriseDataAnalyzer {
 		return enterpriseDataPackage;
 	}
 
+	public static EnterpriseData analyzeAndSave(XDTOPackage xdtoPackage, URI xmiURI) {
+		EnterpriseData enterpriseData = analyze(xdtoPackage);
+		saveResource(enterpriseData, xmiURI);
+
+		return enterpriseData;
+	}
+
 	public static URI getResourceURIforPlugin(String version, IProject project, AbstractUIPlugin plugin) {
 		return ConversionUtils.getResourceURIforPlugin(project.getName(),
 				"enterpriseDataPackage-" + version.replace(".", "_"),
@@ -445,12 +452,5 @@ public class EnterpriseDataAnalyzer {
 
 	private EnterpriseDataAnalyzer() {
 		throw new IllegalStateException("Вспомогательный класс");
-	}
-
-	public static EnterpriseData analyzeAndSave(XDTOPackage xdtoPackage, URI xmiURI) {
-		EnterpriseData enterpriseData = analyze(xdtoPackage);
-		saveResource(enterpriseData, xmiURI);
-
-		return enterpriseData;
 	}
 }

@@ -28,7 +28,6 @@ public class ReportGroupsAnalyzer {
 		try {
 			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
-			// TODO: Сделать пересборку вторичных данных если файла нет
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
 			return (ReportGroups) xmiResource.getContents().get(0);

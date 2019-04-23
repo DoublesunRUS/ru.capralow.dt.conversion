@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.resource.DerivedStateAwareResource;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.slf4j.Logger;
@@ -284,10 +285,11 @@ public class ExchangeProjectsAnalyzer {
 			FeatureEntry featureEntry = featureEntries.get(0);
 			EObject feature = featureEntry.getFeature();
 
-			// FIXME: Вот этот код не возвращает метод правильно для УП 2
 			EObject newObject = EcoreFactory.eINSTANCE.createEObject();
 			((InternalEObject) newObject).eSetProxyURI(((SourceObjectLinkProvider) feature).getSourceUri());
 			Method mdSubMethod = (Method) EcoreUtil.resolve(newObject, commonModule);
+			if (mdSubMethod.eResource() instanceof DerivedStateAwareResource)
+				((DerivedStateAwareResource) mdSubMethod.eResource()).installDerivedState(false);
 
 			IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(mainProject);
 			CommonModule subCommonModule = (CommonModule) ConversionUtils
@@ -300,16 +302,6 @@ public class ExchangeProjectsAnalyzer {
 						bmEmfIndexProvider);
 			}
 			settingsModules.add(subCommonModule);
-
-			// Альтернатива поиску через resolve
-			// mdSubMethod = getMethod(subCommonModule.getModule(),
-			// dynamicMethodAccess.getName());
-			// if (mdSubMethod == null)
-			// throw new NullPointerException(String.format(
-			// "При рекурсивном разборе процедуры ПриПолученииДоступныхВерсийФормата не
-			// удалось получить метод %1$s.%2$s",
-			// subCommonModule.getModule(),
-			// dynamicMethodAccess.getName()));
 
 			Map<String, CommonModule> moduleFormatVersions = parseMethod(subCommonModule, mdSubMethod);
 
@@ -486,7 +478,6 @@ public class ExchangeProjectsAnalyzer {
 		try {
 			XMIResource xmiResource = new XMIResourceImpl(xmiUri);
 
-			// TODO: Сделать пересборку вторичных данных если файла нет
 			final Map<Object, Object> loadOptions = xmiResource.getDefaultLoadOptions();
 			xmiResource.load(loadOptions);
 			ExchangeProject exchangeProject = (ExchangeProject) xmiResource.getContents().get(0);
