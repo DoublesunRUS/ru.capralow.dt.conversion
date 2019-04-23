@@ -27,7 +27,7 @@
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<qualifier>${maven.build.timestamp}</qualifier>
 		
-		<sonar.exclusions>**/src-gen/**/*</sonar.exclusions>
+		<sonar.exclusions>**/xtend-gen/**/*</sonar.exclusions>
 	</properties>
 
 	<modules>
@@ -222,7 +222,7 @@
 							</goals>
 							<!-- optionally you can configure a different target folder -->
 							<configuration>
-								<outputDirectory>${basedir}/src-gen</outputDirectory>
+								<outputDirectory>${basedir}/xtend-gen</outputDirectory>
 							</configuration>
 						</execution>
 					</executions>
