@@ -13,8 +13,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.106.1,4.0.0)",
  com._1c.g5.v8.dt.metadata;visibility:=reexport,
  com._1c.g5.v8.dt.mcore;visibility:=reexport,
  com._1c.g5.v8.dt.bsl.model;visibility:=reexport,
- com._1c.g5.v8.dt.xdto.model;visibility:=reexport,
- com._1c.g5.v8.dt.product.application;bundle-version="1.10.1"
+ com._1c.g5.v8.dt.xdto.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Import-Package: com._1c.g5.v8.dt.bm.index.emf;version="6.1.0",
  com._1c.g5.v8.dt.bsl.common;version="4.0.0",
