@@ -10,8 +10,8 @@
 	
 	<extension point="org.eclipse.core.expressions.propertyTesters">
 		<propertyTester
-			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleTester"
-			id="ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleTester"
+			class="ru.capralow.dt.conversion.plugin.ui.ExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleTester"
+			id="ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleTester"
 			namespace="ru.capralow.dt.conversion.plugin.ui"
 			properties="isAvailable"
 			type="org.eclipse.emf.ecore.EObject">
@@ -22,8 +22,8 @@
 		point="org.eclipse.ui.views">
 		<view
 			category="com._1c.g5.v8.dt.ui.v8category"
-			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.views.ConversionPanelView"
-			id="ru.capralow.dt.conversion.plugin.ui.views.ConversionPanelView"
+			class="ru.capralow.dt.conversion.plugin.ui.ExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.conversionpanel.ConversionPanelView"
+			id="ru.capralow.dt.conversion.plugin.ui.conversionpanel.ConversionPanelView"
 			name="Конвертация данных">
 		</view>
 	</extension>
@@ -31,8 +31,8 @@
 	<extension
 		point="com._1c.g5.v8.dt.md.ui.granularEditorPages">
 		<page
-			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
-			id="ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor">
+			class="ru.capralow.dt.conversion.plugin.ui.ExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleEditor"
+			id="ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleEditor">
 		</page>
 	</extension>
 	
@@ -40,7 +40,7 @@
 		<editor
 			editorId="com._1c.g5.v8.dt.md.ui.editor.commonModule">
 			<page
-				pageId="ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor"
+				pageId="ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleEditor"
 				afterPageId="editors.pages.module">
 				<enablement>
 					<test property="ru.capralow.dt.conversion.plugin.ui.isAvailable"/>
@@ -50,7 +50,7 @@
 	</extension>
 
 	<extension point="org.eclipse.ui.menus">
-		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"> 
+		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleEditor.id"> 
 			<command
 				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryWizardHandler"
 				label="Конструктор запроса"
@@ -58,7 +58,7 @@
 			</command>
 		</menuContribution>
 		
-		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.editors.ConversionModuleEditor.id"> 
+		<menuContribution locationURI="popup:ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleEditor.id"> 
 			<command
 				commandId="com._1c.g5.v8.dt.bsl.qw.BslQueryEditorHandler"
 				label="Редактор запроса"
@@ -76,14 +76,14 @@
 
 	<extension point="org.eclipse.xtext.builder.participant">
 		<participant
-			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.ConversionModuleXtextBuilderParticipant"
+			class="ru.capralow.dt.conversion.plugin.ui.ExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionModuleXtextBuilderParticipant"
 			fileExtensions="bsl">
 		</participant>
 	</extension>
 
 	<extension point="com._1c.g5.v8.dt.bsl.externalBslValidator">
 		<externalValidator
-			class="ru.capralow.dt.conversion.plugin.ui.ConversionExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.ConversionValidator">
+			class="ru.capralow.dt.conversion.plugin.ui.ExecutableExtensionFactory:ru.capralow.dt.conversion.plugin.ui.conversionmodule.ConversionValidator">
 		</externalValidator>
 	</extension>
 

@@ -12,5 +12,4 @@ Require-Bundle: ru.capralow.dt.conversion.plugin.core,
  org.junit;bundle-version="4.12.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: com._1c.g5.v8.dt.xdto.model,
- org.eclipse.emf.common.util,
- org.slf4j;version="1.7.10"
+ org.eclipse.emf.common.util

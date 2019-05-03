@@ -2,14 +2,6 @@
 <?eclipse version="3.0"?>
 <plugin>
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ConversionModule -->
-      <package
-            uri="http://ru.capralow.dt.conversion.plugin.core.cm.model"
-            class="ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage"
-            genModel="model/ConversionModule.xcore"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated ExchangeProjects -->
       <package
             uri="http://ru.capralow.dt.conversion.plugin.core.ep.model"
@@ -39,6 +31,14 @@
             uri="http://ru.capralow.dt.conversion.plugin.core.ed.model"
             class="ru.capralow.dt.conversion.plugin.core.ed.model.edPackage"
             genModel="model/EnterpriseData.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ConversionModule -->
+      <package
+            uri="http://ru.capralow.dt.conversion.plugin.core.cm.model"
+            class="ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage"
+            genModel="model/ConversionModule.xcore"/>
    </extension>
 
 </plugin>
