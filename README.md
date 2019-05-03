@@ -1,14 +1,14 @@
 # dt.conversion [![Build Status](https://travis-ci.org/DoublesunRUS/ru.capralow.dt.conversion.svg?branch=dev)](https://travis-ci.org/DoublesunRUS/ru.capralow.dt.conversion) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=DoublesunRUS_ru.capralow.dt.conversion&metric=alert_status)](https://sonarcloud.io/dashboard?id=DoublesunRUS_ru.capralow.dt.conversion&branch=dev) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=DoublesunRUS_ru.capralow.dt.conversion&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=DoublesunRUS_ru.capralow.dt.conversion&branch=dev) [![Coverage](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=DoublesunRUS_ru.capralow.dt.conversion&metric=coverage)](https://sonarcloud.io/dashboard?id=DoublesunRUS_ru.capralow.dt.conversion&branch=dev)
 
 
-## Конвертация данных для [1C:Enterprise Development Tools](http://v8.1c.ru/overview/IDE/) 1.10
+## Конвертация данных для [1C:Enterprise Development Tools](http://v8.1c.ru/overview/IDE/) 1.11
 
-Текущий релиз в ветке [master: 1.0.0](https://github.com/DoublesunRUS/ru.capralow.dt.conversion/tree/master).<br>
+Текущий релиз в ветке [master: 1.0.1](https://github.com/DoublesunRUS/ru.capralow.dt.conversion/tree/master).<br>
 Разработка ведется в ветке [dev](https://github.com/DoublesunRUS/ru.capralow.dt.conversion/tree/dev).<br>
 
 В данном репозитории хранятся только исходники.<br>
 
-Плагин можно установить в EDT через пункт "Установить новое ПО" указав сайт обновления http://capralow.ru/edt/conversion/1.0.1/ .<br>
+Плагин можно установить в EDT через пункт "Установить новое ПО" указав сайт обновления http://capralow.ru/edt/conversion/latest/ .<br>
 Для самостоятельной сборки плагина необходимо иметь доступ к сайту https://releases.1c.ru и настроить соответствующим образом Maven. Подробности настройки написаны [здесь](https://github.com/1C-Company/dt-example-plugins/blob/master/simple-plugin/README.md).<br>
 
 ### Редактор модуля обмена (dev)

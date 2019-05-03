@@ -1,47 +1,47 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Конвертация данных для EDT
+Bundle-Name: %pluginName
 Bundle-SymbolicName: ru.capralow.dt.conversion.plugin.ui;singleton:=true
 Bundle-Version: 1.0.1.qualifier
-Bundle-Vendor: Капралов Александр Александрович (1С-Рарус)
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: ru.capralow.dt.conversion.plugin.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ru.capralow.dt.conversion.plugin.ui.Activator
-Require-Bundle: com.google.inject;bundle-version="[3.0.0,4.0.0)",
- org.eclipse.ui;bundle-version="[3.106.1,4.0.0)",
- org.eclipse.ui.ide;bundle-version="[3.10.2,4.0.0)",
+Require-Bundle: com.google.inject,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
  ru.capralow.dt.conversion.plugin.core,
- com._1c.g5.v8.dt.product.application;bundle-version="1.10.1"
-Import-Package: com._1c.g5.ides.ui.texteditor.xtext.embedded;version="4.0.0",
- com._1c.g5.v8.bm.integration;version="6.0.0",
- com._1c.g5.v8.dt.bm.index.emf;version="6.1.0",
- com._1c.g5.v8.dt.bsl.model;version="[3.0.0,4.0.0)",
- com._1c.g5.v8.dt.bsl.resource;version="7.1.0",
- com._1c.g5.v8.dt.bsl.scoping;version="4.0.0",
- com._1c.g5.v8.dt.bsl.validation;version="10.0.0",
- com._1c.g5.v8.dt.core.expressions;version="1.0.0",
- com._1c.g5.v8.dt.core.lifecycle;version="3.2.0",
- com._1c.g5.v8.dt.core.model;version="5.1.0",
- com._1c.g5.v8.dt.core.platform;version="7.0.0",
- com._1c.g5.v8.dt.diagram.framework.core;version="1.0.1",
- com._1c.g5.v8.dt.diagram.framework.model;version="2.0.0",
- com._1c.g5.v8.dt.erd.model;version="2.0.0",
- com._1c.g5.v8.dt.lcore.ui.editor.embedded;version="3.0.0",
- com._1c.g5.v8.dt.lcore.validation;version="2.1.0",
- com._1c.g5.v8.dt.lifecycle;version="2.0.0",
- com._1c.g5.v8.dt.mcore;version="[4.0.0,5.0.0)",
- com._1c.g5.v8.dt.md.ui.editor.base;version="8.1.0",
- com._1c.g5.v8.dt.metadata.mdclass;version="[6.0.0,7.0.0)",
- com._1c.g5.v8.dt.ui.editor.input;version="4.0.0",
- com._1c.g5.v8.dt.ui.util;version="5.1.0",
- com._1c.g5.v8.dt.xdto.model;version="3.0.0",
- com._1c.g5.wiring;version="2.0.0",
- com._1c.g5.wiring.binder;version="1.1.0",
+ com._1c.g5.v8.dt.product.application;bundle-version="1.11.0"
+Import-Package: com._1c.g5.ides.ui.texteditor.xtext.embedded,
+ com._1c.g5.v8.bm.integration,
+ com._1c.g5.v8.dt.bm.index.emf,
+ com._1c.g5.v8.dt.bsl.model,
+ com._1c.g5.v8.dt.bsl.resource,
+ com._1c.g5.v8.dt.bsl.scoping,
+ com._1c.g5.v8.dt.bsl.validation,
+ com._1c.g5.v8.dt.core.expressions,
+ com._1c.g5.v8.dt.core.lifecycle,
+ com._1c.g5.v8.dt.core.model,
+ com._1c.g5.v8.dt.core.platform,
+ com._1c.g5.v8.dt.diagram.framework.core,
+ com._1c.g5.v8.dt.diagram.framework.model,
+ com._1c.g5.v8.dt.erd.model,
+ com._1c.g5.v8.dt.lcore.ui.editor.embedded,
+ com._1c.g5.v8.dt.lcore.validation,
+ com._1c.g5.v8.dt.lifecycle,
+ com._1c.g5.v8.dt.mcore,
+ com._1c.g5.v8.dt.md.ui.editor.base,
+ com._1c.g5.v8.dt.ui.editor.input,
+ com._1c.g5.v8.dt.ui.util,
+ com._1c.g5.v8.dt.xdto.model,
+ com._1c.g5.wiring,
+ com._1c.g5.wiring.binder,
  org.eclipse.core.databinding,
  org.eclipse.core.expressions,
  org.eclipse.core.resources,
- org.eclipse.core.runtime;version="[3.4.0,4.0.0)",
+ org.eclipse.core.runtime,
  org.eclipse.emf.common.ui,
  org.eclipse.handly.buffer,
  org.eclipse.handly.snapshot,
@@ -59,5 +59,5 @@ Import-Package: com._1c.g5.ides.ui.texteditor.xtext.embedded;version="4.0.0",
  org.eclipse.xtext.ui.editor.embedded,
  org.eclipse.xtext.util,
  org.eclipse.xtext.validation,
- org.osgi.framework;version="[1.8.0,2.0.0)",
+ org.osgi.framework,
  org.slf4j;version="1.7.10"
