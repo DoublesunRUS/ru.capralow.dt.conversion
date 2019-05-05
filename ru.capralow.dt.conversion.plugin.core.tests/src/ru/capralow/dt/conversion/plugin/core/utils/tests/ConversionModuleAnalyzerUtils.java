@@ -20,7 +20,7 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmParam;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue;
 import ru.capralow.dt.conversion.plugin.core.cm.model.ConversionModule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmFactory;
 
@@ -256,17 +256,17 @@ public final class ConversionModuleAnalyzerUtils {
 	}
 
 	public static void addPredefinedValue1(CmPredefined predefined) {
-		CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
-		predefinedMap.setConfigurationValue("Перечисления.ЮридическоеФизическоеЛицо.ФизическоеЛицо");
+		CmPredefinedValue predefinedMap = cmFactory.eINSTANCE.createCmPredefinedValue();
+		predefinedMap.setConfigurationValueName("Перечисления.ЮридическоеФизическоеЛицо.ФизическоеЛицо");
 		predefinedMap.setFormatValue("ФизическоеЛицо");
-		predefined.getPredefinedMaps().add(predefinedMap);
+		predefined.getPredefinedValues().add(predefinedMap);
 	}
 
 	public static void addPredefinedValue2(CmPredefined predefined) {
-		CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
-		predefinedMap.setConfigurationValue("Перечисления.ЮридическоеФизическоеЛицо.ЮридическоеЛицо");
+		CmPredefinedValue predefinedMap = cmFactory.eINSTANCE.createCmPredefinedValue();
+		predefinedMap.setConfigurationValueName("Перечисления.ЮридическоеФизическоеЛицо.ЮридическоеЛицо");
 		predefinedMap.setFormatValue("ЮридическоеЛицо");
-		predefined.getPredefinedMaps().add(predefinedMap);
+		predefined.getPredefinedValues().add(predefinedMap);
 	}
 
 	public static void addTabularSection1(CmObjectRule objectRule) {

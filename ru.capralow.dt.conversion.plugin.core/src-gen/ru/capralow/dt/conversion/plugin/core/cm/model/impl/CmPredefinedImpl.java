@@ -17,7 +17,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage;
 
 /**
@@ -28,21 +29,32 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedImpl#getPredefinedMaps <em>Predefined Maps</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedImpl#getPredefinedValues <em>Predefined Values</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedImpl#getPredefinedType <em>Predefined Type</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	/**
-	 * The cached value of the '{@link #getPredefinedMaps() <em>Predefined Maps</em>}' containment reference list.
+	 * The cached value of the '{@link #getPredefinedValues() <em>Predefined Values</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPredefinedMaps()
+	 * @see #getPredefinedValues()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<CmPredefinedMap> predefinedMaps;
+	protected EList<CmPredefinedValue> predefinedValues;
+
+	/**
+	 * The default value of the '{@link #getPredefinedType() <em>Predefined Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPredefinedType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final CmPredefinedType PREDEFINED_TYPE_EDEFAULT = CmPredefinedType.REF;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -68,11 +80,11 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<CmPredefinedMap> getPredefinedMaps() {
-		if (predefinedMaps == null) {
-			predefinedMaps = new EObjectContainmentEList<CmPredefinedMap>(CmPredefinedMap.class, this, cmPackage.CM_PREDEFINED__PREDEFINED_MAPS);
+	public EList<CmPredefinedValue> getPredefinedValues() {
+		if (predefinedValues == null) {
+			predefinedValues = new EObjectContainmentEList<CmPredefinedValue>(CmPredefinedValue.class, this, cmPackage.CM_PREDEFINED__PREDEFINED_VALUES);
 		}
-		return predefinedMaps;
+		return predefinedValues;
 	}
 
 	/**
@@ -80,10 +92,41 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Boolean predefinedMapExists(final String configurationValue, final String formatValue) {
-		EList<CmPredefinedMap> _predefinedMaps = this.getPredefinedMaps();
-		for (final CmPredefinedMap predefinedMap : _predefinedMaps) {
-			if ((configurationValue.equals(predefinedMap.getConfigurationValue()) && formatValue.equals(predefinedMap.getFormatValue()))) {
+	public CmPredefinedType getPredefinedType() {
+		boolean _startsWith = this.getConfigurationObjectName().startsWith("\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435.\u041F\u0435\u0440\u0435\u0447\u0438\u0441\u043B\u0435\u043D\u0438\u044F");
+		if (_startsWith) {
+			return CmPredefinedType.ENUM;
+		}
+		else {
+			return CmPredefinedType.REF;
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmPredefinedValue getPredefinedConfigurationValue(final String configurationValueName) {
+		EList<CmPredefinedValue> _predefinedValues = this.getPredefinedValues();
+		for (final CmPredefinedValue predefinedValue : _predefinedValues) {
+			boolean _equals = configurationValueName.equals(predefinedValue.getConfigurationValueFormattedName());
+			if (_equals) {
+				return predefinedValue;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean predefinedValueExists(final String configurationValueName, final String formatValue) {
+		EList<CmPredefinedValue> _predefinedValues = this.getPredefinedValues();
+		for (final CmPredefinedValue predefinedValue : _predefinedValues) {
+			if ((configurationValueName.equals(predefinedValue.getConfigurationValueName()) && formatValue.equals(predefinedValue.getFormatValue()))) {
 				return Boolean.valueOf(true);
 			}
 		}
@@ -134,8 +177,8 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED__PREDEFINED_MAPS:
-				return ((InternalEList<?>)getPredefinedMaps()).basicRemove(otherEnd, msgs);
+			case cmPackage.CM_PREDEFINED__PREDEFINED_VALUES:
+				return ((InternalEList<?>)getPredefinedValues()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -148,8 +191,10 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED__PREDEFINED_MAPS:
-				return getPredefinedMaps();
+			case cmPackage.CM_PREDEFINED__PREDEFINED_VALUES:
+				return getPredefinedValues();
+			case cmPackage.CM_PREDEFINED__PREDEFINED_TYPE:
+				return getPredefinedType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -163,9 +208,9 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED__PREDEFINED_MAPS:
-				getPredefinedMaps().clear();
-				getPredefinedMaps().addAll((Collection<? extends CmPredefinedMap>)newValue);
+			case cmPackage.CM_PREDEFINED__PREDEFINED_VALUES:
+				getPredefinedValues().clear();
+				getPredefinedValues().addAll((Collection<? extends CmPredefinedValue>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -179,8 +224,8 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED__PREDEFINED_MAPS:
-				getPredefinedMaps().clear();
+			case cmPackage.CM_PREDEFINED__PREDEFINED_VALUES:
+				getPredefinedValues().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -194,8 +239,10 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED__PREDEFINED_MAPS:
-				return predefinedMaps != null && !predefinedMaps.isEmpty();
+			case cmPackage.CM_PREDEFINED__PREDEFINED_VALUES:
+				return predefinedValues != null && !predefinedValues.isEmpty();
+			case cmPackage.CM_PREDEFINED__PREDEFINED_TYPE:
+				return getPredefinedType() != PREDEFINED_TYPE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -208,8 +255,10 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case cmPackage.CM_PREDEFINED___PREDEFINED_MAP_EXISTS__STRING_STRING:
-				return predefinedMapExists((String)arguments.get(0), (String)arguments.get(1));
+			case cmPackage.CM_PREDEFINED___GET_PREDEFINED_CONFIGURATION_VALUE__STRING:
+				return getPredefinedConfigurationValue((String)arguments.get(0));
+			case cmPackage.CM_PREDEFINED___PREDEFINED_VALUE_EXISTS__STRING_STRING:
+				return predefinedValueExists((String)arguments.get(0), (String)arguments.get(1));
 			case cmPackage.CM_PREDEFINED___TO_STRING:
 				return toString();
 		}

@@ -36,7 +36,10 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmObject;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmParam;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSelectionVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
@@ -98,7 +101,21 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass cmPredefinedMapEClass = null;
+	private EClass cmPredefinedValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cmPredefinedCatalogValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cmPredefinedEnumValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -141,6 +158,13 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * @generated
 	 */
 	private EEnum cmIdentificationVariantEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum cmPredefinedTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1132,7 +1156,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCmPredefined_PredefinedMaps() {
+	public EReference getCmPredefined_PredefinedValues() {
 		return (EReference)cmPredefinedEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1141,7 +1165,16 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getCmPredefined__PredefinedMapExists__String_String() {
+	public EAttribute getCmPredefined_PredefinedType() {
+		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getCmPredefined__GetPredefinedConfigurationValue__String() {
 		return cmPredefinedEClass.getEOperations().get(0);
 	}
 
@@ -1150,7 +1183,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getCmPredefined__ToString() {
+	public EOperation getCmPredefined__PredefinedValueExists__String_String() {
 		return cmPredefinedEClass.getEOperations().get(1);
 	}
 
@@ -1159,8 +1192,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCmPredefinedMap() {
-		return cmPredefinedMapEClass;
+	public EOperation getCmPredefined__ToString() {
+		return cmPredefinedEClass.getEOperations().get(2);
 	}
 
 	/**
@@ -1168,8 +1201,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmPredefinedMap_ConfigurationValue() {
-		return (EAttribute)cmPredefinedMapEClass.getEStructuralFeatures().get(0);
+	public EClass getCmPredefinedValue() {
+		return cmPredefinedValueEClass;
 	}
 
 	/**
@@ -1177,8 +1210,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCmPredefinedMap_FormatValue() {
-		return (EAttribute)cmPredefinedMapEClass.getEStructuralFeatures().get(1);
+	public EAttribute getCmPredefinedValue_ConfigurationValueName() {
+		return (EAttribute)cmPredefinedValueEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1186,8 +1219,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getCmPredefinedMap__GetConfigurationValueName() {
-		return cmPredefinedMapEClass.getEOperations().get(0);
+	public EAttribute getCmPredefinedValue_FormatValue() {
+		return (EAttribute)cmPredefinedValueEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1195,8 +1228,53 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getCmPredefinedMap__GetFormatValueName() {
-		return cmPredefinedMapEClass.getEOperations().get(1);
+	public EOperation getCmPredefinedValue__GetConfigurationValueFormattedName() {
+		return cmPredefinedValueEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getCmPredefinedValue__GetFormatValueName() {
+		return cmPredefinedValueEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCmPredefinedCatalogValue() {
+		return cmPredefinedCatalogValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCmPredefinedCatalogValue_ConfigurationValue() {
+		return (EReference)cmPredefinedCatalogValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCmPredefinedEnumValue() {
+		return cmPredefinedEnumValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCmPredefinedEnumValue_ConfigurationValue() {
+		return (EReference)cmPredefinedEnumValueEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1420,6 +1498,15 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getCmPredefinedType() {
+		return cmPredefinedTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCmMethodType() {
 		return cmMethodTypeEEnum;
 	}
@@ -1566,15 +1653,23 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		createEOperation(cmAttributeRuleEClass, CM_ATTRIBUTE_RULE___TO_STRING);
 
 		cmPredefinedEClass = createEClass(CM_PREDEFINED);
-		createEReference(cmPredefinedEClass, CM_PREDEFINED__PREDEFINED_MAPS);
-		createEOperation(cmPredefinedEClass, CM_PREDEFINED___PREDEFINED_MAP_EXISTS__STRING_STRING);
+		createEReference(cmPredefinedEClass, CM_PREDEFINED__PREDEFINED_VALUES);
+		createEAttribute(cmPredefinedEClass, CM_PREDEFINED__PREDEFINED_TYPE);
+		createEOperation(cmPredefinedEClass, CM_PREDEFINED___GET_PREDEFINED_CONFIGURATION_VALUE__STRING);
+		createEOperation(cmPredefinedEClass, CM_PREDEFINED___PREDEFINED_VALUE_EXISTS__STRING_STRING);
 		createEOperation(cmPredefinedEClass, CM_PREDEFINED___TO_STRING);
 
-		cmPredefinedMapEClass = createEClass(CM_PREDEFINED_MAP);
-		createEAttribute(cmPredefinedMapEClass, CM_PREDEFINED_MAP__CONFIGURATION_VALUE);
-		createEAttribute(cmPredefinedMapEClass, CM_PREDEFINED_MAP__FORMAT_VALUE);
-		createEOperation(cmPredefinedMapEClass, CM_PREDEFINED_MAP___GET_CONFIGURATION_VALUE_NAME);
-		createEOperation(cmPredefinedMapEClass, CM_PREDEFINED_MAP___GET_FORMAT_VALUE_NAME);
+		cmPredefinedValueEClass = createEClass(CM_PREDEFINED_VALUE);
+		createEAttribute(cmPredefinedValueEClass, CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME);
+		createEAttribute(cmPredefinedValueEClass, CM_PREDEFINED_VALUE__FORMAT_VALUE);
+		createEOperation(cmPredefinedValueEClass, CM_PREDEFINED_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME);
+		createEOperation(cmPredefinedValueEClass, CM_PREDEFINED_VALUE___GET_FORMAT_VALUE_NAME);
+
+		cmPredefinedCatalogValueEClass = createEClass(CM_PREDEFINED_CATALOG_VALUE);
+		createEReference(cmPredefinedCatalogValueEClass, CM_PREDEFINED_CATALOG_VALUE__CONFIGURATION_VALUE);
+
+		cmPredefinedEnumValueEClass = createEClass(CM_PREDEFINED_ENUM_VALUE);
+		createEReference(cmPredefinedEnumValueEClass, CM_PREDEFINED_ENUM_VALUE__CONFIGURATION_VALUE);
 
 		cmAlgorithmEClass = createEClass(CM_ALGORITHM);
 		createEAttribute(cmAlgorithmEClass, CM_ALGORITHM__NAME);
@@ -1605,6 +1700,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		// Create enums
 		cmSelectionVariantEEnum = createEEnum(CM_SELECTION_VARIANT);
 		cmIdentificationVariantEEnum = createEEnum(CM_IDENTIFICATION_VARIANT);
+		cmPredefinedTypeEEnum = createEEnum(CM_PREDEFINED_TYPE);
 		cmMethodTypeEEnum = createEEnum(CM_METHOD_TYPE);
 		cmSpecialSubsystemTypeEEnum = createEEnum(CM_SPECIAL_SUBSYSTEM_TYPE);
 	}
@@ -1644,6 +1740,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		cmDataRuleEClass.getESuperTypes().add(this.getCmObject());
 		cmObjectRuleEClass.getESuperTypes().add(this.getCmObject());
 		cmPredefinedEClass.getESuperTypes().add(this.getCmObject());
+		cmPredefinedCatalogValueEClass.getESuperTypes().add(this.getCmPredefinedValue());
+		cmPredefinedEnumValueEClass.getESuperTypes().add(this.getCmPredefinedValue());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(conversionModuleEClass, ConversionModule.class, "ConversionModule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
@@ -1798,21 +1896,31 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		initEOperation(getCmAttributeRule__ToString(), theEcorePackage.getEString(), "toString", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmPredefinedEClass, CmPredefined.class, "CmPredefined", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEReference(getCmPredefined_PredefinedMaps(), this.getCmPredefinedMap(), null, "predefinedMaps", null, 0, -1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getCmPredefined_PredefinedValues(), this.getCmPredefinedValue(), null, "predefinedValues", null, 0, -1, CmPredefined.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(getCmPredefined_PredefinedType(), this.getCmPredefinedType(), "predefinedType", null, 0, 1, CmPredefined.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-		op = initEOperation(getCmPredefined__PredefinedMapExists__String_String(), theEcorePackage.getEBooleanObject(), "predefinedMapExists", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-		addEParameter(op, theEcorePackage.getEString(), "configurationValue", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+		op = initEOperation(getCmPredefined__GetPredefinedConfigurationValue__String(), this.getCmPredefinedValue(), "getPredefinedConfigurationValue", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+		addEParameter(op, theEcorePackage.getEString(), "configurationValueName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+		op = initEOperation(getCmPredefined__PredefinedValueExists__String_String(), theEcorePackage.getEBooleanObject(), "predefinedValueExists", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+		addEParameter(op, theEcorePackage.getEString(), "configurationValueName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 		addEParameter(op, theEcorePackage.getEString(), "formatValue", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
 		initEOperation(getCmPredefined__ToString(), theEcorePackage.getEString(), "toString", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-		initEClass(cmPredefinedMapEClass, CmPredefinedMap.class, "CmPredefinedMap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getCmPredefinedMap_ConfigurationValue(), theEcorePackage.getEString(), "configurationValue", null, 0, 1, CmPredefinedMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEAttribute(getCmPredefinedMap_FormatValue(), theEcorePackage.getEString(), "formatValue", null, 0, 1, CmPredefinedMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEClass(cmPredefinedValueEClass, CmPredefinedValue.class, "CmPredefinedValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(getCmPredefinedValue_ConfigurationValueName(), theEcorePackage.getEString(), "configurationValueName", "", 0, 1, CmPredefinedValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getCmPredefinedValue_FormatValue(), theEcorePackage.getEString(), "formatValue", "", 0, 1, CmPredefinedValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
-		initEOperation(getCmPredefinedMap__GetConfigurationValueName(), theEcorePackage.getEString(), "getConfigurationValueName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+		initEOperation(getCmPredefinedValue__GetConfigurationValueFormattedName(), theEcorePackage.getEString(), "getConfigurationValueFormattedName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-		initEOperation(getCmPredefinedMap__GetFormatValueName(), theEcorePackage.getEString(), "getFormatValueName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+		initEOperation(getCmPredefinedValue__GetFormatValueName(), theEcorePackage.getEString(), "getFormatValueName", 0, 1, !IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(cmPredefinedCatalogValueEClass, CmPredefinedCatalogValue.class, "CmPredefinedCatalogValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(getCmPredefinedCatalogValue_ConfigurationValue(), theMdClassPackage.getCatalogPredefinedItem(), null, "configurationValue", null, 0, 1, CmPredefinedCatalogValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(cmPredefinedEnumValueEClass, CmPredefinedEnumValue.class, "CmPredefinedEnumValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(getCmPredefinedEnumValue_ConfigurationValue(), theMdClassPackage.getEnumValue(), null, "configurationValue", null, 0, 1, CmPredefinedEnumValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(cmAlgorithmEClass, CmAlgorithm.class, "CmAlgorithm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(getCmAlgorithm_Name(), theEcorePackage.getEString(), "name", "", 0, 1, CmAlgorithm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1851,6 +1959,10 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		addEEnumLiteral(cmIdentificationVariantEEnum, CmIdentificationVariant.UUID);
 		addEEnumLiteral(cmIdentificationVariantEEnum, CmIdentificationVariant.SEARCH_FIELDS);
 		addEEnumLiteral(cmIdentificationVariantEEnum, CmIdentificationVariant.UUID_THEN_SEARCH_FIELDS);
+
+		initEEnum(cmPredefinedTypeEEnum, CmPredefinedType.class, "CmPredefinedType"); //$NON-NLS-1$
+		addEEnumLiteral(cmPredefinedTypeEEnum, CmPredefinedType.REF);
+		addEEnumLiteral(cmPredefinedTypeEEnum, CmPredefinedType.ENUM);
 
 		initEEnum(cmMethodTypeEEnum, CmMethodType.class, "CmMethodType"); //$NON-NLS-1$
 		addEEnumLiteral(cmMethodTypeEEnum, CmMethodType.PROCEDURE);

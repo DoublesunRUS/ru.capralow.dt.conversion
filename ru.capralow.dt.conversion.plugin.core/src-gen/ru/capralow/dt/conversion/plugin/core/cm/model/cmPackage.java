@@ -1245,13 +1245,22 @@ public interface cmPackage extends EPackage {
 	int CM_PREDEFINED__FOR_RECEIVING = CM_OBJECT__FOR_RECEIVING;
 
 	/**
-	 * The feature id for the '<em><b>Predefined Maps</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Predefined Values</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED__PREDEFINED_MAPS = CM_OBJECT_FEATURE_COUNT + 0;
+	int CM_PREDEFINED__PREDEFINED_VALUES = CM_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Predefined Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED__PREDEFINED_TYPE = CM_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Cm Predefined</em>' class.
@@ -1260,16 +1269,25 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_FEATURE_COUNT = CM_OBJECT_FEATURE_COUNT + 1;
+	int CM_PREDEFINED_FEATURE_COUNT = CM_OBJECT_FEATURE_COUNT + 2;
 
 	/**
-	 * The operation id for the '<em>Predefined Map Exists</em>' operation.
+	 * The operation id for the '<em>Get Predefined Configuration Value</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED___PREDEFINED_MAP_EXISTS__STRING_STRING = CM_OBJECT_OPERATION_COUNT + 0;
+	int CM_PREDEFINED___GET_PREDEFINED_CONFIGURATION_VALUE__STRING = CM_OBJECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Predefined Value Exists</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED___PREDEFINED_VALUE_EXISTS__STRING_STRING = CM_OBJECT_OPERATION_COUNT + 1;
 
 	/**
 	 * The operation id for the '<em>To String</em>' operation.
@@ -1278,7 +1296,7 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED___TO_STRING = CM_OBJECT_OPERATION_COUNT + 1;
+	int CM_PREDEFINED___TO_STRING = CM_OBJECT_OPERATION_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Cm Predefined</em>' class.
@@ -1287,26 +1305,26 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_OPERATION_COUNT = CM_OBJECT_OPERATION_COUNT + 2;
+	int CM_PREDEFINED_OPERATION_COUNT = CM_OBJECT_OPERATION_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedMapImpl <em>Cm Predefined Map</em>}' class.
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedValueImpl <em>Cm Predefined Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedMapImpl
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedMap()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedValueImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedValue()
 	 * @generated
 	 */
-	int CM_PREDEFINED_MAP = 6;
+	int CM_PREDEFINED_VALUE = 6;
 
 	/**
-	 * The feature id for the '<em><b>Configuration Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Configuration Value Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_MAP__CONFIGURATION_VALUE = 0;
+	int CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Format Value</b></em>' attribute.
@@ -1315,25 +1333,25 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_MAP__FORMAT_VALUE = 1;
+	int CM_PREDEFINED_VALUE__FORMAT_VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Cm Predefined Map</em>' class.
+	 * The number of structural features of the '<em>Cm Predefined Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_MAP_FEATURE_COUNT = 2;
+	int CM_PREDEFINED_VALUE_FEATURE_COUNT = 2;
 
 	/**
-	 * The operation id for the '<em>Get Configuration Value Name</em>' operation.
+	 * The operation id for the '<em>Get Configuration Value Formatted Name</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_MAP___GET_CONFIGURATION_VALUE_NAME = 0;
+	int CM_PREDEFINED_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME = 0;
 
 	/**
 	 * The operation id for the '<em>Get Format Value Name</em>' operation.
@@ -1342,16 +1360,162 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_MAP___GET_FORMAT_VALUE_NAME = 1;
+	int CM_PREDEFINED_VALUE___GET_FORMAT_VALUE_NAME = 1;
 
 	/**
-	 * The number of operations of the '<em>Cm Predefined Map</em>' class.
+	 * The number of operations of the '<em>Cm Predefined Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CM_PREDEFINED_MAP_OPERATION_COUNT = 2;
+	int CM_PREDEFINED_VALUE_OPERATION_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedCatalogValueImpl <em>Cm Predefined Catalog Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedCatalogValueImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedCatalogValue()
+	 * @generated
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Value Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE__CONFIGURATION_VALUE_NAME = CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Format Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE__FORMAT_VALUE = CM_PREDEFINED_VALUE__FORMAT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Value</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE__CONFIGURATION_VALUE = CM_PREDEFINED_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Cm Predefined Catalog Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE_FEATURE_COUNT = CM_PREDEFINED_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Configuration Value Formatted Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME = CM_PREDEFINED_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME;
+
+	/**
+	 * The operation id for the '<em>Get Format Value Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE___GET_FORMAT_VALUE_NAME = CM_PREDEFINED_VALUE___GET_FORMAT_VALUE_NAME;
+
+	/**
+	 * The number of operations of the '<em>Cm Predefined Catalog Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_CATALOG_VALUE_OPERATION_COUNT = CM_PREDEFINED_VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedEnumValueImpl <em>Cm Predefined Enum Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedEnumValueImpl
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedEnumValue()
+	 * @generated
+	 */
+	int CM_PREDEFINED_ENUM_VALUE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Value Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_ENUM_VALUE__CONFIGURATION_VALUE_NAME = CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Format Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_ENUM_VALUE__FORMAT_VALUE = CM_PREDEFINED_VALUE__FORMAT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Value</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_ENUM_VALUE__CONFIGURATION_VALUE = CM_PREDEFINED_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Cm Predefined Enum Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_ENUM_VALUE_FEATURE_COUNT = CM_PREDEFINED_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Configuration Value Formatted Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_ENUM_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME = CM_PREDEFINED_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME;
+
+	/**
+	 * The operation id for the '<em>Get Format Value Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_ENUM_VALUE___GET_FORMAT_VALUE_NAME = CM_PREDEFINED_VALUE___GET_FORMAT_VALUE_NAME;
+
+	/**
+	 * The number of operations of the '<em>Cm Predefined Enum Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CM_PREDEFINED_ENUM_VALUE_OPERATION_COUNT = CM_PREDEFINED_VALUE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl <em>Cm Algorithm</em>}' class.
@@ -1361,7 +1525,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmAlgorithm()
 	 * @generated
 	 */
-	int CM_ALGORITHM = 7;
+	int CM_ALGORITHM = 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1488,7 +1652,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmParam()
 	 * @generated
 	 */
-	int CM_PARAM = 8;
+	int CM_PARAM = 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1543,7 +1707,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSubsystem()
 	 * @generated
 	 */
-	int CM_SUBSYSTEM = 9;
+	int CM_SUBSYSTEM = 11;
 
 	/**
 	 * The feature id for the '<em><b>Subsystem</b></em>' reference.
@@ -1598,7 +1762,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmGroup()
 	 * @generated
 	 */
-	int CM_GROUP = 10;
+	int CM_GROUP = 12;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1635,7 +1799,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSelectionVariant()
 	 * @generated
 	 */
-	int CM_SELECTION_VARIANT = 11;
+	int CM_SELECTION_VARIANT = 13;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmIdentificationVariant <em>Cm Identification Variant</em>}' enum.
@@ -1645,7 +1809,17 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmIdentificationVariant()
 	 * @generated
 	 */
-	int CM_IDENTIFICATION_VARIANT = 12;
+	int CM_IDENTIFICATION_VARIANT = 14;
+
+	/**
+	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType <em>Cm Predefined Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedType()
+	 * @generated
+	 */
+	int CM_PREDEFINED_TYPE = 15;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType <em>Cm Method Type</em>}' enum.
@@ -1655,7 +1829,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmMethodType()
 	 * @generated
 	 */
-	int CM_METHOD_TYPE = 13;
+	int CM_METHOD_TYPE = 16;
 
 	/**
 	 * The meta object id for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType <em>Cm Special Subsystem Type</em>}' enum.
@@ -1665,7 +1839,7 @@ public interface cmPackage extends EPackage {
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmSpecialSubsystemType()
 	 * @generated
 	 */
-	int CM_SPECIAL_SUBSYSTEM_TYPE = 14;
+	int CM_SPECIAL_SUBSYSTEM_TYPE = 17;
 
 
 	/**
@@ -2727,25 +2901,46 @@ public interface cmPackage extends EPackage {
 	EClass getCmPredefined();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedMaps <em>Predefined Maps</em>}'.
+	 * Returns the meta object for the containment reference list '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedValues <em>Predefined Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Predefined Maps</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedMaps()
+	 * @return the meta object for the containment reference list '<em>Predefined Values</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedValues()
 	 * @see #getCmPredefined()
 	 * @generated
 	 */
-	EReference getCmPredefined_PredefinedMaps();
+	EReference getCmPredefined_PredefinedValues();
 
 	/**
-	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#predefinedMapExists(java.lang.String, java.lang.String) <em>Predefined Map Exists</em>}' operation.
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedType <em>Predefined Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Predefined Map Exists</em>' operation.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#predefinedMapExists(java.lang.String, java.lang.String)
+	 * @return the meta object for the attribute '<em>Predefined Type</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedType()
+	 * @see #getCmPredefined()
 	 * @generated
 	 */
-	EOperation getCmPredefined__PredefinedMapExists__String_String();
+	EAttribute getCmPredefined_PredefinedType();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedConfigurationValue(java.lang.String) <em>Get Predefined Configuration Value</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Predefined Configuration Value</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#getPredefinedConfigurationValue(java.lang.String)
+	 * @generated
+	 */
+	EOperation getCmPredefined__GetPredefinedConfigurationValue__String();
+
+	/**
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#predefinedValueExists(java.lang.String, java.lang.String) <em>Predefined Value Exists</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Predefined Value Exists</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#predefinedValueExists(java.lang.String, java.lang.String)
+	 * @generated
+	 */
+	EOperation getCmPredefined__PredefinedValueExists__String_String();
 
 	/**
 	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined#toString() <em>To String</em>}' operation.
@@ -2758,56 +2953,98 @@ public interface cmPackage extends EPackage {
 	EOperation getCmPredefined__ToString();
 
 	/**
-	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap <em>Cm Predefined Map</em>}'.
+	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue <em>Cm Predefined Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Cm Predefined Map</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap
+	 * @return the meta object for class '<em>Cm Predefined Value</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue
 	 * @generated
 	 */
-	EClass getCmPredefinedMap();
+	EClass getCmPredefinedValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getConfigurationValue <em>Configuration Value</em>}'.
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getConfigurationValueName <em>Configuration Value Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Configuration Value</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getConfigurationValue()
-	 * @see #getCmPredefinedMap()
+	 * @return the meta object for the attribute '<em>Configuration Value Name</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getConfigurationValueName()
+	 * @see #getCmPredefinedValue()
 	 * @generated
 	 */
-	EAttribute getCmPredefinedMap_ConfigurationValue();
+	EAttribute getCmPredefinedValue_ConfigurationValueName();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getFormatValue <em>Format Value</em>}'.
+	 * Returns the meta object for the attribute '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getFormatValue <em>Format Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Format Value</em>'.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getFormatValue()
-	 * @see #getCmPredefinedMap()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getFormatValue()
+	 * @see #getCmPredefinedValue()
 	 * @generated
 	 */
-	EAttribute getCmPredefinedMap_FormatValue();
+	EAttribute getCmPredefinedValue_FormatValue();
 
 	/**
-	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getConfigurationValueName() <em>Get Configuration Value Name</em>}' operation.
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getConfigurationValueFormattedName() <em>Get Configuration Value Formatted Name</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Configuration Value Name</em>' operation.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getConfigurationValueName()
+	 * @return the meta object for the '<em>Get Configuration Value Formatted Name</em>' operation.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getConfigurationValueFormattedName()
 	 * @generated
 	 */
-	EOperation getCmPredefinedMap__GetConfigurationValueName();
+	EOperation getCmPredefinedValue__GetConfigurationValueFormattedName();
 
 	/**
-	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getFormatValueName() <em>Get Format Value Name</em>}' operation.
+	 * Returns the meta object for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getFormatValueName() <em>Get Format Value Name</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Format Value Name</em>' operation.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap#getFormatValueName()
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue#getFormatValueName()
 	 * @generated
 	 */
-	EOperation getCmPredefinedMap__GetFormatValueName();
+	EOperation getCmPredefinedValue__GetFormatValueName();
+
+	/**
+	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue <em>Cm Predefined Catalog Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cm Predefined Catalog Value</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue
+	 * @generated
+	 */
+	EClass getCmPredefinedCatalogValue();
+
+	/**
+	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue#getConfigurationValue <em>Configuration Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Configuration Value</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue#getConfigurationValue()
+	 * @see #getCmPredefinedCatalogValue()
+	 * @generated
+	 */
+	EReference getCmPredefinedCatalogValue_ConfigurationValue();
+
+	/**
+	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue <em>Cm Predefined Enum Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cm Predefined Enum Value</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue
+	 * @generated
+	 */
+	EClass getCmPredefinedEnumValue();
+
+	/**
+	 * Returns the meta object for the reference '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue#getConfigurationValue <em>Configuration Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Configuration Value</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue#getConfigurationValue()
+	 * @see #getCmPredefinedEnumValue()
+	 * @generated
+	 */
+	EReference getCmPredefinedEnumValue_ConfigurationValue();
 
 	/**
 	 * Returns the meta object for class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm <em>Cm Algorithm</em>}'.
@@ -3064,6 +3301,16 @@ public interface cmPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getCmIdentificationVariant();
+
+	/**
+	 * Returns the meta object for enum '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType <em>Cm Predefined Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Cm Predefined Type</em>'.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType
+	 * @generated
+	 */
+	EEnum getCmPredefinedType();
 
 	/**
 	 * Returns the meta object for enum '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType <em>Cm Method Type</em>}'.
@@ -3921,20 +4168,36 @@ public interface cmPackage extends EPackage {
 		EClass CM_PREDEFINED = eINSTANCE.getCmPredefined();
 
 		/**
-		 * The meta object literal for the '<em><b>Predefined Maps</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Predefined Values</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CM_PREDEFINED__PREDEFINED_MAPS = eINSTANCE.getCmPredefined_PredefinedMaps();
+		EReference CM_PREDEFINED__PREDEFINED_VALUES = eINSTANCE.getCmPredefined_PredefinedValues();
 
 		/**
-		 * The meta object literal for the '<em><b>Predefined Map Exists</b></em>' operation.
+		 * The meta object literal for the '<em><b>Predefined Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation CM_PREDEFINED___PREDEFINED_MAP_EXISTS__STRING_STRING = eINSTANCE.getCmPredefined__PredefinedMapExists__String_String();
+		EAttribute CM_PREDEFINED__PREDEFINED_TYPE = eINSTANCE.getCmPredefined_PredefinedType();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Predefined Configuration Value</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_PREDEFINED___GET_PREDEFINED_CONFIGURATION_VALUE__STRING = eINSTANCE.getCmPredefined__GetPredefinedConfigurationValue__String();
+
+		/**
+		 * The meta object literal for the '<em><b>Predefined Value Exists</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CM_PREDEFINED___PREDEFINED_VALUE_EXISTS__STRING_STRING = eINSTANCE.getCmPredefined__PredefinedValueExists__String_String();
 
 		/**
 		 * The meta object literal for the '<em><b>To String</b></em>' operation.
@@ -3945,22 +4208,22 @@ public interface cmPackage extends EPackage {
 		EOperation CM_PREDEFINED___TO_STRING = eINSTANCE.getCmPredefined__ToString();
 
 		/**
-		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedMapImpl <em>Cm Predefined Map</em>}' class.
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedValueImpl <em>Cm Predefined Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedMapImpl
-		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedMap()
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedValueImpl
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedValue()
 		 * @generated
 		 */
-		EClass CM_PREDEFINED_MAP = eINSTANCE.getCmPredefinedMap();
+		EClass CM_PREDEFINED_VALUE = eINSTANCE.getCmPredefinedValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Configuration Value</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Configuration Value Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CM_PREDEFINED_MAP__CONFIGURATION_VALUE = eINSTANCE.getCmPredefinedMap_ConfigurationValue();
+		EAttribute CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME = eINSTANCE.getCmPredefinedValue_ConfigurationValueName();
 
 		/**
 		 * The meta object literal for the '<em><b>Format Value</b></em>' attribute feature.
@@ -3968,15 +4231,15 @@ public interface cmPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CM_PREDEFINED_MAP__FORMAT_VALUE = eINSTANCE.getCmPredefinedMap_FormatValue();
+		EAttribute CM_PREDEFINED_VALUE__FORMAT_VALUE = eINSTANCE.getCmPredefinedValue_FormatValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Get Configuration Value Name</b></em>' operation.
+		 * The meta object literal for the '<em><b>Get Configuration Value Formatted Name</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation CM_PREDEFINED_MAP___GET_CONFIGURATION_VALUE_NAME = eINSTANCE.getCmPredefinedMap__GetConfigurationValueName();
+		EOperation CM_PREDEFINED_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME = eINSTANCE.getCmPredefinedValue__GetConfigurationValueFormattedName();
 
 		/**
 		 * The meta object literal for the '<em><b>Get Format Value Name</b></em>' operation.
@@ -3984,7 +4247,43 @@ public interface cmPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation CM_PREDEFINED_MAP___GET_FORMAT_VALUE_NAME = eINSTANCE.getCmPredefinedMap__GetFormatValueName();
+		EOperation CM_PREDEFINED_VALUE___GET_FORMAT_VALUE_NAME = eINSTANCE.getCmPredefinedValue__GetFormatValueName();
+
+		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedCatalogValueImpl <em>Cm Predefined Catalog Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedCatalogValueImpl
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedCatalogValue()
+		 * @generated
+		 */
+		EClass CM_PREDEFINED_CATALOG_VALUE = eINSTANCE.getCmPredefinedCatalogValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Value</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CM_PREDEFINED_CATALOG_VALUE__CONFIGURATION_VALUE = eINSTANCE.getCmPredefinedCatalogValue_ConfigurationValue();
+
+		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedEnumValueImpl <em>Cm Predefined Enum Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedEnumValueImpl
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedEnumValue()
+		 * @generated
+		 */
+		EClass CM_PREDEFINED_ENUM_VALUE = eINSTANCE.getCmPredefinedEnumValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuration Value</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CM_PREDEFINED_ENUM_VALUE__CONFIGURATION_VALUE = eINSTANCE.getCmPredefinedEnumValue_ConfigurationValue();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmAlgorithmImpl <em>Cm Algorithm</em>}' class.
@@ -4189,6 +4488,16 @@ public interface cmPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum CM_IDENTIFICATION_VARIANT = eINSTANCE.getCmIdentificationVariant();
+
+		/**
+		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType <em>Cm Predefined Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType
+		 * @see ru.capralow.dt.conversion.plugin.core.cm.model.impl.cmPackageImpl#getCmPredefinedType()
+		 * @generated
+		 */
+		EEnum CM_PREDEFINED_TYPE = eINSTANCE.getCmPredefinedType();
 
 		/**
 		 * The meta object literal for the '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmMethodType <em>Cm Method Type</em>}' enum.

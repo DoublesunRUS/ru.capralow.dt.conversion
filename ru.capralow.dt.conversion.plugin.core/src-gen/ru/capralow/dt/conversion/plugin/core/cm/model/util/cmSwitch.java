@@ -105,9 +105,23 @@ public class cmSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case cmPackage.CM_PREDEFINED_MAP: {
-				CmPredefinedMap cmPredefinedMap = (CmPredefinedMap)theEObject;
-				T result = caseCmPredefinedMap(cmPredefinedMap);
+			case cmPackage.CM_PREDEFINED_VALUE: {
+				CmPredefinedValue cmPredefinedValue = (CmPredefinedValue)theEObject;
+				T result = caseCmPredefinedValue(cmPredefinedValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case cmPackage.CM_PREDEFINED_CATALOG_VALUE: {
+				CmPredefinedCatalogValue cmPredefinedCatalogValue = (CmPredefinedCatalogValue)theEObject;
+				T result = caseCmPredefinedCatalogValue(cmPredefinedCatalogValue);
+				if (result == null) result = caseCmPredefinedValue(cmPredefinedCatalogValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case cmPackage.CM_PREDEFINED_ENUM_VALUE: {
+				CmPredefinedEnumValue cmPredefinedEnumValue = (CmPredefinedEnumValue)theEObject;
+				T result = caseCmPredefinedEnumValue(cmPredefinedEnumValue);
+				if (result == null) result = caseCmPredefinedValue(cmPredefinedEnumValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -230,17 +244,47 @@ public class cmSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Cm Predefined Map</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Cm Predefined Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Cm Predefined Map</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Cm Predefined Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCmPredefinedMap(CmPredefinedMap object) {
+	public T caseCmPredefinedValue(CmPredefinedValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cm Predefined Catalog Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cm Predefined Catalog Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmPredefinedCatalogValue(CmPredefinedCatalogValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cm Predefined Enum Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cm Predefined Enum Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCmPredefinedEnumValue(CmPredefinedEnumValue object) {
 		return null;
 	}
 

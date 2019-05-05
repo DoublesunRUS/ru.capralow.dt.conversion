@@ -2,6 +2,8 @@
 @Ecore(nsPrefix="cm", nsURI="http://ru.capralow.dt.conversion.plugin.core.cm.model")
 package ru.capralow.dt.conversion.plugin.core.cm.model
 
+import com._1c.g5.v8.dt.metadata.mdclass.CatalogPredefinedItem
+import com._1c.g5.v8.dt.metadata.mdclass.EnumValue
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject
 import com._1c.g5.v8.dt.metadata.mdclass.Subsystem
 
@@ -513,13 +515,30 @@ class CmAttributeRule {
 }
 
 class CmPredefined extends CmObject {
-	contains CmPredefinedMap[] predefinedMaps
+	contains CmPredefinedValue[] predefinedValues
 	
-	op Boolean predefinedMapExists(String configurationValue, String formatValue) {
-		for (CmPredefinedMap predefinedMap : predefinedMaps) {
-			if (configurationValue.equals(predefinedMap.configurationValue)
-				&& formatValue.equals(predefinedMap.formatValue)
-			) return true
+	derived CmPredefinedType predefinedType get {
+		if (configurationObjectName.startsWith("Метаданные.Перечисления")) {
+			return CmPredefinedType.ENUM;
+			
+		} else {
+			return CmPredefinedType.REF;
+			
+		}
+	}
+	
+	op CmPredefinedValue getPredefinedConfigurationValue(String configurationValueName) {
+		for (CmPredefinedValue predefinedValue : predefinedValues) {
+			if (configurationValueName.equals(predefinedValue.configurationValueFormattedName))
+				return predefinedValue;
+		}
+		return null;
+	}
+	op Boolean predefinedValueExists(String configurationValueName, String formatValue) {
+		for (CmPredefinedValue predefinedValue : predefinedValues) {
+			if (configurationValueName.equals(predefinedValue.configurationValueName)
+				&& formatValue.equals(predefinedValue.getFormatValue)
+			) return true;
 		}
 		return false;
 	}
@@ -549,26 +568,39 @@ class CmPredefined extends CmObject {
 	}
 }
 
-class CmPredefinedMap {
-	String configurationValue
-	op String getConfigurationValueName() {
-		if (configurationValue === null) {
+enum CmPredefinedType {
+	Ref as "Ссылочный объект" = 0
+	Enum as "Перечисление" = 1
+}
+
+class CmPredefinedValue {
+	String configurationValueName = ""
+	op String getConfigurationValueFormattedName() {
+		if (getConfigurationValueName.isEmpty()) {
 			return "";
 		}
 
-		var configurationValueName = configurationValue.toString();
-		configurationValueName = configurationValueName.substring(configurationValueName.indexOf(".") + 1);
-		configurationValueName = configurationValueName.substring(configurationValueName.indexOf(".") + 1);
-		return configurationValueName;
+		var configurationValueFormattedName = getConfigurationValueName.toString();
+		configurationValueFormattedName = configurationValueFormattedName.substring(configurationValueFormattedName.indexOf(".") + 1);
+		configurationValueFormattedName = configurationValueFormattedName.substring(configurationValueFormattedName.indexOf(".") + 1);
+		return configurationValueFormattedName;
 	}
-	String formatValue
+	String formatValue = ""
 	op String getFormatValueName() {
-		if (formatValue === null) {
+		if (getFormatValue.isEmpty()) {
 			return "";
 		}
 
-		return formatValue.toString();
+		return getFormatValue.toString();
 	}
+}
+
+class CmPredefinedCatalogValue extends CmPredefinedValue {
+	refers CatalogPredefinedItem configurationValue
+}
+
+class CmPredefinedEnumValue extends CmPredefinedValue {
+	refers EnumValue configurationValue
 }
 
 class CmAlgorithm {

@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue;
 
 public class PredefinedDialog extends Dialog {
 
@@ -147,7 +147,7 @@ public class PredefinedDialog extends Dialog {
 		tblclmnPredefinedMapColumn1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((CmPredefinedMap) element).getConfigurationValueName();
+				return ((CmPredefinedValue) element).getConfigurationValueName();
 			}
 		});
 		TableViewerColumn tblclmnPredefinedMapColumn2 = new TableViewerColumn(viewerPredefinedMap, SWT.NONE);
@@ -156,7 +156,7 @@ public class PredefinedDialog extends Dialog {
 		tblclmnPredefinedMapColumn2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((CmPredefinedMap) element).getFormatValueName();
+				return ((CmPredefinedValue) element).getFormatValueName();
 			}
 		});
 
@@ -174,7 +174,7 @@ public class PredefinedDialog extends Dialog {
 		tltmpredefinedsSize2.setSelection(!predefined.getForSending() && predefined.getForReceiving());
 		tltmpredefinedsSize3.setSelection(predefined.getForSending() && predefined.getForReceiving());
 
-		viewerPredefinedMap.setInput(predefined.getPredefinedMaps());
+		viewerPredefinedMap.setInput(predefined.getPredefinedValues());
 
 		return container;
 	}

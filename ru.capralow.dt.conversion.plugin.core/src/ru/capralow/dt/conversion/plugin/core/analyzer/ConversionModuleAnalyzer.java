@@ -61,10 +61,13 @@ import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.TypeSet;
 import com._1c.g5.v8.dt.metadata.mdclass.Catalog;
 import com._1c.g5.v8.dt.metadata.mdclass.CatalogCommand;
+import com._1c.g5.v8.dt.metadata.mdclass.CatalogPredefinedItem;
 import com._1c.g5.v8.dt.metadata.mdclass.CommonModule;
 import com._1c.g5.v8.dt.metadata.mdclass.Configuration;
 import com._1c.g5.v8.dt.metadata.mdclass.Document;
 import com._1c.g5.v8.dt.metadata.mdclass.DocumentCommand;
+import com._1c.g5.v8.dt.metadata.mdclass.Enum;
+import com._1c.g5.v8.dt.metadata.mdclass.EnumValue;
 import com._1c.g5.v8.dt.metadata.mdclass.InformationRegister;
 import com._1c.g5.v8.dt.metadata.mdclass.InformationRegisterDimension;
 import com._1c.g5.v8.dt.metadata.mdclass.MdObject;
@@ -84,7 +87,10 @@ import ru.capralow.dt.conversion.plugin.core.cm.model.CmObject;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmParam;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined;
-import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedType;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSelectionVariant;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSpecialSubsystemType;
 import ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem;
@@ -694,21 +700,21 @@ public class ConversionModuleAnalyzer {
 
 		if (predefined.getForSending()) {
 			predefinedsText.append(LS).append(prefix).append("	ЗначенияДляОтправки = Новый Соответствие;");
-			for (CmPredefinedMap predefinedMap : predefined.getPredefinedMaps())
+			for (CmPredefinedValue predefinedMap : predefined.getPredefinedValues())
 				predefinedsText.append(LS).append(prefix)
 						.append(String.format("	ЗначенияДляОтправки.Вставить(%1$s, \"%2$s\");",
-								predefinedMap.getConfigurationValue(),
+								predefinedMap.getConfigurationValueName(),
 								predefinedMap.getFormatValue()));
 			predefinedsText.append(LS).append(prefix)
 					.append("	ПравилоКонвертации.КонвертацииЗначенийПриОтправке = ЗначенияДляОтправки;");
 		}
 		if (predefined.getForReceiving()) {
 			predefinedsText.append(LS).append(prefix).append("	ЗначенияДляПолучения = Новый Соответствие;");
-			for (CmPredefinedMap predefinedMap : predefined.getPredefinedMaps())
+			for (CmPredefinedValue predefinedMap : predefined.getPredefinedValues())
 				predefinedsText.append(LS).append(prefix)
 						.append(String.format("	ЗначенияДляПолучения.Вставить(\"%1$s\", %2$s);",
 								predefinedMap.getFormatValue(),
-								predefinedMap.getConfigurationValue()));
+								predefinedMap.getConfigurationValueName()));
 			predefinedsText.append(LS).append(prefix)
 					.append("	ПравилоКонвертации.КонвертацииЗначенийПриПолучении = ЗначенияДляПолучения;");
 		}
@@ -1096,6 +1102,34 @@ public class ConversionModuleAnalyzer {
 		}
 	}
 
+	private static void setPredefinedCatalogConfigurationValue(CatalogPredefinedItem enumValue,
+			CmPredefined predefined) {
+		CmPredefinedCatalogValue cmPredefinedValue = (CmPredefinedCatalogValue) predefined
+				.getPredefinedConfigurationValue(enumValue.getName());
+		if (cmPredefinedValue != null)
+			cmPredefinedValue.setConfigurationValue(enumValue);
+	}
+
+	private static void setPredefinedCatalogConfigurationValues(Catalog configurationObject, CmPredefined predefined) {
+		for (CatalogPredefinedItem enumValue : configurationObject.getPredefined().getItems()) {
+			setPredefinedCatalogConfigurationValue(enumValue, predefined);
+
+			if (enumValue.isIsFolder())
+				for (CatalogPredefinedItem enumSubValue : enumValue.getContent())
+					setPredefinedCatalogConfigurationValue(enumSubValue, predefined);
+
+		}
+	}
+
+	private static void setPredefinedEnumConfigurationValues(Enum configurationObject, CmPredefined predefined) {
+		for (EnumValue enumValue : configurationObject.getEnumValues()) {
+			CmPredefinedEnumValue cmPredefinedValue = (CmPredefinedEnumValue) predefined
+					.getPredefinedConfigurationValue(enumValue.getName());
+			if (cmPredefinedValue != null)
+				cmPredefinedValue.setConfigurationValue(enumValue);
+		}
+	}
+
 	private static void addPredefineds(Method method, ConversionModule conversionModule,
 			IBmEmfIndexProvider bmEmfIndexProvider) {
 		CmPredefined cmPredefined = null;
@@ -1124,8 +1158,41 @@ public class ConversionModuleAnalyzer {
 			}
 
 			predefined.setConfigurationObject(configurationObject);
+
+			if (configurationObject instanceof Catalog)
+				setPredefinedCatalogConfigurationValues((Catalog) configurationObject, predefined);
+
+			else if (configurationObject instanceof Enum)
+				setPredefinedEnumConfigurationValues((Enum) configurationObject, predefined);
+
+			else {
+				String msg = MessageFormat.format("Добавить ПКПД: необработанный тип предопределенных элементов: {0}",
+						configurationObject.getClass());
+				throw new NullPointerException(msg);
+			}
+
+			checkPredefinedValuesWithoutConfigurationObject(configurationObject, predefined);
 		}
 
+	}
+
+	private static void checkPredefinedValuesWithoutConfigurationObject(MdObject configurationObject,
+			CmPredefined predefined) {
+		for (CmPredefinedValue predefinedValue : predefined.getPredefinedValues()) {
+			EObject cmPredefinedValue = null;
+			if (configurationObject instanceof Catalog)
+				cmPredefinedValue = ((CmPredefinedCatalogValue) predefinedValue).getConfigurationValue();
+			else if (configurationObject instanceof Enum)
+				cmPredefinedValue = ((CmPredefinedEnumValue) predefinedValue).getConfigurationValue();
+
+			if (cmPredefinedValue == null) {
+				String valueFormattedName = predefined.getConfigurationObjectFormattedName() + "."
+						+ predefinedValue.getConfigurationValueFormattedName();
+
+				String msg = MessageFormat.format("Не найдено свойство конфигурации: \"{0}\"", valueFormattedName);
+				ConversionPlugin.log(ConversionPlugin.createWarningStatus(msg));
+			}
+		}
 	}
 
 	private static CmSubsystem addSubsystems(EList<CmSubsystem> cmSubsystems, CommandInterface commandInterface) {
@@ -2455,15 +2522,19 @@ public class ConversionModuleAnalyzer {
 
 		String formatValueName = formatValueParam.getLines().get(0).replace("\"", "");
 
-		if (cmPredefined.predefinedMapExists(configurationValueName, formatValueName))
+		if (cmPredefined.predefinedValueExists(configurationValueName, formatValueName))
 			return;
 
-		CmPredefinedMap predefinedMap = cmFactory.eINSTANCE.createCmPredefinedMap();
+		CmPredefinedValue predefinedValue;
+		if (cmPredefined.getPredefinedType().equals(CmPredefinedType.ENUM))
+			predefinedValue = cmFactory.eINSTANCE.createCmPredefinedEnumValue();
+		else
+			predefinedValue = cmFactory.eINSTANCE.createCmPredefinedCatalogValue();
 
-		predefinedMap.setConfigurationValue(configurationValueName);
-		predefinedMap.setFormatValue(formatValueName);
+		predefinedValue.setConfigurationValueName(configurationValueName);
+		predefinedValue.setFormatValue(formatValueName);
 
-		cmPredefined.getPredefinedMaps().add(predefinedMap);
+		cmPredefined.getPredefinedValues().add(predefinedValue);
 	}
 
 	private static Pair<String, String> parseTabularSection(Statement statement, Expression leftExpression) {

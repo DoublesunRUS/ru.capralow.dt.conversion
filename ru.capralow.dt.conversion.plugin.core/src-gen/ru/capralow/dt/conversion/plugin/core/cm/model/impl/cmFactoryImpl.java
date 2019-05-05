@@ -63,7 +63,9 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 			case cmPackage.CM_OBJECT_RULE: return createCmObjectRule();
 			case cmPackage.CM_ATTRIBUTE_RULE: return createCmAttributeRule();
 			case cmPackage.CM_PREDEFINED: return createCmPredefined();
-			case cmPackage.CM_PREDEFINED_MAP: return createCmPredefinedMap();
+			case cmPackage.CM_PREDEFINED_VALUE: return createCmPredefinedValue();
+			case cmPackage.CM_PREDEFINED_CATALOG_VALUE: return createCmPredefinedCatalogValue();
+			case cmPackage.CM_PREDEFINED_ENUM_VALUE: return createCmPredefinedEnumValue();
 			case cmPackage.CM_ALGORITHM: return createCmAlgorithm();
 			case cmPackage.CM_PARAM: return createCmParam();
 			case cmPackage.CM_SUBSYSTEM: return createCmSubsystem();
@@ -85,6 +87,8 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 				return createCmSelectionVariantFromString(eDataType, initialValue);
 			case cmPackage.CM_IDENTIFICATION_VARIANT:
 				return createCmIdentificationVariantFromString(eDataType, initialValue);
+			case cmPackage.CM_PREDEFINED_TYPE:
+				return createCmPredefinedTypeFromString(eDataType, initialValue);
 			case cmPackage.CM_METHOD_TYPE:
 				return createCmMethodTypeFromString(eDataType, initialValue);
 			case cmPackage.CM_SPECIAL_SUBSYSTEM_TYPE:
@@ -106,6 +110,8 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 				return convertCmSelectionVariantToString(eDataType, instanceValue);
 			case cmPackage.CM_IDENTIFICATION_VARIANT:
 				return convertCmIdentificationVariantToString(eDataType, instanceValue);
+			case cmPackage.CM_PREDEFINED_TYPE:
+				return convertCmPredefinedTypeToString(eDataType, instanceValue);
 			case cmPackage.CM_METHOD_TYPE:
 				return convertCmMethodTypeToString(eDataType, instanceValue);
 			case cmPackage.CM_SPECIAL_SUBSYSTEM_TYPE:
@@ -180,9 +186,29 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CmPredefinedMap createCmPredefinedMap() {
-		CmPredefinedMapImpl cmPredefinedMap = new CmPredefinedMapImpl();
-		return cmPredefinedMap;
+	public CmPredefinedValue createCmPredefinedValue() {
+		CmPredefinedValueImpl cmPredefinedValue = new CmPredefinedValueImpl();
+		return cmPredefinedValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmPredefinedCatalogValue createCmPredefinedCatalogValue() {
+		CmPredefinedCatalogValueImpl cmPredefinedCatalogValue = new CmPredefinedCatalogValueImpl();
+		return cmPredefinedCatalogValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmPredefinedEnumValue createCmPredefinedEnumValue() {
+		CmPredefinedEnumValueImpl cmPredefinedEnumValue = new CmPredefinedEnumValueImpl();
+		return cmPredefinedEnumValue;
 	}
 
 	/**
@@ -262,6 +288,26 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * @generated
 	 */
 	public String convertCmIdentificationVariantToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CmPredefinedType createCmPredefinedTypeFromString(EDataType eDataType, String initialValue) {
+		CmPredefinedType result = CmPredefinedType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCmPredefinedTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

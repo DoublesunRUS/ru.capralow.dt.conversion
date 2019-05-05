@@ -13,43 +13,43 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap;
+import ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue;
 import ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Cm Predefined Map</b></em>'.
+ * An implementation of the model object '<em><b>Cm Predefined Value</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedMapImpl#getConfigurationValue <em>Configuration Value</em>}</li>
- *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedMapImpl#getFormatValue <em>Format Value</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedValueImpl#getConfigurationValueName <em>Configuration Value Name</em>}</li>
+ *   <li>{@link ru.capralow.dt.conversion.plugin.core.cm.model.impl.CmPredefinedValueImpl#getFormatValue <em>Format Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements CmPredefinedMap {
+public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implements CmPredefinedValue {
 	/**
-	 * The default value of the '{@link #getConfigurationValue() <em>Configuration Value</em>}' attribute.
+	 * The default value of the '{@link #getConfigurationValueName() <em>Configuration Value Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getConfigurationValue()
+	 * @see #getConfigurationValueName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String CONFIGURATION_VALUE_EDEFAULT = null;
+	protected static final String CONFIGURATION_VALUE_NAME_EDEFAULT = ""; //$NON-NLS-1$
 
 	/**
-	 * The cached value of the '{@link #getConfigurationValue() <em>Configuration Value</em>}' attribute.
+	 * The cached value of the '{@link #getConfigurationValueName() <em>Configuration Value Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getConfigurationValue()
+	 * @see #getConfigurationValueName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String configurationValue = CONFIGURATION_VALUE_EDEFAULT;
+	protected String configurationValueName = CONFIGURATION_VALUE_NAME_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getFormatValue() <em>Format Value</em>}' attribute.
@@ -59,7 +59,7 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String FORMAT_VALUE_EDEFAULT = null;
+	protected static final String FORMAT_VALUE_EDEFAULT = ""; //$NON-NLS-1$
 
 	/**
 	 * The cached value of the '{@link #getFormatValue() <em>Format Value</em>}' attribute.
@@ -76,7 +76,7 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CmPredefinedMapImpl() {
+	protected CmPredefinedValueImpl() {
 		super();
 	}
 
@@ -87,7 +87,7 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return cmPackage.Literals.CM_PREDEFINED_MAP;
+		return cmPackage.Literals.CM_PREDEFINED_VALUE;
 	}
 
 	/**
@@ -95,8 +95,8 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getConfigurationValue() {
-		return configurationValue;
+	public String getConfigurationValueName() {
+		return configurationValueName;
 	}
 
 	/**
@@ -104,11 +104,11 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setConfigurationValue(String newConfigurationValue) {
-		String oldConfigurationValue = configurationValue;
-		configurationValue = newConfigurationValue;
+	public void setConfigurationValueName(String newConfigurationValueName) {
+		String oldConfigurationValueName = configurationValueName;
+		configurationValueName = newConfigurationValueName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_PREDEFINED_MAP__CONFIGURATION_VALUE, oldConfigurationValue, configurationValue));
+			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME, oldConfigurationValueName, configurationValueName));
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 		String oldFormatValue = formatValue;
 		formatValue = newFormatValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_PREDEFINED_MAP__FORMAT_VALUE, oldFormatValue, formatValue));
+			eNotify(new ENotificationImpl(this, Notification.SET, cmPackage.CM_PREDEFINED_VALUE__FORMAT_VALUE, oldFormatValue, formatValue));
 	}
 
 	/**
@@ -137,20 +137,19 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getConfigurationValueName() {
-		String _configurationValue = this.getConfigurationValue();
-		boolean _tripleEquals = (_configurationValue == null);
-		if (_tripleEquals) {
+	public String getConfigurationValueFormattedName() {
+		boolean _isEmpty = this.getConfigurationValueName().isEmpty();
+		if (_isEmpty) {
 			return "";
 		}
-		String configurationValueName = this.getConfigurationValue().toString();
-		int _indexOf = configurationValueName.indexOf(".");
+		String configurationValueFormattedName = this.getConfigurationValueName().toString();
+		int _indexOf = configurationValueFormattedName.indexOf(".");
 		int _plus = (_indexOf + 1);
-		configurationValueName = configurationValueName.substring(_plus);
-		int _indexOf_1 = configurationValueName.indexOf(".");
+		configurationValueFormattedName = configurationValueFormattedName.substring(_plus);
+		int _indexOf_1 = configurationValueFormattedName.indexOf(".");
 		int _plus_1 = (_indexOf_1 + 1);
-		configurationValueName = configurationValueName.substring(_plus_1);
-		return configurationValueName;
+		configurationValueFormattedName = configurationValueFormattedName.substring(_plus_1);
+		return configurationValueFormattedName;
 	}
 
 	/**
@@ -159,9 +158,8 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 */
 	public String getFormatValueName() {
-		String _formatValue = this.getFormatValue();
-		boolean _tripleEquals = (_formatValue == null);
-		if (_tripleEquals) {
+		boolean _isEmpty = this.getFormatValue().isEmpty();
+		if (_isEmpty) {
 			return "";
 		}
 		return this.getFormatValue().toString();
@@ -175,9 +173,9 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED_MAP__CONFIGURATION_VALUE:
-				return getConfigurationValue();
-			case cmPackage.CM_PREDEFINED_MAP__FORMAT_VALUE:
+			case cmPackage.CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME:
+				return getConfigurationValueName();
+			case cmPackage.CM_PREDEFINED_VALUE__FORMAT_VALUE:
 				return getFormatValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -191,10 +189,10 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED_MAP__CONFIGURATION_VALUE:
-				setConfigurationValue((String)newValue);
+			case cmPackage.CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME:
+				setConfigurationValueName((String)newValue);
 				return;
-			case cmPackage.CM_PREDEFINED_MAP__FORMAT_VALUE:
+			case cmPackage.CM_PREDEFINED_VALUE__FORMAT_VALUE:
 				setFormatValue((String)newValue);
 				return;
 		}
@@ -209,10 +207,10 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED_MAP__CONFIGURATION_VALUE:
-				setConfigurationValue(CONFIGURATION_VALUE_EDEFAULT);
+			case cmPackage.CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME:
+				setConfigurationValueName(CONFIGURATION_VALUE_NAME_EDEFAULT);
 				return;
-			case cmPackage.CM_PREDEFINED_MAP__FORMAT_VALUE:
+			case cmPackage.CM_PREDEFINED_VALUE__FORMAT_VALUE:
 				setFormatValue(FORMAT_VALUE_EDEFAULT);
 				return;
 		}
@@ -227,9 +225,9 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case cmPackage.CM_PREDEFINED_MAP__CONFIGURATION_VALUE:
-				return CONFIGURATION_VALUE_EDEFAULT == null ? configurationValue != null : !CONFIGURATION_VALUE_EDEFAULT.equals(configurationValue);
-			case cmPackage.CM_PREDEFINED_MAP__FORMAT_VALUE:
+			case cmPackage.CM_PREDEFINED_VALUE__CONFIGURATION_VALUE_NAME:
+				return CONFIGURATION_VALUE_NAME_EDEFAULT == null ? configurationValueName != null : !CONFIGURATION_VALUE_NAME_EDEFAULT.equals(configurationValueName);
+			case cmPackage.CM_PREDEFINED_VALUE__FORMAT_VALUE:
 				return FORMAT_VALUE_EDEFAULT == null ? formatValue != null : !FORMAT_VALUE_EDEFAULT.equals(formatValue);
 		}
 		return super.eIsSet(featureID);
@@ -243,9 +241,9 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case cmPackage.CM_PREDEFINED_MAP___GET_CONFIGURATION_VALUE_NAME:
-				return getConfigurationValueName();
-			case cmPackage.CM_PREDEFINED_MAP___GET_FORMAT_VALUE_NAME:
+			case cmPackage.CM_PREDEFINED_VALUE___GET_CONFIGURATION_VALUE_FORMATTED_NAME:
+				return getConfigurationValueFormattedName();
+			case cmPackage.CM_PREDEFINED_VALUE___GET_FORMAT_VALUE_NAME:
 				return getFormatValueName();
 		}
 		return super.eInvoke(operationID, arguments);
@@ -261,12 +259,12 @@ public class CmPredefinedMapImpl extends MinimalEObjectImpl.Container implements
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (configurationValue: "); //$NON-NLS-1$
-		result.append(configurationValue);
+		result.append(" (configurationValueName: "); //$NON-NLS-1$
+		result.append(configurationValueName);
 		result.append(", formatValue: "); //$NON-NLS-1$
 		result.append(formatValue);
 		result.append(')');
 		return result.toString();
 	}
 
-} //CmPredefinedMapImpl
+} //CmPredefinedValueImpl

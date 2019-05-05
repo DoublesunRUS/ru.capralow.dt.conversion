@@ -76,13 +76,31 @@ public interface cmFactory extends EFactory {
 	CmPredefined createCmPredefined();
 
 	/**
-	 * Returns a new object of class '<em>Cm Predefined Map</em>'.
+	 * Returns a new object of class '<em>Cm Predefined Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Cm Predefined Map</em>'.
+	 * @return a new object of class '<em>Cm Predefined Value</em>'.
 	 * @generated
 	 */
-	CmPredefinedMap createCmPredefinedMap();
+	CmPredefinedValue createCmPredefinedValue();
+
+	/**
+	 * Returns a new object of class '<em>Cm Predefined Catalog Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cm Predefined Catalog Value</em>'.
+	 * @generated
+	 */
+	CmPredefinedCatalogValue createCmPredefinedCatalogValue();
+
+	/**
+	 * Returns a new object of class '<em>Cm Predefined Enum Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cm Predefined Enum Value</em>'.
+	 * @generated
+	 */
+	CmPredefinedEnumValue createCmPredefinedEnumValue();
 
 	/**
 	 * Returns a new object of class '<em>Cm Algorithm</em>'.

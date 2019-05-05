@@ -48,53 +48,8 @@ public final class ConversionUtils {
 	}
 
 	public static MdObject getConfigurationObject(String objectFullName, IBmEmfIndexProvider bmEmfIndexProvider) {
-		String[] objectArray = objectFullName.split("[.]");
-		if (objectArray.length < 2)
-			return null;
-
-		String objectType = objectArray[0];
-		String objectName = objectArray[1];
-
-		QualifiedName qnObjectName = QualifiedName.create("");
-		EClass mdLiteral = MdClassPackage.Literals.CONFIGURATION;
-
-		if (objectType.equals("Подсистема")) {
-			mdLiteral = MdClassPackage.Literals.SUBSYSTEM;
-			if (objectArray.length == 2)
-				qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-			else
-				qnObjectName = QualifiedName
-						.create(mdLiteral.getName(), objectName, mdLiteral.getName(), objectArray[2]);
-
-		} else if (objectType.equals("ОбщийМодуль")) {
-			mdLiteral = MdClassPackage.Literals.COMMON_MODULE;
-			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-
-		} else if (objectType.equals("Справочник")) {
-			mdLiteral = MdClassPackage.Literals.CATALOG;
-			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-
-		} else if (objectType.equals("Документ")) {
-			mdLiteral = MdClassPackage.Literals.DOCUMENT;
-			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-
-		} else if (objectType.equals("Перечисление")) {
-			mdLiteral = MdClassPackage.Literals.ENUM;
-			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-
-		} else if (objectType.equals("ПланВидовХарактеристик")) {
-			mdLiteral = MdClassPackage.Literals.CHART_OF_CHARACTERISTIC_TYPES;
-			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-
-		} else if (objectType.equals("ПланВидовРасчета")) {
-			mdLiteral = MdClassPackage.Literals.CHART_OF_CALCULATION_TYPES;
-			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-
-		} else if (objectType.equals("РегистрСведений")) {
-			mdLiteral = MdClassPackage.Literals.INFORMATION_REGISTER;
-			qnObjectName = QualifiedName.create(mdLiteral.getName(), objectName);
-
-		}
+		EClass mdLiteral = getMdLiteral(objectFullName);
+		QualifiedName qnObjectName = getConfigurationObjectQualifiedName(objectFullName, mdLiteral);
 
 		MdObject object = null;
 
@@ -131,6 +86,77 @@ public final class ConversionUtils {
 
 	private static Boolean foundProjectInWorkspace(IWorkspace workspace, String projectName) {
 		return workspace.getRoot().getProject(projectName) != null;
+	}
+
+	private static QualifiedName getConfigurationObjectQualifiedName(String objectFullName, EClass mdLiteral) {
+		String[] objectArray = objectFullName.substring(objectFullName.indexOf('.') + 1).split("[.]");
+
+		QualifiedName qnObjectName = null;
+		for (String objectValue : objectArray) {
+			if (qnObjectName == null)
+				qnObjectName = QualifiedName.create(mdLiteral.getName(), objectValue);
+
+			else {
+				if (mdLiteral.equals(MdClassPackage.Literals.SUBSYSTEM))
+					qnObjectName = qnObjectName.append(QualifiedName.create(mdLiteral.getName(), objectValue));
+
+				else
+					qnObjectName = qnObjectName.append(QualifiedName.create(objectValue));
+
+				// else if (mdLiteral.equals(MdClassPackage.Literals.CATALOG))
+				// qnObjectName = qnObjectName.append(
+				// QualifiedName.create(MdClassPackage.Literals.CATALOG_PREDEFINED.getName(),
+				// objectValue));
+				//
+				// else if (mdLiteral.equals(MdClassPackage.Literals.ENUM))
+				// qnObjectName = qnObjectName
+				// .append(QualifiedName.create(MdClassPackage.Literals.ENUM_VALUE.getName(),
+				// objectValue));
+				//
+				// else {
+				// String msg = MessageFormat.format(
+				// "Не удалось сформировать QualifiedName для объекта метаданных: \"{0}\"",
+				// objectFullName);
+				// throw new NullPointerException(msg);
+				//
+				// }
+			}
+
+		}
+
+		return qnObjectName;
+	}
+
+	private static EClass getMdLiteral(String objectFullName) {
+		EClass mdLiteral = MdClassPackage.Literals.CONFIGURATION;
+
+		String objectType = objectFullName.substring(0, objectFullName.indexOf('.'));
+
+		if (objectType.equals("Подсистема"))
+			mdLiteral = MdClassPackage.Literals.SUBSYSTEM;
+
+		else if (objectType.equals("ОбщийМодуль"))
+			mdLiteral = MdClassPackage.Literals.COMMON_MODULE;
+
+		else if (objectType.equals("Справочник"))
+			mdLiteral = MdClassPackage.Literals.CATALOG;
+
+		else if (objectType.equals("Документ"))
+			mdLiteral = MdClassPackage.Literals.DOCUMENT;
+
+		else if (objectType.equals("Перечисление"))
+			mdLiteral = MdClassPackage.Literals.ENUM;
+
+		else if (objectType.equals("ПланВидовХарактеристик"))
+			mdLiteral = MdClassPackage.Literals.CHART_OF_CHARACTERISTIC_TYPES;
+
+		else if (objectType.equals("ПланВидовРасчета"))
+			mdLiteral = MdClassPackage.Literals.CHART_OF_CALCULATION_TYPES;
+
+		else if (objectType.equals("РегистрСведений"))
+			mdLiteral = MdClassPackage.Literals.INFORMATION_REGISTER;
+
+		return mdLiteral;
 	}
 
 	private static File getResourceFile(URI uri) throws FileNotFoundException {

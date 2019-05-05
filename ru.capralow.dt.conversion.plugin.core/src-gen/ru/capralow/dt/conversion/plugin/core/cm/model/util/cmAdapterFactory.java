@@ -92,8 +92,16 @@ public class cmAdapterFactory extends AdapterFactoryImpl {
 				return createCmPredefinedAdapter();
 			}
 			@Override
-			public Adapter caseCmPredefinedMap(CmPredefinedMap object) {
-				return createCmPredefinedMapAdapter();
+			public Adapter caseCmPredefinedValue(CmPredefinedValue object) {
+				return createCmPredefinedValueAdapter();
+			}
+			@Override
+			public Adapter caseCmPredefinedCatalogValue(CmPredefinedCatalogValue object) {
+				return createCmPredefinedCatalogValueAdapter();
+			}
+			@Override
+			public Adapter caseCmPredefinedEnumValue(CmPredefinedEnumValue object) {
+				return createCmPredefinedEnumValueAdapter();
 			}
 			@Override
 			public Adapter caseCmAlgorithm(CmAlgorithm object) {
@@ -216,16 +224,44 @@ public class cmAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap <em>Cm Predefined Map</em>}'.
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue <em>Cm Predefined Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedMap
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedValue
 	 * @generated
 	 */
-	public Adapter createCmPredefinedMapAdapter() {
+	public Adapter createCmPredefinedValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue <em>Cm Predefined Catalog Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedCatalogValue
+	 * @generated
+	 */
+	public Adapter createCmPredefinedCatalogValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue <em>Cm Predefined Enum Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefinedEnumValue
+	 * @generated
+	 */
+	public Adapter createCmPredefinedEnumValueAdapter() {
 		return null;
 	}
 
