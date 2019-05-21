@@ -105,6 +105,12 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	private static final String COLUMNNAME_XDTOOBJECT = "Объект формата";
 	private static final String COLUMNNAME_NAME = "Наименование";
 
+	private static Integer REPORT_TYPE_OBJECTS = 1;
+
+	private static Integer REPORT_TYPE_MANUAL = 2;
+
+	private static Integer REPORT_TYPE_FULL = 3;
+
 	private Boolean editable;
 
 	@Inject
@@ -112,22 +118,22 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 
 	@Inject
 	private IBmEmfIndexManager bmEmfIndexManager;
-
 	private URI moduleURI;
-
 	private ConversionModule conversionModule;
-
 	private TableViewer viewerSubsystems;
 	private TableViewer viewerSendingDataRules;
 	private TableViewer viewerSendingObjectRules;
 	private TableViewer viewerReceivingDataRules;
-	private TableViewer viewerReceivingObjectRules;
-	private TableViewer viewerPredefineds;
-	private TableViewer viewerAlgorithms;
 
 	// private Button btnInformation;
 
+	private TableViewer viewerReceivingObjectRules;
+	private TableViewer viewerPredefineds;
+
+	private TableViewer viewerAlgorithms;
+
 	private MenuItem itemMenuSettings;
+
 	private Menu menuMain;
 
 	private CTabFolder tabFolder;
@@ -135,6 +141,442 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 	@Inject
 	public ConversionModuleEditor(String id, String title) {
 		super(PAGE_ID, "Конвертация");
+	}
+
+	@Override
+	public void setActive(boolean active) {
+		super.setActive(active);
+
+		if (active)
+			updatePage();
+	}
+
+	private void addReportMenuItem(String name, EnterpriseData enterpriseDataPackage, RgVariant rgVariant,
+			Integer reportType) {
+		MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
+		if (reportType.equals(REPORT_TYPE_OBJECTS))
+			itemMenu.setText("Список объектов " + name);
+		else if (reportType.equals(REPORT_TYPE_MANUAL))
+			itemMenu.setText("Описание переноса для ручного заполнения " + name);
+		else
+			itemMenu.setText("Описание формата " + name);
+		itemMenu.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// Нечего делать
+			}
+
+			public void widgetSelected(SelectionEvent event) {
+
+				class StringStorage implements IStorage {
+					private String string;
+
+					StringStorage(String input) {
+						this.string = input;
+					}
+
+					@Override
+					public <T> T getAdapter(Class<T> adapter) {
+						return null;
+					}
+
+					@Override
+					public InputStream getContents() throws CoreException {
+						return new ByteArrayInputStream(string.getBytes());
+					}
+
+					@Override
+					public IPath getFullPath() {
+						return null;
+					}
+
+					@Override
+					public String getName() {
+						Integer len = string.indexOf(System.lineSeparator());
+						return string.substring(0, len).replace(".", "_").concat(".md"); // $NON-NLS-1$
+					}
+
+					@Override
+					public boolean isReadOnly() {
+						return true;
+					}
+				}
+
+				class StringInput implements IStorageEditorInput {
+					private IStorage storage;
+
+					StringInput(IStorage storage) {
+						this.storage = storage;
+					}
+
+					@Override
+					public boolean exists() {
+						return true;
+					}
+
+					@Override
+					public <T> T getAdapter(Class<T> adapter) {
+						return null;
+					}
+
+					@Override
+					public ImageDescriptor getImageDescriptor() {
+						return null;
+					}
+
+					@Override
+					public String getName() {
+						return storage.getName();
+					}
+
+					@Override
+					public IPersistableElement getPersistable() {
+						return null;
+					}
+
+					@Override
+					public IStorage getStorage() {
+						return storage;
+					}
+
+					@Override
+					public String getToolTipText() {
+						return "String-based file: " + storage.getName();
+					}
+
+				}
+
+				try {
+					String stringReport = "";
+					if (reportType.equals(REPORT_TYPE_OBJECTS))
+						stringReport = ConversionModuleReport
+								.createObjectsReport(rgVariant, enterpriseDataPackage, conversionModule);
+					else if (reportType.equals(REPORT_TYPE_MANUAL))
+						stringReport = ConversionModuleReport
+								.createManualReport(rgVariant, enterpriseDataPackage, conversionModule);
+					else
+						stringReport = ConversionModuleReport
+								.createFullReport(rgVariant, enterpriseDataPackage, conversionModule);
+
+					IStorage storage = new StringStorage(stringReport);
+					IStorageEditorInput input = new StringInput(storage);
+
+					IWorkbench workbench = PlatformUI.getWorkbench();
+
+					IEditorDescriptor defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.md");
+					if (defaultEditor == null)
+						defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.txt");
+
+					String editorID = defaultEditor.getId();
+
+					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
+
+				} catch (PartInitException e) {
+					String msg = "Не удалось создать описание формата.";
+					ConversionPlugin.log(ConversionPlugin.createErrorStatus(msg, e));
+
+				}
+			}
+		});
+	}
+
+	private void fillMenuReportItems(CommonModule commonModule, Configuration configuration, IV8Project v8Project,
+			IConfigurationProject configurationProject) {
+		URI xmiURI = ReportGroupsAnalyzer.getResourceURIforPlugin(commonModule.getName(), v8Project.getProject());
+		ReportGroups reportGroups = ReportGroupsAnalyzer.loadResource(xmiURI);
+
+		xmiURI = ExchangeProjectsAnalyzer.getResourceURIforPlugin(configurationProject.getProject());
+		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer
+				.loadResource(xmiURI, configurationProject.getConfiguration(), projectManager);
+		if (exchangeProject == null)
+			exchangeProject = ExchangeProjectsAnalyzer
+					.analyzeProjectAndSave(configurationProject, xmiURI, projectManager, bmEmfIndexManager);
+
+		Map<String, EnterpriseData> enterpriseDataPackages = EnterpriseDataAnalyzer
+				.loadPluginResources(commonModule, exchangeProject, configuration, v8Project.getProject());
+
+		while (menuMain.getItemCount() > 1)
+			menuMain.getItem(1).dispose();
+		for (Entry<String, EnterpriseData> enterpriseDataPackage : enterpriseDataPackages.entrySet()) {
+			if (reportGroups == null) {
+				addReportMenuItem(enterpriseDataPackage.getKey(),
+						enterpriseDataPackage.getValue(),
+						null,
+						REPORT_TYPE_FULL);
+
+			} else {
+				EList<RgVariant> rgVariants = reportGroups.getVariants();
+				for (RgVariant rgVariant : rgVariants) {
+					if (reportGroups.getAddObjectsList())
+						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
+								enterpriseDataPackage.getValue(),
+								rgVariant,
+								REPORT_TYPE_OBJECTS);
+					addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
+							enterpriseDataPackage.getValue(),
+							rgVariant,
+							REPORT_TYPE_FULL);
+				}
+
+			}
+		}
+	}
+
+	private XtextEditor getModuleEditor() {
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		for (IEditorReference editorReference : page.getEditorReferences()) {
+			final IEditorPart[] editor = new IEditorPart[1];
+			editor[0] = editorReference.getEditor(false);
+			if (editor[0] == null)
+				continue;
+
+			if (editor[0] instanceof XtextEditor) {
+				// Если же мы идем по первой ветке, то есть у нас нет "formEditor", то берем
+				// EditorInput, он должен быть файловым, и по файлу уже определяем, например,
+				// при помощи сервиса
+				// com._1c.g5.v8.dt.core.filesystem.IQualifiedNameFilePathConverter
+
+				return (XtextEditor) editor[0];
+
+			} else if (editor[0] instanceof FormEditor) {
+				FormEditor formEditor = (FormEditor) editor[0];
+				if (!(formEditor instanceof DtGranularEditor))
+					continue;
+
+				@SuppressWarnings("unchecked")
+				IDtEditorInput<CommonModule> editorInput = ((DtGranularEditor<CommonModule>) formEditor)
+						.getEditorInput();
+				if (!editorInput.getModel().getUuid().equals(getModel().getUuid()))
+					continue;
+
+				return formEditor.findPage("editors.pages.module").getAdapter(XtextEditor.class);
+
+			} else if (editor[0] != null) {
+				return editor[0].getAdapter(XtextEditor.class);
+
+			}
+
+		}
+
+		throw new NullPointerException("Не удалось найти редактор для помещения изменений.");
+	}
+
+	private void hookListeners() {
+		itemMenuSettings.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// Нечего делать
+			}
+
+			public void widgetSelected(SelectionEvent event) {
+				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
+						((MenuItem) event.getSource()).getParent().getShell(),
+						conversionModule,
+						moduleURI,
+						editable);
+				if (conversionModuleDialog.open() == Window.OK)
+					updateModule();
+
+			}
+		});
+
+		viewerSubsystems.addSelectionChangedListener(event -> {
+			CmSubsystem cmSubsystem = (CmSubsystem) ((StructuredSelection) ((TableViewer) event.getSource())
+					.getSelection()).getFirstElement();
+
+			viewerSendingDataRules.setInput(conversionModule.getSendingDataRules(cmSubsystem));
+			viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules(cmSubsystem));
+
+			viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules(cmSubsystem));
+			viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules(cmSubsystem));
+		});
+
+		viewerSendingDataRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty())
+				return;
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmDataRule) {
+				CmDataRule dataRule = ((CmDataRule) element);
+
+				SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(event.getViewer().getControl()
+						.getShell(), dataRule, conversionModule, moduleURI, editable);
+				if (dataRuleDialog.open() == Window.OK)
+					updateModule();
+
+			}
+		});
+
+		viewerSendingObjectRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty()) {
+				return;
+			}
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmObjectRule) {
+				CmObjectRule objectRule = ((CmObjectRule) element);
+
+				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl()
+						.getShell(), objectRule, conversionModule, moduleURI, editable);
+				if (objectRuleDialog.open() == Window.OK)
+					updateModule();
+			}
+		});
+
+		viewerReceivingDataRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty())
+				return;
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmDataRule) {
+				CmDataRule dataRule = ((CmDataRule) element);
+
+				ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(event.getViewer().getControl()
+						.getShell(), dataRule, conversionModule, moduleURI, editable);
+				if (dataRuleDialog.open() == Window.OK)
+					updateModule();
+			}
+		});
+
+		viewerReceivingObjectRules.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty()) {
+				return;
+			}
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmObjectRule) {
+				CmObjectRule objectRule = ((CmObjectRule) element);
+
+				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl()
+						.getShell(), objectRule, conversionModule, moduleURI, editable);
+				if (objectRuleDialog.open() == Window.OK)
+					updateModule();
+			}
+		});
+
+		viewerPredefineds.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty()) {
+				return;
+			}
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmPredefined) {
+				CmPredefined predefined = ((CmPredefined) element);
+
+				PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
+						predefined,
+						editable);
+				if (predefinedDialog.open() == Window.OK)
+					updateModule();
+			}
+		});
+
+		viewerAlgorithms.addDoubleClickListener(event -> {
+			ISelection selection = event.getSelection();
+
+			if (selection.isEmpty())
+				return;
+
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof CmAlgorithm) {
+				CmAlgorithm algorithm = ((CmAlgorithm) element);
+
+				AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl()
+						.getShell(), algorithm, conversionModule, moduleURI, editable);
+				if (algorithmDialog.open() == Window.OK)
+					updateModule();
+			}
+		});
+	}
+
+	private void updateModule() {
+		String newModule = ConversionModuleAnalyzer.getModuleText(conversionModule, "", null);
+
+		XtextEditor embeddedEditor = getModuleEditor();
+		TextEdit change = new ReplaceEdit(0, embeddedEditor.getDocument().getLength(), newModule);
+		BufferChange bufferChange = new BufferChange(change);
+
+		try (EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument())) {
+			NonExpiringSnapshot snapshot = new NonExpiringSnapshot(buffer);
+			bufferChange.setBase(snapshot);
+			buffer.applyChange(bufferChange, null);
+			buffer.release();
+
+		} catch (CoreException e) {
+			String msg = "Не удалось обновить модуль конвертации.";
+			ConversionPlugin.log(ConversionPlugin.createErrorStatus(msg, e));
+
+		}
+	}
+
+	private void updatePage() {
+		CommonModule commonModule = getModel();
+		IV8Project v8Project = projectManager.getProject(commonModule);
+
+		IConfigurationProject configurationProject;
+		Configuration configuration;
+		if (v8Project instanceof IConfigurationProject) {
+			configurationProject = (IConfigurationProject) v8Project;
+			configuration = configurationProject.getConfiguration();
+
+		} else if (v8Project instanceof IExtensionProject) {
+			configurationProject = ((IExtensionProject) v8Project).getParent();
+			configuration = ((IExtensionProject) v8Project).getConfiguration();
+
+		} else {
+			return;
+
+		}
+
+		XtextEditor embeddedEditor = getModuleEditor();
+		if (embeddedEditor.isDirty()) {
+			conversionModule = ConversionModuleAnalyzer.analyze(commonModule, projectManager, bmEmfIndexManager);
+
+		} else {
+			URI xmiURI = ConversionModuleAnalyzer.getResourceURIforPlugin(commonModule.getName(),
+					configurationProject.getProject());
+			conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configurationProject.getConfiguration());
+			if (conversionModule == null)
+				conversionModule = ConversionModuleAnalyzer
+						.analyzeAndSave(commonModule, xmiURI, projectManager, bmEmfIndexManager);
+
+		}
+
+		fillMenuReportItems(commonModule, configuration, v8Project, configurationProject);
+
+		// String storeVersion = conversionModule.getStoreVersion();
+		// tltmStoreVersion1.setSelection(storeVersion.equals("1"));
+		// tltmStoreVersion2.setSelection(storeVersion.equals("2"));
+
+		viewerSubsystems.setInput(conversionModule.getSubsystems());
+
+		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
+		viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules());
+
+		viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules());
+		viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules());
+
+		viewerPredefineds.setInput(conversionModule.getPredefineds());
+		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
+
+		tabFolder.setSelection(0);
+
 	}
 
 	@Override
@@ -185,16 +627,16 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		itemMenuSettings.setText("Общие настройки...");
 
 		itemDropDown.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// Нечего делать
+			}
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Rectangle bounds = itemDropDown.getBounds();
 				Point point = toolBarMain.toDisplay(bounds.x, bounds.y + bounds.height);
 				menuMain.setLocation(point);
 				menuMain.setVisible(true);
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-				// Нечего делать
 			}
 		});
 
@@ -824,434 +1266,5 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 		sashFormMain.setWeights(new int[] { 20, 80 });
 
 		hookListeners();
-	}
-
-	@Override
-	public void setActive(boolean active) {
-		super.setActive(active);
-
-		if (active)
-			updatePage();
-	}
-
-	private void hookListeners() {
-		itemMenuSettings.addSelectionListener(new SelectionListener() {
-
-			public void widgetSelected(SelectionEvent event) {
-				ConversionModuleDialog conversionModuleDialog = new ConversionModuleDialog(
-						((MenuItem) event.getSource()).getParent().getShell(),
-						conversionModule,
-						moduleURI,
-						editable);
-				if (conversionModuleDialog.open() == Window.OK)
-					updateModule();
-
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-				// Нечего делать
-			}
-		});
-
-		viewerSubsystems.addSelectionChangedListener(event -> {
-			CmSubsystem cmSubsystem = (CmSubsystem) ((StructuredSelection) ((TableViewer) event.getSource())
-					.getSelection()).getFirstElement();
-
-			viewerSendingDataRules.setInput(conversionModule.getSendingDataRules(cmSubsystem));
-			viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules(cmSubsystem));
-
-			viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules(cmSubsystem));
-			viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules(cmSubsystem));
-		});
-
-		viewerSendingDataRules.addDoubleClickListener(event -> {
-			ISelection selection = event.getSelection();
-
-			if (selection.isEmpty())
-				return;
-
-			Object element = ((IStructuredSelection) selection).getFirstElement();
-
-			if (element instanceof CmDataRule) {
-				CmDataRule dataRule = ((CmDataRule) element);
-
-				SendingDataRuleDialog dataRuleDialog = new SendingDataRuleDialog(event.getViewer().getControl()
-						.getShell(), dataRule, conversionModule, moduleURI, editable);
-				if (dataRuleDialog.open() == Window.OK)
-					updateModule();
-
-			}
-		});
-
-		viewerSendingObjectRules.addDoubleClickListener(event -> {
-			ISelection selection = event.getSelection();
-
-			if (selection.isEmpty()) {
-				return;
-			}
-
-			Object element = ((IStructuredSelection) selection).getFirstElement();
-
-			if (element instanceof CmObjectRule) {
-				CmObjectRule objectRule = ((CmObjectRule) element);
-
-				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl()
-						.getShell(), objectRule, conversionModule, moduleURI, editable);
-				if (objectRuleDialog.open() == Window.OK)
-					updateModule();
-			}
-		});
-
-		viewerReceivingDataRules.addDoubleClickListener(event -> {
-			ISelection selection = event.getSelection();
-
-			if (selection.isEmpty())
-				return;
-
-			Object element = ((IStructuredSelection) selection).getFirstElement();
-
-			if (element instanceof CmDataRule) {
-				CmDataRule dataRule = ((CmDataRule) element);
-
-				ReceivingDataRuleDialog dataRuleDialog = new ReceivingDataRuleDialog(event.getViewer().getControl()
-						.getShell(), dataRule, conversionModule, moduleURI, editable);
-				if (dataRuleDialog.open() == Window.OK)
-					updateModule();
-			}
-		});
-
-		viewerReceivingObjectRules.addDoubleClickListener(event -> {
-			ISelection selection = event.getSelection();
-
-			if (selection.isEmpty()) {
-				return;
-			}
-
-			Object element = ((IStructuredSelection) selection).getFirstElement();
-
-			if (element instanceof CmObjectRule) {
-				CmObjectRule objectRule = ((CmObjectRule) element);
-
-				ObjectRuleDialog objectRuleDialog = new ObjectRuleDialog(event.getViewer().getControl()
-						.getShell(), objectRule, conversionModule, moduleURI, editable);
-				if (objectRuleDialog.open() == Window.OK)
-					updateModule();
-			}
-		});
-
-		viewerPredefineds.addDoubleClickListener(event -> {
-			ISelection selection = event.getSelection();
-
-			if (selection.isEmpty()) {
-				return;
-			}
-
-			Object element = ((IStructuredSelection) selection).getFirstElement();
-
-			if (element instanceof CmPredefined) {
-				CmPredefined predefined = ((CmPredefined) element);
-
-				PredefinedDialog predefinedDialog = new PredefinedDialog(event.getViewer().getControl().getShell(),
-						predefined,
-						editable);
-				if (predefinedDialog.open() == Window.OK)
-					updateModule();
-			}
-		});
-
-		viewerAlgorithms.addDoubleClickListener(event -> {
-			ISelection selection = event.getSelection();
-
-			if (selection.isEmpty())
-				return;
-
-			Object element = ((IStructuredSelection) selection).getFirstElement();
-
-			if (element instanceof CmAlgorithm) {
-				CmAlgorithm algorithm = ((CmAlgorithm) element);
-
-				AlgorithmDialog algorithmDialog = new AlgorithmDialog(event.getViewer().getControl()
-						.getShell(), algorithm, conversionModule, moduleURI, editable);
-				if (algorithmDialog.open() == Window.OK)
-					updateModule();
-			}
-		});
-	}
-
-	private void updatePage() {
-		CommonModule commonModule = getModel();
-		IV8Project v8Project = projectManager.getProject(commonModule);
-
-		IConfigurationProject configurationProject;
-		Configuration configuration;
-		if (v8Project instanceof IConfigurationProject) {
-			configurationProject = (IConfigurationProject) v8Project;
-			configuration = configurationProject.getConfiguration();
-
-		} else if (v8Project instanceof IExtensionProject) {
-			configurationProject = ((IExtensionProject) v8Project).getParent();
-			configuration = ((IExtensionProject) v8Project).getConfiguration();
-
-		} else {
-			return;
-
-		}
-
-		URI xmiURI = ReportGroupsAnalyzer.getResourceURIforPlugin(commonModule.getName(), v8Project.getProject());
-		ReportGroups reportGroups = ReportGroupsAnalyzer.loadResource(xmiURI);
-
-		xmiURI = ExchangeProjectsAnalyzer.getResourceURIforPlugin(configurationProject.getProject());
-		ExchangeProject exchangeProject = ExchangeProjectsAnalyzer
-				.loadResource(xmiURI, configurationProject.getConfiguration(), projectManager);
-		if (exchangeProject == null)
-			exchangeProject = ExchangeProjectsAnalyzer
-					.analyzeProjectAndSave(configurationProject, xmiURI, projectManager, bmEmfIndexManager);
-
-		Map<String, EnterpriseData> enterpriseDataPackages = EnterpriseDataAnalyzer
-				.loadPluginResources(commonModule, exchangeProject, configuration, v8Project.getProject());
-
-		XtextEditor embeddedEditor = getModuleEditor();
-		if (embeddedEditor.isDirty()) {
-			conversionModule = ConversionModuleAnalyzer.analyze(commonModule, projectManager, bmEmfIndexManager);
-
-		} else {
-			xmiURI = ConversionModuleAnalyzer.getResourceURIforPlugin(commonModule.getName(),
-					configurationProject.getProject());
-			conversionModule = ConversionModuleAnalyzer.loadResource(xmiURI, configurationProject.getConfiguration());
-			if (conversionModule == null)
-				conversionModule = ConversionModuleAnalyzer
-						.analyzeAndSave(commonModule, xmiURI, projectManager, bmEmfIndexManager);
-
-		}
-
-		while (menuMain.getItemCount() > 1)
-			menuMain.getItem(1).dispose();
-		for (Entry<String, EnterpriseData> enterpriseDataPackage : enterpriseDataPackages.entrySet()) {
-			if (reportGroups == null) {
-				addReportMenuItem(enterpriseDataPackage.getKey(), enterpriseDataPackage.getValue(), null, false);
-
-			} else {
-				EList<RgVariant> rgVariants = reportGroups.getVariants();
-				for (RgVariant rgVariant : rgVariants) {
-					if (reportGroups.getAddObjectsList())
-						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
-								enterpriseDataPackage.getValue(),
-								rgVariant,
-								true);
-					addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
-							enterpriseDataPackage.getValue(),
-							rgVariant,
-							false);
-				}
-
-			}
-		}
-
-		// String storeVersion = conversionModule.getStoreVersion();
-		// tltmStoreVersion1.setSelection(storeVersion.equals("1"));
-		// tltmStoreVersion2.setSelection(storeVersion.equals("2"));
-
-		viewerSubsystems.setInput(conversionModule.getSubsystems());
-
-		viewerSendingDataRules.setInput(conversionModule.getSendingDataRules());
-		viewerSendingObjectRules.setInput(conversionModule.getSendingObjectRules());
-
-		viewerReceivingDataRules.setInput(conversionModule.getReceivingDataRules());
-		viewerReceivingObjectRules.setInput(conversionModule.getReceivingObjectRules());
-
-		viewerPredefineds.setInput(conversionModule.getPredefineds());
-		viewerAlgorithms.setInput(conversionModule.getAlgorithms());
-
-		tabFolder.setSelection(0);
-
-	}
-
-	private XtextEditor getModuleEditor() {
-		XtextEditor embeddedEditor = null;
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		for (IEditorReference editorReference : page.getEditorReferences()) {
-			final IEditorPart[] editor = new IEditorPart[1];
-			editor[0] = editorReference.getEditor(false);
-			if (editor[0] == null)
-				continue;
-
-			if (editor[0] instanceof XtextEditor) {
-				// Если же мы идем по первой ветке, то есть у нас нет "formEditor", то берем
-				// EditorInput, он должен быть файловым, и по файлу уже определяем, например,
-				// при помощи сервиса
-				// com._1c.g5.v8.dt.core.filesystem.IQualifiedNameFilePathConverter
-
-				embeddedEditor = (XtextEditor) editor[0];
-
-			} else if (editor[0] instanceof FormEditor) {
-				FormEditor formEditor = (FormEditor) editor[0];
-				if (!(formEditor instanceof DtGranularEditor))
-					continue;
-
-				@SuppressWarnings("unchecked")
-				IDtEditorInput<CommonModule> editorInput = ((DtGranularEditor<CommonModule>) formEditor)
-						.getEditorInput();
-				if (!editorInput.getModel().getUuid().equals(getModel().getUuid()))
-					continue;
-
-				embeddedEditor = formEditor.findPage("editors.pages.module").getAdapter(XtextEditor.class);
-
-			} else if (editor[0] != null) {
-				embeddedEditor = editor[0].getAdapter(XtextEditor.class);
-
-			}
-
-			if (embeddedEditor instanceof XtextEditor) {
-				break;
-			}
-
-		}
-
-		if (embeddedEditor == null)
-			throw new NullPointerException("Не удалось найти редактор для помещения изменений.");
-
-		return embeddedEditor;
-	}
-
-	private void updateModule() {
-		String newModule = ConversionModuleAnalyzer.getModuleText(conversionModule, "", null);
-
-		XtextEditor embeddedEditor = getModuleEditor();
-		TextEdit change = new ReplaceEdit(0, embeddedEditor.getDocument().getLength(), newModule);
-		BufferChange bufferChange = new BufferChange(change);
-
-		try (EmbeddedEditorBuffer buffer = new EmbeddedEditorBuffer(embeddedEditor.getDocument())) {
-			NonExpiringSnapshot snapshot = new NonExpiringSnapshot(buffer);
-			bufferChange.setBase(snapshot);
-			buffer.applyChange(bufferChange, null);
-			buffer.release();
-
-		} catch (CoreException e) {
-			String msg = "Не удалось обновить модуль конвертации.";
-			ConversionPlugin.log(ConversionPlugin.createErrorStatus(msg, e));
-
-		}
-	}
-
-	private void addReportMenuItem(String name, EnterpriseData enterpriseDataPackage, RgVariant rgVariant,
-			boolean objectsOnly) {
-		MenuItem itemMenu = new MenuItem(menuMain, SWT.PUSH);
-		if (objectsOnly)
-			itemMenu.setText("Список объектов " + name);
-		else
-			itemMenu.setText("Описание формата " + name);
-		itemMenu.addSelectionListener(new SelectionListener() {
-
-			public void widgetSelected(SelectionEvent event) {
-
-				class StringStorage implements IStorage {
-					private String string;
-
-					StringStorage(String input) {
-						this.string = input;
-					}
-
-					@Override
-					public InputStream getContents() throws CoreException {
-						return new ByteArrayInputStream(string.getBytes());
-					}
-
-					@Override
-					public String getName() {
-						Integer len = string.indexOf(System.lineSeparator());
-						return string.substring(0, len).replace(".", "_").concat(".md"); // $NON-NLS-1$
-					}
-
-					@Override
-					public boolean isReadOnly() {
-						return true;
-					}
-
-					@Override
-					public <T> T getAdapter(Class<T> adapter) {
-						return null;
-					}
-
-					@Override
-					public IPath getFullPath() {
-						return null;
-					}
-				}
-
-				class StringInput implements IStorageEditorInput {
-					private IStorage storage;
-
-					StringInput(IStorage storage) {
-						this.storage = storage;
-					}
-
-					@Override
-					public boolean exists() {
-						return true;
-					}
-
-					@Override
-					public String getName() {
-						return storage.getName();
-					}
-
-					@Override
-					public IStorage getStorage() {
-						return storage;
-					}
-
-					@Override
-					public String getToolTipText() {
-						return "String-based file: " + storage.getName();
-					}
-
-					@Override
-					public <T> T getAdapter(Class<T> adapter) {
-						return null;
-					}
-
-					@Override
-					public ImageDescriptor getImageDescriptor() {
-						return null;
-					}
-
-					@Override
-					public IPersistableElement getPersistable() {
-						return null;
-					}
-
-				}
-
-				try {
-					String stringReport = objectsOnly
-							? ConversionModuleReport
-									.createObjectsReport(rgVariant, enterpriseDataPackage, conversionModule)
-							: ConversionModuleReport
-									.createFullReport(rgVariant, enterpriseDataPackage, conversionModule);
-
-					IStorage storage = new StringStorage(stringReport);
-					IStorageEditorInput input = new StringInput(storage);
-
-					IWorkbench workbench = PlatformUI.getWorkbench();
-
-					IEditorDescriptor defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.md");
-					if (defaultEditor == null)
-						defaultEditor = workbench.getEditorRegistry().getDefaultEditor("foo.txt");
-
-					String editorID = defaultEditor.getId();
-
-					IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), input, editorID);
-
-				} catch (PartInitException e) {
-					String msg = "Не удалось создать описание формата.";
-					ConversionPlugin.log(ConversionPlugin.createErrorStatus(msg, e));
-
-				}
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-				// Нечего делать
-			}
-		});
 	}
 }

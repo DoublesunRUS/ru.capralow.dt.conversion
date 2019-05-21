@@ -218,6 +218,52 @@ public class ConversionModuleReport {
 		return result.toString();
 	}
 
+	public static String createManualReport(RgVariant rgVariant, EnterpriseData enterpriseDataPackage,
+			ConversionModule conversionModule) {
+		final String TEMPLATE_NAME_MAIN = "ReceivingConversionReport.txt";
+		String templateMainContent = readContents(getFileInputSupplier(TEMPLATE_NAME_MAIN));
+
+		StringTemplate templateMain = new StringTemplate(templateMainContent);
+
+		String groupObjects = "";
+
+		EList<EdDefinedType> edDefinedTypes = new BasicEList<>();
+		EList<EdEnum> edEnums = new BasicEList<>();
+
+		Map<String, EList<EdProperty>> mapKeyProperties = getKeyPropertiesMap(conversionModule.getObjectRules(),
+				enterpriseDataPackage);
+
+		if (rgVariant != null) {
+			templateMain.setAttribute(ATTRIBUTE_FORMATVERSION,
+					rgVariant.getName() + " " + enterpriseDataPackage.getVersion());
+
+			groupObjects = createManualReportForVariant(rgVariant,
+					mapKeyProperties,
+					edDefinedTypes,
+					edEnums,
+					enterpriseDataPackage,
+					conversionModule);
+
+		} else {
+			templateMain.setAttribute(ATTRIBUTE_FORMATVERSION, enterpriseDataPackage.getVersion());
+
+			groupObjects = createManualReportForSubsystems(conversionModule.getSubsystems(),
+					mapKeyProperties,
+					edDefinedTypes,
+					edEnums,
+					enterpriseDataPackage,
+					conversionModule);
+		}
+
+		templateMain.setAttribute(ATTRIBUTE_OBJECTRULES, groupObjects);
+
+		templateMain.setAttribute("DefinedTypes", createDefinedTypesReport(edDefinedTypes, mapKeyProperties));
+
+		templateMain.setAttribute("Enums", createEnumsReport(edEnums));
+
+		return templateMain.toString();
+	}
+
 	public static String createObjectsReport(RgVariant rgVariant, EnterpriseData enterpriseDataPackage,
 			ConversionModule conversionModule) {
 		final String TEMPLATE_NAME_MAIN = "ReceivingObjectsList.txt";
@@ -492,6 +538,71 @@ public class ConversionModuleReport {
 
 				for (CmObjectRule objectRule : dataRule.getObjectRules())
 					objects.append(getFullObject((CmObjectRule) objectRule,
+							mapKeyProperties,
+							edDefinedTypes,
+							edEnums,
+							enterpriseDataPackage));
+			}
+
+			templateGroups.setAttribute(ATTRIBUTE_OBJECTRULES, objects);
+
+			groupObjects.append(templateGroups.toString());
+
+		}
+
+		return groupObjects.toString();
+	}
+
+	private static String createManualReportForSubsystems(EList<CmSubsystem> cmSubsystems,
+			Map<String, EList<EdProperty>> mapKeyProperties, EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums,
+			EnterpriseData enterpriseDataPackage, ConversionModule conversionModule) {
+		final String TEMPLATE_NAME_GROUP = "ReceivingGroup.txt";
+		String templateGroupContent = readContents(getFileInputSupplier(TEMPLATE_NAME_GROUP));
+
+		StringBuilder groupObjects = new StringBuilder();
+
+		for (CmSubsystem cmSubsystem : cmSubsystems) {
+			EList<CmObjectRule> receivingObjectRules = conversionModule.getReceivingObjectRules(cmSubsystem);
+			if (receivingObjectRules.isEmpty())
+				continue;
+
+			StringTemplate templateGroups = new StringTemplate(templateGroupContent);
+
+			templateGroups.setAttribute("GroupName", cmSubsystem.getName());
+
+			StringBuilder objects = new StringBuilder();
+			for (CmObjectRule objectRule : receivingObjectRules)
+				objects.append(
+						getManualObject(objectRule, mapKeyProperties, edDefinedTypes, edEnums, enterpriseDataPackage));
+			templateGroups.setAttribute(ATTRIBUTE_OBJECTRULES, objects);
+
+			groupObjects.append(templateGroups.toString());
+		}
+
+		return groupObjects.toString();
+	}
+
+	private static String createManualReportForVariant(RgVariant rgVariant,
+			Map<String, EList<EdProperty>> mapKeyProperties, EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums,
+			EnterpriseData enterpriseDataPackage, ConversionModule conversionModule) {
+		final String TEMPLATE_NAME_GROUP = "ReceivingGroup.txt";
+		String templateGroupContent = readContents(getFileInputSupplier(TEMPLATE_NAME_GROUP));
+
+		StringBuilder groupObjects = new StringBuilder();
+
+		for (RgGroup rgGroup : rgVariant.getGroups()) {
+			StringTemplate templateGroups = new StringTemplate(templateGroupContent);
+
+			templateGroups.setAttribute("GroupName", rgGroup.getName());
+
+			StringBuilder objects = new StringBuilder();
+			for (RgRule rgRule : rgGroup.getRules()) {
+				CmDataRule dataRule = conversionModule.getDataRule(rgRule.getName());
+				if (dataRule == null)
+					continue;
+
+				for (CmObjectRule objectRule : dataRule.getObjectRules())
+					objects.append(getManualObject((CmObjectRule) objectRule,
 							mapKeyProperties,
 							edDefinedTypes,
 							edEnums,
@@ -867,6 +978,46 @@ public class ConversionModuleReport {
 				return edKeyProperty;
 
 		return null;
+	}
+
+	private static String getManualObject(CmObjectRule cmObjectRule, Map<String, EList<EdProperty>> mapKeyProperties,
+			EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums, EnterpriseData enterpriseDataPackage) {
+		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
+		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT));
+
+		StringTemplate templateObject = new StringTemplate(templateObjectContent);
+
+		MdObject configurationObject = cmObjectRule.getConfigurationObject();
+
+		templateObject.setAttribute("Subsystem",
+				!cmObjectRule.getSubsystems().isEmpty() ? cmObjectRule.getSubsystems().get(0).getName() : "Нет");
+		templateObject.setAttribute("ObjectRule", getObjectSynonym(cmObjectRule));
+		templateObject.setAttribute("FormatObject", cmObjectRule.getFormatObject());
+		templateObject.setAttribute("ConfigurationObject", cmObjectRule.getConfigurationObjectFormattedName());
+
+		templateObject.setAttribute("Identification",
+				createIdentificationReport(cmObjectRule.getIdentificationVariant(),
+						cmObjectRule.getIdentificationFields()));
+
+		Pair<Map<String, String>, Map<String, String>> synonyms = getAttributesSynonyms(configurationObject);
+		Map<String, String> attributeSynonyms = synonyms.getKey();
+		Map<String, String> tabularSectionSynonyms = synonyms.getValue();
+
+		List<CmAttributeRule> attributeRules = cmObjectRule.getAttributeRules().stream().collect(Collectors.toList());
+		addRefToObjects(attributeRules, cmObjectRule, configurationObject);
+
+		Map<String, MarkdownTable> tabularSectionsRows = getTabularSectionsRows(attributeRules,
+				attributeSynonyms,
+				cmObjectRule,
+				mapKeyProperties,
+				edDefinedTypes,
+				edEnums,
+				enterpriseDataPackage);
+
+		templateObject.setAttribute("AttributesRules",
+				getObjectAttributesRules(tabularSectionsRows, tabularSectionSynonyms));
+
+		return templateObject.toString();
 	}
 
 	private static String getObjectAttributesRules(Map<String, MarkdownTable> tabularSectionsRows,
