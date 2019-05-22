@@ -1,0 +1,11 @@
+##### $ObjectRule$
+---
+Интерфейс: $Subsystem$
+
+Источник данных в исторической системе:
+
+Объект формата: $FormatObject$
+
+Объект конфигурации: $ConfigurationObject$
+
+$AttributesRules$

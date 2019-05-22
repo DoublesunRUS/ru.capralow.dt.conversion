@@ -307,11 +307,16 @@ public class ConversionModuleEditor extends DtGranularEditorPage<CommonModule> {
 			} else {
 				EList<RgVariant> rgVariants = reportGroups.getVariants();
 				for (RgVariant rgVariant : rgVariants) {
-					if (reportGroups.getAddObjectsList())
+					if (reportGroups.getAddObjectsList()) {
 						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
 								enterpriseDataPackage.getValue(),
 								rgVariant,
 								REPORT_TYPE_OBJECTS);
+						addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
+								enterpriseDataPackage.getValue(),
+								rgVariant,
+								REPORT_TYPE_MANUAL);
+					}
 					addReportMenuItem(rgVariant.getName() + " " + enterpriseDataPackage.getKey(),
 							enterpriseDataPackage.getValue(),
 							rgVariant,

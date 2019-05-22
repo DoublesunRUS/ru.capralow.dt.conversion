@@ -435,6 +435,23 @@ public class ConversionModuleReport {
 
 	}
 
+	private static void addTabularSectionRowForManualFormatAttribute(CmAttributeRule attributeRule,
+			MarkdownTable tabularSectionRow, Map<String, String> attributeSynonyms, String propertyType) {
+		String formatAttribute = attributeRule.getFormatAttribute();
+
+		String attributeSynonym = attributeSynonyms.get(attributeRule.getConfigurationAttributeFullName());
+		if (attributeSynonym == null)
+			attributeSynonym = attributeRule.getConfigurationAttribute();
+
+		tabularSectionRow.addRow(1,
+				new String[][] {
+						{ "", "0", "" },
+						{ formatAttribute, "0", "" },
+						{ propertyType, "0", "" },
+						{ attributeSynonym, "0", "" } });
+
+	}
+
 	private static void addTabularSectionRowForPropertyType(String propertyType, MarkdownTable tabularSectionRow,
 			boolean isKey, String attributeSynonym, String comment, boolean firstRow) {
 		String[] propertyTypeArray = propertyType.split("[,]", 3);
@@ -982,7 +999,7 @@ public class ConversionModuleReport {
 
 	private static String getManualObject(CmObjectRule cmObjectRule, Map<String, EList<EdProperty>> mapKeyProperties,
 			EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums, EnterpriseData enterpriseDataPackage) {
-		final String TEMPLATE_NAME_OBJECT = "ReceivingObject.txt";
+		final String TEMPLATE_NAME_OBJECT = "ReceivingObjectManual.txt";
 		String templateObjectContent = readContents(getFileInputSupplier(TEMPLATE_NAME_OBJECT));
 
 		StringTemplate templateObject = new StringTemplate(templateObjectContent);
@@ -995,18 +1012,15 @@ public class ConversionModuleReport {
 		templateObject.setAttribute("FormatObject", cmObjectRule.getFormatObject());
 		templateObject.setAttribute("ConfigurationObject", cmObjectRule.getConfigurationObjectFormattedName());
 
-		templateObject.setAttribute("Identification",
-				createIdentificationReport(cmObjectRule.getIdentificationVariant(),
-						cmObjectRule.getIdentificationFields()));
-
 		Pair<Map<String, String>, Map<String, String>> synonyms = getAttributesSynonyms(configurationObject);
 		Map<String, String> attributeSynonyms = synonyms.getKey();
 		Map<String, String> tabularSectionSynonyms = synonyms.getValue();
 
 		List<CmAttributeRule> attributeRules = cmObjectRule.getAttributeRules().stream().collect(Collectors.toList());
 		addRefToObjects(attributeRules, cmObjectRule, configurationObject);
+		removeAttributesForManual(attributeRules, configurationObject);
 
-		Map<String, MarkdownTable> tabularSectionsRows = getTabularSectionsRows(attributeRules,
+		Map<String, MarkdownTable> tabularSectionsRows = getTabularSectionsRowsForManual(attributeRules,
 				attributeSynonyms,
 				cmObjectRule,
 				mapKeyProperties,
@@ -1018,6 +1032,23 @@ public class ConversionModuleReport {
 				getObjectAttributesRules(tabularSectionsRows, tabularSectionSynonyms));
 
 		return templateObject.toString();
+	}
+
+	private static void removeAttributesForManual(List<CmAttributeRule> attributeRules, MdObject configurationObject) {
+		if (configurationObject instanceof InformationRegister)
+			return;
+
+		ArrayList<CmAttributeRule> rulesForRemoval = new ArrayList<>();
+
+		for (CmAttributeRule attributeRule : attributeRules)
+			if (attributeRule.getConfigurationTabularSection().equals("КонтактнаяИнформация")
+					|| attributeRule.getFormatTabularSection().equals("КонтактнаяИнформация")
+					|| attributeRule.getConfigurationTabularSection().equals("ДополнительныеРеквизиты")
+					|| attributeRule.getFormatTabularSection().equals("ДополнительныеРеквизиты"))
+				rulesForRemoval.add(attributeRule);
+
+		for (CmAttributeRule attributeRule : rulesForRemoval)
+			attributeRules.remove(attributeRule);
 	}
 
 	private static String getObjectAttributesRules(Map<String, MarkdownTable> tabularSectionsRows,
@@ -1184,6 +1215,41 @@ public class ConversionModuleReport {
 						listPropertyTypes);
 
 			}
+
+			tabularSectionsRows.put(configurationTabularSectionName, tabularSectionRow);
+
+		}
+
+		return tabularSectionsRows;
+	}
+
+	private static Map<String, MarkdownTable> getTabularSectionsRowsForManual(List<CmAttributeRule> attributeRules,
+			Map<String, String> attributeSynonyms, CmObjectRule cmObjectRule,
+			Map<String, EList<EdProperty>> mapKeyProperties, EList<EdDefinedType> edDefinedTypes, EList<EdEnum> edEnums,
+			EnterpriseData enterpriseDataPackage) {
+		Map<String, MarkdownTable> tabularSectionsRows = new HashMap<>();
+
+		for (CmAttributeRule attributeRule : attributeRules) {
+			String configurationTabularSectionName = attributeRule.getConfigurationTabularSection();
+
+			MarkdownTable tabularSectionRow = tabularSectionsRows.get(configurationTabularSectionName);
+			if (tabularSectionRow == null) {
+				tabularSectionRow = new MarkdownTable(new String[] {
+						"Поле исторической системы",
+						"Свойство формата",
+						"Тип значения",
+						"Наименование поля" });
+			}
+
+			EdProperty edProperty = enterpriseDataPackage.getProperty(cmObjectRule.getFormatObject(),
+					attributeRule.getFormatAttributeFullName());
+			String propertyType = "";
+			if (edProperty != null)
+				propertyType = edProperty.getType();
+			addTabularSectionRowForManualFormatAttribute(attributeRule,
+					tabularSectionRow,
+					attributeSynonyms,
+					propertyType);
 
 			tabularSectionsRows.put(configurationTabularSectionName, tabularSectionRow);
 
