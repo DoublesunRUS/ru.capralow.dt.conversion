@@ -297,16 +297,19 @@ public class ConversionModuleAnalyzer {
 
 		Configuration configuration = ((IConfigurationProject) configurationProject).getConfiguration();
 
-		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager
-				.getEmfIndexProvider(configurationProject.getProject());
-
 		Module module = commonModule.getModule();
 
 		CmSubsystem cmMainSubsystem = addSubsystems(conversionModule.getSubsystems(),
 				(CommandInterface) configuration.getCommandInterface());
 
 		for (Method method : module.allMethods())
-			parseMethod(method, module, cmMainSubsystem, configuration, conversionModule, bmEmfIndexProvider);
+			parseMethod(method,
+					module,
+					cmMainSubsystem,
+					configuration,
+					conversionModule,
+					projectManager,
+					bmEmfIndexManager);
 
 		return conversionModule;
 	}
@@ -998,7 +1001,7 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static void addDataRule(Method method, Module module, SubsystemsFiller subsystemsFiller,
-			ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
+			ConversionModule conversionModule, IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
 
 		CmDataRule dataRule = parseDataRuleMethod(method, module, conversionModule);
 
@@ -1011,8 +1014,10 @@ public class ConversionModuleAnalyzer {
 		if (dataRule.getConfigurationObjectFormattedName().isEmpty())
 			return;
 
-		MdObject configurationObject = ConversionUtils
-				.getConfigurationObject(dataRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
+		MdObject configurationObject = getConfigurationObject(dataRule.getConfigurationObjectFormattedName(),
+				module,
+				projectManager,
+				bmEmfIndexManager);
 		if (configurationObject == null) {
 			String msg = MessageFormat.format(OBJECT_NOT_FOUND_ERROR_0, dataRule.getConfigurationObjectFormattedName());
 			throw new NullPointerException(msg);
@@ -1042,7 +1047,7 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static void addObjectRule(Method method, Module module, SubsystemsFiller subsystemsFiller,
-			ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
+			ConversionModule conversionModule, IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
 
 		CmObjectRule objectRule = parseObjectRuleMethod(method, module, conversionModule);
 
@@ -1055,8 +1060,10 @@ public class ConversionModuleAnalyzer {
 		if (objectRule.getConfigurationObjectFormattedName().isEmpty())
 			return;
 
-		MdObject configurationObject = ConversionUtils
-				.getConfigurationObject(objectRule.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
+		MdObject configurationObject = getConfigurationObject(objectRule.getConfigurationObjectFormattedName(),
+				module,
+				projectManager,
+				bmEmfIndexManager);
 		if (configurationObject == null) {
 			String msg = MessageFormat.format(OBJECT_NOT_FOUND_ERROR_0,
 					objectRule.getConfigurationObjectFormattedName());
@@ -1102,36 +1109,8 @@ public class ConversionModuleAnalyzer {
 		}
 	}
 
-	private static void setPredefinedCatalogConfigurationValue(CatalogPredefinedItem enumValue,
-			CmPredefined predefined) {
-		CmPredefinedCatalogValue cmPredefinedValue = (CmPredefinedCatalogValue) predefined
-				.getPredefinedConfigurationValue(enumValue.getName());
-		if (cmPredefinedValue != null)
-			cmPredefinedValue.setConfigurationValue(enumValue);
-	}
-
-	private static void setPredefinedCatalogConfigurationValues(Catalog configurationObject, CmPredefined predefined) {
-		for (CatalogPredefinedItem enumValue : configurationObject.getPredefined().getItems()) {
-			setPredefinedCatalogConfigurationValue(enumValue, predefined);
-
-			if (enumValue.isIsFolder())
-				for (CatalogPredefinedItem enumSubValue : enumValue.getContent())
-					setPredefinedCatalogConfigurationValue(enumSubValue, predefined);
-
-		}
-	}
-
-	private static void setPredefinedEnumConfigurationValues(Enum configurationObject, CmPredefined predefined) {
-		for (EnumValue enumValue : configurationObject.getEnumValues()) {
-			CmPredefinedEnumValue cmPredefinedValue = (CmPredefinedEnumValue) predefined
-					.getPredefinedConfigurationValue(enumValue.getName());
-			if (cmPredefinedValue != null)
-				cmPredefinedValue.setConfigurationValue(enumValue);
-		}
-	}
-
 	private static void addPredefineds(Method method, ConversionModule conversionModule,
-			IBmEmfIndexProvider bmEmfIndexProvider) {
+			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
 		CmPredefined cmPredefined = null;
 
 		for (Statement statement : method.allStatements()) {
@@ -1149,8 +1128,10 @@ public class ConversionModuleAnalyzer {
 		}
 
 		for (CmPredefined predefined : conversionModule.getPredefineds()) {
-			MdObject configurationObject = ConversionUtils
-					.getConfigurationObject(predefined.getConfigurationObjectFormattedName(), bmEmfIndexProvider);
+			MdObject configurationObject = getConfigurationObject(predefined.getConfigurationObjectFormattedName(),
+					method,
+					projectManager,
+					bmEmfIndexManager);
 			if (configurationObject == null) {
 				String msg = MessageFormat.format(OBJECT_NOT_FOUND_ERROR_0,
 						predefined.getConfigurationObjectFormattedName());
@@ -1174,25 +1155,6 @@ public class ConversionModuleAnalyzer {
 			checkPredefinedValuesWithoutConfigurationObject(configurationObject, predefined);
 		}
 
-	}
-
-	private static void checkPredefinedValuesWithoutConfigurationObject(MdObject configurationObject,
-			CmPredefined predefined) {
-		for (CmPredefinedValue predefinedValue : predefined.getPredefinedValues()) {
-			EObject cmPredefinedValue = null;
-			if (configurationObject instanceof Catalog)
-				cmPredefinedValue = ((CmPredefinedCatalogValue) predefinedValue).getConfigurationValue();
-			else if (configurationObject instanceof Enum)
-				cmPredefinedValue = ((CmPredefinedEnumValue) predefinedValue).getConfigurationValue();
-
-			if (cmPredefinedValue == null) {
-				String valueFormattedName = predefined.getConfigurationObjectFormattedName() + "."
-						+ predefinedValue.getConfigurationValueFormattedName();
-
-				String msg = MessageFormat.format("Не найдено свойство конфигурации: \"{0}\"", valueFormattedName);
-				ConversionPlugin.log(ConversionPlugin.createWarningStatus(msg));
-			}
-		}
 	}
 
 	private static CmSubsystem addSubsystems(EList<CmSubsystem> cmSubsystems, CommandInterface commandInterface) {
@@ -1221,8 +1183,8 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static void analyzeRules(ConversionModule conversionModule, Method method, Module module,
-			IBmEmfIndexProvider bmEmfIndexProvider, CommandInterface mainCommandInterface,
-			CmSubsystem cmMainSubsystem) {
+			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager,
+			CommandInterface mainCommandInterface, CmSubsystem cmMainSubsystem) {
 
 		String storeVersion = conversionModule.getStoreVersion();
 		if (!storeVersion.equals("1") && !storeVersion.equals("2")) {
@@ -1241,16 +1203,16 @@ public class ConversionModuleAnalyzer {
 			addDataRules(method, conversionModule);
 
 		} else if (methodName.startsWith(ADD_DATARULE)) {
-			addDataRule(method, module, subsystemsFiller, conversionModule, bmEmfIndexProvider);
+			addDataRule(method, module, subsystemsFiller, conversionModule, projectManager, bmEmfIndexManager);
 
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииОбъектов")) {
 			addObjectRules(method, conversionModule);
 
 		} else if (methodName.startsWith(ADD_OBJECTRULE)) {
-			addObjectRule(method, module, subsystemsFiller, conversionModule, bmEmfIndexProvider);
+			addObjectRule(method, module, subsystemsFiller, conversionModule, projectManager, bmEmfIndexManager);
 
 		} else if (methodName.equals("ЗаполнитьПравилаКонвертацииПредопределенныхДанных")) {
-			addPredefineds(method, conversionModule, bmEmfIndexProvider);
+			addPredefineds(method, conversionModule, projectManager, bmEmfIndexManager);
 
 		} else {
 			EObject region = method.eContainer().eContainer();
@@ -1262,6 +1224,25 @@ public class ConversionModuleAnalyzer {
 
 			addAlgorithm(method, conversionModule);
 
+		}
+	}
+
+	private static void checkPredefinedValuesWithoutConfigurationObject(MdObject configurationObject,
+			CmPredefined predefined) {
+		for (CmPredefinedValue predefinedValue : predefined.getPredefinedValues()) {
+			EObject cmPredefinedValue = null;
+			if (configurationObject instanceof Catalog)
+				cmPredefinedValue = ((CmPredefinedCatalogValue) predefinedValue).getConfigurationValue();
+			else if (configurationObject instanceof Enum)
+				cmPredefinedValue = ((CmPredefinedEnumValue) predefinedValue).getConfigurationValue();
+
+			if (cmPredefinedValue == null) {
+				String valueFormattedName = predefined.getConfigurationObjectFormattedName() + "."
+						+ predefinedValue.getConfigurationValueFormattedName();
+
+				String msg = MessageFormat.format("Не найдено свойство конфигурации: \"{0}\"", valueFormattedName);
+				ConversionPlugin.log(ConversionPlugin.createWarningStatus(msg));
+			}
 		}
 	}
 
@@ -1751,6 +1732,40 @@ public class ConversionModuleAnalyzer {
 				createPredefinedsDeclarationText(conversionModule.getPredefineds()));
 	}
 
+	private static MdObject getConfigurationObject(String objectName, EObject sourceObject,
+			IV8ProjectManager projectManager, IBmEmfIndexManager bmEmfIndexManager) {
+		IV8Project v8Project = projectManager.getProject(sourceObject);
+		IConfigurationProject configurationProject;
+		if (v8Project instanceof IConfigurationProject)
+			configurationProject = (IConfigurationProject) v8Project;
+		else if (v8Project instanceof IExtensionProject)
+			configurationProject = ((IExtensionProject) v8Project).getParent();
+		else {
+			String msg = MessageFormat.format("При добавлении правила получен неподдержимаемый тип проекта {0}",
+					v8Project.getClass());
+			throw new NullPointerException(msg);
+		}
+
+		IBmEmfIndexProvider bmEmfIndexProvider = bmEmfIndexManager
+				.getEmfIndexProvider(configurationProject.getProject());
+		MdObject configurationObject = ConversionUtils.getConfigurationObject(objectName, bmEmfIndexProvider);
+		if (configurationObject != null)
+			return configurationObject;
+
+		for (IExtensionProject extensionProject : projectManager.getProjects(IExtensionProject.class)) {
+			if (!extensionProject.getParent().equals(configurationProject))
+				continue;
+
+			bmEmfIndexProvider = bmEmfIndexManager.getEmfIndexProvider(extensionProject.getProject());
+			configurationObject = ConversionUtils.getConfigurationObject(objectName, bmEmfIndexProvider);
+
+			if (configurationObject != null)
+				return configurationObject;
+		}
+
+		return null;
+	}
+
 	private static String getConfigurationTabularSection(CmAttributeRule attributeRule, CmObjectRule objectRule) {
 		String configurationTabularSection = attributeRule.getConfigurationTabularSection();
 		if (objectRule == null)
@@ -2087,7 +2102,8 @@ public class ConversionModuleAnalyzer {
 	}
 
 	private static void parseMethod(Method method, Module module, CmSubsystem cmMainSubsystem,
-			Configuration configuration, ConversionModule conversionModule, IBmEmfIndexProvider bmEmfIndexProvider) {
+			Configuration configuration, ConversionModule conversionModule, IV8ProjectManager projectManager,
+			IBmEmfIndexManager bmEmfIndexManager) {
 		String methodName = method.getName();
 
 		if (methodName.equals("ПередКонвертацией")) {
@@ -2116,7 +2132,13 @@ public class ConversionModuleAnalyzer {
 		} else {
 			CommandInterface mainCommandInterface = (CommandInterface) configuration.getMainSectionCommandInterface();
 
-			analyzeRules(conversionModule, method, module, bmEmfIndexProvider, mainCommandInterface, cmMainSubsystem);
+			analyzeRules(conversionModule,
+					method,
+					module,
+					projectManager,
+					bmEmfIndexManager,
+					mainCommandInterface,
+					cmMainSubsystem);
 
 		}
 	}
@@ -2618,6 +2640,34 @@ public class ConversionModuleAnalyzer {
 					(MdObject) EcoreUtil.resolve(cmObject.getConfigurationObject(), configuration));
 		}
 
+	}
+
+	private static void setPredefinedCatalogConfigurationValue(CatalogPredefinedItem enumValue,
+			CmPredefined predefined) {
+		CmPredefinedCatalogValue cmPredefinedValue = (CmPredefinedCatalogValue) predefined
+				.getPredefinedConfigurationValue(enumValue.getName());
+		if (cmPredefinedValue != null)
+			cmPredefinedValue.setConfigurationValue(enumValue);
+	}
+
+	private static void setPredefinedCatalogConfigurationValues(Catalog configurationObject, CmPredefined predefined) {
+		for (CatalogPredefinedItem enumValue : configurationObject.getPredefined().getItems()) {
+			setPredefinedCatalogConfigurationValue(enumValue, predefined);
+
+			if (enumValue.isIsFolder())
+				for (CatalogPredefinedItem enumSubValue : enumValue.getContent())
+					setPredefinedCatalogConfigurationValue(enumSubValue, predefined);
+
+		}
+	}
+
+	private static void setPredefinedEnumConfigurationValues(Enum configurationObject, CmPredefined predefined) {
+		for (EnumValue enumValue : configurationObject.getEnumValues()) {
+			CmPredefinedEnumValue cmPredefinedValue = (CmPredefinedEnumValue) predefined
+					.getPredefinedConfigurationValue(enumValue.getName());
+			if (cmPredefinedValue != null)
+				cmPredefinedValue.setConfigurationValue(enumValue);
+		}
 	}
 
 	private ConversionModuleAnalyzer() {
