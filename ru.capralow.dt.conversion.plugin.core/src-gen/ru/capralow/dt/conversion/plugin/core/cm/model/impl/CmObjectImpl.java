@@ -123,7 +123,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean FOR_SENDING_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean FOR_SENDING_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getForSending() <em>For Sending</em>}' attribute.
@@ -143,7 +143,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean FOR_RECEIVING_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean FOR_RECEIVING_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getForReceiving() <em>For Receiving</em>}' attribute.
@@ -179,6 +179,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -188,6 +189,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -200,6 +202,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MdObject getConfigurationObject() {
 		if (configurationObject != null && configurationObject.eIsProxy()) {
 			InternalEObject oldConfigurationObject = (InternalEObject)configurationObject;
@@ -226,6 +229,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationObject(MdObject newConfigurationObject) {
 		MdObject oldConfigurationObject = configurationObject;
 		configurationObject = newConfigurationObject;
@@ -238,6 +242,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationObjectName() {
 		return configurationObjectName;
 	}
@@ -247,6 +252,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationObjectName(String newConfigurationObjectName) {
 		String oldConfigurationObjectName = configurationObjectName;
 		configurationObjectName = newConfigurationObjectName;
@@ -259,6 +265,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationObjectFormattedName() {
 		String result = "";
 		boolean _startsWith = this.getConfigurationObjectName().startsWith("\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435.\u0421\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A\u0438");
@@ -315,6 +322,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormatObject() {
 		return formatObject;
 	}
@@ -324,6 +332,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormatObject(String newFormatObject) {
 		String oldFormatObject = formatObject;
 		formatObject = newFormatObject;
@@ -336,6 +345,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getForSending() {
 		return forSending;
 	}
@@ -345,6 +355,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setForSending(Boolean newForSending) {
 		Boolean oldForSending = forSending;
 		forSending = newForSending;
@@ -357,6 +368,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getForReceiving() {
 		return forReceiving;
 	}
@@ -366,6 +378,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setForReceiving(Boolean newForReceiving) {
 		Boolean oldForReceiving = forReceiving;
 		forReceiving = newForReceiving;
@@ -495,7 +508,7 @@ public class CmObjectImpl extends MinimalEObjectImpl.Container implements CmObje
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(", configurationObjectName: "); //$NON-NLS-1$

@@ -81,6 +81,7 @@ public class ExchangeDataImpl extends MinimalEObjectImpl.Container implements Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ExchangeProject> getProjects() {
 		if (projects == null) {
 			projects = new EObjectResolvingEList<ExchangeProject>(ExchangeProject.class, this, epPackage.EXCHANGE_DATA__PROJECTS);
@@ -93,6 +94,7 @@ public class ExchangeDataImpl extends MinimalEObjectImpl.Container implements Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EpExchangePair> getPairs() {
 		if (pairs == null) {
 			pairs = new EObjectContainmentEList<EpExchangePair>(EpExchangePair.class, this, epPackage.EXCHANGE_DATA__PAIRS);

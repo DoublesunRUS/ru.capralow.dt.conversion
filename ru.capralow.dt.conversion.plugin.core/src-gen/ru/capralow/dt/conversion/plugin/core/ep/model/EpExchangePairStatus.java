@@ -41,10 +41,6 @@ public enum EpExchangePairStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Shared Format Versions</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>No Shared Format Versions</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NO_SHARED_FORMAT_VERSIONS
 	 * @model name="NoSharedFormatVersions" literal="\u041d\u0435\u0442 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043f\u043e \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u044b\u043c \u0432\u0435\u0440\u0441\u0438\u044f\u043c \u0444\u043e\u0440\u043c\u0430\u0442\u0430"
@@ -56,10 +52,6 @@ public enum EpExchangePairStatus implements Enumerator {
 	/**
 	 * The '<em><b>Ready</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Ready</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #READY
 	 * @model name="Ready" literal="\u041a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438 \u0433\u043e\u0442\u043e\u0432\u044b \u043a \u043e\u0431\u043c\u0435\u043d\u0443"
@@ -178,6 +170,7 @@ public enum EpExchangePairStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -187,6 +180,7 @@ public enum EpExchangePairStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -196,6 +190,7 @@ public enum EpExchangePairStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

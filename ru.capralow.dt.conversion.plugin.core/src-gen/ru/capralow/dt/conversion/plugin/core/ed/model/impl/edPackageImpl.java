@@ -111,7 +111,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link edPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -125,7 +125,8 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 		if (isInited) return (edPackage)EPackage.Registry.INSTANCE.getEPackage(edPackage.eNS_URI);
 
 		// Obtain or create and register package
-		edPackageImpl theedPackage = (edPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof edPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new edPackageImpl());
+		Object registerededPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		edPackageImpl theedPackage = registerededPackage instanceof edPackageImpl ? (edPackageImpl)registerededPackage : new edPackageImpl();
 
 		isInited = true;
 
@@ -148,7 +149,6 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 		// Mark meta-data to indicate it can't be changed
 		theedPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(edPackage.eNS_URI, theedPackage);
 		return theedPackage;
@@ -159,6 +159,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEnterpriseData() {
 		return enterpriseDataEClass;
 	}
@@ -168,6 +169,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEnterpriseData_Version() {
 		return (EAttribute)enterpriseDataEClass.getEStructuralFeatures().get(0);
 	}
@@ -177,6 +179,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_XdtoPackage() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(1);
 	}
@@ -186,6 +189,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_DefinedTypes() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(2);
 	}
@@ -195,6 +199,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_RefTypes() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(3);
 	}
@@ -204,6 +209,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_Catalogs() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(4);
 	}
@@ -213,6 +219,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_Documents() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(5);
 	}
@@ -222,6 +229,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_Enums() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(6);
 	}
@@ -231,6 +239,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_Registers() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(7);
 	}
@@ -240,6 +249,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnterpriseData_UnknownObjects() {
 		return (EReference)enterpriseDataEClass.getEStructuralFeatures().get(8);
 	}
@@ -249,6 +259,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getEnterpriseData__GetProperty__String_String() {
 		return enterpriseDataEClass.getEOperations().get(0);
 	}
@@ -258,6 +269,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getEnterpriseData__GetObject__String() {
 		return enterpriseDataEClass.getEOperations().get(1);
 	}
@@ -267,6 +279,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getEnterpriseData__GetDefinedType__String() {
 		return enterpriseDataEClass.getEOperations().get(2);
 	}
@@ -276,6 +289,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getEnterpriseData__GetEnum__String() {
 		return enterpriseDataEClass.getEOperations().get(3);
 	}
@@ -285,6 +299,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdDefinedType() {
 		return edDefinedTypeEClass;
 	}
@@ -294,6 +309,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdDefinedType_Name() {
 		return (EAttribute)edDefinedTypeEClass.getEStructuralFeatures().get(0);
 	}
@@ -303,6 +319,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdDefinedType_Types() {
 		return (EReference)edDefinedTypeEClass.getEStructuralFeatures().get(1);
 	}
@@ -312,6 +329,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdType() {
 		return edTypeEClass;
 	}
@@ -321,6 +339,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdType_Name() {
 		return (EAttribute)edTypeEClass.getEStructuralFeatures().get(0);
 	}
@@ -330,6 +349,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdType_PropertyType() {
 		return (EAttribute)edTypeEClass.getEStructuralFeatures().get(1);
 	}
@@ -339,6 +359,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdObject() {
 		return edObjectEClass;
 	}
@@ -348,6 +369,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdObject_MainName() {
 		return (EAttribute)edObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -357,6 +379,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdObject_KeysName() {
 		return (EAttribute)edObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -366,6 +389,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdObject_XdtoMainObject() {
 		return (EReference)edObjectEClass.getEStructuralFeatures().get(2);
 	}
@@ -375,6 +399,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdObject_XdtoKeysObject() {
 		return (EReference)edObjectEClass.getEStructuralFeatures().get(3);
 	}
@@ -384,6 +409,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdObject_MainProperties() {
 		return (EReference)edObjectEClass.getEStructuralFeatures().get(4);
 	}
@@ -393,6 +419,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getEdObject__GetProperty__String() {
 		return edObjectEClass.getEOperations().get(0);
 	}
@@ -402,6 +429,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getEdObject__GetKeyProperties() {
 		return edObjectEClass.getEOperations().get(1);
 	}
@@ -411,6 +439,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdProperty() {
 		return edPropertyEClass;
 	}
@@ -420,6 +449,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdProperty_Name() {
 		return (EAttribute)edPropertyEClass.getEStructuralFeatures().get(0);
 	}
@@ -429,6 +459,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdProperty_XdtoProperty() {
 		return (EReference)edPropertyEClass.getEStructuralFeatures().get(1);
 	}
@@ -438,6 +469,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdProperty_IsKey() {
 		return (EAttribute)edPropertyEClass.getEStructuralFeatures().get(2);
 	}
@@ -447,6 +479,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdProperty_Type() {
 		return (EAttribute)edPropertyEClass.getEStructuralFeatures().get(3);
 	}
@@ -456,6 +489,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdProperty_Required() {
 		return (EAttribute)edPropertyEClass.getEStructuralFeatures().get(4);
 	}
@@ -465,6 +499,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdEnum() {
 		return edEnumEClass;
 	}
@@ -474,6 +509,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdEnum_Object() {
 		return (EReference)edEnumEClass.getEStructuralFeatures().get(0);
 	}
@@ -483,6 +519,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdEnum_Name() {
 		return (EAttribute)edEnumEClass.getEStructuralFeatures().get(1);
 	}
@@ -492,6 +529,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdEnum_Enumerations() {
 		return (EReference)edEnumEClass.getEStructuralFeatures().get(2);
 	}
@@ -501,6 +539,7 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public edFactory getedFactory() {
 		return (edFactory)getEFactoryInstance();
 	}
@@ -662,25 +701,6 @@ public class edPackageImpl extends EPackageImpl implements edPackage {
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// http://www.eclipse.org/emf/2002/Ecore
-		createEcoreAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore"; //$NON-NLS-1$	
-		addAnnotation
-		  (this, 
-		   source, 
-		   new String[] {
-		   });
 	}
 
 } //edPackageImpl

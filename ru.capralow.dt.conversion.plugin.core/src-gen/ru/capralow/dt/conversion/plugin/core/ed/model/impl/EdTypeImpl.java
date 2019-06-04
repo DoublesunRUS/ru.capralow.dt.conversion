@@ -91,6 +91,7 @@ public class EdTypeImpl extends MinimalEObjectImpl.Container implements EdType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -100,6 +101,7 @@ public class EdTypeImpl extends MinimalEObjectImpl.Container implements EdType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -112,6 +114,7 @@ public class EdTypeImpl extends MinimalEObjectImpl.Container implements EdType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPropertyType() {
 		return propertyType;
 	}
@@ -121,6 +124,7 @@ public class EdTypeImpl extends MinimalEObjectImpl.Container implements EdType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPropertyType(String newPropertyType) {
 		String oldPropertyType = propertyType;
 		propertyType = newPropertyType;
@@ -205,7 +209,7 @@ public class EdTypeImpl extends MinimalEObjectImpl.Container implements EdType {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(", propertyType: "); //$NON-NLS-1$

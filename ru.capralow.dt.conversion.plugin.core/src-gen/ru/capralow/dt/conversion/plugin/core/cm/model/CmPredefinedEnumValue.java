@@ -24,10 +24,6 @@ public interface CmPredefinedEnumValue extends CmPredefinedValue {
 	/**
 	 * Returns the value of the '<em><b>Configuration Value</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Value</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Value</em>' reference.
 	 * @see #setConfigurationValue(EnumValue)

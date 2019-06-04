@@ -26,10 +26,6 @@ public interface CmPredefinedValue extends EObject {
 	 * Returns the value of the '<em><b>Configuration Value Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Value Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Value Name</em>' attribute.
 	 * @see #setConfigurationValueName(String)
@@ -53,10 +49,6 @@ public interface CmPredefinedValue extends EObject {
 	 * Returns the value of the '<em><b>Format Value</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Format Value</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Format Value</em>' attribute.
 	 * @see #setFormatValue(String)
@@ -80,7 +72,6 @@ public interface CmPredefinedValue extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _isEmpty = this.getConfigurationValueName().isEmpty();\nif (_isEmpty)\n{\n\treturn \"\";\n}\n&lt;%java.lang.String%&gt; configurationValueFormattedName = this.getConfigurationValueName().toString();\nint _indexOf = configurationValueFormattedName.indexOf(\".\");\nint _plus = (_indexOf + 1);\nconfigurationValueFormattedName = configurationValueFormattedName.substring(_plus);\nint _indexOf_1 = configurationValueFormattedName.indexOf(\".\");\nint _plus_1 = (_indexOf_1 + 1);\nconfigurationValueFormattedName = configurationValueFormattedName.substring(_plus_1);\nreturn configurationValueFormattedName;'"
 	 * @generated
 	 */
 	String getConfigurationValueFormattedName();
@@ -89,7 +80,6 @@ public interface CmPredefinedValue extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _isEmpty = this.getFormatValue().isEmpty();\nif (_isEmpty)\n{\n\treturn \"\";\n}\nreturn this.getFormatValue().toString();'"
 	 * @generated
 	 */
 	String getFormatValueName();

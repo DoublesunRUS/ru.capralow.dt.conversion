@@ -60,7 +60,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean IS_DISABLED_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean IS_DISABLED_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getIsDisabled() <em>Is Disabled</em>}' attribute.
@@ -200,7 +200,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean IS_DATA_CLEANING_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean IS_DATA_CLEANING_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getIsDataCleaning() <em>Is Data Cleaning</em>}' attribute.
@@ -266,6 +266,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsDisabled() {
 		return isDisabled;
 	}
@@ -275,6 +276,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsDisabled(Boolean newIsDisabled) {
 		Boolean oldIsDisabled = isDisabled;
 		isDisabled = newIsDisabled;
@@ -287,6 +289,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmSelectionVariant getSelectionVariant() {
 		return selectionVariant;
 	}
@@ -296,6 +299,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSelectionVariant(CmSelectionVariant newSelectionVariant) {
 		CmSelectionVariant oldSelectionVariant = selectionVariant;
 		selectionVariant = newSelectionVariant == null ? SELECTION_VARIANT_EDEFAULT : newSelectionVariant;
@@ -308,6 +312,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnProcessingEvent() {
 		return onProcessingEvent;
 	}
@@ -317,6 +322,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOnProcessingEvent(String newOnProcessingEvent) {
 		String oldOnProcessingEvent = onProcessingEvent;
 		onProcessingEvent = newOnProcessingEvent;
@@ -329,6 +335,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnProcessingEventPrefix() {
 		Boolean _forSending = this.getForSending();
 		if ((_forSending).booleanValue()) {
@@ -344,6 +351,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnProcessingEventSuffix() {
 		return onProcessingEventSuffix;
 	}
@@ -353,6 +361,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOnProcessingEventSuffix(String newOnProcessingEventSuffix) {
 		String oldOnProcessingEventSuffix = onProcessingEventSuffix;
 		onProcessingEventSuffix = newOnProcessingEventSuffix;
@@ -365,6 +374,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDataSelectionEvent() {
 		return dataSelectionEvent;
 	}
@@ -374,6 +384,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDataSelectionEvent(String newDataSelectionEvent) {
 		String oldDataSelectionEvent = dataSelectionEvent;
 		dataSelectionEvent = newDataSelectionEvent;
@@ -386,6 +397,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDataSelectionEventPrefix() {
 		return "\u0424\u0443\u043D\u043A\u0446\u0438\u044F \u041F\u041E\u0414_&\u0418\u043C\u044F\u041F\u041E\u0414_\u0412\u044B\u0431\u043E\u0440\u043A\u0430\u0414\u0430\u043D\u043D\u044B\u0445(\u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("&\u0418\u043C\u044F\u041F\u041E\u0414", this.getName());
 	}
@@ -395,6 +407,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDataSelectionEventSuffix() {
 		return dataSelectionEventSuffix;
 	}
@@ -404,6 +417,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDataSelectionEventSuffix(String newDataSelectionEventSuffix) {
 		String oldDataSelectionEventSuffix = dataSelectionEventSuffix;
 		dataSelectionEventSuffix = newDataSelectionEventSuffix;
@@ -416,6 +430,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsDataCleaning() {
 		return isDataCleaning;
 	}
@@ -425,6 +440,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsDataCleaning(Boolean newIsDataCleaning) {
 		Boolean oldIsDataCleaning = isDataCleaning;
 		isDataCleaning = newIsDataCleaning;
@@ -437,6 +453,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmObjectRule> getObjectRules() {
 		if (objectRules == null) {
 			objectRules = new EObjectResolvingEList<CmObjectRule>(CmObjectRule.class, this, cmPackage.CM_DATA_RULE__OBJECT_RULES);
@@ -449,6 +466,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmSubsystem> getSubsystems() {
 		if (subsystems == null) {
 			subsystems = new EObjectResolvingEList<CmSubsystem>(CmSubsystem.class, this, cmPackage.CM_DATA_RULE__SUBSYSTEMS);
@@ -461,6 +479,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmGroup getGroup() {
 		if (group != null && group.eIsProxy()) {
 			InternalEObject oldGroup = (InternalEObject)group;
@@ -487,6 +506,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setGroup(CmGroup newGroup) {
 		CmGroup oldGroup = group;
 		group = newGroup;
@@ -499,6 +519,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnProcessingEventText() {
 		String _onProcessingEventPrefix = this.getOnProcessingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -519,6 +540,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnProcessingEventDeclaration() {
 		int _length = this.getOnProcessingEvent().length();
 		boolean _equals = (_length == 0);
@@ -535,6 +557,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDataSelectionEventText() {
 		String _dataSelectionEventPrefix = this.getDataSelectionEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -555,6 +578,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDataSelectionEventDeclaration() {
 		int _length = this.getDataSelectionEvent().length();
 		boolean _equals = (_length == 0);
@@ -571,6 +595,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDataCleaningDeclaration() {
 		Boolean _isDataCleaning = this.getIsDataCleaning();
 		if ((_isDataCleaning).booleanValue()) {
@@ -586,6 +611,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean includedInSubsystem(final CmSubsystem cmSubsystem) {
 		if (((cmSubsystem == null) || Objects.equal(cmSubsystem.getSpecialSubsystemType(), CmSpecialSubsystemType.ALL))) {
 			return Boolean.valueOf(true);
@@ -630,6 +656,7 @@ public class CmDataRuleImpl extends CmObjectImpl implements CmDataRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		String nameString = this.getName();
 		boolean _isEmpty = this.getName().isEmpty();

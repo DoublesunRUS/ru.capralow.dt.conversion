@@ -40,10 +40,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Module Ref</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Module Ref</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module Ref</em>' attribute.
 	 * @see #setModuleRef(String)
@@ -67,10 +63,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Module Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Module Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module Name</em>' attribute.
 	 * @see #setModuleName(String)
@@ -94,10 +86,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Module Version</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Module Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module Version</em>' attribute.
 	 * @see #setModuleVersion(String)
@@ -120,10 +108,6 @@ public interface RegistrationModule extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Module Creation Date</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Module Creation Date</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module Creation Date</em>' attribute.
 	 * @see #setModuleCreationDate(Date)
@@ -147,10 +131,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Exchange Plan Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exchange Plan Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exchange Plan Name</em>' attribute.
 	 * @see #setExchangePlanName(String)
@@ -174,10 +154,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Exchange Plan Md Object</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exchange Plan Md Object</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exchange Plan Md Object</em>' attribute.
 	 * @see #setExchangePlanMdObject(String)
@@ -201,10 +177,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Runtime Version</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Runtime Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Runtime Version</em>' attribute.
 	 * @see #setRuntimeVersion(String)
@@ -228,10 +200,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Configuration Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Name</em>' attribute.
 	 * @see #setConfigurationName(String)
@@ -255,10 +223,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Configuration Synonym</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Synonym</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Synonym</em>' attribute.
 	 * @see #setConfigurationSynonym(String)
@@ -282,10 +246,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Configuration Version</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Version</em>' attribute.
 	 * @see #setConfigurationVersion(String)
@@ -309,10 +269,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Exchange Plan Content</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.rm.model.ExchangePlanContent}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exchange Plan Content</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exchange Plan Content</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.rm.model.rmPackage#getRegistrationModule_ExchangePlanContent()
@@ -325,10 +281,6 @@ public interface RegistrationModule extends EObject {
 	 * Returns the value of the '<em><b>Registration Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.rm.model.RegistrationRule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Registration Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Registration Rules</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.rm.model.rmPackage#getRegistrationModule_RegistrationRules()

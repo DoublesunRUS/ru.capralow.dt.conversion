@@ -62,6 +62,7 @@ public class CmPredefinedCatalogValueImpl extends CmPredefinedValueImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CatalogPredefinedItem getConfigurationValue() {
 		if (configurationValue != null && configurationValue.eIsProxy()) {
 			InternalEObject oldConfigurationValue = (InternalEObject)configurationValue;
@@ -88,6 +89,7 @@ public class CmPredefinedCatalogValueImpl extends CmPredefinedValueImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationValue(CatalogPredefinedItem newConfigurationValue) {
 		CatalogPredefinedItem oldConfigurationValue = configurationValue;
 		configurationValue = newConfigurationValue;

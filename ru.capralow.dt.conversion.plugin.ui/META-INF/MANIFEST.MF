@@ -60,3 +60,7 @@ Import-Package: com._1c.g5.ides.ui.texteditor.xtext.embedded,
  org.eclipse.xtext.util,
  org.eclipse.xtext.validation,
  org.osgi.framework
+Export-Package: ru.capralow.dt.conversion.plugin.ui;x-internal:=true,
+ ru.capralow.dt.conversion.plugin.ui.conversionmodule;x-internal:=true,
+ ru.capralow.dt.conversion.plugin.ui.conversionpanel;x-internal:=true,
+ ru.capralow.dt.conversion.plugin.ui.registrationmodule;x-internal:=true

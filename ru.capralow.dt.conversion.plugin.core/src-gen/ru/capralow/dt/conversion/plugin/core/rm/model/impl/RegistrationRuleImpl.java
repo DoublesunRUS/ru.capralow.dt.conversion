@@ -55,7 +55,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean IS_FOLDER_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean IS_FOLDER_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getIsFolder() <em>Is Folder</em>}' attribute.
@@ -75,7 +75,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean DISABLED_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean DISABLED_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getDisabled() <em>Disabled</em>}' attribute.
@@ -95,7 +95,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean VALID_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean VALID_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getValid() <em>Valid</em>}' attribute.
@@ -271,6 +271,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsFolder() {
 		return isFolder;
 	}
@@ -280,6 +281,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsFolder(Boolean newIsFolder) {
 		Boolean oldIsFolder = isFolder;
 		isFolder = newIsFolder;
@@ -292,6 +294,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getDisabled() {
 		return disabled;
 	}
@@ -301,6 +304,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDisabled(Boolean newDisabled) {
 		Boolean oldDisabled = disabled;
 		disabled = newDisabled;
@@ -313,6 +317,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getValid() {
 		return valid;
 	}
@@ -322,6 +327,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValid(Boolean newValid) {
 		Boolean oldValid = valid;
 		valid = newValid;
@@ -334,6 +340,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getCode() {
 		return code;
 	}
@@ -343,6 +350,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCode(String newCode) {
 		String oldCode = code;
 		code = newCode;
@@ -355,6 +363,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -364,6 +373,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -376,6 +386,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMdObject() {
 		return mdObject;
 	}
@@ -385,6 +396,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMdObject(String newMdObject) {
 		String oldMdObject = mdObject;
 		mdObject = newMdObject;
@@ -397,6 +409,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getObjectName() {
 		return objectName;
 	}
@@ -406,6 +419,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObjectName(String newObjectName) {
 		String oldObjectName = objectName;
 		objectName = newObjectName;
@@ -418,6 +432,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMdClass() {
 		return mdClass;
 	}
@@ -427,6 +442,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMdClass(String newMdClass) {
 		String oldMdClass = mdClass;
 		mdClass = newMdClass;
@@ -439,6 +455,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAttributeSendMode() {
 		return attributeSendMode;
 	}
@@ -448,6 +465,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttributeSendMode(String newAttributeSendMode) {
 		String oldAttributeSendMode = attributeSendMode;
 		attributeSendMode = newAttributeSendMode;
@@ -460,6 +478,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ObjectSelectionRule> getObjectSelectionRules() {
 		if (objectSelectionRules == null) {
 			objectSelectionRules = new EObjectContainmentEList<ObjectSelectionRule>(ObjectSelectionRule.class, this, rmPackage.REGISTRATION_RULE__OBJECT_SELECTION_RULES);
@@ -472,6 +491,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ExchangePlanSelectionRule> getExchangePlanSelectionRules() {
 		if (exchangePlanSelectionRules == null) {
 			exchangePlanSelectionRules = new EObjectContainmentEList<ExchangePlanSelectionRule>(ExchangePlanSelectionRule.class, this, rmPackage.REGISTRATION_RULE__EXCHANGE_PLAN_SELECTION_RULES);
@@ -665,7 +685,7 @@ public class RegistrationRuleImpl extends MinimalEObjectImpl.Container implement
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isFolder: "); //$NON-NLS-1$
 		result.append(isFolder);
 		result.append(", disabled: "); //$NON-NLS-1$

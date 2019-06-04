@@ -130,6 +130,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationName1() {
 		return configurationName1;
 	}
@@ -139,6 +140,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationName1(String newConfigurationName1) {
 		String oldConfigurationName1 = configurationName1;
 		configurationName1 = newConfigurationName1;
@@ -151,6 +153,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationName2() {
 		return configurationName2;
 	}
@@ -160,6 +163,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationName2(String newConfigurationName2) {
 		String oldConfigurationName2 = configurationName2;
 		configurationName2 = newConfigurationName2;
@@ -172,6 +176,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EpExchangePairStatus getStatus() {
 		return status;
 	}
@@ -181,6 +186,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStatus(EpExchangePairStatus newStatus) {
 		EpExchangePairStatus oldStatus = status;
 		status = newStatus == null ? STATUS_EDEFAULT : newStatus;
@@ -193,6 +199,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getVersions() {
 		if (versions == null) {
 			versions = new EDataTypeEList<String>(String.class, this, epPackage.EP_EXCHANGE_PAIR__VERSIONS);
@@ -299,7 +306,7 @@ public class EpExchangePairImpl extends MinimalEObjectImpl.Container implements 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (configurationName1: "); //$NON-NLS-1$
 		result.append(configurationName1);
 		result.append(", configurationName2: "); //$NON-NLS-1$

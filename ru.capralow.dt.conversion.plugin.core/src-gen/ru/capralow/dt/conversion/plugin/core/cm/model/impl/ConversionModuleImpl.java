@@ -349,6 +349,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getStoreVersion() {
 		return storeVersion;
 	}
@@ -358,6 +359,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStoreVersion(String newStoreVersion) {
 		String oldStoreVersion = storeVersion;
 		storeVersion = newStoreVersion;
@@ -370,6 +372,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmSubsystem> getSubsystems() {
 		if (subsystems == null) {
 			subsystems = new EObjectContainmentEList<CmSubsystem>(CmSubsystem.class, this, cmPackage.CONVERSION_MODULE__SUBSYSTEMS);
@@ -382,6 +385,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getParams() {
 		if (params == null) {
 			params = new EDataTypeEList<String>(String.class, this, cmPackage.CONVERSION_MODULE__PARAMS);
@@ -394,6 +398,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeConvertationEvent() {
 		return beforeConvertationEvent;
 	}
@@ -403,6 +408,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeConvertationEvent(String newBeforeConvertationEvent) {
 		String oldBeforeConvertationEvent = beforeConvertationEvent;
 		beforeConvertationEvent = newBeforeConvertationEvent;
@@ -415,6 +421,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeConvertationEventPrefix() {
 		return beforeConvertationEventPrefix;
 	}
@@ -424,6 +431,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeConvertationEventPrefix(String newBeforeConvertationEventPrefix) {
 		String oldBeforeConvertationEventPrefix = beforeConvertationEventPrefix;
 		beforeConvertationEventPrefix = newBeforeConvertationEventPrefix;
@@ -436,6 +444,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeConvertationEventSuffix() {
 		return beforeConvertationEventSuffix;
 	}
@@ -445,6 +454,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeConvertationEventSuffix(String newBeforeConvertationEventSuffix) {
 		String oldBeforeConvertationEventSuffix = beforeConvertationEventSuffix;
 		beforeConvertationEventSuffix = newBeforeConvertationEventSuffix;
@@ -457,6 +467,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAfterConvertationEvent() {
 		return afterConvertationEvent;
 	}
@@ -466,6 +477,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAfterConvertationEvent(String newAfterConvertationEvent) {
 		String oldAfterConvertationEvent = afterConvertationEvent;
 		afterConvertationEvent = newAfterConvertationEvent;
@@ -478,6 +490,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAfterConvertationEventPrefix() {
 		return afterConvertationEventPrefix;
 	}
@@ -487,6 +500,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAfterConvertationEventPrefix(String newAfterConvertationEventPrefix) {
 		String oldAfterConvertationEventPrefix = afterConvertationEventPrefix;
 		afterConvertationEventPrefix = newAfterConvertationEventPrefix;
@@ -499,6 +513,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAfterConvertationEventSuffix() {
 		return afterConvertationEventSuffix;
 	}
@@ -508,6 +523,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAfterConvertationEventSuffix(String newAfterConvertationEventSuffix) {
 		String oldAfterConvertationEventSuffix = afterConvertationEventSuffix;
 		afterConvertationEventSuffix = newAfterConvertationEventSuffix;
@@ -520,6 +536,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeFillingEvent() {
 		return beforeFillingEvent;
 	}
@@ -529,6 +546,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeFillingEvent(String newBeforeFillingEvent) {
 		String oldBeforeFillingEvent = beforeFillingEvent;
 		beforeFillingEvent = newBeforeFillingEvent;
@@ -541,6 +559,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeFillingEventPrefix() {
 		return beforeFillingEventPrefix;
 	}
@@ -550,6 +569,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeFillingEventPrefix(String newBeforeFillingEventPrefix) {
 		String oldBeforeFillingEventPrefix = beforeFillingEventPrefix;
 		beforeFillingEventPrefix = newBeforeFillingEventPrefix;
@@ -562,6 +582,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeFillingEventSuffix() {
 		return beforeFillingEventSuffix;
 	}
@@ -571,6 +592,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeFillingEventSuffix(String newBeforeFillingEventSuffix) {
 		String oldBeforeFillingEventSuffix = beforeFillingEventSuffix;
 		beforeFillingEventSuffix = newBeforeFillingEventSuffix;
@@ -583,6 +605,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmDataRule> getDataRules() {
 		if (dataRules == null) {
 			dataRules = new EObjectContainmentEList<CmDataRule>(CmDataRule.class, this, cmPackage.CONVERSION_MODULE__DATA_RULES);
@@ -595,6 +618,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmObjectRule> getObjectRules() {
 		if (objectRules == null) {
 			objectRules = new EObjectContainmentEList<CmObjectRule>(CmObjectRule.class, this, cmPackage.CONVERSION_MODULE__OBJECT_RULES);
@@ -607,6 +631,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmPredefined> getPredefineds() {
 		if (predefineds == null) {
 			predefineds = new EObjectContainmentEList<CmPredefined>(CmPredefined.class, this, cmPackage.CONVERSION_MODULE__PREDEFINEDS);
@@ -619,6 +644,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmAlgorithm> getAlgorithms() {
 		if (algorithms == null) {
 			algorithms = new EObjectContainmentEList<CmAlgorithm>(CmAlgorithm.class, this, cmPackage.CONVERSION_MODULE__ALGORITHMS);
@@ -631,6 +657,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmSubsystem getSubsystem(final Subsystem mdSubsystem) {
 		EList<CmSubsystem> _subsystems = this.getSubsystems();
 		for (final CmSubsystem cmSubsystem : _subsystems) {
@@ -647,6 +674,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeConvertationEventText() {
 		String beforeConvertationEventText = this.getBeforeConvertationEvent();
 		boolean _isEmpty = this.getBeforeConvertationEvent().isEmpty();
@@ -671,6 +699,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAfterConvertationEventText() {
 		String afterConvertationEventText = this.getAfterConvertationEvent();
 		boolean _isEmpty = this.getAfterConvertationEvent().isEmpty();
@@ -695,6 +724,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeFillingEventText() {
 		String beforeFillingEventText = this.getBeforeFillingEvent();
 		boolean _isEmpty = this.getBeforeFillingEvent().isEmpty();
@@ -719,6 +749,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmDataRule getDataRule(final String ruleName) {
 		EList<CmDataRule> _dataRules = this.getDataRules();
 		for (final CmDataRule dataRule : _dataRules) {
@@ -735,6 +766,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmDataRule> getSendingDataRules() {
 		final BasicEList<CmDataRule> result = XcoreCollectionLiterals.<CmDataRule>newBasicEList();
 		EList<CmDataRule> _dataRules = this.getDataRules();
@@ -752,6 +784,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmDataRule> getSendingDataRules(final CmSubsystem subsystem) {
 		final BasicEList<CmDataRule> result = XcoreCollectionLiterals.<CmDataRule>newBasicEList();
 		EList<CmDataRule> _dataRules = this.getDataRules();
@@ -768,6 +801,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmDataRule> getReceivingDataRules() {
 		final BasicEList<CmDataRule> result = XcoreCollectionLiterals.<CmDataRule>newBasicEList();
 		EList<CmDataRule> _dataRules = this.getDataRules();
@@ -785,6 +819,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmDataRule> getReceivingDataRules(final CmSubsystem subsystem) {
 		final BasicEList<CmDataRule> result = XcoreCollectionLiterals.<CmDataRule>newBasicEList();
 		EList<CmDataRule> _dataRules = this.getDataRules();
@@ -801,6 +836,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmObjectRule getObjectRule(final String ruleName) {
 		EList<CmObjectRule> _objectRules = this.getObjectRules();
 		for (final CmObjectRule objectRule : _objectRules) {
@@ -817,6 +853,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmObjectRule> getSendingObjectRules() {
 		final BasicEList<CmObjectRule> result = XcoreCollectionLiterals.<CmObjectRule>newBasicEList();
 		EList<CmObjectRule> _objectRules = this.getObjectRules();
@@ -834,6 +871,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmObjectRule> getSendingObjectRules(final CmSubsystem cmSubsystem) {
 		final BasicEList<CmObjectRule> result = XcoreCollectionLiterals.<CmObjectRule>newBasicEList();
 		EList<CmObjectRule> _objectRules = this.getObjectRules();
@@ -850,6 +888,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmObjectRule> getReceivingObjectRules() {
 		final BasicEList<CmObjectRule> result = XcoreCollectionLiterals.<CmObjectRule>newBasicEList();
 		EList<CmObjectRule> _objectRules = this.getObjectRules();
@@ -867,6 +906,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmObjectRule> getReceivingObjectRules(final CmSubsystem cmSubsystem) {
 		final BasicEList<CmObjectRule> result = XcoreCollectionLiterals.<CmObjectRule>newBasicEList();
 		EList<CmObjectRule> _objectRules = this.getObjectRules();
@@ -883,6 +923,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmAlgorithm getAlgorithm(final String algorithmName) {
 		EList<CmAlgorithm> _algorithms = this.getAlgorithms();
 		for (final CmAlgorithm algorithm : _algorithms) {
@@ -899,6 +940,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAllAlgorithmsText(final String algorithmName) {
 		String result = "";
 		EList<CmAlgorithm> _algorithms = this.getAlgorithms();
@@ -1202,7 +1244,7 @@ public class ConversionModuleImpl extends MinimalEObjectImpl.Container implement
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (storeVersion: "); //$NON-NLS-1$
 		result.append(storeVersion);
 		result.append(", params: "); //$NON-NLS-1$

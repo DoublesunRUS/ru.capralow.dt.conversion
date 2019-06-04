@@ -107,7 +107,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link rmPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -121,7 +121,8 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 		if (isInited) return (rmPackage)EPackage.Registry.INSTANCE.getEPackage(rmPackage.eNS_URI);
 
 		// Obtain or create and register package
-		rmPackageImpl thermPackage = (rmPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof rmPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new rmPackageImpl());
+		Object registeredrmPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		rmPackageImpl thermPackage = registeredrmPackage instanceof rmPackageImpl ? (rmPackageImpl)registeredrmPackage : new rmPackageImpl();
 
 		isInited = true;
 
@@ -137,7 +138,6 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 		// Mark meta-data to indicate it can't be changed
 		thermPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(rmPackage.eNS_URI, thermPackage);
 		return thermPackage;
@@ -148,6 +148,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRegistrationModule() {
 		return registrationModuleEClass;
 	}
@@ -157,6 +158,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ModuleRef() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -166,6 +168,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ModuleName() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -175,6 +178,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ModuleVersion() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -184,6 +188,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ModuleCreationDate() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(3);
 	}
@@ -193,6 +198,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ExchangePlanName() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(4);
 	}
@@ -202,6 +208,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ExchangePlanMdObject() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(5);
 	}
@@ -211,6 +218,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_RuntimeVersion() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(6);
 	}
@@ -220,6 +228,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ConfigurationName() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(7);
 	}
@@ -229,6 +238,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ConfigurationSynonym() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(8);
 	}
@@ -238,6 +248,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationModule_ConfigurationVersion() {
 		return (EAttribute)registrationModuleEClass.getEStructuralFeatures().get(9);
 	}
@@ -247,6 +258,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRegistrationModule_ExchangePlanContent() {
 		return (EReference)registrationModuleEClass.getEStructuralFeatures().get(10);
 	}
@@ -256,6 +268,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRegistrationModule_RegistrationRules() {
 		return (EReference)registrationModuleEClass.getEStructuralFeatures().get(11);
 	}
@@ -265,6 +278,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExchangePlanContent() {
 		return exchangePlanContentEClass;
 	}
@@ -274,6 +288,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExchangePlanContent_MdObject() {
 		return (EAttribute)exchangePlanContentEClass.getEStructuralFeatures().get(0);
 	}
@@ -283,6 +298,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExchangePlanContent_AutoRecord() {
 		return (EAttribute)exchangePlanContentEClass.getEStructuralFeatures().get(1);
 	}
@@ -292,6 +308,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRegistrationRule() {
 		return registrationRuleEClass;
 	}
@@ -301,6 +318,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_IsFolder() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -310,6 +328,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_Disabled() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -319,6 +338,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_Valid() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -328,6 +348,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_Code() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(3);
 	}
@@ -337,6 +358,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_Name() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(4);
 	}
@@ -346,6 +368,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_MdObject() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(5);
 	}
@@ -355,6 +378,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_ObjectName() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(6);
 	}
@@ -364,6 +388,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_MdClass() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(7);
 	}
@@ -373,6 +398,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegistrationRule_AttributeSendMode() {
 		return (EAttribute)registrationRuleEClass.getEStructuralFeatures().get(8);
 	}
@@ -382,6 +408,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRegistrationRule_ObjectSelectionRules() {
 		return (EReference)registrationRuleEClass.getEStructuralFeatures().get(9);
 	}
@@ -391,6 +418,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRegistrationRule_ExchangePlanSelectionRules() {
 		return (EReference)registrationRuleEClass.getEStructuralFeatures().get(10);
 	}
@@ -400,6 +428,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getObjectSelectionRule() {
 		return objectSelectionRuleEClass;
 	}
@@ -409,6 +438,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getObjectSelectionRule_IsFolder() {
 		return (EAttribute)objectSelectionRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -418,6 +448,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExchangePlanSelectionRule() {
 		return exchangePlanSelectionRuleEClass;
 	}
@@ -427,6 +458,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExchangePlanSelectionRule_IsFolder() {
 		return (EAttribute)exchangePlanSelectionRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -436,6 +468,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getAutoRegistration() {
 		return autoRegistrationEEnum;
 	}
@@ -445,6 +478,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getDate() {
 		return dateEDataType;
 	}
@@ -454,6 +488,7 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public rmFactory getrmFactory() {
 		return (rmFactory)getEFactoryInstance();
 	}
@@ -601,25 +636,6 @@ public class rmPackageImpl extends EPackageImpl implements rmPackage {
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// http://www.eclipse.org/emf/2002/Ecore
-		createEcoreAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore"; //$NON-NLS-1$	
-		addAnnotation
-		  (this, 
-		   source, 
-		   new String[] {
-		   });
 	}
 
 } //rmPackageImpl

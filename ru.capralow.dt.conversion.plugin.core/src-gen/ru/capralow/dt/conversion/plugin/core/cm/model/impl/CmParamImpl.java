@@ -76,7 +76,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean BY_VALUE_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean BY_VALUE_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getByValue() <em>By Value</em>}' attribute.
@@ -112,6 +112,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -121,6 +122,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -133,6 +135,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDefaultValue() {
 		return defaultValue;
 	}
@@ -142,6 +145,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefaultValue(String newDefaultValue) {
 		String oldDefaultValue = defaultValue;
 		defaultValue = newDefaultValue;
@@ -154,6 +158,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getByValue() {
 		return byValue;
 	}
@@ -163,6 +168,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setByValue(Boolean newByValue) {
 		Boolean oldByValue = byValue;
 		byValue = newByValue;
@@ -257,7 +263,7 @@ public class CmParamImpl extends MinimalEObjectImpl.Container implements CmParam
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(", defaultValue: "); //$NON-NLS-1$

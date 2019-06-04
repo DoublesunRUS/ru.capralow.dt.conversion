@@ -34,10 +34,6 @@ public interface ExchangeProject extends EObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -61,10 +57,6 @@ public interface ExchangeProject extends EObject {
 	 * Returns the value of the '<em><b>Store Version</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Store Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Store Version</em>' attribute.
 	 * @see #setStoreVersion(String)
@@ -88,10 +80,6 @@ public interface ExchangeProject extends EObject {
 	 * Returns the value of the '<em><b>Extensions</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ep.model.EpExtension}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Extensions</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Extensions</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.epPackage#getExchangeProject_Extensions()
@@ -104,10 +92,6 @@ public interface ExchangeProject extends EObject {
 	 * Returns the value of the '<em><b>Status</b></em>' attribute.
 	 * The literals are from the enumeration {@link ru.capralow.dt.conversion.plugin.core.ep.model.EpProjectStatus}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Status</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Status</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.EpProjectStatus
@@ -133,10 +117,6 @@ public interface ExchangeProject extends EObject {
 	 * Returns the value of the '<em><b>Format Versions</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Format Versions</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Format Versions</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.epPackage#getExchangeProject_FormatVersions()
@@ -149,10 +129,6 @@ public interface ExchangeProject extends EObject {
 	 * Returns the value of the '<em><b>Settings Modules</b></em>' reference list.
 	 * The list contents are of type {@link com._1c.g5.v8.dt.metadata.mdclass.CommonModule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Settings Modules</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Settings Modules</em>' reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.epPackage#getExchangeProject_SettingsModules()
@@ -165,7 +141,6 @@ public interface ExchangeProject extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%java.lang.String%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%java.lang.String%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt;&gt; _formatVersions = this.getFormatVersions();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt; formatVersion : _formatVersions)\n{\n\tresult.add(formatVersion.getVersion());\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<String> getVersions();
@@ -174,7 +149,6 @@ public interface ExchangeProject extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" moduleUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt;&gt; _formatVersions = this.getFormatVersions();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt; formatVersion : _formatVersions)\n{\n\tboolean _equals = formatVersion.getModule().equals(module);\n\tif (_equals)\n\t{\n\t\tresult.add(formatVersion);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<EpFormatVersion> getModuleFormatVersions(CommonModule module);
@@ -183,7 +157,6 @@ public interface ExchangeProject extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%com._1c.g5.v8.dt.metadata.mdclass.CommonModule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%com._1c.g5.v8.dt.metadata.mdclass.CommonModule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt;&gt; _formatVersions = this.getFormatVersions();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ep.model.EpFormatVersion%&gt; formatVersion : _formatVersions)\n{\n\tboolean _contains = result.contains(formatVersion.getModule());\n\tboolean _not = (!_contains);\n\tif (_not)\n\t{\n\t\tresult.add(formatVersion.getModule());\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CommonModule> getFormatModules();

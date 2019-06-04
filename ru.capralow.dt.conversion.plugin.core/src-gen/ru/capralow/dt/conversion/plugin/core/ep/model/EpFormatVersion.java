@@ -32,10 +32,6 @@ public interface EpFormatVersion extends EObject {
 	 * Returns the value of the '<em><b>Version</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
@@ -59,10 +55,6 @@ public interface EpFormatVersion extends EObject {
 	 * Returns the value of the '<em><b>Extension Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Extension Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Extension Name</em>' attribute.
 	 * @see #setExtensionName(String)
@@ -86,10 +78,6 @@ public interface EpFormatVersion extends EObject {
 	 * Returns the value of the '<em><b>Module Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Module Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module Name</em>' attribute.
 	 * @see #setModuleName(String)
@@ -112,10 +100,6 @@ public interface EpFormatVersion extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Module</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Module</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Module</em>' reference.
 	 * @see #setModule(CommonModule)
@@ -138,10 +122,6 @@ public interface EpFormatVersion extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Xdto Package</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Xdto Package</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Xdto Package</em>' reference.
 	 * @see #setXdtoPackage(XDTOPackage)

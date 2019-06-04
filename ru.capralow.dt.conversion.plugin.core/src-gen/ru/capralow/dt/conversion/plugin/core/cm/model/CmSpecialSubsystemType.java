@@ -61,10 +61,6 @@ public enum CmSpecialSubsystemType implements Enumerator {
 	/**
 	 * The '<em><b>Subsystem</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Subsystem</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SUBSYSTEM
 	 * @model name="Subsystem" literal="&lt;\u041f\u043e\u0434\u0441\u0438\u0441\u0442\u0435\u043c\u0430&gt;"
@@ -76,10 +72,6 @@ public enum CmSpecialSubsystemType implements Enumerator {
 	/**
 	 * The '<em><b>All</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>All</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ALL
 	 * @model name="All" literal="&lt;\u0412\u0441\u0435 \u043f\u043e\u0434\u0441\u0438\u0441\u0442\u0435\u043c\u044b&gt;"
@@ -91,10 +83,6 @@ public enum CmSpecialSubsystemType implements Enumerator {
 	/**
 	 * The '<em><b>Main</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Main</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MAIN
 	 * @model name="Main" literal="\u0413\u043b\u0430\u0432\u043d\u043e\u0435"
@@ -106,10 +94,6 @@ public enum CmSpecialSubsystemType implements Enumerator {
 	/**
 	 * The '<em><b>Empty</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Empty</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EMPTY
 	 * @model name="Empty" literal="&lt;\u041e\u0441\u0442\u0430\u043b\u044c\u043d\u043e\u0435&gt;"
@@ -232,6 +216,7 @@ public enum CmSpecialSubsystemType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -241,6 +226,7 @@ public enum CmSpecialSubsystemType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -250,6 +236,7 @@ public enum CmSpecialSubsystemType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

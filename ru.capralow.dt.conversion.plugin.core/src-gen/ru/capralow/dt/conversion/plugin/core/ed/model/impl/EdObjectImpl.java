@@ -141,6 +141,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMainName() {
 		return mainName;
 	}
@@ -150,6 +151,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMainName(String newMainName) {
 		String oldMainName = mainName;
 		mainName = newMainName;
@@ -162,6 +164,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getKeysName() {
 		return keysName;
 	}
@@ -171,6 +174,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKeysName(String newKeysName) {
 		String oldKeysName = keysName;
 		keysName = newKeysName;
@@ -183,6 +187,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectType getXdtoMainObject() {
 		if (xdtoMainObject != null && xdtoMainObject.eIsProxy()) {
 			InternalEObject oldXdtoMainObject = (InternalEObject)xdtoMainObject;
@@ -209,6 +214,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setXdtoMainObject(ObjectType newXdtoMainObject) {
 		ObjectType oldXdtoMainObject = xdtoMainObject;
 		xdtoMainObject = newXdtoMainObject;
@@ -221,6 +227,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectType getXdtoKeysObject() {
 		if (xdtoKeysObject != null && xdtoKeysObject.eIsProxy()) {
 			InternalEObject oldXdtoKeysObject = (InternalEObject)xdtoKeysObject;
@@ -247,6 +254,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setXdtoKeysObject(ObjectType newXdtoKeysObject) {
 		ObjectType oldXdtoKeysObject = xdtoKeysObject;
 		xdtoKeysObject = newXdtoKeysObject;
@@ -259,6 +267,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdProperty> getMainProperties() {
 		if (mainProperties == null) {
 			mainProperties = new EObjectContainmentEList<EdProperty>(EdProperty.class, this, edPackage.ED_OBJECT__MAIN_PROPERTIES);
@@ -271,6 +280,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdProperty getProperty(final String name) {
 		EList<EdProperty> _mainProperties = this.getMainProperties();
 		for (final EdProperty edProperty : _mainProperties) {
@@ -287,6 +297,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdProperty> getKeyProperties() {
 		final BasicEList<EdProperty> keyProperties = XcoreCollectionLiterals.<EdProperty>newBasicEList();
 		EList<EdProperty> _mainProperties = this.getMainProperties();
@@ -440,7 +451,7 @@ public class EdObjectImpl extends MinimalEObjectImpl.Container implements EdObje
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (mainName: "); //$NON-NLS-1$
 		result.append(mainName);
 		result.append(", keysName: "); //$NON-NLS-1$

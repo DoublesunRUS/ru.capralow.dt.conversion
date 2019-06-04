@@ -80,7 +80,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link rgPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -94,7 +94,8 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 		if (isInited) return (rgPackage)EPackage.Registry.INSTANCE.getEPackage(rgPackage.eNS_URI);
 
 		// Obtain or create and register package
-		rgPackageImpl thergPackage = (rgPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof rgPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new rgPackageImpl());
+		Object registeredrgPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		rgPackageImpl thergPackage = registeredrgPackage instanceof rgPackageImpl ? (rgPackageImpl)registeredrgPackage : new rgPackageImpl();
 
 		isInited = true;
 
@@ -110,7 +111,6 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 		// Mark meta-data to indicate it can't be changed
 		thergPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(rgPackage.eNS_URI, thergPackage);
 		return thergPackage;
@@ -121,6 +121,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReportGroups() {
 		return reportGroupsEClass;
 	}
@@ -130,6 +131,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReportGroups_Variants() {
 		return (EReference)reportGroupsEClass.getEStructuralFeatures().get(0);
 	}
@@ -139,6 +141,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReportGroups_AddObjectsList() {
 		return (EAttribute)reportGroupsEClass.getEStructuralFeatures().get(1);
 	}
@@ -148,6 +151,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRgVariant() {
 		return rgVariantEClass;
 	}
@@ -157,6 +161,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRgVariant_Name() {
 		return (EAttribute)rgVariantEClass.getEStructuralFeatures().get(0);
 	}
@@ -166,6 +171,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRgVariant_Groups() {
 		return (EReference)rgVariantEClass.getEStructuralFeatures().get(1);
 	}
@@ -175,6 +181,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRgGroup() {
 		return rgGroupEClass;
 	}
@@ -184,6 +191,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRgGroup_Name() {
 		return (EAttribute)rgGroupEClass.getEStructuralFeatures().get(0);
 	}
@@ -193,6 +201,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRgGroup_Rules() {
 		return (EReference)rgGroupEClass.getEStructuralFeatures().get(1);
 	}
@@ -202,6 +211,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRgRule() {
 		return rgRuleEClass;
 	}
@@ -211,6 +221,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRgRule_Name() {
 		return (EAttribute)rgRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -220,6 +231,7 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public rgFactory getrgFactory() {
 		return (rgFactory)getEFactoryInstance();
 	}
@@ -309,25 +321,6 @@ public class rgPackageImpl extends EPackageImpl implements rgPackage {
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// http://www.eclipse.org/emf/2002/Ecore
-		createEcoreAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore"; //$NON-NLS-1$	
-		addAnnotation
-		  (this, 
-		   source, 
-		   new String[] {
-		   });
 	}
 
 } //rgPackageImpl

@@ -70,6 +70,7 @@ public class CmGroupImpl extends MinimalEObjectImpl.Container implements CmGroup
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -79,6 +80,7 @@ public class CmGroupImpl extends MinimalEObjectImpl.Container implements CmGroup
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -153,7 +155,7 @@ public class CmGroupImpl extends MinimalEObjectImpl.Container implements CmGroup
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');

@@ -91,6 +91,7 @@ public class RgVariantImpl extends MinimalEObjectImpl.Container implements RgVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -100,6 +101,7 @@ public class RgVariantImpl extends MinimalEObjectImpl.Container implements RgVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -112,6 +114,7 @@ public class RgVariantImpl extends MinimalEObjectImpl.Container implements RgVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<RgGroup> getGroups() {
 		if (groups == null) {
 			groups = new EObjectContainmentEList<RgGroup>(RgGroup.class, this, rgPackage.RG_VARIANT__GROUPS);
@@ -212,7 +215,7 @@ public class RgVariantImpl extends MinimalEObjectImpl.Container implements RgVar
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');

@@ -55,7 +55,7 @@ public class ReportGroupsImpl extends MinimalEObjectImpl.Container implements Re
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean ADD_OBJECTS_LIST_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean ADD_OBJECTS_LIST_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getAddObjectsList() <em>Add Objects List</em>}' attribute.
@@ -91,6 +91,7 @@ public class ReportGroupsImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<RgVariant> getVariants() {
 		if (variants == null) {
 			variants = new EObjectContainmentEList<RgVariant>(RgVariant.class, this, rgPackage.REPORT_GROUPS__VARIANTS);
@@ -103,6 +104,7 @@ public class ReportGroupsImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getAddObjectsList() {
 		return addObjectsList;
 	}
@@ -112,6 +114,7 @@ public class ReportGroupsImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAddObjectsList(Boolean newAddObjectsList) {
 		Boolean oldAddObjectsList = addObjectsList;
 		addObjectsList = newAddObjectsList;
@@ -212,7 +215,7 @@ public class ReportGroupsImpl extends MinimalEObjectImpl.Container implements Re
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (addObjectsList: "); //$NON-NLS-1$
 		result.append(addObjectsList);
 		result.append(')');

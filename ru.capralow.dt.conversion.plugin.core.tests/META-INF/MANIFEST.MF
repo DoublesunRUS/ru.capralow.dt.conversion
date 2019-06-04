@@ -13,3 +13,6 @@ Require-Bundle: ru.capralow.dt.conversion.plugin.core,
 Bundle-ActivationPolicy: lazy
 Import-Package: com._1c.g5.v8.dt.xdto.model,
  org.eclipse.emf.common.util
+Export-Package: ru.capralow.dt.conversion.plugin.core.analyzer.tests;x-internal:=true,
+ ru.capralow.dt.conversion.plugin.core.report.tests;x-internal:=true,
+ ru.capralow.dt.conversion.plugin.core.utils.tests;x-internal:=true

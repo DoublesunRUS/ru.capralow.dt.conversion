@@ -147,6 +147,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -156,6 +157,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -168,6 +170,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Property getXdtoProperty() {
 		if (xdtoProperty != null && xdtoProperty.eIsProxy()) {
 			InternalEObject oldXdtoProperty = (InternalEObject)xdtoProperty;
@@ -194,6 +197,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setXdtoProperty(Property newXdtoProperty) {
 		Property oldXdtoProperty = xdtoProperty;
 		xdtoProperty = newXdtoProperty;
@@ -206,6 +210,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsKey() {
 		return isKey;
 	}
@@ -215,6 +220,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsKey(Boolean newIsKey) {
 		Boolean oldIsKey = isKey;
 		isKey = newIsKey;
@@ -227,6 +233,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getType() {
 		return type;
 	}
@@ -236,6 +243,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(String newType) {
 		String oldType = type;
 		type = newType;
@@ -248,6 +256,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getRequired() {
 		return required;
 	}
@@ -257,6 +266,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRequired(Boolean newRequired) {
 		Boolean oldRequired = required;
 		required = newRequired;
@@ -372,7 +382,7 @@ public class EdPropertyImpl extends MinimalEObjectImpl.Container implements EdPr
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(", isKey: "); //$NON-NLS-1$

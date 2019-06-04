@@ -34,7 +34,7 @@ public class ExchangePlanSelectionRuleImpl extends MinimalEObjectImpl.Container 
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean IS_FOLDER_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean IS_FOLDER_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getIsFolder() <em>Is Folder</em>}' attribute.
@@ -70,6 +70,7 @@ public class ExchangePlanSelectionRuleImpl extends MinimalEObjectImpl.Container 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsFolder() {
 		return isFolder;
 	}
@@ -79,6 +80,7 @@ public class ExchangePlanSelectionRuleImpl extends MinimalEObjectImpl.Container 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsFolder(Boolean newIsFolder) {
 		Boolean oldIsFolder = isFolder;
 		isFolder = newIsFolder;
@@ -153,7 +155,7 @@ public class ExchangePlanSelectionRuleImpl extends MinimalEObjectImpl.Container 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isFolder: "); //$NON-NLS-1$
 		result.append(isFolder);
 		result.append(')');

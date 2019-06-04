@@ -128,7 +128,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link epPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -142,7 +142,8 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 		if (isInited) return (epPackage)EPackage.Registry.INSTANCE.getEPackage(epPackage.eNS_URI);
 
 		// Obtain or create and register package
-		epPackageImpl theepPackage = (epPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof epPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new epPackageImpl());
+		Object registeredepPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		epPackageImpl theepPackage = registeredepPackage instanceof epPackageImpl ? (epPackageImpl)registeredepPackage : new epPackageImpl();
 
 		isInited = true;
 
@@ -165,7 +166,6 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 		// Mark meta-data to indicate it can't be changed
 		theepPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(epPackage.eNS_URI, theepPackage);
 		return theepPackage;
@@ -176,6 +176,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExchangeProject() {
 		return exchangeProjectEClass;
 	}
@@ -185,6 +186,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExchangeProject_Name() {
 		return (EAttribute)exchangeProjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -194,6 +196,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExchangeProject_StoreVersion() {
 		return (EAttribute)exchangeProjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -203,6 +206,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExchangeProject_Extensions() {
 		return (EReference)exchangeProjectEClass.getEStructuralFeatures().get(2);
 	}
@@ -212,6 +216,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExchangeProject_Status() {
 		return (EAttribute)exchangeProjectEClass.getEStructuralFeatures().get(3);
 	}
@@ -221,6 +226,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExchangeProject_FormatVersions() {
 		return (EReference)exchangeProjectEClass.getEStructuralFeatures().get(4);
 	}
@@ -230,6 +236,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExchangeProject_SettingsModules() {
 		return (EReference)exchangeProjectEClass.getEStructuralFeatures().get(5);
 	}
@@ -239,6 +246,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getExchangeProject__GetVersions() {
 		return exchangeProjectEClass.getEOperations().get(0);
 	}
@@ -248,6 +256,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getExchangeProject__GetModuleFormatVersions__CommonModule() {
 		return exchangeProjectEClass.getEOperations().get(1);
 	}
@@ -257,6 +266,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getExchangeProject__GetFormatModules() {
 		return exchangeProjectEClass.getEOperations().get(2);
 	}
@@ -266,6 +276,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExchangeProjects() {
 		return exchangeProjectsEClass;
 	}
@@ -275,6 +286,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExchangeProjects_Projects() {
 		return (EReference)exchangeProjectsEClass.getEStructuralFeatures().get(0);
 	}
@@ -284,6 +296,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getExchangeProjects__GetProject__String() {
 		return exchangeProjectsEClass.getEOperations().get(0);
 	}
@@ -293,6 +306,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEpExtension() {
 		return epExtensionEClass;
 	}
@@ -302,6 +316,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpExtension_Name() {
 		return (EAttribute)epExtensionEClass.getEStructuralFeatures().get(0);
 	}
@@ -311,6 +326,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEpFormatVersion() {
 		return epFormatVersionEClass;
 	}
@@ -320,6 +336,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpFormatVersion_Version() {
 		return (EAttribute)epFormatVersionEClass.getEStructuralFeatures().get(0);
 	}
@@ -329,6 +346,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpFormatVersion_ExtensionName() {
 		return (EAttribute)epFormatVersionEClass.getEStructuralFeatures().get(1);
 	}
@@ -338,6 +356,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpFormatVersion_ModuleName() {
 		return (EAttribute)epFormatVersionEClass.getEStructuralFeatures().get(2);
 	}
@@ -347,6 +366,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEpFormatVersion_Module() {
 		return (EReference)epFormatVersionEClass.getEStructuralFeatures().get(3);
 	}
@@ -356,6 +376,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEpFormatVersion_XdtoPackage() {
 		return (EReference)epFormatVersionEClass.getEStructuralFeatures().get(4);
 	}
@@ -365,6 +386,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExchangeData() {
 		return exchangeDataEClass;
 	}
@@ -374,6 +396,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExchangeData_Projects() {
 		return (EReference)exchangeDataEClass.getEStructuralFeatures().get(0);
 	}
@@ -383,6 +406,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExchangeData_Pairs() {
 		return (EReference)exchangeDataEClass.getEStructuralFeatures().get(1);
 	}
@@ -392,6 +416,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEpExchangePair() {
 		return epExchangePairEClass;
 	}
@@ -401,6 +426,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpExchangePair_ConfigurationName1() {
 		return (EAttribute)epExchangePairEClass.getEStructuralFeatures().get(0);
 	}
@@ -410,6 +436,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpExchangePair_ConfigurationName2() {
 		return (EAttribute)epExchangePairEClass.getEStructuralFeatures().get(1);
 	}
@@ -419,6 +446,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpExchangePair_Status() {
 		return (EAttribute)epExchangePairEClass.getEStructuralFeatures().get(2);
 	}
@@ -428,6 +456,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEpExchangePair_Versions() {
 		return (EAttribute)epExchangePairEClass.getEStructuralFeatures().get(3);
 	}
@@ -437,6 +466,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getEpProjectStatus() {
 		return epProjectStatusEEnum;
 	}
@@ -446,6 +476,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getEpExchangePairStatus() {
 		return epExchangePairStatusEEnum;
 	}
@@ -455,6 +486,7 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public epFactory getepFactory() {
 		return (epFactory)getEFactoryInstance();
 	}
@@ -609,25 +641,6 @@ public class epPackageImpl extends EPackageImpl implements epPackage {
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// http://www.eclipse.org/emf/2002/Ecore
-		createEcoreAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore"; //$NON-NLS-1$	
-		addAnnotation
-		  (this, 
-		   source, 
-		   new String[] {
-		   });
 	}
 
 } //epPackageImpl

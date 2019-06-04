@@ -68,7 +68,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean IS_DISABLED_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean IS_DISABLED_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getIsDisabled() <em>Is Disabled</em>}' attribute.
@@ -88,7 +88,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean FOR_GROUP_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean FOR_GROUP_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getForGroup() <em>For Group</em>}' attribute.
@@ -334,6 +334,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsDisabled() {
 		return isDisabled;
 	}
@@ -343,6 +344,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsDisabled(Boolean newIsDisabled) {
 		Boolean oldIsDisabled = isDisabled;
 		isDisabled = newIsDisabled;
@@ -355,6 +357,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getForGroup() {
 		return forGroup;
 	}
@@ -364,6 +367,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setForGroup(Boolean newForGroup) {
 		Boolean oldForGroup = forGroup;
 		forGroup = newForGroup;
@@ -376,6 +380,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmAttributeRule> getAttributeRules() {
 		if (attributeRules == null) {
 			attributeRules = new EObjectContainmentWithInverseEList<CmAttributeRule>(CmAttributeRule.class, this, cmPackage.CM_OBJECT_RULE__ATTRIBUTE_RULES, cmPackage.CM_ATTRIBUTE_RULE__OWNER);
@@ -388,6 +393,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnSendingEvent() {
 		return onSendingEvent;
 	}
@@ -397,6 +403,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOnSendingEvent(String newOnSendingEvent) {
 		String oldOnSendingEvent = onSendingEvent;
 		onSendingEvent = newOnSendingEvent;
@@ -409,6 +416,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnSendingEventPrefix() {
 		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0440\u0438\u041E\u0442\u043F\u0440\u0430\u0432\u043A\u0435\u0414\u0430\u043D\u043D\u044B\u0445(\u0414\u0430\u043D\u043D\u044B\u0435\u0418\u0411, \u0414\u0430\u043D\u043D\u044B\u0435XDTO, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430, \u0421\u0442\u0435\u043A\u0412\u044B\u0433\u0440\u0443\u0437\u043A\u0438)".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
 	}
@@ -418,6 +426,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnSendingEventSuffix() {
 		return onSendingEventSuffix;
 	}
@@ -427,6 +436,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOnSendingEventSuffix(String newOnSendingEventSuffix) {
 		String oldOnSendingEventSuffix = onSendingEventSuffix;
 		onSendingEventSuffix = newOnSendingEventSuffix;
@@ -439,6 +449,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeReceivingEvent() {
 		return beforeReceivingEvent;
 	}
@@ -448,6 +459,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeReceivingEvent(String newBeforeReceivingEvent) {
 		String oldBeforeReceivingEvent = beforeReceivingEvent;
 		beforeReceivingEvent = newBeforeReceivingEvent;
@@ -460,6 +472,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeReceivingEventPrefix() {
 		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0440\u0438\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u0438\u0414\u0430\u043D\u043D\u044B\u0445XDTO(\u0414\u0430\u043D\u043D\u044B\u0435XDTO, \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0435\u0414\u0430\u043D\u043D\u044B\u0435, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
 	}
@@ -469,6 +482,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeReceivingEventSuffix() {
 		return beforeReceivingEventSuffix;
 	}
@@ -478,6 +492,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBeforeReceivingEventSuffix(String newBeforeReceivingEventSuffix) {
 		String oldBeforeReceivingEventSuffix = beforeReceivingEventSuffix;
 		beforeReceivingEventSuffix = newBeforeReceivingEventSuffix;
@@ -490,6 +505,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnReceivingEvent() {
 		return onReceivingEvent;
 	}
@@ -499,6 +515,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOnReceivingEvent(String newOnReceivingEvent) {
 		String oldOnReceivingEvent = onReceivingEvent;
 		onReceivingEvent = newOnReceivingEvent;
@@ -511,6 +528,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnReceivingEventPrefix() {
 		return "\u041F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u0430 \u041F\u041A\u041E_&\u0418\u043C\u044F\u041F\u041A\u041E_\u041F\u0435\u0440\u0435\u0434\u0417\u0430\u043F\u0438\u0441\u044C\u044E\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0445\u0414\u0430\u043D\u043D\u044B\u0445(\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u0435\u0414\u0430\u043D\u043D\u044B\u0435, \u0414\u0430\u043D\u043D\u044B\u0435\u0418\u0411, \u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u044F\u0421\u0432\u043E\u0439\u0441\u0442\u0432, \u041A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u044B\u041E\u0431\u043C\u0435\u043D\u0430)".replace("&\u0418\u043C\u044F\u041F\u041A\u041E", this.getName());
 	}
@@ -520,6 +538,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnReceivingEventSuffix() {
 		return onReceivingEventSuffix;
 	}
@@ -529,6 +548,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOnReceivingEventSuffix(String newOnReceivingEventSuffix) {
 		String oldOnReceivingEventSuffix = onReceivingEventSuffix;
 		onReceivingEventSuffix = newOnReceivingEventSuffix;
@@ -541,6 +561,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmAlgorithm getAfterReceivingAlgorithm() {
 		if (afterReceivingAlgorithm != null && afterReceivingAlgorithm.eIsProxy()) {
 			InternalEObject oldAfterReceivingAlgorithm = (InternalEObject)afterReceivingAlgorithm;
@@ -567,6 +588,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAfterReceivingAlgorithm(CmAlgorithm newAfterReceivingAlgorithm) {
 		CmAlgorithm oldAfterReceivingAlgorithm = afterReceivingAlgorithm;
 		afterReceivingAlgorithm = newAfterReceivingAlgorithm;
@@ -579,6 +601,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmIdentificationVariant getIdentificationVariant() {
 		return identificationVariant;
 	}
@@ -588,6 +611,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIdentificationVariant(CmIdentificationVariant newIdentificationVariant) {
 		CmIdentificationVariant oldIdentificationVariant = identificationVariant;
 		identificationVariant = newIdentificationVariant == null ? IDENTIFICATION_VARIANT_EDEFAULT : newIdentificationVariant;
@@ -600,6 +624,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getIdentificationFields() {
 		if (identificationFields == null) {
 			identificationFields = new EDataTypeEList<String>(String.class, this, cmPackage.CM_OBJECT_RULE__IDENTIFICATION_FIELDS);
@@ -612,6 +637,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmSubsystem> getSubsystems() {
 		if (subsystems == null) {
 			subsystems = new EObjectResolvingEList<CmSubsystem>(CmSubsystem.class, this, cmPackage.CM_OBJECT_RULE__SUBSYSTEMS);
@@ -624,6 +650,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getForGroupDeclaration() {
 		Boolean _forGroup = this.getForGroup();
 		if ((_forGroup).booleanValue()) {
@@ -639,6 +666,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnSendingEventText() {
 		String _onSendingEventPrefix = this.getOnSendingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -659,6 +687,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnSendingEventDeclaration() {
 		int _length = this.getOnSendingEvent().length();
 		boolean _equals = (_length == 0);
@@ -675,6 +704,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeReceivingEventText() {
 		String _beforeReceivingEventPrefix = this.getBeforeReceivingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -695,6 +725,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBeforeReceivingEventDeclaration() {
 		int _length = this.getBeforeReceivingEvent().length();
 		boolean _equals = (_length == 0);
@@ -711,6 +742,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnReceivingEventText() {
 		String _onReceivingEventPrefix = this.getOnReceivingEventPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -731,6 +763,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOnReceivingEventDeclaration() {
 		int _length = this.getOnReceivingEvent().length();
 		boolean _equals = (_length == 0);
@@ -747,6 +780,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAfterReceivingAlgorithmDeclaration() {
 		if (((this.getAfterReceivingAlgorithm() == null) || (this.getAfterReceivingAlgorithm().getAlgorithmText().length() == 0))) {
 			return "";
@@ -761,6 +795,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean includedInSubsystem(final CmSubsystem cmSubsystem) {
 		if (((cmSubsystem == null) || Objects.equal(cmSubsystem.getSpecialSubsystemType(), CmSpecialSubsystemType.ALL))) {
 			return Boolean.valueOf(true);
@@ -790,6 +825,7 @@ public class CmObjectRuleImpl extends CmObjectImpl implements CmObjectRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		String nameString = this.getName();
 		boolean _isEmpty = this.getName().isEmpty();

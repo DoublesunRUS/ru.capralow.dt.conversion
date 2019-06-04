@@ -139,7 +139,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean IS_CUSTOM_RULE_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean IS_CUSTOM_RULE_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getIsCustomRule() <em>Is Custom Rule</em>}' attribute.
@@ -175,6 +175,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmObjectRule getOwner() {
 		if (eContainerFeatureID() != cmPackage.CM_ATTRIBUTE_RULE__OWNER) return null;
 		return (CmObjectRule)eContainer();
@@ -205,6 +206,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOwner(CmObjectRule newOwner) {
 		if (newOwner != eInternalContainer() || (eContainerFeatureID() != cmPackage.CM_ATTRIBUTE_RULE__OWNER && newOwner != null)) {
 			if (EcoreUtil.isAncestor(this, newOwner))
@@ -226,6 +228,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationTabularSection() {
 		return configurationTabularSection;
 	}
@@ -235,6 +238,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationTabularSection(String newConfigurationTabularSection) {
 		String oldConfigurationTabularSection = configurationTabularSection;
 		configurationTabularSection = newConfigurationTabularSection;
@@ -247,6 +251,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationAttribute() {
 		return configurationAttribute;
 	}
@@ -256,6 +261,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationAttribute(String newConfigurationAttribute) {
 		String oldConfigurationAttribute = configurationAttribute;
 		configurationAttribute = newConfigurationAttribute;
@@ -268,6 +274,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormatTabularSection() {
 		return formatTabularSection;
 	}
@@ -277,6 +284,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormatTabularSection(String newFormatTabularSection) {
 		String oldFormatTabularSection = formatTabularSection;
 		formatTabularSection = newFormatTabularSection;
@@ -289,6 +297,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormatAttribute() {
 		return formatAttribute;
 	}
@@ -298,6 +307,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormatAttribute(String newFormatAttribute) {
 		String oldFormatAttribute = formatAttribute;
 		formatAttribute = newFormatAttribute;
@@ -310,6 +320,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmObjectRule getObjectRule() {
 		if (objectRule != null && objectRule.eIsProxy()) {
 			InternalEObject oldObjectRule = (InternalEObject)objectRule;
@@ -336,6 +347,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObjectRule(CmObjectRule newObjectRule) {
 		CmObjectRule oldObjectRule = objectRule;
 		objectRule = newObjectRule;
@@ -348,6 +360,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsCustomRule() {
 		return isCustomRule;
 	}
@@ -357,6 +370,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsCustomRule(Boolean newIsCustomRule) {
 		Boolean oldIsCustomRule = isCustomRule;
 		isCustomRule = newIsCustomRule;
@@ -369,6 +383,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationAttributeFullName() {
 		String result = this.getConfigurationAttribute();
 		int _length = this.getConfigurationTabularSection().length();
@@ -387,6 +402,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormatAttributeFullName() {
 		String result = this.getFormatAttribute();
 		int _length = this.getFormatTabularSection().length();
@@ -405,6 +421,7 @@ public class CmAttributeRuleImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		String customRuleString = "";
 		Boolean _isCustomRule = this.getIsCustomRule();

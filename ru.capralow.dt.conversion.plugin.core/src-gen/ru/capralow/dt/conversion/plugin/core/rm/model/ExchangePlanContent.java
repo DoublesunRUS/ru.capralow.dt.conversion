@@ -26,10 +26,6 @@ public interface ExchangePlanContent extends EObject {
 	 * Returns the value of the '<em><b>Md Object</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Md Object</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Md Object</em>' attribute.
 	 * @see #setMdObject(String)
@@ -53,10 +49,6 @@ public interface ExchangePlanContent extends EObject {
 	 * Returns the value of the '<em><b>Auto Record</b></em>' attribute.
 	 * The literals are from the enumeration {@link ru.capralow.dt.conversion.plugin.core.rm.model.AutoRegistration}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Auto Record</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Auto Record</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.rm.model.AutoRegistration

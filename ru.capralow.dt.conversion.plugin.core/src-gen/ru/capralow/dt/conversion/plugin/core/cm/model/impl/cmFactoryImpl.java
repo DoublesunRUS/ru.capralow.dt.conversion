@@ -126,6 +126,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConversionModule createConversionModule() {
 		ConversionModuleImpl conversionModule = new ConversionModuleImpl();
 		return conversionModule;
@@ -136,6 +137,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmObject createCmObject() {
 		CmObjectImpl cmObject = new CmObjectImpl();
 		return cmObject;
@@ -146,6 +148,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmDataRule createCmDataRule() {
 		CmDataRuleImpl cmDataRule = new CmDataRuleImpl();
 		return cmDataRule;
@@ -156,6 +159,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmObjectRule createCmObjectRule() {
 		CmObjectRuleImpl cmObjectRule = new CmObjectRuleImpl();
 		return cmObjectRule;
@@ -166,6 +170,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmAttributeRule createCmAttributeRule() {
 		CmAttributeRuleImpl cmAttributeRule = new CmAttributeRuleImpl();
 		return cmAttributeRule;
@@ -176,6 +181,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmPredefined createCmPredefined() {
 		CmPredefinedImpl cmPredefined = new CmPredefinedImpl();
 		return cmPredefined;
@@ -186,6 +192,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmPredefinedValue createCmPredefinedValue() {
 		CmPredefinedValueImpl cmPredefinedValue = new CmPredefinedValueImpl();
 		return cmPredefinedValue;
@@ -196,6 +203,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmPredefinedCatalogValue createCmPredefinedCatalogValue() {
 		CmPredefinedCatalogValueImpl cmPredefinedCatalogValue = new CmPredefinedCatalogValueImpl();
 		return cmPredefinedCatalogValue;
@@ -206,6 +214,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmPredefinedEnumValue createCmPredefinedEnumValue() {
 		CmPredefinedEnumValueImpl cmPredefinedEnumValue = new CmPredefinedEnumValueImpl();
 		return cmPredefinedEnumValue;
@@ -216,6 +225,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmAlgorithm createCmAlgorithm() {
 		CmAlgorithmImpl cmAlgorithm = new CmAlgorithmImpl();
 		return cmAlgorithm;
@@ -226,6 +236,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmParam createCmParam() {
 		CmParamImpl cmParam = new CmParamImpl();
 		return cmParam;
@@ -236,6 +247,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmSubsystem createCmSubsystem() {
 		CmSubsystemImpl cmSubsystem = new CmSubsystemImpl();
 		return cmSubsystem;
@@ -246,6 +258,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmGroup createCmGroup() {
 		CmGroupImpl cmGroup = new CmGroupImpl();
 		return cmGroup;
@@ -356,6 +369,7 @@ public class cmFactoryImpl extends EFactoryImpl implements cmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public cmPackage getcmPackage() {
 		return (cmPackage)getEPackage();
 	}

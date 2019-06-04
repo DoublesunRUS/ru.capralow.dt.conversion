@@ -113,6 +113,7 @@ public class rmFactoryImpl extends EFactoryImpl implements rmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RegistrationModule createRegistrationModule() {
 		RegistrationModuleImpl registrationModule = new RegistrationModuleImpl();
 		return registrationModule;
@@ -123,6 +124,7 @@ public class rmFactoryImpl extends EFactoryImpl implements rmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExchangePlanContent createExchangePlanContent() {
 		ExchangePlanContentImpl exchangePlanContent = new ExchangePlanContentImpl();
 		return exchangePlanContent;
@@ -133,6 +135,7 @@ public class rmFactoryImpl extends EFactoryImpl implements rmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RegistrationRule createRegistrationRule() {
 		RegistrationRuleImpl registrationRule = new RegistrationRuleImpl();
 		return registrationRule;
@@ -143,6 +146,7 @@ public class rmFactoryImpl extends EFactoryImpl implements rmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectSelectionRule createObjectSelectionRule() {
 		ObjectSelectionRuleImpl objectSelectionRule = new ObjectSelectionRuleImpl();
 		return objectSelectionRule;
@@ -153,6 +157,7 @@ public class rmFactoryImpl extends EFactoryImpl implements rmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExchangePlanSelectionRule createExchangePlanSelectionRule() {
 		ExchangePlanSelectionRuleImpl exchangePlanSelectionRule = new ExchangePlanSelectionRuleImpl();
 		return exchangePlanSelectionRule;
@@ -240,6 +245,7 @@ public class rmFactoryImpl extends EFactoryImpl implements rmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public rmPackage getrmPackage() {
 		return (rmPackage)getEPackage();
 	}

@@ -37,10 +37,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Is Folder</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Is Folder</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Is Folder</em>' attribute.
 	 * @see #setIsFolder(Boolean)
@@ -64,10 +60,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Disabled</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Disabled</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Disabled</em>' attribute.
 	 * @see #setDisabled(Boolean)
@@ -91,10 +83,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Valid</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Valid</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Valid</em>' attribute.
 	 * @see #setValid(Boolean)
@@ -118,10 +106,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Code</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Code</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Code</em>' attribute.
 	 * @see #setCode(String)
@@ -145,10 +129,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -172,10 +152,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Md Object</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Md Object</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Md Object</em>' attribute.
 	 * @see #setMdObject(String)
@@ -199,10 +175,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Object Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object Name</em>' attribute.
 	 * @see #setObjectName(String)
@@ -226,10 +198,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Md Class</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Md Class</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Md Class</em>' attribute.
 	 * @see #setMdClass(String)
@@ -253,10 +221,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Attribute Send Mode</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attribute Send Mode</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attribute Send Mode</em>' attribute.
 	 * @see #setAttributeSendMode(String)
@@ -280,10 +244,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Object Selection Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.rm.model.ObjectSelectionRule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object Selection Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object Selection Rules</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.rm.model.rmPackage#getRegistrationRule_ObjectSelectionRules()
@@ -296,10 +256,6 @@ public interface RegistrationRule extends EObject {
 	 * Returns the value of the '<em><b>Exchange Plan Selection Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.rm.model.ExchangePlanSelectionRule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exchange Plan Selection Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exchange Plan Selection Rules</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.rm.model.rmPackage#getRegistrationRule_ExchangePlanSelectionRules()

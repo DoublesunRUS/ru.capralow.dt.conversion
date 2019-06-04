@@ -66,6 +66,7 @@ public class ExchangeProjectsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ExchangeProject> getProjects() {
 		if (projects == null) {
 			projects = new EObjectResolvingEList<ExchangeProject>(ExchangeProject.class, this, epPackage.EXCHANGE_PROJECTS__PROJECTS);
@@ -78,6 +79,7 @@ public class ExchangeProjectsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExchangeProject getProject(final String name) {
 		EList<ExchangeProject> _projects = this.getProjects();
 		for (final ExchangeProject project : _projects) {

@@ -208,7 +208,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link cmPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -222,7 +222,8 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		if (isInited) return (cmPackage)EPackage.Registry.INSTANCE.getEPackage(cmPackage.eNS_URI);
 
 		// Obtain or create and register package
-		cmPackageImpl thecmPackage = (cmPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof cmPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new cmPackageImpl());
+		Object registeredcmPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		cmPackageImpl thecmPackage = registeredcmPackage instanceof cmPackageImpl ? (cmPackageImpl)registeredcmPackage : new cmPackageImpl();
 
 		isInited = true;
 
@@ -245,7 +246,6 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 		// Mark meta-data to indicate it can't be changed
 		thecmPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(cmPackage.eNS_URI, thecmPackage);
 		return thecmPackage;
@@ -256,6 +256,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConversionModule() {
 		return conversionModuleEClass;
 	}
@@ -265,6 +266,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_StoreVersion() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -274,6 +276,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConversionModule_Subsystems() {
 		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -283,6 +286,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_Params() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -292,6 +296,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_BeforeConvertationEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(3);
 	}
@@ -301,6 +306,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_BeforeConvertationEventPrefix() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(4);
 	}
@@ -310,6 +316,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_BeforeConvertationEventSuffix() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(5);
 	}
@@ -319,6 +326,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_AfterConvertationEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(6);
 	}
@@ -328,6 +336,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_AfterConvertationEventPrefix() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(7);
 	}
@@ -337,6 +346,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_AfterConvertationEventSuffix() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(8);
 	}
@@ -346,6 +356,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_BeforeFillingEvent() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(9);
 	}
@@ -355,6 +366,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_BeforeFillingEventPrefix() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(10);
 	}
@@ -364,6 +376,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConversionModule_BeforeFillingEventSuffix() {
 		return (EAttribute)conversionModuleEClass.getEStructuralFeatures().get(11);
 	}
@@ -373,6 +386,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConversionModule_DataRules() {
 		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(12);
 	}
@@ -382,6 +396,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConversionModule_ObjectRules() {
 		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(13);
 	}
@@ -391,6 +406,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConversionModule_Predefineds() {
 		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(14);
 	}
@@ -400,6 +416,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConversionModule_Algorithms() {
 		return (EReference)conversionModuleEClass.getEStructuralFeatures().get(15);
 	}
@@ -409,6 +426,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetSubsystem__Subsystem() {
 		return conversionModuleEClass.getEOperations().get(0);
 	}
@@ -418,6 +436,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetBeforeConvertationEventText() {
 		return conversionModuleEClass.getEOperations().get(1);
 	}
@@ -427,6 +446,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetAfterConvertationEventText() {
 		return conversionModuleEClass.getEOperations().get(2);
 	}
@@ -436,6 +456,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetBeforeFillingEventText() {
 		return conversionModuleEClass.getEOperations().get(3);
 	}
@@ -445,6 +466,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetDataRule__String() {
 		return conversionModuleEClass.getEOperations().get(4);
 	}
@@ -454,6 +476,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetSendingDataRules() {
 		return conversionModuleEClass.getEOperations().get(5);
 	}
@@ -463,6 +486,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetSendingDataRules__CmSubsystem() {
 		return conversionModuleEClass.getEOperations().get(6);
 	}
@@ -472,6 +496,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetReceivingDataRules() {
 		return conversionModuleEClass.getEOperations().get(7);
 	}
@@ -481,6 +506,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetReceivingDataRules__CmSubsystem() {
 		return conversionModuleEClass.getEOperations().get(8);
 	}
@@ -490,6 +516,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetObjectRule__String() {
 		return conversionModuleEClass.getEOperations().get(9);
 	}
@@ -499,6 +526,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetSendingObjectRules() {
 		return conversionModuleEClass.getEOperations().get(10);
 	}
@@ -508,6 +536,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetSendingObjectRules__CmSubsystem() {
 		return conversionModuleEClass.getEOperations().get(11);
 	}
@@ -517,6 +546,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetReceivingObjectRules() {
 		return conversionModuleEClass.getEOperations().get(12);
 	}
@@ -526,6 +556,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetReceivingObjectRules__CmSubsystem() {
 		return conversionModuleEClass.getEOperations().get(13);
 	}
@@ -535,6 +566,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetAlgorithm__String() {
 		return conversionModuleEClass.getEOperations().get(14);
 	}
@@ -544,6 +576,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getConversionModule__GetAllAlgorithmsText__String() {
 		return conversionModuleEClass.getEOperations().get(15);
 	}
@@ -553,6 +586,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmObject() {
 		return cmObjectEClass;
 	}
@@ -562,6 +596,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObject_Name() {
 		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -571,6 +606,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmObject_ConfigurationObject() {
 		return (EReference)cmObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -580,6 +616,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObject_ConfigurationObjectName() {
 		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(2);
 	}
@@ -589,6 +626,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObject_ConfigurationObjectFormattedName() {
 		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(3);
 	}
@@ -598,6 +636,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObject_FormatObject() {
 		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(4);
 	}
@@ -607,6 +646,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObject_ForSending() {
 		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(5);
 	}
@@ -616,6 +656,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObject_ForReceiving() {
 		return (EAttribute)cmObjectEClass.getEStructuralFeatures().get(6);
 	}
@@ -625,6 +666,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmDataRule() {
 		return cmDataRuleEClass;
 	}
@@ -634,6 +676,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_IsDisabled() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -643,6 +686,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_SelectionVariant() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -652,6 +696,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_OnProcessingEvent() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -661,6 +706,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_OnProcessingEventPrefix() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(3);
 	}
@@ -670,6 +716,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_OnProcessingEventSuffix() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(4);
 	}
@@ -679,6 +726,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_DataSelectionEvent() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(5);
 	}
@@ -688,6 +736,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_DataSelectionEventPrefix() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(6);
 	}
@@ -697,6 +746,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_DataSelectionEventSuffix() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(7);
 	}
@@ -706,6 +756,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmDataRule_IsDataCleaning() {
 		return (EAttribute)cmDataRuleEClass.getEStructuralFeatures().get(8);
 	}
@@ -715,6 +766,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmDataRule_ObjectRules() {
 		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(9);
 	}
@@ -724,6 +776,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmDataRule_Subsystems() {
 		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(10);
 	}
@@ -733,6 +786,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmDataRule_Group() {
 		return (EReference)cmDataRuleEClass.getEStructuralFeatures().get(11);
 	}
@@ -742,6 +796,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmDataRule__GetOnProcessingEventText() {
 		return cmDataRuleEClass.getEOperations().get(0);
 	}
@@ -751,6 +806,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmDataRule__GetOnProcessingEventDeclaration() {
 		return cmDataRuleEClass.getEOperations().get(1);
 	}
@@ -760,6 +816,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmDataRule__GetDataSelectionEventText() {
 		return cmDataRuleEClass.getEOperations().get(2);
 	}
@@ -769,6 +826,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmDataRule__GetDataSelectionEventDeclaration() {
 		return cmDataRuleEClass.getEOperations().get(3);
 	}
@@ -778,6 +836,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmDataRule__GetDataCleaningDeclaration() {
 		return cmDataRuleEClass.getEOperations().get(4);
 	}
@@ -787,6 +846,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmDataRule__IncludedInSubsystem__CmSubsystem() {
 		return cmDataRuleEClass.getEOperations().get(5);
 	}
@@ -796,6 +856,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmDataRule__ToString() {
 		return cmDataRuleEClass.getEOperations().get(6);
 	}
@@ -805,6 +866,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmObjectRule() {
 		return cmObjectRuleEClass;
 	}
@@ -814,6 +876,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_IsDisabled() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -823,6 +886,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_ForGroup() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -832,6 +896,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmObjectRule_AttributeRules() {
 		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -841,6 +906,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_OnSendingEvent() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(3);
 	}
@@ -850,6 +916,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_OnSendingEventPrefix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(4);
 	}
@@ -859,6 +926,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_OnSendingEventSuffix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(5);
 	}
@@ -868,6 +936,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_BeforeReceivingEvent() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(6);
 	}
@@ -877,6 +946,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_BeforeReceivingEventPrefix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(7);
 	}
@@ -886,6 +956,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_BeforeReceivingEventSuffix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(8);
 	}
@@ -895,6 +966,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_OnReceivingEvent() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(9);
 	}
@@ -904,6 +976,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_OnReceivingEventPrefix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(10);
 	}
@@ -913,6 +986,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_OnReceivingEventSuffix() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(11);
 	}
@@ -922,6 +996,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmObjectRule_AfterReceivingAlgorithm() {
 		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(12);
 	}
@@ -931,6 +1006,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_IdentificationVariant() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(13);
 	}
@@ -940,6 +1016,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmObjectRule_IdentificationFields() {
 		return (EAttribute)cmObjectRuleEClass.getEStructuralFeatures().get(14);
 	}
@@ -949,6 +1026,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmObjectRule_Subsystems() {
 		return (EReference)cmObjectRuleEClass.getEStructuralFeatures().get(15);
 	}
@@ -958,6 +1036,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetForGroupDeclaration() {
 		return cmObjectRuleEClass.getEOperations().get(0);
 	}
@@ -967,6 +1046,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetOnSendingEventText() {
 		return cmObjectRuleEClass.getEOperations().get(1);
 	}
@@ -976,6 +1056,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetOnSendingEventDeclaration() {
 		return cmObjectRuleEClass.getEOperations().get(2);
 	}
@@ -985,6 +1066,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetBeforeReceivingEventText() {
 		return cmObjectRuleEClass.getEOperations().get(3);
 	}
@@ -994,6 +1076,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetBeforeReceivingEventDeclaration() {
 		return cmObjectRuleEClass.getEOperations().get(4);
 	}
@@ -1003,6 +1086,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetOnReceivingEventText() {
 		return cmObjectRuleEClass.getEOperations().get(5);
 	}
@@ -1012,6 +1096,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetOnReceivingEventDeclaration() {
 		return cmObjectRuleEClass.getEOperations().get(6);
 	}
@@ -1021,6 +1106,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__GetAfterReceivingAlgorithmDeclaration() {
 		return cmObjectRuleEClass.getEOperations().get(7);
 	}
@@ -1030,6 +1116,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__IncludedInSubsystem__CmSubsystem() {
 		return cmObjectRuleEClass.getEOperations().get(8);
 	}
@@ -1039,6 +1126,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmObjectRule__ToString() {
 		return cmObjectRuleEClass.getEOperations().get(9);
 	}
@@ -1048,6 +1136,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmAttributeRule() {
 		return cmAttributeRuleEClass;
 	}
@@ -1057,6 +1146,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmAttributeRule_Owner() {
 		return (EReference)cmAttributeRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -1066,6 +1156,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAttributeRule_ConfigurationTabularSection() {
 		return (EAttribute)cmAttributeRuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -1075,6 +1166,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAttributeRule_ConfigurationAttribute() {
 		return (EAttribute)cmAttributeRuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -1084,6 +1176,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAttributeRule_FormatTabularSection() {
 		return (EAttribute)cmAttributeRuleEClass.getEStructuralFeatures().get(3);
 	}
@@ -1093,6 +1186,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAttributeRule_FormatAttribute() {
 		return (EAttribute)cmAttributeRuleEClass.getEStructuralFeatures().get(4);
 	}
@@ -1102,6 +1196,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmAttributeRule_ObjectRule() {
 		return (EReference)cmAttributeRuleEClass.getEStructuralFeatures().get(5);
 	}
@@ -1111,6 +1206,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAttributeRule_IsCustomRule() {
 		return (EAttribute)cmAttributeRuleEClass.getEStructuralFeatures().get(6);
 	}
@@ -1120,6 +1216,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmAttributeRule__GetConfigurationAttributeFullName() {
 		return cmAttributeRuleEClass.getEOperations().get(0);
 	}
@@ -1129,6 +1226,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmAttributeRule__GetFormatAttributeFullName() {
 		return cmAttributeRuleEClass.getEOperations().get(1);
 	}
@@ -1138,6 +1236,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmAttributeRule__ToString() {
 		return cmAttributeRuleEClass.getEOperations().get(2);
 	}
@@ -1147,6 +1246,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmPredefined() {
 		return cmPredefinedEClass;
 	}
@@ -1156,6 +1256,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmPredefined_PredefinedValues() {
 		return (EReference)cmPredefinedEClass.getEStructuralFeatures().get(0);
 	}
@@ -1165,6 +1266,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmPredefined_PredefinedType() {
 		return (EAttribute)cmPredefinedEClass.getEStructuralFeatures().get(1);
 	}
@@ -1174,6 +1276,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmPredefined__GetPredefinedConfigurationValue__String() {
 		return cmPredefinedEClass.getEOperations().get(0);
 	}
@@ -1183,6 +1286,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmPredefined__PredefinedValueExists__String_String() {
 		return cmPredefinedEClass.getEOperations().get(1);
 	}
@@ -1192,6 +1296,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmPredefined__ToString() {
 		return cmPredefinedEClass.getEOperations().get(2);
 	}
@@ -1201,6 +1306,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmPredefinedValue() {
 		return cmPredefinedValueEClass;
 	}
@@ -1210,6 +1316,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmPredefinedValue_ConfigurationValueName() {
 		return (EAttribute)cmPredefinedValueEClass.getEStructuralFeatures().get(0);
 	}
@@ -1219,6 +1326,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmPredefinedValue_FormatValue() {
 		return (EAttribute)cmPredefinedValueEClass.getEStructuralFeatures().get(1);
 	}
@@ -1228,6 +1336,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmPredefinedValue__GetConfigurationValueFormattedName() {
 		return cmPredefinedValueEClass.getEOperations().get(0);
 	}
@@ -1237,6 +1346,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmPredefinedValue__GetFormatValueName() {
 		return cmPredefinedValueEClass.getEOperations().get(1);
 	}
@@ -1246,6 +1356,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmPredefinedCatalogValue() {
 		return cmPredefinedCatalogValueEClass;
 	}
@@ -1255,6 +1366,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmPredefinedCatalogValue_ConfigurationValue() {
 		return (EReference)cmPredefinedCatalogValueEClass.getEStructuralFeatures().get(0);
 	}
@@ -1264,6 +1376,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmPredefinedEnumValue() {
 		return cmPredefinedEnumValueEClass;
 	}
@@ -1273,6 +1386,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmPredefinedEnumValue_ConfigurationValue() {
 		return (EReference)cmPredefinedEnumValueEClass.getEStructuralFeatures().get(0);
 	}
@@ -1282,6 +1396,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmAlgorithm() {
 		return cmAlgorithmEClass;
 	}
@@ -1291,6 +1406,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_Name() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(0);
 	}
@@ -1300,6 +1416,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_Exists() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(1);
 	}
@@ -1309,6 +1426,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_MethodType() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(2);
 	}
@@ -1318,6 +1436,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmAlgorithm_Params() {
 		return (EReference)cmAlgorithmEClass.getEStructuralFeatures().get(3);
 	}
@@ -1327,6 +1446,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_IsExport() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(4);
 	}
@@ -1336,6 +1456,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_Body() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(5);
 	}
@@ -1345,6 +1466,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_MethodParams() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(6);
 	}
@@ -1354,6 +1476,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_Prefix() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(7);
 	}
@@ -1363,6 +1486,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmAlgorithm_Suffix() {
 		return (EAttribute)cmAlgorithmEClass.getEStructuralFeatures().get(8);
 	}
@@ -1372,6 +1496,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmAlgorithm__GetAlgorithmText() {
 		return cmAlgorithmEClass.getEOperations().get(0);
 	}
@@ -1381,6 +1506,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getCmAlgorithm__ToString() {
 		return cmAlgorithmEClass.getEOperations().get(1);
 	}
@@ -1390,6 +1516,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmParam() {
 		return cmParamEClass;
 	}
@@ -1399,6 +1526,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmParam_Name() {
 		return (EAttribute)cmParamEClass.getEStructuralFeatures().get(0);
 	}
@@ -1408,6 +1536,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmParam_DefaultValue() {
 		return (EAttribute)cmParamEClass.getEStructuralFeatures().get(1);
 	}
@@ -1417,6 +1546,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmParam_ByValue() {
 		return (EAttribute)cmParamEClass.getEStructuralFeatures().get(2);
 	}
@@ -1426,6 +1556,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmSubsystem() {
 		return cmSubsystemEClass;
 	}
@@ -1435,6 +1566,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCmSubsystem_Subsystem() {
 		return (EReference)cmSubsystemEClass.getEStructuralFeatures().get(0);
 	}
@@ -1444,6 +1576,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmSubsystem_Name() {
 		return (EAttribute)cmSubsystemEClass.getEStructuralFeatures().get(1);
 	}
@@ -1453,6 +1586,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmSubsystem_SpecialSubsystemType() {
 		return (EAttribute)cmSubsystemEClass.getEStructuralFeatures().get(2);
 	}
@@ -1462,6 +1596,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCmGroup() {
 		return cmGroupEClass;
 	}
@@ -1471,6 +1606,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCmGroup_Name() {
 		return (EAttribute)cmGroupEClass.getEStructuralFeatures().get(0);
 	}
@@ -1480,6 +1616,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getCmSelectionVariant() {
 		return cmSelectionVariantEEnum;
 	}
@@ -1489,6 +1626,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getCmIdentificationVariant() {
 		return cmIdentificationVariantEEnum;
 	}
@@ -1498,6 +1636,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getCmPredefinedType() {
 		return cmPredefinedTypeEEnum;
 	}
@@ -1507,6 +1646,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getCmMethodType() {
 		return cmMethodTypeEEnum;
 	}
@@ -1516,6 +1656,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getCmSpecialSubsystemType() {
 		return cmSpecialSubsystemTypeEEnum;
 	}
@@ -1525,6 +1666,7 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public cmFactory getcmFactory() {
 		return (cmFactory)getEFactoryInstance();
 	}
@@ -1976,25 +2118,6 @@ public class cmPackageImpl extends EPackageImpl implements cmPackage {
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// http://www.eclipse.org/emf/2002/Ecore
-		createEcoreAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore"; //$NON-NLS-1$	
-		addAnnotation
-		  (this, 
-		   source, 
-		   new String[] {
-		   });
 	}
 
 } //cmPackageImpl

@@ -77,7 +77,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean EXISTS_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean EXISTS_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getExists() <em>Exists</em>}' attribute.
@@ -127,7 +127,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean IS_EXPORT_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean IS_EXPORT_EDEFAULT = java.lang.Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getIsExport() <em>Is Export</em>}' attribute.
@@ -213,6 +213,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -222,6 +223,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -234,6 +236,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getExists() {
 		return exists;
 	}
@@ -243,6 +246,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExists(Boolean newExists) {
 		Boolean oldExists = exists;
 		exists = newExists;
@@ -255,6 +259,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmMethodType getMethodType() {
 		return methodType;
 	}
@@ -264,6 +269,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMethodType(CmMethodType newMethodType) {
 		CmMethodType oldMethodType = methodType;
 		methodType = newMethodType == null ? METHOD_TYPE_EDEFAULT : newMethodType;
@@ -276,6 +282,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmParam> getParams() {
 		if (params == null) {
 			params = new EObjectContainmentEList<CmParam>(CmParam.class, this, cmPackage.CM_ALGORITHM__PARAMS);
@@ -288,6 +295,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean getIsExport() {
 		return isExport;
 	}
@@ -297,6 +305,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsExport(Boolean newIsExport) {
 		Boolean oldIsExport = isExport;
 		isExport = newIsExport;
@@ -309,6 +318,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBody() {
 		return body;
 	}
@@ -318,6 +328,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBody(String newBody) {
 		String oldBody = body;
 		body = newBody;
@@ -330,6 +341,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMethodParams() {
 		String methodParams = "";
 		EList<CmParam> _params = this.getParams();
@@ -367,6 +379,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPrefix() {
 		String prefix = "";
 		CmMethodType _methodType = this.getMethodType();
@@ -396,6 +409,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSuffix() {
 		String result = "";
 		CmMethodType _methodType = this.getMethodType();
@@ -414,6 +428,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAlgorithmText() {
 		String _prefix = this.getPrefix();
 		String _lineSeparator = System.lineSeparator();
@@ -434,6 +449,7 @@ public class CmAlgorithmImpl extends MinimalEObjectImpl.Container implements CmA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		return this.getPrefix();
 	}

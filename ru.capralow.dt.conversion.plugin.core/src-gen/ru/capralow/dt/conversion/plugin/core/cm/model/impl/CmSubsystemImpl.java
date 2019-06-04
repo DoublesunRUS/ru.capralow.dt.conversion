@@ -98,6 +98,7 @@ public class CmSubsystemImpl extends MinimalEObjectImpl.Container implements CmS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Subsystem getSubsystem() {
 		if (subsystem != null && subsystem.eIsProxy()) {
 			InternalEObject oldSubsystem = (InternalEObject)subsystem;
@@ -124,6 +125,7 @@ public class CmSubsystemImpl extends MinimalEObjectImpl.Container implements CmS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSubsystem(Subsystem newSubsystem) {
 		Subsystem oldSubsystem = subsystem;
 		subsystem = newSubsystem;
@@ -136,6 +138,7 @@ public class CmSubsystemImpl extends MinimalEObjectImpl.Container implements CmS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		String name = "";
 		CmSpecialSubsystemType _specialSubsystemType = this.getSpecialSubsystemType();
@@ -154,6 +157,7 @@ public class CmSubsystemImpl extends MinimalEObjectImpl.Container implements CmS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmSpecialSubsystemType getSpecialSubsystemType() {
 		return specialSubsystemType;
 	}
@@ -163,6 +167,7 @@ public class CmSubsystemImpl extends MinimalEObjectImpl.Container implements CmS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSpecialSubsystemType(CmSpecialSubsystemType newSpecialSubsystemType) {
 		CmSpecialSubsystemType oldSpecialSubsystemType = specialSubsystemType;
 		specialSubsystemType = newSpecialSubsystemType == null ? SPECIAL_SUBSYSTEM_TYPE_EDEFAULT : newSpecialSubsystemType;
@@ -252,7 +257,7 @@ public class CmSubsystemImpl extends MinimalEObjectImpl.Container implements CmS
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (specialSubsystemType: "); //$NON-NLS-1$
 		result.append(specialSubsystemType);
 		result.append(')');

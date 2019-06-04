@@ -72,6 +72,7 @@ public class edFactoryImpl extends EFactoryImpl implements edFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EnterpriseData createEnterpriseData() {
 		EnterpriseDataImpl enterpriseData = new EnterpriseDataImpl();
 		return enterpriseData;
@@ -82,6 +83,7 @@ public class edFactoryImpl extends EFactoryImpl implements edFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdDefinedType createEdDefinedType() {
 		EdDefinedTypeImpl edDefinedType = new EdDefinedTypeImpl();
 		return edDefinedType;
@@ -92,6 +94,7 @@ public class edFactoryImpl extends EFactoryImpl implements edFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdType createEdType() {
 		EdTypeImpl edType = new EdTypeImpl();
 		return edType;
@@ -102,6 +105,7 @@ public class edFactoryImpl extends EFactoryImpl implements edFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdObject createEdObject() {
 		EdObjectImpl edObject = new EdObjectImpl();
 		return edObject;
@@ -112,6 +116,7 @@ public class edFactoryImpl extends EFactoryImpl implements edFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdProperty createEdProperty() {
 		EdPropertyImpl edProperty = new EdPropertyImpl();
 		return edProperty;
@@ -122,6 +127,7 @@ public class edFactoryImpl extends EFactoryImpl implements edFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdEnum createEdEnum() {
 		EdEnumImpl edEnum = new EdEnumImpl();
 		return edEnum;
@@ -132,6 +138,7 @@ public class edFactoryImpl extends EFactoryImpl implements edFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public edPackage getedPackage() {
 		return (edPackage)getEPackage();
 	}

@@ -31,10 +31,6 @@ public interface EdEnum extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' reference.
 	 * @see #setObject(ValueType)
@@ -58,10 +54,6 @@ public interface EdEnum extends EObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -85,10 +77,6 @@ public interface EdEnum extends EObject {
 	 * Returns the value of the '<em><b>Enumerations</b></em>' reference list.
 	 * The list contents are of type {@link com._1c.g5.v8.dt.xdto.model.Enumeration}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Enumerations</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Enumerations</em>' reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEdEnum_Enumerations()

@@ -28,10 +28,6 @@ public interface ExchangeData extends EObject {
 	 * Returns the value of the '<em><b>Projects</b></em>' reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ep.model.ExchangeProject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Projects</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Projects</em>' reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.epPackage#getExchangeData_Projects()
@@ -44,10 +40,6 @@ public interface ExchangeData extends EObject {
 	 * Returns the value of the '<em><b>Pairs</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePair}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Pairs</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Pairs</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.epPackage#getExchangeData_Pairs()

@@ -175,6 +175,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getVersion() {
 		return version;
 	}
@@ -184,6 +185,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVersion(String newVersion) {
 		String oldVersion = version;
 		version = newVersion;
@@ -196,6 +198,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XDTOPackage getXdtoPackage() {
 		if (xdtoPackage != null && xdtoPackage.eIsProxy()) {
 			InternalEObject oldXdtoPackage = (InternalEObject)xdtoPackage;
@@ -222,6 +225,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setXdtoPackage(XDTOPackage newXdtoPackage) {
 		XDTOPackage oldXdtoPackage = xdtoPackage;
 		xdtoPackage = newXdtoPackage;
@@ -234,6 +238,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdDefinedType> getDefinedTypes() {
 		if (definedTypes == null) {
 			definedTypes = new EObjectContainmentEList<EdDefinedType>(EdDefinedType.class, this, edPackage.ENTERPRISE_DATA__DEFINED_TYPES);
@@ -246,6 +251,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdDefinedType> getRefTypes() {
 		if (refTypes == null) {
 			refTypes = new EObjectContainmentEList<EdDefinedType>(EdDefinedType.class, this, edPackage.ENTERPRISE_DATA__REF_TYPES);
@@ -258,6 +264,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdObject> getCatalogs() {
 		if (catalogs == null) {
 			catalogs = new EObjectContainmentEList<EdObject>(EdObject.class, this, edPackage.ENTERPRISE_DATA__CATALOGS);
@@ -270,6 +277,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdObject> getDocuments() {
 		if (documents == null) {
 			documents = new EObjectContainmentEList<EdObject>(EdObject.class, this, edPackage.ENTERPRISE_DATA__DOCUMENTS);
@@ -282,6 +290,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdEnum> getEnums() {
 		if (enums == null) {
 			enums = new EObjectContainmentEList<EdEnum>(EdEnum.class, this, edPackage.ENTERPRISE_DATA__ENUMS);
@@ -294,6 +303,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdObject> getRegisters() {
 		if (registers == null) {
 			registers = new EObjectContainmentEList<EdObject>(EdObject.class, this, edPackage.ENTERPRISE_DATA__REGISTERS);
@@ -306,6 +316,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdObject> getUnknownObjects() {
 		if (unknownObjects == null) {
 			unknownObjects = new EObjectContainmentEList<EdObject>(EdObject.class, this, edPackage.ENTERPRISE_DATA__UNKNOWN_OBJECTS);
@@ -318,6 +329,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdProperty getProperty(final String objectName, final String propertyName) {
 		EList<EdObject> _catalogs = this.getCatalogs();
 		for (final EdObject fpCatalog : _catalogs) {
@@ -360,6 +372,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdObject getObject(final String name) {
 		EList<EdObject> _catalogs = this.getCatalogs();
 		for (final EdObject fpCatalog : _catalogs) {
@@ -390,6 +403,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdDefinedType getDefinedType(final String name) {
 		EList<EdDefinedType> _definedTypes = this.getDefinedTypes();
 		for (final EdDefinedType fpDefinedType : _definedTypes) {
@@ -406,6 +420,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdEnum getEnum(final String name) {
 		EList<EdEnum> _enums = this.getEnums();
 		for (final EdEnum fpEnum : _enums) {
@@ -619,7 +634,7 @@ public class EnterpriseDataImpl extends MinimalEObjectImpl.Container implements 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (version: "); //$NON-NLS-1$
 		result.append(version);
 		result.append(')');

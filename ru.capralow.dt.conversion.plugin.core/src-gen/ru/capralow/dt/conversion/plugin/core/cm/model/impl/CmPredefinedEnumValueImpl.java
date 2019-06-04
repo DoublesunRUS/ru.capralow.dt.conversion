@@ -62,6 +62,7 @@ public class CmPredefinedEnumValueImpl extends CmPredefinedValueImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EnumValue getConfigurationValue() {
 		if (configurationValue != null && configurationValue.eIsProxy()) {
 			InternalEObject oldConfigurationValue = (InternalEObject)configurationValue;
@@ -88,6 +89,7 @@ public class CmPredefinedEnumValueImpl extends CmPredefinedValueImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationValue(EnumValue newConfigurationValue) {
 		EnumValue oldConfigurationValue = configurationValue;
 		configurationValue = newConfigurationValue;

@@ -51,10 +51,6 @@ public enum CmIdentificationVariant implements Enumerator {
 	/**
 	 * The '<em><b>UUID</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>UUID</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UUID
 	 * @model literal="\u041f\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u0443"
@@ -66,10 +62,6 @@ public enum CmIdentificationVariant implements Enumerator {
 	/**
 	 * The '<em><b>Search Fields</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Search Fields</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SEARCH_FIELDS
 	 * @model name="SearchFields" literal="\u041f\u043e \u043f\u043e\u043b\u044f\u043c \u043f\u043e\u0438\u0441\u043a\u0430"
@@ -81,10 +73,6 @@ public enum CmIdentificationVariant implements Enumerator {
 	/**
 	 * The '<em><b>UUID Then Search Fields</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>UUID Then Search Fields</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UUID_THEN_SEARCH_FIELDS
 	 * @model name="UUIDThenSearchFields" literal="\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u0443 \u043f\u043e\u0442\u043e\u043c \u043f\u043e \u043f\u043e\u043b\u044f\u043c \u043f\u043e\u0438\u0441\u043a\u0430"
@@ -205,6 +193,7 @@ public enum CmIdentificationVariant implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -214,6 +203,7 @@ public enum CmIdentificationVariant implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -223,6 +213,7 @@ public enum CmIdentificationVariant implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

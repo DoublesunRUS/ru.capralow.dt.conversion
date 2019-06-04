@@ -107,6 +107,7 @@ public class epFactoryImpl extends EFactoryImpl implements epFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExchangeProject createExchangeProject() {
 		ExchangeProjectImpl exchangeProject = new ExchangeProjectImpl();
 		return exchangeProject;
@@ -117,6 +118,7 @@ public class epFactoryImpl extends EFactoryImpl implements epFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExchangeProjects createExchangeProjects() {
 		ExchangeProjectsImpl exchangeProjects = new ExchangeProjectsImpl();
 		return exchangeProjects;
@@ -127,6 +129,7 @@ public class epFactoryImpl extends EFactoryImpl implements epFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EpExtension createEpExtension() {
 		EpExtensionImpl epExtension = new EpExtensionImpl();
 		return epExtension;
@@ -137,6 +140,7 @@ public class epFactoryImpl extends EFactoryImpl implements epFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EpFormatVersion createEpFormatVersion() {
 		EpFormatVersionImpl epFormatVersion = new EpFormatVersionImpl();
 		return epFormatVersion;
@@ -147,6 +151,7 @@ public class epFactoryImpl extends EFactoryImpl implements epFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExchangeData createExchangeData() {
 		ExchangeDataImpl exchangeData = new ExchangeDataImpl();
 		return exchangeData;
@@ -157,6 +162,7 @@ public class epFactoryImpl extends EFactoryImpl implements epFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EpExchangePair createEpExchangePair() {
 		EpExchangePairImpl epExchangePair = new EpExchangePairImpl();
 		return epExchangePair;
@@ -207,6 +213,7 @@ public class epFactoryImpl extends EFactoryImpl implements epFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public epPackage getepPackage() {
 		return (epPackage)getEPackage();
 	}

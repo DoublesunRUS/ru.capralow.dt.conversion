@@ -138,6 +138,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getVersion() {
 		return version;
 	}
@@ -147,6 +148,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVersion(String newVersion) {
 		String oldVersion = version;
 		version = newVersion;
@@ -159,6 +161,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExtensionName() {
 		return extensionName;
 	}
@@ -168,6 +171,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtensionName(String newExtensionName) {
 		String oldExtensionName = extensionName;
 		extensionName = newExtensionName;
@@ -180,6 +184,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getModuleName() {
 		return moduleName;
 	}
@@ -189,6 +194,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModuleName(String newModuleName) {
 		String oldModuleName = moduleName;
 		moduleName = newModuleName;
@@ -201,6 +207,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CommonModule getModule() {
 		if (module != null && module.eIsProxy()) {
 			InternalEObject oldModule = (InternalEObject)module;
@@ -227,6 +234,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModule(CommonModule newModule) {
 		CommonModule oldModule = module;
 		module = newModule;
@@ -239,6 +247,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XDTOPackage getXdtoPackage() {
 		if (xdtoPackage != null && xdtoPackage.eIsProxy()) {
 			InternalEObject oldXdtoPackage = (InternalEObject)xdtoPackage;
@@ -265,6 +274,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setXdtoPackage(XDTOPackage newXdtoPackage) {
 		XDTOPackage oldXdtoPackage = xdtoPackage;
 		xdtoPackage = newXdtoPackage;
@@ -381,7 +391,7 @@ public class EpFormatVersionImpl extends MinimalEObjectImpl.Container implements
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (version: "); //$NON-NLS-1$
 		result.append(version);
 		result.append(", extensionName: "); //$NON-NLS-1$

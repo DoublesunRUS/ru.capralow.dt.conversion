@@ -95,6 +95,7 @@ public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationValueName() {
 		return configurationValueName;
 	}
@@ -104,6 +105,7 @@ public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationValueName(String newConfigurationValueName) {
 		String oldConfigurationValueName = configurationValueName;
 		configurationValueName = newConfigurationValueName;
@@ -116,6 +118,7 @@ public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormatValue() {
 		return formatValue;
 	}
@@ -125,6 +128,7 @@ public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormatValue(String newFormatValue) {
 		String oldFormatValue = formatValue;
 		formatValue = newFormatValue;
@@ -137,6 +141,7 @@ public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationValueFormattedName() {
 		boolean _isEmpty = this.getConfigurationValueName().isEmpty();
 		if (_isEmpty) {
@@ -157,6 +162,7 @@ public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormatValueName() {
 		boolean _isEmpty = this.getFormatValue().isEmpty();
 		if (_isEmpty) {
@@ -258,7 +264,7 @@ public class CmPredefinedValueImpl extends MinimalEObjectImpl.Container implemen
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (configurationValueName: "); //$NON-NLS-1$
 		result.append(configurationValueName);
 		result.append(", formatValue: "); //$NON-NLS-1$

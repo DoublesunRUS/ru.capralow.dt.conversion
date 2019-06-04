@@ -41,10 +41,6 @@ public enum CmMethodType implements Enumerator {
 	/**
 	 * The '<em><b>Procedure</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Procedure</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PROCEDURE
 	 * @model name="Procedure" literal="\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430"
@@ -56,10 +52,6 @@ public enum CmMethodType implements Enumerator {
 	/**
 	 * The '<em><b>Function</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Function</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FUNCTION
 	 * @model name="Function" literal="\u0424\u0443\u043d\u043a\u0446\u0438\u044f"
@@ -178,6 +170,7 @@ public enum CmMethodType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -187,6 +180,7 @@ public enum CmMethodType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -196,6 +190,7 @@ public enum CmMethodType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

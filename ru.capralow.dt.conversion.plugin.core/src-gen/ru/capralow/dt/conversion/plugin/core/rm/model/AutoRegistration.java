@@ -41,10 +41,6 @@ public enum AutoRegistration implements Enumerator {
 	/**
 	 * The '<em><b>Allow</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Allow</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ALLOW
 	 * @model name="Allow" literal="\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044c"
@@ -56,10 +52,6 @@ public enum AutoRegistration implements Enumerator {
 	/**
 	 * The '<em><b>Deny</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Deny</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DENY
 	 * @model name="Deny" literal="\u0417\u0430\u043f\u0440\u0435\u0442\u0438\u0442\u044c"
@@ -178,6 +170,7 @@ public enum AutoRegistration implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -187,6 +180,7 @@ public enum AutoRegistration implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -196,6 +190,7 @@ public enum AutoRegistration implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

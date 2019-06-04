@@ -293,6 +293,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getModuleRef() {
 		return moduleRef;
 	}
@@ -302,6 +303,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModuleRef(String newModuleRef) {
 		String oldModuleRef = moduleRef;
 		moduleRef = newModuleRef;
@@ -314,6 +316,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getModuleName() {
 		return moduleName;
 	}
@@ -323,6 +326,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModuleName(String newModuleName) {
 		String oldModuleName = moduleName;
 		moduleName = newModuleName;
@@ -335,6 +339,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getModuleVersion() {
 		return moduleVersion;
 	}
@@ -344,6 +349,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModuleVersion(String newModuleVersion) {
 		String oldModuleVersion = moduleVersion;
 		moduleVersion = newModuleVersion;
@@ -356,6 +362,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Date getModuleCreationDate() {
 		return moduleCreationDate;
 	}
@@ -365,6 +372,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModuleCreationDate(Date newModuleCreationDate) {
 		Date oldModuleCreationDate = moduleCreationDate;
 		moduleCreationDate = newModuleCreationDate;
@@ -377,6 +385,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExchangePlanName() {
 		return exchangePlanName;
 	}
@@ -386,6 +395,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExchangePlanName(String newExchangePlanName) {
 		String oldExchangePlanName = exchangePlanName;
 		exchangePlanName = newExchangePlanName;
@@ -398,6 +408,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExchangePlanMdObject() {
 		return exchangePlanMdObject;
 	}
@@ -407,6 +418,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExchangePlanMdObject(String newExchangePlanMdObject) {
 		String oldExchangePlanMdObject = exchangePlanMdObject;
 		exchangePlanMdObject = newExchangePlanMdObject;
@@ -419,6 +431,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getRuntimeVersion() {
 		return runtimeVersion;
 	}
@@ -428,6 +441,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuntimeVersion(String newRuntimeVersion) {
 		String oldRuntimeVersion = runtimeVersion;
 		runtimeVersion = newRuntimeVersion;
@@ -440,6 +454,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationName() {
 		return configurationName;
 	}
@@ -449,6 +464,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationName(String newConfigurationName) {
 		String oldConfigurationName = configurationName;
 		configurationName = newConfigurationName;
@@ -461,6 +477,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationSynonym() {
 		return configurationSynonym;
 	}
@@ -470,6 +487,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationSynonym(String newConfigurationSynonym) {
 		String oldConfigurationSynonym = configurationSynonym;
 		configurationSynonym = newConfigurationSynonym;
@@ -482,6 +500,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConfigurationVersion() {
 		return configurationVersion;
 	}
@@ -491,6 +510,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfigurationVersion(String newConfigurationVersion) {
 		String oldConfigurationVersion = configurationVersion;
 		configurationVersion = newConfigurationVersion;
@@ -503,6 +523,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ExchangePlanContent> getExchangePlanContent() {
 		if (exchangePlanContent == null) {
 			exchangePlanContent = new EObjectContainmentEList<ExchangePlanContent>(ExchangePlanContent.class, this, rmPackage.REGISTRATION_MODULE__EXCHANGE_PLAN_CONTENT);
@@ -515,6 +536,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<RegistrationRule> getRegistrationRules() {
 		if (registrationRules == null) {
 			registrationRules = new EObjectContainmentEList<RegistrationRule>(RegistrationRule.class, this, rmPackage.REGISTRATION_MODULE__REGISTRATION_RULES);
@@ -718,7 +740,7 @@ public class RegistrationModuleImpl extends MinimalEObjectImpl.Container impleme
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (moduleRef: "); //$NON-NLS-1$
 		result.append(moduleRef);
 		result.append(", moduleName: "); //$NON-NLS-1$

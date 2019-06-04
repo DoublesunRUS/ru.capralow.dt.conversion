@@ -30,10 +30,6 @@ public interface EpExchangePair extends EObject {
 	 * Returns the value of the '<em><b>Configuration Name1</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Name1</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Name1</em>' attribute.
 	 * @see #setConfigurationName1(String)
@@ -57,10 +53,6 @@ public interface EpExchangePair extends EObject {
 	 * Returns the value of the '<em><b>Configuration Name2</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuration Name2</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Name2</em>' attribute.
 	 * @see #setConfigurationName2(String)
@@ -84,10 +76,6 @@ public interface EpExchangePair extends EObject {
 	 * Returns the value of the '<em><b>Status</b></em>' attribute.
 	 * The literals are from the enumeration {@link ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePairStatus}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Status</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Status</em>' attribute.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.EpExchangePairStatus
@@ -113,10 +101,6 @@ public interface EpExchangePair extends EObject {
 	 * Returns the value of the '<em><b>Versions</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Versions</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Versions</em>' attribute list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ep.model.epPackage#getEpExchangePair_Versions()

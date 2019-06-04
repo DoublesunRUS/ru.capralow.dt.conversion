@@ -41,10 +41,6 @@ public enum CmPredefinedType implements Enumerator {
 	/**
 	 * The '<em><b>Ref</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Ref</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REF
 	 * @model name="Ref" literal="\u0421\u0441\u044b\u043b\u043e\u0447\u043d\u044b\u0439 \u043e\u0431\u044a\u0435\u043a\u0442"
@@ -56,10 +52,6 @@ public enum CmPredefinedType implements Enumerator {
 	/**
 	 * The '<em><b>Enum</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Enum</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ENUM
 	 * @model name="Enum" literal="\u041f\u0435\u0440\u0435\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435"
@@ -178,6 +170,7 @@ public enum CmPredefinedType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -187,6 +180,7 @@ public enum CmPredefinedType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -196,6 +190,7 @@ public enum CmPredefinedType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

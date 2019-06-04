@@ -37,10 +37,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Version</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
@@ -63,10 +59,6 @@ public interface EnterpriseData extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Xdto Package</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Xdto Package</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Xdto Package</em>' reference.
 	 * @see #setXdtoPackage(XDTOPackage)
@@ -90,10 +82,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Defined Types</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Defined Types</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Defined Types</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEnterpriseData_DefinedTypes()
@@ -106,10 +94,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Ref Types</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Types</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Types</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEnterpriseData_RefTypes()
@@ -122,10 +106,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Catalogs</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ed.model.EdObject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Catalogs</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Catalogs</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEnterpriseData_Catalogs()
@@ -138,10 +118,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Documents</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ed.model.EdObject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Documents</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Documents</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEnterpriseData_Documents()
@@ -154,10 +130,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Enums</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Enums</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Enums</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEnterpriseData_Enums()
@@ -170,10 +142,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Registers</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ed.model.EdObject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Registers</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Registers</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEnterpriseData_Registers()
@@ -186,10 +154,6 @@ public interface EnterpriseData extends EObject {
 	 * Returns the value of the '<em><b>Unknown Objects</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.ed.model.EdObject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Unknown Objects</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Unknown Objects</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.ed.model.edPackage#getEnterpriseData_UnknownObjects()
@@ -202,7 +166,6 @@ public interface EnterpriseData extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" objectNameUnique="false" propertyNameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt;&gt; _catalogs = this.getCatalogs();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt; fpCatalog : _catalogs)\n{\n\tboolean _equals = fpCatalog.getMainName().equals(objectName);\n\tif (_equals)\n\t{\n\t\t&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty%&gt; property = fpCatalog.getProperty(propertyName);\n\t\tif ((property == null))\n\t\t{\n\t\t\treturn null;\n\t\t}\n\t\treturn property;\n\t}\n}\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt;&gt; _documents = this.getDocuments();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt; fpDocument : _documents)\n{\n\tboolean _equals_1 = fpDocument.getMainName().equals(objectName);\n\tif (_equals_1)\n\t{\n\t\t&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty%&gt; property_1 = fpDocument.getProperty(propertyName);\n\t\tif ((property_1 == null))\n\t\t{\n\t\t\treturn null;\n\t\t}\n\t\treturn property_1;\n\t}\n}\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt;&gt; _registers = this.getRegisters();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt; fpRegister : _registers)\n{\n\tboolean _equals_2 = fpRegister.getMainName().equals(objectName);\n\tif (_equals_2)\n\t{\n\t\t&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdProperty%&gt; property_2 = fpRegister.getProperty(propertyName);\n\t\tif ((property_2 == null))\n\t\t{\n\t\t\treturn null;\n\t\t}\n\t\treturn property_2;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	EdProperty getProperty(String objectName, String propertyName);
@@ -211,7 +174,6 @@ public interface EnterpriseData extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" nameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt;&gt; _catalogs = this.getCatalogs();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt; fpCatalog : _catalogs)\n{\n\tboolean _equals = fpCatalog.getMainName().equals(name);\n\tif (_equals)\n\t{\n\t\treturn fpCatalog;\n\t}\n}\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt;&gt; _documents = this.getDocuments();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt; fpDocument : _documents)\n{\n\tboolean _equals_1 = fpDocument.getMainName().equals(name);\n\tif (_equals_1)\n\t{\n\t\treturn fpDocument;\n\t}\n}\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt;&gt; _registers = this.getRegisters();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdObject%&gt; fpRegister : _registers)\n{\n\tboolean _equals_2 = fpRegister.getMainName().equals(name);\n\tif (_equals_2)\n\t{\n\t\treturn fpRegister;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	EdObject getObject(String name);
@@ -220,7 +182,6 @@ public interface EnterpriseData extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" nameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType%&gt;&gt; _definedTypes = this.getDefinedTypes();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdDefinedType%&gt; fpDefinedType : _definedTypes)\n{\n\tboolean _equals = fpDefinedType.getName().equals(name);\n\tif (_equals)\n\t{\n\t\treturn fpDefinedType;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	EdDefinedType getDefinedType(String name);
@@ -229,7 +190,6 @@ public interface EnterpriseData extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" nameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum%&gt;&gt; _enums = this.getEnums();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.ed.model.EdEnum%&gt; fpEnum : _enums)\n{\n\tboolean _equals = fpEnum.getName().equals(name);\n\tif (_equals)\n\t{\n\t\treturn fpEnum;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	EdEnum getEnum(String name);

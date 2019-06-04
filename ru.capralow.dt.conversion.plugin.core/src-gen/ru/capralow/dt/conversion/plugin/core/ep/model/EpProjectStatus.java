@@ -91,10 +91,6 @@ public enum EpProjectStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Configuration</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>No Configuration</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NO_CONFIGURATION
 	 * @model name="NoConfiguration" literal="\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435 \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 \u043f\u0440\u043e\u0435\u043a\u0442\u043d\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442\u0430"
@@ -106,10 +102,6 @@ public enum EpProjectStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Subsystem</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>No Subsystem</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NO_SUBSYSTEM
 	 * @model name="NoSubsystem" literal="\u041d\u0435\u0442 \u043f\u043e\u0434\u0441\u0438\u0441\u0442\u0435\u043c\u044b \u041e\u0431\u043c\u0435\u043d\u0414\u0430\u043d\u043d\u044b\u043c\u0438"
@@ -121,10 +113,6 @@ public enum EpProjectStatus implements Enumerator {
 	/**
 	 * The '<em><b>No SSL Version</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>No SSL Version</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NO_SSL_VERSION
 	 * @model name="NoSSLVersion" literal="\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u044c \u0432\u0435\u0440\u0441\u0438\u044e \u0411\u0421\u041f"
@@ -136,10 +124,6 @@ public enum EpProjectStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Common Module</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>No Common Module</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NO_COMMON_MODULE
 	 * @model name="NoCommonModule" literal="\u041d\u0435\u0442 \u043e\u0431\u0449\u0435\u0433\u043e \u043c\u043e\u0434\u0443\u043b\u044f \u041e\u0431\u043c\u0435\u043d\u0414\u0430\u043d\u043d\u044b\u043c\u0438\u041f\u0435\u0440\u0435\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u043c\u044b\u0439"
@@ -151,10 +135,6 @@ public enum EpProjectStatus implements Enumerator {
 	/**
 	 * The '<em><b>No Method</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>No Method</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NO_METHOD
 	 * @model name="NoMethod" literal="\u0412 \u043e\u0431\u0449\u0435\u043c \u043c\u043e\u0434\u0443\u043b\u0435 \u043d\u0435\u0442 \u043c\u0435\u0442\u043e\u0434\u0430 \u041f\u0440\u0438\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0438\u0414\u043e\u0441\u0442\u0443\u043f\u043d\u044b\u0445\u0412\u0435\u0440\u0441\u0438\u0439\u0424\u043e\u0440\u043c\u0430\u0442\u0430"
@@ -166,10 +146,6 @@ public enum EpProjectStatus implements Enumerator {
 	/**
 	 * The '<em><b>Empty Method</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Empty Method</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EMPTY_METHOD
 	 * @model name="EmptyMethod" literal="\u0412 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0435 \u041f\u0440\u0438\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0438\u0414\u043e\u0441\u0442\u0443\u043f\u043d\u044b\u0445\u0412\u0435\u0440\u0441\u0438\u0439\u0424\u043e\u0440\u043c\u0430\u0442\u0430 \u043d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d\u044b \u0432\u0435\u0440\u0441\u0438\u0438 \u0444\u043e\u0440\u043c\u0430\u0442\u0430"
@@ -181,10 +157,6 @@ public enum EpProjectStatus implements Enumerator {
 	/**
 	 * The '<em><b>Ready</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Ready</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #READY
 	 * @model name="Ready" literal="\u041a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u044f \u0433\u043e\u0442\u043e\u0432\u0430 \u043a \u043e\u0431\u043c\u0435\u043d\u0443"
@@ -313,6 +285,7 @@ public enum EpProjectStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -322,6 +295,7 @@ public enum EpProjectStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -331,6 +305,7 @@ public enum EpProjectStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

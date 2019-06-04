@@ -92,6 +92,7 @@ public class ExchangePlanContentImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMdObject() {
 		return mdObject;
 	}
@@ -101,6 +102,7 @@ public class ExchangePlanContentImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMdObject(String newMdObject) {
 		String oldMdObject = mdObject;
 		mdObject = newMdObject;
@@ -113,6 +115,7 @@ public class ExchangePlanContentImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AutoRegistration getAutoRecord() {
 		return autoRecord;
 	}
@@ -122,6 +125,7 @@ public class ExchangePlanContentImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAutoRecord(AutoRegistration newAutoRecord) {
 		AutoRegistration oldAutoRecord = autoRecord;
 		autoRecord = newAutoRecord == null ? AUTO_RECORD_EDEFAULT : newAutoRecord;
@@ -206,7 +210,7 @@ public class ExchangePlanContentImpl extends MinimalEObjectImpl.Container implem
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (mdObject: "); //$NON-NLS-1$
 		result.append(mdObject);
 		result.append(", AutoRecord: "); //$NON-NLS-1$

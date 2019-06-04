@@ -165,6 +165,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -174,6 +175,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -186,6 +188,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getStoreVersion() {
 		return storeVersion;
 	}
@@ -195,6 +198,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStoreVersion(String newStoreVersion) {
 		String oldStoreVersion = storeVersion;
 		storeVersion = newStoreVersion;
@@ -207,6 +211,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EpExtension> getExtensions() {
 		if (extensions == null) {
 			extensions = new EObjectContainmentEList<EpExtension>(EpExtension.class, this, epPackage.EXCHANGE_PROJECT__EXTENSIONS);
@@ -219,6 +224,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EpProjectStatus getStatus() {
 		return status;
 	}
@@ -228,6 +234,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStatus(EpProjectStatus newStatus) {
 		EpProjectStatus oldStatus = status;
 		status = newStatus == null ? STATUS_EDEFAULT : newStatus;
@@ -240,6 +247,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EpFormatVersion> getFormatVersions() {
 		if (formatVersions == null) {
 			formatVersions = new EObjectContainmentEList<EpFormatVersion>(EpFormatVersion.class, this, epPackage.EXCHANGE_PROJECT__FORMAT_VERSIONS);
@@ -252,6 +260,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CommonModule> getSettingsModules() {
 		if (settingsModules == null) {
 			settingsModules = new EObjectResolvingEList<CommonModule>(CommonModule.class, this, epPackage.EXCHANGE_PROJECT__SETTINGS_MODULES);
@@ -264,6 +273,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getVersions() {
 		final BasicEList<String> result = XcoreCollectionLiterals.<String>newBasicEList();
 		EList<EpFormatVersion> _formatVersions = this.getFormatVersions();
@@ -278,6 +288,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EpFormatVersion> getModuleFormatVersions(final CommonModule module) {
 		final BasicEList<EpFormatVersion> result = XcoreCollectionLiterals.<EpFormatVersion>newBasicEList();
 		EList<EpFormatVersion> _formatVersions = this.getFormatVersions();
@@ -295,6 +306,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CommonModule> getFormatModules() {
 		final BasicEList<CommonModule> result = XcoreCollectionLiterals.<CommonModule>newBasicEList();
 		EList<EpFormatVersion> _formatVersions = this.getFormatVersions();
@@ -463,7 +475,7 @@ public class ExchangeProjectImpl extends MinimalEObjectImpl.Container implements
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(", storeVersion: "); //$NON-NLS-1$

@@ -44,10 +44,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Store Version</b></em>' attribute.
 	 * The default value is <code>"1"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Store Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Store Version</em>' attribute.
 	 * @see #setStoreVersion(String)
@@ -71,10 +67,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Subsystems</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Subsystems</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Subsystems</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getConversionModule_Subsystems()
@@ -87,10 +79,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Params</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Params</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Params</em>' attribute list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getConversionModule_Params()
@@ -103,10 +91,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Before Convertation Event</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Convertation Event</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Before Convertation Event</em>' attribute.
 	 * @see #setBeforeConvertationEvent(String)
@@ -130,10 +114,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Before Convertation Event Prefix</b></em>' attribute.
 	 * The default value is <code>"\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430 \u041f\u0435\u0440\u0435\u0434\u041a\u043e\u043d\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u0435\u0439(\u041a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442\u044b\u041e\u0431\u043c\u0435\u043d\u0430) \u042d\u043a\u0441\u043f\u043e\u0440\u0442"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Convertation Event Prefix</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Before Convertation Event Prefix</em>' attribute.
 	 * @see #setBeforeConvertationEventPrefix(String)
@@ -157,10 +137,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Before Convertation Event Suffix</b></em>' attribute.
 	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Convertation Event Suffix</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Before Convertation Event Suffix</em>' attribute.
 	 * @see #setBeforeConvertationEventSuffix(String)
@@ -184,10 +160,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>After Convertation Event</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>After Convertation Event</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>After Convertation Event</em>' attribute.
 	 * @see #setAfterConvertationEvent(String)
@@ -211,10 +183,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>After Convertation Event Prefix</b></em>' attribute.
 	 * The default value is <code>"\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430 \u041f\u043e\u0441\u043b\u0435\u041a\u043e\u043d\u0432\u0435\u0440\u0442\u0430\u0446\u0438\u0438(\u041a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442\u044b\u041e\u0431\u043c\u0435\u043d\u0430) \u042d\u043a\u0441\u043f\u043e\u0440\u0442"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>After Convertation Event Prefix</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>After Convertation Event Prefix</em>' attribute.
 	 * @see #setAfterConvertationEventPrefix(String)
@@ -238,10 +206,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>After Convertation Event Suffix</b></em>' attribute.
 	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>After Convertation Event Suffix</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>After Convertation Event Suffix</em>' attribute.
 	 * @see #setAfterConvertationEventSuffix(String)
@@ -265,10 +229,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Before Filling Event</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Filling Event</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Before Filling Event</em>' attribute.
 	 * @see #setBeforeFillingEvent(String)
@@ -292,10 +252,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Before Filling Event Prefix</b></em>' attribute.
 	 * The default value is <code>"\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430 \u041f\u0435\u0440\u0435\u0434\u041e\u0442\u043b\u043e\u0436\u0435\u043d\u043d\u044b\u043c\u0417\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435\u043c(\u041a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442\u044b\u041e\u0431\u043c\u0435\u043d\u0430) \u042d\u043a\u0441\u043f\u043e\u0440\u0442"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Filling Event Prefix</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Before Filling Event Prefix</em>' attribute.
 	 * @see #setBeforeFillingEventPrefix(String)
@@ -319,10 +275,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Before Filling Event Suffix</b></em>' attribute.
 	 * The default value is <code>"\u041a\u043e\u043d\u0435\u0446\u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Before Filling Event Suffix</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Before Filling Event Suffix</em>' attribute.
 	 * @see #setBeforeFillingEventSuffix(String)
@@ -346,10 +298,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Data Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Data Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Data Rules</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getConversionModule_DataRules()
@@ -362,10 +310,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Object Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object Rules</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getConversionModule_ObjectRules()
@@ -378,10 +322,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Predefineds</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.model.CmPredefined}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Predefineds</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Predefineds</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getConversionModule_Predefineds()
@@ -394,10 +334,6 @@ public interface ConversionModule extends EObject {
 	 * Returns the value of the '<em><b>Algorithms</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Algorithms</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Algorithms</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.cm.model.cmPackage#getConversionModule_Algorithms()
@@ -410,7 +346,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" mdSubsystemUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem%&gt;&gt; _subsystems = this.getSubsystems();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmSubsystem%&gt; cmSubsystem : _subsystems)\n{\n\tboolean _equals = mdSubsystem.equals(cmSubsystem.getSubsystem());\n\tif (_equals)\n\t{\n\t\treturn cmSubsystem;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	CmSubsystem getSubsystem(Subsystem mdSubsystem);
@@ -419,7 +354,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; beforeConvertationEventText = this.getBeforeConvertationEvent();\nboolean _isEmpty = this.getBeforeConvertationEvent().isEmpty();\nif (_isEmpty)\n{\n\tbeforeConvertationEventText = \"\\t\";\n}\n&lt;%java.lang.String%&gt; _beforeConvertationEventPrefix = this.getBeforeConvertationEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_beforeConvertationEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + beforeConvertationEventText);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _beforeConvertationEventSuffix = this.getBeforeConvertationEventSuffix();\n&lt;%java.lang.String%&gt; _plus_3 = (_plus_2 + _beforeConvertationEventSuffix);\n&lt;%java.lang.String%&gt; _lineSeparator_2 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; result = (_plus_3 + _lineSeparator_2);\nreturn result;'"
 	 * @generated
 	 */
 	String getBeforeConvertationEventText();
@@ -428,7 +362,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; afterConvertationEventText = this.getAfterConvertationEvent();\nboolean _isEmpty = this.getAfterConvertationEvent().isEmpty();\nif (_isEmpty)\n{\n\tafterConvertationEventText = \"\\t\";\n}\n&lt;%java.lang.String%&gt; _afterConvertationEventPrefix = this.getAfterConvertationEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_afterConvertationEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + afterConvertationEventText);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _afterConvertationEventSuffix = this.getAfterConvertationEventSuffix();\n&lt;%java.lang.String%&gt; _plus_3 = (_plus_2 + _afterConvertationEventSuffix);\n&lt;%java.lang.String%&gt; _lineSeparator_2 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; result = (_plus_3 + _lineSeparator_2);\nreturn result;'"
 	 * @generated
 	 */
 	String getAfterConvertationEventText();
@@ -437,7 +370,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; beforeFillingEventText = this.getBeforeFillingEvent();\nboolean _isEmpty = this.getBeforeFillingEvent().isEmpty();\nif (_isEmpty)\n{\n\tbeforeFillingEventText = \"\\t\";\n}\n&lt;%java.lang.String%&gt; _beforeFillingEventPrefix = this.getBeforeFillingEventPrefix();\n&lt;%java.lang.String%&gt; _lineSeparator = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus = (_beforeFillingEventPrefix + _lineSeparator);\n&lt;%java.lang.String%&gt; _plus_1 = (_plus + beforeFillingEventText);\n&lt;%java.lang.String%&gt; _lineSeparator_1 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; _plus_2 = (_plus_1 + _lineSeparator_1);\n&lt;%java.lang.String%&gt; _beforeFillingEventSuffix = this.getBeforeFillingEventSuffix();\n&lt;%java.lang.String%&gt; _plus_3 = (_plus_2 + _beforeFillingEventSuffix);\n&lt;%java.lang.String%&gt; _lineSeparator_2 = &lt;%java.lang.System%&gt;.lineSeparator();\n&lt;%java.lang.String%&gt; result = (_plus_3 + _lineSeparator_2);\nreturn result;'"
 	 * @generated
 	 */
 	String getBeforeFillingEventText();
@@ -446,7 +378,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" ruleNameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt; dataRule : _dataRules)\n{\n\tboolean _equals = ruleName.equals(dataRule.getName());\n\tif (_equals)\n\t{\n\t\treturn dataRule;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	CmDataRule getDataRule(String ruleName);
@@ -455,7 +386,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt; dataRule : _dataRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forSending = dataRule.getForSending();\n\tif ((_forSending).booleanValue())\n\t{\n\t\tresult.add(dataRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmDataRule> getSendingDataRules();
@@ -464,7 +394,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" subsystemUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt; dataRule : _dataRules)\n{\n\tif (((dataRule.getForSending()).booleanValue() &amp;&amp; (dataRule.includedInSubsystem(subsystem)).booleanValue()))\n\t{\n\t\tresult.add(dataRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmDataRule> getSendingDataRules(CmSubsystem subsystem);
@@ -473,7 +402,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt; dataRule : _dataRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forReceiving = dataRule.getForReceiving();\n\tif ((_forReceiving).booleanValue())\n\t{\n\t\tresult.add(dataRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmDataRule> getReceivingDataRules();
@@ -482,7 +410,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" subsystemUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt;&gt; _dataRules = this.getDataRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmDataRule%&gt; dataRule : _dataRules)\n{\n\tif (((dataRule.getForReceiving()).booleanValue() &amp;&amp; (dataRule.includedInSubsystem(subsystem)).booleanValue()))\n\t{\n\t\tresult.add(dataRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmDataRule> getReceivingDataRules(CmSubsystem subsystem);
@@ -491,7 +418,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" ruleNameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\tboolean _equals = ruleName.equals(objectRule.getName());\n\tif (_equals)\n\t{\n\t\treturn objectRule;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	CmObjectRule getObjectRule(String ruleName);
@@ -500,7 +426,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forSending = objectRule.getForSending();\n\tif ((_forSending).booleanValue())\n\t{\n\t\tresult.add(objectRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmObjectRule> getSendingObjectRules();
@@ -509,7 +434,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" cmSubsystemUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\tif (((objectRule.getForSending()).booleanValue() &amp;&amp; (objectRule.includedInSubsystem(cmSubsystem)).booleanValue()))\n\t{\n\t\tresult.add(objectRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmObjectRule> getSendingObjectRules(CmSubsystem cmSubsystem);
@@ -518,7 +442,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\t&lt;%java.lang.Boolean%&gt; _forReceiving = objectRule.getForReceiving();\n\tif ((_forReceiving).booleanValue())\n\t{\n\t\tresult.add(objectRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmObjectRule> getReceivingObjectRules();
@@ -527,7 +450,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" cmSubsystemUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final &lt;%org.eclipse.emf.common.util.BasicEList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; result = &lt;%org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals%&gt;.&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt;newBasicEList();\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt;&gt; _objectRules = this.getObjectRules();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmObjectRule%&gt; objectRule : _objectRules)\n{\n\tif (((objectRule.getForReceiving()).booleanValue() &amp;&amp; (objectRule.includedInSubsystem(cmSubsystem)).booleanValue()))\n\t{\n\t\tresult.add(objectRule);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	EList<CmObjectRule> getReceivingObjectRules(CmSubsystem cmSubsystem);
@@ -536,7 +458,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" algorithmNameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt;&gt; _algorithms = this.getAlgorithms();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt; algorithm : _algorithms)\n{\n\tboolean _equals = algorithmName.equals(algorithm.getName());\n\tif (_equals)\n\t{\n\t\treturn algorithm;\n\t}\n}\nreturn null;'"
 	 * @generated
 	 */
 	CmAlgorithm getAlgorithm(String algorithmName);
@@ -545,7 +466,6 @@ public interface ConversionModule extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model unique="false" algorithmNameUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='&lt;%java.lang.String%&gt; result = \"\";\n&lt;%org.eclipse.emf.common.util.EList%&gt;&lt;&lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt;&gt; _algorithms = this.getAlgorithms();\nfor (final &lt;%ru.capralow.dt.conversion.plugin.core.cm.model.CmAlgorithm%&gt; algorithm : _algorithms)\n{\n\tif (((!&lt;%com.google.common.base.Objects%&gt;.equal(algorithmName, algorithm.getName())) &amp;&amp; (algorithm.getExists()).booleanValue()))\n\t{\n\t\t&lt;%java.lang.String%&gt; _result = result;\n\t\t&lt;%java.lang.String%&gt; _algorithmText = algorithm.getAlgorithmText();\n\t\tresult = (_result + _algorithmText);\n\t}\n}\nreturn result;'"
 	 * @generated
 	 */
 	String getAllAlgorithmsText(String algorithmName);

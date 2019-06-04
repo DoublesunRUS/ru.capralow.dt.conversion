@@ -70,6 +70,7 @@ public class rgFactoryImpl extends EFactoryImpl implements rgFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReportGroups createReportGroups() {
 		ReportGroupsImpl reportGroups = new ReportGroupsImpl();
 		return reportGroups;
@@ -80,6 +81,7 @@ public class rgFactoryImpl extends EFactoryImpl implements rgFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RgVariant createRgVariant() {
 		RgVariantImpl rgVariant = new RgVariantImpl();
 		return rgVariant;
@@ -90,6 +92,7 @@ public class rgFactoryImpl extends EFactoryImpl implements rgFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RgGroup createRgGroup() {
 		RgGroupImpl rgGroup = new RgGroupImpl();
 		return rgGroup;
@@ -100,6 +103,7 @@ public class rgFactoryImpl extends EFactoryImpl implements rgFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RgRule createRgRule() {
 		RgRuleImpl rgRule = new RgRuleImpl();
 		return rgRule;
@@ -110,6 +114,7 @@ public class rgFactoryImpl extends EFactoryImpl implements rgFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public rgPackage getrgPackage() {
 		return (rgPackage)getEPackage();
 	}

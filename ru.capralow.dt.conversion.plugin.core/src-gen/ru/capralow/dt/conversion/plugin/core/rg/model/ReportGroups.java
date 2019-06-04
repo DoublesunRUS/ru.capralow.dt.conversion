@@ -28,10 +28,6 @@ public interface ReportGroups extends EObject {
 	 * Returns the value of the '<em><b>Variants</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.capralow.dt.conversion.plugin.core.rg.model.RgVariant}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variants</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variants</em>' containment reference list.
 	 * @see ru.capralow.dt.conversion.plugin.core.rg.model.rgPackage#getReportGroups_Variants()
@@ -44,10 +40,6 @@ public interface ReportGroups extends EObject {
 	 * Returns the value of the '<em><b>Add Objects List</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Add Objects List</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Add Objects List</em>' attribute.
 	 * @see #setAddObjectsList(Boolean)

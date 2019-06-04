@@ -80,6 +80,7 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CmPredefinedValue> getPredefinedValues() {
 		if (predefinedValues == null) {
 			predefinedValues = new EObjectContainmentEList<CmPredefinedValue>(CmPredefinedValue.class, this, cmPackage.CM_PREDEFINED__PREDEFINED_VALUES);
@@ -92,6 +93,7 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmPredefinedType getPredefinedType() {
 		boolean _startsWith = this.getConfigurationObjectName().startsWith("\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435.\u041F\u0435\u0440\u0435\u0447\u0438\u0441\u043B\u0435\u043D\u0438\u044F");
 		if (_startsWith) {
@@ -107,6 +109,7 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CmPredefinedValue getPredefinedConfigurationValue(final String configurationValueName) {
 		EList<CmPredefinedValue> _predefinedValues = this.getPredefinedValues();
 		for (final CmPredefinedValue predefinedValue : _predefinedValues) {
@@ -123,6 +126,7 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Boolean predefinedValueExists(final String configurationValueName, final String formatValue) {
 		EList<CmPredefinedValue> _predefinedValues = this.getPredefinedValues();
 		for (final CmPredefinedValue predefinedValue : _predefinedValues) {
@@ -138,6 +142,7 @@ public class CmPredefinedImpl extends CmObjectImpl implements CmPredefined {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		String nameString = this.getName();
 		boolean _isEmpty = this.getName().isEmpty();

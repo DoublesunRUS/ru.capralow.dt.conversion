@@ -102,6 +102,7 @@ public class EdEnumImpl extends MinimalEObjectImpl.Container implements EdEnum {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ValueType getObject() {
 		if (object != null && object.eIsProxy()) {
 			InternalEObject oldObject = (InternalEObject)object;
@@ -128,6 +129,7 @@ public class EdEnumImpl extends MinimalEObjectImpl.Container implements EdEnum {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ValueType newObject) {
 		ValueType oldObject = object;
 		object = newObject;
@@ -140,6 +142,7 @@ public class EdEnumImpl extends MinimalEObjectImpl.Container implements EdEnum {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -149,6 +152,7 @@ public class EdEnumImpl extends MinimalEObjectImpl.Container implements EdEnum {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -161,6 +165,7 @@ public class EdEnumImpl extends MinimalEObjectImpl.Container implements EdEnum {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Enumeration> getEnumerations() {
 		if (enumerations == null) {
 			enumerations = new EObjectResolvingEList<Enumeration>(Enumeration.class, this, edPackage.ED_ENUM__ENUMERATIONS);
@@ -258,7 +263,7 @@ public class EdEnumImpl extends MinimalEObjectImpl.Container implements EdEnum {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
